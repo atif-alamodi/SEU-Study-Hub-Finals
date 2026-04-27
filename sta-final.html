@@ -881,7 +881,1760 @@ mode_val = statistics.<span class="func">mode</span>(data_with_mode)
 console.log("STA Topic 1 done");
 
 
-// Inject topic sections + a placeholder for unbuilt topics
+// ============ TOPIC 10: LINEAR REGRESSION ============
+TOPICS['10'] = `
+<section class="topic-section" id="topic-10">
+  <div class="topic-header">
+    <div class="label">الموضوع العاشر</div>
+    <h1>مقدمة إلى الانحدار الخطي</h1>
+    <p>المتغيرات، معادلة الخط، طريقة المربعات الصغرى، والتنبؤ بإكسل وبايثون</p>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>فهم الانحدار الخطي وأهميته</li>
+      <li>التمييز بين المتغير المستقل والتابع</li>
+      <li>تفسير معادلة الخط y = mx + b</li>
+      <li>حساب معامل الارتباط وتفسيره</li>
+      <li>تطبيق الانحدار في Excel ودوال FORECAST و SLOPE و INTERCEPT</li>
+      <li>تقييم جودة النموذج بـ R²</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📈</span> ما هو الانحدار الخطي؟</h2>
+    <p><strong>الانحدار الخطي <span class="eng">Linear Regression</span></strong> هو أسلوب إحصائي لنمذجة العلاقة بين متغير تابع y ومتغير مستقل واحد أو أكثر x.</p>
+    <p><strong>الهدف:</strong> إيجاد أفضل خط مستقيم يمر بين نقاط البيانات لاستخدامه في التنبؤ.</p>
+
+    <div class="story-box">
+      تخيل لو كنت تدير محل آيس كريم ولاحظت أن المبيعات تزيد مع ارتفاع الحرارة. <strong>الانحدار الخطي</strong> يساعدك ترسم خطًا يصف هذه العلاقة، ومن ثم تتنبأ بمبيعاتك غدًا بناءً على درجة الحرارة المتوقعة. هذا ما يفعله المحللون يوميًا!
+    </div>
+
+    <h3>أمثلة من الحياة اليومية</h3>
+    <ul>
+      <li>العلاقة بين <strong>عدد ساعات الدراسة</strong> ودرجة الامتحان</li>
+      <li>العلاقة بين <strong>درجة الحرارة</strong> ومبيعات الآيس كريم</li>
+      <li>العلاقة بين <strong>عمر السيارة</strong> وسعرها</li>
+      <li>العلاقة بين <strong>ميزانية الإعلانات</strong> والمبيعات</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🔄</span> المتغير المستقل والمتغير التابع</h2>
+    <table class="compare-table">
+      <tr><th>الجانب</th><th>المتغير المستقل (X)<br><span class="eng">Independent</span></th><th>المتغير التابع (Y)<br><span class="eng">Dependent</span></th></tr>
+      <tr><td>الدور</td><td>نستخدمه للتنبؤ</td><td>القيمة التي نريد التنبؤ بها</td></tr>
+      <tr><td>أسماء أخرى</td><td>المتغير التفسيري، المتنبئ</td><td>المتغير المستجيب، الناتج</td></tr>
+      <tr><td>السيطرة</td><td>تحت سيطرتنا أو يقاس مباشرة</td><td>يعتمد على X</td></tr>
+      <tr><td>مثال</td><td>عدد ساعات الدراسة</td><td>درجة الامتحان</td></tr>
+      <tr><td>المحور البياني</td><td>المحور الأفقي</td><td>المحور الرأسي</td></tr>
+    </table>
+
+    <div class="tip-box">
+      <strong>قاعدة الاختيار:</strong> اسأل نفسك "ماذا يؤثر على ماذا؟". المؤثر = المستقل، المتأثر = التابع.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📐</span> معادلة الانحدار الخطي</h2>
+
+    <div class="formula-box">
+      <div class="formula-name">معادلة الخط المستقيم</div>
+      <div class="formula">y = mx + b</div>
+      <div class="legend">
+        <strong>m = الميل (Slope):</strong> مقدار التغير في y عند زيادة x بمقدار وحدة واحدة<br>
+        <strong>b = نقطة التقاطع (Intercept):</strong> قيمة y عندما x = 0
+      </div>
+    </div>
+
+    <h3>قانون حساب الميل m</h3>
+    <div class="formula-box">
+      <div class="formula">m = (n·Σxy − Σx·Σy) / (n·Σx² − (Σx)²)</div>
+    </div>
+
+    <h3>قانون حساب نقطة التقاطع b</h3>
+    <div class="formula-box">
+      <div class="formula">b = (Σy − m·Σx) / n</div>
+      <div class="legend">حيث n = عدد النقاط</div>
+    </div>
+
+    <div class="warn-box">
+      <strong>طريقة المربعات الصغرى <span class="eng">Least Squares</span>:</strong> هي الطريقة الرياضية لإيجاد أفضل m و b بحيث يكون مجموع مربعات الأخطاء (الفروق بين القيم الفعلية والمتوقعة) أقل ما يمكن.
+    </div>
+  </div>
+
+  <!-- ====== INTERACTIVE SOLVER: Linear Regression Calculation ====== -->
+  <div class="step-solver" id="solver-10-1" data-total="7" data-current="-1">
+    <div class="step-solver-header">
+      <div class="step-solver-title">🧮 حل تفاعلي: حساب معادلة خط الانحدار</div>
+      <div class="step-progress">0 / 7</div>
+    </div>
+    <div class="step-solver-body">
+      <div class="step-question">
+        لدينا بيانات درجة الحرارة (X) ومبيعات الآيس كريم (Y) لخمسة أيام. أوجد معادلة خط الانحدار:
+        <table class="compare-table" style="margin-top: 8px; background: white;">
+          <tr><th>X (الحرارة °م)</th><td>20</td><td>25</td><td>30</td><td>35</td><td>40</td></tr>
+          <tr><th>Y (مبيعات بالكوب)</th><td>30</td><td>40</td><td>50</td><td>60</td><td>70</td></tr>
+        </table>
+      </div>
+
+      <div class="step-item" data-step="1">
+        <div class="step-label">الخطوة 1 — تحديد عدد النقاط</div>
+        <div class="step-content">
+          نعد عدد أزواج البيانات (X, Y):
+          <div class="calc">n = 5</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="2">
+        <div class="step-label">الخطوة 2 — حساب Σx و Σy</div>
+        <div class="step-content">
+          نجمع كل قيم X وكل قيم Y:
+          <div class="calc">Σx = 20 + 25 + 30 + 35 + 40 = 150</div>
+          <div class="calc">Σy = 30 + 40 + 50 + 60 + 70 = 250</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="3">
+        <div class="step-label">الخطوة 3 — حساب Σxy</div>
+        <div class="step-content">
+          نضرب كل x في y المقابلة، ثم نجمع:
+          <div class="calc">x·y = (20×30) + (25×40) + (30×50) + (35×60) + (40×70)</div>
+          <div class="calc">= 600 + 1000 + 1500 + 2100 + 2800</div>
+          <div class="calc">Σxy = 8000</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="4">
+        <div class="step-label">الخطوة 4 — حساب Σx²</div>
+        <div class="step-content">
+          نربّع كل قيمة x ثم نجمع:
+          <div class="calc">x² = 400 + 625 + 900 + 1225 + 1600</div>
+          <div class="calc">Σx² = 4750</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="5">
+        <div class="step-label">الخطوة 5 — حساب الميل m</div>
+        <div class="step-content">
+          نطبق قانون الميل:
+          <div class="calc">m = (n·Σxy − Σx·Σy) / (n·Σx² − (Σx)²)</div>
+          <div class="calc">m = (5×8000 − 150×250) / (5×4750 − 150²)</div>
+          <div class="calc">m = (40000 − 37500) / (23750 − 22500)</div>
+          <div class="calc">m = 2500 / 1250 = <span class="highlight">2</span></div>
+          <strong>التفسير:</strong> كل ارتفاع 1°م يزيد المبيعات بـ 2 كوب.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="6">
+        <div class="step-label">الخطوة 6 — حساب نقطة التقاطع b</div>
+        <div class="step-content">
+          <div class="calc">b = (Σy − m·Σx) / n</div>
+          <div class="calc">b = (250 − 2×150) / 5</div>
+          <div class="calc">b = (250 − 300) / 5</div>
+          <div class="calc">b = −50 / 5 = <span class="highlight">−10</span></div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="7">
+        <div class="step-label">الإجابة النهائية + التنبؤ</div>
+        <div class="step-content">
+          <strong>معادلة خط الانحدار:</strong>
+          <div class="calc">y = 2x − 10</div>
+          <strong>تنبؤ:</strong> لو الحرارة 32°م، كم كوب آيس كريم نتوقع؟
+          <div class="calc">y = 2(32) − 10 = 64 − 10 = <span class="highlight">54 كوب</span></div>
+          <div style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
+            <strong>التحقق:</strong> الميل موجب (+2) → علاقة طردية، نقطة التقاطع سالبة (-10) → عند 0°م المبيعات صفر فعلياً (لا أحد يشتري آيس كريم في البرد!).
+          </div>
+        </div>
+      </div>
+
+      <div class="step-controls">
+        <button class="step-btn next" onclick="nextStep('solver-10-1')"><span>اضغط لعرض السؤال</span><span class="arrow">←</span></button>
+        <button class="step-btn reset" onclick="resetStepSolver('solver-10-1')">🔄 إعادة</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📊</span> دوال إكسل للانحدار</h2>
+    <table class="compare-table">
+      <tr><th>الدالة</th><th>الاستخدام</th><th>المثال</th></tr>
+      <tr><td><code>=SLOPE(y, x)</code></td><td>حساب الميل m</td><td><code>=SLOPE(B2:B6, A2:A6)</code> → 2</td></tr>
+      <tr><td><code>=INTERCEPT(y, x)</code></td><td>حساب نقطة التقاطع b</td><td><code>=INTERCEPT(B2:B6, A2:A6)</code> → -10</td></tr>
+      <tr><td><code>=FORECAST(x_new, y, x)</code></td><td>التنبؤ بقيمة جديدة</td><td><code>=FORECAST(32, B2:B6, A2:A6)</code> → 54</td></tr>
+      <tr><td><code>=RSQ(y, x)</code></td><td>معامل التحديد R²</td><td><code>=RSQ(B2:B6, A2:A6)</code> → 1.0</td></tr>
+      <tr><td><code>=CORREL(x, y)</code></td><td>معامل الارتباط r</td><td><code>=CORREL(A2:A6, B2:B6)</code> → 1.0</td></tr>
+    </table>
+
+    <div class="app-link-row">
+      <a href="excel-sim.html" target="_blank" class="app-link excel"><span class="ico">📊</span><span>افتح محاكي إكسل</span></a>
+      <a href="python-sim.html" target="_blank" class="app-link python"><span class="ico">🐍</span><span>افتح محاكي بايثون</span></a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🐍</span> الانحدار في بايثون</h2>
+    <div class="code-block">
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+<span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LinearRegression
+
+x = np.<span class="func">array</span>([20, 25, 30, 35, 40]).<span class="func">reshape</span>(-1, 1)
+y = np.<span class="func">array</span>([30, 40, 50, 60, 70])
+
+model = <span class="func">LinearRegression</span>()
+model.<span class="func">fit</span>(x, y)
+
+<span class="func">print</span>(<span class="string">f"الميل m = {model.coef_[0]}"</span>)        <span class="comment"># 2.0</span>
+<span class="func">print</span>(<span class="string">f"التقاطع b = {model.intercept_}"</span>)    <span class="comment"># -10.0</span>
+<span class="func">print</span>(<span class="string">f"R² = {model.score(x, y)}"</span>)         <span class="comment"># 1.0</span>
+
+<span class="comment"># التنبؤ بحرارة 32 درجة</span>
+prediction = model.<span class="func">predict</span>([[32]])
+<span class="func">print</span>(<span class="string">f"التنبؤ: {prediction[0]} كوب"</span>)      <span class="comment"># 54.0</span></div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📏</span> معامل التحديد R²</h2>
+    <p><strong>R²</strong> يقيس <strong>جودة النموذج</strong>: كم نسبة التغير في Y يشرحها المتغير X.</p>
+    <ul>
+      <li><strong>R² = 1.0:</strong> الخط يمر بكل النقاط بدقة (نموذج مثالي)</li>
+      <li><strong>R² = 0.7-0.9:</strong> نموذج جيد جداً</li>
+      <li><strong>R² = 0.4-0.7:</strong> نموذج متوسط</li>
+      <li><strong>R² &lt; 0.4:</strong> نموذج ضعيف، العلاقة غير خطية أو ضعيفة</li>
+      <li><strong>R² = 0:</strong> لا توجد علاقة خطية</li>
+    </ul>
+
+    <div class="example-box">
+      في مثالنا، R² = 1.0 لأن البيانات مثالية (تقع تمامًا على خط مستقيم). في الواقع، البيانات الحقيقية لها ضوضاء، فـ R² غالبًا < 1.
+    </div>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> اختبر فهمك</h2>
+
+    <div class="quiz-q">
+      <div class="q-text">س1: في معادلة y = 3x + 5، إذا x = 10، فإن y = ؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>30</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>35</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>15</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>25</span></button>
+      </div>
+      <div class="quiz-explain">y = 3(10) + 5 = 30 + 5 = 35.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س2: ميل سالب (m &lt; 0) يعني:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>علاقة طردية (X يزيد، Y يزيد)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>علاقة عكسية (X يزيد، Y يقل)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>لا توجد علاقة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>الخط أفقي</span></button>
+      </div>
+      <div class="quiz-explain">ميل سالب = العلاقة عكسية. مثال: عمر السيارة وسعرها.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س3: أي دالة إكسل تعطي معادلة الميل مباشرة؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>=AVERAGE</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>=SLOPE</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>=INTERCEPT</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>=CORREL</span></button>
+      </div>
+      <div class="quiz-explain">SLOPE تحسب الميل m. INTERCEPT تحسب نقطة التقاطع b.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س4: R² = 0.85 يعني:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>الميل = 0.85</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>النموذج يفسر 85% من التغير في Y</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>الخطأ = 85%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>عدد النقاط = 85</span></button>
+      </div>
+      <div class="quiz-explain">R² × 100% = نسبة التباين في Y المُفسَّر بالنموذج. هنا 85% جيد جدًا.</div>
+    </div>
+  </div>
+</section>
+`;
+console.log("Topic 10 done");
+
+// ============ TOPIC 8: PROBABILITY ============
+TOPICS['8'] = `
+<section class="topic-section" id="topic-8">
+  <div class="topic-header">
+    <div class="label">الموضوع الثامن</div>
+    <h1>الاحتمالات الأساسية</h1>
+    <p>الفضاء العيني، الأحداث، قواعد الجمع والضرب، والاحتمال الشرطي</p>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>فهم المفاهيم الأساسية لنظرية الاحتمالات</li>
+      <li>التمييز بين أنواع الاحتمالات (كلاسيكي، تجريبي، شخصي)</li>
+      <li>حساب احتمالات الأحداث البسيطة والمركبة</li>
+      <li>تطبيق قواعد الجمع والضرب</li>
+      <li>فهم الأحداث المستقلة والمتنافية</li>
+      <li>استخدام الاحتمال الشرطي</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🎲</span> ما هو الاحتمال؟</h2>
+    <p><strong>الاحتمال <span class="eng">Probability</span></strong> هو مقياس رقمي لمدى إمكانية حدوث حدث معين، يتراوح بين <strong>0 (مستحيل)</strong> و <strong>1 (مؤكد)</strong>.</p>
+
+    <div class="formula-box">
+      <div class="formula-name">قانون الاحتمال الكلاسيكي</div>
+      <div class="formula">P(E) = عدد النتائج المواتية / عدد النتائج الممكنة</div>
+    </div>
+
+    <div class="story-box">
+      تخيلك ترمي نردًا عاديًا. لو سألك صديق "ما احتمال أن يظهر الرقم 4؟": هناك 6 نتائج ممكنة (1، 2، 3، 4، 5، 6) ونتيجة مواتية واحدة (4). إذن P(4) = 1/6 ≈ 0.167 أو 16.7%.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📚</span> المصطلحات الأساسية</h2>
+    <table class="compare-table">
+      <tr><th>المصطلح</th><th>التعريف</th><th>مثال (رمي نرد)</th></tr>
+      <tr><td><strong>التجربة العشوائية</strong></td><td>نشاط له نتائج متعددة لا يمكن التنبؤ بها</td><td>رمي نرد</td></tr>
+      <tr><td><strong>الفضاء العيني (S)</strong></td><td>مجموعة كل النتائج الممكنة</td><td>S = {1, 2, 3, 4, 5, 6}</td></tr>
+      <tr><td><strong>الحدث (E)</strong></td><td>مجموعة فرعية من الفضاء العيني</td><td>E = "عدد زوجي" = {2, 4, 6}</td></tr>
+      <tr><td><strong>الحدث البسيط</strong></td><td>نتيجة واحدة فقط</td><td>E = {3}</td></tr>
+      <tr><td><strong>الحدث المركب</strong></td><td>أكثر من نتيجة</td><td>E = {1, 3, 5} (عدد فردي)</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🎯</span> أنواع الاحتمالات</h2>
+    <ol>
+      <li><strong>الاحتمال الكلاسيكي <span class="eng">Classical</span>:</strong> عندما تكون النتائج متساوية الاحتمال. <em>مثال: رمي نرد، عملة معدنية.</em></li>
+      <li><strong>الاحتمال التجريبي <span class="eng">Empirical</span>:</strong> يُحسب من التجارب والملاحظات. <em>مثال: نسبة الطلاب الناجحين بناءً على بيانات السنوات السابقة.</em></li>
+      <li><strong>الاحتمال الشخصي <span class="eng">Subjective</span>:</strong> تقدير شخصي بناءً على الخبرة. <em>مثال: احتمال نجاح مشروع تجاري حسب رأي خبير.</em></li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">➕</span> قاعدة الجمع</h2>
+    <h3>1. للأحداث المتنافية (لا تجتمع معًا)</h3>
+    <div class="formula-box">
+      <div class="formula">P(A أو B) = P(A) + P(B)</div>
+    </div>
+    <p><em>مثال: في رمي نرد، احتمال "رقم 1" أو "رقم 2" = 1/6 + 1/6 = 2/6 = 1/3</em></p>
+
+    <h3>2. للأحداث غير المتنافية (يمكن أن تجتمع)</h3>
+    <div class="formula-box">
+      <div class="formula">P(A أو B) = P(A) + P(B) − P(A و B)</div>
+    </div>
+    <p><em>مثال: في سحب ورقة من 52: احتمال "ورقة قلب" أو "ورقة ملك"</em></p>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">✖️</span> قاعدة الضرب</h2>
+    <h3>1. للأحداث المستقلة</h3>
+    <div class="formula-box">
+      <div class="formula">P(A و B) = P(A) × P(B)</div>
+    </div>
+    <p><em>مثال: رمي عملة مرتين، احتمال "صورة" مرتين = 1/2 × 1/2 = 1/4</em></p>
+
+    <h3>2. للأحداث المرتبطة</h3>
+    <div class="formula-box">
+      <div class="formula">P(A و B) = P(A) × P(B|A)</div>
+      <div class="legend">P(B|A) = احتمال B بشرط حدوث A</div>
+    </div>
+  </div>
+
+  <!-- ====== INTERACTIVE SOLVER 1: Basic Probability ====== -->
+  <div class="step-solver" id="solver-8-1" data-total="5" data-current="-1">
+    <div class="step-solver-header">
+      <div class="step-solver-title">🧮 حل تفاعلي: احتمال أساسي</div>
+      <div class="step-progress">0 / 5</div>
+    </div>
+    <div class="step-solver-body">
+      <div class="step-question">صندوق فيه 4 كرات حمراء، 6 كرات زرقاء، 5 كرات خضراء. ما احتمال سحب <strong>كرة زرقاء</strong> عشوائيًا؟</div>
+
+      <div class="step-item" data-step="1">
+        <div class="step-label">الخطوة 1 — حساب العدد الكلي</div>
+        <div class="step-content">
+          نجمع كل الكرات (الفضاء العيني):
+          <div class="calc">العدد الكلي = 4 + 6 + 5 = 15</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="2">
+        <div class="step-label">الخطوة 2 — تحديد النتائج المواتية</div>
+        <div class="step-content">
+          النتائج المواتية = الكرات الزرقاء فقط:
+          <div class="calc">النتائج المواتية = 6</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="3">
+        <div class="step-label">الخطوة 3 — تطبيق قانون الاحتمال</div>
+        <div class="step-content">
+          <div class="calc">P(زرقاء) = عدد المواتية / العدد الكلي</div>
+          <div class="calc">P(زرقاء) = 6 / 15</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="4">
+        <div class="step-label">الخطوة 4 — التبسيط</div>
+        <div class="step-content">
+          نبسّط الكسر بقسمة البسط والمقام على 3:
+          <div class="calc">6/15 = 2/5</div>
+          <div class="calc">= 0.4 = <span class="highlight">40%</span></div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="5">
+        <div class="step-label">الإجابة النهائية</div>
+        <div class="step-content">
+          <strong>احتمال سحب كرة زرقاء = <span class="highlight">2/5 = 0.4 = 40%</span></strong>
+          <div style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
+            <strong>التحقق:</strong> الاحتمال بين 0 و 1 ✓. لو حسبنا احتمالات كل الألوان: P(حمراء) = 4/15، P(زرقاء) = 6/15، P(خضراء) = 5/15. مجموعها = 15/15 = 1 ✓
+          </div>
+        </div>
+      </div>
+
+      <div class="step-controls">
+        <button class="step-btn next" onclick="nextStep('solver-8-1')"><span>اضغط لعرض السؤال</span><span class="arrow">←</span></button>
+        <button class="step-btn reset" onclick="resetStepSolver('solver-8-1')">🔄 إعادة</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== INTERACTIVE SOLVER 2: Compound Probability (Multiplication) ====== -->
+  <div class="step-solver" id="solver-8-2" data-total="6" data-current="-1">
+    <div class="step-solver-header">
+      <div class="step-solver-title">🧮 حل تفاعلي: قاعدة الضرب (أحداث مستقلة)</div>
+      <div class="step-progress">0 / 6</div>
+    </div>
+    <div class="step-solver-body">
+      <div class="step-question">رمي عملة معدنية مرتين متتاليتين. ما احتمال الحصول على <strong>"صورة"</strong> في الرميتين؟</div>
+
+      <div class="step-item" data-step="1">
+        <div class="step-label">الخطوة 1 — تحديد نوع الأحداث</div>
+        <div class="step-content">
+          هل الأحداث <strong>مستقلة</strong>؟ نعم، نتيجة الرمية الأولى لا تؤثر على الثانية. الرميتان منفصلتان.
+          <div class="calc">→ نستخدم قاعدة الضرب للأحداث المستقلة</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="2">
+        <div class="step-label">الخطوة 2 — كتابة القانون</div>
+        <div class="step-content">
+          <div class="calc">P(A و B) = P(A) × P(B)</div>
+          حيث A = صورة في الرمية 1، B = صورة في الرمية 2.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="3">
+        <div class="step-label">الخطوة 3 — حساب P(A)</div>
+        <div class="step-content">
+          الفضاء العيني للعملة = {صورة، كتابة}، عدد النتائج = 2.
+          <div class="calc">P(صورة في الرمية 1) = 1/2 = 0.5</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="4">
+        <div class="step-label">الخطوة 4 — حساب P(B)</div>
+        <div class="step-content">
+          نفس الشيء للرمية الثانية:
+          <div class="calc">P(صورة في الرمية 2) = 1/2 = 0.5</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="5">
+        <div class="step-label">الخطوة 5 — تطبيق قاعدة الضرب</div>
+        <div class="step-content">
+          <div class="calc">P(صورتين) = 1/2 × 1/2</div>
+          <div class="calc">= 1/4 = <span class="highlight">0.25 = 25%</span></div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="6">
+        <div class="step-label">الإجابة النهائية + التحقق</div>
+        <div class="step-content">
+          <strong>احتمال الحصول على صورتين = <span class="highlight">1/4 = 25%</span></strong>
+          <div style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
+            <strong>طريقة بديلة للتحقق:</strong> الفضاء العيني لرميتين = {صص، صك، كص، كك} = 4 نتائج. النتائج المواتية = صص = 1.<br>
+            P = 1/4 = 25% ✓
+          </div>
+        </div>
+      </div>
+
+      <div class="step-controls">
+        <button class="step-btn next" onclick="nextStep('solver-8-2')"><span>اضغط لعرض السؤال</span><span class="arrow">←</span></button>
+        <button class="step-btn reset" onclick="resetStepSolver('solver-8-2')">🔄 إعادة</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📊</span> دوال إكسل للاحتمالات</h2>
+    <table class="compare-table">
+      <tr><th>الدالة</th><th>الاستخدام</th></tr>
+      <tr><td><code>=COUNTIF(range, criteria)/COUNT(range)</code></td><td>احتمال تجريبي من بيانات</td></tr>
+      <tr><td><code>=COMBIN(n, k)</code></td><td>عدد التراتيب C(n,k)</td></tr>
+      <tr><td><code>=PERMUT(n, k)</code></td><td>عدد التباديل P(n,k)</td></tr>
+      <tr><td><code>=BINOM.DIST(x, n, p, FALSE)</code></td><td>احتمال x نجاح في n محاولة</td></tr>
+    </table>
+
+    <div class="app-link-row">
+      <a href="excel-sim.html" target="_blank" class="app-link excel"><span class="ico">📊</span><span>افتح محاكي إكسل</span></a>
+      <a href="python-sim.html" target="_blank" class="app-link python"><span class="ico">🐍</span><span>افتح محاكي بايثون</span></a>
+    </div>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> اختبر فهمك</h2>
+
+    <div class="quiz-q">
+      <div class="q-text">س1: ما احتمال الحصول على عدد زوجي عند رمي نرد؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>1/6</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>1/2</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>1/3</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>2/3</span></button>
+      </div>
+      <div class="quiz-explain">الأعداد الزوجية = {2, 4, 6} = 3 نتائج. الفضاء العيني = 6. الاحتمال = 3/6 = 1/2.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س2: حدثان مستقلان P(A) = 0.4، P(B) = 0.5. ما احتمال حدوثهما معًا؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>0.9</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>0.1</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>0.2</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>0.45</span></button>
+      </div>
+      <div class="quiz-explain">للأحداث المستقلة: P(A و B) = P(A) × P(B) = 0.4 × 0.5 = 0.2.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س3: مدى قيم الاحتمال:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>من -1 إلى 1</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>من 0 إلى 1</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>من 0 إلى 100</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>من -∞ إلى ∞</span></button>
+      </div>
+      <div class="quiz-explain">الاحتمال يتراوح من 0 (مستحيل) إلى 1 (مؤكد). يُعبَّر عنه أحيانًا كنسبة 0-100%.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س4: في مجموعة 20 طالبًا، 12 ذكور و 8 إناث. ما احتمال اختيار طالبة عشوائيًا؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>12/20</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>8/20 = 0.4</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>1/20</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>20/8</span></button>
+      </div>
+      <div class="quiz-explain">P(طالبة) = عدد الإناث / العدد الكلي = 8/20 = 0.4 = 40%.</div>
+    </div>
+  </div>
+</section>
+`;
+console.log("Topic 8 done");
+
+// ============ TOPIC 7: NORMAL DISTRIBUTION ============
+TOPICS['7'] = `
+<section class="topic-section" id="topic-7">
+  <div class="topic-header">
+    <div class="label">الموضوع السابع</div>
+    <h1>التوزيع الطبيعي والمعياري</h1>
+    <p>منحنى الجرس، قاعدة 68-95-99.7، الدرجة المعيارية Z-Score</p>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>فهم التوزيع الطبيعي وخصائصه</li>
+      <li>التعرف على منحنى الجرس</li>
+      <li>فهم العلاقة بين المتوسط والانحراف المعياري</li>
+      <li>تطبيق قاعدة 68-95-99.7 (التجريبية)</li>
+      <li>حساب Z-Score والتحويل إلى التوزيع المعياري</li>
+      <li>دوال إكسل: NORM.DIST، NORM.S.DIST، NORM.INV</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🔔</span> ما هو التوزيع الطبيعي؟</h2>
+    <p><strong>التوزيع الطبيعي <span class="eng">Normal Distribution</span></strong> هو توزيع احتمالي مستمر يصف كيفية توزع البيانات حول المتوسط. اكتشفه العالم <strong>كارل جاوس</strong> ولذلك يسمى أحيانًا <strong>التوزيع الجاوسي</strong>.</p>
+
+    <div class="story-box">
+      تخيل أنك قِسْت طول 1000 شخص. ستجد أن أغلبهم حول المتوسط (مثلاً 170 سم)، وقليل منهم طويل جدًا (190+) أو قصير جدًا (150-). لو رسمت هذه البيانات، ستحصل على شكل <strong>الجرس المتناظر</strong> — وهذا هو التوزيع الطبيعي!
+    </div>
+
+    <h3>الخصائص الرئيسية</h3>
+    <ul>
+      <li><strong>متناظر تمامًا</strong> حول المتوسط (المتوسط = الوسيط = المنوال)</li>
+      <li>شكل الجرس يتحدد بالانحراف المعياري σ</li>
+      <li>المساحة الكلية تحت المنحنى = <strong>1 (أو 100%)</strong></li>
+      <li>الذيلان يمتدان إلى ما لا نهاية دون أن يلامسا المحور الأفقي</li>
+      <li>القمة عند x = μ (المتوسط)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📏</span> قاعدة 68-95-99.7 (التجريبية)</h2>
+    <p>قاعدة ذهبية تخبرك كم نسبة البيانات تقع ضمن انحرافات معيارية معينة من المتوسط:</p>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg">
+        <!-- Bell curve approximation -->
+        <path d="M 50 250 Q 200 250, 280 50 Q 300 30, 320 50 Q 400 250, 550 250 Z" 
+              fill="url(#bellGrad)" stroke="#0891b2" stroke-width="2"/>
+        <defs>
+          <linearGradient id="bellGrad" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stop-color="#cffafe"/>
+            <stop offset="1" stop-color="#fff"/>
+          </linearGradient>
+        </defs>
+        <!-- mean line -->
+        <line x1="300" y1="40" x2="300" y2="250" stroke="#dc2626" stroke-width="2" stroke-dasharray="4,4"/>
+        <text x="300" y="270" text-anchor="middle" font-size="13" fill="#dc2626" font-weight="bold">μ</text>
+        <!-- σ markers -->
+        <line x1="240" y1="180" x2="240" y2="250" stroke="#16a34a" stroke-width="1"/>
+        <text x="240" y="270" text-anchor="middle" font-size="11" fill="#16a34a">μ-σ</text>
+        <line x1="360" y1="180" x2="360" y2="250" stroke="#16a34a" stroke-width="1"/>
+        <text x="360" y="270" text-anchor="middle" font-size="11" fill="#16a34a">μ+σ</text>
+        <line x1="180" y1="220" x2="180" y2="250" stroke="#f59e0b" stroke-width="1"/>
+        <text x="180" y="270" text-anchor="middle" font-size="11" fill="#f59e0b">μ-2σ</text>
+        <line x1="420" y1="220" x2="420" y2="250" stroke="#f59e0b" stroke-width="1"/>
+        <text x="420" y="270" text-anchor="middle" font-size="11" fill="#f59e0b">μ+2σ</text>
+        <!-- Percentages -->
+        <text x="300" y="120" text-anchor="middle" font-size="14" fill="#0891b2" font-weight="bold">68% ضمن σ±</text>
+        <text x="300" y="200" text-anchor="middle" font-size="11" fill="#f59e0b">95% ضمن 2σ±</text>
+        <text x="300" y="240" text-anchor="middle" font-size="10" fill="#7c3aed">99.7% ضمن 3σ±</text>
+      </svg>
+    </div>
+
+    <table class="compare-table">
+      <tr><th>المدى</th><th>نسبة البيانات</th></tr>
+      <tr><td>μ ± σ (انحراف معياري واحد)</td><td><strong>68%</strong> من البيانات</td></tr>
+      <tr><td>μ ± 2σ (انحرافان)</td><td><strong>95%</strong> من البيانات</td></tr>
+      <tr><td>μ ± 3σ (ثلاثة انحرافات)</td><td><strong>99.7%</strong> من البيانات</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🎯</span> الدرجة المعيارية (Z-Score)</h2>
+    <p><strong>Z-Score</strong> هو عدد الانحرافات المعيارية بين قيمة معينة والمتوسط. يحوّل أي توزيع طبيعي إلى التوزيع الطبيعي المعياري (μ=0, σ=1).</p>
+
+    <div class="formula-box">
+      <div class="formula-name">قانون Z-Score</div>
+      <div class="formula">Z = (X − μ) / σ</div>
+      <div class="legend">X = القيمة الأصلية، μ = المتوسط، σ = الانحراف المعياري</div>
+    </div>
+
+    <div class="tip-box">
+      <strong>تفسير Z:</strong>
+      <ul>
+        <li>Z = 0 → القيمة عند المتوسط</li>
+        <li>Z = 1 → القيمة أعلى من المتوسط بانحراف معياري واحد</li>
+        <li>Z = -2 → القيمة أقل من المتوسط بانحرافين</li>
+        <li>Z = 1.96 → القيمة في أعلى 2.5% (مهم في الاختبارات الإحصائية)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ===== INTERACTIVE SOLVER: Z-Score Calculation ===== -->
+  <div class="step-solver" id="solver-7-1" data-total="6" data-current="-1">
+    <div class="step-solver-header">
+      <div class="step-solver-title">🧮 حل تفاعلي: حساب Z-Score</div>
+      <div class="step-progress">0 / 6</div>
+    </div>
+    <div class="step-solver-body">
+      <div class="step-question">
+        درجات اختبار توزعت طبيعيًا بمتوسط <strong>μ = 75</strong> وانحراف معياري <strong>σ = 10</strong>. حصل أحمد على <strong>X = 90</strong>. كم Z-Score الخاصة بدرجته؟ وماذا يعني؟
+      </div>
+
+      <div class="step-item" data-step="1">
+        <div class="step-label">الخطوة 1 — كتابة القانون</div>
+        <div class="step-content">
+          <div class="calc">Z = (X − μ) / σ</div>
+          هذا القانون يخبرنا كم انحراف معياري بين قيمة أحمد والمتوسط.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="2">
+        <div class="step-label">الخطوة 2 — تحديد القيم</div>
+        <div class="step-content">
+          من المعطيات:
+          <div class="calc">X = 90 (درجة أحمد)</div>
+          <div class="calc">μ = 75 (المتوسط)</div>
+          <div class="calc">σ = 10 (الانحراف المعياري)</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="3">
+        <div class="step-label">الخطوة 3 — حساب الفرق X − μ</div>
+        <div class="step-content">
+          <div class="calc">X − μ = 90 − 75 = 15</div>
+          أحمد أعلى من المتوسط بـ 15 درجة.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="4">
+        <div class="step-label">الخطوة 4 — قسمة الفرق على σ</div>
+        <div class="step-content">
+          <div class="calc">Z = 15 / 10 = 1.5</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="5">
+        <div class="step-label">الخطوة 5 — التفسير</div>
+        <div class="step-content">
+          <strong>Z = 1.5</strong> يعني أن درجة أحمد أعلى من المتوسط بـ <strong>1.5 انحراف معياري</strong>.
+          <br><br>من جدول التوزيع المعياري:
+          <ul>
+            <li>P(Z &lt; 1.5) ≈ 93.32%</li>
+            <li>أحمد أفضل من <span class="highlight">93.32% من الطلاب</span>!</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="6">
+        <div class="step-label">الإجابة النهائية</div>
+        <div class="step-content">
+          <strong>Z-Score = <span class="highlight">1.5</span></strong><br>
+          أحمد في <strong>أعلى 6.68%</strong> من الطلاب المختبرين.
+          <div style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
+            <strong>طريقة بديلة بإكسل:</strong> <code>=NORM.S.DIST(1.5, TRUE)</code> = 0.9332 = 93.32%.
+          </div>
+        </div>
+      </div>
+
+      <div class="step-controls">
+        <button class="step-btn next" onclick="nextStep('solver-7-1')"><span>اضغط لعرض السؤال</span><span class="arrow">←</span></button>
+        <button class="step-btn reset" onclick="resetStepSolver('solver-7-1')">🔄 إعادة</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📊</span> دوال إكسل للتوزيع الطبيعي</h2>
+    <table class="compare-table">
+      <tr><th>الدالة</th><th>الاستخدام</th><th>المثال</th></tr>
+      <tr><td><code>=NORM.DIST(x, μ, σ, TRUE)</code></td><td>P(X ≤ x) — الاحتمال التراكمي</td><td><code>=NORM.DIST(90, 75, 10, TRUE)</code> → 0.9332</td></tr>
+      <tr><td><code>=NORM.DIST(x, μ, σ, FALSE)</code></td><td>الكثافة الاحتمالية</td><td>قيمة الدالة عند x</td></tr>
+      <tr><td><code>=NORM.S.DIST(z, TRUE)</code></td><td>التراكمي للتوزيع المعياري</td><td><code>=NORM.S.DIST(1.5, TRUE)</code> → 0.9332</td></tr>
+      <tr><td><code>=NORM.INV(p, μ, σ)</code></td><td>عكس الدالة (ايجاد x من احتمال)</td><td><code>=NORM.INV(0.95, 75, 10)</code> → 91.45</td></tr>
+      <tr><td><code>=STANDARDIZE(x, μ, σ)</code></td><td>حساب Z-Score مباشرة</td><td><code>=STANDARDIZE(90, 75, 10)</code> → 1.5</td></tr>
+    </table>
+
+    <div class="app-link-row">
+      <a href="excel-sim.html" target="_blank" class="app-link excel"><span class="ico">📊</span><span>افتح محاكي إكسل</span></a>
+      <a href="python-sim.html" target="_blank" class="app-link python"><span class="ico">🐍</span><span>افتح محاكي بايثون</span></a>
+    </div>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> اختبر فهمك</h2>
+
+    <div class="quiz-q">
+      <div class="q-text">س1: في توزيع طبيعي، نسبة البيانات ضمن ±2 انحراف معياري من المتوسط:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>68%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>95%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>99.7%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>50%</span></button>
+      </div>
+      <div class="quiz-explain">قاعدة 68-95-99.7: ±σ → 68%، ±2σ → 95%، ±3σ → 99.7%.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س2: في توزيع طبيعي بـ μ=100 و σ=15، إذا X=130، فإن Z = ؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>1</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>2</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>3</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>0.5</span></button>
+      </div>
+      <div class="quiz-explain">Z = (130-100)/15 = 30/15 = 2. أي 2 انحراف معياري فوق المتوسط.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س3: في توزيع طبيعي، أي القيم تتساوى؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>المتوسط فقط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>المتوسط = الوسيط = المنوال</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>الانحراف المعياري = صفر</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>كل البيانات تساوي المتوسط</span></button>
+      </div>
+      <div class="quiz-explain">التوزيع الطبيعي متماثل، فقمة المنحنى عند نقطة واحدة هي المتوسط = الوسيط = المنوال.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س4: ما المساحة الكلية تحت منحنى التوزيع الطبيعي؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>0.5</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>1.0 (أو 100%)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>2.0</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>تعتمد على σ</span></button>
+      </div>
+      <div class="quiz-explain">المساحة تحت أي منحنى احتمالي = 1، لأن مجموع جميع الاحتمالات = 1 (أو 100%).</div>
+    </div>
+  </div>
+</section>
+`;
+console.log("Topic 7 done");
+
+// ============ TOPIC 2: CORRELATION & TREND LINE ============
+TOPICS['2'] = `
+<section class="topic-section" id="topic-2">
+  <div class="topic-header">
+    <div class="label">الموضوع الثاني</div>
+    <h1>الارتباط وخط الاتجاه + التنبؤ</h1>
+    <p>معامل الارتباط، تفسيره، خط الاتجاه، والتنبؤ بالقيم المستقبلية</p>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>فهم مفهوم الارتباط بين متغيرين</li>
+      <li>حساب وتفسير معامل الارتباط r</li>
+      <li>التمييز بين الارتباط الطردي والعكسي</li>
+      <li>التمييز بين الارتباط والسببية</li>
+      <li>رسم خط الاتجاه واستخدامه للتنبؤ</li>
+      <li>دوال إكسل: CORREL، PEARSON، TREND، FORECAST</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🔗</span> ما هو الارتباط؟</h2>
+    <p><strong>الارتباط <span class="eng">Correlation</span></strong> يقيس قوة واتجاه العلاقة الخطية بين متغيرين.</p>
+    <p><strong>معامل الارتباط r</strong> يتراوح من -1 إلى +1.</p>
+
+    <div class="formula-box">
+      <div class="formula-name">معامل ارتباط بيرسون</div>
+      <div class="formula">r = Σ[(xᵢ-x̄)(yᵢ-ȳ)] / √[Σ(xᵢ-x̄)²·Σ(yᵢ-ȳ)²]</div>
+    </div>
+
+    <div class="story-box">
+      تخيل أنك تدرس علاقة <strong>عدد ساعات الدراسة</strong> بـ <strong>درجة الامتحان</strong>. لو كل من يدرس أكثر يأخذ درجة أعلى → ارتباط طردي قوي. لو لا توجد علاقة واضحة → ارتباط ضعيف. لو من يدرس أكثر يأخذ درجة أقل (مستحيل!) → ارتباط عكسي.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📊</span> تفسير معامل الارتباط</h2>
+    <table class="compare-table">
+      <tr><th>قيمة r</th><th>التفسير</th><th>مثال</th></tr>
+      <tr><td>r = +1.0</td><td>ارتباط طردي تام</td><td>مستحيل في البيانات الواقعية</td></tr>
+      <tr><td>+0.7 ≤ r &lt; +1.0</td><td>طردي قوي</td><td>الطول والوزن</td></tr>
+      <tr><td>+0.3 ≤ r &lt; +0.7</td><td>طردي متوسط</td><td>عدد ساعات الدراسة والدرجات</td></tr>
+      <tr><td>0 &lt; r &lt; +0.3</td><td>طردي ضعيف</td><td>علاقة شبه معدومة</td></tr>
+      <tr><td>r = 0</td><td>لا يوجد ارتباط خطي</td><td>متغيرات مستقلة</td></tr>
+      <tr><td>-0.3 &lt; r &lt; 0</td><td>عكسي ضعيف</td><td>علاقة بسيطة عكسية</td></tr>
+      <tr><td>-0.7 &lt; r ≤ -0.3</td><td>عكسي متوسط</td><td>السعر والمبيعات</td></tr>
+      <tr><td>-1.0 &lt; r ≤ -0.7</td><td>عكسي قوي</td><td>عمر السيارة وقيمتها</td></tr>
+      <tr><td>r = -1.0</td><td>عكسي تام</td><td>مستحيل واقعياً</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">⚠️</span> الارتباط ≠ السببية</h2>
+    <div class="warn-box">
+      وجود ارتباط بين متغيرين <strong>لا يعني أن أحدهما يسبب الآخر!</strong> هذه قاعدة ذهبية في الإحصاء.
+    </div>
+    <div class="example-box">
+      <strong>مثال شهير:</strong> هناك ارتباط قوي بين مبيعات الآيس كريم وحوادث الغرق في الصيف. هل الآيس كريم يسبب الغرق؟ <strong>لا!</strong> العامل الثالث المخفي = درجة الحرارة. الناس في الحر يأكلون آيس كريم أكثر ويسبحون أكثر.
+    </div>
+
+    <h3>للتأكد من السببية، تحتاج:</h3>
+    <ul>
+      <li>تجربة محكمة (Controlled Experiment)</li>
+      <li>استبعاد العوامل المخفية</li>
+      <li>وجود تسلسل زمني (السبب قبل النتيجة)</li>
+      <li>منطق علمي يدعم العلاقة</li>
+    </ul>
+  </div>
+
+  <!-- ===== INTERACTIVE SOLVER: Correlation Calculation ===== -->
+  <div class="step-solver" id="solver-2-1" data-total="6" data-current="-1">
+    <div class="step-solver-header">
+      <div class="step-solver-title">🧮 حل تفاعلي: حساب معامل الارتباط</div>
+      <div class="step-progress">0 / 6</div>
+    </div>
+    <div class="step-solver-body">
+      <div class="step-question">
+        احسب معامل الارتباط r بين <strong>عدد ساعات الدراسة (X)</strong> و <strong>درجات الامتحان (Y)</strong>:
+        <table class="compare-table" style="margin-top: 8px; background: white;">
+          <tr><th>الطالب</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+          <tr><th>X (ساعات)</th><td>2</td><td>4</td><td>6</td><td>8</td><td>10</td></tr>
+          <tr><th>Y (درجة)</th><td>50</td><td>60</td><td>70</td><td>80</td><td>90</td></tr>
+        </table>
+      </div>
+
+      <div class="step-item" data-step="1">
+        <div class="step-label">الخطوة 1 — حساب المتوسطات</div>
+        <div class="step-content">
+          <div class="calc">x̄ = (2+4+6+8+10) / 5 = 30/5 = 6</div>
+          <div class="calc">ȳ = (50+60+70+80+90) / 5 = 350/5 = 70</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="2">
+        <div class="step-label">الخطوة 2 — حساب الانحرافات (xᵢ-x̄) و (yᵢ-ȳ)</div>
+        <div class="step-content">
+          <table class="compare-table" style="margin-top: 6px;">
+            <tr><th>X</th><th>Y</th><th>X-x̄</th><th>Y-ȳ</th></tr>
+            <tr><td>2</td><td>50</td><td>-4</td><td>-20</td></tr>
+            <tr><td>4</td><td>60</td><td>-2</td><td>-10</td></tr>
+            <tr><td>6</td><td>70</td><td>0</td><td>0</td></tr>
+            <tr><td>8</td><td>80</td><td>2</td><td>10</td></tr>
+            <tr><td>10</td><td>90</td><td>4</td><td>20</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="3">
+        <div class="step-label">الخطوة 3 — حساب البسط: Σ(X-x̄)(Y-ȳ)</div>
+        <div class="step-content">
+          نضرب كل (X-x̄) في (Y-ȳ) المقابلة ثم نجمع:
+          <div class="calc">(-4×-20) + (-2×-10) + (0×0) + (2×10) + (4×20)</div>
+          <div class="calc">= 80 + 20 + 0 + 20 + 80</div>
+          <div class="calc">Σ = 200</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="4">
+        <div class="step-label">الخطوة 4 — حساب المقام: √[Σ(X-x̄)²·Σ(Y-ȳ)²]</div>
+        <div class="step-content">
+          <div class="calc">Σ(X-x̄)² = 16+4+0+4+16 = 40</div>
+          <div class="calc">Σ(Y-ȳ)² = 400+100+0+100+400 = 1000</div>
+          <div class="calc">المقام = √(40 × 1000) = √40000 = 200</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="5">
+        <div class="step-label">الخطوة 5 — تطبيق القانون</div>
+        <div class="step-content">
+          <div class="calc">r = البسط / المقام = 200 / 200 = <span class="highlight">1.0</span></div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="6">
+        <div class="step-label">الإجابة النهائية + التفسير</div>
+        <div class="step-content">
+          <strong>r = <span class="highlight">+1.0</span></strong> = ارتباط طردي تام
+          <div style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
+            <strong>التفسير:</strong> هناك علاقة طردية مثالية بين عدد ساعات الدراسة والدرجات. كل ساعة دراسة إضافية = 5 درجات إضافية بالتمام.
+            <br><strong>ملاحظة:</strong> r = 1 نادر في الواقع — البيانات الحقيقية فيها ضوضاء، فـ r غالبًا بين 0.5 و 0.9 للعلاقات القوية.
+            <br><strong>بإكسل:</strong> <code>=CORREL(X_range, Y_range)</code> = 1.0
+          </div>
+        </div>
+      </div>
+
+      <div class="step-controls">
+        <button class="step-btn next" onclick="nextStep('solver-2-1')"><span>اضغط لعرض السؤال</span><span class="arrow">←</span></button>
+        <button class="step-btn reset" onclick="resetStepSolver('solver-2-1')">🔄 إعادة</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📈</span> خط الاتجاه (Trendline) والتنبؤ</h2>
+    <p><strong>خط الاتجاه</strong> هو خط مستقيم (أو منحنى) يلخص اتجاه البيانات. نستخدمه للتنبؤ بقيم مستقبلية.</p>
+
+    <h3>أنواع خطوط الاتجاه</h3>
+    <ul>
+      <li><strong>خطي <span class="eng">Linear</span>:</strong> y = mx + b (الأكثر شيوعًا)</li>
+      <li><strong>متعدد الحدود <span class="eng">Polynomial</span>:</strong> منحنى</li>
+      <li><strong>أسي <span class="eng">Exponential</span>:</strong> نمو/تناقص مرتفع</li>
+      <li><strong>لوغاريتمي <span class="eng">Logarithmic</span>:</strong> نمو سريع ثم بطيء</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📊</span> دوال إكسل للارتباط والتنبؤ</h2>
+    <table class="compare-table">
+      <tr><th>الدالة</th><th>الاستخدام</th></tr>
+      <tr><td><code>=CORREL(x, y)</code></td><td>معامل الارتباط (الأساسي)</td></tr>
+      <tr><td><code>=PEARSON(x, y)</code></td><td>نفس CORREL (مكافئ)</td></tr>
+      <tr><td><code>=TREND(y_known, x_known, x_new)</code></td><td>تنبؤ بقيم متعددة</td></tr>
+      <tr><td><code>=FORECAST(x_new, y, x)</code></td><td>تنبؤ بقيمة واحدة</td></tr>
+      <tr><td><code>=RSQ(y, x)</code></td><td>معامل التحديد R²</td></tr>
+    </table>
+
+    <div class="app-link-row">
+      <a href="excel-sim.html" target="_blank" class="app-link excel"><span class="ico">📊</span><span>افتح محاكي إكسل</span></a>
+      <a href="python-sim.html" target="_blank" class="app-link python"><span class="ico">🐍</span><span>افتح محاكي بايثون</span></a>
+    </div>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> اختبر فهمك</h2>
+
+    <div class="quiz-q">
+      <div class="q-text">س1: ماذا يعني r = -0.85؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>ارتباط طردي قوي</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>لا يوجد ارتباط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>ارتباط عكسي قوي</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>ارتباط تام</span></button>
+      </div>
+      <div class="quiz-explain">الإشارة السالبة = عكسي. القيمة المطلقة 0.85 = قوي. إذن: عكسي قوي.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س2: مبيعات الآيس كريم وحوادث الغرق ترتبط طرديًا. هل الآيس كريم يسبب الغرق؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>نعم، لأن الارتباط قوي</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>لا، الارتباط لا يعني السببية. السبب الحقيقي: الحرارة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>نعم، البيانات لا تكذب</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>لا أعرف</span></button>
+      </div>
+      <div class="quiz-explain">قاعدة ذهبية: الارتباط ≠ السببية. هنا العامل المخفي (Confounding Variable) = درجة الحرارة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س3: قيم معامل الارتباط تقع في:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>[0, 1]</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>[-1, 1]</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>[-∞, +∞]</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>[0, 100]</span></button>
+      </div>
+      <div class="quiz-explain">معامل الارتباط محصور بين -1 (عكسي تام) و +1 (طردي تام).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س4: أي دالة إكسل تتنبأ بقيمة جديدة بناءً على بيانات سابقة؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>=CORREL</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>=AVERAGE</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>=FORECAST</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>=COUNT</span></button>
+      </div>
+      <div class="quiz-explain">FORECAST(x_new, y_known, x_known) تتنبأ بقيمة Y جديدة بناءً على X جديدة.</div>
+    </div>
+  </div>
+</section>
+`;
+console.log("Topic 2 done");
+
+// ============ TOPIC 9: CHARTS ============
+TOPICS['9'] = `
+<section class="topic-section" id="topic-9">
+  <div class="topic-header">
+    <div class="label">الموضوع التاسع</div>
+    <h1>الرسوم البيانية</h1>
+    <p>اختيار الرسم المناسب: المدرج، الشريطي، الدائري، الانتشار، خط الزمن</p>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>التمييز بين أنواع البيانات وعلاقتها بالرسوم</li>
+      <li>اختيار الرسم البياني المناسب لكل نوع بيانات</li>
+      <li>إنشاء وتفسير: الأعمدة، الشريط، الدائري، الخطي، الانتشار</li>
+      <li>إنشاء المدرج التكراري Histogram</li>
+      <li>تطبيق Excel و Python لرسم البيانات</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🎨</span> أهمية الرسوم البيانية</h2>
+    <p>الرسوم البيانية تحوّل الأرقام الجامدة إلى صور سهلة الفهم. صورة واحدة قد تساوي ألف رقم!</p>
+
+    <div class="story-box">
+      تخيل لو قدّم مديرك تقرير المبيعات السنوية كجدول فيه 365 رقمًا. ستحتاج ساعة لفهمه. لكن لو قدّمه كـ <strong>رسم بياني خطي</strong>، ستفهم الاتجاه في 5 ثوانٍ. هذه قوة الرسوم!
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📊</span> أنواع البيانات وعلاقتها بالرسوم</h2>
+    <table class="compare-table">
+      <tr><th>نوع البيانات</th><th>أمثلة</th><th>الرسوم المناسبة</th></tr>
+      <tr><td><strong>فئوية اسمية</strong></td><td>الجنس، اللون، المدينة</td><td>الأعمدة، الدائري، الشريط</td></tr>
+      <tr><td><strong>فئوية ترتيبية</strong></td><td>التقدير (ممتاز، جيد جدًا، جيد)</td><td>الأعمدة المرتبة</td></tr>
+      <tr><td><strong>كمية منفصلة</strong></td><td>عدد الأبناء، عدد المنتجات</td><td>المدرج، الأعمدة</td></tr>
+      <tr><td><strong>كمية متصلة</strong></td><td>الطول، الوزن، الحرارة</td><td>المدرج، الخطي</td></tr>
+      <tr><td><strong>زمنية (Time Series)</strong></td><td>المبيعات الشهرية</td><td>الخطي، المساحي</td></tr>
+      <tr><td><strong>متغيران كميان</strong></td><td>الطول والوزن</td><td>الانتشار Scatter</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📋</span> أهم الرسوم البيانية</h2>
+
+    <h3>1. مخطط الأعمدة <span class="eng">Column Chart</span></h3>
+    <ul>
+      <li>للمقارنة بين فئات</li>
+      <li>أعمدة عمودية</li>
+      <li><em>مثال: مبيعات كل شهر، عدد الموظفين بكل قسم</em></li>
+    </ul>
+
+    <h3>2. المخطط الشريطي <span class="eng">Bar Chart</span></h3>
+    <ul>
+      <li>مثل الأعمدة لكن أفقي</li>
+      <li>مفيد للأسماء الطويلة</li>
+      <li><em>مثال: ترتيب الدول حسب تعداد السكان</em></li>
+    </ul>
+
+    <h3>3. المخطط الدائري <span class="eng">Pie Chart</span></h3>
+    <ul>
+      <li>لإظهار <strong>النسب المئوية</strong> من الكل</li>
+      <li>لا يصلح لأكثر من 5-7 فئات</li>
+      <li>مجموع النسب = 100%</li>
+      <li><em>مثال: حصص الشركات في السوق</em></li>
+    </ul>
+
+    <h3>4. المخطط الخطي <span class="eng">Line Chart</span></h3>
+    <ul>
+      <li>للبيانات الزمنية أو المتسلسلة</li>
+      <li>يُظهر الاتجاهات والتغيرات</li>
+      <li><em>مثال: درجة حرارة عبر الأشهر، سعر السهم</em></li>
+    </ul>
+
+    <h3>5. المدرج التكراري <span class="eng">Histogram</span></h3>
+    <ul>
+      <li>لتوزيع البيانات الكمية المتصلة</li>
+      <li>يُظهر شكل التوزيع (طبيعي، ملتوٍ، إلخ)</li>
+      <li>المحور الأفقي: مدى القيم، الرأسي: التكرار</li>
+      <li><em>مثال: توزيع أطوال الطلاب</em></li>
+    </ul>
+
+    <h3>6. مخطط الانتشار <span class="eng">Scatter Plot</span></h3>
+    <ul>
+      <li>لإظهار العلاقة بين متغيرين كميين</li>
+      <li>يكشف الارتباط والاتجاه</li>
+      <li><em>مثال: ساعات الدراسة والدرجات</em></li>
+    </ul>
+
+    <h3>7. مخطط القمع <span class="eng">Funnel Chart</span></h3>
+    <ul>
+      <li>لإظهار التناقص في مراحل عملية</li>
+      <li><em>مثال: زوار الموقع → مهتمون → مشترون</em></li>
+    </ul>
+  </div>
+
+  <!-- ===== INTERACTIVE SOLVER: Choose the right chart ===== -->
+  <div class="step-solver" id="solver-9-1" data-total="5" data-current="-1">
+    <div class="step-solver-header">
+      <div class="step-solver-title">🧮 حل تفاعلي: اختيار الرسم المناسب</div>
+      <div class="step-progress">0 / 5</div>
+    </div>
+    <div class="step-solver-body">
+      <div class="step-question">
+        لديك بيانات <strong>أوزان 100 طالب</strong>. تريد إظهار كيف تتوزع الأوزان (هل أكثرهم في مدى معين؟ هل التوزيع طبيعي؟). أي رسم بياني تختار؟
+      </div>
+
+      <div class="step-item" data-step="1">
+        <div class="step-label">الخطوة 1 — حدد نوع البيانات</div>
+        <div class="step-content">
+          الوزن (kg) رقم يمكن أن يكون 65.3 أو 65.31...
+          <div class="calc">نوع البيانات: كمية متصلة <span class="eng">(Continuous)</span></div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="2">
+        <div class="step-label">الخطوة 2 — حدد الهدف</div>
+        <div class="step-content">
+          الهدف: <strong>إظهار توزيع البيانات</strong> — كم طالبًا وزنه بين 50-60، وبين 60-70، إلخ.
+          <div class="calc">الهدف: عرض شكل التوزيع</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="3">
+        <div class="step-label">الخطوة 3 — استبعد الخيارات الخاطئة</div>
+        <div class="step-content">
+          <ul>
+            <li>❌ الدائري: للنسب من الكل، ليس للتوزيع</li>
+            <li>❌ الانتشار: يحتاج متغيرين</li>
+            <li>❌ الخطي: للبيانات الزمنية</li>
+            <li>❌ الأعمدة العادية: للفئات المنفصلة</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="4">
+        <div class="step-label">الخطوة 4 — الاختيار الصحيح</div>
+        <div class="step-content">
+          <div class="calc">الإجابة: <span class="highlight">المدرج التكراري (Histogram)</span></div>
+          لأنه مصمم خصيصًا لإظهار توزيع البيانات الكمية المتصلة.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="5">
+        <div class="step-label">الخطوة 5 — كيف تنشئه في إكسل؟</div>
+        <div class="step-content">
+          <ol>
+            <li>أدخل بيانات الأوزان في عمود (مثلاً A2:A101)</li>
+            <li>حددها</li>
+            <li>Insert → Charts → Histogram</li>
+            <li>إكسل يقسم البيانات تلقائيًا لـ "صناديق Bins"</li>
+            <li>عدّل عرض الصندوق بالنقر على المحور → Number of Bins</li>
+          </ol>
+          <strong>تفسير الناتج:</strong> إذا ظهر شكل جرس → التوزيع طبيعي. إذا ملتوٍ يمينًا → معظم الطلاب أوزانهم منخفضة وقليل ثقيل.
+        </div>
+      </div>
+
+      <div class="step-controls">
+        <button class="step-btn next" onclick="nextStep('solver-9-1')"><span>اضغط لعرض السؤال</span><span class="arrow">←</span></button>
+        <button class="step-btn reset" onclick="resetStepSolver('solver-9-1')">🔄 إعادة</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🛠️</span> إنشاء الرسوم في إكسل</h2>
+    <ol>
+      <li>أدخل البيانات في خلايا مرتبة</li>
+      <li>حدد البيانات (أو حدد الجدول كاملاً)</li>
+      <li>اذهب لـ <code>Insert</code> → <code>Charts</code></li>
+      <li>اختر نوع الرسم المناسب</li>
+      <li>عدّل العنوان، الألوان، التسميات</li>
+      <li>أضف خط اتجاه (Trendline) إذا كان مخطط انتشار</li>
+    </ol>
+
+    <div class="app-link-row">
+      <a href="excel-sim.html" target="_blank" class="app-link excel"><span class="ico">📊</span><span>افتح محاكي إكسل</span></a>
+      <a href="python-sim.html" target="_blank" class="app-link python"><span class="ico">🐍</span><span>افتح محاكي بايثون</span></a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🐍</span> الرسوم في بايثون (matplotlib)</h2>
+    <div class="code-block">
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+
+<span class="comment"># مخطط أعمدة</span>
+plt.<span class="func">bar</span>([<span class="string">'يناير'</span>, <span class="string">'فبراير'</span>, <span class="string">'مارس'</span>], [100, 150, 120])
+plt.<span class="func">title</span>(<span class="string">'المبيعات'</span>)
+plt.<span class="func">show</span>()
+
+<span class="comment"># مدرج تكراري</span>
+plt.<span class="func">hist</span>(weights, bins=10, color=<span class="string">'green'</span>)
+
+<span class="comment"># مخطط انتشار</span>
+plt.<span class="func">scatter</span>(study_hours, grades)
+plt.<span class="func">xlabel</span>(<span class="string">'ساعات'</span>)
+plt.<span class="func">ylabel</span>(<span class="string">'درجة'</span>)
+
+<span class="comment"># مخطط دائري</span>
+plt.<span class="func">pie</span>([30, 45, 25], labels=[<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>], autopct=<span class="string">'%1.1f%%'</span>)</div>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> اختبر فهمك</h2>
+
+    <div class="quiz-q">
+      <div class="q-text">س1: أي رسم بياني الأنسب لإظهار توزيع 200 درجة طالب؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>الدائري</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>الخطي</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>المدرج التكراري</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>الانتشار</span></button>
+      </div>
+      <div class="quiz-explain">المدرج (Histogram) هو الرسم القياسي لإظهار توزيع بيانات كمية كبيرة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س2: لإظهار العلاقة بين السن والدخل لـ 50 شخصًا، نستخدم:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 3)"><span class="letter">أ</span><span>الدائري</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 3)"><span class="letter">ب</span><span>الأعمدة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 3)"><span class="letter">ج</span><span>الشريطي</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 3)"><span class="letter">د</span><span>الانتشار Scatter</span></button>
+      </div>
+      <div class="quiz-explain">الانتشار (Scatter) مصمم لإظهار العلاقة بين متغيرين كميين.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س3: المخطط الدائري غير مناسب عندما:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>عدد الفئات قليل</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>عدد الفئات يفوق 7</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>المجموع = 100%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>البيانات اسمية</span></button>
+      </div>
+      <div class="quiz-explain">الدائري يصبح غير مقروء مع كثرة الفئات. القاعدة: لا تتجاوز 5-7 شرائح.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س4: لمتابعة سعر سهم على مدار سنة، استخدم:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>المدرج التكراري</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>المخطط الخطي</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>الدائري</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>الانتشار</span></button>
+      </div>
+      <div class="quiz-explain">المخطط الخطي (Line Chart) مثالي للبيانات الزمنية المتسلسلة.</div>
+    </div>
+  </div>
+</section>
+`;
+console.log("Topic 9 done");
+
+// ============ TOPIC 6: DATA ANALYSIS ============  
+TOPICS['6'] = `
+<section class="topic-section" id="topic-6">
+  <div class="topic-header">
+    <div class="label">الموضوع السادس</div>
+    <h1>تحليل البيانات بإكسل</h1>
+    <p>الدوال الإحصائية الشرطية، التصفية، والـ PivotTable</p>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>إتقان الدوال الإحصائية الشرطية: COUNTIF، SUMIF، AVERAGEIF</li>
+      <li>استخدام دوال الفرز والتصفية</li>
+      <li>إنشاء وتحليل PivotTable</li>
+      <li>دوال البحث والمراجعة: VLOOKUP، INDEX/MATCH</li>
+      <li>التحقق من البيانات وتنظيفها</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🎯</span> الدوال الشرطية الأساسية</h2>
+
+    <h3>1. COUNTIF — العد الشرطي</h3>
+    <div class="formula-box">
+      <div class="formula">=COUNTIF(range, criteria)</div>
+    </div>
+    <div class="example-box">
+      <strong>كم طالب نجح (درجته ≥ 60)؟</strong><br>
+      <code>=COUNTIF(B2:B100, ">=60")</code>
+    </div>
+
+    <h3>2. SUMIF — الجمع الشرطي</h3>
+    <div class="formula-box">
+      <div class="formula">=SUMIF(criteria_range, criteria, sum_range)</div>
+    </div>
+    <div class="example-box">
+      <strong>مجموع مبيعات الفرع الشرقي:</strong><br>
+      <code>=SUMIF(A2:A100, "شرقي", B2:B100)</code>
+    </div>
+
+    <h3>3. AVERAGEIF — المتوسط الشرطي</h3>
+    <div class="formula-box">
+      <div class="formula">=AVERAGEIF(range, criteria, [average_range])</div>
+    </div>
+    <div class="example-box">
+      <strong>متوسط رواتب الموظفين فوق 30 سنة:</strong><br>
+      <code>=AVERAGEIF(C2:C100, ">30", D2:D100)</code>
+    </div>
+
+    <h3>4. الإصدارات بأكثر من شرط (IFS)</h3>
+    <ul>
+      <li><code>=COUNTIFS</code> — عدة شروط معًا</li>
+      <li><code>=SUMIFS</code> — جمع بعدة شروط</li>
+      <li><code>=AVERAGEIFS</code> — متوسط بعدة شروط</li>
+    </ul>
+  </div>
+
+  <!-- ===== INTERACTIVE SOLVER: COUNTIFS ===== -->
+  <div class="step-solver" id="solver-6-1" data-total="5" data-current="-1">
+    <div class="step-solver-header">
+      <div class="step-solver-title">🧮 حل تفاعلي: COUNTIFS بشرطين</div>
+      <div class="step-progress">0 / 5</div>
+    </div>
+    <div class="step-solver-body">
+      <div class="step-question">
+        لديك بيانات 100 موظف: <strong>القسم</strong> (عمود A)، <strong>الراتب</strong> (عمود B)، <strong>الجنس</strong> (عمود C). كم عدد <strong>الموظفات في قسم تقنية المعلومات (IT) براتب أكبر من 8000</strong>؟
+      </div>
+
+      <div class="step-item" data-step="1">
+        <div class="step-label">الخطوة 1 — تحديد الدالة المناسبة</div>
+        <div class="step-content">
+          نحتاج عددًا (count) بأكثر من شرط (3 شروط):
+          <div class="calc">→ نستخدم COUNTIFS وليس COUNTIF</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="2">
+        <div class="step-label">الخطوة 2 — كتابة الصيغة العامة</div>
+        <div class="step-content">
+          <div class="calc">=COUNTIFS(range1, cond1, range2, cond2, ...)</div>
+          أزواج (نطاق، شرط) لكل معيار.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="3">
+        <div class="step-label">الخطوة 3 — تحديد النطاقات والشروط</div>
+        <div class="step-content">
+          <ul>
+            <li>الشرط 1: القسم = "IT" → النطاق A2:A101، الشرط "IT"</li>
+            <li>الشرط 2: الراتب &gt; 8000 → النطاق B2:B101، الشرط ">8000"</li>
+            <li>الشرط 3: الجنس = "أنثى" → النطاق C2:C101، الشرط "أنثى"</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="4">
+        <div class="step-label">الخطوة 4 — تركيب الصيغة كاملة</div>
+        <div class="step-content">
+          <div class="calc">=COUNTIFS(A2:A101,"IT", B2:B101,">8000", C2:C101,"أنثى")</div>
+          <strong>ملاحظة مهمة:</strong> الشروط الرقمية مثل ">8000" يجب أن تكون <span class="highlight">بين علامتي تنصيص</span>.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="5">
+        <div class="step-label">النتيجة + ملاحظات</div>
+        <div class="step-content">
+          <strong>النتيجة:</strong> ستحصل على عدد الموظفات في IT براتب &gt; 8000.
+          <div style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
+            <strong>تذكر:</strong>
+            <ul>
+              <li>كل النطاقات يجب أن تكون <span class="highlight">بنفس الحجم</span> (نفس عدد الصفوف)</li>
+              <li>الشروط النصية مع علامة المساواة المباشرة: "IT" (لا تحتاج =)</li>
+              <li>الشروط مع عوامل مقارنة: ">8000"، "&lt;5000"</li>
+              <li>للنص الجزئي: "*مبرمج*" (يبحث عن "مبرمج" في أي مكان)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-controls">
+        <button class="step-btn next" onclick="nextStep('solver-6-1')"><span>اضغط لعرض السؤال</span><span class="arrow">←</span></button>
+        <button class="step-btn reset" onclick="resetStepSolver('solver-6-1')">🔄 إعادة</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🔍</span> دوال البحث والمراجعة</h2>
+
+    <h3>VLOOKUP</h3>
+    <div class="formula-box">
+      <div class="formula">=VLOOKUP(lookup_value, table, col_index, [exact])</div>
+    </div>
+    <div class="example-box">
+      <strong>استرجاع راتب الموظف برقم 1023:</strong><br>
+      <code>=VLOOKUP(1023, A2:D100, 4, FALSE)</code>
+    </div>
+
+    <h3>INDEX/MATCH (أكثر مرونة)</h3>
+    <div class="formula-box">
+      <div class="formula">=INDEX(return_range, MATCH(lookup_value, lookup_range, 0))</div>
+    </div>
+
+    <div class="tip-box">
+      <strong>VLOOKUP أم INDEX/MATCH؟</strong> VLOOKUP أبسط لكن لا يبحث لليسار. INDEX/MATCH مرن أكثر ويعمل في كل الاتجاهات. الأحدث = XLOOKUP (Excel 365).
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📋</span> PivotTable (الجدول المحوري)</h2>
+    <p>أقوى أداة لتلخيص البيانات الكبيرة بسرعة.</p>
+
+    <h3>خطوات الإنشاء</h3>
+    <ol>
+      <li>حدد البيانات</li>
+      <li><code>Insert → PivotTable</code></li>
+      <li>اسحب الحقول إلى المناطق:
+        <ul>
+          <li><strong>Rows:</strong> الفئات (مثل القسم)</li>
+          <li><strong>Columns:</strong> فئات أخرى (مثل الجنس)</li>
+          <li><strong>Values:</strong> الأرقام (مثل الراتب) واختر العملية (مجموع، متوسط)</li>
+          <li><strong>Filters:</strong> لتصفية البيانات</li>
+        </ul>
+      </li>
+      <li>اضغط <strong>Refresh</strong> عند تغيير البيانات الأصلية</li>
+    </ol>
+
+    <div class="app-link-row">
+      <a href="excel-sim.html" target="_blank" class="app-link excel"><span class="ico">📊</span><span>افتح محاكي إكسل</span></a>
+    </div>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> اختبر فهمك</h2>
+
+    <div class="quiz-q">
+      <div class="q-text">س1: لحساب عدد الطلاب الذين درجاتهم 80 فأكثر:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>=COUNT(B2:B100, ">=80")</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>=COUNTIF(B2:B100, ">=80")</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>=SUM(B2:B100, 80)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>=AVERAGEIF(B2:B100)</span></button>
+      </div>
+      <div class="quiz-explain">COUNTIF يعد القيم التي تحقق شرطًا. الصيغة: =COUNTIF(range, criteria).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س2: VLOOKUP لا يستطيع البحث:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>عن قيم نصية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>في عمود يمين عمود البحث</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>في عمود يسار عمود البحث</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>عن قيم رقمية</span></button>
+      </div>
+      <div class="quiz-explain">VLOOKUP يبحث في العمود الأول ويرجع من أعمدة على يمينه فقط. INDEX/MATCH يحل هذه المشكلة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س3: PivotTable مفيد جدًا في:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>إنشاء معادلات معقدة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>تلخيص وتحليل البيانات الكبيرة بسرعة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>تشفير البيانات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>تحويل الملفات</span></button>
+      </div>
+      <div class="quiz-explain">PivotTable يجمّع البيانات حسب فئات ويحسب إحصائيات (مجموع، متوسط، عد) بسرعة. أداة قوية للتقارير.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س4: لجمع المبيعات للفرع "أ" فقط:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>=SUM(B2:B100)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>=COUNTIF(A2:A100, "أ")</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>=SUMIF(A2:A100, "أ", B2:B100)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>=VLOOKUP("أ", A2:B100, 2)</span></button>
+      </div>
+      <div class="quiz-explain">SUMIF يجمع القيم التي يكون شرطها متحققًا. هنا: في عمود A نبحث عن "أ"، ونجمع القيم المقابلة في عمود B.</div>
+    </div>
+  </div>
+</section>
+`;
+console.log("Topic 6 done");
+
+// ============ COMPREHENSIVE QUIZ ============
+TOPICS['quiz'] = `
+<section class="topic-section" id="topic-quiz">
+  <div class="topic-header" style="background: linear-gradient(135deg, #f59e0b 0%, #dc2626 100%);">
+    <div class="label">📝 الاختبار الشامل</div>
+    <h1>اختبار شامل على المنهج</h1>
+    <p>20 سؤال متنوع يغطي كل مواضيع الإحصاء للنهائي. اضغط الإجابة لرؤية الشرح.</p>
+  </div>
+
+  <div class="section quiz-section" style="border-color: #f59e0b;">
+    <h2><span class="icon">🧠</span> أسئلة شاملة</h2>
+
+    <div class="quiz-q">
+      <div class="q-text">س1: لحساب الوسيط في إكسل، نستخدم:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>=AVERAGE</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>=MEDIAN</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>=MODE</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>=COUNT</span></button>
+      </div>
+      <div class="quiz-explain">MEDIAN للوسيط، AVERAGE للمتوسط، MODE للمنوال.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س2: متوسط 5، 10، 15 = ؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>5</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>10</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>15</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>30</span></button>
+      </div>
+      <div class="quiz-explain">المتوسط = (5+10+15)/3 = 30/3 = 10.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س3: r = 0.95 يعني:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>لا يوجد ارتباط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>ارتباط طردي قوي جدًا</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>ارتباط عكسي</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>قيمة خاطئة</span></button>
+      </div>
+      <div class="quiz-explain">قيم r قريبة من +1 = طردي قوي جدًا. r = 0.95 يدل على علاقة طردية ممتازة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س4: في معادلة y = 5x + 3، عند x = 4 فإن y = ؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>15</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>20</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>23</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>17</span></button>
+      </div>
+      <div class="quiz-explain">y = 5(4) + 3 = 20 + 3 = 23.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س5: في توزيع طبيعي μ=50 و σ=5، إذا X=60، فإن Z = ؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>1</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>2</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>5</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>10</span></button>
+      </div>
+      <div class="quiz-explain">Z = (60-50)/5 = 10/5 = 2.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س6: احتمال رمي عملة والحصول على "كتابة":</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>0</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>0.5</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>1</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>2</span></button>
+      </div>
+      <div class="quiz-explain">العملة لها وجهان متساويان، فاحتمال كل وجه = 1/2 = 0.5.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س7: لإظهار توزيع 500 درجة طالب، الرسم الأنسب:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>الدائري</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>الانتشار</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>المدرج التكراري</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>الشريطي</span></button>
+      </div>
+      <div class="quiz-explain">المدرج التكراري (Histogram) هو الرسم القياسي لإظهار توزيع البيانات الكمية المتصلة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س8: العينة هي:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>كل أفراد المجتمع</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>جزء يمثل المجتمع نُجري عليه الدراسة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>أداة قياس</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>نتيجة الدراسة</span></button>
+      </div>
+      <div class="quiz-explain">العينة = جزء من المجتمع. المعلمة من المجتمع، الإحصاءة من العينة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س9: عدد الأبناء في الأسرة هو نوع بيانات:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>اسمية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>كمية متصلة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>كمية منفصلة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>ترتيبية</span></button>
+      </div>
+      <div class="quiz-explain">عدد الأبناء = أعداد صحيحة (1، 2، 3) لا يمكن أن يكون 1.5 → بيانات منفصلة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س10: المنوال للبيانات: 5, 8, 5, 9, 5, 7</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>7</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>5</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>8</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>9</span></button>
+      </div>
+      <div class="quiz-explain">5 تكررت 3 مرات، الباقي مرة واحدة. المنوال = 5.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س11: في توزيع طبيعي، نسبة البيانات ضمن ±σ من المتوسط:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>50%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>68%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>95%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>99.7%</span></button>
+      </div>
+      <div class="quiz-explain">قاعدة 68-95-99.7: ±σ → 68%.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س12: الوسيط للبيانات: 4, 8, 1, 5, 2 (بعد الترتيب):</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>1</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>8</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>4</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>5</span></button>
+      </div>
+      <div class="quiz-explain">رتب: 1, 2, 4, 5, 8. n=5، رتبة الوسيط = (5+1)/2 = 3. الموضع 3 = 4.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س13: لحساب الميل في الانحدار الخطي بإكسل:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>=AVERAGE</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>=CORREL</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>=SLOPE</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>=MEDIAN</span></button>
+      </div>
+      <div class="quiz-explain">SLOPE(known_y, known_x) تحسب ميل خط الانحدار m مباشرة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س14: حدثان متنافيان P(A) = 0.3، P(B) = 0.2. P(A أو B) = ؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>0.06</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>0.5</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>0.6</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>0.1</span></button>
+      </div>
+      <div class="quiz-explain">للأحداث المتنافية: P(A أو B) = P(A) + P(B) = 0.3 + 0.2 = 0.5.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س15: R² = 0.65 يعني:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>الميل = 0.65</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>النموذج يفسر 65% من التباين في Y</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>الخطأ = 65%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>عدد النقاط = 65</span></button>
+      </div>
+      <div class="quiz-explain">R² × 100% = نسبة التباين في Y المُفسَّر بالنموذج.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س16: لإظهار حصص الشركات في السوق (مجموعها 100%):</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>الخطي</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>الدائري</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>المدرج</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>الانتشار</span></button>
+      </div>
+      <div class="quiz-explain">الدائري مصمم لإظهار النسب من الكل (100%). مناسب لـ 5-7 فئات.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س17: SUMIF تستخدم لـ:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>عد القيم بشرط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>جمع القيم بشرط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>متوسط القيم بشرط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>ترتيب القيم</span></button>
+      </div>
+      <div class="quiz-explain">COUNTIF = عد، SUMIF = جمع، AVERAGEIF = متوسط، كلها بشرط.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س18: مقياس النزعة المركزية الأنسب لرواتب فيها قيمة شاذة:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>المتوسط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>الوسيط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>المنوال</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>الانحراف المعياري</span></button>
+      </div>
+      <div class="quiz-explain">الوسيط لا يتأثر بالقيم المتطرفة لأنه يعتمد على الموضع لا القيمة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س19: مبيعات الآيس كريم مرتبطة طرديًا مع حوادث الغرق. الاستنتاج الصحيح:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>الآيس كريم يسبب الغرق</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>الغرق يسبب شراء الآيس كريم</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>كلاهما يتأثر بالحرارة (متغير مخفي)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>الإحصاء غير صحيح</span></button>
+      </div>
+      <div class="quiz-explain">قاعدة: الارتباط لا يعني السببية. هنا المتغير المخفي = درجة الحرارة في الصيف.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س20: الفضاء العيني لرمي نرد عادي:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>{1, 2, 3, 4}</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>{1, 2, 3, 4, 5, 6}</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>{0, 1, 2, 3, 4, 5}</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>{1, 2}</span></button>
+      </div>
+      <div class="quiz-explain">النرد له 6 أوجه. الفضاء العيني = كل النتائج الممكنة = {1, 2, 3, 4, 5, 6}.</div>
+    </div>
+  </div>
+</section>
+`;
+console.log("Quiz done");
+
+
+// ===== Inject all topic sections =====
 const TOPIC_CONFIG = ['1','2','6','7','8','9','10','quiz'];
 const container = document.getElementById('topicsContainer');
 
@@ -890,34 +2643,6 @@ TOPIC_CONFIG.forEach(id => {
     const wrapper = document.createElement('div');
     wrapper.innerHTML = TOPICS[id];
     while (wrapper.firstChild) container.appendChild(wrapper.firstChild);
-  } else {
-    // Placeholder for not-yet-built topics
-    const ph = document.createElement('section');
-    ph.className = 'topic-section';
-    ph.id = 'topic-' + id;
-    const titles = {
-      '2': 'الارتباط وخط الاتجاه',
-      '6': 'تحليل البيانات بإكسل',
-      '7': 'التوزيع الطبيعي والمعياري',
-      '8': 'الاحتمالات الأساسية',
-      '9': 'الرسوم البيانية',
-      '10': 'الانحدار الخطي',
-      'quiz': 'الاختبار الشامل'
-    };
-    ph.innerHTML = `
-      <div class="topic-header">
-        <div class="label">قيد البناء</div>
-        <h1>${titles[id] || id}</h1>
-        <p>هذا الموضوع لا يزال قيد البناء. سيُضاف قريبًا مع الحلول التفاعلية خطوة بخطوة.</p>
-      </div>
-      <div class="section">
-        <p style="text-align: center; padding: 40px 20px; color: var(--text-muted);">
-          ⏳ <strong>قيد البناء</strong><br>
-          ستجد هنا قريبًا: شرحًا مفصلاً، أمثلة محسوبة، حلولًا تفاعلية خطوة بخطوة، وتطبيقات في إكسل وبايثون.
-        </p>
-      </div>
-    `;
-    container.appendChild(ph);
   }
 });
 
