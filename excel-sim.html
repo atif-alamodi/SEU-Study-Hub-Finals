@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📊 محاكي إكسل التفاعلي</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/hyperformula@2.7.0/dist/hyperformula.full.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #f8fafc; --panel: #ffffff; --border: #e2e8f0; --border-strong: #cbd5e1;
+  --text: #0f172a; --text-muted: #475569; --text-light: #64748b;
+  --primary: #16a34a; --primary-dark: #15803d; --primary-light: #dcfce7;
+  --header-bg: #f1f5f9; --selected: #16a34a;
+  --selected-bg: rgba(22, 163, 74, 0.1);
+}
+html, body {
+  font-family: 'Noto Sans Arabic', sans-serif;
+  background: var(--bg); color: var(--text);
+  height: 100vh; overflow: hidden;
+}
+.toolbar {
+  background: white; border-bottom: 1px solid var(--border);
+  padding: 10px 16px; display: flex; align-items: center; gap: 10px;
+  flex-wrap: wrap; min-height: 56px;
+}
+.toolbar-title {
+  font-weight: 700; font-size: 14px; color: var(--text);
+  display: flex; align-items: center; gap: 8px;
+}
+.toolbar-title .xl-logo {
+  width: 28px; height: 28px; border-radius: 8px;
+  background: linear-gradient(135deg, #16a34a, #166534); color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700;
+}
+.toolbar-spacer { flex: 1; }
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 14px; border-radius: 8px; font-size: 13px;
+  font-weight: 600; font-family: inherit; cursor: pointer;
+  border: 1px solid var(--border-strong); background: white; color: var(--text);
+  transition: all 0.15s;
+}
+.btn:hover { background: var(--bg); }
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--primary); color: white; border-color: var(--primary); }
+.btn-primary:hover { background: var(--primary-dark); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.examples-bar {
+  background: white; border-bottom: 1px solid var(--border);
+  padding: 10px 14px; overflow-x: auto; white-space: nowrap;
+  display: flex; gap: 8px; align-items: center;
+}
+.examples-bar::-webkit-scrollbar { height: 4px; }
+.examples-bar::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+.examples-label {
+  font-size: 12px; font-weight: 700; color: var(--text-muted);
+  margin-left: 6px; flex-shrink: 0;
+}
+.example-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 11px; border-radius: 14px; background: var(--bg);
+  border: 1px solid var(--border); cursor: pointer; font-size: 12px;
+  font-weight: 600; color: var(--text-muted); transition: all 0.15s;
+  flex-shrink: 0; font-family: inherit;
+}
+.example-chip:hover { background: var(--primary-light); color: var(--primary-dark); border-color: var(--primary); }
+.example-chip.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+/* Formula bar */
+.formula-bar {
+  background: white; border-bottom: 1px solid var(--border);
+  display: flex; align-items: stretch; height: 38px;
+}
+.cell-name {
+  width: 90px; background: var(--bg); border-left: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Inter', monospace; font-size: 13px; font-weight: 600;
+  color: var(--text-muted);
+}
+.fx-icon {
+  width: 36px; background: var(--bg); border-left: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-style: italic; font-weight: 700; color: var(--primary);
+  font-family: 'Inter', monospace; font-size: 14px;
+}
+.formula-input {
+  flex: 1; border: none; outline: none; padding: 0 12px;
+  font-family: 'Inter', monospace; font-size: 13px;
+  direction: ltr; text-align: left; color: var(--text);
+}
+.formula-input:focus { background: #f0fdf4; }
+
+/* Spreadsheet */
+.spreadsheet-wrapper {
+  height: calc(100vh - 56px - 50px - 38px - 50px);
+  overflow: auto; background: white;
+  direction: ltr;
+}
+.spreadsheet {
+  border-collapse: collapse;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+}
+.spreadsheet th, .spreadsheet td {
+  border: 1px solid var(--border);
+  padding: 0; min-width: 100px; height: 28px; position: relative;
+}
+.spreadsheet th {
+  background: var(--header-bg); font-weight: 600; color: var(--text-muted);
+  text-align: center; font-size: 12px; padding: 4px;
+  position: sticky; top: 0; z-index: 5;
+  user-select: none; cursor: default;
+}
+.spreadsheet th.row-header {
+  width: 50px; min-width: 50px; left: 0; z-index: 6;
+}
+.spreadsheet td.row-header {
+  background: var(--header-bg); font-weight: 600; color: var(--text-muted);
+  text-align: center; width: 50px; min-width: 50px; padding: 4px;
+  position: sticky; left: 0; z-index: 4;
+  user-select: none;
+}
+.spreadsheet td.cell {
+  cursor: cell; vertical-align: middle;
+}
+.spreadsheet td.cell.selected {
+  outline: 2px solid var(--selected); outline-offset: -2px;
+  z-index: 3;
+}
+.cell-value {
+  padding: 4px 8px; min-height: 28px; line-height: 20px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  max-width: 100%;
+}
+.cell-value.text { text-align: left; }
+.cell-value.number { text-align: right; font-family: 'Inter', monospace; }
+.cell-value.formula-result { color: var(--text); font-family: 'Inter', monospace; }
+.cell-value.error { color: #dc2626; font-style: italic; font-size: 11px; }
+.cell-value.bold { font-weight: 700; }
+.cell-value.header-cell { background: var(--primary); color: white; font-weight: 700; padding: 6px 8px; }
+.cell-input {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  border: 2px solid var(--primary); padding: 4px 8px; outline: none;
+  font-family: 'Inter', sans-serif; font-size: 13px;
+  background: white; z-index: 10; direction: ltr; text-align: left;
+}
+
+/* Status bar */
+.status-bar {
+  background: var(--bg); border-top: 1px solid var(--border);
+  padding: 8px 14px; display: flex; align-items: center; gap: 16px;
+  font-size: 12px; color: var(--text-muted); height: 50px; flex-wrap: wrap;
+}
+.status-stat {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 8px; background: white; border-radius: 4px;
+  border: 1px solid var(--border);
+}
+.status-stat strong { color: var(--text); font-family: 'Inter', monospace; }
+.help-link {
+  margin-right: auto; color: var(--primary); cursor: pointer;
+  font-weight: 600;
+}
+
+/* Help modal */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+  z-index: 100; display: none; align-items: center; justify-content: center;
+}
+.modal-overlay.show { display: flex; }
+.modal {
+  background: white; border-radius: 14px; width: 90%; max-width: 700px;
+  max-height: 85vh; overflow-y: auto; padding: 24px;
+}
+.modal h2 { font-size: 18px; margin-bottom: 14px; color: var(--text); }
+.modal h3 { font-size: 14px; color: var(--primary); margin-top: 14px; margin-bottom: 8px; }
+.modal-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+.modal-table th, .modal-table td { border: 1px solid var(--border); padding: 8px; text-align: right; }
+.modal-table th { background: var(--bg); font-weight: 600; }
+.modal-table code { background: var(--primary-light); padding: 2px 6px; border-radius: 3px; font-family: 'Inter', monospace; color: var(--primary-dark); direction: ltr; display: inline-block; }
+.modal-close {
+  display: block; margin: 16px auto 0; padding: 8px 24px;
+  background: var(--primary); color: white; border: none; border-radius: 8px;
+  font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+}
+.tip-card {
+  background: var(--primary-light); border-right: 3px solid var(--primary);
+  padding: 10px 14px; border-radius: 6px; margin-top: 10px;
+  font-size: 13px; color: var(--primary-dark);
+}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="toolbar-title">
+    <div class="xl-logo">XL</div>
+    <span>محاكي إكسل التفاعلي</span>
+  </div>
+  <div class="toolbar-spacer"></div>
+  <button class="btn" onclick="showHelp()">❓ دليل الدوال</button>
+  <button class="btn" onclick="clearAll()">🗑️ مسح الكل</button>
+  <button class="btn btn-primary" onclick="recalculate()">🔄 إعادة الحساب</button>
+</div>
+
+<div class="examples-bar" id="examplesBar">
+  <span class="examples-label">📚 أمثلة جاهزة:</span>
+</div>
+
+<div class="formula-bar">
+  <div class="cell-name" id="cellName">A1</div>
+  <div class="fx-icon">fx</div>
+  <input type="text" class="formula-input" id="formulaInput" placeholder="أدخل قيمة أو صيغة (تبدأ بـ =)">
+</div>
+
+<div class="spreadsheet-wrapper">
+  <table class="spreadsheet" id="spreadsheet"></table>
+</div>
+
+<div class="status-bar">
+  <span class="help-link" onclick="showHelp()">📖 دوال مدعومة: SUM, AVERAGE, IF, COUNTIF, VLOOKUP...</span>
+  <span class="status-stat">المجموع: <strong id="statSum">0</strong></span>
+  <span class="status-stat">المتوسط: <strong id="statAvg">0</strong></span>
+  <span class="status-stat">العدد: <strong id="statCount">0</strong></span>
+  <span class="status-stat">الأدنى: <strong id="statMin">0</strong></span>
+  <span class="status-stat">الأعلى: <strong id="statMax">0</strong></span>
+</div>
+
+<!-- Help Modal -->
+<div class="modal-overlay" id="helpModal" onclick="if(event.target===this)hideHelp()">
+  <div class="modal">
+    <h2>📖 دليل دوال الإكسل المدعومة</h2>
+
+    <h3>الدوال الإحصائية الأساسية</h3>
+    <table class="modal-table">
+      <tr><th>الدالة</th><th>الوصف</th><th>مثال</th></tr>
+      <tr><td>SUM</td><td>المجموع</td><td><code>=SUM(A1:A10)</code></td></tr>
+      <tr><td>AVERAGE</td><td>المتوسط</td><td><code>=AVERAGE(B1:B5)</code></td></tr>
+      <tr><td>MEDIAN</td><td>الوسيط</td><td><code>=MEDIAN(A1:A10)</code></td></tr>
+      <tr><td>STDEV</td><td>الانحراف المعياري</td><td><code>=STDEV(C1:C20)</code></td></tr>
+      <tr><td>VAR</td><td>التباين</td><td><code>=VAR(A1:A10)</code></td></tr>
+      <tr><td>MIN / MAX</td><td>الأدنى / الأعلى</td><td><code>=MAX(A1:A10)</code></td></tr>
+      <tr><td>COUNT</td><td>عد الأرقام</td><td><code>=COUNT(A1:A10)</code></td></tr>
+      <tr><td>COUNTA</td><td>عد الخلايا غير الفارغة</td><td><code>=COUNTA(A1:A10)</code></td></tr>
+    </table>
+
+    <h3>الدوال الشرطية</h3>
+    <table class="modal-table">
+      <tr><th>الدالة</th><th>الوصف</th><th>مثال</th></tr>
+      <tr><td>IF</td><td>شرط</td><td><code>=IF(A1>50,"ناجح","راسب")</code></td></tr>
+      <tr><td>COUNTIF</td><td>عد بشرط</td><td><code>=COUNTIF(A1:A10,">=50")</code></td></tr>
+      <tr><td>SUMIF</td><td>جمع بشرط</td><td><code>=SUMIF(A:A,">100",B:B)</code></td></tr>
+      <tr><td>AVERAGEIF</td><td>متوسط بشرط</td><td><code>=AVERAGEIF(A1:A10,">0")</code></td></tr>
+      <tr><td>AND / OR</td><td>منطق</td><td><code>=IF(AND(A1>0,B1>0),"OK","NO")</code></td></tr>
+    </table>
+
+    <h3>الدوال الرياضية</h3>
+    <table class="modal-table">
+      <tr><th>الدالة</th><th>الوصف</th><th>مثال</th></tr>
+      <tr><td>ROUND</td><td>تقريب</td><td><code>=ROUND(A1,2)</code></td></tr>
+      <tr><td>ABS</td><td>القيمة المطلقة</td><td><code>=ABS(A1)</code></td></tr>
+      <tr><td>SQRT</td><td>الجذر التربيعي</td><td><code>=SQRT(A1)</code></td></tr>
+      <tr><td>POWER</td><td>الأس</td><td><code>=POWER(A1,2)</code></td></tr>
+      <tr><td>MOD</td><td>باقي القسمة</td><td><code>=MOD(A1,2)</code></td></tr>
+    </table>
+
+    <h3>دوال البحث</h3>
+    <table class="modal-table">
+      <tr><th>الدالة</th><th>الوصف</th><th>مثال</th></tr>
+      <tr><td>VLOOKUP</td><td>بحث عمودي</td><td><code>=VLOOKUP("X",A1:C10,2,FALSE)</code></td></tr>
+      <tr><td>HLOOKUP</td><td>بحث أفقي</td><td><code>=HLOOKUP(X,A1:E5,3,FALSE)</code></td></tr>
+      <tr><td>INDEX/MATCH</td><td>بحث متقدم</td><td><code>=INDEX(B:B,MATCH("X",A:A,0))</code></td></tr>
+    </table>
+
+    <div class="tip-card">
+      💡 <strong>نصيحة:</strong> الصيغ تبدأ دائمًا بعلامة <code>=</code>. اضغط Enter للتثبيت، Tab أو Esc للإلغاء.
+      اضغط مرتين على أي خلية لتعديلها، أو اكتب القيمة في شريط الصيغة في الأعلى.
+    </div>
+
+    <button class="modal-close" onclick="hideHelp()">إغلاق</button>
+  </div>
+</div>
+
+<script>
+// ======================================================================
+// EXAMPLES (preset spreadsheets for STA104 / general practice)
+// ======================================================================
+const EXAMPLES = {
+  empty: {
+    name: '📄 جدول فارغ',
+    rows: 25, cols: 8,
+    cells: {}
+  },
+  grades: {
+    name: '🎓 درجات الطلاب',
+    rows: 15, cols: 6,
+    cells: {
+      'A1': { value: 'الطالب', style: 'header' },
+      'B1': { value: 'PYT103', style: 'header' },
+      'C1': { value: 'STA104', style: 'header' },
+      'D1': { value: 'OSC', style: 'header' },
+      'E1': { value: 'المعدل', style: 'header' },
+      'F1': { value: 'النتيجة', style: 'header' },
+      'A2': { value: 'عاطف' }, 'B2': { value: 95 }, 'C2': { value: 88 }, 'D2': { value: 92 },
+      'A3': { value: 'أحمد' }, 'B3': { value: 75 }, 'C3': { value: 80 }, 'D3': { value: 70 },
+      'A4': { value: 'نورة' }, 'B4': { value: 92 }, 'C4': { value: 95 }, 'D4': { value: 90 },
+      'A5': { value: 'سارة' }, 'B5': { value: 85 }, 'C5': { value: 78 }, 'D5': { value: 82 },
+      'A6': { value: 'خالد' }, 'B6': { value: 60 }, 'C6': { value: 65 }, 'D6': { value: 55 },
+      'A7': { value: 'منى' }, 'B7': { value: 88 }, 'C7': { value: 91 }, 'D7': { value: 86 },
+      'E2': { value: '=AVERAGE(B2:D2)' },
+      'E3': { value: '=AVERAGE(B3:D3)' },
+      'E4': { value: '=AVERAGE(B4:D4)' },
+      'E5': { value: '=AVERAGE(B5:D5)' },
+      'E6': { value: '=AVERAGE(B6:D6)' },
+      'E7': { value: '=AVERAGE(B7:D7)' },
+      'F2': { value: '=IF(E2>=70,"ناجح","راسب")' },
+      'F3': { value: '=IF(E3>=70,"ناجح","راسب")' },
+      'F4': { value: '=IF(E4>=70,"ناجح","راسب")' },
+      'F5': { value: '=IF(E5>=70,"ناجح","راسب")' },
+      'F6': { value: '=IF(E6>=70,"ناجح","راسب")' },
+      'F7': { value: '=IF(E7>=70,"ناجح","راسب")' },
+      'A9':  { value: 'إحصاءات', style: 'bold' },
+      'A10': { value: 'المتوسط الإجمالي:' }, 'B10': { value: '=AVERAGE(B2:D7)' },
+      'A11': { value: 'أعلى درجة:' },          'B11': { value: '=MAX(B2:D7)' },
+      'A12': { value: 'أقل درجة:' },           'B12': { value: '=MIN(B2:D7)' },
+      'A13': { value: 'الانحراف المعياري:' },  'B13': { value: '=STDEV(B2:D7)' },
+      'A14': { value: 'عدد الناجحين:' },       'B14': { value: '=COUNTIF(F2:F7,"ناجح")' },
+    }
+  },
+  sales: {
+    name: '💰 مبيعات شهرية',
+    rows: 18, cols: 5,
+    cells: {
+      'A1': { value: 'الشهر', style: 'header' },
+      'B1': { value: 'المبيعات', style: 'header' },
+      'C1': { value: 'الهدف', style: 'header' },
+      'D1': { value: 'الفرق', style: 'header' },
+      'E1': { value: 'الأداء', style: 'header' },
+      'A2': { value: 'يناير' },  'B2': { value: 12000 }, 'C2': { value: 10000 },
+      'A3': { value: 'فبراير' }, 'B3': { value: 15500 }, 'C3': { value: 12000 },
+      'A4': { value: 'مارس' },   'B4': { value: 13800 }, 'C4': { value: 14000 },
+      'A5': { value: 'أبريل' },  'B5': { value: 17200 }, 'C5': { value: 15000 },
+      'A6': { value: 'مايو' },   'B6': { value: 19500 }, 'C6': { value: 17000 },
+      'A7': { value: 'يونيو' },  'B7': { value: 21000 }, 'C7': { value: 19000 },
+      'D2': { value: '=B2-C2' }, 'E2': { value: '=IF(D2>=0,"حقق","لم يحقق")' },
+      'D3': { value: '=B3-C3' }, 'E3': { value: '=IF(D3>=0,"حقق","لم يحقق")' },
+      'D4': { value: '=B4-C4' }, 'E4': { value: '=IF(D4>=0,"حقق","لم يحقق")' },
+      'D5': { value: '=B5-C5' }, 'E5': { value: '=IF(D5>=0,"حقق","لم يحقق")' },
+      'D6': { value: '=B6-C6' }, 'E6': { value: '=IF(D6>=0,"حقق","لم يحقق")' },
+      'D7': { value: '=B7-C7' }, 'E7': { value: '=IF(D7>=0,"حقق","لم يحقق")' },
+      'A9': { value: 'الملخص', style: 'bold' },
+      'A10': { value: 'إجمالي المبيعات:' }, 'B10': { value: '=SUM(B2:B7)' },
+      'A11': { value: 'متوسط المبيعات:' },  'B11': { value: '=AVERAGE(B2:B7)' },
+      'A12': { value: 'أعلى شهر:' },         'B12': { value: '=MAX(B2:B7)' },
+      'A13': { value: 'عدد أشهر تجاوزت 15K:' }, 'B13': { value: '=COUNTIF(B2:B7,">15000")' },
+      'A14': { value: 'مجموع تجاوز الهدف:' }, 'B14': { value: '=SUMIF(D2:D7,">0",D2:D7)' },
+    }
+  },
+  statistics: {
+    name: '📊 إحصاء STA104',
+    rows: 20, cols: 5,
+    cells: {
+      'A1': { value: 'بيانات الطول (سم)', style: 'header' },
+      'B1': { value: 'الانحراف عن المتوسط', style: 'header' },
+      'C1': { value: 'مربع الانحراف', style: 'header' },
+      'D1': { value: 'Z-Score', style: 'header' },
+      'A2': { value: 165 }, 'A3': { value: 170 }, 'A4': { value: 168 },
+      'A5': { value: 172 }, 'A6': { value: 175 }, 'A7': { value: 169 },
+      'A8': { value: 171 }, 'A9': { value: 174 }, 'A10': { value: 167 },
+      'A11': { value: 173 },
+      'B2': { value: '=A2-$B$15' }, 'C2': { value: '=B2^2' }, 'D2': { value: '=B2/$B$16' },
+      'B3': { value: '=A3-$B$15' }, 'C3': { value: '=B3^2' }, 'D3': { value: '=B3/$B$16' },
+      'B4': { value: '=A4-$B$15' }, 'C4': { value: '=B4^2' }, 'D4': { value: '=B4/$B$16' },
+      'B5': { value: '=A5-$B$15' }, 'C5': { value: '=B5^2' }, 'D5': { value: '=B5/$B$16' },
+      'B6': { value: '=A6-$B$15' }, 'C6': { value: '=B6^2' }, 'D6': { value: '=B6/$B$16' },
+      'B7': { value: '=A7-$B$15' }, 'C7': { value: '=B7^2' }, 'D7': { value: '=B7/$B$16' },
+      'B8': { value: '=A8-$B$15' }, 'C8': { value: '=B8^2' }, 'D8': { value: '=B8/$B$16' },
+      'B9': { value: '=A9-$B$15' }, 'C9': { value: '=B9^2' }, 'D9': { value: '=B9/$B$16' },
+      'B10': { value: '=A10-$B$15' }, 'C10': { value: '=B10^2' }, 'D10': { value: '=B10/$B$16' },
+      'B11': { value: '=A11-$B$15' }, 'C11': { value: '=B11^2' }, 'D11': { value: '=B11/$B$16' },
+      'A14': { value: 'المقياس الإحصائي', style: 'bold' },
+      'A15': { value: 'المتوسط (Mean):' },         'B15': { value: '=AVERAGE(A2:A11)' },
+      'A16': { value: 'الانحراف المعياري (σ):' },  'B16': { value: '=STDEV(A2:A11)' },
+      'A17': { value: 'التباين (Variance):' },     'B17': { value: '=VAR(A2:A11)' },
+      'A18': { value: 'الوسيط (Median):' },        'B18': { value: '=MEDIAN(A2:A11)' },
+      'A19': { value: 'المدى (Range):' },          'B19': { value: '=MAX(A2:A11)-MIN(A2:A11)' },
+      'A20': { value: 'مجموع مربعات الانحراف:' },   'B20': { value: '=SUM(C2:C11)' },
+    }
+  },
+  budget: {
+    name: '🏦 الميزانية الشخصية',
+    rows: 18, cols: 4,
+    cells: {
+      'A1': { value: 'البند', style: 'header' },
+      'B1': { value: 'المبلغ', style: 'header' },
+      'C1': { value: 'النوع', style: 'header' },
+      'D1': { value: '%', style: 'header' },
+      'A2': { value: 'الراتب' },         'B2': { value: 12000 }, 'C2': { value: 'دخل' },
+      'A3': { value: 'دخل إضافي' },      'B3': { value: 2000 },  'C3': { value: 'دخل' },
+      'A4': { value: 'الإيجار' },         'B4': { value: 3500 },  'C4': { value: 'مصروف' },
+      'A5': { value: 'مواصلات' },        'B5': { value: 800 },   'C5': { value: 'مصروف' },
+      'A6': { value: 'طعام' },           'B6': { value: 1500 },  'C6': { value: 'مصروف' },
+      'A7': { value: 'فواتير' },          'B7': { value: 600 },   'C7': { value: 'مصروف' },
+      'A8': { value: 'ادخار' },          'B8': { value: 2000 },  'C8': { value: 'مصروف' },
+      'A9': { value: 'ترفيه' },          'B9': { value: 700 },   'C9': { value: 'مصروف' },
+      'D2': { value: '=B2/$B$12*100' },
+      'D3': { value: '=B3/$B$12*100' },
+      'D4': { value: '=B4/$B$13*100' },
+      'D5': { value: '=B5/$B$13*100' },
+      'D6': { value: '=B6/$B$13*100' },
+      'D7': { value: '=B7/$B$13*100' },
+      'D8': { value: '=B8/$B$13*100' },
+      'D9': { value: '=B9/$B$13*100' },
+      'A11': { value: 'الملخص', style: 'bold' },
+      'A12': { value: 'إجمالي الدخل:' },     'B12': { value: '=SUMIF(C2:C9,"دخل",B2:B9)' },
+      'A13': { value: 'إجمالي المصروف:' },   'B13': { value: '=SUMIF(C2:C9,"مصروف",B2:B9)' },
+      'A14': { value: 'الفائض / العجز:' },    'B14': { value: '=B12-B13' },
+      'A15': { value: 'الحالة:' },            'B15': { value: '=IF(B14>0,"فائض ✓","عجز ✗")' },
+    }
+  }
+};
+
+// ======================================================================
+// SPREADSHEET STATE
+// ======================================================================
+let ROWS = 25, COLS = 8;
+let cellData = {}; // { 'A1': { value: '...', style: '...' } }
+let selectedCell = 'A1';
+let editingCell = null;
+let hf = null; // HyperFormula instance
+let currentExample = 'grades';
+
+const COL_LETTERS = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+
+function colLetter(i) { return COL_LETTERS[i]; }
+function cellRef(row, col) { return colLetter(col) + (row + 1); }
+function parseCellRef(ref) {
+  const m = ref.match(/^([A-Z]+)(\d+)$/);
+  if (!m) return null;
+  const col = m[1].charCodeAt(0) - 65;
+  const row = parseInt(m[2]) - 1;
+  return { row, col };
+}
+
+// ======================================================================
+// HYPERFORMULA SETUP
+// ======================================================================
+function initHyperFormula() {
+  const options = {
+    licenseKey: 'gpl-v3',
+    useColumnIndex: true,
+    smartRounding: true,
+  };
+  hf = HyperFormula.buildEmpty(options);
+  hf.addSheet('Sheet1');
+}
+
+function syncToHF() {
+  // Build full grid array from cellData
+  const sheetId = hf.getSheetId('Sheet1');
+  const grid = [];
+  for (let r = 0; r < ROWS; r++) {
+    const row = [];
+    for (let c = 0; c < COLS; c++) {
+      const ref = cellRef(r, c);
+      const cell = cellData[ref];
+      if (!cell || cell.value === '' || cell.value == null) {
+        row.push(null);
+      } else {
+        // Try parse number
+        const v = cell.value;
+        if (typeof v === 'number') row.push(v);
+        else if (typeof v === 'string' && /^-?\d+(\.\d+)?$/.test(v) && !v.startsWith('=')) {
+          row.push(parseFloat(v));
+        } else {
+          row.push(v);
+        }
+      }
+    }
+    grid.push(row);
+  }
+  hf.setSheetContent(sheetId, grid);
+}
+
+function getCellComputed(ref) {
+  const parsed = parseCellRef(ref);
+  if (!parsed) return null;
+  const sheetId = hf.getSheetId('Sheet1');
+  try {
+    const v = hf.getCellValue({ sheet: sheetId, row: parsed.row, col: parsed.col });
+    return v;
+  } catch(e) {
+    return '#ERR';
+  }
+}
+
+// ======================================================================
+// RENDER SPREADSHEET
+// ======================================================================
+function renderSpreadsheet() {
+  const table = document.getElementById('spreadsheet');
+  table.innerHTML = '';
+  
+  // Header row
+  const thead = document.createElement('thead');
+  const headerRow = document.createElement('tr');
+  headerRow.innerHTML = '<th class="row-header"></th>';
+  for (let c = 0; c < COLS; c++) {
+    headerRow.innerHTML += '<th>' + colLetter(c) + '</th>';
+  }
+  thead.appendChild(headerRow);
+  table.appendChild(thead);
+  
+  // Body
+  const tbody = document.createElement('tbody');
+  for (let r = 0; r < ROWS; r++) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = '<td class="row-header">' + (r + 1) + '</td>';
+    for (let c = 0; c < COLS; c++) {
+      const ref = cellRef(r, c);
+      const td = document.createElement('td');
+      td.className = 'cell';
+      td.dataset.ref = ref;
+      td.dataset.row = r;
+      td.dataset.col = c;
+      td.appendChild(buildCellDisplay(ref));
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+  }
+  table.appendChild(tbody);
+  
+  attachCellListeners();
+  highlightSelected();
+}
+
+function buildCellDisplay(ref) {
+  const cell = cellData[ref];
+  const div = document.createElement('div');
+  div.className = 'cell-value';
+  
+  if (!cell || cell.value === '' || cell.value == null) {
+    div.textContent = '';
+    return div;
+  }
+  
+  let display;
+  let isNumber = false;
+  let isError = false;
+  
+  if (typeof cell.value === 'string' && cell.value.startsWith('=')) {
+    // Formula → use HF computed value
+    const computed = getCellComputed(ref);
+    if (computed && typeof computed === 'object' && computed.type === 'ERROR') {
+      display = '#' + (computed.value || 'ERR');
+      isError = true;
+    } else if (computed === null || computed === undefined) {
+      display = '';
+    } else if (typeof computed === 'number') {
+      display = formatNumber(computed);
+      isNumber = true;
+    } else {
+      display = String(computed);
+    }
+    div.classList.add('formula-result');
+  } else if (typeof cell.value === 'number') {
+    display = formatNumber(cell.value);
+    isNumber = true;
+  } else {
+    // Text or numeric string
+    if (/^-?\d+(\.\d+)?$/.test(String(cell.value))) {
+      display = formatNumber(parseFloat(cell.value));
+      isNumber = true;
+    } else {
+      display = String(cell.value);
+    }
+  }
+  
+  if (isError) div.classList.add('error');
+  if (isNumber) div.classList.add('number');
+  else div.classList.add('text');
+  if (cell.style === 'header') div.classList.add('header-cell');
+  if (cell.style === 'bold') div.classList.add('bold');
+  
+  div.textContent = display;
+  return div;
+}
+
+function formatNumber(n) {
+  if (Number.isInteger(n)) return String(n);
+  return n.toLocaleString('en-US', { maximumFractionDigits: 4 });
+}
+
+// ======================================================================
+// CELL INTERACTION
+// ======================================================================
+function attachCellListeners() {
+  document.querySelectorAll('.cell').forEach(td => {
+    td.addEventListener('click', () => selectCell(td.dataset.ref));
+    td.addEventListener('dblclick', () => startEditing(td.dataset.ref));
+  });
+}
+
+function selectCell(ref) {
+  if (editingCell) finishEditing(true);
+  selectedCell = ref;
+  document.getElementById('cellName').textContent = ref;
+  const cell = cellData[ref];
+  document.getElementById('formulaInput').value = cell ? String(cell.value) : '';
+  highlightSelected();
+  updateStatusBar();
+}
+
+function highlightSelected() {
+  document.querySelectorAll('.cell.selected').forEach(c => c.classList.remove('selected'));
+  const td = document.querySelector(`.cell[data-ref="${selectedCell}"]`);
+  if (td) td.classList.add('selected');
+}
+
+function startEditing(ref) {
+  if (editingCell) finishEditing(true);
+  editingCell = ref;
+  selectedCell = ref;
+  const td = document.querySelector(`.cell[data-ref="${ref}"]`);
+  if (!td) return;
+  
+  const input = document.createElement('input');
+  input.className = 'cell-input';
+  input.type = 'text';
+  const cell = cellData[ref];
+  input.value = cell ? String(cell.value) : '';
+  
+  td.innerHTML = '';
+  td.appendChild(input);
+  input.focus();
+  input.select();
+  
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); finishEditing(true); moveSelection(1, 0); }
+    else if (e.key === 'Tab') { e.preventDefault(); finishEditing(true); moveSelection(0, 1); }
+    else if (e.key === 'Escape') { e.preventDefault(); finishEditing(false); }
+  });
+  
+  input.addEventListener('blur', () => {
+    if (editingCell) finishEditing(true);
+  });
+}
+
+function finishEditing(commit) {
+  if (!editingCell) return;
+  const td = document.querySelector(`.cell[data-ref="${editingCell}"]`);
+  if (!td) { editingCell = null; return; }
+  const input = td.querySelector('.cell-input');
+  if (input && commit) {
+    const value = input.value;
+    setCell(editingCell, value);
+  }
+  td.innerHTML = '';
+  td.appendChild(buildCellDisplay(editingCell));
+  editingCell = null;
+  // Re-render dependent cells
+  renderSpreadsheet();
+}
+
+function setCell(ref, value) {
+  if (value === '' || value == null) {
+    delete cellData[ref];
+  } else {
+    const existing = cellData[ref] || {};
+    cellData[ref] = { ...existing, value };
+  }
+  syncToHF();
+}
+
+function moveSelection(dRow, dCol) {
+  const parsed = parseCellRef(selectedCell);
+  if (!parsed) return;
+  const newRow = Math.max(0, Math.min(ROWS - 1, parsed.row + dRow));
+  const newCol = Math.max(0, Math.min(COLS - 1, parsed.col + dCol));
+  selectCell(cellRef(newRow, newCol));
+}
+
+// Formula bar
+document.getElementById('formulaInput').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    setCell(selectedCell, e.target.value);
+    renderSpreadsheet();
+    moveSelection(1, 0);
+  }
+});
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+  if (editingCell) return;
+  if (e.target.tagName === 'INPUT') return;
+  
+  let handled = true;
+  if (e.key === 'ArrowUp') moveSelection(-1, 0);
+  else if (e.key === 'ArrowDown') moveSelection(1, 0);
+  else if (e.key === 'ArrowLeft') moveSelection(0, -1);
+  else if (e.key === 'ArrowRight') moveSelection(0, 1);
+  else if (e.key === 'Enter') startEditing(selectedCell);
+  else if (e.key === 'F2') startEditing(selectedCell);
+  else if (e.key === 'Delete' || e.key === 'Backspace') {
+    setCell(selectedCell, '');
+    renderSpreadsheet();
+  }
+  else if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+    startEditing(selectedCell);
+    setTimeout(() => {
+      const input = document.querySelector('.cell-input');
+      if (input) input.value = e.key;
+    }, 10);
+    return;
+  }
+  else { handled = false; }
+  
+  if (handled) e.preventDefault();
+});
+
+// ======================================================================
+// STATUS BAR (live stats from selection)
+// ======================================================================
+function updateStatusBar() {
+  // For simplicity, compute stats over all numeric cells in column of selectedCell
+  const parsed = parseCellRef(selectedCell);
+  if (!parsed) return;
+  
+  const numbers = [];
+  for (let r = 0; r < ROWS; r++) {
+    const ref = cellRef(r, parsed.col);
+    const cell = cellData[ref];
+    if (!cell) continue;
+    let v;
+    if (typeof cell.value === 'string' && cell.value.startsWith('=')) {
+      v = getCellComputed(ref);
+    } else {
+      v = cell.value;
+    }
+    if (typeof v === 'number' && !isNaN(v)) numbers.push(v);
+    else if (typeof v === 'string' && /^-?\d+(\.\d+)?$/.test(v)) numbers.push(parseFloat(v));
+  }
+  
+  if (numbers.length === 0) {
+    document.getElementById('statSum').textContent = '0';
+    document.getElementById('statAvg').textContent = '0';
+    document.getElementById('statCount').textContent = '0';
+    document.getElementById('statMin').textContent = '0';
+    document.getElementById('statMax').textContent = '0';
+  } else {
+    const sum = numbers.reduce((a,b) => a+b, 0);
+    document.getElementById('statSum').textContent = formatNumber(sum);
+    document.getElementById('statAvg').textContent = formatNumber(sum / numbers.length);
+    document.getElementById('statCount').textContent = numbers.length;
+    document.getElementById('statMin').textContent = formatNumber(Math.min(...numbers));
+    document.getElementById('statMax').textContent = formatNumber(Math.max(...numbers));
+  }
+}
+
+// ======================================================================
+// EXAMPLES BAR
+// ======================================================================
+const examplesBar = document.getElementById('examplesBar');
+Object.entries(EXAMPLES).forEach(([key, ex]) => {
+  const chip = document.createElement('button');
+  chip.className = 'example-chip';
+  if (key === currentExample) chip.classList.add('active');
+  chip.textContent = ex.name;
+  chip.addEventListener('click', () => loadExample(key));
+  examplesBar.appendChild(chip);
+});
+
+function loadExample(key) {
+  const ex = EXAMPLES[key];
+  if (!ex) return;
+  document.querySelectorAll('.example-chip').forEach(c => c.classList.remove('active'));
+  [...document.querySelectorAll('.example-chip')].find(c => c.textContent === ex.name)?.classList.add('active');
+  currentExample = key;
+  ROWS = ex.rows;
+  COLS = ex.cols;
+  cellData = JSON.parse(JSON.stringify(ex.cells));
+  syncToHF();
+  renderSpreadsheet();
+  selectCell('A1');
+}
+
+function clearAll() {
+  if (!confirm('هل تريد مسح جميع الخلايا؟')) return;
+  cellData = {};
+  syncToHF();
+  renderSpreadsheet();
+  selectCell('A1');
+}
+
+function recalculate() {
+  syncToHF();
+  renderSpreadsheet();
+  highlightSelected();
+}
+
+function showHelp() { document.getElementById('helpModal').classList.add('show'); }
+function hideHelp() { document.getElementById('helpModal').classList.remove('show'); }
+
+window.clearAll = clearAll;
+window.recalculate = recalculate;
+window.showHelp = showHelp;
+window.hideHelp = hideHelp;
+
+// ======================================================================
+// INIT
+// ======================================================================
+window.addEventListener('DOMContentLoaded', () => {
+  initHyperFormula();
+  loadExample(currentExample);
+});
+</script>
+</body>
+</html>
