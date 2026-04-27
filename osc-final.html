@@ -2406,6 +2406,860 @@ TOPICS['quiz'] = `
       <div class="quiz-explain"><strong>💡 الشرح:</strong> Ordinary Pipes تشترط علاقة أب-ابن (Parent-Child). أحادية الاتجاه، وتُحذف عند إغلاق العمليتين. بخلاف Named Pipes التي تعمل بين أي عمليتين.</div>
     </div>
   </div>
+
+  <div class="section" style="background: linear-gradient(135deg, #f59e0b 0%, #dc2626 100%); color: white; border: none; margin-top: 30px;">
+    <h2 style="color: white;"><span class="icon" style="background: white; color: #b45309;">🎯</span> 80 سؤال شامل للنهائي</h2>
+    <p style="color: white; opacity: 0.95;">أسئلة موزعة على كل المواضيع الـ 12. اضغط لمعرفة الإجابة الصحيحة والشرح.</p>
+  </div>
+
+    <div class="section quiz-section" style="border-color: #f59e0b; margin-top: 16px;">
+      <h2 style="color: #b45309;"><span class="icon" style="background: #fde68a; color: #b45309;">📋</span> الموضوع 1: مقدمة + Bootstrap + Interrupts <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;">(10 أسئلة)</span></h2>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س1:</strong> ما هو نظام التشغيل؟</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>برنامج تحرير نصوص</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>برنامج وسيط بين المستخدم والعتاد</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>برنامج تصميم</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>برنامج ألعاب</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> نظام التشغيل = الوسيط الذي يدير موارد الجهاز ويوفر بيئة لتنفيذ البرامج.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س2:</strong> أي ليس من أهداف نظام التشغيل؟</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>إدارة الموارد</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>سهولة الاستخدام</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>تصميم المواقع</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>اكتشاف الأخطاء</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> تصميم المواقع ليس من اختصاص OS. الأهداف: إدارة، سهولة، أمان، اكتشاف الأخطاء.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س3:</strong> CLI تعني:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>Command Language Interface</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>Command Line Interface</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>Computer Language</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>Control Line Interface</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> CLI = Command Line Interface = واجهة سطر الأوامر.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س4:</strong> GUI تعني:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>General User Interface</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>Graphical User Interface</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>Generic Unified Interface</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>Group User Interface</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> GUI = Graphical User Interface = الواجهة الرسومية.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س5:</strong> Bootstrap هو:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>برنامج تصميم</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>برنامج صغير يحمل النواة عند بدء التشغيل</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>ذاكرة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>نوع شاشة</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Bootstrap = البرنامج الذي يحمّل نظام التشغيل من القرص للذاكرة.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س6:</strong> BIOS أو UEFI تعمل في:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>RAM</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>ROM</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>القرص</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>الإنترنت</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> BIOS/UEFI مخزنة في ROM وتشغّل عند تشغيل الجهاز.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س7:</strong> المقاطعة (Interrupt) هي:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>خطأ</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>إشارة لإيقاف المعالج مؤقتًا لتنفيذ مهمة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>نوع ذاكرة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>برنامج</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Interrupt = إشارة من جهاز/برنامج تطلب من CPU إيقاف العمل الحالي.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س8:</strong> ISR تعني:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>Internal Storage Register</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>Interrupt Service Routine</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>Initial System Reset</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>Input Stream Reader</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> ISR = روتين معالجة المقاطعة.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س9:</strong> Polling مقابل Interrupt:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>Polling أكفأ</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>Interrupt أكفأ لأن CPU لا ينتظر</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>كلاهما متساوي</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>Polling أحدث</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Interrupt تحرر CPU للعمل بأمور أخرى حتى يحدث الحدث.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س10:</strong> DMA تعني:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>Direct Memory Access</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>Dynamic Memory Allocation</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>Data Management Access</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>Disk Memory Access</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> DMA = الوصول المباشر للذاكرة بدون تدخل CPU لكل بايت.</div>
+      </div>
+    </div>
+
+    <div class="section quiz-section" style="border-color: #f59e0b; margin-top: 16px;">
+      <h2 style="color: #b45309;"><span class="icon" style="background: #fde68a; color: #b45309;">📋</span> الموضوع 2: هيكل النظام واستدعاءاته <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;">(5 أسئلة)</span></h2>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س11:</strong> نموذج الهيكلة الذي يضع كل خدمات OS داخل النواة:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>Microkernel</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>Monolithic</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>Layered</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>Modular</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Monolithic = نواة كبيرة تحتوي كل الخدمات. مثل Linux.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س12:</strong> Microkernel يضع في النواة:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>كل الخدمات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>الحد الأدنى الضروري فقط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>لا شيء</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>البرامج التطبيقية</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Microkernel يضع الأساسيات في النواة، والباقي خدمات منفصلة.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س13:</strong> Virtual Machines تسمح بـ:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>تشغيل OS واحد فقط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>تشغيل عدة أنظمة تشغيل على نفس الجهاز</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>زيادة الذاكرة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>تشغيل أسرع</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> VMs تخلق عتاد افتراضي يسمح بعدة أنظمة تشغيل.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س14:</strong> System Call هو:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>مكالمة هاتف</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>طريقة لطلب خدمة من النواة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>خطأ</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>برنامج</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> System call = الواجهة بين برنامج المستخدم وخدمات النواة.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س15:</strong> أمثلة على system calls:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>read, write, open</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>Word, Excel</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>TCP, IP</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>Chrome, Firefox</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> read/write/open/close/fork هي system calls قياسية.</div>
+      </div>
+    </div>
+
+    <div class="section quiz-section" style="border-color: #f59e0b; margin-top: 16px;">
+      <h2 style="color: #b45309;"><span class="icon" style="background: #fde68a; color: #b45309;">📋</span> الموضوع 3: العمليات <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;">(10 أسئلة)</span></h2>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س16:</strong> PCB تعني:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>Process Control Block</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>Program Code Buffer</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>Primary Cache Block</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>Process Counter Block</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> PCB = هيكل بيانات يحوي كل معلومات العملية.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س17:</strong> ليس من مكونات PCB:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 3)"><span class="letter">أ</span><span>حالة العملية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 3)"><span class="letter">ب</span><span>Program Counter</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 3)"><span class="letter">ج</span><span>Registers</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 3)"><span class="letter">د</span><span>كود البرنامج نفسه</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> كود البرنامج في Text Section. PCB يحوي معلومات الإدارة فقط.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س18:</strong> حالات العملية الأساسية:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>New, Running, Waiting, Ready, Terminated</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>Open, Closed</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>Active, Inactive</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>Start, Stop</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> خمس حالات أساسية في دورة حياة العملية.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س19:</strong> fork() تنشئ:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>برنامج جديد</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>عملية ابن نسخة من الأم</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>ملف</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>خيط</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> fork() ينشئ نسخة طبق الأصل من العملية الأم.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س20:</strong> exec() تستخدم لـ:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>إنشاء عملية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>استبدال صورة العملية ببرنامج آخر</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>حذف عملية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>إيقاف</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> exec() تستبدل كود العملية الحالية بكود برنامج جديد.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س21:</strong> Orphan process هي:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>عملية انتهت</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>عملية ابن مات أبوها</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>عملية متجمدة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>خطأ</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> العملية اليتيمة = ابن لا يزال يعمل وأمها انتهت.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س22:</strong> Zombie process:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>عملية ابن انتهت لكن أمها لم تقرأ حالتها</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>عملية متجمدة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>فيروس</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>بدون اسم</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Zombie = ابن انتهى وينتظر الأم لقراءة exit code.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س23:</strong> Context Switch هو:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>تبديل المعالج بين العمليات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>تغيير لغة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>إعادة تشغيل</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>تنسيق</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> حفظ حالة عملية وتحميل أخرى = Context Switch.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س24:</strong> قسم Stack في العملية:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>كود البرنامج</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>متغيرات محلية واستدعاءات الدوال</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>متغيرات عامة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>ذاكرة دائمة</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Stack: متغيرات محلية، parameters، عناوين العودة.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س25:</strong> Heap هو:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>كود ثابت</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>ذاكرة ديناميكية تخصص أثناء التنفيذ (malloc)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>متغيرات محلية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>PCB</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Heap = للتخصيص الديناميكي عند الحاجة.</div>
+      </div>
+    </div>
+
+    <div class="section quiz-section" style="border-color: #f59e0b; margin-top: 16px;">
+      <h2 style="color: #b45309;"><span class="icon" style="background: #fde68a; color: #b45309;">📋</span> الموضوع 4: IPC والأنابيب <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;">(8 أسئلة)</span></h2>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س26:</strong> IPC تعني:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>Internal Process Counter</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>Inter-Process Communication</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>Internet Protocol Connection</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>Input Process Control</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> IPC = آليات تواصل بين العمليات.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س27:</strong> Pipe في Unix:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>برنامج</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>قناة تواصل أحادية الاتجاه بين عمليتين</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>ذاكرة مشتركة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>ملف</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Pipe = أنبوب أحادي الاتجاه بين عمليتين مرتبطتين.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س28:</strong> Named Pipes (FIFO):</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>مثل pipe لكن لها اسم في النظام</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>بدون اسم</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>للذاكرة فقط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>للشبكة</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> FIFO له اسم في filesystem يسمح بأي عمليتين بالاتصال.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س29:</strong> Sockets تستخدم لـ:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>نفس الجهاز فقط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>التواصل بين عمليات على أجهزة مختلفة عبر الشبكة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>الذاكرة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>الملفات</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Sockets = آلية الشبكة الأساسية، تدعم TCP/UDP.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س30:</strong> الذاكرة المشتركة:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>لا تتأثر بالعمليات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>أسرع طريقة لـ IPC لكنها تحتاج مزامنة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>أبطأ من Pipes</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>بدون عيوب</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Shared Memory أسرع لكنها تحتاج مزامنة لتجنب race condition.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س31:</strong> Message Passing:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>نسخ الذاكرة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>إرسال رسائل بين عمليات (send/receive)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>مشاركة قرص</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>تشفير</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> send() و receive() هما الأساس.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س32:</strong> في direct communication:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>العمليات تذكر بعضها بالاسم</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>وسيط في الوسط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>بث عام</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>بدون عناوين</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Direct = send(P, message) و receive(Q, message).</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س33:</strong> في indirect communication:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>مباشر بين عمليتين</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>عبر صندوق رسائل (mailbox)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>بدون عناوين</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>للذاكرة فقط</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Indirect = الرسائل تمر بـ mailbox/port.</div>
+      </div>
+    </div>
+
+    <div class="section quiz-section" style="border-color: #f59e0b; margin-top: 16px;">
+      <h2 style="color: #b45309;"><span class="icon" style="background: #fde68a; color: #b45309;">📋</span> الموضوع 5: إدارة الذاكرة <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;">(6 أسئلة)</span></h2>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س34:</strong> الذاكرة الافتراضية تساعد في:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>تسريع CPU</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>تشغيل تطبيقات أكبر من حجم الذاكرة الفعلية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>حماية الفيروسات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>تقليل الطاقة</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Virtual Memory تستخدم القرص كامتداد للذاكرة.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س35:</strong> في التسلسل الهرمي للتخزين، الأسرع:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>RAM</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>Cache</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>Registers</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>القرص</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Registers > Cache > RAM > Disk من حيث السرعة.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س36:</strong> RAM تتميز بأنها:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>دائمة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>متطايرة (تفقد المحتوى عند الإغلاق)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>بطيئة جدًا</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>ضوئية</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> RAM = Volatile = تفقد البيانات عند انقطاع الطاقة.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س37:</strong> التجزئة الخارجية External Fragmentation تحل بـ:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>Defragmentation/Compaction أو Paging</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>حذف الملفات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>إعادة التشغيل</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>زيادة الذاكرة</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Compaction أو استخدام Paging يحل المشكلة.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س38:</strong> Paging يقسم الذاكرة إلى:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>وحدات بأحجام مختلفة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>وحدات متساوية الحجم (frames/pages)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>ملفات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>أقسام</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Paging = وحدات متساوية تمنع التجزئة الخارجية.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س39:</strong> Segmentation:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>وحدات متساوية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>أقسام منطقية بأحجام مختلفة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>للقرص فقط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>للشبكة</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Segments = أقسام منطقية (كود، بيانات، stack) بأحجام مختلفة.</div>
+      </div>
+    </div>
+
+    <div class="section quiz-section" style="border-color: #f59e0b; margin-top: 16px;">
+      <h2 style="color: #b45309;"><span class="icon" style="background: #fde68a; color: #b45309;">📋</span> الموضوع 6: I/O والملفات <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;">(5 أسئلة)</span></h2>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س40:</strong> نظام الملفات يدير:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>الذاكرة فقط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>تخزين واسترجاع الملفات على القرص</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>الشبكة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>العمليات</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> File System = إدارة الملفات والمجلدات على وسائط التخزين.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س41:</strong> inode في Unix:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>نوع ملف</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>هيكل بيانات يصف ملفًا (الصلاحيات، المالك، المؤشرات)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>أمر</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>مجلد</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> inode يحوي metadata الملف بدون اسم الملف.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س42:</strong> Buffer في I/O:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>ذاكرة مؤقتة لتسريع I/O</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>خطأ</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>نوع قرص</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>بروتوكول</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Buffer يخزن بيانات مؤقتًا لتقليل عمليات I/O.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س43:</strong> Spooling:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>تخزين عمليات I/O في قائمة انتظار</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>حذف ملفات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>تشفير</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>تسريع CPU</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Spool = Simultaneous Peripheral Operations On-Line. لطباعة مثلاً.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س44:</strong> Direct Access File:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>قراءة بالتسلسل فقط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>قراءة من أي موضع مباشرة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>فقط للنصوص</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>بدون كتابة</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Direct/Random Access = قراءة من أي مكان دون قراءة ما قبله.</div>
+      </div>
+    </div>
+
+    <div class="section quiz-section" style="border-color: #f59e0b; margin-top: 16px;">
+      <h2 style="color: #b45309;"><span class="icon" style="background: #fde68a; color: #b45309;">📋</span> الموضوع 7: الخيوط <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;">(8 أسئلة)</span></h2>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س45:</strong> الخيط (Thread) هو:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>برنامج كامل</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>أصغر وحدة تنفيذ داخل CPU</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>جهاز</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>ملف</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Thread = أصغر unit of execution، يشترك في موارد العملية.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س46:</strong> الخيوط داخل نفس العملية تتشارك:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>كل شيء</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>الكود والبيانات والملفات لكن لا تتشارك Stack و Registers</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>Stack فقط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>لا شيء</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> تتشارك code/data/files. Stack/Registers/PC منفصلة لكل thread.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س47:</strong> نموذج Many-to-One:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>عدة threads → نواة واحدة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>كل thread نواة منفصلة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>لا تستخدم</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>للذاكرة</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Many user threads → 1 kernel thread. حظر واحد = توقف الكل.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س48:</strong> نموذج One-to-One:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>كل thread = thread نواة منفصل</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>عدة threads → واحد</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>لا threads</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>خيار</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> كل thread له kernel thread. توازي حقيقي. مثل Linux و Windows.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س49:</strong> التوازي (Parallelism):</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>تنفيذ مهام في وقت واحد فعليًا</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>تبديل سريع</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>نفس الشيء</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>خطأ</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Parallelism يحتاج عدة أنوية. Concurrency = تبديل سريع.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س50:</strong> التزامن (Concurrency):</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>تنفيذ متزامن فعلي</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>إدارة عدة مهام تبدو متزامنة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>نفس Parallelism</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>للأجهزة فقط</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Concurrency يمكن بنواة واحدة عبر context switching.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س51:</strong> Pthreads هو:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>نواة Linux</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>مكتبة POSIX للخيوط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>نوع جهاز</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>بروتوكول</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> POSIX Threads = معيار IEEE 1003.1c.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س52:</strong> في Linux، الخيوط تنشأ بـ:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>fork()</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>clone()</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>thread_create()</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>exec()</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Linux يستخدم clone() مع flags للتحكم في المشاركة.</div>
+      </div>
+    </div>
+
+    <div class="section quiz-section" style="border-color: #f59e0b; margin-top: 16px;">
+      <h2 style="color: #b45309;"><span class="icon" style="background: #fde68a; color: #b45309;">📋</span> الموضوع 8: المزامنة <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;">(8 أسئلة)</span></h2>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س53:</strong> Race Condition:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>سباق سرعة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>اعتماد النتيجة على ترتيب التنفيذ غير المتوقع</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>خطأ ذاكرة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>فيروس</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> حالة السباق = نتيجة عشوائية بسبب الوصول المتزامن غير المنظم.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س54:</strong> القسم الحرج (Critical Section):</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>كود مهم</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>كود يصل لموارد مشتركة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>كود سريع</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>كود قصير</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Critical Section = الجزء الذي يصل للبيانات المشتركة، يحتاج حماية.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س55:</strong> Mutual Exclusion يعني:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>عمليتان داخل القسم الحرج معًا</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>عملية واحدة فقط في القسم الحرج</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>بدون قيود</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>خطأ</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> الاستبعاد المتبادل = ضمان دخول واحد فقط في كل مرة.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س56:</strong> Mutex Lock:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>قفل بسيط للاستبعاد المتبادل</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>نوع ذاكرة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>خطأ</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>بروتوكول</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Mutex = أبسط آلية حماية، lock/unlock.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س57:</strong> Binary Semaphore:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>قيمته 0 أو 1، يعمل كـ Mutex</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>أي قيمة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>للذاكرة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>خطأ</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Binary Semaphore مكافئ لـ Mutex (0 أو 1).</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س58:</strong> Counting Semaphore:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>0 أو 1 فقط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>أي قيمة، يدير عدة موارد متشابهة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>للملفات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>خطأ</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> مثلاً S=5 لإدارة 5 طابعات.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س59:</strong> wait(S) يـ:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>يزيد S</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>ينتظر S>0 ثم يقلله بـ 1</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>يساوي S=0</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>يمسح S</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> P(S) أو wait(S) ينقص العداد بشكل ذري.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س60:</strong> signal(S) يـ:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>يقلل S</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>يزيد S بـ 1</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>يحذف</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>ينتظر</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> V(S) أو signal(S) يحرر المورد.</div>
+      </div>
+    </div>
+
+    <div class="section quiz-section" style="border-color: #f59e0b; margin-top: 16px;">
+      <h2 style="color: #b45309;"><span class="icon" style="background: #fde68a; color: #b45309;">📋</span> الموضوع 9: الجدولة (FCFS, SJN) <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;">(8 أسئلة)</span></h2>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س61:</strong> FCFS تعني:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>First Come First Served</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>Fast CPU First</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>Final Code First</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>First Cut First</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> أبسط خوارزمية: من جاء أولاً يخدم أولاً.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س62:</strong> FCFS هي:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>استباقية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>غير استباقية (non-preemptive)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>مختلطة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>عشوائية</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> FCFS لا تقاطع العملية الحالية. تكمل ثم التالية.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س63:</strong> تأثير القافلة (Convoy Effect) في:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>SJN</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>FCFS عندما عملية طويلة تسبق قصيرة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>Round Robin</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>Priority</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> FCFS تجعل العمليات الصغيرة تنتظر طويلاً خلف الكبيرة.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س64:</strong> SJN/SJF:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>First In First Out</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>أقصر زمن تشغيل أولاً</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>عشوائية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>أطول أولاً</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Shortest Job Next/First = الأقل Burst Time أولاً.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س65:</strong> SJN تعطي:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>أعلى متوسط انتظار</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>أقل متوسط انتظار نظريًا</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>نفس FCFS</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>غير مفيدة</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> SJN مثبت رياضيًا أنها optimal لمتوسط زمن الانتظار.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س66:</strong> مشكلة SJN الرئيسية:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>بطيئة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>تحتاج معرفة Burst Time مسبقًا، وقد تسبب تجويعًا</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>خطأ</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>غير قابلة للتنفيذ</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> نحتاج تنبؤ Burst Time. والعمليات الطويلة قد لا تنفذ أبدًا.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س67:</strong> Turnaround Time =</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>زمن التشغيل فقط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>زمن الانتظار + زمن التشغيل</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>الفرق بين العمليات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>زمن استجابة</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Turnaround = الوقت الكلي من الوصول حتى الانتهاء.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س68:</strong> لتقدير Burst Time القادم نستخدم:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>تخمين</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>متوسط أسي τ_n+1 = α·t_n + (1-α)·τ_n</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>ثابت</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>صفر</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Exponential Average مع α = 0.5 شائع.</div>
+      </div>
+    </div>
+
+    <div class="section quiz-section" style="border-color: #f59e0b; margin-top: 16px;">
+      <h2 style="color: #b45309;"><span class="icon" style="background: #fde68a; color: #b45309;">📋</span> الموضوع 10: خوارزميات الجدولة (RR, SRT, Priority) <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;">(5 أسئلة)</span></h2>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س69:</strong> SRT vs SJN:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>SRT أبطأ</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>SRT استباقية، SJN غير استباقية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>نفس الشيء</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>SJN أحدث</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> SRT = Shortest Remaining Time = نسخة استباقية من SJN.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س70:</strong> Round Robin يحتاج:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>لا شيء</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>Time Quantum</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>أولوية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>ترتيب</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> RR = كل عملية تأخذ شريحة زمنية ثم التالية.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س71:</strong> RR مع quantum كبير جدًا يصبح:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>FCFS</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>SJN</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>Priority</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>أفضل</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Quantum كبير = العمليات تكمل قبل انتهائه = سلوك FCFS.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س72:</strong> Aging يعالج مشكلة:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>السرعة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>تجويع العمليات منخفضة الأولوية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>الذاكرة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>Context Switch</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Aging = زيادة أولوية العمليات تدريجيًا مع الانتظار.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س73:</strong> Multilevel Feedback Queue:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>طابور واحد</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>عدة طوابير، العمليات تنتقل بينها حسب سلوكها</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>بدون أولوية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>للذاكرة</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> MLFQ يكيف ذكيًا: CPU-bound تنزل، I/O-bound تبقى عالية.</div>
+      </div>
+    </div>
+
+    <div class="section quiz-section" style="border-color: #f59e0b; margin-top: 16px;">
+      <h2 style="color: #b45309;"><span class="icon" style="background: #fde68a; color: #b45309;">📋</span> الموضوع 11: نموذج الجمود <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;">(4 أسئلة)</span></h2>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س74:</strong> الجمود (Deadlock) يتطلب:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 3)"><span class="letter">أ</span><span>شرط واحد</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 3)"><span class="letter">ب</span><span>شرطين</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 3)"><span class="letter">ج</span><span>ثلاثة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 3)"><span class="letter">د</span><span>أربعة شروط معًا</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Mutual Exclusion + Hold and Wait + No Preemption + Circular Wait.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س75:</strong> Hold and Wait يعني:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>تحرر كل المواد</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>تمسك مورد وتنتظر آخر</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>لا تطلب</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>تنتظر فقط</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> العملية تحجز موارد وتطلب المزيد دون تحرير ما لديها.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س76:</strong> Resource Allocation Graph، السهم من P إلى R:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>تخصيص</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>طلب</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>تحرير</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>خطأ</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> P → R = طلب. R → P = تخصيص.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س77:</strong> Windows و Unix مع الجمود:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>تكشفه</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>تتجنبه</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>تتجاهله (Ostrich)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>تمنعه</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> تكلفة المعالجة أعلى من تكلفة الحدوث النادر.</div>
+      </div>
+    </div>
+
+    <div class="section quiz-section" style="border-color: #f59e0b; margin-top: 16px;">
+      <h2 style="color: #b45309;"><span class="icon" style="background: #fde68a; color: #b45309;">📋</span> الموضوع 12: خوارزميات الجمود <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;">(3 أسئلة)</span></h2>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س78:</strong> Banker's Algorithm يقرر بناءً على:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>العشوائية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>هل النظام سيبقى في حالة آمنة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>الأولوية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>الوقت</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> خوارزمية البنك تتأكد من وجود تسلسل آمن قبل الموافقة.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س79:</strong> Need = </div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>Max + Allocation</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>Max - Allocation</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>Available - Max</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>Allocation</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Need = ما تحتاجه العملية لإكمال عملها = Max - ما حجزته.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س80:</strong> Wait-for Graph يستخدم:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>دائمًا</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>عند نسخة واحدة من كل مورد</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>للأولوية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>للذاكرة</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> WFG مبسط فعال فقط عندما كل مورد بنسخة واحدة.</div>
+      </div>
+    </div>
+
 </section>
 `;
 
