@@ -13,184 +13,156 @@
   --text: #0f172a; --text-muted: #475569; --text-light: #64748b;
   --primary: #16a34a; --primary-dark: #15803d; --primary-light: #dcfce7;
   --header-bg: #f1f5f9; --selected: #16a34a;
-  --selected-bg: rgba(22, 163, 74, 0.1);
 }
-html, body {
-  font-family: 'Noto Sans Arabic', sans-serif;
-  background: var(--bg); color: var(--text);
-  height: 100vh; overflow: hidden;
-}
-.toolbar {
-  background: white; border-bottom: 1px solid var(--border);
-  padding: 10px 16px; display: flex; align-items: center; gap: 10px;
-  flex-wrap: wrap; min-height: 56px;
-}
-.toolbar-title {
-  font-weight: 700; font-size: 14px; color: var(--text);
-  display: flex; align-items: center; gap: 8px;
-}
-.toolbar-title .xl-logo {
-  width: 28px; height: 28px; border-radius: 8px;
-  background: linear-gradient(135deg, #16a34a, #166534); color: white;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 14px; font-weight: 700;
-}
+html, body { font-family: 'Noto Sans Arabic', sans-serif; background: var(--bg); color: var(--text); height: 100vh; overflow: hidden; }
+.toolbar { background: white; border-bottom: 1px solid var(--border); padding: 10px 16px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-height: 56px; }
+.toolbar-title { font-weight: 700; font-size: 14px; color: var(--text); display: flex; align-items: center; gap: 8px; }
+.toolbar-title .xl-logo { width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg, #16a34a, #166534); color: white; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; }
 .toolbar-spacer { flex: 1; }
-.btn {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 7px 14px; border-radius: 8px; font-size: 13px;
-  font-weight: 600; font-family: inherit; cursor: pointer;
-  border: 1px solid var(--border-strong); background: white; color: var(--text);
-  transition: all 0.15s;
-}
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; border: 1px solid var(--border-strong); background: white; color: var(--text); transition: all 0.15s; }
 .btn:hover { background: var(--bg); }
 .btn:active { transform: scale(0.97); }
 .btn-primary { background: var(--primary); color: white; border-color: var(--primary); }
 .btn-primary:hover { background: var(--primary-dark); }
-.btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.examples-bar {
-  background: white; border-bottom: 1px solid var(--border);
-  padding: 10px 14px; overflow-x: auto; white-space: nowrap;
-  display: flex; gap: 8px; align-items: center;
-}
+
+.examples-bar { background: white; border-bottom: 1px solid var(--border); padding: 10px 14px; overflow-x: auto; white-space: nowrap; display: flex; gap: 8px; align-items: center; }
 .examples-bar::-webkit-scrollbar { height: 4px; }
 .examples-bar::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
-.examples-label {
-  font-size: 12px; font-weight: 700; color: var(--text-muted);
-  margin-left: 6px; flex-shrink: 0;
-}
-.example-chip {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 5px 11px; border-radius: 14px; background: var(--bg);
-  border: 1px solid var(--border); cursor: pointer; font-size: 12px;
-  font-weight: 600; color: var(--text-muted); transition: all 0.15s;
-  flex-shrink: 0; font-family: inherit;
-}
+.examples-label { font-size: 12px; font-weight: 700; color: var(--text-muted); margin-left: 6px; flex-shrink: 0; }
+.example-chip { display: inline-flex; align-items: center; gap: 5px; padding: 5px 11px; border-radius: 14px; background: var(--bg); border: 1px solid var(--border); cursor: pointer; font-size: 12px; font-weight: 600; color: var(--text-muted); transition: all 0.15s; flex-shrink: 0; font-family: inherit; }
 .example-chip:hover { background: var(--primary-light); color: var(--primary-dark); border-color: var(--primary); }
 .example-chip.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-/* Formula bar */
-.formula-bar {
-  background: white; border-bottom: 1px solid var(--border);
-  display: flex; align-items: stretch; height: 38px;
-}
-.cell-name {
-  width: 90px; background: var(--bg); border-left: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Inter', monospace; font-size: 13px; font-weight: 600;
-  color: var(--text-muted);
-}
-.fx-icon {
-  width: 36px; background: var(--bg); border-left: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-style: italic; font-weight: 700; color: var(--primary);
-  font-family: 'Inter', monospace; font-size: 14px;
-}
-.formula-input {
-  flex: 1; border: none; outline: none; padding: 0 12px;
-  font-family: 'Inter', monospace; font-size: 13px;
-  direction: ltr; text-align: left; color: var(--text);
-}
+.formula-bar { background: white; border-bottom: 1px solid var(--border); display: flex; align-items: stretch; height: 38px; position: relative; }
+.cell-name { width: 90px; background: var(--bg); border-left: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: 'Inter', monospace; font-size: 13px; font-weight: 600; color: var(--text-muted); }
+.fx-icon { width: 36px; background: var(--bg); border-left: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-style: italic; font-weight: 700; color: var(--primary); font-family: 'Inter', monospace; font-size: 14px; }
+.formula-input { flex: 1; border: none; outline: none; padding: 0 12px; font-family: 'Inter', monospace; font-size: 13px; direction: ltr; text-align: left; color: var(--text); }
 .formula-input:focus { background: #f0fdf4; }
 
-/* Spreadsheet */
-.spreadsheet-wrapper {
-  height: calc(100vh - 56px - 50px - 38px - 50px);
-  overflow: auto; background: white;
-  direction: ltr;
-}
-.spreadsheet {
-  border-collapse: collapse;
-  font-family: 'Inter', sans-serif;
-  font-size: 13px;
-}
-.spreadsheet th, .spreadsheet td {
-  border: 1px solid var(--border);
-  padding: 0; min-width: 100px; height: 28px; position: relative;
-}
-.spreadsheet th {
-  background: var(--header-bg); font-weight: 600; color: var(--text-muted);
-  text-align: center; font-size: 12px; padding: 4px;
-  position: sticky; top: 0; z-index: 5;
-  user-select: none; cursor: default;
-}
-.spreadsheet th.row-header {
-  width: 50px; min-width: 50px; left: 0; z-index: 6;
-}
-.spreadsheet td.row-header {
-  background: var(--header-bg); font-weight: 600; color: var(--text-muted);
-  text-align: center; width: 50px; min-width: 50px; padding: 4px;
-  position: sticky; left: 0; z-index: 4;
-  user-select: none;
-}
-.spreadsheet td.cell {
-  cursor: cell; vertical-align: middle;
-}
-.spreadsheet td.cell.selected {
-  outline: 2px solid var(--selected); outline-offset: -2px;
-  z-index: 3;
-}
-.cell-value {
-  padding: 4px 8px; min-height: 28px; line-height: 20px;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  max-width: 100%;
-}
+.spreadsheet-wrapper { height: calc(100vh - 56px - 50px - 38px - 50px); overflow: auto; background: white; direction: ltr; position: relative; }
+.spreadsheet { border-collapse: collapse; font-family: 'Inter', sans-serif; font-size: 13px; }
+.spreadsheet th, .spreadsheet td { border: 1px solid var(--border); padding: 0; min-width: 100px; height: 28px; position: relative; }
+.spreadsheet th { background: var(--header-bg); font-weight: 600; color: var(--text-muted); text-align: center; font-size: 12px; padding: 4px; position: sticky; top: 0; z-index: 5; user-select: none; cursor: default; }
+.spreadsheet th.row-header { width: 50px; min-width: 50px; left: 0; z-index: 6; }
+.spreadsheet td.row-header { background: var(--header-bg); font-weight: 600; color: var(--text-muted); text-align: center; width: 50px; min-width: 50px; padding: 4px; position: sticky; left: 0; z-index: 4; user-select: none; }
+.spreadsheet td.cell { cursor: cell; vertical-align: middle; }
+.spreadsheet td.cell.selected { outline: 2px solid var(--selected); outline-offset: -2px; z-index: 3; }
+.cell-value { padding: 4px 8px; min-height: 28px; line-height: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 .cell-value.text { text-align: left; }
 .cell-value.number { text-align: right; font-family: 'Inter', monospace; }
-.cell-value.formula-result { color: var(--text); font-family: 'Inter', monospace; }
+.cell-value.formula-result { font-family: 'Inter', monospace; }
 .cell-value.error { color: #dc2626; font-style: italic; font-size: 11px; }
 .cell-value.bold { font-weight: 700; }
 .cell-value.header-cell { background: var(--primary); color: white; font-weight: 700; padding: 6px 8px; }
-.cell-input {
-  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-  border: 2px solid var(--primary); padding: 4px 8px; outline: none;
-  font-family: 'Inter', sans-serif; font-size: 13px;
-  background: white; z-index: 10; direction: ltr; text-align: left;
+.cell-input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 2px solid var(--primary); padding: 4px 8px; outline: none; font-family: 'Inter', sans-serif; font-size: 13px; background: white; z-index: 10; direction: ltr; text-align: left; }
+
+/* Autocomplete dropdown */
+.autocomplete {
+  position: absolute;
+  background: white;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  max-height: 280px;
+  overflow-y: auto;
+  z-index: 1000;
+  min-width: 320px;
+  font-family: 'Inter', sans-serif;
+  display: none;
+  direction: ltr;
 }
+.autocomplete.show { display: block; }
+.ac-item {
+  padding: 7px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--bg);
+  transition: background 0.1s;
+}
+.ac-item:last-child { border-bottom: none; }
+.ac-item:hover, .ac-item.active {
+  background: var(--primary-light);
+}
+.ac-icon {
+  width: 24px; height: 24px;
+  background: var(--primary);
+  color: white;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 11px;
+  font-family: 'Inter', monospace;
+  flex-shrink: 0;
+}
+.ac-content { flex: 1; min-width: 0; text-align: left; }
+.ac-name {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--text);
+  font-family: 'Inter', monospace;
+}
+.ac-name .match { color: var(--primary); background: var(--primary-light); padding: 1px 2px; border-radius: 2px; }
+.ac-desc {
+  font-family: 'Noto Sans Arabic', sans-serif;
+  font-size: 11.5px;
+  color: var(--text-muted);
+  margin-top: 1px;
+  direction: rtl;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ac-key {
+  font-size: 10px;
+  color: var(--text-light);
+  background: var(--bg);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'Inter', monospace;
+  flex-shrink: 0;
+}
+.ac-tooltip {
+  position: absolute;
+  background: #1e293b;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-family: 'Inter', monospace;
+  max-width: 280px;
+  z-index: 1001;
+  display: none;
+  direction: ltr;
+  text-align: left;
+  line-height: 1.6;
+}
+.ac-tooltip.show { display: block; }
+.ac-tooltip .syntax { color: #fde68a; }
+.ac-tooltip .desc-ar { font-family: 'Noto Sans Arabic'; direction: rtl; text-align: right; color: #cbd5e1; margin-top: 6px; font-size: 11px; }
 
 /* Status bar */
-.status-bar {
-  background: var(--bg); border-top: 1px solid var(--border);
-  padding: 8px 14px; display: flex; align-items: center; gap: 16px;
-  font-size: 12px; color: var(--text-muted); height: 50px; flex-wrap: wrap;
-}
-.status-stat {
-  display: inline-flex; align-items: center; gap: 4px;
-  padding: 3px 8px; background: white; border-radius: 4px;
-  border: 1px solid var(--border);
-}
+.status-bar { background: var(--bg); border-top: 1px solid var(--border); padding: 8px 14px; display: flex; align-items: center; gap: 16px; font-size: 12px; color: var(--text-muted); height: 50px; flex-wrap: wrap; }
+.status-stat { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; background: white; border-radius: 4px; border: 1px solid var(--border); }
 .status-stat strong { color: var(--text); font-family: 'Inter', monospace; }
-.help-link {
-  margin-right: auto; color: var(--primary); cursor: pointer;
-  font-weight: 600;
-}
+.help-link { margin-right: auto; color: var(--primary); cursor: pointer; font-weight: 600; }
 
 /* Help modal */
-.modal-overlay {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.5);
-  z-index: 100; display: none; align-items: center; justify-content: center;
-}
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; display: none; align-items: center; justify-content: center; }
 .modal-overlay.show { display: flex; }
-.modal {
-  background: white; border-radius: 14px; width: 90%; max-width: 700px;
-  max-height: 85vh; overflow-y: auto; padding: 24px;
-}
+.modal { background: white; border-radius: 14px; width: 90%; max-width: 700px; max-height: 85vh; overflow-y: auto; padding: 24px; }
 .modal h2 { font-size: 18px; margin-bottom: 14px; color: var(--text); }
 .modal h3 { font-size: 14px; color: var(--primary); margin-top: 14px; margin-bottom: 8px; }
 .modal-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
 .modal-table th, .modal-table td { border: 1px solid var(--border); padding: 8px; text-align: right; }
 .modal-table th { background: var(--bg); font-weight: 600; }
 .modal-table code { background: var(--primary-light); padding: 2px 6px; border-radius: 3px; font-family: 'Inter', monospace; color: var(--primary-dark); direction: ltr; display: inline-block; }
-.modal-close {
-  display: block; margin: 16px auto 0; padding: 8px 24px;
-  background: var(--primary); color: white; border: none; border-radius: 8px;
-  font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
-}
-.tip-card {
-  background: var(--primary-light); border-right: 3px solid var(--primary);
-  padding: 10px 14px; border-radius: 6px; margin-top: 10px;
-  font-size: 13px; color: var(--primary-dark);
-}
+.modal-close { display: block; margin: 16px auto 0; padding: 8px 24px; background: var(--primary); color: white; border: none; border-radius: 8px; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+.tip-card { background: var(--primary-light); border-right: 3px solid var(--primary); padding: 10px 14px; border-radius: 6px; margin-top: 10px; font-size: 13px; color: var(--primary-dark); }
 </style>
 </head>
 <body>
@@ -213,15 +185,15 @@ html, body {
 <div class="formula-bar">
   <div class="cell-name" id="cellName">A1</div>
   <div class="fx-icon">fx</div>
-  <input type="text" class="formula-input" id="formulaInput" placeholder="أدخل قيمة أو صيغة (تبدأ بـ =)">
+  <input type="text" class="formula-input" id="formulaInput" placeholder="أدخل قيمة أو صيغة (تبدأ بـ =)" autocomplete="off">
 </div>
 
-<div class="spreadsheet-wrapper">
+<div class="spreadsheet-wrapper" id="spreadsheetWrapper">
   <table class="spreadsheet" id="spreadsheet"></table>
 </div>
 
 <div class="status-bar">
-  <span class="help-link" onclick="showHelp()">📖 دوال مدعومة: SUM, AVERAGE, IF, COUNTIF, VLOOKUP...</span>
+  <span class="help-link" onclick="showHelp()">📖 ابدأ صيغة بـ = ثم اكتب حرفًا لرؤية الدوال المقترحة (مثل إكسل تمامًا)</span>
   <span class="status-stat">المجموع: <strong id="statSum">0</strong></span>
   <span class="status-stat">المتوسط: <strong id="statAvg">0</strong></span>
   <span class="status-stat">العدد: <strong id="statCount">0</strong></span>
@@ -229,12 +201,15 @@ html, body {
   <span class="status-stat">الأعلى: <strong id="statMax">0</strong></span>
 </div>
 
+<!-- Autocomplete dropdown -->
+<div class="autocomplete" id="autocomplete"></div>
+<div class="ac-tooltip" id="acTooltip"></div>
+
 <!-- Help Modal -->
 <div class="modal-overlay" id="helpModal" onclick="if(event.target===this)hideHelp()">
   <div class="modal">
     <h2>📖 دليل دوال الإكسل المدعومة</h2>
-
-    <h3>الدوال الإحصائية الأساسية</h3>
+    <h3>الدوال الإحصائية</h3>
     <table class="modal-table">
       <tr><th>الدالة</th><th>الوصف</th><th>مثال</th></tr>
       <tr><td>SUM</td><td>المجموع</td><td><code>=SUM(A1:A10)</code></td></tr>
@@ -243,10 +218,8 @@ html, body {
       <tr><td>STDEV</td><td>الانحراف المعياري</td><td><code>=STDEV(C1:C20)</code></td></tr>
       <tr><td>VAR</td><td>التباين</td><td><code>=VAR(A1:A10)</code></td></tr>
       <tr><td>MIN / MAX</td><td>الأدنى / الأعلى</td><td><code>=MAX(A1:A10)</code></td></tr>
-      <tr><td>COUNT</td><td>عد الأرقام</td><td><code>=COUNT(A1:A10)</code></td></tr>
-      <tr><td>COUNTA</td><td>عد الخلايا غير الفارغة</td><td><code>=COUNTA(A1:A10)</code></td></tr>
+      <tr><td>COUNT / COUNTA</td><td>عد الأرقام / غير الفارغة</td><td><code>=COUNT(A1:A10)</code></td></tr>
     </table>
-
     <h3>الدوال الشرطية</h3>
     <table class="modal-table">
       <tr><th>الدالة</th><th>الوصف</th><th>مثال</th></tr>
@@ -254,91 +227,178 @@ html, body {
       <tr><td>COUNTIF</td><td>عد بشرط</td><td><code>=COUNTIF(A1:A10,">=50")</code></td></tr>
       <tr><td>SUMIF</td><td>جمع بشرط</td><td><code>=SUMIF(A:A,">100",B:B)</code></td></tr>
       <tr><td>AVERAGEIF</td><td>متوسط بشرط</td><td><code>=AVERAGEIF(A1:A10,">0")</code></td></tr>
-      <tr><td>AND / OR</td><td>منطق</td><td><code>=IF(AND(A1>0,B1>0),"OK","NO")</code></td></tr>
     </table>
-
-    <h3>الدوال الرياضية</h3>
-    <table class="modal-table">
-      <tr><th>الدالة</th><th>الوصف</th><th>مثال</th></tr>
-      <tr><td>ROUND</td><td>تقريب</td><td><code>=ROUND(A1,2)</code></td></tr>
-      <tr><td>ABS</td><td>القيمة المطلقة</td><td><code>=ABS(A1)</code></td></tr>
-      <tr><td>SQRT</td><td>الجذر التربيعي</td><td><code>=SQRT(A1)</code></td></tr>
-      <tr><td>POWER</td><td>الأس</td><td><code>=POWER(A1,2)</code></td></tr>
-      <tr><td>MOD</td><td>باقي القسمة</td><td><code>=MOD(A1,2)</code></td></tr>
-    </table>
-
     <h3>دوال البحث</h3>
     <table class="modal-table">
       <tr><th>الدالة</th><th>الوصف</th><th>مثال</th></tr>
       <tr><td>VLOOKUP</td><td>بحث عمودي</td><td><code>=VLOOKUP("X",A1:C10,2,FALSE)</code></td></tr>
       <tr><td>HLOOKUP</td><td>بحث أفقي</td><td><code>=HLOOKUP(X,A1:E5,3,FALSE)</code></td></tr>
-      <tr><td>INDEX/MATCH</td><td>بحث متقدم</td><td><code>=INDEX(B:B,MATCH("X",A:A,0))</code></td></tr>
+      <tr><td>INDEX / MATCH</td><td>بحث متقدم</td><td><code>=INDEX(B:B,MATCH("X",A:A,0))</code></td></tr>
     </table>
-
     <div class="tip-card">
-      💡 <strong>نصيحة:</strong> الصيغ تبدأ دائمًا بعلامة <code>=</code>. اضغط Enter للتثبيت، Tab أو Esc للإلغاء.
-      اضغط مرتين على أي خلية لتعديلها، أو اكتب القيمة في شريط الصيغة في الأعلى.
+      💡 <strong>الإكمال التلقائي:</strong> اضغط على أي خلية مرتين، اكتب <code>=</code> ثم حرفًا (مثل <code>=S</code>) لرؤية كل الدوال التي تبدأ بهذا الحرف. استخدم الأسهم ↑↓ للتنقل و Tab للقبول.
     </div>
-
     <button class="modal-close" onclick="hideHelp()">إغلاق</button>
   </div>
 </div>
 
 <script>
-// ======================================================================
-// EXAMPLES (preset spreadsheets for STA104 / general practice)
-// ======================================================================
+// ====================================================================
+// EXCEL FUNCTIONS DATABASE (for autocomplete)
+// ====================================================================
+const FUNCTIONS = [
+  // Statistical
+  { name: 'SUM', syntax: 'SUM(number1, [number2], ...)', desc: 'يحسب مجموع الأرقام في نطاق', example: '=SUM(A1:A10)' },
+  { name: 'AVERAGE', syntax: 'AVERAGE(number1, [number2], ...)', desc: 'يحسب المتوسط الحسابي', example: '=AVERAGE(B1:B5)' },
+  { name: 'AVERAGEA', syntax: 'AVERAGEA(value1, [value2], ...)', desc: 'متوسط القيم بما فيها النصوص', example: '=AVERAGEA(A1:A10)' },
+  { name: 'MEDIAN', syntax: 'MEDIAN(number1, [number2], ...)', desc: 'يرجع الوسيط (القيمة الوسطى)', example: '=MEDIAN(A1:A10)' },
+  { name: 'MODE', syntax: 'MODE(number1, [number2], ...)', desc: 'يرجع المنوال (الأكثر تكرارًا)', example: '=MODE(A1:A10)' },
+  { name: 'STDEV', syntax: 'STDEV(number1, [number2], ...)', desc: 'الانحراف المعياري لعينة', example: '=STDEV(C1:C20)' },
+  { name: 'STDEVP', syntax: 'STDEVP(number1, [number2], ...)', desc: 'الانحراف المعياري لمجتمع', example: '=STDEVP(A1:A100)' },
+  { name: 'VAR', syntax: 'VAR(number1, [number2], ...)', desc: 'التباين لعينة', example: '=VAR(A1:A10)' },
+  { name: 'VARP', syntax: 'VARP(number1, [number2], ...)', desc: 'التباين لمجتمع كامل', example: '=VARP(A1:A100)' },
+  { name: 'MIN', syntax: 'MIN(number1, [number2], ...)', desc: 'يرجع أصغر قيمة', example: '=MIN(A1:A10)' },
+  { name: 'MAX', syntax: 'MAX(number1, [number2], ...)', desc: 'يرجع أكبر قيمة', example: '=MAX(A1:A10)' },
+  { name: 'COUNT', syntax: 'COUNT(value1, [value2], ...)', desc: 'يعد الخلايا الرقمية', example: '=COUNT(A1:A10)' },
+  { name: 'COUNTA', syntax: 'COUNTA(value1, [value2], ...)', desc: 'يعد الخلايا غير الفارغة', example: '=COUNTA(A1:A10)' },
+  { name: 'COUNTBLANK', syntax: 'COUNTBLANK(range)', desc: 'يعد الخلايا الفارغة', example: '=COUNTBLANK(A1:A10)' },
+  { name: 'LARGE', syntax: 'LARGE(array, k)', desc: 'يرجع k-ث أكبر قيمة', example: '=LARGE(A1:A10,2)' },
+  { name: 'SMALL', syntax: 'SMALL(array, k)', desc: 'يرجع k-ث أصغر قيمة', example: '=SMALL(A1:A10,3)' },
+  { name: 'RANK', syntax: 'RANK(number, ref, [order])', desc: 'ترتيب رقم في قائمة', example: '=RANK(B2,B$2:B$10)' },
+  { name: 'PERCENTILE', syntax: 'PERCENTILE(array, k)', desc: 'المئين k', example: '=PERCENTILE(A1:A10,0.75)' },
+  { name: 'QUARTILE', syntax: 'QUARTILE(array, quart)', desc: 'الربيع', example: '=QUARTILE(A1:A10,2)' },
+  { name: 'CORREL', syntax: 'CORREL(array1, array2)', desc: 'معامل الارتباط', example: '=CORREL(A1:A10,B1:B10)' },
+  { name: 'SLOPE', syntax: 'SLOPE(known_y, known_x)', desc: 'ميل خط الانحدار', example: '=SLOPE(B1:B10,A1:A10)' },
+  { name: 'INTERCEPT', syntax: 'INTERCEPT(known_y, known_x)', desc: 'تقاطع خط الانحدار مع المحور Y', example: '=INTERCEPT(B1:B10,A1:A10)' },
+
+  // Conditional
+  { name: 'IF', syntax: 'IF(logical_test, [value_if_true], [value_if_false])', desc: 'يرجع قيمة بناء على شرط', example: '=IF(A1>50,"ناجح","راسب")' },
+  { name: 'IFS', syntax: 'IFS(condition1, value1, [condition2, value2], ...)', desc: 'شروط متعددة', example: '=IFS(A1>90,"A",A1>80,"B",TRUE,"C")' },
+  { name: 'IFERROR', syntax: 'IFERROR(value, value_if_error)', desc: 'يعالج الأخطاء', example: '=IFERROR(A1/B1,0)' },
+  { name: 'IFNA', syntax: 'IFNA(value, value_if_na)', desc: 'يعالج خطأ N/A', example: '=IFNA(VLOOKUP(...),0)' },
+  { name: 'AND', syntax: 'AND(logical1, [logical2], ...)', desc: 'يرجع TRUE إذا كل الشروط محققة', example: '=AND(A1>0,B1>0)' },
+  { name: 'OR', syntax: 'OR(logical1, [logical2], ...)', desc: 'يرجع TRUE إذا أحد الشروط محقق', example: '=OR(A1=1,A1=2)' },
+  { name: 'NOT', syntax: 'NOT(logical)', desc: 'عكس القيمة المنطقية', example: '=NOT(A1>5)' },
+  { name: 'XOR', syntax: 'XOR(logical1, [logical2], ...)', desc: 'XOR منطقي', example: '=XOR(A1,B1)' },
+  { name: 'COUNTIF', syntax: 'COUNTIF(range, criteria)', desc: 'يعد الخلايا التي تحقق شرطًا', example: '=COUNTIF(A1:A10,">=50")' },
+  { name: 'COUNTIFS', syntax: 'COUNTIFS(range1, criteria1, [range2, criteria2], ...)', desc: 'عد بشروط متعددة', example: '=COUNTIFS(A:A,">10",B:B,"<20")' },
+  { name: 'SUMIF', syntax: 'SUMIF(range, criteria, [sum_range])', desc: 'جمع بشرط', example: '=SUMIF(A1:A10,">100",B1:B10)' },
+  { name: 'SUMIFS', syntax: 'SUMIFS(sum_range, range1, criteria1, ...)', desc: 'جمع بشروط متعددة', example: '=SUMIFS(C:C,A:A,">10",B:B,"X")' },
+  { name: 'AVERAGEIF', syntax: 'AVERAGEIF(range, criteria, [average_range])', desc: 'متوسط بشرط', example: '=AVERAGEIF(A1:A10,">0")' },
+  { name: 'AVERAGEIFS', syntax: 'AVERAGEIFS(avg_range, range1, criteria1, ...)', desc: 'متوسط بشروط متعددة', example: '=AVERAGEIFS(C:C,A:A,">0",B:B,"OK")' },
+
+  // Math
+  { name: 'ROUND', syntax: 'ROUND(number, num_digits)', desc: 'تقريب الرقم لعدد محدد من الخانات', example: '=ROUND(A1,2)' },
+  { name: 'ROUNDUP', syntax: 'ROUNDUP(number, num_digits)', desc: 'تقريب لأعلى', example: '=ROUNDUP(A1,0)' },
+  { name: 'ROUNDDOWN', syntax: 'ROUNDDOWN(number, num_digits)', desc: 'تقريب لأسفل', example: '=ROUNDDOWN(A1,0)' },
+  { name: 'CEILING', syntax: 'CEILING(number, significance)', desc: 'تقريب لأعلى لمضاعف', example: '=CEILING(A1,5)' },
+  { name: 'FLOOR', syntax: 'FLOOR(number, significance)', desc: 'تقريب لأسفل لمضاعف', example: '=FLOOR(A1,5)' },
+  { name: 'INT', syntax: 'INT(number)', desc: 'الجزء الصحيح', example: '=INT(A1)' },
+  { name: 'TRUNC', syntax: 'TRUNC(number, [num_digits])', desc: 'يقطع الكسر بدون تقريب', example: '=TRUNC(A1,2)' },
+  { name: 'ABS', syntax: 'ABS(number)', desc: 'القيمة المطلقة', example: '=ABS(A1)' },
+  { name: 'SQRT', syntax: 'SQRT(number)', desc: 'الجذر التربيعي', example: '=SQRT(A1)' },
+  { name: 'POWER', syntax: 'POWER(number, power)', desc: 'الأس', example: '=POWER(A1,2)' },
+  { name: 'EXP', syntax: 'EXP(number)', desc: 'e أس number', example: '=EXP(A1)' },
+  { name: 'LN', syntax: 'LN(number)', desc: 'اللوغاريتم الطبيعي', example: '=LN(A1)' },
+  { name: 'LOG', syntax: 'LOG(number, [base])', desc: 'اللوغاريتم لأي أساس', example: '=LOG(100,10)' },
+  { name: 'LOG10', syntax: 'LOG10(number)', desc: 'لوغاريتم بأساس 10', example: '=LOG10(A1)' },
+  { name: 'MOD', syntax: 'MOD(number, divisor)', desc: 'باقي القسمة', example: '=MOD(A1,2)' },
+  { name: 'PRODUCT', syntax: 'PRODUCT(number1, [number2], ...)', desc: 'حاصل الضرب', example: '=PRODUCT(A1:A5)' },
+  { name: 'SUMPRODUCT', syntax: 'SUMPRODUCT(array1, [array2], ...)', desc: 'مجموع حاصل الضرب', example: '=SUMPRODUCT(A1:A5,B1:B5)' },
+  { name: 'RAND', syntax: 'RAND()', desc: 'رقم عشوائي بين 0 و 1', example: '=RAND()' },
+  { name: 'RANDBETWEEN', syntax: 'RANDBETWEEN(bottom, top)', desc: 'رقم عشوائي صحيح', example: '=RANDBETWEEN(1,100)' },
+  { name: 'PI', syntax: 'PI()', desc: 'قيمة π', example: '=PI()' },
+  { name: 'SIN', syntax: 'SIN(number)', desc: 'جيب الزاوية', example: '=SIN(A1)' },
+  { name: 'COS', syntax: 'COS(number)', desc: 'جيب تمام الزاوية', example: '=COS(A1)' },
+  { name: 'TAN', syntax: 'TAN(number)', desc: 'ظل الزاوية', example: '=TAN(A1)' },
+  { name: 'RADIANS', syntax: 'RADIANS(degrees)', desc: 'تحويل لدرجة بالراديان', example: '=RADIANS(180)' },
+  { name: 'DEGREES', syntax: 'DEGREES(angle)', desc: 'تحويل من راديان لدرجات', example: '=DEGREES(PI())' },
+
+  // Lookup
+  { name: 'VLOOKUP', syntax: 'VLOOKUP(lookup_value, table, col_index, [range_lookup])', desc: 'بحث عمودي', example: '=VLOOKUP("X",A1:C10,2,FALSE)' },
+  { name: 'HLOOKUP', syntax: 'HLOOKUP(lookup_value, table, row_index, [range_lookup])', desc: 'بحث أفقي', example: '=HLOOKUP("X",A1:E5,3,FALSE)' },
+  { name: 'INDEX', syntax: 'INDEX(array, row_num, [column_num])', desc: 'استرجاع قيمة من نطاق', example: '=INDEX(A1:C10,2,3)' },
+  { name: 'MATCH', syntax: 'MATCH(lookup_value, lookup_array, [match_type])', desc: 'البحث عن موضع قيمة', example: '=MATCH("X",A1:A10,0)' },
+  { name: 'CHOOSE', syntax: 'CHOOSE(index_num, value1, [value2], ...)', desc: 'اختيار قيمة من قائمة', example: '=CHOOSE(2,"A","B","C")' },
+  { name: 'OFFSET', syntax: 'OFFSET(reference, rows, cols, [height], [width])', desc: 'مرجع بإزاحة', example: '=OFFSET(A1,1,1)' },
+  { name: 'ROW', syntax: 'ROW([reference])', desc: 'رقم الصف', example: '=ROW(A5)' },
+  { name: 'COLUMN', syntax: 'COLUMN([reference])', desc: 'رقم العمود', example: '=COLUMN(C1)' },
+
+  // Text
+  { name: 'CONCAT', syntax: 'CONCAT(text1, [text2], ...)', desc: 'دمج نصوص', example: '=CONCAT(A1,B1)' },
+  { name: 'CONCATENATE', syntax: 'CONCATENATE(text1, [text2], ...)', desc: 'دمج نصوص (الإصدار القديم)', example: '=CONCATENATE(A1," ",B1)' },
+  { name: 'LEFT', syntax: 'LEFT(text, [num_chars])', desc: 'الأحرف الأولى من نص', example: '=LEFT(A1,3)' },
+  { name: 'RIGHT', syntax: 'RIGHT(text, [num_chars])', desc: 'الأحرف الأخيرة من نص', example: '=RIGHT(A1,2)' },
+  { name: 'MID', syntax: 'MID(text, start, num_chars)', desc: 'استخراج جزء من النص', example: '=MID(A1,2,3)' },
+  { name: 'LEN', syntax: 'LEN(text)', desc: 'طول النص', example: '=LEN(A1)' },
+  { name: 'UPPER', syntax: 'UPPER(text)', desc: 'تحويل لأحرف كبيرة', example: '=UPPER(A1)' },
+  { name: 'LOWER', syntax: 'LOWER(text)', desc: 'تحويل لأحرف صغيرة', example: '=LOWER(A1)' },
+  { name: 'PROPER', syntax: 'PROPER(text)', desc: 'أول حرف كبير في كل كلمة', example: '=PROPER(A1)' },
+  { name: 'TRIM', syntax: 'TRIM(text)', desc: 'إزالة المسافات الزائدة', example: '=TRIM(A1)' },
+  { name: 'SUBSTITUTE', syntax: 'SUBSTITUTE(text, old, new, [instance])', desc: 'استبدال نص', example: '=SUBSTITUTE(A1,"old","new")' },
+  { name: 'REPLACE', syntax: 'REPLACE(old_text, start, num_chars, new_text)', desc: 'استبدال بموضع', example: '=REPLACE(A1,1,3,"XXX")' },
+  { name: 'FIND', syntax: 'FIND(find_text, within_text, [start])', desc: 'البحث عن نص (حساس لحالة الأحرف)', example: '=FIND("a",A1)' },
+  { name: 'SEARCH', syntax: 'SEARCH(find_text, within_text, [start])', desc: 'البحث عن نص (غير حساس)', example: '=SEARCH("A",A1)' },
+  { name: 'TEXT', syntax: 'TEXT(value, format_text)', desc: 'تنسيق رقم كنص', example: '=TEXT(A1,"0.00")' },
+  { name: 'VALUE', syntax: 'VALUE(text)', desc: 'تحويل نص لرقم', example: '=VALUE("123")' },
+
+  // Date
+  { name: 'TODAY', syntax: 'TODAY()', desc: 'تاريخ اليوم', example: '=TODAY()' },
+  { name: 'NOW', syntax: 'NOW()', desc: 'التاريخ والوقت الحاليان', example: '=NOW()' },
+  { name: 'DATE', syntax: 'DATE(year, month, day)', desc: 'إنشاء تاريخ', example: '=DATE(2026,4,27)' },
+  { name: 'YEAR', syntax: 'YEAR(serial_number)', desc: 'استخراج السنة', example: '=YEAR(A1)' },
+  { name: 'MONTH', syntax: 'MONTH(serial_number)', desc: 'استخراج الشهر', example: '=MONTH(A1)' },
+  { name: 'DAY', syntax: 'DAY(serial_number)', desc: 'استخراج اليوم', example: '=DAY(A1)' },
+  { name: 'WEEKDAY', syntax: 'WEEKDAY(serial_number, [return_type])', desc: 'يوم الأسبوع', example: '=WEEKDAY(TODAY())' },
+
+  // Logical
+  { name: 'TRUE', syntax: 'TRUE()', desc: 'القيمة المنطقية صحيح', example: '=TRUE()' },
+  { name: 'FALSE', syntax: 'FALSE()', desc: 'القيمة المنطقية خطأ', example: '=FALSE()' },
+
+  // Information
+  { name: 'ISBLANK', syntax: 'ISBLANK(value)', desc: 'هل الخلية فارغة؟', example: '=ISBLANK(A1)' },
+  { name: 'ISNUMBER', syntax: 'ISNUMBER(value)', desc: 'هل القيمة رقم؟', example: '=ISNUMBER(A1)' },
+  { name: 'ISTEXT', syntax: 'ISTEXT(value)', desc: 'هل القيمة نص؟', example: '=ISTEXT(A1)' },
+  { name: 'ISERROR', syntax: 'ISERROR(value)', desc: 'هل القيمة خطأ؟', example: '=ISERROR(A1)' },
+  { name: 'ISNA', syntax: 'ISNA(value)', desc: 'هل القيمة #N/A؟', example: '=ISNA(A1)' }
+];
+
+// ====================================================================
+// EXAMPLE SPREADSHEETS
+// ====================================================================
 const EXAMPLES = {
-  empty: {
-    name: '📄 جدول فارغ',
-    rows: 25, cols: 8,
-    cells: {}
-  },
+  empty: { name: '📄 جدول فارغ', rows: 25, cols: 8, cells: {} },
   grades: {
-    name: '🎓 درجات الطلاب',
-    rows: 15, cols: 6,
+    name: '🎓 درجات الطلاب', rows: 15, cols: 6,
     cells: {
-      'A1': { value: 'الطالب', style: 'header' },
-      'B1': { value: 'PYT103', style: 'header' },
-      'C1': { value: 'STA104', style: 'header' },
-      'D1': { value: 'OSC', style: 'header' },
-      'E1': { value: 'المعدل', style: 'header' },
-      'F1': { value: 'النتيجة', style: 'header' },
+      'A1': { value: 'الطالب', style: 'header' }, 'B1': { value: 'PYT103', style: 'header' },
+      'C1': { value: 'STA104', style: 'header' }, 'D1': { value: 'OSC', style: 'header' },
+      'E1': { value: 'المعدل', style: 'header' }, 'F1': { value: 'النتيجة', style: 'header' },
       'A2': { value: 'عاطف' }, 'B2': { value: 95 }, 'C2': { value: 88 }, 'D2': { value: 92 },
       'A3': { value: 'أحمد' }, 'B3': { value: 75 }, 'C3': { value: 80 }, 'D3': { value: 70 },
       'A4': { value: 'نورة' }, 'B4': { value: 92 }, 'C4': { value: 95 }, 'D4': { value: 90 },
       'A5': { value: 'سارة' }, 'B5': { value: 85 }, 'C5': { value: 78 }, 'D5': { value: 82 },
       'A6': { value: 'خالد' }, 'B6': { value: 60 }, 'C6': { value: 65 }, 'D6': { value: 55 },
       'A7': { value: 'منى' }, 'B7': { value: 88 }, 'C7': { value: 91 }, 'D7': { value: 86 },
-      'E2': { value: '=AVERAGE(B2:D2)' },
-      'E3': { value: '=AVERAGE(B3:D3)' },
-      'E4': { value: '=AVERAGE(B4:D4)' },
-      'E5': { value: '=AVERAGE(B5:D5)' },
-      'E6': { value: '=AVERAGE(B6:D6)' },
-      'E7': { value: '=AVERAGE(B7:D7)' },
-      'F2': { value: '=IF(E2>=70,"ناجح","راسب")' },
-      'F3': { value: '=IF(E3>=70,"ناجح","راسب")' },
-      'F4': { value: '=IF(E4>=70,"ناجح","راسب")' },
-      'F5': { value: '=IF(E5>=70,"ناجح","راسب")' },
-      'F6': { value: '=IF(E6>=70,"ناجح","راسب")' },
-      'F7': { value: '=IF(E7>=70,"ناجح","راسب")' },
+      'E2': { value: '=AVERAGE(B2:D2)' }, 'E3': { value: '=AVERAGE(B3:D3)' },
+      'E4': { value: '=AVERAGE(B4:D4)' }, 'E5': { value: '=AVERAGE(B5:D5)' },
+      'E6': { value: '=AVERAGE(B6:D6)' }, 'E7': { value: '=AVERAGE(B7:D7)' },
+      'F2': { value: '=IF(E2>=70,"ناجح","راسب")' }, 'F3': { value: '=IF(E3>=70,"ناجح","راسب")' },
+      'F4': { value: '=IF(E4>=70,"ناجح","راسب")' }, 'F5': { value: '=IF(E5>=70,"ناجح","راسب")' },
+      'F6': { value: '=IF(E6>=70,"ناجح","راسب")' }, 'F7': { value: '=IF(E7>=70,"ناجح","راسب")' },
       'A9':  { value: 'إحصاءات', style: 'bold' },
       'A10': { value: 'المتوسط الإجمالي:' }, 'B10': { value: '=AVERAGE(B2:D7)' },
       'A11': { value: 'أعلى درجة:' },          'B11': { value: '=MAX(B2:D7)' },
       'A12': { value: 'أقل درجة:' },           'B12': { value: '=MIN(B2:D7)' },
       'A13': { value: 'الانحراف المعياري:' },  'B13': { value: '=STDEV(B2:D7)' },
-      'A14': { value: 'عدد الناجحين:' },       'B14': { value: '=COUNTIF(F2:F7,"ناجح")' },
+      'A14': { value: 'عدد الناجحين:' },       'B14': { value: '=COUNTIF(F2:F7,"ناجح")' }
     }
   },
   sales: {
-    name: '💰 مبيعات شهرية',
-    rows: 18, cols: 5,
+    name: '💰 مبيعات شهرية', rows: 18, cols: 5,
     cells: {
-      'A1': { value: 'الشهر', style: 'header' },
-      'B1': { value: 'المبيعات', style: 'header' },
-      'C1': { value: 'الهدف', style: 'header' },
-      'D1': { value: 'الفرق', style: 'header' },
-      'E1': { value: 'الأداء', style: 'header' },
+      'A1': { value: 'الشهر', style: 'header' }, 'B1': { value: 'المبيعات', style: 'header' },
+      'C1': { value: 'الهدف', style: 'header' }, 'D1': { value: 'الفرق', style: 'header' }, 'E1': { value: 'الأداء', style: 'header' },
       'A2': { value: 'يناير' },  'B2': { value: 12000 }, 'C2': { value: 10000 },
       'A3': { value: 'فبراير' }, 'B3': { value: 15500 }, 'C3': { value: 12000 },
       'A4': { value: 'مارس' },   'B4': { value: 13800 }, 'C4': { value: 14000 },
@@ -355,13 +415,12 @@ const EXAMPLES = {
       'A10': { value: 'إجمالي المبيعات:' }, 'B10': { value: '=SUM(B2:B7)' },
       'A11': { value: 'متوسط المبيعات:' },  'B11': { value: '=AVERAGE(B2:B7)' },
       'A12': { value: 'أعلى شهر:' },         'B12': { value: '=MAX(B2:B7)' },
-      'A13': { value: 'عدد أشهر تجاوزت 15K:' }, 'B13': { value: '=COUNTIF(B2:B7,">15000")' },
-      'A14': { value: 'مجموع تجاوز الهدف:' }, 'B14': { value: '=SUMIF(D2:D7,">0",D2:D7)' },
+      'A13': { value: 'عدد أشهر فوق 15K:' }, 'B13': { value: '=COUNTIF(B2:B7,">15000")' },
+      'A14': { value: 'مجموع الفائض:' }, 'B14': { value: '=SUMIF(D2:D7,">0",D2:D7)' }
     }
   },
   statistics: {
-    name: '📊 إحصاء STA104',
-    rows: 20, cols: 5,
+    name: '📊 إحصاء STA104', rows: 22, cols: 5,
     cells: {
       'A1': { value: 'بيانات الطول (سم)', style: 'header' },
       'B1': { value: 'الانحراف عن المتوسط', style: 'header' },
@@ -369,8 +428,7 @@ const EXAMPLES = {
       'D1': { value: 'Z-Score', style: 'header' },
       'A2': { value: 165 }, 'A3': { value: 170 }, 'A4': { value: 168 },
       'A5': { value: 172 }, 'A6': { value: 175 }, 'A7': { value: 169 },
-      'A8': { value: 171 }, 'A9': { value: 174 }, 'A10': { value: 167 },
-      'A11': { value: 173 },
+      'A8': { value: 171 }, 'A9': { value: 174 }, 'A10': { value: 167 }, 'A11': { value: 173 },
       'B2': { value: '=A2-$B$15' }, 'C2': { value: '=B2^2' }, 'D2': { value: '=B2/$B$16' },
       'B3': { value: '=A3-$B$15' }, 'C3': { value: '=B3^2' }, 'D3': { value: '=B3/$B$16' },
       'B4': { value: '=A4-$B$15' }, 'C4': { value: '=B4^2' }, 'D4': { value: '=B4/$B$16' },
@@ -382,22 +440,19 @@ const EXAMPLES = {
       'B10': { value: '=A10-$B$15' }, 'C10': { value: '=B10^2' }, 'D10': { value: '=B10/$B$16' },
       'B11': { value: '=A11-$B$15' }, 'C11': { value: '=B11^2' }, 'D11': { value: '=B11/$B$16' },
       'A14': { value: 'المقياس الإحصائي', style: 'bold' },
-      'A15': { value: 'المتوسط (Mean):' },         'B15': { value: '=AVERAGE(A2:A11)' },
-      'A16': { value: 'الانحراف المعياري (σ):' },  'B16': { value: '=STDEV(A2:A11)' },
-      'A17': { value: 'التباين (Variance):' },     'B17': { value: '=VAR(A2:A11)' },
-      'A18': { value: 'الوسيط (Median):' },        'B18': { value: '=MEDIAN(A2:A11)' },
-      'A19': { value: 'المدى (Range):' },          'B19': { value: '=MAX(A2:A11)-MIN(A2:A11)' },
-      'A20': { value: 'مجموع مربعات الانحراف:' },   'B20': { value: '=SUM(C2:C11)' },
+      'A15': { value: 'المتوسط (Mean):' }, 'B15': { value: '=AVERAGE(A2:A11)' },
+      'A16': { value: 'الانحراف المعياري:' }, 'B16': { value: '=STDEV(A2:A11)' },
+      'A17': { value: 'التباين:' }, 'B17': { value: '=VAR(A2:A11)' },
+      'A18': { value: 'الوسيط:' }, 'B18': { value: '=MEDIAN(A2:A11)' },
+      'A19': { value: 'المدى:' }, 'B19': { value: '=MAX(A2:A11)-MIN(A2:A11)' },
+      'A20': { value: 'مجموع مربعات الانحراف:' }, 'B20': { value: '=SUM(C2:C11)' }
     }
   },
   budget: {
-    name: '🏦 الميزانية الشخصية',
-    rows: 18, cols: 4,
+    name: '🏦 الميزانية الشخصية', rows: 18, cols: 4,
     cells: {
-      'A1': { value: 'البند', style: 'header' },
-      'B1': { value: 'المبلغ', style: 'header' },
-      'C1': { value: 'النوع', style: 'header' },
-      'D1': { value: '%', style: 'header' },
+      'A1': { value: 'البند', style: 'header' }, 'B1': { value: 'المبلغ', style: 'header' },
+      'C1': { value: 'النوع', style: 'header' }, 'D1': { value: 'النسبة', style: 'header' },
       'A2': { value: 'الراتب' },         'B2': { value: 12000 }, 'C2': { value: 'دخل' },
       'A3': { value: 'دخل إضافي' },      'B3': { value: 2000 },  'C3': { value: 'دخل' },
       'A4': { value: 'الإيجار' },         'B4': { value: 3500 },  'C4': { value: 'مصروف' },
@@ -406,35 +461,33 @@ const EXAMPLES = {
       'A7': { value: 'فواتير' },          'B7': { value: 600 },   'C7': { value: 'مصروف' },
       'A8': { value: 'ادخار' },          'B8': { value: 2000 },  'C8': { value: 'مصروف' },
       'A9': { value: 'ترفيه' },          'B9': { value: 700 },   'C9': { value: 'مصروف' },
-      'D2': { value: '=B2/$B$12*100' },
-      'D3': { value: '=B3/$B$12*100' },
-      'D4': { value: '=B4/$B$13*100' },
-      'D5': { value: '=B5/$B$13*100' },
-      'D6': { value: '=B6/$B$13*100' },
-      'D7': { value: '=B7/$B$13*100' },
-      'D8': { value: '=B8/$B$13*100' },
-      'D9': { value: '=B9/$B$13*100' },
+      'D2': { value: '=ROUND(B2/$B$12*100,1)' },
+      'D3': { value: '=ROUND(B3/$B$12*100,1)' },
+      'D4': { value: '=ROUND(B4/$B$13*100,1)' },
+      'D5': { value: '=ROUND(B5/$B$13*100,1)' },
+      'D6': { value: '=ROUND(B6/$B$13*100,1)' },
+      'D7': { value: '=ROUND(B7/$B$13*100,1)' },
+      'D8': { value: '=ROUND(B8/$B$13*100,1)' },
+      'D9': { value: '=ROUND(B9/$B$13*100,1)' },
       'A11': { value: 'الملخص', style: 'bold' },
       'A12': { value: 'إجمالي الدخل:' },     'B12': { value: '=SUMIF(C2:C9,"دخل",B2:B9)' },
       'A13': { value: 'إجمالي المصروف:' },   'B13': { value: '=SUMIF(C2:C9,"مصروف",B2:B9)' },
       'A14': { value: 'الفائض / العجز:' },    'B14': { value: '=B12-B13' },
-      'A15': { value: 'الحالة:' },            'B15': { value: '=IF(B14>0,"فائض ✓","عجز ✗")' },
+      'A15': { value: 'الحالة:' },            'B15': { value: '=IF(B14>0,"فائض ✓","عجز ✗")' }
     }
   }
 };
 
-// ======================================================================
-// SPREADSHEET STATE
-// ======================================================================
+// ====================================================================
+// STATE
+// ====================================================================
 let ROWS = 25, COLS = 8;
-let cellData = {}; // { 'A1': { value: '...', style: '...' } }
+let cellData = {};
 let selectedCell = 'A1';
 let editingCell = null;
-let hf = null; // HyperFormula instance
+let hf = null;
 let currentExample = 'grades';
-
 const COL_LETTERS = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
-
 function colLetter(i) { return COL_LETTERS[i]; }
 function cellRef(row, col) { return colLetter(col) + (row + 1); }
 function parseCellRef(ref) {
@@ -445,21 +498,12 @@ function parseCellRef(ref) {
   return { row, col };
 }
 
-// ======================================================================
-// HYPERFORMULA SETUP
-// ======================================================================
 function initHyperFormula() {
-  const options = {
-    licenseKey: 'gpl-v3',
-    useColumnIndex: true,
-    smartRounding: true,
-  };
-  hf = HyperFormula.buildEmpty(options);
+  hf = HyperFormula.buildEmpty({ licenseKey: 'gpl-v3', useColumnIndex: true, smartRounding: true });
   hf.addSheet('Sheet1');
 }
 
 function syncToHF() {
-  // Build full grid array from cellData
   const sheetId = hf.getSheetId('Sheet1');
   const grid = [];
   for (let r = 0; r < ROWS; r++) {
@@ -467,17 +511,12 @@ function syncToHF() {
     for (let c = 0; c < COLS; c++) {
       const ref = cellRef(r, c);
       const cell = cellData[ref];
-      if (!cell || cell.value === '' || cell.value == null) {
-        row.push(null);
-      } else {
-        // Try parse number
+      if (!cell || cell.value === '' || cell.value == null) row.push(null);
+      else {
         const v = cell.value;
         if (typeof v === 'number') row.push(v);
-        else if (typeof v === 'string' && /^-?\d+(\.\d+)?$/.test(v) && !v.startsWith('=')) {
-          row.push(parseFloat(v));
-        } else {
-          row.push(v);
-        }
+        else if (typeof v === 'string' && /^-?\d+(\.\d+)?$/.test(v) && !v.startsWith('=')) row.push(parseFloat(v));
+        else row.push(v);
       }
     }
     grid.push(row);
@@ -490,31 +529,49 @@ function getCellComputed(ref) {
   if (!parsed) return null;
   const sheetId = hf.getSheetId('Sheet1');
   try {
-    const v = hf.getCellValue({ sheet: sheetId, row: parsed.row, col: parsed.col });
-    return v;
-  } catch(e) {
-    return '#ERR';
-  }
+    return hf.getCellValue({ sheet: sheetId, row: parsed.row, col: parsed.col });
+  } catch(e) { return '#ERR'; }
 }
 
-// ======================================================================
-// RENDER SPREADSHEET
-// ======================================================================
+function formatNumber(n) {
+  if (Number.isInteger(n)) return String(n);
+  return n.toLocaleString('en-US', { maximumFractionDigits: 4 });
+}
+
+function buildCellDisplay(ref) {
+  const cell = cellData[ref];
+  const div = document.createElement('div');
+  div.className = 'cell-value';
+  if (!cell || cell.value === '' || cell.value == null) { div.textContent = ''; return div; }
+  let display, isNumber = false, isError = false;
+  if (typeof cell.value === 'string' && cell.value.startsWith('=')) {
+    const computed = getCellComputed(ref);
+    if (computed && typeof computed === 'object' && computed.type === 'ERROR') {
+      display = '#' + (computed.value || 'ERR'); isError = true;
+    } else if (computed === null || computed === undefined) display = '';
+    else if (typeof computed === 'number') { display = formatNumber(computed); isNumber = true; }
+    else display = String(computed);
+    div.classList.add('formula-result');
+  } else if (typeof cell.value === 'number') { display = formatNumber(cell.value); isNumber = true; }
+  else if (/^-?\d+(\.\d+)?$/.test(String(cell.value))) { display = formatNumber(parseFloat(cell.value)); isNumber = true; }
+  else display = String(cell.value);
+  if (isError) div.classList.add('error');
+  if (isNumber) div.classList.add('number'); else div.classList.add('text');
+  if (cell.style === 'header') div.classList.add('header-cell');
+  if (cell.style === 'bold') div.classList.add('bold');
+  div.textContent = display;
+  return div;
+}
+
 function renderSpreadsheet() {
   const table = document.getElementById('spreadsheet');
   table.innerHTML = '';
-  
-  // Header row
   const thead = document.createElement('thead');
   const headerRow = document.createElement('tr');
   headerRow.innerHTML = '<th class="row-header"></th>';
-  for (let c = 0; c < COLS; c++) {
-    headerRow.innerHTML += '<th>' + colLetter(c) + '</th>';
-  }
+  for (let c = 0; c < COLS; c++) headerRow.innerHTML += '<th>' + colLetter(c) + '</th>';
   thead.appendChild(headerRow);
   table.appendChild(thead);
-  
-  // Body
   const tbody = document.createElement('tbody');
   for (let r = 0; r < ROWS; r++) {
     const tr = document.createElement('tr');
@@ -532,71 +589,10 @@ function renderSpreadsheet() {
     tbody.appendChild(tr);
   }
   table.appendChild(tbody);
-  
   attachCellListeners();
   highlightSelected();
 }
 
-function buildCellDisplay(ref) {
-  const cell = cellData[ref];
-  const div = document.createElement('div');
-  div.className = 'cell-value';
-  
-  if (!cell || cell.value === '' || cell.value == null) {
-    div.textContent = '';
-    return div;
-  }
-  
-  let display;
-  let isNumber = false;
-  let isError = false;
-  
-  if (typeof cell.value === 'string' && cell.value.startsWith('=')) {
-    // Formula → use HF computed value
-    const computed = getCellComputed(ref);
-    if (computed && typeof computed === 'object' && computed.type === 'ERROR') {
-      display = '#' + (computed.value || 'ERR');
-      isError = true;
-    } else if (computed === null || computed === undefined) {
-      display = '';
-    } else if (typeof computed === 'number') {
-      display = formatNumber(computed);
-      isNumber = true;
-    } else {
-      display = String(computed);
-    }
-    div.classList.add('formula-result');
-  } else if (typeof cell.value === 'number') {
-    display = formatNumber(cell.value);
-    isNumber = true;
-  } else {
-    // Text or numeric string
-    if (/^-?\d+(\.\d+)?$/.test(String(cell.value))) {
-      display = formatNumber(parseFloat(cell.value));
-      isNumber = true;
-    } else {
-      display = String(cell.value);
-    }
-  }
-  
-  if (isError) div.classList.add('error');
-  if (isNumber) div.classList.add('number');
-  else div.classList.add('text');
-  if (cell.style === 'header') div.classList.add('header-cell');
-  if (cell.style === 'bold') div.classList.add('bold');
-  
-  div.textContent = display;
-  return div;
-}
-
-function formatNumber(n) {
-  if (Number.isInteger(n)) return String(n);
-  return n.toLocaleString('en-US', { maximumFractionDigits: 4 });
-}
-
-// ======================================================================
-// CELL INTERACTION
-// ======================================================================
 function attachCellListeners() {
   document.querySelectorAll('.cell').forEach(td => {
     td.addEventListener('click', () => selectCell(td.dataset.ref));
@@ -620,55 +616,227 @@ function highlightSelected() {
   if (td) td.classList.add('selected');
 }
 
+// ====================================================================
+// AUTOCOMPLETE
+// ====================================================================
+const acDropdown = document.getElementById('autocomplete');
+const acTooltip = document.getElementById('acTooltip');
+let acItems = [];
+let acActiveIdx = 0;
+let acTargetInput = null;
+
+function getCurrentFunctionContext(text, cursorPos) {
+  // Detect if user is typing a function name after = or a comma/(
+  // Returns { prefix: 'SU', matchStart: 1 } if typing =SU, or null
+  if (!text || text[0] !== '=') return null;
+  // Find last "(", "," or "=" before cursor
+  let i = cursorPos - 1;
+  let depth = 0;
+  while (i > 0) {
+    const c = text[i];
+    if (c === ')') depth++;
+    else if (c === '(' && depth > 0) depth--;
+    else if (c === '(' || c === ',') {
+      // Function context starts after this char
+      const fragment = text.substring(i + 1, cursorPos).trim();
+      if (/^[A-Za-z_]*$/.test(fragment)) {
+        return { prefix: fragment.toUpperCase(), matchStart: cursorPos - fragment.length };
+      } else return null;
+    }
+    i--;
+  }
+  // No paren/comma: check from = sign
+  const fragment = text.substring(1, cursorPos).trim();
+  if (/^[A-Za-z_]*$/.test(fragment)) {
+    return { prefix: fragment.toUpperCase(), matchStart: cursorPos - fragment.length };
+  }
+  return null;
+}
+
+function showAutocomplete(input) {
+  acTargetInput = input;
+  const text = input.value;
+  const cursorPos = input.selectionStart;
+  const ctx = getCurrentFunctionContext(text, cursorPos);
+  if (!ctx) { hideAutocomplete(); return; }
+  
+  const prefix = ctx.prefix;
+  const matched = FUNCTIONS.filter(f => f.name.startsWith(prefix));
+  
+  if (matched.length === 0) { hideAutocomplete(); return; }
+  
+  acItems = matched;
+  acActiveIdx = 0;
+  acDropdown.innerHTML = '';
+  
+  matched.forEach((fn, idx) => {
+    const item = document.createElement('div');
+    item.className = 'ac-item' + (idx === 0 ? ' active' : '');
+    item.dataset.idx = idx;
+    
+    const matchPart = prefix;
+    const restPart = fn.name.substring(prefix.length);
+    
+    item.innerHTML = `
+      <div class="ac-icon">fx</div>
+      <div class="ac-content">
+        <div class="ac-name"><span class="match">${matchPart}</span>${restPart}</div>
+        <div class="ac-desc">${fn.desc}</div>
+      </div>
+    `;
+    
+    item.addEventListener('click', () => acceptAutocomplete(idx));
+    item.addEventListener('mouseenter', () => {
+      acActiveIdx = idx;
+      updateAcActiveItem();
+      showTooltip(matched[idx], item);
+    });
+    
+    acDropdown.appendChild(item);
+  });
+  
+  // Position the dropdown
+  const rect = input.getBoundingClientRect();
+  acDropdown.style.left = rect.left + 'px';
+  acDropdown.style.top = (rect.bottom + 2) + 'px';
+  acDropdown.classList.add('show');
+  
+  setTimeout(() => {
+    if (matched[0]) showTooltip(matched[0], acDropdown.firstElementChild);
+  }, 50);
+}
+
+function updateAcActiveItem() {
+  document.querySelectorAll('.ac-item').forEach((it, i) => {
+    it.classList.toggle('active', i === acActiveIdx);
+  });
+  // Scroll into view
+  const active = document.querySelector('.ac-item.active');
+  if (active) active.scrollIntoView({ block: 'nearest' });
+  // Update tooltip
+  if (acItems[acActiveIdx]) {
+    showTooltip(acItems[acActiveIdx], document.querySelector('.ac-item.active'));
+  }
+}
+
+function showTooltip(fn, anchorEl) {
+  acTooltip.innerHTML = `
+    <div class="syntax">${fn.syntax}</div>
+    <div class="desc-ar">${fn.desc}</div>
+  `;
+  if (anchorEl) {
+    const rect = anchorEl.getBoundingClientRect();
+    acTooltip.style.left = (rect.right + 8) + 'px';
+    acTooltip.style.top = rect.top + 'px';
+    acTooltip.classList.add('show');
+  }
+}
+
+function hideAutocomplete() {
+  acDropdown.classList.remove('show');
+  acTooltip.classList.remove('show');
+  acItems = [];
+  acTargetInput = null;
+}
+
+function acceptAutocomplete(idx) {
+  if (!acTargetInput || !acItems[idx]) return;
+  const fn = acItems[idx];
+  const text = acTargetInput.value;
+  const cursorPos = acTargetInput.selectionStart;
+  const ctx = getCurrentFunctionContext(text, cursorPos);
+  if (!ctx) return;
+  
+  const before = text.substring(0, ctx.matchStart);
+  const after = text.substring(cursorPos);
+  const newText = before + fn.name + '(' + after;
+  acTargetInput.value = newText;
+  
+  const newCursor = ctx.matchStart + fn.name.length + 1;
+  acTargetInput.setSelectionRange(newCursor, newCursor);
+  acTargetInput.focus();
+  
+  hideAutocomplete();
+}
+
+function setupAutocompleteFor(input) {
+  input.addEventListener('input', () => showAutocomplete(input));
+  input.addEventListener('keydown', (e) => {
+    if (!acDropdown.classList.contains('show')) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      acActiveIdx = Math.min(acItems.length - 1, acActiveIdx + 1);
+      updateAcActiveItem();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      acActiveIdx = Math.max(0, acActiveIdx - 1);
+      updateAcActiveItem();
+    } else if (e.key === 'Tab' || (e.key === 'Enter' && acItems.length > 0)) {
+      e.preventDefault();
+      e.stopPropagation();
+      acceptAutocomplete(acActiveIdx);
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      hideAutocomplete();
+    }
+  });
+  input.addEventListener('blur', () => setTimeout(hideAutocomplete, 200));
+}
+
+// ====================================================================
+// EDIT CELL
+// ====================================================================
 function startEditing(ref) {
   if (editingCell) finishEditing(true);
   editingCell = ref;
   selectedCell = ref;
   const td = document.querySelector(`.cell[data-ref="${ref}"]`);
   if (!td) return;
-  
   const input = document.createElement('input');
   input.className = 'cell-input';
   input.type = 'text';
+  input.autocomplete = 'off';
   const cell = cellData[ref];
   input.value = cell ? String(cell.value) : '';
-  
   td.innerHTML = '';
   td.appendChild(input);
   input.focus();
   input.select();
   
+  setupAutocompleteFor(input);
+  
   input.addEventListener('keydown', (e) => {
+    if (acDropdown.classList.contains('show')) {
+      if (['ArrowDown','ArrowUp','Tab','Enter','Escape'].includes(e.key)) return;
+    }
     if (e.key === 'Enter') { e.preventDefault(); finishEditing(true); moveSelection(1, 0); }
     else if (e.key === 'Tab') { e.preventDefault(); finishEditing(true); moveSelection(0, 1); }
     else if (e.key === 'Escape') { e.preventDefault(); finishEditing(false); }
   });
   
   input.addEventListener('blur', () => {
-    if (editingCell) finishEditing(true);
+    setTimeout(() => {
+      if (editingCell === ref && !acDropdown.classList.contains('show')) finishEditing(true);
+    }, 150);
   });
 }
 
 function finishEditing(commit) {
   if (!editingCell) return;
+  hideAutocomplete();
   const td = document.querySelector(`.cell[data-ref="${editingCell}"]`);
   if (!td) { editingCell = null; return; }
   const input = td.querySelector('.cell-input');
-  if (input && commit) {
-    const value = input.value;
-    setCell(editingCell, value);
-  }
+  if (input && commit) setCell(editingCell, input.value);
   td.innerHTML = '';
   td.appendChild(buildCellDisplay(editingCell));
   editingCell = null;
-  // Re-render dependent cells
   renderSpreadsheet();
 }
 
 function setCell(ref, value) {
-  if (value === '' || value == null) {
-    delete cellData[ref];
-  } else {
+  if (value === '' || value == null) delete cellData[ref];
+  else {
     const existing = cellData[ref] || {};
     cellData[ref] = { ...existing, value };
   }
@@ -683,74 +851,60 @@ function moveSelection(dRow, dCol) {
   selectCell(cellRef(newRow, newCol));
 }
 
-// Formula bar
-document.getElementById('formulaInput').addEventListener('keydown', (e) => {
+// Formula bar input
+const formulaInput = document.getElementById('formulaInput');
+setupAutocompleteFor(formulaInput);
+formulaInput.addEventListener('keydown', (e) => {
+  if (acDropdown.classList.contains('show') && ['ArrowDown','ArrowUp','Tab','Enter','Escape'].includes(e.key)) return;
   if (e.key === 'Enter') {
     e.preventDefault();
-    setCell(selectedCell, e.target.value);
+    setCell(selectedCell, formulaInput.value);
     renderSpreadsheet();
     moveSelection(1, 0);
   }
 });
 
-// Keyboard navigation
 document.addEventListener('keydown', (e) => {
   if (editingCell) return;
   if (e.target.tagName === 'INPUT') return;
-  
+  if (acDropdown.classList.contains('show')) return;
   let handled = true;
   if (e.key === 'ArrowUp') moveSelection(-1, 0);
   else if (e.key === 'ArrowDown') moveSelection(1, 0);
   else if (e.key === 'ArrowLeft') moveSelection(0, -1);
   else if (e.key === 'ArrowRight') moveSelection(0, 1);
-  else if (e.key === 'Enter') startEditing(selectedCell);
-  else if (e.key === 'F2') startEditing(selectedCell);
-  else if (e.key === 'Delete' || e.key === 'Backspace') {
-    setCell(selectedCell, '');
-    renderSpreadsheet();
-  }
+  else if (e.key === 'Enter' || e.key === 'F2') startEditing(selectedCell);
+  else if (e.key === 'Delete' || e.key === 'Backspace') { setCell(selectedCell, ''); renderSpreadsheet(); }
   else if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
     startEditing(selectedCell);
     setTimeout(() => {
-      const input = document.querySelector('.cell-input');
-      if (input) input.value = e.key;
+      const inp = document.querySelector('.cell-input');
+      if (inp) {
+        inp.value = e.key;
+        inp.dispatchEvent(new Event('input'));
+      }
     }, 10);
     return;
-  }
-  else { handled = false; }
-  
+  } else handled = false;
   if (handled) e.preventDefault();
 });
 
-// ======================================================================
-// STATUS BAR (live stats from selection)
-// ======================================================================
 function updateStatusBar() {
-  // For simplicity, compute stats over all numeric cells in column of selectedCell
   const parsed = parseCellRef(selectedCell);
   if (!parsed) return;
-  
   const numbers = [];
   for (let r = 0; r < ROWS; r++) {
     const ref = cellRef(r, parsed.col);
     const cell = cellData[ref];
     if (!cell) continue;
     let v;
-    if (typeof cell.value === 'string' && cell.value.startsWith('=')) {
-      v = getCellComputed(ref);
-    } else {
-      v = cell.value;
-    }
+    if (typeof cell.value === 'string' && cell.value.startsWith('=')) v = getCellComputed(ref);
+    else v = cell.value;
     if (typeof v === 'number' && !isNaN(v)) numbers.push(v);
     else if (typeof v === 'string' && /^-?\d+(\.\d+)?$/.test(v)) numbers.push(parseFloat(v));
   }
-  
   if (numbers.length === 0) {
-    document.getElementById('statSum').textContent = '0';
-    document.getElementById('statAvg').textContent = '0';
-    document.getElementById('statCount').textContent = '0';
-    document.getElementById('statMin').textContent = '0';
-    document.getElementById('statMax').textContent = '0';
+    ['Sum','Avg','Count','Min','Max'].forEach(s => document.getElementById('stat' + s).textContent = '0');
   } else {
     const sum = numbers.reduce((a,b) => a+b, 0);
     document.getElementById('statSum').textContent = formatNumber(sum);
@@ -761,9 +915,6 @@ function updateStatusBar() {
   }
 }
 
-// ======================================================================
-// EXAMPLES BAR
-// ======================================================================
 const examplesBar = document.getElementById('examplesBar');
 Object.entries(EXAMPLES).forEach(([key, ex]) => {
   const chip = document.createElement('button');
@@ -780,8 +931,7 @@ function loadExample(key) {
   document.querySelectorAll('.example-chip').forEach(c => c.classList.remove('active'));
   [...document.querySelectorAll('.example-chip')].find(c => c.textContent === ex.name)?.classList.add('active');
   currentExample = key;
-  ROWS = ex.rows;
-  COLS = ex.cols;
+  ROWS = ex.rows; COLS = ex.cols;
   cellData = JSON.parse(JSON.stringify(ex.cells));
   syncToHF();
   renderSpreadsheet();
@@ -810,9 +960,6 @@ window.recalculate = recalculate;
 window.showHelp = showHelp;
 window.hideHelp = hideHelp;
 
-// ======================================================================
-// INIT
-// ======================================================================
 window.addEventListener('DOMContentLoaded', () => {
   initHyperFormula();
   loadExample(currentExample);
