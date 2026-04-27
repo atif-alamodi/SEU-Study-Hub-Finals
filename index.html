@@ -132,6 +132,7 @@ html, body { font-family: 'Noto Sans Arabic', 'Cairo', sans-serif; background: v
   <button class="tab-btn home-tab active" data-tab="home" onclick="switchTab('home')"><span class="tab-icon">🏠</span><span class="tab-name">الرئيسية</span></button>
   <div class="tab-divider"></div>
   <button class="tab-btn" data-tab="osc" onclick="switchTab('osc')"><span class="tab-icon">💻</span><span class="tab-name">نظم التشغيل</span><span class="tab-code">OSC</span></button>
+  <button class="tab-btn" data-tab="oscfinal" onclick="switchTab('oscfinal')"><span class="tab-icon">🎓</span><span class="tab-name">OSC — النهائي</span><span class="tab-code">12 موضوع</span></button>
   <button class="tab-btn" data-tab="sta" onclick="switchTab('sta')"><span class="tab-icon">📊</span><span class="tab-name">الإحصاء</span><span class="tab-code">STA104</span></button>
   <button class="tab-btn" data-tab="pyt" onclick="switchTab('pyt')"><span class="tab-icon">🐍</span><span class="tab-name">البايثون</span><span class="tab-code">PYT103</span></button>
   <button class="tab-btn" data-tab="elg" onclick="switchTab('elg')"><span class="tab-icon">🇬🇧</span><span class="tab-name">الإنجليزي</span><span class="tab-code">ELG201</span></button>
@@ -165,6 +166,12 @@ html, body { font-family: 'Noto Sans Arabic', 'Cairo', sans-serif; background: v
             <div class="card-header"><div class="card-icon">💻</div><div class="card-title"><h3>مفاهيم نظم التشغيل</h3><span class="card-code">OSC</span></div></div>
             <p class="card-desc">دليل تفاعلي شامل مع رسوم متحركة ومحاكيات CLI/GUI لجميع مواضيع المنهج.</p>
             <div class="card-features"><span class="card-feature">8 أقسام</span><span class="card-feature">رسوم تفاعلية</span><span class="card-feature">محاكاة CLI/GUI</span><span class="card-feature">67 سؤال</span></div>
+            <div class="card-cta"><span class="card-cta-text">ابدأ المراجعة</span><div class="card-cta-arrow">←</div></div>
+          </div>
+          <div class="subject-card" onclick="switchTab('oscfinal')" style="--card-color: #7c3aed; --card-bg: #ede9fe; border: 2px solid #f59e0b;">
+            <div class="card-header"><div class="card-icon">🎓</div><div class="card-title"><h3>OSC — المنهج الكامل (النهائي)</h3><span class="card-code" style="background: #f59e0b; color: white;">جديد · 12 موضوع</span></div></div>
+            <p class="card-desc">المنهج الكامل لاختبار النهائي مع تركيز على المواضيع الجديدة: الخيوط، المزامنة، الجدولة، والجمود.</p>
+            <div class="card-features"><span class="card-feature">12 موضوع</span><span class="card-feature">شرح مبسط</span><span class="card-feature">اختبار شامل</span><span class="card-feature">رسوم وأمثلة</span></div>
             <div class="card-cta"><span class="card-cta-text">ابدأ المراجعة</span><div class="card-cta-arrow">←</div></div>
           </div>
           <div class="subject-card" onclick="switchTab('sta')" style="--card-color: var(--sta-color); --card-bg: var(--sta-light);">
@@ -232,6 +239,7 @@ html, body { font-family: 'Noto Sans Arabic', 'Cairo', sans-serif; background: v
   </div>
 
   <div class="tab-panel" id="panel-osc"><div class="loading-overlay" id="loading-osc"><div class="spinner"></div><div class="loading-text">جاري تحميل مادة نظم التشغيل...</div></div></div>
+  <div class="tab-panel" id="panel-oscfinal"><div class="loading-overlay" id="loading-oscfinal"><div class="spinner"></div><div class="loading-text">جاري تحميل المنهج الكامل لنظم التشغيل (النهائي)...</div></div></div>
   <div class="tab-panel" id="panel-sta"><div class="loading-overlay" id="loading-sta"><div class="spinner"></div><div class="loading-text">جاري تحميل مادة الإحصاء...</div></div></div>
   <div class="tab-panel" id="panel-pyt"><div class="loading-overlay" id="loading-pyt"><div class="spinner"></div><div class="loading-text">جاري تحميل مادة البايثون...</div></div></div>
   <div class="tab-panel" id="panel-elg"><div class="loading-overlay" id="loading-elg"><div class="spinner"></div><div class="loading-text">جاري تحميل مادة اللغة الإنجليزية...</div></div></div>
@@ -242,7 +250,8 @@ html, body { font-family: 'Noto Sans Arabic', 'Cairo', sans-serif; background: v
 
 <script>
 const PAGE_URLS = {
-  osc:   'https://atif-alamodi.github.io/Operating_Systems_Concepts_Mid_Term/',
+  osc:      'https://atif-alamodi.github.io/Operating_Systems_Concepts_Mid_Term/',
+  oscfinal: 'osc-final.html',
   sta:   'https://atif-alamodi.github.io/sta104-summary_med_term/',
   pyt:   'https://atif-alamodi.github.io/Python_Med_Term-/',
   elg:   'https://atif-alamodi.github.io/English_Mid_Tirm/',
@@ -278,7 +287,7 @@ function switchTab(tabName) {
 })();
 document.addEventListener('keydown', function(e) {
   if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-  const map = { '1':'home','2':'osc','3':'sta','4':'pyt','5':'elg','6':'games','7':'pylab','8':'xllab' };
+  const map = { '1':'home','2':'osc','3':'oscfinal','4':'sta','5':'pyt','6':'elg','7':'games','8':'pylab','9':'xllab' };
   if (map[e.key] && (e.altKey || e.ctrlKey)) { e.preventDefault(); switchTab(map[e.key]); }
 });
 </script>
