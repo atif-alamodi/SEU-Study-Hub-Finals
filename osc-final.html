@@ -1,0 +1,2252 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💻 OSC — مفاهيم نظم التشغيل (المنهج الكامل للنهائي)</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #f8fafc; --panel: #ffffff; --border: #e2e8f0; --border-strong: #cbd5e1;
+  --text: #0f172a; --text-muted: #475569; --text-light: #64748b;
+  --primary: #7c3aed; --primary-dark: #6d28d9; --primary-light: #ede9fe;
+  --accent: #f59e0b; --success: #16a34a; --success-light: #dcfce7;
+  --danger: #dc2626; --danger-light: #fee2e2; --info: #0891b2; --info-light: #cffafe;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0 12px 24px -8px rgba(15, 23, 42, 0.12);
+}
+html, body { font-family: 'Noto Sans Arabic', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+body { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar {
+  width: 280px; background: white; border-left: 1px solid var(--border);
+  position: fixed; top: 0; right: 0; bottom: 0; overflow-y: auto;
+  padding: 16px 0; z-index: 50;
+}
+.sidebar-header {
+  padding: 0 16px 14px; border-bottom: 1px solid var(--border); margin-bottom: 10px;
+}
+.sidebar-title {
+  display: flex; align-items: center; gap: 10px;
+}
+.sidebar-logo {
+  width: 38px; height: 38px; background: linear-gradient(135deg, #7c3aed, #ec4899);
+  border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 18px; flex-shrink: 0;
+}
+.sidebar-title h2 { font-size: 14px; font-weight: 800; color: var(--text); line-height: 1.4; }
+.sidebar-title p { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+.progress-summary {
+  background: var(--primary-light); border-radius: 8px; padding: 8px 12px;
+  margin: 0 16px 12px; font-size: 12px; color: var(--primary-dark); font-weight: 600;
+  text-align: center;
+}
+.topic-list { list-style: none; padding: 0 8px; }
+.topic-item {
+  display: flex; align-items: center; gap: 10px; padding: 9px 10px;
+  border-radius: 8px; cursor: pointer; transition: all 0.15s;
+  font-size: 13px; color: var(--text-muted); font-weight: 600;
+  border: 1px solid transparent; margin-bottom: 2px;
+}
+.topic-item:hover { background: var(--bg); color: var(--text); }
+.topic-item.active { background: var(--primary); color: white; }
+.topic-item.visited:not(.active) { background: var(--success-light); color: #14532d; }
+.topic-num {
+  width: 26px; height: 26px; background: var(--bg); border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono'; font-weight: 700; font-size: 12px;
+  flex-shrink: 0;
+}
+.topic-item.active .topic-num { background: rgba(255,255,255,0.25); color: white; }
+.topic-item.visited:not(.active) .topic-num { background: var(--success); color: white; }
+.topic-item.new::after {
+  content: 'جديد'; background: var(--accent); color: white; font-size: 9px;
+  padding: 2px 6px; border-radius: 4px; margin-right: auto; font-weight: 700;
+}
+.sidebar-footer {
+  padding: 12px 16px; border-top: 1px solid var(--border); margin-top: 12px;
+}
+.sidebar-footer button {
+  width: 100%; padding: 8px 12px; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; font-family: inherit; font-size: 12px; font-weight: 600;
+  color: var(--text-muted); cursor: pointer; display: flex; align-items: center;
+  justify-content: center; gap: 6px;
+}
+.sidebar-footer button:hover { background: var(--primary); color: white; border-color: var(--primary); }
+
+/* Main content */
+.main { margin-right: 280px; flex: 1; padding: 28px 36px 60px; max-width: 1100px; }
+.topic-section { display: none; }
+.topic-section.active { display: block; animation: fadeIn 0.3s; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.topic-header {
+  background: linear-gradient(135deg, var(--primary) 0%, #ec4899 100%);
+  border-radius: 16px; padding: 22px 26px; color: white; margin-bottom: 22px;
+  box-shadow: var(--shadow-lg);
+}
+.topic-header .label { font-size: 12px; opacity: 0.85; font-weight: 600; }
+.topic-header h1 { font-size: 26px; font-weight: 800; margin-top: 4px; }
+.topic-header p { font-size: 14px; opacity: 0.95; margin-top: 8px; line-height: 1.7; }
+
+.section { background: white; border-radius: 14px; padding: 22px 24px; margin-bottom: 18px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+.section h2 { font-size: 18px; color: var(--primary-dark); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+.section h2 .icon { width: 32px; height: 32px; background: var(--primary-light); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.section h3 { font-size: 15px; color: var(--text); margin: 14px 0 8px; font-weight: 700; }
+.section p { color: var(--text-muted); font-size: 14px; margin-bottom: 8px; line-height: 1.8; }
+.section ul { list-style: none; padding: 0; margin-bottom: 8px; }
+.section ul li {
+  position: relative; padding-right: 22px; margin-bottom: 6px; font-size: 13.5px;
+  color: var(--text-muted); line-height: 1.8;
+}
+.section ul li::before {
+  content: ''; position: absolute; right: 6px; top: 11px;
+  width: 6px; height: 6px; background: var(--primary); border-radius: 50%;
+}
+.section ul li strong { color: var(--text); font-weight: 700; }
+.eng { font-family: 'JetBrains Mono'; font-size: 12px; color: var(--info); background: var(--info-light); padding: 1px 6px; border-radius: 4px; direction: ltr; display: inline-block; }
+
+.tip-box {
+  background: var(--info-light); border-right: 4px solid var(--info);
+  padding: 12px 16px; border-radius: 8px; margin: 12px 0; font-size: 13.5px;
+  color: #0c4a6e; line-height: 1.8;
+}
+.tip-box strong { color: var(--info); }
+.tip-box::before { content: '💡 '; }
+
+.warn-box {
+  background: var(--danger-light); border-right: 4px solid var(--danger);
+  padding: 12px 16px; border-radius: 8px; margin: 12px 0; font-size: 13.5px;
+  color: #7f1d1d; line-height: 1.8;
+}
+.warn-box::before { content: '⚠️ '; }
+
+.example-box {
+  background: var(--success-light); border-right: 4px solid var(--success);
+  padding: 14px 18px; border-radius: 8px; margin: 14px 0; font-size: 13.5px;
+  color: #14532d; line-height: 1.8;
+}
+.example-box strong { color: var(--success); }
+.example-box::before { content: '📝 مثال: '; font-weight: 700; }
+
+.story-box {
+  background: #fffbeb; border-right: 4px solid var(--accent);
+  padding: 14px 18px; border-radius: 8px; margin: 14px 0; font-size: 13.5px;
+  color: #78350f; line-height: 1.9;
+}
+.story-box::before { content: '🎬 تشبيه: '; font-weight: 700; color: var(--accent); }
+
+.compare-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px; }
+.compare-table th, .compare-table td { border: 1px solid var(--border); padding: 10px 12px; text-align: right; }
+.compare-table th { background: var(--primary-light); color: var(--primary-dark); font-weight: 700; }
+.compare-table tr:nth-child(even) td { background: var(--bg); }
+.compare-table td strong { color: var(--text); }
+
+.objectives {
+  background: var(--bg); border-radius: 10px; padding: 14px 18px; margin-bottom: 16px;
+}
+.objectives h3 { color: var(--primary-dark); margin-bottom: 8px; font-size: 14px; }
+.objectives ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 4px 14px; }
+.objectives ul li { font-size: 13px; padding-right: 18px; }
+.objectives ul li::before { background: var(--primary); }
+
+.quiz-section { background: white; border-radius: 14px; padding: 20px 22px; margin-top: 14px; box-shadow: var(--shadow); border: 2px solid var(--accent); }
+.quiz-section h2 { color: #b45309; }
+.quiz-section h2 .icon { background: #fef3c7; color: var(--accent); }
+.quiz-q { background: var(--bg); padding: 14px 16px; border-radius: 10px; margin-bottom: 12px; }
+.quiz-q .q-text { font-weight: 600; margin-bottom: 10px; line-height: 1.7; font-size: 14px; }
+.quiz-options { display: flex; flex-direction: column; gap: 6px; }
+.quiz-option {
+  background: white; border: 1.5px solid var(--border); border-radius: 8px;
+  padding: 9px 12px; cursor: pointer; transition: all 0.15s; font-family: inherit;
+  font-size: 13px; text-align: right; display: flex; align-items: center; gap: 8px;
+}
+.quiz-option:hover { border-color: var(--primary); background: var(--primary-light); }
+.quiz-option.correct { background: var(--success-light); border-color: var(--success); color: #14532d; }
+.quiz-option.wrong { background: var(--danger-light); border-color: var(--danger); color: #7f1d1d; }
+.quiz-option .letter { width: 22px; height: 22px; background: var(--bg); border-radius: 5px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 11px; font-family: 'JetBrains Mono'; flex-shrink: 0; }
+.quiz-option.correct .letter { background: var(--success); color: white; }
+.quiz-option.wrong .letter { background: var(--danger); color: white; }
+.quiz-explain { font-size: 12.5px; color: var(--text-muted); margin-top: 8px; padding: 8px 12px; background: white; border-radius: 6px; line-height: 1.7; display: none; }
+.quiz-q.answered .quiz-explain { display: block; }
+
+/* SVG diagrams */
+.diagram-wrap { background: white; border-radius: 10px; padding: 16px; margin: 14px 0; border: 1px solid var(--border); text-align: center; }
+.diagram-wrap svg { max-width: 100%; height: auto; }
+.diagram-wrap .caption { font-size: 12px; color: var(--text-muted); margin-top: 8px; }
+
+/* Mobile */
+@media (max-width: 900px) {
+  body { display: block; }
+  .sidebar {
+    position: fixed; right: -280px; transition: right 0.3s; z-index: 100;
+  }
+  .sidebar.open { right: 0; box-shadow: -4px 0 20px rgba(0,0,0,0.15); }
+  .main { margin-right: 0; padding: 16px; }
+  .menu-toggle {
+    display: flex !important; position: fixed; top: 14px; left: 14px; z-index: 60;
+    width: 42px; height: 42px; background: var(--primary); color: white;
+    border: none; border-radius: 10px; cursor: pointer; align-items: center;
+    justify-content: center; font-size: 18px; box-shadow: var(--shadow);
+  }
+  .topic-header h1 { font-size: 20px; }
+}
+.menu-toggle { display: none; }
+
+/* Print */
+@media print {
+  .sidebar, .menu-toggle { display: none; }
+  .main { margin-right: 0; }
+  .topic-section { display: block !important; page-break-after: always; }
+}
+</style>
+</head>
+<body>
+
+<button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-title">
+      <div class="sidebar-logo">💻</div>
+      <div>
+        <h2>نظم التشغيل — النهائي</h2>
+        <p>المنهج الكامل (12 موضوع)</p>
+      </div>
+    </div>
+  </div>
+  <div class="progress-summary" id="progressSummary">📊 تقدمك: 0 / 12</div>
+  <ul class="topic-list" id="topicList">
+    <li class="topic-item" data-topic="1"><span class="topic-num">1</span><span>مفاهيم نظام التشغيل</span></li>
+    <li class="topic-item" data-topic="2"><span class="topic-num">2</span><span>هيكل النظام واستدعاءاته</span></li>
+    <li class="topic-item" data-topic="3"><span class="topic-num">3</span><span>مفهوم العملية</span></li>
+    <li class="topic-item" data-topic="4"><span class="topic-num">4</span><span>التواصل بين العمليات</span></li>
+    <li class="topic-item" data-topic="5"><span class="topic-num">5</span><span>إدارة الذاكرة</span></li>
+    <li class="topic-item" data-topic="6"><span class="topic-num">6</span><span>الإدخال/الإخراج والملفات</span></li>
+    <li class="topic-item new" data-topic="7"><span class="topic-num">7</span><span>الخيوط Threads</span></li>
+    <li class="topic-item new" data-topic="8"><span class="topic-num">8</span><span>مزامنة العمليات</span></li>
+    <li class="topic-item new" data-topic="9"><span class="topic-num">9</span><span>الجدولة (مقدمة)</span></li>
+    <li class="topic-item new" data-topic="10"><span class="topic-num">10</span><span>أنواع خوارزميات الجدولة</span></li>
+    <li class="topic-item new" data-topic="11"><span class="topic-num">11</span><span>نموذج الجمود (Deadlock)</span></li>
+    <li class="topic-item new" data-topic="12"><span class="topic-num">12</span><span>خوارزميات الجمود</span></li>
+    <li class="topic-item" data-topic="quiz" style="border-top: 1px solid var(--border); margin-top: 8px; padding-top: 16px;"><span class="topic-num" style="background: var(--accent); color: white;">📝</span><span style="font-weight: 800;">الاختبار الشامل</span></li>
+  </ul>
+  <div class="sidebar-footer">
+    <button onclick="resetProgress()">🔄 إعادة تعيين التقدم</button>
+  </div>
+</aside>
+
+<main class="main" id="main">
+  <!-- Topics will be injected here -->
+  <div id="topicsContainer"></div>
+</main>
+
+<script>
+// ============ Navigation & Progress ============
+const visited = new Set(JSON.parse(localStorage.getItem('osc_visited') || '[]'));
+let currentTopic = '1';
+
+function updateProgress() {
+  const count = [...visited].filter(v => v !== 'quiz' && parseInt(v) >= 1 && parseInt(v) <= 12).length;
+  document.getElementById('progressSummary').textContent = `📊 تقدمك: ${count} / 12`;
+  document.querySelectorAll('.topic-item').forEach(item => {
+    const t = item.dataset.topic;
+    item.classList.toggle('visited', visited.has(t));
+  });
+}
+
+function showTopic(topicId) {
+  currentTopic = topicId;
+  visited.add(topicId);
+  localStorage.setItem('osc_visited', JSON.stringify([...visited]));
+  document.querySelectorAll('.topic-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.topic-item').forEach(it => it.classList.toggle('active', it.dataset.topic === topicId));
+  const sec = document.getElementById('topic-' + topicId);
+  if (sec) sec.classList.add('active');
+  updateProgress();
+  if (history.replaceState) history.replaceState(null, '', '#topic-' + topicId);
+  document.querySelector('.sidebar').classList.remove('open');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetProgress() {
+  if (!confirm('هل تريد إعادة تعيين التقدم؟')) return;
+  visited.clear();
+  localStorage.removeItem('osc_visited');
+  updateProgress();
+}
+
+// Quiz answer handling
+function answerQuiz(qElement, optionIdx, correctIdx, optionEl) {
+  if (qElement.classList.contains('answered')) return;
+  qElement.classList.add('answered');
+  const options = qElement.querySelectorAll('.quiz-option');
+  options.forEach((o, i) => {
+    if (i === correctIdx) o.classList.add('correct');
+    else if (i === optionIdx) o.classList.add('wrong');
+  });
+}
+
+// All topic content as a JS object — injected into osc-final.html
+const TOPICS = {
+
+  '1': `
+<section class="topic-section" id="topic-1">
+  <div class="topic-header">
+    <div class="label">الموضوع الأول · مراجعة سريعة</div>
+    <h1>مفاهيم نظام التشغيل</h1>
+    <p>التعريف، الأنواع، المقاطعات، وكيفية بدء تشغيل الكمبيوتر</p>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>تتعرف على نظام التشغيل ومكوناته</li>
+      <li>تعدد أنواع أنظمة التشغيل المختلفة</li>
+      <li>تفهم كيفية بدء تشغيل الكمبيوتر (Boot)</li>
+      <li>تعرف مفهوم المقاطعة (Interrupt) وكيفية معالجتها</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">💡</span> ما هو نظام التشغيل؟</h2>
+    <p><strong>نظام التشغيل</strong> <span class="eng">Operating System</span> هو البرنامج الذي يعمل كوسيط بين المستخدم والعتاد، ويوفر بيئة لتنفيذ البرامج وإدارة الموارد.</p>
+    
+    <div class="story-box">
+      تخيل نظام التشغيل كـ <strong>مدير مطعم</strong>: يستقبل طلبات الزبائن (المستخدمين)، ينظم الطباخين (المعالج)، يوزع المكونات (الذاكرة)، ويدير الطاولات (الأجهزة). بدونه، لن يعمل المطعم بانتظام.
+    </div>
+
+    <h3>المكونات الأساسية لجهاز الكمبيوتر</h3>
+    <ul>
+      <li><strong>الأجهزة <span class="eng">Hardware</span>:</strong> CPU، الذاكرة، أجهزة الإدخال/الإخراج</li>
+      <li><strong>نظام التشغيل <span class="eng">OS</span>:</strong> الوسيط الذي ينظم استخدام الموارد</li>
+      <li><strong>البرامج التطبيقية <span class="eng">Applications</span>:</strong> Word، المتصفحات، الألعاب</li>
+      <li><strong>المستخدم:</strong> الإنسان الذي يستخدم النظام</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📋</span> أنواع أنظمة التشغيل</h2>
+    <table class="compare-table">
+      <tr><th>النوع</th><th>الوصف</th><th>أمثلة</th></tr>
+      <tr><td><strong>الدفعات <span class="eng">Batch</span></strong></td><td>تجمع المهام في دفعة وتنفذها بالتتابع</td><td>الأنظمة المصرفية القديمة</td></tr>
+      <tr><td><strong>متعدد البرمجة <span class="eng">Multiprogramming</span></strong></td><td>تنفيذ عدة برامج في الذاكرة الرئيسية</td><td>أنظمة الحواسيب الكبيرة</td></tr>
+      <tr><td><strong>متعدد المستخدمين <span class="eng">Multi-user</span></strong></td><td>دعم عدة مستخدمين في نفس الوقت</td><td>UNIX، Linux Servers</td></tr>
+      <tr><td><strong>الزمن الحقيقي <span class="eng">Real-time</span></strong></td><td>استجابة فورية ضمن وقت محدد</td><td>أنظمة الطيران، الطب</td></tr>
+      <tr><td><strong>الموزعة <span class="eng">Distributed</span></strong></td><td>عدة حواسيب تعمل كنظام واحد</td><td>Hadoop، Kubernetes</td></tr>
+      <tr><td><strong>المحمولة <span class="eng">Mobile</span></strong></td><td>للأجهزة المحمولة منخفضة الطاقة</td><td>Android، iOS</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">⚡</span> المقاطعة (Interrupt)</h2>
+    <p>المقاطعة هي إشارة تخبر المعالج بأن حدثًا مهمًا حصل ويحتاج اهتمامًا فوريًا.</p>
+    
+    <div class="story-box">
+      تخيل أنك تذاكر، فيرن جوال أمك. هذه <strong>مقاطعة</strong>! تتوقف عن المذاكرة (تحفظ مكانك)، ترد على المكالمة (تخدم المقاطعة)، ثم تعود للمذاكرة من حيث توقفت. هذا تمامًا ما يفعله المعالج.
+    </div>
+
+    <h3>أنواع المقاطعات</h3>
+    <ul>
+      <li><strong>مقاطعة العتاد <span class="eng">Hardware Interrupt</span>:</strong> من جهاز خارجي (لوحة المفاتيح، الفأرة)</li>
+      <li><strong>مقاطعة البرنامج <span class="eng">Software Interrupt / Trap</span>:</strong> من البرنامج نفسه (استدعاء نظام)</li>
+      <li><strong>الاستثناء <span class="eng">Exception</span>:</strong> خطأ في التنفيذ (قسمة على صفر)</li>
+    </ul>
+
+    <h3>كيف تُعالج المقاطعة؟</h3>
+    <ul>
+      <li>1. المعالج يحفظ حالة العملية الحالية (Save Context)</li>
+      <li>2. ينتقل إلى <strong>معالج المقاطعة <span class="eng">Interrupt Handler / ISR</span></strong></li>
+      <li>3. يخدم المقاطعة (يقرأ من الجهاز، يعالج البيانات)</li>
+      <li>4. يستعيد حالة العملية ويكمل تنفيذها</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🚀</span> بدء تشغيل الكمبيوتر (Boot)</h2>
+    <p>عملية تشغيل الجهاز من حالة الإطفاء حتى يصبح جاهزًا للاستخدام تمر بمراحل:</p>
+    <ul>
+      <li><strong>1. POST <span class="eng">Power-On Self-Test</span>:</strong> فحص ذاتي للعتاد (RAM، الأقراص)</li>
+      <li><strong>2. BIOS / UEFI:</strong> برنامج صغير في ROM يبدأ التشغيل</li>
+      <li><strong>3. Bootloader:</strong> يحمل نظام التشغيل من القرص إلى الذاكرة (مثل GRUB)</li>
+      <li><strong>4. تحميل النواة <span class="eng">Kernel</span>:</strong> تبدأ النواة بإدارة النظام</li>
+      <li><strong>5. تشغيل الخدمات والبرامج الأساسية</strong></li>
+      <li><strong>6. واجهة المستخدم تظهر:</strong> الجهاز جاهز للاستخدام</li>
+    </ul>
+  </div>
+</section>
+`,
+
+  '2': `
+<section class="topic-section" id="topic-2">
+  <div class="topic-header">
+    <div class="label">الموضوع الثاني · مراجعة سريعة</div>
+    <h1>هيكل نظام التشغيل واستدعاءات النظام</h1>
+    <p>الخدمات، واجهات المستخدم، استدعاءات النظام، والنواة</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">⚙️</span> خدمات نظام التشغيل</h2>
+    <p>نظام التشغيل لا يقتصر على إدارة العتاد، بل يقدم خدمات تسهل تجربة المستخدم:</p>
+    <ul>
+      <li><strong>واجهة المستخدم <span class="eng">UI</span>:</strong> CLI أو GUI أو Touch</li>
+      <li><strong>تنفيذ البرامج:</strong> تحميل البرنامج وتشغيله</li>
+      <li><strong>عمليات الإدخال/الإخراج <span class="eng">I/O Operations</span></strong></li>
+      <li><strong>إدارة نظام الملفات <span class="eng">File System Management</span></strong></li>
+      <li><strong>التواصل بين العمليات <span class="eng">Communication</span></strong></li>
+      <li><strong>كشف الأخطاء وحلها <span class="eng">Error Detection</span></strong></li>
+      <li><strong>تخصيص الموارد <span class="eng">Resource Allocation</span></strong></li>
+      <li><strong>المحاسبة والأمان <span class="eng">Accounting & Security</span></strong></li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📞</span> استدعاءات النظام (System Calls)</h2>
+    <p><strong>استدعاء النظام</strong> هو الطريقة التي يطلب بها البرنامج خدمة من نظام التشغيل.</p>
+    
+    <div class="story-box">
+      تخيلك في فندق وتريد طعامًا. لن تذهب للمطبخ مباشرة (ممنوع)، بل تتصل بـ <strong>خدمة الغرف</strong> (System Call). هم يأخذون طلبك، ويذهبون للمطبخ نيابة عنك. نظام التشغيل هو "خدمة الغرف" بين برنامجك والعتاد.
+    </div>
+
+    <h3>أنواع استدعاءات النظام</h3>
+    <table class="compare-table">
+      <tr><th>الفئة</th><th>أمثلة</th><th>الوصف</th></tr>
+      <tr><td><strong>التحكم بالعمليات</strong></td><td>fork(), exec(), exit(), wait()</td><td>إنشاء/إنهاء العمليات</td></tr>
+      <tr><td><strong>إدارة الملفات</strong></td><td>open(), read(), write(), close()</td><td>التعامل مع الملفات</td></tr>
+      <tr><td><strong>إدارة الأجهزة</strong></td><td>ioctl(), read(), write()</td><td>التحكم بالأجهزة</td></tr>
+      <tr><td><strong>المعلومات</strong></td><td>getpid(), time(), alarm()</td><td>معلومات النظام</td></tr>
+      <tr><td><strong>التواصل</strong></td><td>pipe(), shmget(), msgget()</td><td>تبادل البيانات بين العمليات</td></tr>
+      <tr><td><strong>الحماية</strong></td><td>chmod(), chown(), umask()</td><td>التحكم بالصلاحيات</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🆚</span> Windows vs Unix System Calls</h2>
+    <table class="compare-table">
+      <tr><th>المهمة</th><th>Windows API</th><th>Unix/Linux</th></tr>
+      <tr><td>إنشاء عملية</td><td><span class="eng">CreateProcess()</span></td><td><span class="eng">fork() + exec()</span></td></tr>
+      <tr><td>فتح ملف</td><td><span class="eng">CreateFile()</span></td><td><span class="eng">open()</span></td></tr>
+      <tr><td>قراءة ملف</td><td><span class="eng">ReadFile()</span></td><td><span class="eng">read()</span></td></tr>
+      <tr><td>إغلاق</td><td><span class="eng">CloseHandle()</span></td><td><span class="eng">close()</span></td></tr>
+      <tr><td>الحصول على PID</td><td><span class="eng">GetCurrentProcessId()</span></td><td><span class="eng">getpid()</span></td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🏗️</span> هيكلية نظام التشغيل</h2>
+    <ul>
+      <li><strong>الهيكل الأحادي <span class="eng">Monolithic</span>:</strong> كل شيء في النواة. سريع لكن صعب الصيانة. <em>مثال: Linux التقليدي</em></li>
+      <li><strong>الهيكل الطبقي <span class="eng">Layered</span>:</strong> طبقات مرتبة، كل طبقة تستخدم خدمات الأسفل منها</li>
+      <li><strong>النواة الصغيرة <span class="eng">Microkernel</span>:</strong> النواة تحتوي على الحد الأدنى، الباقي يعمل في وضع المستخدم. <em>مثال: macOS (Mach)</em></li>
+      <li><strong>الوحدات <span class="eng">Modular</span>:</strong> النواة + وحدات قابلة للتحميل. <em>مثال: Linux Modern</em></li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🌐</span> مثال تطبيقي: متصفح كروم</h2>
+    <p>متصفحات الويب التقليدية تعمل كعملية واحدة. إذا تعطل موقع، يتعطل المتصفح كله!</p>
+    <p><strong>كروم</strong> يستخدم بنية متعددة العمليات:</p>
+    <ul>
+      <li>عملية لواجهة المستخدم</li>
+      <li>عملية لكل علامة تبويب (Tab)</li>
+      <li>عملية للإضافات (Extensions)</li>
+      <li>كل عملية معزولة → إذا تعطلت، الباقي يستمر</li>
+    </ul>
+  </div>
+</section>
+`,
+
+  '3': `
+<section class="topic-section" id="topic-3">
+  <div class="topic-header">
+    <div class="label">الموضوع الثالث · مراجعة سريعة</div>
+    <h1>مفهوم العملية (Process)</h1>
+    <p>العملية، حالاتها، PCB، وإنشاء العمليات</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📦</span> ما هي العملية؟</h2>
+    <p><strong>العملية <span class="eng">Process</span></strong> = برنامج قيد التنفيذ.</p>
+    
+    <div class="story-box">
+      <strong>البرنامج</strong> هو وصفة الكيك المكتوبة في كتاب (ساكنة على القرص). <strong>العملية</strong> هي عندما تأخذ الوصفة وتبدأ تنفيذها فعلًا في المطبخ (نشطة في الذاكرة). نفس الوصفة يمكن أن تُنفّذ مرتين بنفس الوقت = عمليتان مختلفتان.
+    </div>
+
+    <h3>مكونات العملية الأساسية</h3>
+    <ul>
+      <li><strong>قسم النص <span class="eng">Text Section</span>:</strong> الكود التنفيذي</li>
+      <li><strong>عداد البرنامج <span class="eng">Program Counter</span>:</strong> يشير للتعليمة التالية</li>
+      <li><strong>المكدس <span class="eng">Stack</span>:</strong> البيانات المؤقتة (متغيرات محلية، عناوين العودة)</li>
+      <li><strong>قسم البيانات <span class="eng">Data Section</span>:</strong> المتغيرات العالمية</li>
+      <li><strong>الكومة <span class="eng">Heap</span>:</strong> الذاكرة المخصصة ديناميكيًا أثناء التنفيذ</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🔄</span> حالات العملية</h2>
+    <ul>
+      <li><strong>New (جديدة):</strong> العملية أُنشئت لكن لم تبدأ بعد</li>
+      <li><strong>Ready (جاهزة):</strong> جاهزة للتنفيذ، تنتظر دورها على المعالج</li>
+      <li><strong>Running (تعمل):</strong> تُنفّذ حاليًا على المعالج</li>
+      <li><strong>Waiting (تنتظر):</strong> توقفت بانتظار حدث (مثل I/O)</li>
+      <li><strong>Terminated (انتهت):</strong> أنهت تنفيذها</li>
+    </ul>
+    
+    <div class="story-box">
+      تشبيه طالب جامعي: <strong>New</strong> = مسجّل في الجامعة. <strong>Ready</strong> = ينتظر دوره أمام مكتب التسجيل. <strong>Running</strong> = يقدّم اختبارًا الآن. <strong>Waiting</strong> = ذهب للحمام أو ينتظر نتيجة. <strong>Terminated</strong> = تخرّج.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📋</span> Process Control Block (PCB)</h2>
+    <p>هيكل بيانات يحفظه نظام التشغيل لكل عملية، يحتوي:</p>
+    <ul>
+      <li><strong>حالة العملية:</strong> New, Ready, Running...</li>
+      <li><strong>عداد البرنامج <span class="eng">PC</span>:</strong> العنوان التالي للتنفيذ</li>
+      <li><strong>السجلات <span class="eng">CPU Registers</span></strong></li>
+      <li><strong>معلومات الجدولة:</strong> الأولوية، نوع الجدولة</li>
+      <li><strong>إدارة الذاكرة:</strong> حدود الذاكرة المخصصة</li>
+      <li><strong>المحاسبة:</strong> وقت CPU المستخدم، الزمن المنقضي</li>
+      <li><strong>I/O:</strong> قائمة الأجهزة المخصصة، الملفات المفتوحة</li>
+    </ul>
+    <div class="tip-box">
+      <strong>PCB كأنه ملف الموظف في HR</strong>: يحتوي اسمه، حالته، راتبه، إجازاته. عندما يأتي موظف جديد (عملية جديدة)، يُفتح له ملف. عند المغادرة، يُغلق الملف.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🌳</span> شجرة العمليات</h2>
+    <p>العمليات في Unix/Linux تتنظم في شجرة هرمية:</p>
+    <ul>
+      <li><strong>العملية الأم <span class="eng">Parent Process</span></strong> تُنشئ <strong>عمليات أبناء <span class="eng">Child Processes</span></strong></li>
+      <li>كل عملية لها <strong>PID</strong> فريد و <strong>PPID</strong> (Parent PID)</li>
+      <li>الأمر <span class="eng">fork()</span> ينشئ نسخة من العملية الحالية</li>
+      <li>الأمر <span class="eng">exec()</span> يستبدل كود العملية ببرنامج آخر</li>
+      <li>العملية الأولى في النظام (PID=1) هي <span class="eng">init</span> أو <span class="eng">systemd</span></li>
+    </ul>
+  </div>
+</section>
+`,
+
+  '4': `
+<section class="topic-section" id="topic-4">
+  <div class="topic-header">
+    <div class="label">الموضوع الرابع · مراجعة سريعة</div>
+    <h1>التواصل بين العمليات (IPC)</h1>
+    <p>الذاكرة المشتركة، تمرير الرسائل، والأنابيب</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">💬</span> ما هو IPC؟</h2>
+    <p><strong>التواصل بين العمليات <span class="eng">Inter-Process Communication</span></strong> هو أسلوب يتيح للعمليات تبادل البيانات والتنسيق فيما بينها.</p>
+    
+    <h3>أنواع العمليات</h3>
+    <ul>
+      <li><strong>عمليات مستقلة:</strong> لا تؤثر ولا تتأثر بالعمليات الأخرى</li>
+      <li><strong>عمليات متعاونة:</strong> تتبادل البيانات لتحقيق هدف مشترك</li>
+    </ul>
+
+    <h3>لماذا نحتاج IPC؟</h3>
+    <ul>
+      <li>مشاركة المعلومات بين البرامج</li>
+      <li>تسريع الحسابات (تقسيم المهمة على عمليات)</li>
+      <li>الراحة (كل عملية تركز على مهمة واحدة)</li>
+      <li>تحقيق التوازي</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🤝</span> طرق IPC الأساسية</h2>
+    
+    <h3>1. الذاكرة المشتركة <span class="eng">Shared Memory</span></h3>
+    <p>منطقة ذاكرة مشتركة بين عمليتين، تكتب فيها واحدة وتقرأها الأخرى.</p>
+    <div class="story-box">
+      مثل <strong>سبورة بيضاء</strong> في غرفة الاجتماعات. الموظف A يكتب رقم المبيعات، والموظف B يقرأه. كلاهما يصل لنفس السبورة مباشرة.
+    </div>
+    <ul>
+      <li>✅ سريعة جدًا (لا حاجة لنظام التشغيل بعد الإعداد)</li>
+      <li>⚠️ تحتاج مزامنة لمنع تضارب القراءة/الكتابة</li>
+    </ul>
+
+    <h3>2. تمرير الرسائل <span class="eng">Message Passing</span></h3>
+    <p>العمليات تتبادل رسائل عبر نظام التشغيل (لا ذاكرة مشتركة).</p>
+    <div class="story-box">
+      مثل <strong>إرسال رسائل WhatsApp</strong>. الموظف A يرسل رسالة، نظام واتساب (= نظام التشغيل) يوصلها للموظف B. لا يصلون لذاكرة بعض مباشرة.
+    </div>
+    <ul>
+      <li>✅ أسهل وأكثر أمانًا</li>
+      <li>⚠️ أبطأ من الذاكرة المشتركة</li>
+      <li>تستخدم: <span class="eng">send(message)</span> و <span class="eng">receive(message)</span></li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🚇</span> الأنابيب (Pipes)</h2>
+    <p>طريقة لتوصيل خرج عملية بدخل عملية أخرى.</p>
+    
+    <h3>الأنابيب العادية <span class="eng">Ordinary Pipes</span></h3>
+    <ul>
+      <li>تُنشأ بـ <span class="eng">pipe()</span></li>
+      <li>أحادية الاتجاه (إما قراءة أو كتابة)</li>
+      <li>تعمل بين عملية أم وأبنائها فقط</li>
+      <li>تختفي عند انتهاء العمليتين</li>
+    </ul>
+    <div class="example-box">
+      في Linux: <span class="eng">ls | grep ".txt"</span> — مخرجات ls تذهب كمدخلات لـ grep عبر pipe!
+    </div>
+
+    <h3>الأنابيب المسماة <span class="eng">Named Pipes / FIFO</span></h3>
+    <ul>
+      <li>لها اسم في نظام الملفات</li>
+      <li>ثنائية الاتجاه</li>
+      <li>تعمل بين أي عمليتين (حتى لو غير مرتبطتين)</li>
+      <li>تستمر حتى تُحذف يدويًا</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📊</span> مقارنة طرق IPC</h2>
+    <table class="compare-table">
+      <tr><th>الطريقة</th><th>السرعة</th><th>الأمان</th><th>التعقيد</th></tr>
+      <tr><td>الذاكرة المشتركة</td><td>⚡ الأسرع</td><td>منخفض (يحتاج مزامنة)</td><td>عالي</td></tr>
+      <tr><td>تمرير الرسائل</td><td>متوسطة</td><td>عالي</td><td>منخفض</td></tr>
+      <tr><td>الأنابيب</td><td>متوسطة</td><td>عالي</td><td>منخفض</td></tr>
+      <tr><td>المقابس <span class="eng">Sockets</span></td><td>متغيرة</td><td>عالي</td><td>متوسط</td></tr>
+    </table>
+  </div>
+</section>
+`,
+
+  '5': `
+<section class="topic-section" id="topic-5">
+  <div class="topic-header">
+    <div class="label">الموضوع الخامس · مراجعة سريعة</div>
+    <h1>إدارة الذاكرة</h1>
+    <p>الذاكرة الرئيسية، التقسيم، الصفحات، والذاكرة الافتراضية</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🧠</span> أنواع الذاكرة</h2>
+    <table class="compare-table">
+      <tr><th>النوع</th><th>السرعة</th><th>السعة</th><th>الدوام</th></tr>
+      <tr><td><strong>السجلات <span class="eng">Registers</span></strong></td><td>الأسرع</td><td>الأصغر (بايتات)</td><td>متطايرة</td></tr>
+      <tr><td><strong>Cache</strong></td><td>سريعة جدًا</td><td>صغيرة (KB-MB)</td><td>متطايرة</td></tr>
+      <tr><td><strong>RAM</strong></td><td>سريعة</td><td>متوسطة (GB)</td><td>متطايرة</td></tr>
+      <tr><td><strong>SSD</strong></td><td>متوسطة</td><td>كبيرة (GB-TB)</td><td>دائمة</td></tr>
+      <tr><td><strong>HDD</strong></td><td>بطيئة</td><td>كبيرة جدًا</td><td>دائمة</td></tr>
+    </table>
+    <div class="tip-box">
+      كلما اقتربت الذاكرة من المعالج، أصبحت أسرع وأصغر وأغلى.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📐</span> أساليب إدارة الذاكرة</h2>
+
+    <h3>التقسيم <span class="eng">Segmentation</span></h3>
+    <ul>
+      <li>تقسيم الذاكرة لأجزاء بأحجام مختلفة (segments) حسب المعنى المنطقي</li>
+      <li>كل segment يمثل وحدة (الكود، البيانات، المكدس)</li>
+      <li>أكثر مرونة لكن قد يسبب تجزئة خارجية</li>
+    </ul>
+
+    <h3>الصفحات <span class="eng">Paging</span></h3>
+    <ul>
+      <li>تقسيم الذاكرة لوحدات صغيرة متساوية (Pages في الذاكرة الافتراضية، Frames في الفيزيائية)</li>
+      <li>كل page عادة 4KB</li>
+      <li>جدول الصفحات <span class="eng">Page Table</span> يربط بين Pages وFrames</li>
+      <li>يحل مشكلة التجزئة الخارجية</li>
+    </ul>
+    <div class="story-box">
+      تخيل مكتبة. الكتاب الكبير يُقسم لفصول (Pages). الرفوف (Frames) أحجامها متساوية. الفهرس (Page Table) يخبرك في أي رف كل فصل. لا يهم لو الفصول مفرقة على رفوف غير متجاورة!
+    </div>
+
+    <h3>الذاكرة الافتراضية <span class="eng">Virtual Memory</span></h3>
+    <ul>
+      <li>إيهام البرنامج بأن لديه ذاكرة أكبر من المتاحة فعليًا</li>
+      <li>الأجزاء غير المستخدمة تُحفظ على القرص (Swap)</li>
+      <li>عند الحاجة، تُجلب لـ RAM (Page Fault)</li>
+      <li>يسمح بتشغيل برامج أكبر من الـ RAM</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">⚠️</span> التجزئة (Fragmentation)</h2>
+    <ul>
+      <li><strong>تجزئة خارجية <span class="eng">External</span>:</strong> فجوات صغيرة بين الكتل المخصصة، مجموعها كافٍ لكن غير متصل</li>
+      <li><strong>تجزئة داخلية <span class="eng">Internal</span>:</strong> ذاكرة مخصصة لكن غير مستخدمة كاملة (آخر صفحة)</li>
+    </ul>
+    <p><strong>الحلول:</strong></p>
+    <ul>
+      <li>الضغط <span class="eng">Compaction</span>: تجميع الفجوات</li>
+      <li>الصفحات <span class="eng">Paging</span>: تقضي على التجزئة الخارجية</li>
+      <li>أحجام صفحات أصغر: تقلل التجزئة الداخلية</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">⚡</span> التخزين المؤقت (Caching)</h2>
+    <p>تخزين البيانات المستخدمة بكثرة في ذاكرة سريعة قريبة من المعالج لتسريع الوصول.</p>
+    <ul>
+      <li><strong>L1 Cache:</strong> الأقرب للمعالج، الأسرع، الأصغر</li>
+      <li><strong>L2 Cache:</strong> أبطأ، أكبر</li>
+      <li><strong>L3 Cache:</strong> الأكبر، يشاركه عدة معالجات</li>
+    </ul>
+    <p>مبدأ <strong>المحلية <span class="eng">Locality</span>:</strong></p>
+    <ul>
+      <li><strong>محلية زمنية:</strong> البيانات المستخدمة مؤخرًا ستُستخدم مرة أخرى قريبًا</li>
+      <li><strong>محلية مكانية:</strong> البيانات بجانب البيانات المستخدمة ستُستخدم قريبًا</li>
+    </ul>
+  </div>
+</section>
+`,
+
+  '6': `
+<section class="topic-section" id="topic-6">
+  <div class="topic-header">
+    <div class="label">الموضوع السادس · مراجعة سريعة</div>
+    <h1>الإدخال/الإخراج وإدارة الملفات</h1>
+    <p>أجهزة I/O، DMA، نظام الملفات، والهيكل الشجري</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🔌</span> إدارة أجهزة الإدخال/الإخراج</h2>
+    <ul>
+      <li><strong>أجهزة الإدخال:</strong> لوحة المفاتيح، الفأرة، الكاميرا، الميكروفون</li>
+      <li><strong>أجهزة الإخراج:</strong> الشاشة، الطابعة، السماعات</li>
+      <li><strong>أجهزة إدخال/إخراج:</strong> القرص، الشبكة</li>
+    </ul>
+
+    <h3>وحدة التحكم في الأجهزة <span class="eng">Device Controller</span></h3>
+    <p>دائرة إلكترونية تتوسط بين الجهاز والمعالج. لها:</p>
+    <ul>
+      <li>سجلات للتحكم والحالة</li>
+      <li>مخزن مؤقت <span class="eng">buffer</span></li>
+      <li>برنامج تشغيل <span class="eng">Device Driver</span> في نظام التشغيل</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">⚡</span> الوصول المباشر للذاكرة (DMA)</h2>
+    <p><strong>DMA <span class="eng">Direct Memory Access</span></strong> يتيح للأجهزة نقل البيانات مباشرة إلى/من الذاكرة دون تدخل المعالج لكل بايت.</p>
+    
+    <div class="story-box">
+      بدون DMA: المعالج كأنه موظف تسليم يأتي لكل صندوق بمفرده ويذهب به. <strong>مع DMA:</strong> شركة شحن (DMA controller) تأخذ كل الصناديق دفعة واحدة، والموظف (CPU) يفعل أعمالًا أخرى ويُخطر فقط عند الانتهاء.
+    </div>
+    <ul>
+      <li>المعالج يصدر الأمر فقط</li>
+      <li>DMA controller ينقل البيانات</li>
+      <li>عند الانتهاء، DMA يرسل مقاطعة للمعالج</li>
+      <li>يحرر المعالج لمهام أخرى → كفاءة أعلى</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📁</span> إدارة الملفات</h2>
+    <p>الملف <span class="eng">File</span> = مجموعة من البيانات المخزنة على وحدة تخزين دائمة، لها اسم.</p>
+
+    <h3>الخصائص الأساسية للملف</h3>
+    <ul>
+      <li><strong>الاسم <span class="eng">Name</span></strong></li>
+      <li><strong>المعرف <span class="eng">Identifier</span>:</strong> رقم فريد داخلي</li>
+      <li><strong>النوع <span class="eng">Type</span>:</strong> txt, pdf, exe...</li>
+      <li><strong>الموقع <span class="eng">Location</span></strong></li>
+      <li><strong>الحجم <span class="eng">Size</span></strong></li>
+      <li><strong>الحماية <span class="eng">Protection</span>:</strong> read/write/execute</li>
+      <li><strong>الوقت والتاريخ:</strong> الإنشاء، آخر تعديل، آخر وصول</li>
+    </ul>
+
+    <h3>العمليات الأساسية على الملفات</h3>
+    <ul>
+      <li><strong>Create</strong> — إنشاء</li>
+      <li><strong>Open</strong> — فتح</li>
+      <li><strong>Read</strong> — قراءة</li>
+      <li><strong>Write</strong> — كتابة</li>
+      <li><strong>Seek</strong> — التنقل داخل الملف</li>
+      <li><strong>Close</strong> — إغلاق</li>
+      <li><strong>Delete</strong> — حذف</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🌳</span> الهيكل الشجري للأدلة</h2>
+    <ul>
+      <li><strong>دليل واحد <span class="eng">Single-Level</span>:</strong> كل الملفات في مكان واحد. مشكلة: تعارض الأسماء</li>
+      <li><strong>دليلين <span class="eng">Two-Level</span>:</strong> كل مستخدم له دليل خاص</li>
+      <li><strong>الهيكل الشجري <span class="eng">Tree-Structured</span>:</strong> أدلة فرعية. <em>الأكثر شيوعًا</em></li>
+      <li><strong>الرسم الحلقي <span class="eng">Acyclic Graph</span>:</strong> يسمح بالملفات المشتركة (روابط)</li>
+      <li><strong>الرسم العام <span class="eng">General Graph</span>:</strong> يسمح بالحلقات (يحتاج إدارة دقيقة)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🔍</span> آليات الوصول للملفات</h2>
+    <ul>
+      <li><strong>الوصول التتابعي <span class="eng">Sequential</span>:</strong> القراءة من البداية للنهاية. <em>مثل: الأشرطة</em></li>
+      <li><strong>الوصول المباشر <span class="eng">Direct</span>:</strong> القفز لأي موقع. <em>مثل: قواعد البيانات</em></li>
+      <li><strong>الوصول المفهرس <span class="eng">Indexed</span>:</strong> عبر فهرس يحتوي مفاتيح وعناوين</li>
+    </ul>
+  </div>
+</section>
+`
+
+};
+
+// Will continue with topics 7-12 in next file
+
+// ============ NEW TOPICS FOR FINAL EXAM (7-12) ============
+
+TOPICS['7'] = `
+<section class="topic-section" id="topic-7">
+  <div class="topic-header">
+    <div class="label">الموضوع السابع · جديد للنهائي</div>
+    <h1>الخيوط (Threads)</h1>
+    <p>الوحدة الأساسية للتنفيذ، أنواع الخيوط، نماذج البرمجة متعددة الخيوط، والمكتبات</p>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>تفهم مفهوم الخيط (Thread) ومكوناته</li>
+      <li>تميز بين العمليات أحادية ومتعددة الخيوط</li>
+      <li>تتعرف على نماذج Many-to-One, One-to-One, Many-to-Many</li>
+      <li>تتعرف على مكتبات Pthreads, Java Threads, Windows API</li>
+      <li>تفهم خيوط Linux وWindows</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🧵</span> ما هو الخيط (Thread)؟</h2>
+    <p><strong>الخيط</strong> هو أصغر وحدة تنفيذ داخل وحدة المعالجة المركزية، وهو الوحدة الأساسية لاستخدامها.</p>
+    
+    <h3>مكونات الخيط</h3>
+    <ul>
+      <li><strong>معرف الخيط <span class="eng">Thread ID</span></strong></li>
+      <li><strong>عداد البرنامج <span class="eng">Program Counter</span></strong></li>
+      <li><strong>مجموعة السجلات <span class="eng">Registers</span></strong></li>
+      <li><strong>المكدس <span class="eng">Stack</span></strong></li>
+    </ul>
+
+    <h3>ما يشاركه الخيط مع باقي خيوط نفس العملية</h3>
+    <ul>
+      <li>قسم الكود <span class="eng">Code Section</span></li>
+      <li>قسم البيانات <span class="eng">Data Section</span></li>
+      <li>الملفات المفتوحة <span class="eng">Open Files</span></li>
+      <li>الإشارات <span class="eng">Signals</span></li>
+    </ul>
+
+    <div class="story-box">
+      تخيل العملية كـ <strong>مكتب شركة</strong>: المكتب نفسه (الكود)، أرشيف الملفات (البيانات)، وخط الهاتف (الموارد) يستخدمها <strong>كل الموظفين (الخيوط)</strong>. لكن لكل موظف <strong>مهمته الخاصة</strong> (PC + Stack)، وأوراقه الشخصية. يمكن أن يعملوا كلهم في نفس الوقت دون أن يعرقل بعضهم بعضًا.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">⚖️</span> العملية أحادية vs متعددة الخيوط</h2>
+    <table class="compare-table">
+      <tr><th>المقارنة</th><th>أحادية الخيط <span class="eng">Single-threaded</span></th><th>متعددة الخيوط <span class="eng">Multi-threaded</span></th></tr>
+      <tr><td>عدد الخيوط</td><td>خيط واحد فقط</td><td>عدة خيوط متزامنة</td></tr>
+      <tr><td>التنفيذ</td><td>بالتتابع</td><td>بالتوازي/التزامن</td></tr>
+      <tr><td>الاستجابة</td><td>قد تتجمد كاملة</td><td>تستمر باقي الخيوط</td></tr>
+      <tr><td>الأداء</td><td>محدود</td><td>أعلى مع المعالجات متعددة النواة</td></tr>
+      <tr><td>المكدس والسجلات</td><td>واحد فقط</td><td>منفصل لكل خيط</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🚀</span> فوائد الخيوط</h2>
+    <ul>
+      <li><strong>الاستجابة <span class="eng">Responsiveness</span>:</strong> إذا توقف أحد الخيوط، تستمر الأخرى. مهم للواجهات الرسومية.</li>
+      <li><strong>مشاركة الموارد <span class="eng">Resource Sharing</span>:</strong> الخيوط تتشارك الذاكرة والملفات تلقائيًا.</li>
+      <li><strong>التكلفة <span class="eng">Economy</span>:</strong> إنشاء خيط أرخص بكثير من إنشاء عملية كاملة.</li>
+      <li><strong>قابلية التوسع <span class="eng">Scalability</span>:</strong> الاستفادة من المعالجات متعددة النواة.</li>
+    </ul>
+
+    <div class="example-box">
+      تطبيق متصفح: خيط لعرض الصفحة، خيط لتحميل الصور، خيط للاستجابة لنقرات الفأرة، وخيط لفحص التحديثات. كلها بنفس الوقت!
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">⚡</span> التوازي vs التزامن</h2>
+    <p>هذان مفهومان مختلفان كثيرًا ما يُخلط بينهما:</p>
+    <table class="compare-table">
+      <tr><th>المفهوم</th><th>التوازي <span class="eng">Parallelism</span></th><th>التزامن <span class="eng">Concurrency</span></th></tr>
+      <tr><td>التعريف</td><td>تنفيذ فعلي لمهام في وقت واحد</td><td>إدارة عدة مهام تبدو متزامنة</td></tr>
+      <tr><td>يحتاج</td><td>عدة أنوية</td><td>نواة واحدة كافية</td></tr>
+      <tr><td>كيف؟</td><td>كل نواة تنفذ مهمة فعليًا</td><td>تبديل سريع بين المهام</td></tr>
+    </table>
+
+    <div class="story-box">
+      <strong>التوازي:</strong> في مطعم 4 طباخين، كل واحد يعد طبقًا. الـ 4 أطباق جاهزة في نفس اللحظة فعلًا.<br>
+      <strong>التزامن:</strong> طباخ واحد يقفز بين 4 أطباق بسرعة (يقطع خضرة هنا، يقلب لحم هناك). يبدو أنه يعد 4 معًا، لكن فعليًا يعمل على واحد في كل لحظة.
+    </div>
+
+    <h3>أنواع التوازي</h3>
+    <ul>
+      <li><strong>التوازي البياني <span class="eng">Data Parallelism</span>:</strong> نفس العملية على أجزاء مختلفة من البيانات. <em>مثال: كل نواة تحسب الجذر التربيعي لجزء من مصفوفة.</em></li>
+      <li><strong>التوازي المهام <span class="eng">Task Parallelism</span>:</strong> كل خيط يؤدي عملية مختلفة. <em>مثال: خيط للإدخال، خيط للمعالجة، خيط للعرض.</em></li>
+    </ul>
+
+    <div class="tip-box">
+      معالج <strong>Oracle SPARC T4</strong>: 8 أنوية × 8 خيوط مادية لكل نواة = 64 خيطًا بالتوازي!
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🎭</span> خيوط المستخدم vs خيوط النواة</h2>
+    <table class="compare-table">
+      <tr><th></th><th>خيوط المستخدم <span class="eng">User Threads</span></th><th>خيوط النواة <span class="eng">Kernel Threads</span></th></tr>
+      <tr><td>المُدير</td><td>مكتبة في وضع المستخدم</td><td>نظام التشغيل (النواة)</td></tr>
+      <tr><td>السرعة</td><td>أسرع (لا تحتاج system call)</td><td>أبطأ</td></tr>
+      <tr><td>التوازي الحقيقي</td><td>محدود</td><td>كامل على الأنوية المتعددة</td></tr>
+      <tr><td>إذا حُظر خيط</td><td>تتأثر العملية كاملة</td><td>الخيوط الأخرى تستمر</td></tr>
+      <tr><td>أمثلة</td><td>POSIX Pthreads, Java, Windows</td><td>Windows, Solaris, Linux, macOS</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🔗</span> نماذج البرمجة متعددة الخيوط</h2>
+
+    <h3>1. Many-to-One (من العديد إلى واحد)</h3>
+    <ul>
+      <li>عدة خيوط مستخدم → خيط نواة واحد</li>
+      <li>إذا حُظر خيط واحد، كل العملية تتوقف</li>
+      <li>لا يستفيد من المعالجات متعددة النواة</li>
+      <li><strong>أمثلة:</strong> Solaris Green Threads, GNU Portable Threads</li>
+      <li><strong>الاستخدام:</strong> نادرًا في الأنظمة الحديثة</li>
+    </ul>
+
+    <h3>2. One-to-One (من واحد إلى واحد)</h3>
+    <ul>
+      <li>كل خيط مستخدم → خيط نواة منفصل</li>
+      <li>توازي حقيقي على الأنوية المتعددة</li>
+      <li>مكلف عند كثرة الخيوط</li>
+      <li><strong>أمثلة:</strong> Windows, Linux, Solaris 9+</li>
+      <li><strong>الاستخدام:</strong> الأكثر شيوعًا في الأنظمة الحديثة</li>
+    </ul>
+
+    <h3>3. Many-to-Many (من العديد إلى العديد)</h3>
+    <ul>
+      <li>عدة خيوط مستخدم ↔ عدة خيوط نواة (أقل أو يساوي)</li>
+      <li>الأكثر مرونة وكفاءة</li>
+      <li>النظام يقرر كم خيط نواة ينشئ</li>
+      <li><strong>أمثلة:</strong> Solaris قبل 9، Windows ThreadFiber</li>
+    </ul>
+
+    <h3>4. Two-Level Model (نموذج ذو المستويين)</h3>
+    <ul>
+      <li>هجين: بعض الخيوط Many-to-Many وأخرى One-to-One</li>
+      <li>للخيوط ذات الأولوية ربط مباشر بالنواة</li>
+      <li><strong>أمثلة:</strong> HP-UX, Tru64 UNIX, IRIX, Solaris 8</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📚</span> مكتبات الخيوط الرئيسية</h2>
+
+    <h3>POSIX Pthreads</h3>
+    <ul>
+      <li>معيار صناعي <span class="eng">IEEE 1003.1c</span></li>
+      <li>تعمل في Solaris, Linux, macOS</li>
+      <li>قد تكون User-level أو Kernel-level حسب التنفيذ</li>
+    </ul>
+
+    <h3>Windows API Threads</h3>
+    <ul>
+      <li>تستخدم في Windows 98, NT, 2000, XP, 7+</li>
+      <li>تعتمد نموذج One-to-One</li>
+      <li>كل خيط يحتوي:
+        <ul>
+          <li>معرف الخيط (Thread ID)</li>
+          <li>السجلات</li>
+          <li>مكدسين (للمستخدم وللنواة)</li>
+          <li>منطقة بيانات محلية للـ DLLs</li>
+          <li>سياق الخيط <span class="eng">Thread Context</span></li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>Java Threads</h3>
+    <ul>
+      <li>تُدار بواسطة JVM (آلة جافا الافتراضية)</li>
+      <li>تعتمد على نموذج خيوط نظام التشغيل تحت الغطاء</li>
+      <li>طريقتان لإنشاء خيط:
+        <ol>
+          <li>تمديد الفئة <span class="eng">Thread</span> وإعادة تعريف <span class="eng">run()</span></li>
+          <li>تنفيذ الواجهة <span class="eng">Runnable</span> ثم تمريره لكائن Thread</li>
+        </ol>
+      </li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🐧</span> خيوط Linux</h2>
+    <ul>
+      <li>Linux يسميها <strong>المهام (Tasks)</strong> بدلاً من الخيوط</li>
+      <li>تُنشأ باستخدام نداء النظام <span class="eng">clone()</span></li>
+      <li>تستخدم البنية <span class="eng">struct task_struct</span> لتمثيل كل مهمة</li>
+      <li>التحكم بسلوك المهمة عبر العلامات <span class="eng">Flags</span>:</li>
+    </ul>
+    <table class="compare-table">
+      <tr><th>العلامة</th><th>المعنى</th></tr>
+      <tr><td><span class="eng">CLONE_FS</span></td><td>تشارك إعدادات نظام الملفات</td></tr>
+      <tr><td><span class="eng">CLONE_VM</span></td><td>تشارك مساحة الذاكرة الافتراضية</td></tr>
+      <tr><td><span class="eng">CLONE_SIGHAND</span></td><td>تشارك معالجات الإشارات</td></tr>
+      <tr><td><span class="eng">CLONE_FILES</span></td><td>تشارك الملفات المفتوحة</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🪟</span> خيوط Windows</h2>
+    <p>الهياكل الأساسية لخيوط Windows:</p>
+    <ol>
+      <li><strong>كتلة بيانات تنفيذية <span class="eng">Executive Thread Block</span>:</strong> مؤشر للعملية ولكتلة بيانات النواة (في مساحة النواة)</li>
+      <li><strong>كتلة بيانات خيط النواة <span class="eng">Kernel Thread Block</span>:</strong> معلومات الجدولة والمزامنة، مكدس النواة (في مساحة النواة)</li>
+      <li><strong>كتلة بيئة الخيط <span class="eng">Thread Environment Block - TEB</span>:</strong> معرف الخيط، مكدس المستخدم، التخزين الخاص (في مساحة المستخدم)</li>
+    </ol>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> اختبر فهمك للموضوع 7</h2>
+
+    <div class="quiz-q">
+      <div class="q-text">س1: ما الذي <strong>لا</strong> تتشاركه الخيوط ضمن نفس العملية؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 3, this)"><span class="letter">أ</span><span>قسم الكود</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 3, this)"><span class="letter">ب</span><span>قسم البيانات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 3, this)"><span class="letter">ج</span><span>الملفات المفتوحة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 3, this)"><span class="letter">د</span><span>المكدس والسجلات</span></button>
+      </div>
+      <div class="quiz-explain">المكدس والسجلات وعداد البرنامج تكون منفصلة لكل خيط. أما الكود والبيانات والملفات والإشارات فمشتركة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س2: في نموذج Many-to-One، ماذا يحدث إذا حُظر أحد الخيوط؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1, this)"><span class="letter">أ</span><span>تستمر باقي الخيوط بشكل طبيعي</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1, this)"><span class="letter">ب</span><span>تتوقف جميع الخيوط لأنها تشترك في خيط نواة واحد</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1, this)"><span class="letter">ج</span><span>يتم إنشاء خيط نواة بديل تلقائيًا</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1, this)"><span class="letter">د</span><span>يتم نقل الخيط لمعالج آخر</span></button>
+      </div>
+      <div class="quiz-explain">في Many-to-One كل خيوط المستخدم مرتبطة بخيط نواة واحد، فحظر أي خيط يعطل العملية كاملة. هذه أهم عيوب النموذج.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س3: ما الفرق بين التوازي والتزامن؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2, this)"><span class="letter">أ</span><span>لا فرق بينهما</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2, this)"><span class="letter">ب</span><span>التزامن أسرع من التوازي</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2, this)"><span class="letter">ج</span><span>التوازي تنفيذ فعلي في وقت واحد، التزامن يبدو متزامنًا عبر التبديل السريع</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2, this)"><span class="letter">د</span><span>التوازي يحتاج نواة واحدة فقط</span></button>
+      </div>
+      <div class="quiz-explain">التوازي يحتاج عدة أنوية لتنفيذ فعلي بنفس اللحظة، أما التزامن فيمكن تحقيقه بنواة واحدة عبر التبديل السريع بين المهام.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س4: نظام Linux يستخدم نداء النظام التالي لإنشاء الخيوط:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2, this)"><span class="letter">أ</span><span>fork()</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2, this)"><span class="letter">ب</span><span>exec()</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2, this)"><span class="letter">ج</span><span>clone()</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2, this)"><span class="letter">د</span><span>thread_create()</span></button>
+      </div>
+      <div class="quiz-explain">Linux يستخدم clone() مع علامات (Flags) للتحكم في ما تتشاركه المهمة الجديدة مع الأم.</div>
+    </div>
+  </div>
+</section>
+`;
+
+TOPICS['8'] = `
+<section class="topic-section" id="topic-8">
+  <div class="topic-header">
+    <div class="label">الموضوع الثامن · جديد للنهائي</div>
+    <h1>مزامنة العمليات (Process Synchronization)</h1>
+    <p>المنتج/المستهلك، حالة السباق، القسم الحرج، السيمافورات</p>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>تفهم لماذا نحتاج مزامنة العمليات</li>
+      <li>تتعرف على مشكلة المنتج والمستهلك</li>
+      <li>تفهم القسم الحرج (Critical Section)</li>
+      <li>تتعرف على السيمافورات والـ Mutex</li>
+      <li>تفهم آليات مزامنة Windows وLinux</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🤝</span> لماذا نحتاج المزامنة؟</h2>
+    <ul>
+      <li>العمليات قد تنفذ بالتوازي وقد تتوقف وتستأنف في أي وقت</li>
+      <li>مشاركة البيانات قد تؤدي إلى <strong>تضارب وفقدان الاتساق</strong></li>
+      <li>ضمان الوصول المنظم للبيانات يتطلب آليات تحكم دقيقة</li>
+    </ul>
+
+    <div class="story-box">
+      موظفان في مكتب يستخدمان <strong>طابعة واحدة</strong>. لو طبعا في نفس الوقت بدون تنسيق، الأوراق ستختلط. الحل: <strong>قاعدة</strong> أن من يأخذ الطابعة يكتب اسمه، والآخر ينتظر دوره. هذه هي المزامنة!
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🏭</span> مشكلة المنتج والمستهلك</h2>
+    <p>سيناريو كلاسيكي للمزامنة:</p>
+    <ul>
+      <li><strong>المنتج <span class="eng">Producer</span>:</strong> ينتج عناصر ويضعها في مخزن مؤقت <span class="eng">Buffer</span></li>
+      <li><strong>المستهلك <span class="eng">Consumer</span>:</strong> يأخذ عناصر من المخزن ويستهلكها</li>
+      <li><strong>العداد <span class="eng">Counter</span>:</strong> يتابع عدد العناصر في المخزن</li>
+    </ul>
+
+    <h3>المشكلة بدون مزامنة</h3>
+    <p>إذا حاول المنتج والمستهلك تعديل العداد في نفس الوقت:</p>
+    <ul>
+      <li>قد تُفقد العمليات</li>
+      <li>قد يصبح العداد قيمة غير صحيحة</li>
+      <li>تلف في البيانات أو نتائج عشوائية</li>
+    </ul>
+
+    <div class="example-box">
+      افترض Counter = 5، المنتج يريد +1 (يصبح 6)، المستهلك يريد -1 (يصبح 4). إذا حدثا في نفس الوقت، النتيجة قد تكون 6 أو 4 أو 5 (حسب من يكتب أخيرًا) بدلاً من 5 الصحيح.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">⚠️</span> حالة السباق (Race Condition)</h2>
+    <p><strong>حالة السباق</strong> هي عندما تعتمد نتيجة العملية على <strong>ترتيب التنفيذ</strong> غير المتوقع للعمليات المتزامنة.</p>
+    
+    <div class="warn-box">
+      حالة السباق = <strong>أخطاء عشوائية صعبة الاكتشاف</strong>. قد يعمل البرنامج 99% من الوقت، ثم يفشل بشكل غير متوقع. الحل الوحيد: المزامنة الصحيحة.
+    </div>
+
+    <h3>متى تحدث؟</h3>
+    <ul>
+      <li>عمليتان أو أكثر تصل لنفس البيانات</li>
+      <li>على الأقل واحدة منها تكتب (تعديل)</li>
+      <li>لا يوجد تحكم في ترتيب الوصول</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🔒</span> القسم الحرج (Critical Section)</h2>
+    <p>الجزء من الكود الذي يصل فيه للموارد المشتركة. يجب ألا تنفذه عمليتان في نفس الوقت.</p>
+
+    <h3>متطلبات حل القسم الحرج</h3>
+    <ol>
+      <li><strong>الاستبعاد المتبادل <span class="eng">Mutual Exclusion</span>:</strong> عملية واحدة فقط داخل القسم الحرج</li>
+      <li><strong>التقدم <span class="eng">Progress</span>:</strong> إذا لم يكن أحد بالداخل، عملية تنتظر يجب أن تدخل خلال وقت معقول</li>
+      <li><strong>الانتظار المحدود <span class="eng">Bounded Waiting</span>:</strong> لا تنتظر عملية للأبد بسبب عمليات أخرى</li>
+    </ol>
+
+    <div class="story-box">
+      حمام عام بدورة مياه واحدة:<br>
+      <strong>1. الاستبعاد المتبادل:</strong> شخص واحد بالداخل في كل مرة (تقفل الباب).<br>
+      <strong>2. التقدم:</strong> لو الحمام فاضي، الواقفين بالخارج يدخل أحدهم بسرعة.<br>
+      <strong>3. الانتظار المحدود:</strong> لا أحد يُترك ينتظر للأبد.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🚦</span> السيمافور (Semaphore)</h2>
+    <p>متغير عدّاد يستخدم لتنظيم وصول العمليات للموارد المشتركة.</p>
+
+    <h3>عمليتان أساسيتان</h3>
+    <ul>
+      <li><strong>wait(S) أو P(S):</strong> ينتظر حتى S > 0، ثم يقلل S بـ 1</li>
+      <li><strong>signal(S) أو V(S):</strong> يزيد S بـ 1 (يحرر المورد)</li>
+    </ul>
+
+    <h3>أنواع السيمافور</h3>
+    <ul>
+      <li><strong>السيمافور الثنائي <span class="eng">Binary Semaphore (Mutex)</span>:</strong> قيمته 0 أو 1 فقط، يستخدم للاستبعاد المتبادل</li>
+      <li><strong>السيمافور العام <span class="eng">Counting Semaphore</span>:</strong> أي قيمة، يستخدم لإدارة عدة موارد متشابهة</li>
+    </ul>
+
+    <div class="example-box">
+      <strong>سيمافور للطابعة (Binary):</strong> S=1. أول من يستخدمها يفعل wait → S=0. الآخرون ينتظرون. عند الانتهاء signal → S=1.<br>
+      <strong>سيمافور لـ 5 طابعات (Counting):</strong> S=5. كل طلب wait يقلل العداد. عند 0، الطلبات الجديدة تنتظر.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🔐</span> Mutex Lock</h2>
+    <p>أبسط أداة للاستبعاد المتبادل: قفل بسيط يُؤخذ ويُحرر.</p>
+    <ul>
+      <li><strong>acquire():</strong> يحاول الحصول على القفل</li>
+      <li><strong>release():</strong> يحرر القفل</li>
+      <li>إذا كان مأخوذًا، العملية تنتظر (busy waiting في بعض التنفيذات)</li>
+    </ul>
+
+    <table class="compare-table">
+      <tr><th>الأداة</th><th>الاستخدام</th><th>السرعة</th></tr>
+      <tr><td><strong>Mutex</strong></td><td>قفل بسيط (ملك واحد)</td><td>سريع</td></tr>
+      <tr><td><strong>Binary Semaphore</strong></td><td>إشارة بين عمليتين</td><td>متوسط</td></tr>
+      <tr><td><strong>Counting Semaphore</strong></td><td>عد الموارد المتاحة</td><td>متوسط</td></tr>
+      <tr><td><strong>Spinlock</strong></td><td>قفل قصير المدة</td><td>سريع جدًا</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🪟</span> مزامنة Windows</h2>
+    <ul>
+      <li>يستخدم <strong>أقنعة المقاطعة <span class="eng">Interrupt Masks</span></strong> لحماية الموارد العالمية في الأنظمة أحادية المعالج</li>
+      <li>يستخدم <strong>الأقفال الدوارة <span class="eng">Spinlocks</span></strong> في الأنظمة متعددة المعالجات</li>
+      <li>خيط القفل الدوار لا يتم تعطيله أبدًا (يبقى نشطًا)</li>
+      <li>يوفر أيضًا:
+        <ul>
+          <li><strong>المرشدات <span class="eng">Mutexes</span></strong></li>
+          <li><strong>السيمافورات</strong></li>
+          <li><strong>الأحداث <span class="eng">Events</span></strong></li>
+          <li><strong>المؤقتات <span class="eng">Timers</span></strong></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🐧</span> مزامنة Linux</h2>
+    <ul>
+      <li><strong>Atomic Integer:</strong> عمليات حسابية ذرية (لا يمكن مقاطعتها)</li>
+      <li><strong>Spinlocks:</strong> للأقفال قصيرة المدة</li>
+      <li><strong>Semaphores:</strong> للأقفال طويلة المدة</li>
+      <li><strong>Read-Write Locks:</strong> عدة قراء + كاتب واحد</li>
+      <li><strong>RCU <span class="eng">Read-Copy-Update</span>:</strong> آلية متطورة للقراءة المتزامنة</li>
+    </ul>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> اختبر فهمك للموضوع 8</h2>
+
+    <div class="quiz-q">
+      <div class="q-text">س1: ما هي حالة السباق (Race Condition)؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1, this)"><span class="letter">أ</span><span>عملية أسرع من أخرى</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1, this)"><span class="letter">ب</span><span>اعتماد نتيجة العملية على ترتيب التنفيذ غير المتوقع</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1, this)"><span class="letter">ج</span><span>تأخر استجابة المعالج</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1, this)"><span class="letter">د</span><span>عطل في الأجهزة</span></button>
+      </div>
+      <div class="quiz-explain">حالة السباق تحدث عند الوصول المتزامن لنفس البيانات بدون تحكم، فتعتمد النتيجة على من يصل أولًا.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س2: ما هي العملية الذرية (Atomic) في wait(S)؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2, this)"><span class="letter">أ</span><span>زيادة S بـ 1</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2, this)"><span class="letter">ب</span><span>إنهاء العملية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2, this)"><span class="letter">ج</span><span>الانتظار حتى S>0 ثم نقصان S بـ 1</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2, this)"><span class="letter">د</span><span>إعادة تعيين S لصفر</span></button>
+      </div>
+      <div class="quiz-explain">wait(S) ينتظر حتى يصبح S موجبًا، ثم ينقصه بـ 1 كعملية ذرية واحدة لمنع حالة السباق.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س3: في مشكلة المنتج/المستهلك، ما الذي قد يحدث بدون مزامنة؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1, this)"><span class="letter">أ</span><span>تنفيذ أسرع</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1, this)"><span class="letter">ب</span><span>تضارب في تعديل العداد ونتائج خاطئة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1, this)"><span class="letter">ج</span><span>زيادة الذاكرة المستخدمة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1, this)"><span class="letter">د</span><span>توقف نظام التشغيل</span></button>
+      </div>
+      <div class="quiz-explain">بدون مزامنة، تعديل العداد بالتزامن يؤدي إلى فقدان عمليات أو حصول على قيم خاطئة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س4: السيمافور الثنائي (Binary) مكافئ لـ:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2, this)"><span class="letter">أ</span><span>قفل دوار</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2, this)"><span class="letter">ب</span><span>عداد عام</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2, this)"><span class="letter">ج</span><span>Mutex</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2, this)"><span class="letter">د</span><span>Pipe</span></button>
+      </div>
+      <div class="quiz-explain">السيمافور الثنائي قيمته 0 أو 1 فقط، ويعمل كقفل للاستبعاد المتبادل تمامًا مثل Mutex.</div>
+    </div>
+  </div>
+</section>
+`;
+
+console.log("Topics 7-8 added");
+
+TOPICS['9'] = `
+<section class="topic-section" id="topic-9">
+  <div class="topic-header">
+    <div class="label">الموضوع التاسع · جديد للنهائي</div>
+    <h1>جدولة العمليات (مقدمة)</h1>
+    <p>FCFS، SJN، مخططات Gantt، حساب أزمنة الانتظار والتشغيل</p>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>تفهم لماذا نحتاج جدولة العمليات</li>
+      <li>تتعرف على معايير تقييم الجدولة</li>
+      <li>تطبق خوارزمية FCFS وتحسب أزمنة الانتظار</li>
+      <li>تطبق خوارزمية SJN وتقارنها بـ FCFS</li>
+      <li>ترسم مخططات Gantt</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🎯</span> لماذا الجدولة؟</h2>
+    <p>عندما تكون عدة عمليات جاهزة (Ready) ومعالج واحد فقط، يجب اختيار من ينفذ أولاً. <strong>المُجدول <span class="eng">Scheduler</span></strong> يقرر ذلك.</p>
+
+    <div class="story-box">
+      تخيل صرّاف بنك واحد و 10 عملاء بانتظار الدور. كيف يقرر الصرّاف من يبدأ؟
+      <ul>
+        <li>الأول دخولاً يخدم أولاً (FCFS) — الأبسط لكن قد يضيع وقتًا</li>
+        <li>الأقصر معاملةً يخدم أولاً (SJN) — أسرع لكن من يحمل عدة معاملات قد ينتظر طويلًا</li>
+        <li>كل عميل 5 دقائق ثم التالي (Round Robin) — عادل</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📊</span> معايير تقييم الجدولة</h2>
+    <ul>
+      <li><strong>استغلال CPU <span class="eng">CPU Utilization</span>:</strong> النسبة المئوية لاستخدام المعالج (نريدها عالية)</li>
+      <li><strong>الإنتاجية <span class="eng">Throughput</span>:</strong> عدد العمليات المكتملة في وحدة الزمن (نريدها عالية)</li>
+      <li><strong>زمن الإنجاز <span class="eng">Turnaround Time</span>:</strong> الوقت من الوصول حتى الانتهاء (نريده قليلاً)</li>
+      <li><strong>زمن الانتظار <span class="eng">Waiting Time</span>:</strong> الوقت الذي تقضيه العملية في طابور Ready (نريده قليلاً)</li>
+      <li><strong>زمن الاستجابة <span class="eng">Response Time</span>:</strong> الوقت من الوصول حتى أول استجابة (نريده قليلاً)</li>
+    </ul>
+
+    <div class="tip-box">
+      <strong>زمن الإنجاز = زمن الانتظار + زمن التشغيل (Burst Time)</strong>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🚶</span> FCFS — القادم أولاً يخدم أولاً</h2>
+    <p><span class="eng">First-Come, First-Served</span> هي أبسط خوارزمية: العمليات تُنفّذ بترتيب وصولها.</p>
+
+    <h3>الخصائص</h3>
+    <ul>
+      <li><strong>غير استباقية <span class="eng">Non-preemptive</span>:</strong> لا تُقاطع العملية الحالية</li>
+      <li>سهلة التنفيذ (طابور بسيط)</li>
+      <li>قد تسبب <strong>تأثير القافلة <span class="eng">Convoy Effect</span></strong></li>
+    </ul>
+
+    <h3>مثال محسوب</h3>
+    <div class="example-box">
+      ثلاث عمليات تصل بترتيب P1, P2, P3 بـ Burst Times: 24, 3, 3<br>
+      <strong>مخطط Gantt:</strong> | P1 (0-24) | P2 (24-27) | P3 (27-30) |<br>
+      زمن انتظار P1 = 0، P2 = 24، P3 = 27<br>
+      <strong>متوسط زمن الانتظار = (0 + 24 + 27) / 3 = 17 ms</strong>
+    </div>
+
+    <div class="warn-box">
+      <strong>تأثير القافلة:</strong> لو وصلت العمليات بترتيب P2, P3, P1: متوسط الانتظار = (0 + 3 + 6) / 3 = <strong>3 ms</strong>! نفس العمليات لكن ترتيب الوصول يصنع فرقًا كبيرًا.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">⚡</span> SJN — الأقصر زمناً يخدم أولاً</h2>
+    <p><span class="eng">Shortest Job Next / Shortest Job First (SJF)</span>: ينفذ العملية ذات أقصر زمن تشغيل أولاً.</p>
+
+    <h3>الخصائص</h3>
+    <ul>
+      <li><strong>الأمثل نظريًا</strong> — يعطي أقل متوسط زمن انتظار</li>
+      <li>يحتاج معرفة Burst Time مسبقًا (عادة لا نعرفه!)</li>
+      <li>قد يسبب <strong>التجويع <span class="eng">Starvation</span></strong> للعمليات الطويلة</li>
+    </ul>
+
+    <h3>مثال محسوب</h3>
+    <div class="example-box">
+      أربع عمليات بـ Burst Times: P1=6, P2=8, P3=7, P4=3<br>
+      <strong>SJN يرتبها:</strong> P4 (3) → P1 (6) → P3 (7) → P2 (8)<br>
+      <strong>مخطط Gantt:</strong> | P4 (0-3) | P1 (3-9) | P3 (9-16) | P2 (16-24) |<br>
+      زمن الانتظار: P4=0، P1=3، P3=9، P2=16<br>
+      <strong>متوسط = (0+3+9+16)/4 = 7 ms</strong> (مقابل 10.25 لـ FCFS)
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🆚</span> FCFS vs SJN</h2>
+    <table class="compare-table">
+      <tr><th>المعيار</th><th>FCFS</th><th>SJN</th></tr>
+      <tr><td>التعقيد</td><td>بسيط جدًا</td><td>أعقد (يحتاج تنبؤ Burst)</td></tr>
+      <tr><td>متوسط الانتظار</td><td>قد يكون مرتفعًا</td><td>الأمثل</td></tr>
+      <tr><td>العدالة</td><td>عادل (بترتيب الوصول)</td><td>غير عادل للعمليات الطويلة</td></tr>
+      <tr><td>التجويع</td><td>لا يحدث</td><td>قد يحدث</td></tr>
+      <tr><td>تأثير القافلة</td><td>نعم</td><td>لا</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📐</span> كيف نتنبأ بـ CPU Burst؟</h2>
+    <p>SJN يحتاج معرفة الزمن القادم. الحل: التقدير عبر <strong>المتوسط الأسي <span class="eng">Exponential Average</span></strong>:</p>
+
+    <div class="diagram-wrap">
+      <code style="font-size: 14px; font-family: 'JetBrains Mono';">τ<sub>n+1</sub> = α · t<sub>n</sub> + (1 − α) · τ<sub>n</sub></code>
+    </div>
+
+    <ul>
+      <li><strong>τ<sub>n+1</sub>:</strong> التقدير المتوقع للزمن القادم</li>
+      <li><strong>t<sub>n</sub>:</strong> الزمن الفعلي للتشغيل الأخير</li>
+      <li><strong>τ<sub>n</sub>:</strong> التقدير السابق</li>
+      <li><strong>α (0 ≤ α ≤ 1):</strong> معامل الوزن
+        <ul>
+          <li>α = 0 → نتجاهل التاريخ الحديث</li>
+          <li>α = 1 → نعتمد فقط على آخر قراءة</li>
+          <li>α = 0.5 → توازن بينهما (الأكثر شيوعًا)</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> اختبر فهمك للموضوع 9</h2>
+
+    <div class="quiz-q">
+      <div class="q-text">س1: ما متوسط زمن الانتظار في FCFS لعمليات Burst Times = [10, 1, 1] تصل بنفس الترتيب؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1, this)"><span class="letter">أ</span><span>4 ms</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1, this)"><span class="letter">ب</span><span>7 ms</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1, this)"><span class="letter">ج</span><span>10 ms</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1, this)"><span class="letter">د</span><span>3 ms</span></button>
+      </div>
+      <div class="quiz-explain">P1 ينتظر 0، P2 ينتظر 10، P3 ينتظر 11. المتوسط = (0+10+11)/3 = 7 ms. هذا تأثير القافلة!</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س2: لماذا تسبب SJN التجويع (Starvation)؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2, this)"><span class="letter">أ</span><span>لأنها بطيئة في التنفيذ</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2, this)"><span class="letter">ب</span><span>لأنها تحتاج ذاكرة كثيرة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2, this)"><span class="letter">ج</span><span>لأن العمليات القصيرة الجديدة تستمر بأخذ الأولوية على الطويلة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2, this)"><span class="letter">د</span><span>لأنها تستهلك CPU بشكل مفرط</span></button>
+      </div>
+      <div class="quiz-explain">إذا استمرت عمليات قصيرة بالوصول، العمليات الطويلة لن تصل لها الفرصة أبدًا.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س3: في معادلة المتوسط الأسي، ماذا يعني α = 0؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1, this)"><span class="letter">أ</span><span>الاعتماد فقط على آخر قراءة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1, this)"><span class="letter">ب</span><span>تجاهل آخر قراءة والاعتماد على التقدير السابق</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1, this)"><span class="letter">ج</span><span>قيمة افتراضية 0.5</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1, this)"><span class="letter">د</span><span>إيقاف خوارزمية التقدير</span></button>
+      </div>
+      <div class="quiz-explain">عند α=0: τ<sub>n+1</sub> = τ<sub>n</sub>، أي التقدير الجديد = التقدير القديم تمامًا.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س4: زمن الإنجاز (Turnaround Time) يساوي:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1, this)"><span class="letter">أ</span><span>زمن الانتظار فقط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1, this)"><span class="letter">ب</span><span>زمن الانتظار + زمن التشغيل (Burst Time)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1, this)"><span class="letter">ج</span><span>زمن التشغيل فقط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1, this)"><span class="letter">د</span><span>زمن الاستجابة الأول</span></button>
+      </div>
+      <div class="quiz-explain">Turnaround = Waiting Time + Burst Time = الوقت الكلي من الوصول حتى الانتهاء.</div>
+    </div>
+  </div>
+</section>
+`;
+
+TOPICS['10'] = `
+<section class="topic-section" id="topic-10">
+  <div class="topic-header">
+    <div class="label">الموضوع العاشر · جديد للنهائي</div>
+    <h1>أنواع خوارزميات الجدولة</h1>
+    <p>SRT، الأولوية، Round Robin، الجدولة متعددة المستويات</p>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>تتعرف على أنواع الجدولة الاستباقية وغير الاستباقية</li>
+      <li>تطبق خوارزمية SRT (الأقصر وقت متبقي)</li>
+      <li>تتعرف على جدولة الأولوية</li>
+      <li>تطبق Round Robin بحساب Quantum</li>
+      <li>تفهم الجدولة متعددة المستويات</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📋</span> ملخص الخوارزميات</h2>
+    <ol>
+      <li><strong>FCFS</strong> — تمت في الموضوع التاسع</li>
+      <li><strong>SJN</strong> — تمت في الموضوع التاسع</li>
+      <li><strong>SRT</strong> — Shortest Remaining Time (نتعلمها هنا)</li>
+      <li><strong>Priority Scheduling</strong> — جدولة الأولوية</li>
+      <li><strong>Round Robin (RR)</strong> — التقسيم الزمني</li>
+      <li><strong>Multilevel Queues</strong> — متعددة المستويات</li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">⏱️</span> SRT — أقصر وقت متبقي</h2>
+    <p><span class="eng">Shortest Remaining Time</span> هي النسخة الاستباقية من SJN.</p>
+
+    <h3>الخصائص</h3>
+    <ul>
+      <li><strong>استباقية <span class="eng">Preemptive</span>:</strong> عند وصول عملية جديدة، يُعاد تقييم كل العمليات</li>
+      <li>إذا كان وقت العملية الجديدة أقل من المتبقي للحالية، يتم التبديل</li>
+      <li>تعطي أقل متوسط زمن انتظار في الحالات الديناميكية</li>
+    </ul>
+
+    <h3>مثال محسوب</h3>
+    <div class="example-box">
+      <table class="compare-table" style="margin: 8px 0;">
+        <tr><th>العملية</th><th>الوصول</th><th>Burst</th></tr>
+        <tr><td>P1</td><td>0</td><td>8</td></tr>
+        <tr><td>P2</td><td>1</td><td>4</td></tr>
+        <tr><td>P3</td><td>2</td><td>9</td></tr>
+        <tr><td>P4</td><td>3</td><td>5</td></tr>
+      </table>
+      <strong>التنفيذ:</strong> P1 يبدأ. عند t=1، P2 يصل (4 < 7 المتبقية لـ P1) → نبدّل إلى P2.<br>
+      P2 ينتهي عند t=5. ثم P4 (5) يبدأ، ينتهي عند t=10. ثم P1 المتبقية (7)، ثم P3 (9).<br>
+      <strong>متوسط الانتظار = 6.5 ms</strong> (أقل من SJN غير الاستباقية)
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">⭐</span> جدولة الأولوية</h2>
+    <p>كل عملية لها <strong>أولوية</strong>، والمعالج ينفذ الأعلى أولوية.</p>
+
+    <h3>أنواعها</h3>
+    <ul>
+      <li><strong>استباقية:</strong> عملية جديدة بأولوية أعلى تُقاطع الحالية</li>
+      <li><strong>غير استباقية:</strong> الحالية تكمل، ثم تُختار الأعلى أولوية من الطابور</li>
+    </ul>
+
+    <h3>مصادر الأولوية</h3>
+    <ul>
+      <li><strong>داخلية:</strong> Burst Time المتوقع، الذاكرة المطلوبة، عدد الملفات</li>
+      <li><strong>خارجية:</strong> أهمية المستخدم، الدفع للنظام، السياسة الإدارية</li>
+    </ul>
+
+    <div class="warn-box">
+      <strong>مشكلة التجويع:</strong> العمليات منخفضة الأولوية قد لا تصل للتنفيذ أبدًا. <strong>الحل: التقادم <span class="eng">Aging</span></strong> — زيادة الأولوية تدريجيًا مع الوقت.
+    </div>
+
+    <div class="tip-box">
+      كلما طالت العملية في الانتظار، زادت أولويتها. هذا يضمن أنها ستُنفّذ في النهاية.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🔄</span> Round Robin (التقسيم الزمني)</h2>
+    <p>تصمَّم خصيصًا للأنظمة التشاركية. كل عملية تأخذ <strong>شريحة زمنية <span class="eng">Time Quantum</span></strong> ثابتة، ثم تنتقل لآخر الطابور.</p>
+
+    <h3>الخصائص</h3>
+    <ul>
+      <li><strong>استباقية:</strong> العملية تخرج عند انتهاء Quantum حتى لو لم تنتهِ</li>
+      <li><strong>عادلة:</strong> كل عملية تحصل على وقت متساوٍ</li>
+      <li><strong>زمن استجابة جيد:</strong> مناسبة للأنظمة التفاعلية</li>
+    </ul>
+
+    <h3>اختيار Quantum</h3>
+    <table class="compare-table">
+      <tr><th>الحجم</th><th>التأثير</th></tr>
+      <tr><td>كبير جدًا</td><td>تتحول لـ FCFS تقريبًا</td></tr>
+      <tr><td>صغير جدًا</td><td>كثرة Context Switching → تكلفة عالية</td></tr>
+      <tr><td>مثالي</td><td>10-100 ms عادة، أكبر من زمن Context Switch بكثير</td></tr>
+    </table>
+
+    <h3>مثال محسوب</h3>
+    <div class="example-box">
+      ثلاث عمليات بـ Burst Times = [24, 3, 3] و Quantum = 4<br>
+      <strong>مخطط Gantt:</strong><br>
+      |P1|P2|P3|P1|P1|P1|P1|P1| (4|4|3|3|4|4|4|4|4)<br>
+      <strong>زمن الانتظار:</strong> P1 = (10-4) = 6، P2 = 4، P3 = 7<br>
+      <strong>متوسط = (6+4+7)/3 = 5.66 ms</strong>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📚</span> الجدولة متعددة المستويات</h2>
+    <p><span class="eng">Multilevel Queue Scheduling</span>: تقسم العمليات لعدة طوابير، كل طابور له خوارزمية جدولته.</p>
+
+    <h3>الفكرة الأساسية</h3>
+    <ul>
+      <li>عمليات تفاعلية (مثل المحرر) → طابور بـ Round Robin</li>
+      <li>عمليات دفعية (مثل الترجمة) → طابور بـ FCFS</li>
+      <li>عمليات نظام → طابور بأولوية عالية</li>
+    </ul>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="20" width="560" height="50" fill="#fee2e2" stroke="#dc2626" rx="8"/>
+        <text x="300" y="50" text-anchor="middle" font-family="Arial" font-size="14" fill="#7f1d1d">عمليات النظام (الأعلى أولوية) — RR</text>
+        <rect x="20" y="80" width="560" height="50" fill="#fef3c7" stroke="#f59e0b" rx="8"/>
+        <text x="300" y="110" text-anchor="middle" font-family="Arial" font-size="14" fill="#78350f">عمليات تفاعلية — Round Robin</text>
+        <rect x="20" y="140" width="560" height="50" fill="#dcfce7" stroke="#16a34a" rx="8"/>
+        <text x="300" y="170" text-anchor="middle" font-family="Arial" font-size="14" fill="#14532d">عمليات الطلاب — Round Robin</text>
+        <rect x="20" y="200" width="560" height="50" fill="#dbeafe" stroke="#2563eb" rx="8"/>
+        <text x="300" y="230" text-anchor="middle" font-family="Arial" font-size="14" fill="#1e3a8a">عمليات دفعية — FCFS</text>
+      </svg>
+      <div class="caption">طوابير متعددة بأولويات مختلفة</div>
+    </div>
+
+    <h3>الجدولة بين الطوابير</h3>
+    <ul>
+      <li><strong>أولوية ثابتة:</strong> الطابور الأعلى يخدم بالكامل قبل الأدنى (قد يسبب تجويع)</li>
+      <li><strong>توزيع زمني:</strong> كل طابور يحصل على نسبة من وقت CPU (مثلاً 80% للتفاعلية، 20% للدفعية)</li>
+    </ul>
+
+    <h3>الجدولة متعددة المستويات بالتغذية الراجعة <span class="eng">Multilevel Feedback Queue</span></h3>
+    <p>تطوير: العمليات يمكن أن <strong>تنتقل بين الطوابير</strong> حسب سلوكها:</p>
+    <ul>
+      <li>عملية استخدمت Quantum كاملاً → ربما CPU-bound → تنزل لطابور أدنى</li>
+      <li>عملية تنتظر I/O كثيرًا → تفاعلية → تبقى في طابور عالٍ</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📊</span> مقارنة كل الخوارزميات</h2>
+    <table class="compare-table">
+      <tr><th>الخوارزمية</th><th>استباقية؟</th><th>الإيجابيات</th><th>السلبيات</th></tr>
+      <tr><td>FCFS</td><td>لا</td><td>بسيطة وعادلة</td><td>تأثير القافلة</td></tr>
+      <tr><td>SJN</td><td>لا</td><td>أقل متوسط انتظار</td><td>تجويع، تحتاج تنبؤ</td></tr>
+      <tr><td>SRT</td><td>نعم</td><td>أداء ممتاز</td><td>Context Switch كثير</td></tr>
+      <tr><td>Priority</td><td>كلاهما</td><td>مرنة</td><td>تجويع (يحتاج Aging)</td></tr>
+      <tr><td>Round Robin</td><td>نعم</td><td>عادلة، استجابة جيدة</td><td>Context Switch مكلف</td></tr>
+      <tr><td>Multilevel</td><td>كلاهما</td><td>مرنة جدًا</td><td>تعقيد الإعداد</td></tr>
+    </table>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> اختبر فهمك للموضوع 10</h2>
+
+    <div class="quiz-q">
+      <div class="q-text">س1: ما الفرق بين SJN وSRT؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2, this)"><span class="letter">أ</span><span>SJN أبطأ</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2, this)"><span class="letter">ب</span><span>SRT لا تحتاج Burst Time</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2, this)"><span class="letter">ج</span><span>SJN غير استباقية، SRT استباقية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2, this)"><span class="letter">د</span><span>لا فرق بينهما</span></button>
+      </div>
+      <div class="quiz-explain">SJN لا تقاطع العملية الحالية حتى لو وصلت أقصر منها. SRT تقاطعها فورًا.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س2: ماذا يحدث إذا كان Quantum في Round Robin كبيرًا جدًا؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1, this)"><span class="letter">أ</span><span>تتحسن العدالة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1, this)"><span class="letter">ب</span><span>تتحول الخوارزمية لـ FCFS تقريبًا</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1, this)"><span class="letter">ج</span><span>يزيد Context Switch</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1, this)"><span class="letter">د</span><span>يقل زمن الاستجابة</span></button>
+      </div>
+      <div class="quiz-explain">Quantum كبير جدًا = كل عملية تكمل قبل أن ينتهي وقتها = سلوك FCFS.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س3: تقنية "التقادم Aging" تعالج مشكلة:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2, this)"><span class="letter">أ</span><span>Race Condition</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2, this)"><span class="letter">ب</span><span>تأثير القافلة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2, this)"><span class="letter">ج</span><span>التجويع في جدولة الأولوية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2, this)"><span class="letter">د</span><span>Context Switch البطيء</span></button>
+      </div>
+      <div class="quiz-explain">Aging يزيد أولوية العمليات تدريجيًا مع الانتظار، فيمنع التجويع.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س4: في Multilevel Feedback Queue، عملية CPU-bound تنتقل عادةً:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1, this)"><span class="letter">أ</span><span>لطابور أعلى أولوية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1, this)"><span class="letter">ب</span><span>لطابور أدنى أولوية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1, this)"><span class="letter">ج</span><span>لا تتحرك</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1, this)"><span class="letter">د</span><span>تنتهي مباشرة</span></button>
+      </div>
+      <div class="quiz-explain">العمليات التي تستهلك Quantum كاملاً تُعتبر CPU-bound وتنزل لطابور أدنى لإفساح المجال للتفاعلية.</div>
+    </div>
+  </div>
+</section>
+`;
+
+console.log("Topics 9-10 added");
+
+TOPICS['11'] = `
+<section class="topic-section" id="topic-11">
+  <div class="topic-header">
+    <div class="label">الموضوع الحادي عشر · جديد للنهائي</div>
+    <h1>نموذج النظام والجمود (Deadlock)</h1>
+    <p>الموارد، شروط الجمود الأربعة، مخطط تخصيص الموارد، طرق التعامل</p>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>تفهم نموذج النظام للموارد</li>
+      <li>تتعرف على الشروط الأربعة للجمود</li>
+      <li>تقرأ مخطط تخصيص الموارد</li>
+      <li>تتعرف على طرق التعامل مع الجمود</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🏛️</span> نموذج النظام (System Model)</h2>
+    <p>يتكون النظام من موارد بأنواع مختلفة: <code>R1، R2، ...، Rm</code></p>
+    
+    <h3>أنواع الموارد</h3>
+    <ul>
+      <li><strong>دورات المعالج <span class="eng">CPU cycles</span></strong></li>
+      <li><strong>مساحة الذاكرة <span class="eng">Memory space</span></strong></li>
+      <li><strong>أجهزة الإدخال/الإخراج <span class="eng">I/O devices</span></strong></li>
+      <li><strong>الملفات</strong></li>
+    </ul>
+
+    <p>لكل نوع مورد <code>Ri</code> يوجد <code>Wi</code> نسخة (instance).</p>
+
+    <h3>دورة استخدام المورد</h3>
+    <ol>
+      <li><strong>الطلب <span class="eng">Request</span>:</strong> العملية تطلب المورد</li>
+      <li><strong>الاستخدام <span class="eng">Use</span>:</strong> العملية تستخدم المورد</li>
+      <li><strong>التحرير <span class="eng">Release</span>:</strong> العملية تُحرر المورد بعد الانتهاء</li>
+    </ol>
+
+    <div class="story-box">
+      مكتب فيه <strong>3 طابعات</strong> (Resource R1 بـ 3 نسخ). الموظف يطلب طابعة، يستخدمها لطباعة تقرير، ثم يحررها للموظفين الآخرين.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🔒</span> ما هو الجمود (Deadlock)؟</h2>
+    <p><strong>الجمود</strong> = مجموعة عمليات كل واحدة منها تنتظر مورداً تحجزه عملية أخرى من المجموعة. <strong>لا أحد يستطيع التقدم</strong>.</p>
+
+    <div class="story-box">
+      تخيل <strong>طاولة طعام</strong> فيها 4 أشخاص و 4 شوكات (واحدة بين كل شخصين). كل واحد يحتاج شوكتين ليأكل (يمين ويسار). إذا أمسك كل شخص الشوكة اليمنى منتظرًا اليسرى التي يحملها جاره، <strong>كلهم سيموتون جوعًا!</strong> هذا هو الجمود.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">4️⃣</span> الشروط الأربعة للجمود</h2>
+    <p>لحدوث الجمود، يجب توفر <strong>الأربعة معًا</strong>:</p>
+
+    <ol>
+      <li><strong>الاستبعاد المتبادل <span class="eng">Mutual Exclusion</span>:</strong>
+        <p>المورد لا يُستخدم إلا من قبل عملية واحدة في كل مرة.</p>
+      </li>
+      <li><strong>الإمساك والانتظار <span class="eng">Hold and Wait</span>:</strong>
+        <p>العملية تمسك مورداً وتنتظر مورداً آخر تمسكه عملية أخرى.</p>
+      </li>
+      <li><strong>عدم الاستباق <span class="eng">No Preemption</span>:</strong>
+        <p>لا يمكن سحب المورد من عملية إلا إذا حررته طوعًا.</p>
+      </li>
+      <li><strong>الانتظار الدائري <span class="eng">Circular Wait</span>:</strong>
+        <p>سلسلة عمليات P1 → P2 → ... → Pn → P1، كل واحدة تنتظر مورداً عند التالية.</p>
+      </li>
+    </ol>
+
+    <div class="warn-box">
+      <strong>إذا غاب أي شرط من هذه الأربعة، الجمود لا يحدث!</strong> هذه الفكرة الأساسية لخوارزميات منع الجمود.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📊</span> مخطط تخصيص الموارد</h2>
+    <p><span class="eng">Resource Allocation Graph (RAG)</span>: يمثل العلاقة بين العمليات والموارد بشكل رسمي.</p>
+
+    <h3>مكونات المخطط</h3>
+    <ul>
+      <li><strong>عقد العمليات <span class="eng">Process nodes</span>:</strong> دوائر تمثل العمليات (P1, P2, ...)</li>
+      <li><strong>عقد الموارد <span class="eng">Resource nodes</span>:</strong> مربعات تمثل أنواع الموارد (R1, R2, ...)</li>
+      <li><strong>نقاط داخل المربع:</strong> عدد نسخ المورد المتاحة</li>
+      <li><strong>سهم الطلب <span class="eng">Request edge</span>:</strong> Pi → Rj (تطلب)</li>
+      <li><strong>سهم التخصيص <span class="eng">Assignment edge</span>:</strong> Rj → Pi (مخصص لها)</li>
+    </ul>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 500 250" xmlns="http://www.w3.org/2000/svg">
+        <!-- Processes (circles) -->
+        <circle cx="80" cy="60" r="28" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="80" y="66" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">P1</text>
+        <circle cx="80" cy="190" r="28" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+        <text x="80" y="196" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold">P2</text>
+        <!-- Resources (squares) -->
+        <rect x="350" y="32" width="56" height="56" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="378" y="55" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold">R1</text>
+        <circle cx="378" cy="75" r="3" fill="#f59e0b"/>
+        <rect x="350" y="162" width="56" height="56" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+        <text x="378" y="185" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold">R2</text>
+        <circle cx="378" cy="205" r="3" fill="#f59e0b"/>
+        <!-- Arrows: P1 holds R1, requests R2; P2 holds R2, requests R1 (CYCLE = DEADLOCK) -->
+        <line x1="350" y1="60" x2="108" y2="60" stroke="#16a34a" stroke-width="2" marker-end="url(#arrow)"/>
+        <text x="220" y="50" text-anchor="middle" font-size="11" fill="#16a34a">يحجز R1</text>
+        <line x1="108" y1="65" x2="350" y2="180" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow)"/>
+        <text x="240" y="125" text-anchor="middle" font-size="11" fill="#dc2626">يطلب R2</text>
+        <line x1="350" y1="190" x2="108" y2="190" stroke="#16a34a" stroke-width="2" marker-end="url(#arrow)"/>
+        <text x="220" y="208" text-anchor="middle" font-size="11" fill="#16a34a">يحجز R2</text>
+        <line x1="108" y1="185" x2="350" y2="70" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow)"/>
+        <text x="240" y="135" text-anchor="middle" font-size="11" fill="#dc2626">يطلب R1</text>
+        <defs>
+          <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+            <path d="M0,0 L9,3 L0,6 Z" fill="currentColor"/>
+          </marker>
+        </defs>
+      </svg>
+      <div class="caption">⚠️ مثال على جمود: P1 يحجز R1 وينتظر R2، P2 يحجز R2 وينتظر R1 → دورة!</div>
+    </div>
+
+    <h3>قاعدة المخطط</h3>
+    <ul>
+      <li><strong>لا توجد دورة:</strong> لا جمود</li>
+      <li><strong>توجد دورة + كل مورد بنسخة واحدة:</strong> جمود مؤكد</li>
+      <li><strong>توجد دورة + بعض الموارد بعدة نسخ:</strong> احتمالية جمود (يحتاج فحص أعمق)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🛡️</span> طرق التعامل مع الجمود</h2>
+    <p>هناك أربع استراتيجيات رئيسية:</p>
+
+    <ol>
+      <li><strong>المنع <span class="eng">Prevention</span>:</strong>
+        <p>تصميم النظام بحيث لا يحدث أحد الشروط الأربعة. <em>مثال: السماح بطلب كل الموارد دفعة واحدة فقط (لا Hold and Wait).</em></p>
+      </li>
+      <li><strong>التجنب <span class="eng">Avoidance</span>:</strong>
+        <p>السماح بالشروط لكن التحقق قبل كل تخصيص أن النظام يبقى آمنًا. <em>مثال: خوارزمية البنك (الموضوع 12).</em></p>
+      </li>
+      <li><strong>الكشف والتعافي <span class="eng">Detection & Recovery</span>:</strong>
+        <p>السماح بالجمود، ثم اكتشافه دوريًا والتعافي منه (إنهاء عمليات أو استرداد موارد).</p>
+      </li>
+      <li><strong>التجاهل <span class="eng">Ignoring</span>:</strong>
+        <p>التظاهر بأن الجمود لا يحدث. <em>هذا ما تفعله UNIX و Windows!</em> لأن تكلفة المعالجة أعلى من تكلفة الجمود النادر، وإعادة التشغيل تحل المشكلة.</p>
+      </li>
+    </ol>
+
+    <div class="tip-box">
+      <strong>قاعدة شتراوس <span class="eng">Ostrich Algorithm</span>:</strong> "ادفن رأسك في الرمل" — معظم الأنظمة التجارية تتجاهل الجمود لأن حصوله نادر.
+    </div>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> اختبر فهمك للموضوع 11</h2>
+
+    <div class="quiz-q">
+      <div class="q-text">س1: لحدوث الجمود، يجب توفر:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 3, this)"><span class="letter">أ</span><span>شرط واحد على الأقل</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 3, this)"><span class="letter">ب</span><span>شرطان</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 3, this)"><span class="letter">ج</span><span>ثلاثة شروط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 3, this)"><span class="letter">د</span><span>الشروط الأربعة جميعًا</span></button>
+      </div>
+      <div class="quiz-explain">يجب توفر الأربعة معًا: Mutual Exclusion، Hold and Wait، No Preemption، Circular Wait.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س2: في مخطط تخصيص الموارد، السهم من العملية للمورد يعني:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1, this)"><span class="letter">أ</span><span>المورد مخصص للعملية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1, this)"><span class="letter">ب</span><span>العملية تطلب المورد</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1, this)"><span class="letter">ج</span><span>العملية ستحرر المورد</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1, this)"><span class="letter">د</span><span>المورد معطل</span></button>
+      </div>
+      <div class="quiz-explain">سهم Pi → Rj = طلب (Request). سهم Rj → Pi = تخصيص (Assignment).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س3: ماذا تفعل أنظمة Windows وUNIX مع الجمود؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 3, this)"><span class="letter">أ</span><span>تستخدم خوارزمية البنك</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 3, this)"><span class="letter">ب</span><span>تكشفه دوريًا</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 3, this)"><span class="letter">ج</span><span>تمنعه تمامًا</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 3, this)"><span class="letter">د</span><span>تتجاهله (Ostrich Algorithm)</span></button>
+      </div>
+      <div class="quiz-explain">تكلفة منع/كشف الجمود في الأنظمة العامة أعلى من تكلفة حدوثه النادر، فتُتجاهل.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س4: شرط "Hold and Wait" يعني:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1, this)"><span class="letter">أ</span><span>العملية تنتظر إلى الأبد</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1, this)"><span class="letter">ب</span><span>العملية تمسك مورداً وتنتظر مورداً آخر</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1, this)"><span class="letter">ج</span><span>المورد لا يمكن استباقه</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1, this)"><span class="letter">د</span><span>المورد مستخدم بشكل حصري</span></button>
+      </div>
+      <div class="quiz-explain">Hold and Wait: العملية تحجز موارد بالفعل لكنها تطلب المزيد، فتنتظر دون تحرير ما لديها.</div>
+    </div>
+  </div>
+</section>
+`;
+
+TOPICS['12'] = `
+<section class="topic-section" id="topic-12">
+  <div class="topic-header">
+    <div class="label">الموضوع الثاني عشر · جديد للنهائي</div>
+    <h1>خوارزميات الجمود</h1>
+    <p>خوارزمية البنك، خوارزمية الأمان، كشف الجمود، التعافي</p>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>تتعرف على خوارزميات تجنب الجمود</li>
+      <li>تطبق خوارزمية البنك (Banker's Algorithm)</li>
+      <li>تطبق خوارزمية الأمان</li>
+      <li>تتعرف على طرق كشف الجمود والتعافي منه</li>
+      <li>تفرق بين مخطط تخصيص الموارد ومخطط الانتظار</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🛡️</span> خوارزميات التجنب</h2>
+    <p>تستخدم لتجنب وقوع النظام في الجمود، تعتمد على إدارة الموارد:</p>
+
+    <table class="compare-table">
+      <tr><th>الحالة</th><th>الخوارزمية المستخدمة</th></tr>
+      <tr><td>وحدة واحدة من كل نوع مورد</td><td>مخطط تخصيص الموارد (RAG)</td></tr>
+      <tr><td>عدة وحدات من كل نوع مورد</td><td>خوارزمية البنك (Banker's Algorithm)</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🏦</span> خوارزمية البنك (Banker's Algorithm)</h2>
+    <p>سُميت كذلك لأنها تشبه تعامل البنك مع العملاء:</p>
+
+    <div class="story-box">
+      <strong>البنك</strong> لا يمنح قرضًا إلا إذا تأكد أن لديه ما يكفي لتلبية كل طلبات العملاء الحالية والمستقبلية بشكل آمن. كذلك النظام لا يخصص مورداً إلا إذا تأكد أن النظام سيبقى في <strong>حالة آمنة <span class="eng">Safe State</span></strong>.
+    </div>
+
+    <h3>متى تُستخدم؟</h3>
+    <ul>
+      <li>هناك عدة نسخ من كل نوع مورد</li>
+      <li>كل عملية تعلن مسبقًا بحدها الأقصى من كل مورد</li>
+      <li>تتأكد قبل كل تخصيص أن النظام سيبقى آمنًا</li>
+    </ul>
+
+    <h3>الحالة الآمنة (Safe State)</h3>
+    <p>النظام في حالة آمنة إذا وُجد <strong>تسلسل آمن <span class="eng">Safe Sequence</span></strong>: ترتيب لتنفيذ كل العمليات بحيث كل عملية يمكن أن تحصل على ما تحتاج (سواء من المتاح حاليًا أو مما ستحرره العمليات السابقة في التسلسل).</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📋</span> هياكل البيانات لخوارزمية البنك</h2>
+    <p>لكل من <code>n</code> عملية و <code>m</code> نوع مورد:</p>
+
+    <table class="compare-table">
+      <tr><th>الهيكل</th><th>الأبعاد</th><th>المعنى</th></tr>
+      <tr><td><strong>Available</strong></td><td>متجه [m]</td><td>عدد النسخ المتاحة من كل مورد</td></tr>
+      <tr><td><strong>Max</strong></td><td>مصفوفة [n][m]</td><td>الحد الأقصى الذي قد تطلبه كل عملية</td></tr>
+      <tr><td><strong>Allocation</strong></td><td>مصفوفة [n][m]</td><td>المخصص حاليًا لكل عملية</td></tr>
+      <tr><td><strong>Need</strong></td><td>مصفوفة [n][m]</td><td>المتبقي لإكمال العملية = Max − Allocation</td></tr>
+    </table>
+
+    <div class="tip-box">
+      <strong>المعادلة الأساسية:</strong> Need[i][j] = Max[i][j] − Allocation[i][j]
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">✅</span> خوارزمية الأمان (Safety Algorithm)</h2>
+    <p>تتحقق ما إذا كان النظام في حالة آمنة:</p>
+
+    <ol>
+      <li><strong>الإعداد:</strong>
+        <ul>
+          <li>Work = Available (نسخة من المتاح)</li>
+          <li>Finish[i] = false لكل العمليات</li>
+        </ul>
+      </li>
+      <li><strong>البحث عن عملية تنطبق عليها:</strong>
+        <ul>
+          <li>Finish[i] = false (لم تنتهِ بعد)</li>
+          <li>Need[i] ≤ Work (احتياجها أقل من أو يساوي المتاح)</li>
+        </ul>
+      </li>
+      <li><strong>إذا وُجدت:</strong>
+        <ul>
+          <li>Work = Work + Allocation[i] (نفترض أنها انتهت وحررت مواردها)</li>
+          <li>Finish[i] = true</li>
+          <li>عُد للخطوة 2</li>
+        </ul>
+      </li>
+      <li><strong>إذا انتهت كل العمليات (Finish[i] = true لكل i):</strong> النظام آمن! وإلا غير آمن.</li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📨</span> خوارزمية طلب المورد</h2>
+    <p>عند طلب عملية Pi مجموعة موارد Request[i]:</p>
+
+    <ol>
+      <li><strong>التحقق:</strong> Request[i] ≤ Need[i]؟ (لا تطلب أكثر مما أعلنت)</li>
+      <li><strong>التحقق:</strong> Request[i] ≤ Available؟ (هل المتاح يكفي؟)</li>
+      <li><strong>المحاكاة:</strong> افترض الموافقة:
+        <ul>
+          <li>Available = Available − Request[i]</li>
+          <li>Allocation[i] = Allocation[i] + Request[i]</li>
+          <li>Need[i] = Need[i] − Request[i]</li>
+        </ul>
+      </li>
+      <li><strong>تطبيق خوارزمية الأمان:</strong>
+        <ul>
+          <li>إذا الحالة آمنة → نوافق فعليًا</li>
+          <li>إذا غير آمنة → نرفض ونرجع الحالة كما كانت</li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🧮</span> مثال محسوب على خوارزمية البنك</h2>
+    <p>نظام بـ 5 عمليات (P0-P4) و 3 أنواع موارد (A, B, C). Available = (3, 3, 2)</p>
+
+    <table class="compare-table">
+      <tr><th>العملية</th><th colspan="3">Allocation (A,B,C)</th><th colspan="3">Max (A,B,C)</th><th colspan="3">Need (A,B,C)</th></tr>
+      <tr><td>P0</td><td>0</td><td>1</td><td>0</td><td>7</td><td>5</td><td>3</td><td>7</td><td>4</td><td>3</td></tr>
+      <tr><td>P1</td><td>2</td><td>0</td><td>0</td><td>3</td><td>2</td><td>2</td><td>1</td><td>2</td><td>2</td></tr>
+      <tr><td>P2</td><td>3</td><td>0</td><td>2</td><td>9</td><td>0</td><td>2</td><td>6</td><td>0</td><td>0</td></tr>
+      <tr><td>P3</td><td>2</td><td>1</td><td>1</td><td>2</td><td>2</td><td>2</td><td>0</td><td>1</td><td>1</td></tr>
+      <tr><td>P4</td><td>0</td><td>0</td><td>2</td><td>4</td><td>3</td><td>3</td><td>4</td><td>3</td><td>1</td></tr>
+    </table>
+
+    <div class="example-box">
+      <strong>تطبيق خوارزمية الأمان:</strong> Work = (3,3,2)<br>
+      <strong>1.</strong> P1: Need(1,2,2) ≤ Work(3,3,2) ✓ → Work = (3+2, 3+0, 2+0) = (5, 3, 2)<br>
+      <strong>2.</strong> P3: Need(0,1,1) ≤ Work(5,3,2) ✓ → Work = (7, 4, 3)<br>
+      <strong>3.</strong> P0: Need(7,4,3) ≤ Work(7,4,3) ✓ → Work = (7, 5, 3)<br>
+      <strong>4.</strong> P2: Need(6,0,0) ≤ Work(7,5,3) ✓ → Work = (10, 5, 5)<br>
+      <strong>5.</strong> P4: Need(4,3,1) ≤ Work(10,5,5) ✓ → Work = (10, 5, 7)<br>
+      <strong>التسلسل الآمن:</strong> ⟨P1, P3, P0, P2, P4⟩ → النظام آمن ✅
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🔍</span> كشف الجمود (Detection)</h2>
+    <p>عندما لا نستخدم منعًا أو تجنبًا، يجب اكتشاف الجمود إذا حدث.</p>
+
+    <h3>مع وحدة واحدة من كل مورد</h3>
+    <ul>
+      <li>نستخدم <strong>مخطط الانتظار <span class="eng">Wait-for Graph</span></strong></li>
+      <li>هو نسخة مبسطة من RAG: نزيل عُقد الموارد ونوصل العمليات مباشرة</li>
+      <li>إذا وُجدت دورة في المخطط → جمود</li>
+    </ul>
+
+    <h3>مع عدة وحدات من كل مورد</h3>
+    <ul>
+      <li>نستخدم خوارزمية مشابهة لخوارزمية الأمان</li>
+      <li>الفرق: نستخدم <code>Request</code> بدلًا من <code>Need</code> (الطلبات الحالية فقط)</li>
+      <li>إذا فشلت الخوارزمية في إنهاء كل العمليات → الباقية في حالة جمود</li>
+    </ul>
+
+    <h3>متى نشغّل خوارزمية الكشف؟</h3>
+    <ul>
+      <li><strong>عند كل طلب لا يمكن تلبيته:</strong> أكثر دقة لكن مكلف</li>
+      <li><strong>دوريًا (مثلاً كل ساعة):</strong> أقل تكلفة لكن قد يتأخر الاكتشاف</li>
+      <li><strong>عند انخفاض استغلال CPU:</strong> مؤشر على وجود مشكلة</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🔧</span> التعافي من الجمود (Recovery)</h2>
+
+    <h3>1. إنهاء العمليات</h3>
+    <ul>
+      <li><strong>إنهاء كل العمليات في الجمود:</strong> سريع لكن مكلف (يفقد كل عملها)</li>
+      <li><strong>إنهاء عملية واحدة في كل مرة:</strong> حتى يكسر الجمود
+        <ul>
+          <li>أقل تكلفة لكن يحتاج إعادة فحص بعد كل إنهاء</li>
+          <li>اختيار العملية بناءً على: الأولوية، الوقت المنقضي، عدد الموارد المحجوزة، نوع العملية (دفعية vs تفاعلية)</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>2. استرداد الموارد <span class="eng">Resource Preemption</span></h3>
+    <ul>
+      <li><strong>اختيار الضحية <span class="eng">Victim Selection</span>:</strong> أي عملية نسحب منها المورد؟ (الأقل تكلفة)</li>
+      <li><strong>التراجع <span class="eng">Rollback</span>:</strong> إعادة العملية إلى نقطة آمنة سابقة (Checkpoint)</li>
+      <li><strong>التجويع:</strong> ضمان عدم اختيار نفس العملية مرارًا (إضافة عداد للاختيارات)</li>
+    </ul>
+
+    <div class="warn-box">
+      <strong>الجوانب الصعبة:</strong>
+      <ul>
+        <li>اختيار الضحية الصحيحة معقد (cost analysis)</li>
+        <li>التراجع قد يضيع ساعات من العمل</li>
+        <li>التجويع قد يحدث إذا اخترنا نفس الضحية دائمًا</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> اختبر فهمك للموضوع 12</h2>
+
+    <div class="quiz-q">
+      <div class="q-text">س1: المعادلة الصحيحة لمصفوفة Need هي:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1, this)"><span class="letter">أ</span><span>Need = Max + Allocation</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1, this)"><span class="letter">ب</span><span>Need = Max − Allocation</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1, this)"><span class="letter">ج</span><span>Need = Available − Allocation</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1, this)"><span class="letter">د</span><span>Need = Available + Max</span></button>
+      </div>
+      <div class="quiz-explain">Need = ما تحتاجه العملية لإكمال عملها = إجمالي ما قد تطلبه − ما تحجزه فعلًا.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س2: متى نوافق على طلب العملية في خوارزمية البنك؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2, this)"><span class="letter">أ</span><span>إذا كانت الموارد المتاحة كافية فقط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2, this)"><span class="letter">ب</span><span>إذا كانت العملية ذات أولوية عالية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2, this)"><span class="letter">ج</span><span>عند توفر الموارد، وأن النظام بعد الموافقة يبقى في حالة آمنة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2, this)"><span class="letter">د</span><span>دائمًا عند توفر الموارد</span></button>
+      </div>
+      <div class="quiz-explain">لا يكفي توفر الموارد فقط، بل يجب التأكد أن النظام لن يقع في جمود مستقبلًا (حالة آمنة).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س3: مخطط الانتظار (Wait-for Graph) يستخدم عندما:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1, this)"><span class="letter">أ</span><span>تكون عدة نسخ من كل مورد</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1, this)"><span class="letter">ب</span><span>تكون نسخة واحدة من كل مورد</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1, this)"><span class="letter">ج</span><span>تكون كل العمليات بأولوية عالية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1, this)"><span class="letter">د</span><span>لا يستخدم أبدًا</span></button>
+      </div>
+      <div class="quiz-explain">Wait-for Graph مبسط ويعمل فقط عندما يكون لكل مورد نسخة واحدة. مع عدة نسخ نحتاج خوارزمية الأمان.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س4: من طرق التعافي من الجمود:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2, this)"><span class="letter">أ</span><span>زيادة سرعة المعالج</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2, this)"><span class="letter">ب</span><span>منع وصول العمليات للموارد</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2, this)"><span class="letter">ج</span><span>إنهاء عملية أو استرداد موارد منها</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2, this)"><span class="letter">د</span><span>الانتظار بدون تدخل</span></button>
+      </div>
+      <div class="quiz-explain">طرق التعافي الأساسية: إنهاء عمليات أو استرداد (سحب) موارد منها مع تراجعها لنقطة آمنة.</div>
+    </div>
+  </div>
+</section>
+`;
+
+// ============ COMPREHENSIVE QUIZ ============
+TOPICS['quiz'] = `
+<section class="topic-section" id="topic-quiz">
+  <div class="topic-header" style="background: linear-gradient(135deg, #f59e0b 0%, #dc2626 100%);">
+    <div class="label">📝 الاختبار الشامل</div>
+    <h1>اختبر استعدادك للنهائي</h1>
+    <p>أسئلة متنوعة تغطي كل المنهج. ستضاف أسئلة الأستاذة في هذا القسم لاحقًا.</p>
+  </div>
+
+  <div class="section quiz-section" style="border-color: #f59e0b;">
+    <h2><span class="icon">🧠</span> الأسئلة العامة</h2>
+
+    <div class="quiz-q">
+      <div class="q-text">س1: أي من التالي ليس من مكونات Process Control Block (PCB)؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 3, this)"><span class="letter">أ</span><span>حالة العملية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 3, this)"><span class="letter">ب</span><span>عداد البرنامج</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 3, this)"><span class="letter">ج</span><span>سجلات CPU</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 3, this)"><span class="letter">د</span><span>كود المستخدم نفسه</span></button>
+      </div>
+      <div class="quiz-explain">PCB يحتوي على معلومات الإدارة فقط، أما الكود فمخزن في قسم النص (Text Section) للعملية.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س2: في خوارزمية Round Robin، إذا كان Quantum = 4 ms و Context Switch = 1 ms، كم نسبة الوقت المهدر؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2, this)"><span class="letter">أ</span><span>10%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2, this)"><span class="letter">ب</span><span>15%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2, this)"><span class="letter">ج</span><span>20%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2, this)"><span class="letter">د</span><span>25%</span></button>
+      </div>
+      <div class="quiz-explain">من كل 5 ms (4 quantum + 1 context switch)، 1 ms مهدور = 1/5 = 20%.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س3: أي من التالي يحل مشكلة التجزئة الخارجية؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1, this)"><span class="letter">أ</span><span>التقسيم Segmentation</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1, this)"><span class="letter">ب</span><span>الصفحات Paging</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1, this)"><span class="letter">ج</span><span>التخزين المؤقت Caching</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1, this)"><span class="letter">د</span><span>المقاطعات Interrupts</span></button>
+      </div>
+      <div class="quiz-explain">Paging يقسم الذاكرة لوحدات متساوية، فلا توجد فجوات بأحجام مختلفة بين الكتل المخصصة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س4: العمليات في Linux تُمثَّل بالبنية:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2, this)"><span class="letter">أ</span><span>process_t</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2, this)"><span class="letter">ب</span><span>thread_struct</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2, this)"><span class="letter">ج</span><span>task_struct</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2, this)"><span class="letter">د</span><span>pcb_struct</span></button>
+      </div>
+      <div class="quiz-explain">Linux يستخدم struct task_struct لتمثيل كل مهمة (process أو thread) في النظام.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س5: ما الذي يميز نموذج One-to-One عن Many-to-One؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2, this)"><span class="letter">أ</span><span>One-to-One أبطأ في الإنشاء</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2, this)"><span class="letter">ب</span><span>One-to-One يستهلك ذاكرة أقل</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2, this)"><span class="letter">ج</span><span>One-to-One يدعم التوازي الحقيقي على الأنوية المتعددة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2, this)"><span class="letter">د</span><span>One-to-One أسهل في الإدارة</span></button>
+      </div>
+      <div class="quiz-explain">Many-to-One يربط كل خيوط المستخدم بخيط نواة واحد، فلا توازي حقيقي. One-to-One يربط كل خيط مستخدم بخيط نواة منفصل، فيمكن تشغيلها بالتوازي.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س6: pipe() في Unix هي:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1, this)"><span class="letter">أ</span><span>طريقة لإنشاء عملية جديدة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1, this)"><span class="letter">ب</span><span>قناة تواصل بين عمليتين أحادية الاتجاه</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1, this)"><span class="letter">ج</span><span>طريقة لقفل المورد</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1, this)"><span class="letter">د</span><span>سيمافور ثنائي</span></button>
+      </div>
+      <div class="quiz-explain">pipe() ينشئ قناة تواصل أحادية الاتجاه بين عمليتين (عادة أم وابن) لتمرير البيانات.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س7: في خوارزمية البنك بـ 5 عمليات، إذا فشلت خوارزمية الأمان في إنهاء عمليتين، فالنظام:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1, this)"><span class="letter">أ</span><span>آمن لكن بطيء</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1, this)"><span class="letter">ب</span><span>غير آمن — رفض الطلب</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1, this)"><span class="letter">ج</span><span>يحتاج زيادة الموارد</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1, this)"><span class="letter">د</span><span>آمن — يكفي 3 عمليات</span></button>
+      </div>
+      <div class="quiz-explain">إذا فشلت خوارزمية الأمان في إنهاء كل العمليات، النظام غير آمن ويجب رفض الطلب لمنع الجمود.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س8: عند انخفاض استغلال CPU بشكل غير معتاد، الاحتمال الأرجح:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2, this)"><span class="letter">أ</span><span>المعالج معطل</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2, this)"><span class="letter">ب</span><span>الذاكرة ممتلئة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2, this)"><span class="letter">ج</span><span>وجود جمود — معظم العمليات في حالة Wait</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2, this)"><span class="letter">د</span><span>زيادة عدد المستخدمين</span></button>
+      </div>
+      <div class="quiz-explain">عندما تكون العمليات في جمود، تكون كلها في حالة انتظار، فلا أحد يستخدم CPU. هذا مؤشر مهم على الجمود.</div>
+    </div>
+  </div>
+
+  <div class="section" style="background: #fef3c7; border-color: #f59e0b;">
+    <h2 style="color: #b45309;"><span class="icon" style="background: #fde68a; color: #b45309;">📩</span> أسئلة الأستاذة</h2>
+    <p style="color: #78350f; line-height: 1.9;">سيتم إضافة الأسئلة الإضافية من الأستاذة هنا فور وصولها. أرسلها لي وسأحدّث هذا القسم بإجاباتها وشروحاتها.</p>
+  </div>
+</section>
+`;
+
+console.log("Topics 11, 12, and quiz added");
+
+
+// Inject all topic sections into the DOM
+const container = document.getElementById('topicsContainer');
+['1','2','3','4','5','6','7','8','9','10','11','12','quiz'].forEach(id => {
+  if (TOPICS[id]) {
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = TOPICS[id];
+    while (wrapper.firstChild) {
+      container.appendChild(wrapper.firstChild);
+    }
+  }
+});
+
+// Wire up sidebar clicks
+document.querySelectorAll('.topic-item').forEach(item => {
+  item.addEventListener('click', () => showTopic(item.dataset.topic));
+});
+
+// Initialize: open from URL hash if any, else topic 1
+const initial = (location.hash && location.hash.startsWith('#topic-'))
+  ? location.hash.replace('#topic-', '')
+  : '1';
+showTopic(initial);
+updateProgress();
+
+</script>
+</body>
+</html>
