@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📊 STA104 — الإحصاء وتحليل البيانات (المنهج الكامل للنهائي)</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/mathjs@12/lib/browser/math.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #f8fafc; --panel: #ffffff; --border: #e2e8f0; --border-strong: #cbd5e1;
+  --text: #0f172a; --text-muted: #475569; --text-light: #64748b;
+  --primary: #0891b2; --primary-dark: #0e7490; --primary-light: #cffafe;
+  --accent: #f59e0b; --accent-light: #fef3c7;
+  --success: #16a34a; --success-light: #dcfce7;
+  --danger: #dc2626; --danger-light: #fee2e2;
+  --info: #2563eb; --info-light: #dbeafe;
+  --purple: #7c3aed; --purple-light: #ede9fe;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0 12px 24px -8px rgba(15, 23, 42, 0.12);
+}
+html, body { font-family: 'Noto Sans Arabic', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+body { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar {
+  width: 290px; background: white; border-left: 1px solid var(--border);
+  position: fixed; top: 0; right: 0; bottom: 0; overflow-y: auto;
+  padding: 16px 0; z-index: 50;
+}
+.sidebar-header { padding: 0 16px 14px; border-bottom: 1px solid var(--border); margin-bottom: 10px; }
+.sidebar-title { display: flex; align-items: center; gap: 10px; }
+.sidebar-logo {
+  width: 38px; height: 38px; background: linear-gradient(135deg, #0891b2, #16a34a);
+  border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 18px; flex-shrink: 0;
+}
+.sidebar-title h2 { font-size: 14px; font-weight: 800; color: var(--text); line-height: 1.4; }
+.sidebar-title p { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+.progress-summary { background: var(--primary-light); border-radius: 8px; padding: 8px 12px; margin: 0 16px 12px; font-size: 12px; color: var(--primary-dark); font-weight: 600; text-align: center; }
+.topic-list { list-style: none; padding: 0 8px; }
+.topic-item {
+  display: flex; align-items: center; gap: 10px; padding: 9px 10px;
+  border-radius: 8px; cursor: pointer; transition: all 0.15s;
+  font-size: 13px; color: var(--text-muted); font-weight: 600;
+  border: 1px solid transparent; margin-bottom: 2px;
+}
+.topic-item:hover { background: var(--bg); color: var(--text); }
+.topic-item.active { background: var(--primary); color: white; }
+.topic-item.visited:not(.active) { background: var(--success-light); color: #14532d; }
+.topic-num {
+  width: 26px; height: 26px; background: var(--bg); border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono'; font-weight: 700; font-size: 12px;
+  flex-shrink: 0;
+}
+.topic-item.active .topic-num { background: rgba(255,255,255,0.25); color: white; }
+.topic-item.visited:not(.active) .topic-num { background: var(--success); color: white; }
+.sidebar-footer { padding: 12px 16px; border-top: 1px solid var(--border); margin-top: 12px; }
+.sidebar-footer button {
+  width: 100%; padding: 8px 12px; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; font-family: inherit; font-size: 12px; font-weight: 600;
+  color: var(--text-muted); cursor: pointer;
+}
+.sidebar-footer button:hover { background: var(--primary); color: white; border-color: var(--primary); }
+
+/* Main */
+.main { margin-right: 290px; flex: 1; padding: 28px 36px 60px; max-width: 1100px; }
+.topic-section { display: none; }
+.topic-section.active { display: block; animation: fadeIn 0.3s; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.topic-header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--success) 100%);
+  border-radius: 16px; padding: 22px 26px; color: white; margin-bottom: 22px;
+  box-shadow: var(--shadow-lg);
+}
+.topic-header .label { font-size: 12px; opacity: 0.85; font-weight: 600; }
+.topic-header h1 { font-size: 26px; font-weight: 800; margin-top: 4px; }
+.topic-header p { font-size: 14px; opacity: 0.95; margin-top: 8px; }
+
+.section { background: white; border-radius: 14px; padding: 22px 24px; margin-bottom: 18px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+.section h2 { font-size: 18px; color: var(--primary-dark); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+.section h2 .icon { width: 32px; height: 32px; background: var(--primary-light); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.section h3 { font-size: 15px; color: var(--text); margin: 14px 0 8px; font-weight: 700; }
+.section p { color: var(--text-muted); font-size: 14px; margin-bottom: 8px; line-height: 1.8; }
+.section ul { list-style: none; padding: 0; margin-bottom: 8px; }
+.section ul li {
+  position: relative; padding-right: 22px; margin-bottom: 6px; font-size: 13.5px;
+  color: var(--text-muted); line-height: 1.8;
+}
+.section ul li::before {
+  content: ''; position: absolute; right: 6px; top: 11px;
+  width: 6px; height: 6px; background: var(--primary); border-radius: 50%;
+}
+.section ul li strong { color: var(--text); font-weight: 700; }
+.eng { font-family: 'JetBrains Mono'; font-size: 12px; color: var(--info); background: var(--info-light); padding: 1px 6px; border-radius: 4px; direction: ltr; display: inline-block; }
+
+.tip-box { background: var(--info-light); border-right: 4px solid var(--info); padding: 12px 16px; border-radius: 8px; margin: 12px 0; font-size: 13.5px; color: #0c4a6e; line-height: 1.8; }
+.tip-box strong { color: var(--info); }
+.tip-box::before { content: '💡 '; }
+.warn-box { background: var(--danger-light); border-right: 4px solid var(--danger); padding: 12px 16px; border-radius: 8px; margin: 12px 0; font-size: 13.5px; color: #7f1d1d; line-height: 1.8; }
+.warn-box::before { content: '⚠️ '; }
+.example-box { background: var(--success-light); border-right: 4px solid var(--success); padding: 14px 18px; border-radius: 8px; margin: 14px 0; font-size: 13.5px; color: #14532d; line-height: 1.8; }
+.example-box strong { color: var(--success); }
+.example-box::before { content: '📝 مثال: '; font-weight: 700; }
+.story-box { background: #fffbeb; border-right: 4px solid var(--accent); padding: 14px 18px; border-radius: 8px; margin: 14px 0; font-size: 13.5px; color: #78350f; line-height: 1.9; }
+.story-box::before { content: '🎬 تشبيه: '; font-weight: 700; color: var(--accent); }
+
+.formula-box {
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  border: 2px solid var(--primary);
+  border-radius: 12px; padding: 18px 22px; margin: 16px 0;
+  text-align: center;
+}
+.formula-box .formula-name { font-size: 12px; color: var(--primary); font-weight: 700; margin-bottom: 8px; }
+.formula-box .formula { font-family: 'JetBrains Mono', monospace; font-size: 18px; color: var(--primary-dark); font-weight: 600; direction: ltr; }
+.formula-box .legend { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.8; }
+
+.compare-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px; }
+.compare-table th, .compare-table td { border: 1px solid var(--border); padding: 10px 12px; text-align: right; }
+.compare-table th { background: var(--primary-light); color: var(--primary-dark); font-weight: 700; }
+.compare-table tr:nth-child(even) td { background: var(--bg); }
+
+/* === INTERACTIVE STEP-BY-STEP SOLUTION (NEW FEATURE) === */
+.step-solver {
+  background: linear-gradient(180deg, #fafbfc 0%, #f1f5f9 100%);
+  border: 2px solid var(--purple);
+  border-radius: 14px;
+  padding: 0;
+  margin: 18px 0;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.1);
+}
+.step-solver-header {
+  background: linear-gradient(135deg, var(--purple), #ec4899);
+  color: white;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.step-solver-title {
+  font-weight: 800;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.step-progress {
+  background: rgba(255,255,255,0.2);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'JetBrains Mono';
+}
+.step-solver-body { padding: 18px 22px 22px; }
+.step-question {
+  background: var(--info-light);
+  border-right: 3px solid var(--info);
+  padding: 14px 16px;
+  border-radius: 8px;
+  margin-bottom: 14px;
+  font-size: 14px;
+  color: #1e3a8a;
+  line-height: 1.9;
+  font-weight: 500;
+  display: none;
+}
+.step-question.shown { display: block; animation: slideIn 0.4s; }
+.step-question::before { content: '📋 السؤال: '; font-weight: 700; color: var(--info); }
+@keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+.step-item {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-right-width: 4px;
+  border-right-color: var(--purple);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  display: none;
+  animation: slideIn 0.4s;
+}
+.step-item.shown { display: block; }
+.step-item.shown:last-of-type {
+  border-right-color: var(--success);
+  background: linear-gradient(90deg, var(--success-light), white);
+}
+.step-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--purple);
+  background: var(--purple-light);
+  padding: 3px 10px;
+  border-radius: 12px;
+  display: inline-block;
+  margin-bottom: 8px;
+  font-family: 'JetBrains Mono';
+}
+.step-item:last-of-type.shown .step-label { color: var(--success); background: var(--success-light); }
+.step-content { font-size: 14px; color: var(--text); line-height: 1.9; }
+.step-content .calc {
+  background: #1e293b; color: #fde68a;
+  font-family: 'JetBrains Mono'; font-size: 13px;
+  padding: 8px 12px; border-radius: 6px;
+  margin: 8px 0; direction: ltr; text-align: left;
+  display: inline-block; min-width: 60%;
+}
+.step-content .highlight {
+  background: var(--accent-light); color: #78350f;
+  padding: 2px 8px; border-radius: 4px; font-weight: 700;
+}
+.step-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+.step-btn {
+  padding: 10px 18px;
+  background: var(--purple);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s;
+}
+.step-btn:hover { background: var(--primary-dark); transform: translateY(-1px); }
+.step-btn:active { transform: translateY(0); }
+.step-btn:disabled {
+  background: var(--border-strong); cursor: not-allowed;
+  transform: none;
+}
+.step-btn.reset { background: var(--text-muted); }
+.step-btn.reset:hover { background: var(--text); }
+.step-btn .arrow { font-size: 16px; }
+
+/* App buttons (Excel/Python) */
+.app-link-row {
+  display: flex; gap: 10px; margin: 12px 0; flex-wrap: wrap;
+}
+.app-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 16px; background: white; border: 1.5px solid var(--border-strong);
+  border-radius: 10px; cursor: pointer; font-family: inherit;
+  font-size: 13px; font-weight: 600; color: var(--text);
+  text-decoration: none; transition: all 0.15s;
+}
+.app-link:hover { border-color: var(--primary); background: var(--primary-light); color: var(--primary-dark); }
+.app-link .ico { font-size: 18px; }
+.app-link.excel:hover { border-color: var(--success); background: var(--success-light); color: #14532d; }
+.app-link.python:hover { border-color: #3776ab; background: #e0f2fe; color: #1e3a8a; }
+
+/* Quiz */
+.quiz-section { background: white; border-radius: 14px; padding: 20px 22px; margin-top: 14px; box-shadow: var(--shadow); border: 2px solid var(--accent); }
+.quiz-section h2 { color: #b45309; }
+.quiz-section h2 .icon { background: var(--accent-light); color: var(--accent); }
+.quiz-q { background: var(--bg); padding: 14px 16px; border-radius: 10px; margin-bottom: 12px; }
+.quiz-q .q-text { font-weight: 600; margin-bottom: 10px; line-height: 1.7; font-size: 14px; }
+.quiz-options { display: flex; flex-direction: column; gap: 6px; }
+.quiz-option { background: white; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; cursor: pointer; font-family: inherit; font-size: 13px; text-align: right; display: flex; align-items: center; gap: 8px; }
+.quiz-option:hover { border-color: var(--primary); background: var(--primary-light); }
+.quiz-option.correct { background: var(--success-light); border-color: var(--success); color: #14532d; }
+.quiz-option.wrong { background: var(--danger-light); border-color: var(--danger); color: #7f1d1d; }
+.quiz-option .letter { width: 22px; height: 22px; background: var(--bg); border-radius: 5px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 11px; font-family: 'JetBrains Mono'; flex-shrink: 0; }
+.quiz-option.correct .letter { background: var(--success); color: white; }
+.quiz-option.wrong .letter { background: var(--danger); color: white; }
+.quiz-explain { font-size: 12.5px; color: var(--text-muted); margin-top: 8px; padding: 8px 12px; background: white; border-radius: 6px; line-height: 1.7; display: none; }
+.quiz-q.answered .quiz-explain { display: block; }
+
+.objectives { background: var(--bg); border-radius: 10px; padding: 14px 18px; margin-bottom: 16px; }
+.objectives h3 { color: var(--primary-dark); margin-bottom: 8px; font-size: 14px; }
+.objectives ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 4px 14px; }
+.objectives ul li { font-size: 13px; padding-right: 18px; }
+
+.diagram-wrap { background: white; border-radius: 10px; padding: 16px; margin: 14px 0; border: 1px solid var(--border); text-align: center; }
+.diagram-wrap svg { max-width: 100%; height: auto; }
+
+.code-block {
+  background: #1e293b; color: #e2e8f0;
+  font-family: 'JetBrains Mono'; font-size: 13px;
+  padding: 14px 18px; border-radius: 8px;
+  margin: 12px 0; direction: ltr; text-align: left;
+  overflow-x: auto; line-height: 1.8;
+}
+.code-block .keyword { color: #c084fc; }
+.code-block .string { color: #fde68a; }
+.code-block .comment { color: #94a3b8; font-style: italic; }
+.code-block .number { color: #86efac; }
+.code-block .func { color: #93c5fd; }
+
+@media (max-width: 900px) {
+  body { display: block; }
+  .sidebar { position: fixed; right: -290px; transition: right 0.3s; z-index: 100; }
+  .sidebar.open { right: 0; box-shadow: -4px 0 20px rgba(0,0,0,0.15); }
+  .main { margin-right: 0; padding: 16px; }
+  .menu-toggle { display: flex !important; position: fixed; top: 14px; left: 14px; z-index: 60; width: 42px; height: 42px; background: var(--primary); color: white; border: none; border-radius: 10px; cursor: pointer; align-items: center; justify-content: center; font-size: 18px; box-shadow: var(--shadow); }
+  .topic-header h1 { font-size: 20px; }
+}
+.menu-toggle { display: none; }
+</style>
+</head>
+<body>
+
+<button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-title">
+      <div class="sidebar-logo">📊</div>
+      <div>
+        <h2>الإحصاء — النهائي</h2>
+        <p>STA104 · المنهج الكامل</p>
+      </div>
+    </div>
+  </div>
+  <div class="progress-summary" id="progressSummary">📈 تقدمك: 0 / 7</div>
+  <ul class="topic-list" id="topicList">
+    <li class="topic-item" data-topic="1"><span class="topic-num">1</span><span>الإحصاء، المجتمع، النزعة المركزية</span></li>
+    <li class="topic-item" data-topic="2"><span class="topic-num">2</span><span>الارتباط وخط الاتجاه</span></li>
+    <li class="topic-item" data-topic="6"><span class="topic-num">6</span><span>تحليل البيانات بإكسل</span></li>
+    <li class="topic-item" data-topic="7"><span class="topic-num">7</span><span>التوزيع الطبيعي والمعياري</span></li>
+    <li class="topic-item" data-topic="8"><span class="topic-num">8</span><span>الاحتمالات الأساسية</span></li>
+    <li class="topic-item" data-topic="9"><span class="topic-num">9</span><span>الرسوم البيانية</span></li>
+    <li class="topic-item" data-topic="10"><span class="topic-num">10</span><span>الانحدار الخطي</span></li>
+    <li class="topic-item" data-topic="quiz" style="border-top: 1px solid var(--border); margin-top: 8px; padding-top: 16px;"><span class="topic-num" style="background: var(--accent); color: white;">📝</span><span style="font-weight: 800;">الاختبار الشامل</span></li>
+  </ul>
+  <div class="sidebar-footer">
+    <button onclick="resetProgress()">🔄 إعادة تعيين التقدم</button>
+  </div>
+</aside>
+
+<main class="main">
+  <div id="topicsContainer"></div>
+</main>
+
+<script>
+// === Navigation & Progress ===
+const TOPIC_IDS = ['1','2','6','7','8','9','10','quiz'];
+const visited = new Set(JSON.parse(localStorage.getItem('sta_visited') || '[]'));
+let currentTopic = '1';
+
+function updateProgress() {
+  const count = [...visited].filter(v => v !== 'quiz').length;
+  document.getElementById('progressSummary').textContent = `📈 تقدمك: ${count} / 7`;
+  document.querySelectorAll('.topic-item').forEach(item => {
+    const t = item.dataset.topic;
+    item.classList.toggle('visited', visited.has(t));
+  });
+}
+
+function showTopic(topicId) {
+  currentTopic = topicId;
+  visited.add(topicId);
+  localStorage.setItem('sta_visited', JSON.stringify([...visited]));
+  document.querySelectorAll('.topic-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.topic-item').forEach(it => it.classList.toggle('active', it.dataset.topic === topicId));
+  const sec = document.getElementById('topic-' + topicId);
+  if (sec) sec.classList.add('active');
+  updateProgress();
+  if (history.replaceState) history.replaceState(null, '', '#topic-' + topicId);
+  document.querySelector('.sidebar').classList.remove('open');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetProgress() {
+  if (!confirm('هل تريد إعادة تعيين التقدم؟')) return;
+  visited.clear();
+  localStorage.removeItem('sta_visited');
+  // Also reset all step-solvers
+  document.querySelectorAll('.step-solver').forEach(ss => resetStepSolver(ss.id));
+  updateProgress();
+}
+
+// Quiz handling
+function answerQuiz(qElement, optionIdx, correctIdx) {
+  if (qElement.classList.contains('answered')) return;
+  qElement.classList.add('answered');
+  const options = qElement.querySelectorAll('.quiz-option');
+  options.forEach((o, i) => {
+    if (i === correctIdx) o.classList.add('correct');
+    else if (i === optionIdx) o.classList.add('wrong');
+  });
+}
+
+// === STEP-BY-STEP SOLUTION ENGINE ===
+// Each step-solver tracks its current step (-1 = nothing shown, 0 = question, 1+ = step N)
+function nextStep(solverId) {
+  const solver = document.getElementById(solverId);
+  if (!solver) return;
+  const total = parseInt(solver.dataset.total);
+  let current = parseInt(solver.dataset.current || '-1');
+  current++;
+  if (current > total) return;
+  solver.dataset.current = current;
+  
+  if (current === 0) {
+    solver.querySelector('.step-question').classList.add('shown');
+  } else {
+    const step = solver.querySelector(`.step-item[data-step="${current}"]`);
+    if (step) step.classList.add('shown');
+  }
+  
+  // Update progress badge
+  const progress = solver.querySelector('.step-progress');
+  if (progress) {
+    if (current === 0) progress.textContent = `0 / ${total}`;
+    else progress.textContent = `${current} / ${total}`;
+  }
+  
+  // Update button text + state
+  const btn = solver.querySelector('.step-btn.next');
+  if (btn) {
+    if (current === -1) btn.innerHTML = '<span>اضغط لعرض السؤال</span><span class="arrow">←</span>';
+    else if (current === 0) btn.innerHTML = '<span>اعرض الخطوة الأولى</span><span class="arrow">←</span>';
+    else if (current < total) btn.innerHTML = `<span>الخطوة التالية (${current+1})</span><span class="arrow">←</span>`;
+    else { btn.innerHTML = '✅ تم الحل بالكامل'; btn.disabled = true; }
+  }
+}
+
+function resetStepSolver(solverId) {
+  const solver = document.getElementById(solverId);
+  if (!solver) return;
+  solver.dataset.current = '-1';
+  solver.querySelector('.step-question')?.classList.remove('shown');
+  solver.querySelectorAll('.step-item').forEach(s => s.classList.remove('shown'));
+  const progress = solver.querySelector('.step-progress');
+  const total = solver.dataset.total;
+  if (progress) progress.textContent = `0 / ${total}`;
+  const btn = solver.querySelector('.step-btn.next');
+  if (btn) { btn.disabled = false; btn.innerHTML = '<span>اضغط لعرض السؤال</span><span class="arrow">←</span>'; }
+}
+
+// All STA104 topic content with interactive step-by-step solvers
+const TOPICS = {};
+
+// ========== TOPIC 1: Statistics Basics, Population/Sample, Central Tendency ==========
+TOPICS['1'] = `
+<section class="topic-section" id="topic-1">
+  <div class="topic-header">
+    <div class="label">الموضوع الأول</div>
+    <h1>الإحصاء، المجتمع والعينة، النزعة المركزية</h1>
+    <p>المتوسط، الوسيط، المنوال — والأسس التي يبنى عليها كل المنهج</p>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>تعريف علم الإحصاء ووظائفه الأساسية</li>
+      <li>التمييز بين المجتمع والعينة</li>
+      <li>التمييز بين أنواع البيانات</li>
+      <li>فهم مقاييس النزعة المركزية واختيار المناسب منها</li>
+      <li>إتقان دوال إكسل: AVERAGE, MEDIAN, MODE.SNGL, MODE.MULT</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📚</span> ما هو علم الإحصاء؟</h2>
+    <p><strong>علم الإحصاء</strong> هو العلم الذي يختص بطرق <strong>جمع، تنظيم، تلخيص، عرض، وتحليل البيانات</strong> للوصول إلى نتائج مقبولة وقرارات سليمة.</p>
+    
+    <div class="story-box">
+      تخيل أنك مدير متجر تريد معرفة هل المنتج "س" مربح؟ بدون إحصاء = تخمين. <strong>مع الإحصاء:</strong> تجمع بيانات مبيعات شهر، تنظمها في جدول، تحسب المتوسط، تقارن بالتكلفة، فتقرر بناءً على أرقام دقيقة. هذا قرار سليم.
+    </div>
+
+    <h3>وظائف علم الإحصاء</h3>
+    <ul>
+      <li><strong>الجمع <span class="eng">Collection</span>:</strong> الحصول على البيانات من مصادرها</li>
+      <li><strong>التنظيم <span class="eng">Organization</span>:</strong> ترتيب البيانات بشكل منطقي</li>
+      <li><strong>التلخيص <span class="eng">Summarization</span>:</strong> اختصارها بأرقام معبرة (متوسط، نسبة)</li>
+      <li><strong>العرض <span class="eng">Presentation</span>:</strong> رسوم بيانية وجداول</li>
+      <li><strong>التحليل <span class="eng">Analysis</span>:</strong> استخراج النتائج والعلاقات</li>
+      <li><strong>التفسير <span class="eng">Interpretation</span>:</strong> فهم ما تعنيه الأرقام</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">👥</span> المجتمع الإحصائي والعينة</h2>
+    
+    <table class="compare-table">
+      <tr><th>المفهوم</th><th>التعريف</th><th>مثال</th></tr>
+      <tr><td><strong>المجتمع <span class="eng">Population</span></strong></td><td>كل العناصر/الأفراد محل الدراسة</td><td>كل طلاب SEU</td></tr>
+      <tr><td><strong>العينة <span class="eng">Sample</span></strong></td><td>جزء محدد يمثل المجتمع</td><td>500 طالب من SEU</td></tr>
+      <tr><td><strong>المعلمة <span class="eng">Parameter</span></strong></td><td>قيمة وصفية للمجتمع (يصعب حسابها مباشرة)</td><td>متوسط طول كل الطلاب μ</td></tr>
+      <tr><td><strong>الإحصاءة <span class="eng">Statistic</span></strong></td><td>قيمة وصفية للعينة (نحسبها لنقدر المعلمة)</td><td>متوسط طول 500 طالب x̄</td></tr>
+    </table>
+
+    <div class="tip-box">
+      <strong>لماذا نأخذ عينة؟</strong> أحيانًا المجتمع كبير جدًا (مستحيل دراسته كاملاً)، أو الدراسة مدمرة (اختبار إطارات السيارات)، أو مكلفة، أو ممتدة بالزمن. العينة تعطينا تقدير جيد بتكلفة قليلة.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📊</span> أنواع البيانات</h2>
+    
+    <h3>1. البيانات الفئوية (النوعية) <span class="eng">Categorical / Qualitative</span></h3>
+    <ul>
+      <li><strong>اسمية <span class="eng">Nominal</span>:</strong> فئات بدون ترتيب (الجنس، اللون، المدينة)</li>
+      <li><strong>ترتيبية <span class="eng">Ordinal</span>:</strong> فئات مع ترتيب (التقديرات: ممتاز، جيد جدًا، جيد)</li>
+    </ul>
+
+    <h3>2. البيانات الكمية <span class="eng">Quantitative / Numerical</span></h3>
+    <ul>
+      <li><strong>منفصلة <span class="eng">Discrete</span>:</strong> أرقام صحيحة قابلة للعد (عدد الأبناء، عدد السيارات)</li>
+      <li><strong>متصلة <span class="eng">Continuous</span>:</strong> أي قيمة في مدى (الطول، الوزن، الحرارة)</li>
+    </ul>
+
+    <div class="story-box">
+      الفرق بين <strong>المنفصل والمتصل</strong>: عدد الطلاب يمكن أن يكون 30 أو 31 لكن ليس 30.5 (منفصل). أما طول الطالب فقد يكون 170.3 سم أو 170.31 سم — أي قيمة (متصل).
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🎯</span> مقاييس النزعة المركزية</h2>
+    <p>أرقام تلخص "وسط" البيانات. هي ثلاثة:</p>
+
+    <h3>1. المتوسط الحسابي <span class="eng">Mean / Average</span></h3>
+    <div class="formula-box">
+      <div class="formula-name">قانون المتوسط</div>
+      <div class="formula">x̄ = (Σ x<sub>i</sub>) / n</div>
+      <div class="legend">x̄ = المتوسط، Σ = مجموع كل القيم، n = عدد القيم</div>
+    </div>
+
+    <ul>
+      <li>مجموع القيم ÷ عددها</li>
+      <li>يستخدم البيانات كلها</li>
+      <li><strong>عيب:</strong> يتأثر بالقيم المتطرفة <span class="eng">Outliers</span></li>
+    </ul>
+
+    <h3>2. الوسيط <span class="eng">Median</span></h3>
+    <ul>
+      <li>القيمة <strong>الوسطى</strong> بعد ترتيب البيانات تصاعديًا أو تنازليًا</li>
+      <li>إذا كان عدد القيم فرديًا: الوسيط = القيمة في الموضع <code>(n+1)/2</code></li>
+      <li>إذا كان عدد القيم زوجيًا: الوسيط = متوسط القيمتين الوسطيتين</li>
+      <li><strong>ميزة:</strong> لا يتأثر بالقيم المتطرفة</li>
+    </ul>
+
+    <h3>3. المنوال <span class="eng">Mode</span></h3>
+    <ul>
+      <li>القيمة <strong>الأكثر تكرارًا</strong> في البيانات</li>
+      <li>قد يكون لا يوجد منوال، أو منوال واحد، أو أكثر من منوال</li>
+      <li>الوحيد الذي يصلح للبيانات الاسمية</li>
+    </ul>
+  </div>
+
+  <!-- ============ INTERACTIVE STEP-BY-STEP SOLVER 1 ============ -->
+  <div class="step-solver" id="solver-1-1" data-total="5" data-current="-1">
+    <div class="step-solver-header">
+      <div class="step-solver-title">🧮 حل تفاعلي: حساب المتوسط</div>
+      <div class="step-progress">0 / 5</div>
+    </div>
+    <div class="step-solver-body">
+      <div class="step-question">احسب <strong>المتوسط الحسابي</strong> لدرجات 6 طلاب في اختبار الإحصاء:<br>
+      <code style="background: white; padding: 4px 10px; border-radius: 6px; font-family: 'JetBrains Mono'; direction: ltr; display: inline-block; margin-top: 6px;">85, 92, 78, 95, 88, 76</code></div>
+
+      <div class="step-item" data-step="1">
+        <div class="step-label">الخطوة 1 — كتابة القانون</div>
+        <div class="step-content">
+          المتوسط الحسابي يحسب بقسمة <strong>مجموع القيم</strong> على <strong>عددها</strong>:
+          <div class="calc">x̄ = (Σ xᵢ) / n</div>
+          هذه هي البداية الأساسية لأي مسألة متوسط. حدد دائمًا أنك تحتاج: المجموع وعدد القيم.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="2">
+        <div class="step-label">الخطوة 2 — حساب المجموع</div>
+        <div class="step-content">
+          نجمع كل الدرجات:
+          <div class="calc">Σ = 85 + 92 + 78 + 95 + 88 + 76</div>
+          <div class="calc">Σ = 514</div>
+          <strong>نصيحة:</strong> اجمع الأرقام في زوجين زوجين لتقليل الأخطاء: (85+92)=177، (78+95)=173، (88+76)=164، ثم 177+173+164=514.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="3">
+        <div class="step-label">الخطوة 3 — تحديد عدد القيم</div>
+        <div class="step-content">
+          نعد كم عدد القيم لدينا:
+          <div class="calc">n = 6</div>
+          هنا 6 درجات. اعتمد دائمًا على <span class="highlight">العد الفعلي</span> ولا تقدر.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="4">
+        <div class="step-label">الخطوة 4 — التطبيق في القانون</div>
+        <div class="step-content">
+          نضع القيم في معادلة المتوسط:
+          <div class="calc">x̄ = 514 / 6</div>
+          <div class="calc">x̄ = 85.67</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="5">
+        <div class="step-label">الإجابة النهائية</div>
+        <div class="step-content">
+          <strong>متوسط درجات الطلاب الستة = <span class="highlight">85.67 درجة</span></strong>
+          <div style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
+            <strong>التفسير:</strong> في المتوسط، حصل الطلاب على 85.67 درجة من 100. هذا يدل على مستوى جيد جدًا.
+            <br><strong>تحقق:</strong> القيم بين 76 و 95، والمتوسط 85.67 ضمن هذا المدى ✓
+          </div>
+        </div>
+      </div>
+
+      <div class="step-controls">
+        <button class="step-btn next" onclick="nextStep('solver-1-1')">
+          <span>اضغط لعرض السؤال</span>
+          <span class="arrow">←</span>
+        </button>
+        <button class="step-btn reset" onclick="resetStepSolver('solver-1-1')">🔄 إعادة</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ INTERACTIVE SOLVER 2: MEDIAN ============ -->
+  <div class="step-solver" id="solver-1-2" data-total="6" data-current="-1">
+    <div class="step-solver-header">
+      <div class="step-solver-title">🧮 حل تفاعلي: حساب الوسيط (عدد فردي)</div>
+      <div class="step-progress">0 / 6</div>
+    </div>
+    <div class="step-solver-body">
+      <div class="step-question">احسب <strong>الوسيط</strong> للبيانات التالية:<br>
+      <code style="background: white; padding: 4px 10px; border-radius: 6px; font-family: 'JetBrains Mono'; direction: ltr; display: inline-block; margin-top: 6px;">15, 102, 68, 44, 52</code></div>
+
+      <div class="step-item" data-step="1">
+        <div class="step-label">الخطوة 1 — تحديد عدد القيم</div>
+        <div class="step-content">
+          نعد القيم: <strong>15, 102, 68, 44, 52</strong>
+          <div class="calc">n = 5 (عدد فردي)</div>
+          عندما يكون <span class="highlight">n فردي</span>، الوسيط هو القيمة الوسطى مباشرة.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="2">
+        <div class="step-label">الخطوة 2 — ترتيب البيانات تصاعديًا</div>
+        <div class="step-content">
+          <strong>قاعدة ذهبية:</strong> دائمًا رتب البيانات قبل البحث عن الوسيط.
+          <div class="calc">15, 44, 52, 68, 102</div>
+          هذا الترتيب من الأصغر إلى الأكبر.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="3">
+        <div class="step-label">الخطوة 3 — حساب رتبة الوسيط</div>
+        <div class="step-content">
+          نستخدم القانون:
+          <div class="calc">رتبة الوسيط = (n + 1) / 2</div>
+          <div class="calc">= (5 + 1) / 2 = 3</div>
+          إذن الوسيط هو القيمة في <span class="highlight">الموضع الثالث</span> بعد الترتيب.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="4">
+        <div class="step-label">الخطوة 4 — تحديد القيمة في الموضع 3</div>
+        <div class="step-content">
+          من البيانات المرتبة:
+          <div class="calc">الموضع: 1 → 15<br>الموضع: 2 → 44<br>الموضع: 3 → 52  ⟵ هذا الوسيط<br>الموضع: 4 → 68<br>الموضع: 5 → 102</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="5">
+        <div class="step-label">الإجابة النهائية</div>
+        <div class="step-content">
+          <strong>الوسيط = <span class="highlight">52</span></strong>
+          <div style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
+            <strong>ملاحظة مهمة:</strong> لاحظ أن المتوسط الحسابي لهذه البيانات = 56.2 (متأثر بالقيمة 102 الكبيرة)، أما الوسيط = 52 (لم يتأثر). هذا يبين قوة الوسيط مع البيانات المتطرفة.
+          </div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="6">
+        <div class="step-label">⚡ ماذا لو كان n زوجي؟</div>
+        <div class="step-content">
+          إذا أضفنا قيمة سادسة 72:
+          <div class="calc">15, 44, 52, 68, 72, 102 (n=6)</div>
+          الوسيط = متوسط القيمتين الوسطيتين (الموضع 3 و 4):
+          <div class="calc">الوسيط = (52 + 68) / 2 = 60</div>
+          <strong>القاعدة:</strong> n فردي → قيمة واحدة. n زوجي → متوسط قيمتين.
+        </div>
+      </div>
+
+      <div class="step-controls">
+        <button class="step-btn next" onclick="nextStep('solver-1-2')">
+          <span>اضغط لعرض السؤال</span>
+          <span class="arrow">←</span>
+        </button>
+        <button class="step-btn reset" onclick="resetStepSolver('solver-1-2')">🔄 إعادة</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ INTERACTIVE SOLVER 3: MODE ============ -->
+  <div class="step-solver" id="solver-1-3" data-total="4" data-current="-1">
+    <div class="step-solver-header">
+      <div class="step-solver-title">🧮 حل تفاعلي: حساب المنوال</div>
+      <div class="step-progress">0 / 4</div>
+    </div>
+    <div class="step-solver-body">
+      <div class="step-question">حدد <strong>المنوال</strong> لدرجات الطلاب التالية:<br>
+      <code style="background: white; padding: 4px 10px; border-radius: 6px; font-family: 'JetBrains Mono'; direction: ltr; display: inline-block; margin-top: 6px;">85, 90, 85, 70, 95, 85, 90, 80</code></div>
+
+      <div class="step-item" data-step="1">
+        <div class="step-label">الخطوة 1 — جدولة التكرارات</div>
+        <div class="step-content">
+          المنوال = <strong>القيمة الأكثر تكرارًا</strong>. نعد كل قيمة:
+          <table class="compare-table" style="margin-top: 8px;">
+            <tr><th>القيمة</th><th>عدد التكرار</th></tr>
+            <tr><td>70</td><td>1</td></tr>
+            <tr><td>80</td><td>1</td></tr>
+            <tr><td>85</td><td>3 ⭐</td></tr>
+            <tr><td>90</td><td>2</td></tr>
+            <tr><td>95</td><td>1</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="2">
+        <div class="step-label">الخطوة 2 — اختيار الأعلى تكرارًا</div>
+        <div class="step-content">
+          من الجدول، القيمة 85 تكررت 3 مرات (الأعلى).
+          <div class="calc">المنوال = 85</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="3">
+        <div class="step-label">الخطوة 3 — التحقق</div>
+        <div class="step-content">
+          نتأكد:
+          <ul>
+            <li>هل 85 موجودة في البيانات؟ ✓ (نعم)</li>
+            <li>هل تكرارها أكثر من غيرها؟ ✓ (3 > 2 > 1)</li>
+            <li>هل توجد قيمة بنفس عدد التكرار؟ ✗ (لا، إذن المنوال واحد)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="4">
+        <div class="step-label">الإجابة النهائية</div>
+        <div class="step-content">
+          <strong>المنوال = <span class="highlight">85</span></strong>
+          <div style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
+            <strong>حالات خاصة:</strong>
+            <ul>
+              <li>إذا تكررت قيمتان بنفس العدد الأعلى → <strong>منوالان</strong> (Bimodal)</li>
+              <li>إذا كلها بنفس التكرار → <strong>لا يوجد منوال</strong></li>
+              <li>هذه البيانات أحادية المنوال (Unimodal)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-controls">
+        <button class="step-btn next" onclick="nextStep('solver-1-3')">
+          <span>اضغط لعرض السؤال</span>
+          <span class="arrow">←</span>
+        </button>
+        <button class="step-btn reset" onclick="resetStepSolver('solver-1-3')">🔄 إعادة</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🎯</span> متى نستخدم كل مقياس؟</h2>
+    <table class="compare-table">
+      <tr><th>الموقف</th><th>المقياس الأنسب</th><th>السبب</th></tr>
+      <tr><td>بيانات بدون قيم متطرفة</td><td><strong>المتوسط</strong></td><td>يستخدم كل البيانات</td></tr>
+      <tr><td>بيانات بقيم متطرفة (رواتب)</td><td><strong>الوسيط</strong></td><td>لا يتأثر بالمتطرفات</td></tr>
+      <tr><td>بيانات اسمية (لون مفضل)</td><td><strong>المنوال</strong></td><td>الوحيد المناسب</td></tr>
+      <tr><td>توزيع متماثل</td><td>المتوسط = الوسيط = المنوال</td><td>كلها متطابقة</td></tr>
+    </table>
+
+    <div class="example-box">
+      رواتب 5 موظفين: 5000، 6000، 7000، 8000، 50000.<br>
+      المتوسط = 15200 (مضلل بسبب الـ 50000)<br>
+      الوسيط = 7000 (تمثيل أصدق للراتب الاعتيادي)
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📈</span> دوال إكسل لمقاييس النزعة المركزية</h2>
+    
+    <table class="compare-table">
+      <tr><th>المقياس</th><th>دالة إكسل</th><th>المثال</th></tr>
+      <tr><td>المتوسط</td><td><code>=AVERAGE(range)</code></td><td><code>=AVERAGE(B2:B11)</code></td></tr>
+      <tr><td>المتوسط بشرط</td><td><code>=AVERAGEIF(range, criteria)</code></td><td><code>=AVERAGEIF(B2:B11, ">=80")</code></td></tr>
+      <tr><td>الوسيط</td><td><code>=MEDIAN(range)</code></td><td><code>=MEDIAN(B2:B11)</code></td></tr>
+      <tr><td>المنوال (واحد)</td><td><code>=MODE.SNGL(range)</code></td><td><code>=MODE.SNGL(B2:B11)</code></td></tr>
+      <tr><td>كل المنوالات</td><td><code>=MODE.MULT(range)</code></td><td>يرجع مصفوفة</td></tr>
+    </table>
+
+    <div class="app-link-row">
+      <a href="excel-sim.html" target="_blank" class="app-link excel"><span class="ico">📊</span><span>افتح محاكي إكسل وجرّب الدوال</span></a>
+      <a href="python-sim.html" target="_blank" class="app-link python"><span class="ico">🐍</span><span>افتح محاكي بايثون</span></a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🐍</span> الحساب بـ Python</h2>
+    <p>نفس المسائل في بايثون باستخدام مكتبة <code>statistics</code>:</p>
+
+    <div class="code-block">
+<span class="keyword">import</span> statistics
+
+scores = [85, 92, 78, 95, 88, 76]
+
+<span class="comment"># المتوسط الحسابي</span>
+mean_val = statistics.<span class="func">mean</span>(scores)
+<span class="func">print</span>(<span class="string">f"المتوسط: {mean_val:.2f}"</span>)  <span class="comment"># 85.67</span>
+
+<span class="comment"># الوسيط</span>
+median_val = statistics.<span class="func">median</span>(scores)
+<span class="func">print</span>(<span class="string">f"الوسيط: {median_val}"</span>)
+
+<span class="comment"># المنوال</span>
+data_with_mode = [85, 90, 85, 70, 95, 85, 90, 80]
+mode_val = statistics.<span class="func">mode</span>(data_with_mode)
+<span class="func">print</span>(<span class="string">f"المنوال: {mode_val}"</span>)  <span class="comment"># 85</span></div>
+  </div>
+
+  <!-- Quiz -->
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> اختبر فهمك للموضوع 1</h2>
+
+    <div class="quiz-q">
+      <div class="q-text">س1: ما الوسيط للبيانات: 12, 7, 15, 9, 11, 6, 14؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>9</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>11</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>10.57</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>14</span></button>
+      </div>
+      <div class="quiz-explain">رتب: 6, 7, 9, 11, 12, 14, 15. n=7 (فردي)، رتبة الوسيط = (7+1)/2 = 4. القيمة في الموضع 4 = 11.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س2: في توزيع رواتب فيه قيمة شاذة جدًا، أي مقياس أفضل لتمثيل الراتب الاعتيادي؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>المتوسط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>الوسيط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>المنوال</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>المجموع</span></button>
+      </div>
+      <div class="quiz-explain">الوسيط لا يتأثر بالقيم المتطرفة لأنه يعتمد على الموضع لا القيمة. المتوسط يسحبه الراتب الشاذ بقوة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س3: عدد الطلاب في الصف هو نوع بيانات:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>اسمية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>كمية متصلة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>كمية منفصلة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>ترتيبية</span></button>
+      </div>
+      <div class="quiz-explain">عدد الطلاب لا يكون 30.5، فهو منفصل. الكمية المتصلة مثل الطول (170.3 سم).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س4: أي دالة إكسل تحسب المتوسط للأعداد الأكبر من 80؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>=AVERAGE(B2:B10, ">80")</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>=AVERAGEIF(B2:B10, ">80")</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>=MEDIAN(B2:B10, ">80")</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>=AVG(B2:B10, ">80")</span></button>
+      </div>
+      <div class="quiz-explain">AVERAGEIF يحسب المتوسط للقيم التي تحقق شرطًا معينًا. الصيغة الصحيحة: =AVERAGEIF(range, criteria).</div>
+    </div>
+  </div>
+</section>
+`;
+
+console.log("STA Topic 1 done");
+
+
+// Inject topic sections + a placeholder for unbuilt topics
+const TOPIC_CONFIG = ['1','2','6','7','8','9','10','quiz'];
+const container = document.getElementById('topicsContainer');
+
+TOPIC_CONFIG.forEach(id => {
+  if (TOPICS[id]) {
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = TOPICS[id];
+    while (wrapper.firstChild) container.appendChild(wrapper.firstChild);
+  } else {
+    // Placeholder for not-yet-built topics
+    const ph = document.createElement('section');
+    ph.className = 'topic-section';
+    ph.id = 'topic-' + id;
+    const titles = {
+      '2': 'الارتباط وخط الاتجاه',
+      '6': 'تحليل البيانات بإكسل',
+      '7': 'التوزيع الطبيعي والمعياري',
+      '8': 'الاحتمالات الأساسية',
+      '9': 'الرسوم البيانية',
+      '10': 'الانحدار الخطي',
+      'quiz': 'الاختبار الشامل'
+    };
+    ph.innerHTML = `
+      <div class="topic-header">
+        <div class="label">قيد البناء</div>
+        <h1>${titles[id] || id}</h1>
+        <p>هذا الموضوع لا يزال قيد البناء. سيُضاف قريبًا مع الحلول التفاعلية خطوة بخطوة.</p>
+      </div>
+      <div class="section">
+        <p style="text-align: center; padding: 40px 20px; color: var(--text-muted);">
+          ⏳ <strong>قيد البناء</strong><br>
+          ستجد هنا قريبًا: شرحًا مفصلاً، أمثلة محسوبة، حلولًا تفاعلية خطوة بخطوة، وتطبيقات في إكسل وبايثون.
+        </p>
+      </div>
+    `;
+    container.appendChild(ph);
+  }
+});
+
+// Wire sidebar
+document.querySelectorAll('.topic-item').forEach(item => {
+  item.addEventListener('click', () => showTopic(item.dataset.topic));
+});
+
+// Initialize
+const initial = (location.hash && location.hash.startsWith('#topic-'))
+  ? location.hash.replace('#topic-', '')
+  : '1';
+showTopic(initial);
+updateProgress();
+
+</script>
+</body>
+</html>
