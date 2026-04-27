@@ -445,7 +445,6 @@ else:
 const TURTLE_SETUP = `
 import sys, types, math, builtins
 import js
-from pyodide.ffi import create_proxy
 
 _turtle_mod = types.ModuleType('turtle')
 
@@ -913,6 +912,24 @@ function transformInputCalls(code) {
   // Actually simpler: do the substitution carefully with parens balanced
 }
 
+// Split user code into top-level imports + body
+// (Python disallows "from X import *" inside an async function)
+function splitImportsAndBody(code) {
+  const lines = code.split('\n');
+  const imports = [];
+  const body = [];
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (/^(import\s+\S|from\s+\S+\s+import)/.test(trimmed)) {
+      imports.push(trimmed);
+      body.push(''); // preserve line numbers
+    } else {
+      body.push(line);
+    }
+  }
+  return { imports: imports.join('\n'), body: body.join('\n') };
+}
+
 // Better: smart transform that balances parens
 function smartTransformInput(code) {
   let out = '';
@@ -1011,27 +1028,33 @@ async function runCode() {
       try { pyodide.runPython('_image_outputs.clear()'); } catch(e) {}
     }
     
-    // Transform input() calls and wrap in async function
+    // Transform input() calls and split imports out of async wrapper
     const transformed = smartTransformInput(userCode);
+    const { imports: userImports, body: userBody } = splitImportsAndBody(transformed);
     
     const wrappedCode = `
-import builtins, js
+${userImports}
+
+import builtins as __builtins, js as __js_mod
 async def __ainput(prompt=""):
     if prompt:
         print(prompt, end="")
-    result = await js.pyInput(str(prompt))
+    result = await __js_mod.pyInput(str(prompt))
     print(result)
     return str(result)
 
-builtins.__ainput = __ainput
+__builtins.__ainput = __ainput
 
 async def __user_main__():
-${transformed.split('\n').map(l => '    ' + l).join('\n') || '    pass'}
+${userBody.split('\n').map(l => '    ' + l).join('\n') || '    pass'}
 
 await __user_main__()
 `;
     
     await pyodide.runPythonAsync(wrappedCode);
+    
+    // Yield to UI so canvas paints before we report success
+    await new Promise(r => setTimeout(r, 50));
     
     // Display matplotlib images
     if (matplotlibLoaded) {
@@ -1055,7 +1078,11 @@ await __user_main__()
     appendOutputBatched('✓ انتهى التنفيذ بنجاح', 'success');
   } catch (err) {
     appendOutputBatched('❌ خطأ:', 'stderr');
-    appendOutputBatched(err.message || String(err), 'stderr');
+    const msg = err && err.message ? err.message : String(err);
+    // Split multi-line tracebacks into separate visible lines
+    msg.split('\n').forEach(line => {
+      if (line.trim()) appendOutputBatched(line, 'stderr');
+    });
   } finally {
     runBtn.disabled = false;
     runBtn.innerHTML = '▶ تشغيل الكود';
