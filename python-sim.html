@@ -289,7 +289,7 @@ else:
     code: `from turtle import *
 
 bgcolor("black")
-speed(0)
+speed(6)
 colors = ["red", "magenta", "purple"]
 
 for i in range(60):
@@ -308,7 +308,7 @@ done()
     code: `from turtle import *
 
 bgcolor("#1a1a2e")
-speed(0)
+speed(10)
 colors = ["#ff006e", "#fb5607", "#ffbe0b", "#8338ec", "#3a86ff"]
 
 for i in range(120):
@@ -325,7 +325,7 @@ done()
 
 bgcolor("navy")
 color("yellow")
-speed(5)
+speed(3)
 
 for _ in range(5):
     forward(150)
@@ -742,14 +742,15 @@ def _render_op(op):
 
 async def _flush_turtle_queue():
     # Heavy ops (lines, writes, dots) get a delay; others render instantly.
+    # Use js.delayMs (setTimeout) — it yields to the browser paint queue,
+    # unlike asyncio.sleep which can keep the JS thread busy in Pyodide.
     visible_ops = {'line', 'write', 'dot'}
     for op in _op_queue:
         _render_op(op)
         if op[0] in visible_ops:
-            await asyncio.sleep(_delay_for_speed())
-        else:
-            # Yield once per non-visible op so browser stays responsive
-            await asyncio.sleep(0)
+            ms = int(_delay_for_speed() * 1000)
+            if ms < 1: ms = 1
+            await js.delayMs(ms)
     _op_queue.clear()
 
 # Module wiring
@@ -900,6 +901,9 @@ function pyInput(promptText) {
   });
 }
 window.pyInput = pyInput;
+
+// Browser-friendly sleep — uses real setTimeout so the browser paints between Python ops
+window.delayMs = (ms) => new Promise(r => setTimeout(r, ms));
 
 // ====================================================================
 // CODE TRANSFORMATION
