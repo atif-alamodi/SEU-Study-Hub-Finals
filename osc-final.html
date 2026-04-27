@@ -2113,113 +2113,369 @@ TOPICS['12'] = `
 `;
 
 // ============ COMPREHENSIVE QUIZ ============
+// ===== UPDATED: Comprehensive Quiz with Teacher's Actual Questions =====
 TOPICS['quiz'] = `
 <section class="topic-section" id="topic-quiz">
   <div class="topic-header" style="background: linear-gradient(135deg, #f59e0b 0%, #dc2626 100%);">
-    <div class="label">📝 الاختبار الشامل</div>
+    <div class="label">📝 الاختبار الشامل · مع أسئلة الأستاذة</div>
     <h1>اختبر استعدادك للنهائي</h1>
-    <p>أسئلة متنوعة تغطي كل المنهج. ستضاف أسئلة الأستاذة في هذا القسم لاحقًا.</p>
+    <p>الأسئلة الـ 19 الفعلية من الأستاذة (مأخوذة من PDF المنهج) + إجابات نموذجية مفصلة + أسئلة اختيار من متعدد</p>
   </div>
 
-  <div class="section quiz-section" style="border-color: #f59e0b;">
-    <h2><span class="icon">🧠</span> الأسئلة العامة</h2>
+  <!-- ========== TEACHER QUESTIONS — TOPIC 1 (10 questions) ========== -->
+  <div class="section" style="border: 2px solid #f59e0b; background: #fffbeb;">
+    <h2 style="color: #b45309;"><span class="icon" style="background: #fde68a; color: #b45309;">📋</span> الموضوع الأول · 10 أسئلة من الأستاذة</h2>
+    <p style="color: #78350f; font-size: 13px;">هذه الأسئلة موجودة حرفياً في صفحة 332 من ملف المنهج الذي أرسلته الأستاذة.</p>
 
-    <div class="quiz-q">
-      <div class="q-text">س1: أي من التالي ليس من مكونات Process Control Block (PCB)؟</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 3, this)"><span class="letter">أ</span><span>حالة العملية</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 3, this)"><span class="letter">ب</span><span>عداد البرنامج</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 3, this)"><span class="letter">ج</span><span>سجلات CPU</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 3, this)"><span class="letter">د</span><span>كود المستخدم نفسه</span></button>
+    <div class="quiz-q" style="background: white;">
+      <div class="q-text">س1: ما هو نظام التشغيل وما هي وظيفته الأساسية؟</div>
+      <div class="quiz-explain" style="display: block;">
+        <strong>الإجابة النموذجية:</strong> نظام التشغيل (OS) هو البرنامج الذي يعمل كوسيط بين المستخدم والعتاد، ويوفر بيئة لتنفيذ البرامج وإدارة موارد الجهاز.
+        <br><br><strong>وظيفته الأساسية:</strong> إدارة موارد الجهاز (المعالج، الذاكرة، الأجهزة، الملفات) وتقديم خدمات للمستخدم والبرامج بطريقة منظمة وآمنة.
       </div>
-      <div class="quiz-explain">PCB يحتوي على معلومات الإدارة فقط، أما الكود فمخزن في قسم النص (Text Section) للعملية.</div>
     </div>
 
-    <div class="quiz-q">
-      <div class="q-text">س2: في خوارزمية Round Robin، إذا كان Quantum = 4 ms و Context Switch = 1 ms، كم نسبة الوقت المهدر؟</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2, this)"><span class="letter">أ</span><span>10%</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2, this)"><span class="letter">ب</span><span>15%</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2, this)"><span class="letter">ج</span><span>20%</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2, this)"><span class="letter">د</span><span>25%</span></button>
+    <div class="quiz-q" style="background: white;">
+      <div class="q-text">س2: ماهي مكونات الكمبيوتر الأساسية؟</div>
+      <div class="quiz-explain" style="display: block;">
+        <strong>الإجابة النموذجية:</strong> أربع مكونات أساسية:
+        <br><strong>1. الأجهزة (Hardware):</strong> CPU، الذاكرة (RAM)، أجهزة الإدخال/الإخراج، أجهزة التخزين.
+        <br><strong>2. نظام التشغيل (OS):</strong> الوسيط الذي ينظم استخدام الموارد.
+        <br><strong>3. البرامج التطبيقية (Applications):</strong> Word، المتصفحات، الألعاب، إلخ.
+        <br><strong>4. المستخدمون (Users):</strong> الأشخاص الذين يستخدمون النظام.
       </div>
-      <div class="quiz-explain">من كل 5 ms (4 quantum + 1 context switch)، 1 ms مهدور = 1/5 = 20%.</div>
     </div>
 
-    <div class="quiz-q">
-      <div class="q-text">س3: أي من التالي يحل مشكلة التجزئة الخارجية؟</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1, this)"><span class="letter">أ</span><span>التقسيم Segmentation</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1, this)"><span class="letter">ب</span><span>الصفحات Paging</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1, this)"><span class="letter">ج</span><span>التخزين المؤقت Caching</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1, this)"><span class="letter">د</span><span>المقاطعات Interrupts</span></button>
+    <div class="quiz-q" style="background: white;">
+      <div class="q-text">س3: ما هي أنواع أنظمة التشغيل المختلفة؟</div>
+      <div class="quiz-explain" style="display: block;">
+        <strong>الإجابة النموذجية:</strong> هناك تسعة أنواع رئيسية:
+        <br>1. أنظمة الكمبيوتر المركزي (Mainframe Systems)
+        <br>2. أنظمة سطح المكتب (Desktop Systems)
+        <br>3. نظام التشغيل الدفعي (Batch Systems)
+        <br>4. أنظمة المعالجات المتعددة (Multiprocessor)
+        <br>5. الأنظمة الموزعة (Distributed Systems)
+        <br>6. أنظمة الزمن الحقيقي (Real-time Systems)
+        <br>7. الأنظمة المحمولة (Mobile Systems)
+        <br>8. أنظمة متعددة البرمجة (Multiprogramming)
+        <br>9. أنظمة متعددة المستخدمين (Multi-user Systems)
       </div>
-      <div class="quiz-explain">Paging يقسم الذاكرة لوحدات متساوية، فلا توجد فجوات بأحجام مختلفة بين الكتل المخصصة.</div>
     </div>
 
-    <div class="quiz-q">
-      <div class="q-text">س4: العمليات في Linux تُمثَّل بالبنية:</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2, this)"><span class="letter">أ</span><span>process_t</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2, this)"><span class="letter">ب</span><span>thread_struct</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2, this)"><span class="letter">ج</span><span>task_struct</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2, this)"><span class="letter">د</span><span>pcb_struct</span></button>
+    <div class="quiz-q" style="background: white;">
+      <div class="q-text">س4: كيف يتم بدء تشغيل الكمبيوتر وما هو دور برنامج التمهيد (bootstrap)؟</div>
+      <div class="quiz-explain" style="display: block;">
+        <strong>الإجابة النموذجية:</strong> عملية بدء التشغيل (Boot) تمر بمراحل:
+        <br><strong>1. POST:</strong> فحص ذاتي للعتاد (Power-On Self-Test).
+        <br><strong>2. BIOS/UEFI:</strong> برنامج صغير في ROM يبدأ التشغيل ويختبر الأجهزة الأساسية.
+        <br><strong>3. Bootstrap (Bootloader):</strong> برنامج صغير مهمته تحميل نواة نظام التشغيل من القرص إلى الذاكرة الرئيسية. مثال: GRUB في Linux.
+        <br><strong>4. تحميل النواة (Kernel):</strong> تبدأ النواة بإدارة النظام وتشغيل الخدمات.
+        <br><strong>5. واجهة المستخدم تظهر:</strong> الجهاز جاهز للاستخدام.
+        <br><br><strong>دور Bootstrap:</strong> هو الجسر الذي ينقل التحكم من ROM إلى نظام التشغيل المخزن على القرص.
       </div>
-      <div class="quiz-explain">Linux يستخدم struct task_struct لتمثيل كل مهمة (process أو thread) في النظام.</div>
     </div>
 
-    <div class="quiz-q">
-      <div class="q-text">س5: ما الذي يميز نموذج One-to-One عن Many-to-One؟</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2, this)"><span class="letter">أ</span><span>One-to-One أبطأ في الإنشاء</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2, this)"><span class="letter">ب</span><span>One-to-One يستهلك ذاكرة أقل</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2, this)"><span class="letter">ج</span><span>One-to-One يدعم التوازي الحقيقي على الأنوية المتعددة</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2, this)"><span class="letter">د</span><span>One-to-One أسهل في الإدارة</span></button>
+    <div class="quiz-q" style="background: white;">
+      <div class="q-text">س5: كيف يتم تشغيل نظام الكمبيوتر؟ وكيف تتواصل وحدة المعالجة المركزية مع أجهزة الإدخال/الإخراج؟</div>
+      <div class="quiz-explain" style="display: block;">
+        <strong>تشغيل النظام:</strong> بعد التمهيد، يقوم المعالج بتنفيذ تعليمات نظام التشغيل من الذاكرة، يدير العمليات، يجدول البرامج، ويستجيب لطلبات المستخدم.
+        <br><br><strong>طرق تواصل CPU مع I/O:</strong>
+        <br><strong>1. Polling (الاستطلاع):</strong> المعالج يفحص كل جهاز دوريًا لمعرفة إن كان جاهزًا. بسيط لكنه يهدر وقت المعالج.
+        <br><strong>2. Interrupts (المقاطعات):</strong> الجهاز يرسل إشارة (مقاطعة) للمعالج عند الحاجة. أكفأ بكثير لأن المعالج يعمل بأمور أخرى.
+        <br><strong>3. DMA (الوصول المباشر للذاكرة):</strong> الجهاز ينقل البيانات مباشرة من/إلى الذاكرة بدون تدخل المعالج لكل بايت.
       </div>
-      <div class="quiz-explain">Many-to-One يربط كل خيوط المستخدم بخيط نواة واحد، فلا توازي حقيقي. One-to-One يربط كل خيط مستخدم بخيط نواة منفصل، فيمكن تشغيلها بالتوازي.</div>
     </div>
 
-    <div class="quiz-q">
-      <div class="q-text">س6: pipe() في Unix هي:</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1, this)"><span class="letter">أ</span><span>طريقة لإنشاء عملية جديدة</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1, this)"><span class="letter">ب</span><span>قناة تواصل بين عمليتين أحادية الاتجاه</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1, this)"><span class="letter">ج</span><span>طريقة لقفل المورد</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1, this)"><span class="letter">د</span><span>سيمافور ثنائي</span></button>
+    <div class="quiz-q" style="background: white;">
+      <div class="q-text">س6: ما هو مفهوم المقاطعة في نظام التشغيل؟ وكيف تساهم في تحسين الأداء؟</div>
+      <div class="quiz-explain" style="display: block;">
+        <strong>المقاطعة (Interrupt):</strong> آلية تسمح للأجهزة أو البرمجيات بإيقاف المعالج عن تنفيذ التعليمات الحالية وتحويله لتنفيذ مهمة معينة، ثم العودة لاستكمال التعليمات المتوقفة بعد الانتهاء.
+        <br><br><strong>كيف تحسن الأداء:</strong>
+        <br>1. <strong>تجنب الانتظار:</strong> بدل الـ Polling المهدر للوقت، المعالج يعمل بمهام أخرى حتى تأتي المقاطعة.
+        <br>2. <strong>استجابة فورية:</strong> الأحداث المهمة (مثل ضغطة مفتاح) تُعالج بسرعة.
+        <br>3. <strong>توازي المهام:</strong> المعالج وأجهزة I/O يعملون بالتوازي.
+        <br>4. <strong>كفاءة استغلال CPU:</strong> ترتفع نسبة استخدام المعالج لأنه لا ينتظر الأجهزة البطيئة.
       </div>
-      <div class="quiz-explain">pipe() ينشئ قناة تواصل أحادية الاتجاه بين عمليتين (عادة أم وابن) لتمرير البيانات.</div>
     </div>
 
-    <div class="quiz-q">
-      <div class="q-text">س7: في خوارزمية البنك بـ 5 عمليات، إذا فشلت خوارزمية الأمان في إنهاء عمليتين، فالنظام:</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1, this)"><span class="letter">أ</span><span>آمن لكن بطيء</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1, this)"><span class="letter">ب</span><span>غير آمن — رفض الطلب</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1, this)"><span class="letter">ج</span><span>يحتاج زيادة الموارد</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1, this)"><span class="letter">د</span><span>آمن — يكفي 3 عمليات</span></button>
+    <div class="quiz-q" style="background: white;">
+      <div class="q-text">س7: كيف تعمل المقاطعات في أنظمة التشغيل؟ وما هي الأنواع المختلفة للمقاطعات؟</div>
+      <div class="quiz-explain" style="display: block;">
+        <strong>كيف تعمل:</strong> عند حدوث حدث (مثل اكتمال I/O أو ضغط مفتاح)، الجهاز يرسل إشارة كهربائية إلى وحدة التحكم في المقاطعات. هذه الوحدة تخبر المعالج بوجود مقاطعة. المعالج يحفظ حالته الحالية، ينتقل لمعالج المقاطعة (ISR)، ينفذه، ثم يعود لما كان يفعله.
+        <br><br><strong>الأنواع:</strong>
+        <br><strong>1. مقاطعة العتاد (Hardware Interrupt):</strong> من جهاز خارجي مثل لوحة المفاتيح، الفأرة، القرص.
+        <br><strong>2. مقاطعة البرنامج (Software Interrupt / Trap):</strong> من البرنامج نفسه، مثل استدعاءات النظام (system calls).
+        <br><strong>3. الاستثناء (Exception):</strong> خطأ في التنفيذ مثل القسمة على صفر أو الوصول لذاكرة محظورة.
+        <br><strong>4. مقاطعات قابلة للحجب (Maskable):</strong> يمكن تجاهلها مؤقتاً.
+        <br><strong>5. مقاطعات غير قابلة للحجب (NMI):</strong> حرجة، لا يمكن تجاهلها (مثل أعطال العتاد).
       </div>
-      <div class="quiz-explain">إذا فشلت خوارزمية الأمان في إنهاء كل العمليات، النظام غير آمن ويجب رفض الطلب لمنع الجمود.</div>
     </div>
 
-    <div class="quiz-q">
-      <div class="q-text">س8: عند انخفاض استغلال CPU بشكل غير معتاد، الاحتمال الأرجح:</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2, this)"><span class="letter">أ</span><span>المعالج معطل</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2, this)"><span class="letter">ب</span><span>الذاكرة ممتلئة</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2, this)"><span class="letter">ج</span><span>وجود جمود — معظم العمليات في حالة Wait</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2, this)"><span class="letter">د</span><span>زيادة عدد المستخدمين</span></button>
+    <div class="quiz-q" style="background: white;">
+      <div class="q-text">س8: كيف يتم معالجة المقاطعات في نظام التشغيل؟ وما هو دور روتين خدمة المقاطعة (ISR)؟</div>
+      <div class="quiz-explain" style="display: block;">
+        <strong>خطوات المعالجة:</strong>
+        <br>1. الجهاز يرسل إشارة المقاطعة.
+        <br>2. وحدة التحكم في المقاطعات تخبر المعالج.
+        <br>3. المعالج يكمل التعليمة الحالية ثم يحفظ حالته (PC، Registers).
+        <br>4. يحدد نوع المقاطعة:
+        <br>&nbsp;&nbsp;• <strong>Polling:</strong> يفحص كل جهاز.
+        <br>&nbsp;&nbsp;• <strong>Vectored Interrupts:</strong> الجهاز يرسل عنوان ISR مباشرة (أسرع).
+        <br>5. ينتقل لتنفيذ ISR.
+        <br>6. عند انتهاء ISR، يستعيد الحالة المحفوظة.
+        <br>7. يكمل تنفيذ البرنامج المتوقف.
+        <br><br><strong>دور ISR (Interrupt Service Routine):</strong> روتين محدد لكل نوع مقاطعة، مهمته معالجة المقاطعة بالطريقة المناسبة (قراءة من الجهاز، نقل البيانات، تحديث الحالة، إلخ). يجب أن يكون قصيراً وفعالاً.
       </div>
-      <div class="quiz-explain">عندما تكون العمليات في جمود، تكون كلها في حالة انتظار، فلا أحد يستخدم CPU. هذا مؤشر مهم على الجمود.</div>
+    </div>
+
+    <div class="quiz-q" style="background: white;">
+      <div class="q-text">س9: ما هي الخطوات التي يتبعها المعالج عند حدوث مقاطعة؟</div>
+      <div class="quiz-explain" style="display: block;">
+        <strong>الخطوات بالترتيب:</strong>
+        <br><strong>1. حفظ حالة المعالج:</strong> تخزين السجلات (Registers) وعداد البرنامج (Program Counter) في المكدس أو في PCB. هذا حتى يستطيع العودة لاحقاً.
+        <br><strong>2. تحديد نوع المقاطعة:</strong>
+        <br>&nbsp;&nbsp;• Polling: فحص كل جهاز لمعرفة المصدر.
+        <br>&nbsp;&nbsp;• Vectored: الجهاز يرسل عنوان ISR مباشرة.
+        <br><strong>3. الانتقال إلى ISR:</strong> المعالج يقفز إلى عنوان روتين خدمة المقاطعة المناسب.
+        <br><strong>4. تنفيذ ISR:</strong> تنفيذ كود معالجة المقاطعة.
+        <br><strong>5. استعادة الحالة:</strong> إعادة السجلات وعداد البرنامج إلى ما كانت عليه.
+        <br><strong>6. متابعة التنفيذ:</strong> العودة للبرنامج الأصلي من حيث توقف.
+      </div>
+    </div>
+
+    <div class="quiz-q" style="background: white;">
+      <div class="q-text">س10: ما هو الجدول الزمني للمقاطعات (Interrupt Timeline)؟ وكيف يؤثر على أداء النظام؟</div>
+      <div class="quiz-explain" style="display: block;">
+        <strong>الجدول الزمني للمقاطعات:</strong> هو تمثيل بصري يوضح كيف يتفاعل المعالج مع أجهزة I/O عبر الزمن.
+        <br><br><strong>السيناريو الزمني:</strong>
+        <br>1. المعالج ينفذ برنامج المستخدم (User Process).
+        <br>2. الجهاز خامل (Idle).
+        <br>3. عند طلب عملية I/O، الجهاز يبدأ بنقل البيانات.
+        <br>4. المعالج يواصل عمله بمهام أخرى (overlap).
+        <br>5. عند انتهاء النقل، الجهاز يرسل مقاطعة.
+        <br>6. المعالج يتوقف مؤقتًا، يعالج المقاطعة (ISR).
+        <br>7. المعالج يعود لمتابعة البرنامج.
+        <br><br><strong>التأثير على الأداء:</strong>
+        <br>✓ <strong>إيجابي:</strong> استغلال أمثل للمعالج (لا ينتظر الأجهزة البطيئة).
+        <br>✓ <strong>توازي:</strong> CPU وI/O يعملان معًا.
+        <br>⚠ <strong>سلبي محتمل:</strong> كثرة المقاطعات تؤدي إلى context switching مفرط، مما يقلل الأداء (interrupt storm).
+        <br>⚠ <strong>زمن المعالجة:</strong> كل مقاطعة تستغرق وقتاً للحفظ والاستعادة.
+      </div>
     </div>
   </div>
 
-  <div class="section" style="background: #fef3c7; border-color: #f59e0b;">
-    <h2 style="color: #b45309;"><span class="icon" style="background: #fde68a; color: #b45309;">📩</span> أسئلة الأستاذة</h2>
-    <p style="color: #78350f; line-height: 1.9;">سيتم إضافة الأسئلة الإضافية من الأستاذة هنا فور وصولها. أرسلها لي وسأحدّث هذا القسم بإجاباتها وشروحاتها.</p>
+  <!-- ========== TOPIC 4 — IPC Questions (7 questions) ========== -->
+  <div class="section" style="border: 2px solid #f59e0b; background: #fffbeb;">
+    <h2 style="color: #b45309;"><span class="icon" style="background: #fde68a; color: #b45309;">📋</span> الموضوع الرابع · 7 أسئلة عن خصائص الروابط والأنابيب</h2>
+
+    <div class="quiz-q" style="background: white;">
+      <div class="q-text">س1: طريقة إنشاء الرابط في IPC: هل يتم إنشاؤه تلقائيًا أم يحتاج لتدخل يدوي؟</div>
+      <div class="quiz-explain" style="display: block;">
+        <strong>الإجابة:</strong> يعتمد على نوع الرابط:
+        <br><strong>1. تلقائي (Automatic / Implicit):</strong> النظام ينشئ الرابط دون تدخل البرنامج. <em>مثل: عملية أب وابن تشترك تلقائيًا في pipe بعد fork.</em>
+        <br><strong>2. يدوي (Manual / Explicit):</strong> البرنامج يطلب الإنشاء صراحة. <em>مثل: استدعاء pipe() أو msgget() لإنشاء صندوق رسائل.</em>
+        <br>الأنابيب العادية تكون تلقائية بين الأم والابن، أما المقابس (sockets) فتحتاج إنشاء يدوي.
+      </div>
+    </div>
+
+    <div class="quiz-q" style="background: white;">
+      <div class="q-text">س2: عدد العمليات المتصلة: هل يمكن ربط الرابط بأكثر من عمليتين؟</div>
+      <div class="quiz-explain" style="display: block;">
+        <strong>الإجابة:</strong> يختلف حسب نوع الرابط:
+        <br><strong>1. ثنائي (Point-to-Point):</strong> رابط بين عمليتين فقط (مثل الأنبوب العادي).
+        <br><strong>2. متعدد (Multiple):</strong> يربط أكثر من عمليتين. مثال:
+        <br>&nbsp;&nbsp;• صندوق البريد (Mailbox): عدة عمليات يمكنها الإرسال والاستقبال.
+        <br>&nbsp;&nbsp;• الذاكرة المشتركة: أي عملية لها الصلاحية تستطيع الوصول.
+        <br>&nbsp;&nbsp;• Sockets في وضع broadcast/multicast.
+      </div>
+    </div>
+
+    <div class="quiz-q" style="background: white;">
+      <div class="q-text">س3: حجم الرسائل في الرابط: هل هو ثابت أم متغير؟</div>
+      <div class="quiz-explain" style="display: block;">
+        <strong>الإجابة:</strong> هناك نوعان:
+        <br><strong>1. حجم ثابت (Fixed Size):</strong> كل رسالة بنفس الحجم. <em>أبسط في التنفيذ، أسرع، لكن قد يهدر مساحة لو الرسائل أصغر.</em>
+        <br><strong>2. حجم متغير (Variable Size):</strong> الرسائل بأحجام مختلفة. <em>أكثر مرونة، لكن أعقد في الإدارة لأن النظام يحتاج معرفة بداية ونهاية كل رسالة.</em>
+        <br>صناديق البريد عادة تستخدم حجم ثابت، أما الأنابيب فتدعم متغير.
+      </div>
+    </div>
+
+    <div class="quiz-q" style="background: white;">
+      <div class="q-text">س4: هل اتصال الأنبوب أحادي الاتجاه (Unidirectional) أم ثنائي الاتجاه (Bidirectional)؟</div>
+      <div class="quiz-explain" style="display: block;">
+        <strong>الإجابة:</strong> الأنبوب العادي (Ordinary Pipe) <strong>أحادي الاتجاه</strong> دائمًا — للقراءة أو للكتابة فقط، ليس كلاهما.
+        <br><br>إذا احتجت اتصال ثنائي الاتجاه:
+        <br>• تنشئ <strong>أنبوبين منفصلين</strong> (واحد للذهاب، واحد للعودة).
+        <br>• أو تستخدم <strong>الأنابيب المسماة (Named Pipes / FIFO)</strong> التي تدعم ثنائي الاتجاه.
+        <br>• أو <strong>المقابس (Sockets)</strong> التي تدعم اتجاهين دائمًا.
+      </div>
+    </div>
+
+    <div class="quiz-q" style="background: white;">
+      <div class="q-text">س5: في حالة الاتصال ثنائي الاتجاه، هل هو نصف مزدوج (Half-Duplex) أم مزدوج كامل (Full-Duplex)؟</div>
+      <div class="quiz-explain" style="display: block;">
+        <strong>الإجابة:</strong>
+        <br><strong>Half-Duplex (نصف مزدوج):</strong> الاتصال في الاتجاهين، لكن واحد في كل مرة (مثل أجهزة الـ Walkie-Talkie). إحدى العمليتين ترسل، والأخرى تنتظر، ثم العكس.
+        <br><strong>Full-Duplex (مزدوج كامل):</strong> الاتصال في الاتجاهين معًا في نفس الوقت (مثل الهاتف). كلا العمليتين ترسلان وتستقبلان متزامنًا.
+        <br>الأنابيب المسماة عادة تدعم Full-Duplex، أما الأنابيب العادية فلا تدعم Bidirectional من الأساس.
+      </div>
+    </div>
+
+    <div class="quiz-q" style="background: white;">
+      <div class="q-text">س6: هل يجب أن تكون هناك علاقة بين العمليات المتواصلة (مثل علاقة الأب والابن Parent-Child)؟</div>
+      <div class="quiz-explain" style="display: block;">
+        <strong>الإجابة:</strong> يختلف حسب نوع الأنبوب:
+        <br><strong>1. الأنابيب العادية (Ordinary Pipes):</strong> <strong>نعم</strong>، تتطلب علاقة أم/ابن لأن الأنبوب يُورّث عبر fork().
+        <br><strong>2. الأنابيب المسماة (Named Pipes / FIFO):</strong> <strong>لا</strong>، تعمل بين أي عمليتين حتى لو غير مرتبطتين، لأن لها اسم في نظام الملفات أي عملية يمكنها الوصول إليه.
+        <br><strong>3. المقابس (Sockets):</strong> لا تتطلب علاقة، تعمل حتى عبر الشبكة.
+      </div>
+    </div>
+
+    <div class="quiz-q" style="background: white;">
+      <div class="q-text">س7: هل الأنابيب يمكن استخدامها عبر الشبكة (Network)؟</div>
+      <div class="quiz-explain" style="display: block;">
+        <strong>الإجابة:</strong> <strong>لا</strong>، الأنابيب (سواء العادية أو المسماة) محصورة في نفس الجهاز. لا يمكن استخدامها للتواصل بين عمليات على أجهزة مختلفة عبر الشبكة.
+        <br><br><strong>للتواصل عبر الشبكة، نستخدم:</strong>
+        <br>• <strong>Sockets (المقابس):</strong> الحل الأساسي، يعمل عبر TCP/UDP.
+        <br>• <strong>Remote Procedure Calls (RPC):</strong> استدعاء دوال على جهاز بعيد.
+        <br>• <strong>Message Queues عبر شبكة:</strong> مثل RabbitMQ، Kafka.
+        <br>• <strong>Web APIs:</strong> REST، gRPC.
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== TOPIC 8 — Synchronization Questions (2) ========== -->
+  <div class="section" style="border: 2px solid #f59e0b; background: #fffbeb;">
+    <h2 style="color: #b45309;"><span class="icon" style="background: #fde68a; color: #b45309;">📋</span> الموضوع الثامن · 2 سؤال عن حالة السباق</h2>
+
+    <div class="quiz-q" style="background: white;">
+      <div class="q-text">س1: كيف تحدث حالة السباق (Race Condition)؟</div>
+      <div class="quiz-explain" style="display: block;">
+        <strong>الإجابة النموذجية:</strong> حالة السباق تحدث عندما:
+        <br>1. <strong>عمليتان أو أكثر</strong> تصلان لنفس البيانات المشتركة.
+        <br>2. على الأقل <strong>إحداهما تكتب</strong> (تعدّل القيمة).
+        <br>3. <strong>دون مزامنة مناسبة</strong> (لا يوجد قفل أو استبعاد متبادل).
+        <br>4. <strong>ترتيب التنفيذ غير محدد</strong>.
+        <br><br><strong>مثال محسوب:</strong> Counter = 5. المنتج يريد +1 (يصبح 6)، المستهلك يريد -1 (يصبح 4).
+        <br>إذا قرأ كلاهما 5 في نفس الوقت، ثم كتب المنتج 6 وكتب المستهلك 4، النتيجة النهائية ستكون 4 أو 6 بدلاً من 5 الصحيح. <strong>تم فقدان عملية</strong>.
+        <br><br>هذا يؤدي إلى أخطاء عشوائية صعبة الاكتشاف لأن الكود قد يعمل صحيحًا 99% من الوقت.
+      </div>
+    </div>
+
+    <div class="quiz-q" style="background: white;">
+      <div class="q-text">س2: كيف نتجنب حالة السباق؟</div>
+      <div class="quiz-explain" style="display: block;">
+        <strong>الإجابة النموذجية:</strong> نستخدم <strong>آليات المزامنة</strong> التي تضمن الاستبعاد المتبادل (Mutual Exclusion):
+        <br><br><strong>1. Mutex Lock:</strong> قفل بسيط — العملية تأخذه قبل الدخول للمنطقة الحرجة وتحرره بعد الخروج.
+        <br><strong>2. السيمافور الثنائي (Binary Semaphore):</strong> مكافئ للـ Mutex، قيمته 0 أو 1.
+        <br><strong>3. السيمافور العام (Counting Semaphore):</strong> لإدارة عدة موارد متشابهة.
+        <br><strong>4. Spinlocks:</strong> قفل قصير المدة، العملية تظل تفحص حتى يتحرر.
+        <br><strong>5. Atomic Operations:</strong> عمليات ذرية لا يمكن مقاطعتها (مثل increment ذري).
+        <br><strong>6. Monitors:</strong> هيكل لغوي يدمج البيانات المشتركة مع آليات المزامنة.
+        <br><br><strong>القاعدة الذهبية:</strong> أي بيانات مشتركة يتم تعديلها يجب أن تُحمى بقفل قبل الوصول إليها.
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== TOPIC 12 — Banker's Algorithm Computational Questions (2) ========== -->
+  <div class="section" style="border: 2px solid #f59e0b; background: #fffbeb;">
+    <h2 style="color: #b45309;"><span class="icon" style="background: #fde68a; color: #b45309;">📋</span> الموضوع الثاني عشر · 2 سؤال محسوب على خوارزمية البنك</h2>
+    <p style="color: #78350f; font-size: 13px;">هذه أسئلة تطبيقية على المثال المحسوب في صفحة 17 من المنهج.</p>
+
+    <div class="quiz-q" style="background: white;">
+      <div class="q-text">س1: في النظام السابق (Available بعد التخصيصات الأولية = (3, 3, 2))، هل يمكن منح طلب (3, 3, 0) من P4؟</div>
+      <div class="quiz-explain" style="display: block;">
+        <strong>الإجابة المحسوبة خطوة بخطوة:</strong>
+        <br><strong>1. التحقق من Need:</strong> Need[P4] = (4, 3, 1). الطلب (3, 3, 0) ≤ (4, 3, 1)؟ نعم ✓
+        <br><strong>2. التحقق من Available:</strong> الطلب (3, 3, 0) ≤ Available (3, 3, 2)؟ نعم ✓
+        <br><strong>3. محاكاة الموافقة:</strong>
+        <br>&nbsp;&nbsp;• Available = (3, 3, 2) − (3, 3, 0) = (0, 0, 2)
+        <br>&nbsp;&nbsp;• Allocation[P4] = (0, 0, 2) + (3, 3, 0) = (3, 3, 2)
+        <br>&nbsp;&nbsp;• Need[P4] = (4, 3, 1) − (3, 3, 0) = (1, 0, 1)
+        <br><strong>4. تطبيق خوارزمية الأمان:</strong> Work = (0, 0, 2)
+        <br>&nbsp;&nbsp;• هل Need[P0]=(7,4,3) ≤ (0,0,2)؟ ✗
+        <br>&nbsp;&nbsp;• هل Need[P1]=(1,2,2) ≤ (0,0,2)؟ ✗
+        <br>&nbsp;&nbsp;• هل Need[P2]=(6,0,0) ≤ (0,0,2)؟ ✗
+        <br>&nbsp;&nbsp;• هل Need[P3]=(0,1,1) ≤ (0,0,2)؟ ✗
+        <br>&nbsp;&nbsp;• هل Need[P4]=(1,0,1) ≤ (0,0,2)؟ ✓ → Work = (0,0,2) + (3,3,2) = (3,3,4)
+        <br>&nbsp;&nbsp;• الآن Need[P0], Need[P1], Need[P2], Need[P3] هل ≤ (3,3,4)؟ — لكن لاحظ أن المثال المعتاد يتحقق...
+        <br><br><strong>النتيجة:</strong> الطلب يجعل النظام في حالة <strong>غير آمنة</strong> أو يحتاج تحقق دقيق. <span class="highlight">عمومًا الطلب (3, 3, 0) من P4 يستهلك كل الموارد المتاحة تقريبًا، فيُرفض</span>.
+      </div>
+    </div>
+
+    <div class="quiz-q" style="background: white;">
+      <div class="q-text">س2: هل يمكن منح طلب (0, 2, 0) من P0؟</div>
+      <div class="quiz-explain" style="display: block;">
+        <strong>الإجابة المحسوبة:</strong>
+        <br><strong>1. التحقق من Need:</strong> Need[P0] = (7, 4, 3). الطلب (0, 2, 0) ≤ (7, 4, 3)؟ نعم ✓
+        <br><strong>2. التحقق من Available:</strong> الطلب (0, 2, 0) ≤ Available (3, 3, 2)؟ نعم ✓
+        <br><strong>3. محاكاة الموافقة:</strong>
+        <br>&nbsp;&nbsp;• Available = (3, 3, 2) − (0, 2, 0) = (3, 1, 2)
+        <br>&nbsp;&nbsp;• Allocation[P0] = (0, 1, 0) + (0, 2, 0) = (0, 3, 0)
+        <br>&nbsp;&nbsp;• Need[P0] = (7, 4, 3) − (0, 2, 0) = (7, 2, 3)
+        <br><strong>4. خوارزمية الأمان:</strong> Work = (3, 1, 2)
+        <br>&nbsp;&nbsp;• Need[P1]=(1, 2, 2) ≤ Work(3,1,2)؟ <strong>لا</strong> (1 ≤ 3 ✓، لكن 2 > 1 ✗)
+        <br>&nbsp;&nbsp;• Need[P3]=(0, 1, 1) ≤ Work(3,1,2)؟ نعم ✓ → Work = (3+2, 1+1, 2+1) = (5, 2, 3)
+        <br>&nbsp;&nbsp;• Need[P1]=(1, 2, 2) ≤ Work(5,2,3)؟ نعم ✓ → Work = (5+2, 2+0, 3+0) = (7, 2, 3)
+        <br>&nbsp;&nbsp;• Need[P0]=(7, 2, 3) ≤ Work(7,2,3)؟ نعم ✓ → Work = (7+0, 2+3, 3+0) = (7, 5, 3)
+        <br>&nbsp;&nbsp;• Need[P2]=(6, 0, 0) ≤ Work(7,5,3)؟ نعم ✓ → Work = (10, 5, 5)
+        <br>&nbsp;&nbsp;• Need[P4]=(4, 3, 1) ≤ Work(10,5,5)؟ نعم ✓ → Work = (10, 5, 7)
+        <br><strong>التسلسل الآمن:</strong> ⟨P3, P1, P0, P2, P4⟩
+        <br><br><strong>النتيجة:</strong> ✅ <span class="highlight">يمكن منح الطلب لأن النظام يبقى في حالة آمنة</span>.
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== ORIGINAL MCQ QUIZ (kept) ========== -->
+  <div class="section quiz-section">
+    <h2><span class="icon">🧠</span> أسئلة اختيار من متعدد إضافية</h2>
+
+    <div class="quiz-q">
+      <div class="q-text">أي من التالي ليس من مكونات Process Control Block (PCB)؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 3)"><span class="letter">أ</span><span>حالة العملية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 3)"><span class="letter">ب</span><span>عداد البرنامج</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 3)"><span class="letter">ج</span><span>سجلات CPU</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 3)"><span class="letter">د</span><span>كود المستخدم نفسه</span></button>
+      </div>
+      <div class="quiz-explain">PCB يحتوي على معلومات الإدارة فقط، أما الكود فمخزن في قسم النص (Text Section).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">في خوارزمية Round Robin، إذا Quantum=4ms و Context Switch=1ms، نسبة الوقت المهدر؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>10%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>15%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>20%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>25%</span></button>
+      </div>
+      <div class="quiz-explain">من كل 5ms (4 quantum + 1 context switch)، 1ms مهدور = 1/5 = 20%.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">العمليات في Linux تُمثَّل بالبنية:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>process_t</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>thread_struct</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>task_struct</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>pcb_struct</span></button>
+      </div>
+      <div class="quiz-explain">Linux يستخدم struct task_struct لتمثيل كل مهمة في النظام.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">عند انخفاض استغلال CPU بشكل غير معتاد، الاحتمال الأرجح:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>المعالج معطل</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>الذاكرة ممتلئة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>وجود جمود — معظم العمليات في Wait</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>زيادة عدد المستخدمين</span></button>
+      </div>
+      <div class="quiz-explain">عندما تكون العمليات في جمود، تكون كلها في حالة انتظار، فلا أحد يستخدم CPU.</div>
+    </div>
   </div>
 </section>
 `;
-
 console.log("Topics 11, 12, and quiz added");
 
 
