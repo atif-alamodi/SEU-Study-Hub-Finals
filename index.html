@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📚 مركز المراجعة النهائية — SEU</title>
+<meta name="description" content="منصة موحدة لمراجعة مقررات الدبلوم - الاختبارات النهائية - الجامعة السعودية الإلكترونية">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700;800&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --primary: #1e3a8a;
+  --primary-light: #3b82f6;
+  --accent: #f59e0b;
+  --bg: #f8fafc;
+  --white: #ffffff;
+  --text: #1e293b;
+  --text-light: #64748b;
+  --border: #e2e8f0;
+  --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+  --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+
+  /* Subject Colors */
+  --osc-color: #7c3aed;
+  --osc-light: #ede9fe;
+  --sta-color: #059669;
+  --sta-light: #d1fae5;
+  --pyt-color: #2563eb;
+  --pyt-light: #dbeafe;
+  --elg-color: #dc2626;
+  --elg-light: #fee2e2;
+}
+
+html, body {
+  font-family: 'Noto Sans Arabic', 'Cairo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Top Header */
+.top-header {
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  color: white;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow);
+  z-index: 100;
+  position: relative;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.brand:hover { transform: translateX(-4px); }
+
+.brand-logo {
+  width: 44px;
+  height: 44px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  backdrop-filter: blur(10px);
+}
+
+.brand-text h1 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.brand-text p {
+  font-size: 12px;
+  opacity: 0.85;
+  font-weight: 400;
+}
+
+.exam-badge {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4); }
+  50% { box-shadow: 0 4px 20px rgba(245, 158, 11, 0.7); }
+}
+
+/* Tabs Bar */
+.tabs-bar {
+  background: white;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  height: 56px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  gap: 4px;
+  scrollbar-width: none;
+}
+
+.tabs-bar::-webkit-scrollbar { display: none; }
+
+.tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 18px;
+  height: 44px;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-light);
+  transition: all 0.2s;
+  white-space: nowrap;
+  position: relative;
+}
+
+.tab-btn:hover {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.tab-btn.active {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+}
+
+.tab-btn .tab-icon { font-size: 16px; }
+
+.tab-btn .tab-code {
+  font-size: 11px;
+  background: rgba(255,255,255,0.2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.tab-btn:not(.active) .tab-code {
+  background: var(--border);
+  color: var(--text);
+}
+
+.tab-btn.home-tab { padding: 0 14px; }
+
+/* Content Area */
+.content-area {
+  height: calc(100vh - 64px - 56px);
+  position: relative;
+  background: var(--bg);
+}
+
+.tab-panel {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.tab-panel.active { display: block; }
+
+.tab-panel iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* Landing Page */
+.landing {
+  height: 100%;
+  overflow-y: auto;
+  padding: 32px 24px 60px;
+  background: linear-gradient(135deg, #f0f9ff 0%, #faf5ff 50%, #fef3c7 100%);
+}
+
+.landing-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 30px 20px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(220, 38, 38, 0.1);
+  color: #dc2626;
+  padding: 8px 18px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  border: 1.5px solid rgba(220, 38, 38, 0.2);
+}
+
+.hero h1 {
+  font-size: 42px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 14px;
+  line-height: 1.3;
+}
+
+.hero p {
+  font-size: 17px;
+  color: var(--text-light);
+  max-width: 600px;
+  margin: 0 auto 24px;
+  line-height: 1.7;
+}
+
+.stats-row {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  padding: 12px 20px;
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.stat-icon {
+  font-size: 22px;
+}
+
+.stat-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.stat-text strong {
+  color: var(--primary);
+  font-size: 18px;
+  margin-left: 4px;
+}
+
+.section-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 24px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.subject-card {
+  background: white;
+  border-radius: 18px;
+  padding: 26px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.subject-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 5px;
+  background: var(--card-color, var(--primary));
+}
+
+.subject-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--card-color, var(--primary));
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.card-icon {
+  width: 56px;
+  height: 56px;
+  background: var(--card-bg, var(--primary-light));
+  color: var(--card-color, var(--primary));
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+
+.card-title {
+  flex: 1;
+}
+
+.card-title h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.card-code {
+  display: inline-block;
+  background: var(--card-bg, #e2e8f0);
+  color: var(--card-color, var(--text));
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+
+.card-desc {
+  font-size: 14px;
+  color: var(--text-light);
+  line-height: 1.7;
+  margin-bottom: 18px;
+}
+
+.card-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+.card-feature {
+  font-size: 11px;
+  background: var(--bg);
+  color: var(--text-light);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.card-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.card-cta-text {
+  font-size: 13px;
+  color: var(--card-color, var(--primary));
+  font-weight: 700;
+}
+
+.card-cta-arrow {
+  width: 32px;
+  height: 32px;
+  background: var(--card-bg, var(--primary-light));
+  color: var(--card-color, var(--primary));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  transition: transform 0.2s;
+}
+
+.subject-card:hover .card-cta-arrow {
+  transform: translateX(-6px);
+  background: var(--card-color, var(--primary));
+  color: white;
+}
+
+/* Tip Section */
+.tips-section {
+  background: white;
+  border-radius: 18px;
+  padding: 28px;
+  margin-bottom: 30px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.tip-item {
+  display: flex;
+  gap: 12px;
+  padding: 14px;
+  background: var(--bg);
+  border-radius: 12px;
+  border-right: 3px solid var(--primary);
+}
+
+.tip-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.tip-content h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.tip-content p {
+  font-size: 12px;
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+/* Footer */
+.landing-footer {
+  text-align: center;
+  padding: 24px;
+  color: var(--text-light);
+  font-size: 13px;
+  border-top: 1px solid var(--border);
+  margin-top: 30px;
+}
+
+.landing-footer strong {
+  color: var(--primary);
+}
+
+/* Loading */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 5;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 15px;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .top-header { padding: 12px 16px; }
+  .brand-text h1 { font-size: 15px; }
+  .brand-text p { font-size: 11px; }
+  .exam-badge { font-size: 11px; padding: 6px 12px; }
+  .tabs-bar { padding: 0 12px; height: 52px; }
+  .tab-btn { padding: 0 12px; font-size: 12px; height: 40px; }
+  .tab-btn .tab-icon { font-size: 14px; }
+  .content-area { height: calc(100vh - 60px - 52px); }
+  .hero h1 { font-size: 28px; }
+  .hero p { font-size: 14px; }
+  .stats-row { gap: 12px; }
+  .stat-item { padding: 10px 14px; }
+  .cards-grid { grid-template-columns: 1fr; gap: 14px; }
+  .landing { padding: 20px 14px 40px; }
+}
+
+@media (max-width: 480px) {
+  .brand-logo { width: 36px; height: 36px; font-size: 18px; }
+  .exam-badge span:not(:first-child) { display: none; }
+  .tab-btn .tab-name { display: none; }
+  .tab-btn.home-tab .tab-name { display: inline; }
+}
+</style>
+</head>
+<body>
+
+<!-- Top Header -->
+<header class="top-header">
+  <div class="brand" onclick="switchTab('home')">
+    <div class="brand-logo">📚</div>
+    <div class="brand-text">
+      <h1>مركز المراجعة النهائية</h1>
+      <p>الجامعة السعودية الإلكترونية — دبلوم الذكاء الاصطناعي التوليدي</p>
+    </div>
+  </div>
+  <div class="exam-badge">
+    <span>🔥</span>
+    <span>الاختبارات النهائية</span>
+  </div>
+</header>
+
+<!-- Tabs Bar -->
+<nav class="tabs-bar" id="tabsBar">
+  <button class="tab-btn home-tab active" data-tab="home" onclick="switchTab('home')">
+    <span class="tab-icon">🏠</span>
+    <span class="tab-name">الرئيسية</span>
+  </button>
+  <button class="tab-btn" data-tab="osc" onclick="switchTab('osc')">
+    <span class="tab-icon">💻</span>
+    <span class="tab-name">نظم التشغيل</span>
+    <span class="tab-code">OSC</span>
+  </button>
+  <button class="tab-btn" data-tab="sta" onclick="switchTab('sta')">
+    <span class="tab-icon">📊</span>
+    <span class="tab-name">الإحصاء</span>
+    <span class="tab-code">STA104</span>
+  </button>
+  <button class="tab-btn" data-tab="pyt" onclick="switchTab('pyt')">
+    <span class="tab-icon">🐍</span>
+    <span class="tab-name">البايثون</span>
+    <span class="tab-code">PYT103</span>
+  </button>
+  <button class="tab-btn" data-tab="elg" onclick="switchTab('elg')">
+    <span class="tab-icon">🇬🇧</span>
+    <span class="tab-name">الإنجليزي</span>
+    <span class="tab-code">ELG201</span>
+  </button>
+</nav>
+
+<!-- Content -->
+<main class="content-area">
+
+  <!-- Home Panel -->
+  <div class="tab-panel active" id="panel-home">
+    <div class="landing">
+      <div class="landing-container">
+
+        <section class="hero">
+          <div class="hero-badge">
+            <span>🎯</span>
+            <span>مركز موحد لمراجعة الاختبارات النهائية</span>
+          </div>
+          <h1>كل ما تحتاجه للاستعداد للنهائي في مكان واحد</h1>
+          <p>أربع مواد أساسية بأدوات مراجعة تفاعلية، اختبارات ذاتية، محاكيات، وملخصات شاملة جاهزة للاستخدام في أي وقت.</p>
+          <div class="stats-row">
+            <div class="stat-item">
+              <span class="stat-icon">📚</span>
+              <span class="stat-text"><strong>4</strong> مواد أساسية</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-icon">📝</span>
+              <span class="stat-text"><strong>+147</strong> سؤال تفاعلي</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-icon">🎮</span>
+              <span class="stat-text"><strong>+10</strong> أدوات تفاعلية</span>
+            </div>
+          </div>
+        </section>
+
+        <h2 class="section-title">
+          <span>📖</span>
+          <span>اختر المادة للبدء بالمراجعة</span>
+        </h2>
+
+        <div class="cards-grid">
+
+          <!-- OSC Card -->
+          <div class="subject-card" onclick="switchTab('osc')"
+               style="--card-color: var(--osc-color); --card-bg: var(--osc-light);">
+            <div class="card-header">
+              <div class="card-icon">💻</div>
+              <div class="card-title">
+                <h3>مفاهيم نظم التشغيل</h3>
+                <span class="card-code">OSC</span>
+              </div>
+            </div>
+            <p class="card-desc">دليل تفاعلي شامل يغطي مفاهيم نظم التشغيل مع رسوم متحركة ومحاكيات CLI/GUI.</p>
+            <div class="card-features">
+              <span class="card-feature">8 أقسام</span>
+              <span class="card-feature">رسوم تفاعلية</span>
+              <span class="card-feature">محاكاة CLI/GUI</span>
+              <span class="card-feature">شجرة العمليات</span>
+              <span class="card-feature">67 سؤال</span>
+            </div>
+            <div class="card-cta">
+              <span class="card-cta-text">ابدأ المراجعة</span>
+              <div class="card-cta-arrow">←</div>
+            </div>
+          </div>
+
+          <!-- STA Card -->
+          <div class="subject-card" onclick="switchTab('sta')"
+               style="--card-color: var(--sta-color); --card-bg: var(--sta-light);">
+            <div class="card-header">
+              <div class="card-icon">📊</div>
+              <div class="card-title">
+                <h3>مدخل إلى الإحصاء</h3>
+                <span class="card-code">STA104</span>
+              </div>
+            </div>
+            <p class="card-desc">ملخص شامل مع شرح المفاهيم الإحصائية بأمثلة من الحياة الواقعية وأسئلة تطبيقية.</p>
+            <div class="card-features">
+              <span class="card-feature">مفاهيم مبسطة</span>
+              <span class="card-feature">قوانين وصيغ</span>
+              <span class="card-feature">حلول خطوة بخطوة</span>
+              <span class="card-feature">حقق 20/20</span>
+            </div>
+            <div class="card-cta">
+              <span class="card-cta-text">ابدأ المراجعة</span>
+              <div class="card-cta-arrow">←</div>
+            </div>
+          </div>
+
+          <!-- PYT Card -->
+          <div class="subject-card" onclick="switchTab('pyt')"
+               style="--card-color: var(--pyt-color); --card-bg: var(--pyt-light);">
+            <div class="card-header">
+              <div class="card-icon">🐍</div>
+              <div class="card-title">
+                <h3>البرمجة بالبايثون</h3>
+                <span class="card-code">PYT103</span>
+              </div>
+            </div>
+            <p class="card-desc">دليل تفاعلي شامل لتعلم البايثون مع محاكيات تنفيذ مباشر وشرح مبسط جداً.</p>
+            <div class="card-features">
+              <span class="card-feature">4 مواضيع</span>
+              <span class="card-feature">محاكيات تفاعلية</span>
+              <span class="card-feature">شرح مبسط</span>
+              <span class="card-feature">80 سؤال</span>
+            </div>
+            <div class="card-cta">
+              <span class="card-cta-text">ابدأ المراجعة</span>
+              <div class="card-cta-arrow">←</div>
+            </div>
+          </div>
+
+          <!-- ELG Card -->
+          <div class="subject-card" onclick="switchTab('elg')"
+               style="--card-color: var(--elg-color); --card-bg: var(--elg-light);">
+            <div class="card-header">
+              <div class="card-icon">🇬🇧</div>
+              <div class="card-title">
+                <h3>اللغة الإنجليزية التطبيقية</h3>
+                <span class="card-code">ELG201</span>
+              </div>
+            </div>
+            <p class="card-desc">ملخص 160 صفحة في 5 وحدات، قواعد مشروحة بالعربي ومفردات ثنائية اللغة.</p>
+            <div class="card-features">
+              <span class="card-feature">5 وحدات</span>
+              <span class="card-feature">قواعد بالعربي</span>
+              <span class="card-feature">مفردات EN-AR</span>
+              <span class="card-feature">قطع قراءة</span>
+              <span class="card-feature">اختبار ذاتي</span>
+            </div>
+            <div class="card-cta">
+              <span class="card-cta-text">ابدأ المراجعة</span>
+              <div class="card-cta-arrow">←</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Tips Section -->
+        <section class="tips-section">
+          <h2 class="section-title">
+            <span>💡</span>
+            <span>نصائح للمراجعة الفعّالة قبل النهائي</span>
+          </h2>
+          <div class="tips-grid">
+            <div class="tip-item">
+              <div class="tip-icon">⏰</div>
+              <div class="tip-content">
+                <h4>قسّم وقتك</h4>
+                <p>ابدأ بالمادة الأصعب وأعطها وقتًا أكبر، وراجع جميع المواد بالتناوب يوميًا.</p>
+              </div>
+            </div>
+            <div class="tip-item">
+              <div class="tip-icon">📝</div>
+              <div class="tip-content">
+                <h4>اختبر نفسك</h4>
+                <p>استخدم الاختبارات الذاتية في كل مادة قبل النوم لقياس مستواك الفعلي.</p>
+              </div>
+            </div>
+            <div class="tip-item">
+              <div class="tip-icon">🎯</div>
+              <div class="tip-content">
+                <h4>ركز على الأخطاء</h4>
+                <p>راجع الأسئلة التي أخطأت فيها مرتين على الأقل قبل الانتقال لغيرها.</p>
+              </div>
+            </div>
+            <div class="tip-item">
+              <div class="tip-icon">😴</div>
+              <div class="tip-content">
+                <h4>نم جيدًا</h4>
+                <p>السهر ليلة الاختبار يقلل التركيز بنسبة 40٪، النوم الجيد استثمار حقيقي.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <footer class="landing-footer">
+          <p>صُمم بعناية للاستعداد للاختبارات النهائية | <strong>عاطف العامودي</strong> 🎓</p>
+          <p style="margin-top: 6px; font-size: 12px;">© 2026 — دبلوم الذكاء الاصطناعي التوليدي — الجامعة السعودية الإلكترونية</p>
+        </footer>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- OSC Panel -->
+  <div class="tab-panel" id="panel-osc">
+    <div class="loading-overlay" id="loading-osc">
+      <div class="spinner"></div>
+      <div class="loading-text">جاري تحميل مادة نظم التشغيل...</div>
+    </div>
+  </div>
+
+  <!-- STA Panel -->
+  <div class="tab-panel" id="panel-sta">
+    <div class="loading-overlay" id="loading-sta">
+      <div class="spinner"></div>
+      <div class="loading-text">جاري تحميل مادة الإحصاء...</div>
+    </div>
+  </div>
+
+  <!-- PYT Panel -->
+  <div class="tab-panel" id="panel-pyt">
+    <div class="loading-overlay" id="loading-pyt">
+      <div class="spinner"></div>
+      <div class="loading-text">جاري تحميل مادة البايثون...</div>
+    </div>
+  </div>
+
+  <!-- ELG Panel -->
+  <div class="tab-panel" id="panel-elg">
+    <div class="loading-overlay" id="loading-elg">
+      <div class="spinner"></div>
+      <div class="loading-text">جاري تحميل مادة اللغة الإنجليزية...</div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// Subject URLs
+const SUBJECT_URLS = {
+  osc: 'https://atif-alamodi.github.io/Operating_Systems_Concepts_Mid_Term/',
+  sta: 'https://atif-alamodi.github.io/sta104-summary_med_term/',
+  pyt: 'https://atif-alamodi.github.io/Python_Med_Term-/',
+  elg: 'https://atif-alamodi.github.io/English_Mid_Tirm/'
+};
+
+// Loaded iframes tracker
+const loadedIframes = new Set();
+
+// Lazy-load iframe when tab is opened
+function loadIframe(subject) {
+  if (loadedIframes.has(subject)) return;
+  const panel = document.getElementById('panel-' + subject);
+  const loading = document.getElementById('loading-' + subject);
+  const iframe = document.createElement('iframe');
+  iframe.src = SUBJECT_URLS[subject];
+  iframe.title = 'مراجعة مادة ' + subject;
+  iframe.loading = 'lazy';
+  iframe.allow = 'fullscreen; clipboard-read; clipboard-write';
+  iframe.onload = function() {
+    if (loading) loading.style.display = 'none';
+  };
+  panel.appendChild(iframe);
+  loadedIframes.add(subject);
+}
+
+// Switch tab
+function switchTab(tabName) {
+  // Update buttons
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === tabName);
+  });
+
+  // Update panels
+  document.querySelectorAll('.tab-panel').forEach(panel => {
+    panel.classList.toggle('active', panel.id === 'panel-' + tabName);
+  });
+
+  // Lazy load iframe
+  if (tabName !== 'home') {
+    loadIframe(tabName);
+  }
+
+  // Save last tab
+  try {
+    localStorage.setItem('seu_hub_last_tab', tabName);
+  } catch(e) {}
+
+  // Update URL hash without rerun
+  if (history.replaceState) {
+    history.replaceState(null, '', '#' + tabName);
+  }
+
+  // Scroll tab into view in tab bar (mobile)
+  const activeBtn = document.querySelector('.tab-btn.active');
+  if (activeBtn) {
+    activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  }
+}
+
+// Initialize: read URL hash or last tab
+(function init() {
+  let initialTab = 'home';
+  const hash = (window.location.hash || '').replace('#', '');
+  if (hash && SUBJECT_URLS[hash]) {
+    initialTab = hash;
+  } else {
+    try {
+      const saved = localStorage.getItem('seu_hub_last_tab');
+      if (saved && (saved === 'home' || SUBJECT_URLS[saved])) {
+        // Always start at home for cleaner UX, but you can change to: initialTab = saved;
+      }
+    } catch(e) {}
+  }
+  if (initialTab !== 'home') switchTab(initialTab);
+})();
+
+// Keyboard shortcuts: 1=Home, 2=OSC, 3=STA, 4=PYT, 5=ELG
+document.addEventListener('keydown', function(e) {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  const map = { '1': 'home', '2': 'osc', '3': 'sta', '4': 'pyt', '5': 'elg' };
+  if (map[e.key] && (e.altKey || e.ctrlKey)) {
+    e.preventDefault();
+    switchTab(map[e.key]);
+  }
+});
+</script>
+
+</body>
+</html>
