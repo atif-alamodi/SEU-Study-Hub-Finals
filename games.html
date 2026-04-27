@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎮 الألعاب التفاعلية</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #f8fafc; --panel: #ffffff; --border: #e2e8f0; --border-strong: #cbd5e1;
+  --text: #0f172a; --text-muted: #475569; --text-light: #64748b;
+  --primary: #db2777; --primary-dark: #be185d; --primary-light: #fce7f3;
+  --success: #16a34a; --success-light: #dcfce7;
+  --danger: #dc2626; --danger-light: #fee2e2;
+  --warn: #f59e0b; --warn-light: #fef3c7;
+  --osc: #7c3aed; --osc-light: #ede9fe;
+  --sta: #059669; --sta-light: #d1fae5;
+  --pyt: #2563eb; --pyt-light: #dbeafe;
+  --elg: #dc2626; --elg-light: #fee2e2;
+  --shadow: 0 2px 8px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.05);
+  --shadow-lg: 0 12px 24px -8px rgba(15, 23, 42, 0.15);
+}
+html, body {
+  font-family: 'Noto Sans Arabic', sans-serif;
+  background: var(--bg); color: var(--text); min-height: 100vh;
+}
+.app-header {
+  background: white; border-bottom: 1px solid var(--border);
+  padding: 14px 20px; display: flex; align-items: center; gap: 12px;
+}
+.app-title { display: flex; align-items: center; gap: 10px; flex: 1; }
+.app-title-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: linear-gradient(135deg, #db2777, #f59e0b); color: white;
+  display: flex; align-items: center; justify-content: center; font-size: 18px;
+}
+.app-title h1 { font-size: 16px; font-weight: 700; }
+.app-title p { font-size: 12px; color: var(--text-light); }
+.score-display {
+  display: flex; align-items: center; gap: 6px;
+  background: linear-gradient(135deg, #f59e0b, #d97706); color: white;
+  padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 700;
+}
+
+/* Subject tabs */
+.subject-tabs {
+  background: white; border-bottom: 1px solid var(--border);
+  display: flex; padding: 0 20px; gap: 4px; overflow-x: auto;
+}
+.subject-tabs::-webkit-scrollbar { display: none; }
+.subj-tab {
+  padding: 12px 18px; border: none; background: transparent;
+  font-family: inherit; font-size: 13.5px; font-weight: 600;
+  color: var(--text-muted); cursor: pointer; border-bottom: 3px solid transparent;
+  transition: all 0.15s; white-space: nowrap; display: flex; align-items: center; gap: 8px;
+}
+.subj-tab:hover { color: var(--text); }
+.subj-tab.active { color: var(--subj-color, var(--primary)); border-bottom-color: var(--subj-color, var(--primary)); }
+
+/* Main content */
+.main-content { padding: 24px 20px; max-width: 1100px; margin: 0 auto; }
+.subject-panel { display: none; }
+.subject-panel.active { display: block; }
+.section-intro {
+  background: white; border-radius: 14px; padding: 18px 22px; margin-bottom: 20px;
+  box-shadow: var(--shadow); border-right: 4px solid var(--subj-color);
+}
+.section-intro h2 { font-size: 18px; margin-bottom: 4px; color: var(--text); }
+.section-intro p { font-size: 13.5px; color: var(--text-muted); }
+
+/* Games grid */
+.games-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px; margin-bottom: 30px;
+}
+.game-card {
+  background: white; border-radius: 12px; padding: 18px;
+  box-shadow: var(--shadow); border: 2px solid transparent;
+  cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden;
+}
+.game-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--subj-color); }
+.game-icon { font-size: 36px; margin-bottom: 10px; }
+.game-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+.game-card p { font-size: 12.5px; color: var(--text-muted); line-height: 1.6; margin-bottom: 12px; }
+.game-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+.game-tag {
+  font-size: 10.5px; background: var(--bg); color: var(--text-muted);
+  padding: 3px 8px; border-radius: 5px; font-weight: 600;
+}
+
+/* Game container */
+.game-container {
+  background: white; border-radius: 16px; padding: 22px;
+  box-shadow: var(--shadow); display: none;
+}
+.game-container.active { display: block; }
+.game-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--border);
+}
+.game-header h2 { font-size: 17px; }
+.game-stats { display: flex; gap: 10px; align-items: center; }
+.game-stat {
+  background: var(--bg); padding: 5px 12px; border-radius: 20px;
+  font-size: 12px; font-weight: 600;
+}
+.game-stat.score { background: var(--warn-light); color: #92400e; }
+.game-stat.lives { background: var(--danger-light); color: #991b1b; }
+.btn-back {
+  padding: 6px 14px; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 12px;
+  font-weight: 600; color: var(--text-muted);
+}
+.btn-back:hover { background: var(--border); }
+
+/* Quiz styles */
+.quiz-question {
+  font-size: 16px; font-weight: 600; line-height: 1.7; margin-bottom: 18px;
+  background: var(--bg); padding: 18px; border-radius: 10px;
+  border-right: 3px solid var(--subj-color);
+}
+.quiz-options { display: flex; flex-direction: column; gap: 9px; }
+.quiz-option {
+  background: white; border: 2px solid var(--border); border-radius: 10px;
+  padding: 14px 16px; cursor: pointer; font-family: inherit; font-size: 14px;
+  text-align: right; transition: all 0.15s; display: flex; align-items: center; gap: 12px;
+  font-weight: 500;
+}
+.quiz-option:hover { border-color: var(--subj-color); background: var(--bg); }
+.quiz-option.correct { background: var(--success-light); border-color: var(--success); color: #14532d; }
+.quiz-option.wrong { background: var(--danger-light); border-color: var(--danger); color: #991b1b; }
+.quiz-option.disabled { pointer-events: none; opacity: 0.7; }
+.option-letter {
+  width: 28px; height: 28px; border-radius: 6px; background: var(--bg);
+  color: var(--text-muted); display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-family: 'Inter', monospace; flex-shrink: 0;
+}
+.quiz-option.correct .option-letter { background: var(--success); color: white; }
+.quiz-option.wrong .option-letter { background: var(--danger); color: white; }
+
+.quiz-feedback {
+  margin-top: 16px; padding: 14px 16px; border-radius: 10px;
+  font-size: 13.5px; line-height: 1.7; display: none;
+}
+.quiz-feedback.show { display: block; }
+.quiz-feedback.correct { background: var(--success-light); color: #14532d; border-right: 3px solid var(--success); }
+.quiz-feedback.wrong { background: var(--danger-light); color: #991b1b; border-right: 3px solid var(--danger); }
+.quiz-feedback strong { display: block; margin-bottom: 4px; font-size: 14px; }
+
+.quiz-controls {
+  margin-top: 18px; display: flex; gap: 10px; justify-content: space-between;
+}
+.btn-next, .btn-restart {
+  padding: 10px 22px; background: var(--subj-color); color: white;
+  border: none; border-radius: 8px; cursor: pointer; font-family: inherit;
+  font-size: 14px; font-weight: 700; transition: all 0.15s;
+}
+.btn-next:hover, .btn-restart:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+.progress-bar {
+  height: 6px; background: var(--border); border-radius: 3px; overflow: hidden;
+  margin-bottom: 16px;
+}
+.progress-fill {
+  height: 100%; background: var(--subj-color); transition: width 0.3s;
+}
+
+/* Result screen */
+.result-screen { text-align: center; padding: 30px 16px; }
+.result-emoji { font-size: 70px; margin-bottom: 14px; }
+.result-screen h2 { font-size: 26px; margin-bottom: 10px; color: var(--text); }
+.result-score { font-size: 50px; font-weight: 800; color: var(--subj-color); margin: 16px 0; }
+.result-msg { font-size: 15px; color: var(--text-muted); margin-bottom: 24px; }
+
+/* Drag & drop game */
+.dragdrop-container { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+.dd-pool, .dd-zone {
+  background: var(--bg); border-radius: 12px; padding: 14px; min-height: 220px;
+  border: 2px dashed var(--border-strong);
+}
+.dd-pool h4, .dd-zone h4 { font-size: 13px; color: var(--text-muted); margin-bottom: 10px; font-weight: 700; }
+.dd-zone { border-color: var(--subj-color); background: var(--subj-light); }
+.dd-zone.over { border-style: solid; background: white; box-shadow: 0 0 0 3px var(--subj-color); }
+.dd-item {
+  background: white; padding: 9px 12px; border-radius: 7px; margin-bottom: 6px;
+  cursor: grab; font-size: 13px; font-weight: 600; box-shadow: var(--shadow);
+  border-right: 3px solid var(--subj-color);
+}
+.dd-item:active { cursor: grabbing; opacity: 0.5; }
+.dd-item.matched { background: var(--success-light); border-right-color: var(--success); }
+.dd-pair {
+  background: white; padding: 9px; border-radius: 7px; margin-bottom: 8px;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+}
+.dd-pair-label { font-size: 12.5px; font-weight: 700; flex-shrink: 0; }
+.dd-pair-target {
+  flex: 1; min-height: 36px; background: var(--bg); border-radius: 5px;
+  border: 1px dashed var(--border-strong); padding: 6px 10px; font-size: 12px;
+  display: flex; align-items: center;
+}
+.dd-pair-target.filled { background: var(--success-light); border-style: solid; border-color: var(--success); font-weight: 600; }
+
+/* Code games */
+.code-block {
+  background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 10px;
+  font-family: 'Inter', monospace; font-size: 13.5px; line-height: 1.7;
+  direction: ltr; text-align: left; white-space: pre-wrap; overflow-x: auto;
+  margin-bottom: 14px;
+}
+.code-block .blank {
+  background: var(--warn); color: #1e1e2e; padding: 1px 8px;
+  border-radius: 3px; font-weight: 700; cursor: pointer;
+}
+.code-block .keyword { color: #f38ba8; }
+.code-block .string { color: #a6e3a1; }
+.code-block .number { color: #f9e2af; }
+.code-block .comment { color: #6c7086; font-style: italic; }
+.code-block .builtin { color: #89b4fa; }
+
+@media (max-width: 768px) {
+  .main-content { padding: 16px 14px; }
+  .dragdrop-container { grid-template-columns: 1fr; }
+  .game-stats { flex-wrap: wrap; gap: 6px; }
+  .game-header h2 { font-size: 14px; }
+  .quiz-question { font-size: 14px; padding: 14px; }
+  .quiz-option { font-size: 13px; padding: 12px 14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <div class="app-title">
+    <div class="app-title-icon">🎮</div>
+    <div>
+      <h1>الألعاب التفاعلية</h1>
+      <p>تعلّم بالمرح — ألعاب تعليمية لكل المواد</p>
+    </div>
+  </div>
+  <div class="score-display">
+    <span>🏆</span>
+    <span>النقاط: <span id="globalScore">0</span></span>
+  </div>
+</div>
+
+<div class="subject-tabs" id="subjectTabs">
+  <button class="subj-tab active" data-subj="osc" style="--subj-color: #7c3aed;" onclick="switchSubject('osc')">💻 نظم التشغيل</button>
+  <button class="subj-tab" data-subj="sta" style="--subj-color: #059669;" onclick="switchSubject('sta')">📊 الإحصاء</button>
+  <button class="subj-tab" data-subj="pyt" style="--subj-color: #2563eb;" onclick="switchSubject('pyt')">🐍 البايثون</button>
+  <button class="subj-tab" data-subj="elg" style="--subj-color: #dc2626;" onclick="switchSubject('elg')">🇬🇧 الإنجليزي</button>
+</div>
+
+<div class="main-content">
+
+  <!-- OSC -->
+  <div class="subject-panel active" id="panel-osc" style="--subj-color: #7c3aed; --subj-light: #ede9fe;">
+    <div class="section-intro" style="--subj-color: #7c3aed;">
+      <h2>💻 ألعاب نظم التشغيل</h2>
+      <p>تطبيقات تفاعلية على حالات العمليات، إدارة الذاكرة، والمفاهيم الأساسية</p>
+    </div>
+    <div class="games-grid" id="osc-games"></div>
+    <div class="game-container" id="osc-game-area"></div>
+  </div>
+
+  <!-- STA -->
+  <div class="subject-panel" id="panel-sta" style="--subj-color: #059669; --subj-light: #d1fae5;">
+    <div class="section-intro" style="--subj-color: #059669;">
+      <h2>📊 ألعاب الإحصاء</h2>
+      <p>تحدي سريع للحساب الذهني، الانحراف المعياري، وتفسير البيانات</p>
+    </div>
+    <div class="games-grid" id="sta-games"></div>
+    <div class="game-container" id="sta-game-area"></div>
+  </div>
+
+  <!-- PYT -->
+  <div class="subject-panel" id="panel-pyt" style="--subj-color: #2563eb; --subj-light: #dbeafe;">
+    <div class="section-intro" style="--subj-color: #2563eb;">
+      <h2>🐍 ألعاب البايثون</h2>
+      <p>تحدي الأكواد، اكتشاف الأخطاء، وتوقع المخرجات</p>
+    </div>
+    <div class="games-grid" id="pyt-games"></div>
+    <div class="game-container" id="pyt-game-area"></div>
+  </div>
+
+  <!-- ELG -->
+  <div class="subject-panel" id="panel-elg" style="--subj-color: #dc2626; --subj-light: #fee2e2;">
+    <div class="section-intro" style="--subj-color: #dc2626;">
+      <h2>🇬🇧 ألعاب الإنجليزي</h2>
+      <p>مطابقة المفردات، اختبار القواعد، وتحدي القراءة السريعة</p>
+    </div>
+    <div class="games-grid" id="elg-games"></div>
+    <div class="game-container" id="elg-game-area"></div>
+  </div>
+
+</div>
+
+<script>
+// ====================================================================
+// GLOBAL STATE & SCORE
+// ====================================================================
+let globalScore = parseInt(localStorage.getItem('seu_games_score') || '0');
+function updateScore(delta) {
+  globalScore += delta;
+  if (globalScore < 0) globalScore = 0;
+  document.getElementById('globalScore').textContent = globalScore;
+  localStorage.setItem('seu_games_score', String(globalScore));
+}
+document.getElementById('globalScore').textContent = globalScore;
+
+function switchSubject(s) {
+  document.querySelectorAll('.subj-tab').forEach(t => t.classList.toggle('active', t.dataset.subj === s));
+  document.querySelectorAll('.subject-panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + s));
+}
+window.switchSubject = switchSubject;
+
+// ====================================================================
+// GAMES DEFINITION
+// ====================================================================
+
+// ===== OSC GAMES =====
+const oscGames = [
+  {
+    id: 'osc-states',
+    icon: '🔄',
+    title: 'حالات العمليات',
+    desc: 'طابق كل حالة عملية مع تعريفها الصحيح',
+    tags: ['drag-drop', '5 مفاهيم'],
+    type: 'match',
+    pairs: [
+      { label: 'New', target: 'تم إنشاء العملية ولم تبدأ بعد' },
+      { label: 'Ready', target: 'العملية جاهزة وتنتظر دورها على المعالج' },
+      { label: 'Running', target: 'العملية تُنفّذ حاليًا على المعالج' },
+      { label: 'Waiting', target: 'العملية تنتظر حدثًا (مثل I/O)' },
+      { label: 'Terminated', target: 'العملية انتهت تنفيذها' }
+    ]
+  },
+  {
+    id: 'osc-quiz',
+    icon: '🎯',
+    title: 'اختبار سريع: المفاهيم',
+    desc: '10 أسئلة متنوعة على مفاهيم نظم التشغيل',
+    tags: ['MCQ', '10 أسئلة'],
+    type: 'quiz',
+    questions: [
+      { q: 'ما هو نظام التشغيل؟', options: ['برنامج تطبيقي', 'وسيط بين المستخدم والأجهزة', 'لغة برمجة', 'قاعدة بيانات'], correct: 1, explain: 'نظام التشغيل وسيط بين المستخدم والعتاد، يدير الموارد ويوفر بيئة لتنفيذ البرامج.' },
+      { q: 'أي مما يلي ليس وظيفة لنظام التشغيل؟', options: ['إدارة الذاكرة', 'إدارة العمليات', 'تصميم الويب', 'إدارة الملفات'], correct: 2, explain: 'تصميم الويب ليس من وظائف نظام التشغيل بل من تطبيقات المستخدم.' },
+      { q: 'النواة (Kernel) هي:', options: ['واجهة المستخدم', 'الجزء الأساسي من نظام التشغيل', 'برنامج مكافحة فيروسات', 'متصفح ويب'], correct: 1, explain: 'النواة هي قلب نظام التشغيل، تدير الموارد وتتفاعل مع العتاد مباشرة.' },
+      { q: 'PCB يرمز إلى:', options: ['Process Control Block', 'Personal Computer Board', 'Program Code Block', 'Process Counter Buffer'], correct: 0, explain: 'PCB = Process Control Block، هيكل بيانات يحفظ معلومات العملية.' },
+      { q: 'ما الفرق بين Multiprogramming و Multitasking؟', options: ['لا فرق', 'Multitasking للأجهزة', 'Multitasking يبدّل بين المهام بسرعة لتبدو متوازية', 'Multiprogramming أحدث'], correct: 2, explain: 'Multitasking يستخدم Time-Sharing للتبديل السريع بين المهام لتظهر متوازية للمستخدم.' },
+      { q: 'IPC تعني:', options: ['Internet Protocol Communication', 'Inter-Process Communication', 'Internal Program Code', 'Input Process Control'], correct: 1, explain: 'IPC = Inter-Process Communication، آليات لتبادل البيانات بين العمليات.' },
+      { q: 'أي من التالي طريقة للـ IPC؟', options: ['Pipes فقط', 'Shared Memory فقط', 'Message Passing فقط', 'كلها صحيحة'], correct: 3, explain: 'IPC تشمل Pipes، Shared Memory، Message Passing، Sockets، إلخ.' },
+      { q: 'الذاكرة العشوائية (RAM) هي:', options: ['دائمة', 'متطايرة (Volatile)', 'بطيئة', 'للأقراص فقط'], correct: 1, explain: 'RAM متطايرة، تفقد محتواها عند انقطاع الكهرباء.' },
+      { q: 'ما وظيفة المُجدوِل (Scheduler)؟', options: ['كتابة الأكواد', 'تحديد أي عملية تأخذ المعالج التالي', 'حذف الملفات', 'تحديث النظام'], correct: 1, explain: 'المُجدوِل يقرر ترتيب تنفيذ العمليات على المعالج.' },
+      { q: 'Context Switch هو:', options: ['تغيير اللغة', 'حفظ حالة عملية وتحميل أخرى', 'إعادة تشغيل النظام', 'تحديث نظام التشغيل'], correct: 1, explain: 'Context Switch يحفظ حالة العملية الحالية ويحمّل حالة عملية أخرى للتنفيذ.' }
+    ]
+  },
+  {
+    id: 'osc-memory',
+    icon: '💾',
+    title: 'تحدي الذاكرة',
+    desc: 'اسحب كل نوع ذاكرة لمكانه الصحيح في الهرم',
+    tags: ['drag-drop', '5 طبقات'],
+    type: 'match',
+    pairs: [
+      { label: 'Registers', target: 'الأسرع، داخل المعالج، أصغر سعة' },
+      { label: 'Cache', target: 'سريعة جدًا، بين المعالج والـ RAM' },
+      { label: 'RAM', target: 'الذاكرة الرئيسية، متطايرة' },
+      { label: 'SSD', target: 'تخزين دائم سريع، لا أجزاء متحركة' },
+      { label: 'HDD', target: 'تخزين دائم تقليدي، أبطأ وأكبر سعة' }
+    ]
+  }
+];
+
+// ===== STA GAMES =====
+const staGames = [
+  {
+    id: 'sta-mean',
+    icon: '🧮',
+    title: 'حساب المتوسط السريع',
+    desc: 'احسب المتوسط لمجموعة أرقام بأسرع وقت',
+    tags: ['حسابات', 'سرعة'],
+    type: 'quickcalc',
+    rounds: [
+      { numbers: [10, 20, 30], answer: 20, calc: 'mean' },
+      { numbers: [5, 10, 15, 20], answer: 12.5, calc: 'mean' },
+      { numbers: [4, 8, 12, 16, 20], answer: 12, calc: 'mean' },
+      { numbers: [25, 50, 75], answer: 50, calc: 'mean' },
+      { numbers: [2, 4, 6, 8], answer: 5, calc: 'mean' },
+      { numbers: [1, 3, 5, 7, 9], answer: 5, calc: 'median' },
+      { numbers: [10, 20, 30, 40], answer: 25, calc: 'median' },
+      { numbers: [3, 7, 8, 5, 12, 14], answer: 7.5, calc: 'median' }
+    ]
+  },
+  {
+    id: 'sta-quiz',
+    icon: '📈',
+    title: 'اختبار المفاهيم',
+    desc: '10 أسئلة على المفاهيم الإحصائية الأساسية',
+    tags: ['MCQ', '10 أسئلة'],
+    type: 'quiz',
+    questions: [
+      { q: 'علم الإحصاء يهتم بـ:', options: ['البرمجة', 'جمع وتنظيم وتحليل البيانات', 'تصميم المباني', 'الكتابة'], correct: 1, explain: 'الإحصاء = جمع البيانات + تنظيمها + تحليلها + تفسيرها.' },
+      { q: 'المجتمع الإحصائي (Population) هو:', options: ['مجموعة جزئية', 'كل الأفراد محل الدراسة', 'الباحثون فقط', 'البيانات الناقصة'], correct: 1, explain: 'المجتمع = جميع الأفراد الذين تشملهم الدراسة، أما العينة فهي جزء منه.' },
+      { q: 'أي مقياس يصلح لبيانات بها قيم شاذة؟', options: ['المتوسط', 'الوسيط', 'المنوال', 'المدى'], correct: 1, explain: 'الوسيط لا يتأثر بالقيم الشاذة، عكس المتوسط.' },
+      { q: 'الانحراف المعياري يقيس:', options: ['المتوسط', 'تشتت البيانات حول المتوسط', 'المدى فقط', 'المنوال'], correct: 1, explain: 'الانحراف المعياري = الجذر التربيعي للتباين، يقيس مقدار تشتت البيانات.' },
+      { q: 'Z-Score = ؟', options: ['(x - mean) / std', 'x + mean', 'mean - x', 'x × std'], correct: 0, explain: 'Z-Score = (القيمة - المتوسط) ÷ الانحراف المعياري، يقيس بُعد القيمة عن المتوسط.' },
+      { q: 'في التوزيع الطبيعي:', options: ['المتوسط = الوسيط = المنوال', 'كلها مختلفة', 'المنوال أكبر', 'الوسيط أكبر'], correct: 0, explain: 'في التوزيع الطبيعي المثالي، الثلاث المقاييس متساوية.' },
+      { q: 'معامل الارتباط R = 0.95 يعني:', options: ['علاقة ضعيفة', 'علاقة طردية قوية', 'علاقة عكسية', 'لا علاقة'], correct: 1, explain: 'R قريب من 1 يعني علاقة طردية قوية بين المتغيرين.' },
+      { q: 'دالة COUNTIF في Excel:', options: ['تجمع الأرقام', 'تعد الخلايا التي تحقق شرطًا', 'تحسب المتوسط', 'ترسم رسم بياني'], correct: 1, explain: 'COUNTIF تعد الخلايا في نطاق محدد إذا تحققت الشرط المعطى.' },
+      { q: 'المدى = ؟', options: ['أكبر - أصغر', 'مجموع ÷ عدد', 'القيمة الوسطى', 'الأكثر تكرارًا'], correct: 0, explain: 'المدى = أكبر قيمة - أصغر قيمة، أبسط مقياس للتشتت.' },
+      { q: 'مخطط التشتت (Scatter Plot) يستخدم لـ:', options: ['عرض البيانات الفئوية', 'دراسة العلاقة بين متغيرين', 'مقارنة المجموعات', 'إظهار النسب'], correct: 1, explain: 'Scatter Plot يكشف نمط العلاقة بين متغيرين كميين.' }
+    ]
+  }
+];
+
+// ===== PYT GAMES =====
+const pytGames = [
+  {
+    id: 'pyt-output',
+    icon: '🔮',
+    title: 'توقع المخرجات',
+    desc: 'اقرأ الكود واختر المخرج الصحيح',
+    tags: ['MCQ', '10 أكواد'],
+    type: 'quiz',
+    questions: [
+      { q: 'ما المخرج؟<br><div class="code-block"><span class="builtin">print</span>(<span class="number">5</span> + <span class="number">3</span> * <span class="number">2</span>)</div>', options: ['16', '11', '13', '10'], correct: 1, explain: 'الضرب قبل الجمع: 3×2=6، ثم 5+6=11.' },
+      { q: 'ما المخرج؟<br><div class="code-block"><span class="keyword">x</span> = <span class="string">"Hi "</span> * <span class="number">3</span>\n<span class="builtin">print</span>(x)</div>', options: ['Hi Hi Hi', 'HiHiHi', 'Error', 'Hi 3'], correct: 0, explain: 'ضرب نص × عدد يكرره ذلك العدد من المرات.' },
+      { q: 'ما المخرج؟<br><div class="code-block"><span class="keyword">a</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]\n<span class="builtin">print</span>(a[-1])</div>', options: ['1', '2', '3', 'Error'], correct: 2, explain: 'الفهرس -1 يعني العنصر الأخير في القائمة.' },
+      { q: 'ما المخرج؟<br><div class="code-block"><span class="builtin">print</span>(<span class="builtin">len</span>(<span class="string">"Python"</span>))</div>', options: ['5', '6', '7', 'Error'], correct: 1, explain: 'كلمة Python تحتوي على 6 حروف.' },
+      { q: 'ما المخرج؟<br><div class="code-block">x = <span class="number">10</span>\n<span class="keyword">if</span> x > <span class="number">5</span>:\n    <span class="builtin">print</span>(<span class="string">"big"</span>)\n<span class="keyword">else</span>:\n    <span class="builtin">print</span>(<span class="string">"small"</span>)</div>', options: ['big', 'small', 'Error', 'لا شيء'], correct: 0, explain: '10 > 5 صحيح، فيُطبع "big".' },
+      { q: 'ما المخرج؟<br><div class="code-block"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="builtin">range</span>(<span class="number">3</span>):\n    <span class="builtin">print</span>(i)</div>', options: ['1, 2, 3', '0, 1, 2', '0, 1, 2, 3', '1, 2'], correct: 1, explain: 'range(3) ينتج 0, 1, 2 (تتوقف قبل 3).' },
+      { q: 'ما المخرج؟<br><div class="code-block">d = {<span class="string">"a"</span>: <span class="number">1</span>, <span class="string">"b"</span>: <span class="number">2</span>}\n<span class="builtin">print</span>(d[<span class="string">"b"</span>])</div>', options: ['1', '2', 'b', 'Error'], correct: 1, explain: 'القاموس d["b"] يرجع القيمة المرتبطة بالمفتاح "b" وهي 2.' },
+      { q: 'ما المخرج؟<br><div class="code-block"><span class="builtin">print</span>(<span class="number">10</span> // <span class="number">3</span>)</div>', options: ['3.33', '3', '3.0', '4'], correct: 1, explain: '// قسمة صحيحة: 10÷3=3 بدون كسور.' },
+      { q: 'ما المخرج؟<br><div class="code-block"><span class="builtin">print</span>(<span class="number">10</span> % <span class="number">3</span>)</div>', options: ['3', '1', '0', '3.33'], correct: 1, explain: '% باقي القسمة: 10÷3 الباقي 1.' },
+      { q: 'ما المخرج؟<br><div class="code-block">s = <span class="string">"Hello"</span>\n<span class="builtin">print</span>(s[<span class="number">1</span>:<span class="number">4</span>])</div>', options: ['Hell', 'ell', 'ello', 'Hello'], correct: 1, explain: 'التقطيع [1:4] يأخذ من الفهرس 1 إلى ما قبل 4 = "ell".' }
+    ]
+  },
+  {
+    id: 'pyt-bug',
+    icon: '🐛',
+    title: 'صياد الأخطاء',
+    desc: 'اعثر على الخطأ في الكود',
+    tags: ['debug', '6 أكواد'],
+    type: 'quiz',
+    questions: [
+      { q: 'أين الخطأ؟<br><div class="code-block"><span class="keyword">if</span> x = <span class="number">5</span>:\n    <span class="builtin">print</span>(<span class="string">"five"</span>)</div>', options: ['print خطأ', 'يجب == بدل =', 'يجب حذف :', 'كل شيء صحيح'], correct: 1, explain: 'في الشرط نستخدم == للمقارنة، أما = فهي للإسناد.' },
+      { q: 'أين الخطأ؟<br><div class="code-block"><span class="keyword">def</span> greet(name)\n    <span class="builtin">print</span>(name)</div>', options: ['name غير معرف', 'def خطأ', 'نقطتان مفقودتان بعد الأقواس', 'كل شيء سليم'], correct: 2, explain: 'تعريف الدالة يجب أن ينتهي بـ : ثم سطر جديد بمسافة بادئة.' },
+      { q: 'أين الخطأ؟<br><div class="code-block">a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]\n<span class="builtin">print</span>(a[<span class="number">3</span>])</div>', options: ['الفهرس 3 خارج النطاق (الفهارس 0,1,2)', 'لا أخطاء', 'print خطأ', 'القائمة فارغة'], correct: 0, explain: 'القائمة فيها 3 عناصر بفهارس 0,1,2 — الفهرس 3 خارج النطاق.' },
+      { q: 'أين الخطأ؟<br><div class="code-block">x = <span class="string">"5"</span>\ny = <span class="number">3</span>\n<span class="builtin">print</span>(x + y)</div>', options: ['x غير معرف', 'لا يمكن جمع نص مع رقم', 'الكود سليم', 'y خطأ'], correct: 1, explain: 'يجب التحويل: int(x) + y أو str(y) + x.' },
+      { q: 'أين الخطأ؟<br><div class="code-block"><span class="keyword">while</span> <span class="number">1</span>:\n    <span class="builtin">print</span>(<span class="string">"hi"</span>)</div>', options: ['print خطأ', 'حلقة لا نهائية (بدون break)', 'لا أخطاء', 'while خطأ'], correct: 1, explain: 'while 1 شرط دائم True، الحلقة لن تتوقف بدون break أو شرط للخروج.' },
+      { q: 'أين الخطأ؟<br><div class="code-block">d = {<span class="string">"a"</span>: <span class="number">1</span>}\n<span class="builtin">print</span>(d[<span class="string">"b"</span>])</div>', options: ['الكود سليم', 'KeyError: مفتاح "b" غير موجود', 'print خطأ', 'القاموس فارغ'], correct: 1, explain: 'الوصول لمفتاح غير موجود يرفع KeyError. الحل: d.get("b") يعيد None.' }
+    ]
+  }
+];
+
+// ===== ELG GAMES =====
+const elgGames = [
+  {
+    id: 'elg-vocab',
+    icon: '📖',
+    title: 'مطابقة المفردات',
+    desc: 'طابق الكلمة الإنجليزية مع معناها العربي',
+    tags: ['drag-drop', '8 كلمات'],
+    type: 'match',
+    pairs: [
+      { label: 'Device', target: 'جهاز' },
+      { label: 'System', target: 'نظام' },
+      { label: 'Storage', target: 'تخزين' },
+      { label: 'Update', target: 'تحديث' },
+      { label: 'Feature', target: 'ميزة' },
+      { label: 'Configure', target: 'يضبط الإعدادات' },
+      { label: 'Interface', target: 'واجهة المستخدم' },
+      { label: 'Performance', target: 'أداء' }
+    ]
+  },
+  {
+    id: 'elg-grammar',
+    icon: '📝',
+    title: 'تحدي القواعد',
+    desc: '10 أسئلة في القواعد الأساسية',
+    tags: ['MCQ', '10 أسئلة'],
+    type: 'quiz',
+    questions: [
+      { q: 'She _____ to school every day.', options: ['go', 'goes', 'going', 'went'], correct: 1, explain: 'مع she/he/it نضيف -s/-es للفعل في Present Simple. (Goes)' },
+      { q: 'There _____ many books on the table.', options: ['is', 'are', 'be', 'was'], correct: 1, explain: 'books جمع، نستخدم are. There are = هناك (للجمع).' },
+      { q: 'I have ___ apple and ___ orange.', options: ['a, a', 'an, an', 'a, an', 'an, an'], correct: 3, explain: 'an قبل الكلمات التي تبدأ بحرف صوتي (a, e, i, o, u): an apple, an orange.' },
+      { q: 'My phone is _____ than yours.', options: ['new', 'newer', 'newest', 'more new'], correct: 1, explain: 'صيغة المقارنة للصفات القصيرة: add -er. New → newer.' },
+      { q: 'The report _____ by the manager yesterday.', options: ['wrote', 'was written', 'is writing', 'writes'], correct: 1, explain: 'Passive Voice in past: was/were + past participle. Wrote → was written.' },
+      { q: 'He has _____ children.', options: ['three', 'a three', 'threes', 'three of'], correct: 0, explain: 'الأرقام تأتي مباشرة قبل الاسم: three children (لا a/an قبل الأرقام).' },
+      { q: 'Which is correct?', options: ['She not work today', 'She doesn\'t work today', 'She no work today', 'She isn\'t work today'], correct: 1, explain: 'النفي في Present Simple: doesn\'t + الفعل الأساسي (مع she/he/it).' },
+      { q: 'The plural of "child" is:', options: ['childs', 'children', 'childes', 'childrens'], correct: 1, explain: 'child → children جمع شاذ يجب حفظه.' },
+      { q: '"_____ off" the lights when you leave.', options: ['Turn', 'Turning', 'Turned', 'To turn'], correct: 0, explain: 'الأمر (Imperative) يستخدم الفعل الأساسي بدون to: Turn off!' },
+      { q: 'Mount Everest is _____ mountain in the world.', options: ['high', 'higher', 'the highest', 'highest'], correct: 2, explain: 'صيغة التفضيل (Superlative): the + adj-est. High → the highest.' }
+    ]
+  }
+];
+
+// ====================================================================
+// RENDER GAME CARDS
+// ====================================================================
+function renderGameCards(subject, games) {
+  const container = document.getElementById(subject + '-games');
+  container.innerHTML = '';
+  games.forEach(g => {
+    const card = document.createElement('div');
+    card.className = 'game-card';
+    card.innerHTML = `
+      <div class="game-icon">${g.icon}</div>
+      <h3>${g.title}</h3>
+      <p>${g.desc}</p>
+      <div class="game-meta">${g.tags.map(t => `<span class="game-tag">${t}</span>`).join('')}</div>
+    `;
+    card.addEventListener('click', () => startGame(subject, g));
+    container.appendChild(card);
+  });
+}
+
+renderGameCards('osc', oscGames);
+renderGameCards('sta', staGames);
+renderGameCards('pyt', pytGames);
+renderGameCards('elg', elgGames);
+
+// ====================================================================
+// QUIZ GAME
+// ====================================================================
+function startGame(subject, game) {
+  const area = document.getElementById(subject + '-game-area');
+  document.getElementById(subject + '-games').style.display = 'none';
+  area.classList.add('active');
+  
+  if (game.type === 'quiz') startQuiz(area, subject, game);
+  else if (game.type === 'match') startMatch(area, subject, game);
+  else if (game.type === 'quickcalc') startQuickCalc(area, subject, game);
+}
+
+function exitGame(subject, area) {
+  area.classList.remove('active');
+  area.innerHTML = '';
+  document.getElementById(subject + '-games').style.display = '';
+}
+
+function startQuiz(area, subject, game) {
+  let current = 0, correct = 0;
+  
+  function render() {
+    if (current >= game.questions.length) {
+      // Final result
+      const pct = Math.round((correct / game.questions.length) * 100);
+      const emoji = pct >= 80 ? '🏆' : pct >= 60 ? '👍' : pct >= 40 ? '📚' : '💪';
+      const msg = pct >= 80 ? 'ممتاز! أنت متمكن من المادة' : pct >= 60 ? 'جيد، مع قليل من المراجعة ستكون رائعًا' : 'تحتاج لمزيد من المراجعة، استمر!';
+      area.innerHTML = `
+        <div class="result-screen">
+          <div class="result-emoji">${emoji}</div>
+          <h2>انتهت اللعبة!</h2>
+          <div class="result-score">${correct} / ${game.questions.length}</div>
+          <p class="result-msg">${msg}</p>
+          <button class="btn-restart" onclick="window.__restart()">🔄 إعادة المحاولة</button>
+          &nbsp;&nbsp;
+          <button class="btn-back" onclick="window.__exit()">العودة للألعاب</button>
+        </div>
+      `;
+      window.__restart = () => { current = 0; correct = 0; render(); };
+      window.__exit = () => exitGame(subject, area);
+      return;
+    }
+    
+    const q = game.questions[current];
+    const progress = ((current) / game.questions.length) * 100;
+    
+    area.innerHTML = `
+      <div class="game-header">
+        <h2>${game.icon} ${game.title}</h2>
+        <div class="game-stats">
+          <span class="game-stat score">✓ ${correct}</span>
+          <span class="game-stat">${current + 1}/${game.questions.length}</span>
+          <button class="btn-back" onclick="window.__exit()">خروج</button>
+        </div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width: ${progress}%"></div></div>
+      <div class="quiz-question">${q.q}</div>
+      <div class="quiz-options" id="opts">
+        ${q.options.map((opt, i) => `
+          <button class="quiz-option" data-idx="${i}">
+            <span class="option-letter">${String.fromCharCode(65 + i)}</span>
+            <span>${opt}</span>
+          </button>
+        `).join('')}
+      </div>
+      <div class="quiz-feedback" id="feedback"></div>
+      <div class="quiz-controls" id="controls" style="display: none;">
+        <span></span>
+        <button class="btn-next" id="nextBtn">السؤال التالي ←</button>
+      </div>
+    `;
+    
+    window.__exit = () => exitGame(subject, area);
+    
+    document.querySelectorAll('#opts .quiz-option').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.idx);
+        const isRight = idx === q.correct;
+        document.querySelectorAll('#opts .quiz-option').forEach((b, i) => {
+          b.classList.add('disabled');
+          if (i === q.correct) b.classList.add('correct');
+          else if (i === idx && !isRight) b.classList.add('wrong');
+        });
+        const fb = document.getElementById('feedback');
+        fb.classList.add('show', isRight ? 'correct' : 'wrong');
+        fb.innerHTML = `<strong>${isRight ? '✓ إجابة صحيحة!' : '✗ إجابة خاطئة'}</strong>${q.explain}`;
+        if (isRight) { correct++; updateScore(10); }
+        else updateScore(-2);
+        document.getElementById('controls').style.display = 'flex';
+        document.getElementById('nextBtn').addEventListener('click', () => {
+          current++;
+          render();
+        });
+      });
+    });
+  }
+  
+  render();
+}
+
+// ====================================================================
+// MATCH GAME (drag and drop)
+// ====================================================================
+function startMatch(area, subject, game) {
+  let matched = 0;
+  const total = game.pairs.length;
+  const targets = [...game.pairs].sort(() => Math.random() - 0.5);
+  
+  area.innerHTML = `
+    <div class="game-header">
+      <h2>${game.icon} ${game.title}</h2>
+      <div class="game-stats">
+        <span class="game-stat score">✓ <span id="m-count">0</span>/${total}</span>
+        <button class="btn-back" onclick="window.__exit()">خروج</button>
+      </div>
+    </div>
+    <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 12px;">
+      اسحب كل عنصر من اليمين إلى تعريفه الصحيح في اليسار، أو اضغط على زوج وعنصر لمطابقتهما.
+    </p>
+    <div class="dragdrop-container">
+      <div class="dd-zone">
+        <h4>التعريفات</h4>
+        <div id="targets"></div>
+      </div>
+      <div class="dd-pool">
+        <h4>المصطلحات (اسحب من هنا)</h4>
+        <div id="pool"></div>
+      </div>
+    </div>
+    <div class="quiz-feedback" id="m-feedback" style="display: none;"></div>
+  `;
+  window.__exit = () => exitGame(subject, area);
+  
+  const poolEl = document.getElementById('pool');
+  const targetsEl = document.getElementById('targets');
+  
+  // Pool items (shuffled)
+  const poolItems = [...game.pairs].sort(() => Math.random() - 0.5);
+  poolItems.forEach(p => {
+    const item = document.createElement('div');
+    item.className = 'dd-item';
+    item.textContent = p.label;
+    item.dataset.label = p.label;
+    item.draggable = true;
+    item.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/plain', p.label);
+    });
+    item.addEventListener('click', () => {
+      // Click selection: highlight, then click target
+      document.querySelectorAll('.dd-item').forEach(x => x.style.outline = '');
+      item.style.outline = '3px solid var(--subj-color)';
+      window.__selectedItem = p.label;
+    });
+    poolEl.appendChild(item);
+  });
+  
+  // Target slots
+  targets.forEach(p => {
+    const pair = document.createElement('div');
+    pair.className = 'dd-pair';
+    pair.innerHTML = `
+      <div class="dd-pair-label">${p.target}</div>
+      <div class="dd-pair-target" data-correct="${p.label}">⬇ ضع هنا</div>
+    `;
+    const targetEl = pair.querySelector('.dd-pair-target');
+    targetEl.addEventListener('dragover', (e) => { e.preventDefault(); targetEl.classList.add('over'); });
+    targetEl.addEventListener('dragleave', () => targetEl.classList.remove('over'));
+    targetEl.addEventListener('drop', (e) => {
+      e.preventDefault();
+      targetEl.classList.remove('over');
+      const dragged = e.dataTransfer.getData('text/plain');
+      handleMatch(dragged, targetEl);
+    });
+    targetEl.addEventListener('click', () => {
+      if (window.__selectedItem) {
+        handleMatch(window.__selectedItem, targetEl);
+        window.__selectedItem = null;
+        document.querySelectorAll('.dd-item').forEach(x => x.style.outline = '');
+      }
+    });
+    targetsEl.appendChild(pair);
+  });
+  
+  function handleMatch(label, targetEl) {
+    if (targetEl.classList.contains('filled')) return;
+    const correct = targetEl.dataset.correct;
+    const fb = document.getElementById('m-feedback');
+    if (label === correct) {
+      targetEl.classList.add('filled');
+      targetEl.textContent = '✓ ' + label;
+      const item = document.querySelector(`.dd-item[data-label="${label}"]`);
+      if (item) { item.classList.add('matched'); item.draggable = false; }
+      matched++;
+      updateScore(10);
+      document.getElementById('m-count').textContent = matched;
+      fb.style.display = 'block';
+      fb.className = 'quiz-feedback show correct';
+      fb.innerHTML = `<strong>✓ ممتاز!</strong>"${label}" يطابق هذا التعريف بالضبط.`;
+      
+      if (matched === total) {
+        setTimeout(() => {
+          area.innerHTML = `
+            <div class="result-screen">
+              <div class="result-emoji">🎉</div>
+              <h2>أحسنت!</h2>
+              <div class="result-score">${matched} / ${total}</div>
+              <p class="result-msg">طابقت كل المصطلحات بنجاح!</p>
+              <button class="btn-restart" onclick="window.__restartGame()">🔄 لعب مرة أخرى</button>
+              &nbsp;&nbsp;
+              <button class="btn-back" onclick="window.__exit()">العودة للألعاب</button>
+            </div>
+          `;
+          window.__restartGame = () => startMatch(area, subject, game);
+          window.__exit = () => exitGame(subject, area);
+        }, 1200);
+      }
+    } else {
+      updateScore(-2);
+      fb.style.display = 'block';
+      fb.className = 'quiz-feedback show wrong';
+      fb.innerHTML = `<strong>✗ غير صحيح</strong>"${label}" لا يطابق هذا التعريف. حاول مرة أخرى.`;
+    }
+  }
+}
+
+// ====================================================================
+// QUICK CALCULATION GAME
+// ====================================================================
+function startQuickCalc(area, subject, game) {
+  let current = 0, correct = 0;
+  
+  function render() {
+    if (current >= game.rounds.length) {
+      area.innerHTML = `
+        <div class="result-screen">
+          <div class="result-emoji">${correct === game.rounds.length ? '🏆' : correct >= game.rounds.length / 2 ? '👍' : '💪'}</div>
+          <h2>انتهت الجولات!</h2>
+          <div class="result-score">${correct} / ${game.rounds.length}</div>
+          <p class="result-msg">${correct === game.rounds.length ? 'حساباتك ممتازة!' : 'استمر، الممارسة تصنع الإتقان'}</p>
+          <button class="btn-restart" onclick="window.__restartCalc()">🔄 إعادة</button>
+          &nbsp;&nbsp;
+          <button class="btn-back" onclick="window.__exit()">العودة</button>
+        </div>
+      `;
+      window.__restartCalc = () => { current = 0; correct = 0; render(); };
+      window.__exit = () => exitGame(subject, area);
+      return;
+    }
+    
+    const r = game.rounds[current];
+    const calcLabel = r.calc === 'mean' ? 'المتوسط' : r.calc === 'median' ? 'الوسيط' : r.calc;
+    
+    area.innerHTML = `
+      <div class="game-header">
+        <h2>${game.icon} ${game.title}</h2>
+        <div class="game-stats">
+          <span class="game-stat score">✓ ${correct}</span>
+          <span class="game-stat">${current + 1}/${game.rounds.length}</span>
+          <button class="btn-back" onclick="window.__exit()">خروج</button>
+        </div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width: ${(current / game.rounds.length) * 100}%"></div></div>
+      <div class="quiz-question">
+        احسب <strong style="color: var(--subj-color)">${calcLabel}</strong> للأرقام التالية:<br><br>
+        <span style="font-family: 'Inter', monospace; font-size: 22px; color: var(--text); direction: ltr; display: inline-block;">${r.numbers.join(' ، ')}</span>
+      </div>
+      <input type="number" id="calcInput" placeholder="أدخل الإجابة..."
+        style="width: 100%; padding: 14px; font-size: 18px; border: 2px solid var(--border); border-radius: 10px; text-align: center; font-family: 'Inter', monospace; outline: none;"
+        step="0.5">
+      <div class="quiz-feedback" id="calcFb"></div>
+      <div class="quiz-controls" id="calcCtrl">
+        <span></span>
+        <button class="btn-next" id="checkBtn">تحقق ✓</button>
+      </div>
+    `;
+    window.__exit = () => exitGame(subject, area);
+    
+    const input = document.getElementById('calcInput');
+    input.focus();
+    
+    function check() {
+      const v = parseFloat(input.value);
+      const fb = document.getElementById('calcFb');
+      if (isNaN(v)) return;
+      const isRight = Math.abs(v - r.answer) < 0.01;
+      fb.classList.add('show', isRight ? 'correct' : 'wrong');
+      if (isRight) {
+        fb.innerHTML = `<strong>✓ إجابة صحيحة!</strong>الإجابة هي ${r.answer}.`;
+        correct++;
+        updateScore(10);
+      } else {
+        fb.innerHTML = `<strong>✗ إجابة خاطئة</strong>الإجابة الصحيحة: ${r.answer}.`;
+        updateScore(-2);
+      }
+      input.disabled = true;
+      const btn = document.getElementById('checkBtn');
+      btn.textContent = 'التالي ←';
+      btn.onclick = () => { current++; render(); };
+    }
+    
+    document.getElementById('checkBtn').addEventListener('click', check);
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') check(); });
+  }
+  
+  render();
+}
+</script>
+</body>
+</html>
