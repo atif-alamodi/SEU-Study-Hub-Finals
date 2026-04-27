@@ -443,7 +443,7 @@ else:
 // TURTLE IMPLEMENTATION (Python code injected before user code)
 // ====================================================================
 const TURTLE_SETUP = `
-import sys, types, math, builtins
+import sys, types, math, builtins, asyncio
 import js
 
 _turtle_mod = types.ModuleType('turtle')
@@ -463,226 +463,191 @@ class _TurtleState:
         self.bg = 'white'
         self.pen_size = 1
         self.speed_val = 6
-        # Paint white background using fillRect (reliable on pyodide canvas)
         self.ctx.fillStyle = 'white'
         self.ctx.fillRect(0, 0, self.canvas.width, self.canvas.height)
         self.ctx.lineCap = 'round'
         self.ctx.lineJoin = 'round'
 
 _state = _TurtleState()
-print(f"[turtle] ready: canvas {_state.canvas.width}x{_state.canvas.height}")
+
+# Operation queue: each op carries everything needed to render later.
+# State (x, y, heading, color) is updated immediately so xcor() etc. work.
+_op_queue = []
+_fill_path = None  # active fill path
 
 def _to_canvas(x, y):
     return _state.cx + x, _state.cy - y
 
-def _forward(dist):
+# ============ User-facing functions: record + update state ============
+
+def forward(d):
     rad = math.radians(_state.heading)
-    nx = _state.x + dist * math.cos(rad)
-    ny = _state.y + dist * math.sin(rad)
-    if _state.pen_down:
-        sx, sy = _to_canvas(_state.x, _state.y)
-        ex, ey = _to_canvas(nx, ny)
-        _state.ctx.beginPath()
-        _state.ctx.moveTo(sx, sy)
-        _state.ctx.lineTo(ex, ey)
-        _state.ctx.strokeStyle = _state.pen_color
-        _state.ctx.lineWidth = _state.pen_size
-        _state.ctx.stroke()
+    nx = _state.x + d * math.cos(rad)
+    ny = _state.y + d * math.sin(rad)
+    _op_queue.append(('line', _state.x, _state.y, nx, ny,
+                      _state.pen_color, _state.pen_size, _state.pen_down))
+    if _fill_path is not None and _state.pen_down:
+        _fill_path.append((nx, ny))
     _state.x = nx
     _state.y = ny
 
-def _backward(dist): _forward(-dist)
-def _left(angle): _state.heading += angle
-def _right(angle): _state.heading -= angle
+def backward(d): forward(-d)
+fd = forward
+bk = backward
+back = backward
 
-def _goto(x, y=None):
+def left(a): _state.heading += a
+def right(a): _state.heading -= a
+lt = left
+rt = right
+
+def goto(x, y=None):
     if y is None and isinstance(x, (tuple, list)):
         x, y = x
-    if _state.pen_down:
-        sx, sy = _to_canvas(_state.x, _state.y)
-        ex, ey = _to_canvas(x, y)
-        _state.ctx.beginPath()
-        _state.ctx.moveTo(sx, sy)
-        _state.ctx.lineTo(ex, ey)
-        _state.ctx.strokeStyle = _state.pen_color
-        _state.ctx.lineWidth = _state.pen_size
-        _state.ctx.stroke()
+    _op_queue.append(('line', _state.x, _state.y, x, y,
+                      _state.pen_color, _state.pen_size, _state.pen_down))
+    if _fill_path is not None and _state.pen_down:
+        _fill_path.append((x, y))
     _state.x = x
     _state.y = y
 
-def _setpos(x, y=None): _goto(x, y)
-def _setx(x): _goto(x, _state.y)
-def _sety(y): _goto(_state.x, y)
-def _setheading(angle): _state.heading = angle
-def _home(): _goto(0, 0); _state.heading = 0
+setpos = goto
+setposition = goto
 
-def _penup(): _state.pen_down = False
-def _pendown(): _state.pen_down = True
-def _pensize(n): _state.pen_size = n
-def _width(n): _state.pen_size = n
+def setx(x): goto(x, _state.y)
+def sety(y): goto(_state.x, y)
 
-def _color(*args):
+def setheading(a): _state.heading = a
+seth = setheading
+
+def home(): goto(0, 0); setheading(0)
+
+def penup(): _state.pen_down = False
+def pendown(): _state.pen_down = True
+up = penup; pu = penup
+down = pendown; pd = pendown
+
+def pensize(n): _state.pen_size = n
+width = pensize
+
+def color(*args):
     if len(args) == 1:
         _state.pen_color = args[0]
         _state.fill_color = args[0]
-    elif len(args) == 2:
+    elif len(args) >= 2:
         _state.pen_color = args[0]
         _state.fill_color = args[1]
-    elif len(args) == 3:
-        # rgb tuple-like
-        r, g, b = args
-        c = f'rgb({int(r*255) if r<=1 else int(r)},{int(g*255) if g<=1 else int(g)},{int(b*255) if b<=1 else int(b)})'
-        _state.pen_color = c
-        _state.fill_color = c
 
-def _pencolor(c): _state.pen_color = c
-def _fillcolor(c): _state.fill_color = c
+def pencolor(c): _state.pen_color = c
+def fillcolor(c): _state.fill_color = c
 
-def _bgcolor(c):
+def bgcolor(c):
     _state.bg = c
-    # Use fillRect to actually paint pixels (style.backgroundColor proxies are unreliable in pyodide)
-    _state.ctx.fillStyle = c
-    _state.ctx.fillRect(0, 0, _state.canvas.width, _state.canvas.height)
-    print(f"[turtle] bgcolor: {c}")
+    _op_queue.append(('bg', c))
 
-def _speed(s): _state.speed_val = s if isinstance(s, (int, float)) else 6
+def speed(s):
+    if isinstance(s, (int, float)):
+        _state.speed_val = s
+    elif s == 'fastest': _state.speed_val = 0
+    elif s == 'fast': _state.speed_val = 10
+    elif s == 'normal': _state.speed_val = 6
+    elif s == 'slow': _state.speed_val = 3
+    elif s == 'slowest': _state.speed_val = 1
 
-_filling = False
-_fill_path = []
+def write(text, move=False, align='left', font=None):
+    _op_queue.append(('write', _state.x, _state.y, str(text), _state.pen_color,
+                      align, font))
 
-def _begin_fill():
-    global _filling, _fill_path
-    _filling = True
-    _fill_path = [(_state.x, _state.y)]
+def dot(size=5, *col):
+    c = col[0] if col else _state.fill_color
+    _op_queue.append(('dot', _state.x, _state.y, size, c))
 
-def _end_fill():
-    global _filling, _fill_path
-    if _fill_path and len(_fill_path) > 2:
-        _state.ctx.beginPath()
-        for i, (px, py) in enumerate(_fill_path):
-            cx, cy = _to_canvas(px, py)
-            if i == 0:
-                _state.ctx.moveTo(cx, cy)
-            else:
-                _state.ctx.lineTo(cx, cy)
-        _state.ctx.closePath()
-        _state.ctx.fillStyle = _state.fill_color
-        _state.ctx.fill()
-    _filling = False
-    _fill_path = []
-
-def _circle(radius, extent=None, steps=None):
-    if extent is None:
-        extent = 360
-    if steps is None:
-        steps = max(int(abs(extent) / 5), 8)
+def circle(radius, extent=None, steps=None):
+    if extent is None: extent = 360
+    if steps is None: steps = max(int(abs(extent) / 5), 12)
     step_angle = extent / steps
     step_len = 2 * radius * math.sin(math.radians(step_angle / 2))
     for _ in range(steps):
-        _forward(step_len)
-        _left(step_angle)
+        forward(step_len)
+        left(step_angle)
 
-def _dot(size=5, *color_args):
-    save_color = _state.fill_color
-    if color_args:
-        _state.fill_color = color_args[0]
-    cx, cy = _to_canvas(_state.x, _state.y)
-    _state.ctx.beginPath()
-    _state.ctx.arc(cx, cy, size/2, 0, 2*math.pi)
-    _state.ctx.fillStyle = _state.fill_color
-    _state.ctx.fill()
-    _state.fill_color = save_color
+def begin_fill():
+    global _fill_path
+    _fill_path = [(_state.x, _state.y)]
+    _op_queue.append(('begin_fill',))
 
-def _write(text, move=False, align='left', font=None):
-    cx, cy = _to_canvas(_state.x, _state.y)
-    if font:
-        try:
-            family, size, weight = font[0], font[1], font[2] if len(font) > 2 else 'normal'
-            _state.ctx.font = f'{weight} {size}px {family}, "Noto Sans Arabic", Arial'
-        except:
-            _state.ctx.font = '14px Arial'
-    else:
-        _state.ctx.font = '14px Arial'
-    _state.ctx.fillStyle = _state.pen_color
-    _state.ctx.textAlign = align
-    _state.ctx.textBaseline = 'middle'
-    _state.ctx.fillText(str(text), cx, cy)
+def end_fill():
+    global _fill_path
+    if _fill_path and len(_fill_path) >= 3:
+        _op_queue.append(('end_fill', list(_fill_path), _state.fill_color))
+    _fill_path = None
 
-def _clear():
-    _state.ctx.fillStyle = _state.bg
-    _state.ctx.fillRect(0, 0, _state.canvas.width, _state.canvas.height)
+def clear(): _op_queue.append(('clear',))
+def reset(): clear(); home()
 
-def _reset():
-    _clear()
-    _state.x = 0
-    _state.y = 0
-    _state.heading = 0
-
-def _done(): pass
-def _exitonclick(): pass
-def _mainloop(): pass
-def _hideturtle(): pass
-def _showturtle(): pass
-def _shape(*a): pass
-def _shapesize(*a): pass
-def _tracer(*a): pass
-def _update(): pass
-def _delay(*a): pass
-def _title(*a): pass
-def _setup(*a): pass
-def _screensize(w=None, h=None, *a):
+# No-op stubs for compatibility
+def done(): pass
+def exitonclick(): pass
+def mainloop(): pass
+def hideturtle(): pass
+def showturtle(): pass
+ht = hideturtle; st = showturtle
+def shape(*a): pass
+def shapesize(*a): pass
+def tracer(*a): pass
+def update(): pass
+def delay(*a): pass
+def title(*a): pass
+def setup(*a, **kw): pass
+def screensize(w=None, h=None, *a):
     if w and h:
         _state.canvas.width = w
         _state.canvas.height = h
         _state.cx = w / 2
         _state.cy = h / 2
 
-# Heading info
-def _xcor(): return _state.x
-def _ycor(): return _state.y
-def _heading(): return _state.heading
-def _position(): return (_state.x, _state.y)
-def _pos(): return (_state.x, _state.y)
-def _isdown(): return _state.pen_down
+# State queries (immediate, since state is tracked synchronously)
+def xcor(): return _state.x
+def ycor(): return _state.y
+def heading(): return _state.heading
+def position(): return (_state.x, _state.y)
+pos = position
+def isdown(): return _state.pen_down
 
-# Class compatibility (Turtle())
-class _Turtle:
-    def forward(self, d): _forward(d)
+# Class compatibility
+class _TurtleClass:
+    def forward(self, d): forward(d)
     fd = forward
-    def backward(self, d): _backward(d)
-    bk = backward
-    back = backward
-    def left(self, a): _left(a)
+    def backward(self, d): backward(d)
+    bk = backward; back = backward
+    def left(self, a): left(a)
     lt = left
-    def right(self, a): _right(a)
+    def right(self, a): right(a)
     rt = right
-    def goto(self, x, y=None): _goto(x, y)
-    setpos = goto
-    setposition = goto
-    def setx(self, x): _setx(x)
-    def sety(self, y): _sety(y)
-    def setheading(self, a): _setheading(a)
+    def goto(self, x, y=None): goto(x, y)
+    setpos = goto; setposition = goto
+    def setx(self, x): setx(x)
+    def sety(self, y): sety(y)
+    def setheading(self, a): setheading(a)
     seth = setheading
-    def home(self): _home()
-    def penup(self): _penup()
-    up = penup
-    pu = penup
-    def pendown(self): _pendown()
-    down = pendown
-    pd = pendown
-    def pensize(self, n): _pensize(n)
+    def home(self): home()
+    def penup(self): penup()
+    up = penup; pu = penup
+    def pendown(self): pendown()
+    down = pendown; pd = pendown
+    def pensize(self, n): pensize(n)
     width = pensize
-    def color(self, *a): _color(*a)
-    def pencolor(self, c): _pencolor(c)
-    def fillcolor(self, c): _fillcolor(c)
-    def speed(self, s): _speed(s)
-    def begin_fill(self): _begin_fill()
-    def end_fill(self): _end_fill()
-    def circle(self, r, extent=None, steps=None): _circle(r, extent, steps)
-    def dot(self, size=5, *c): _dot(size, *c)
-    def write(self, t, move=False, align='left', font=None): _write(t, move, align, font)
-    def clear(self): _clear()
-    def reset(self): _reset()
+    def color(self, *a): color(*a)
+    def pencolor(self, c): pencolor(c)
+    def fillcolor(self, c): fillcolor(c)
+    def speed(self, s): speed(s)
+    def begin_fill(self): begin_fill()
+    def end_fill(self): end_fill()
+    def circle(self, r, extent=None, steps=None): circle(r, extent, steps)
+    def dot(self, size=5, *c): dot(size, *c)
+    def write(self, t, move=False, align='left', font=None): write(t, move, align, font)
+    def clear(self): clear()
+    def reset(self): reset()
     def hideturtle(self): pass
     ht = hideturtle
     def showturtle(self): pass
@@ -698,7 +663,7 @@ class _Turtle:
 
 class _Screen:
     def bgcolor(self, *a):
-        if a: _bgcolor(a[0])
+        if a: bgcolor(a[0])
         else: return _state.bg
     def setup(self, *a, **kw): pass
     def title(self, *a): pass
@@ -706,73 +671,105 @@ class _Screen:
     def update(self): pass
     def exitonclick(self): pass
     def mainloop(self): pass
-    def screensize(self, w=None, h=None, *a): _screensize(w, h)
+    def screensize(self, w=None, h=None, *a): screensize(w, h)
     def setworldcoordinates(self, *a): pass
 
-_turtle_mod.forward = _forward
-_turtle_mod.fd = _forward
-_turtle_mod.backward = _backward
-_turtle_mod.bk = _backward
-_turtle_mod.back = _backward
-_turtle_mod.left = _left
-_turtle_mod.lt = _left
-_turtle_mod.right = _right
-_turtle_mod.rt = _right
-_turtle_mod.goto = _goto
-_turtle_mod.setpos = _setpos
-_turtle_mod.setposition = _setpos
-_turtle_mod.setx = _setx
-_turtle_mod.sety = _sety
-_turtle_mod.setheading = _setheading
-_turtle_mod.seth = _setheading
-_turtle_mod.home = _home
-_turtle_mod.penup = _penup
-_turtle_mod.up = _penup
-_turtle_mod.pu = _penup
-_turtle_mod.pendown = _pendown
-_turtle_mod.down = _pendown
-_turtle_mod.pd = _pendown
-_turtle_mod.pensize = _pensize
-_turtle_mod.width = _width
-_turtle_mod.color = _color
-_turtle_mod.pencolor = _pencolor
-_turtle_mod.fillcolor = _fillcolor
-_turtle_mod.bgcolor = _bgcolor
-_turtle_mod.speed = _speed
-_turtle_mod.begin_fill = _begin_fill
-_turtle_mod.end_fill = _end_fill
-_turtle_mod.circle = _circle
-_turtle_mod.dot = _dot
-_turtle_mod.write = _write
-_turtle_mod.clear = _clear
-_turtle_mod.reset = _reset
-_turtle_mod.done = _done
-_turtle_mod.exitonclick = _exitonclick
-_turtle_mod.mainloop = _mainloop
-_turtle_mod.hideturtle = _hideturtle
-_turtle_mod.ht = _hideturtle
-_turtle_mod.showturtle = _showturtle
-_turtle_mod.st = _showturtle
-_turtle_mod.shape = _shape
-_turtle_mod.shapesize = _shapesize
-_turtle_mod.tracer = _tracer
-_turtle_mod.update = _update
-_turtle_mod.delay = _delay
-_turtle_mod.title = _title
-_turtle_mod.setup = _setup
-_turtle_mod.screensize = _screensize
-_turtle_mod.xcor = _xcor
-_turtle_mod.ycor = _ycor
-_turtle_mod.heading = _heading
-_turtle_mod.position = _position
-_turtle_mod.pos = _pos
-_turtle_mod.isdown = _isdown
-_turtle_mod.Turtle = _Turtle
+# ============ Animation runner — replays the queue with delays ============
+
+def _delay_for_speed():
+    s = _state.speed_val
+    if s == 0: return 0.001     # 'fastest' but still allows browser to paint
+    if s >= 10: return 0.005
+    if s >= 7: return 0.012
+    if s >= 4: return 0.025
+    if s >= 2: return 0.06
+    return 0.15                 # slowest
+
+def _render_op(op):
+    name = op[0]
+    if name == 'line':
+        _, sx, sy, ex, ey, col, size, pen_down = op
+        if pen_down:
+            csx, csy = _to_canvas(sx, sy)
+            cex, cey = _to_canvas(ex, ey)
+            _state.ctx.beginPath()
+            _state.ctx.moveTo(csx, csy)
+            _state.ctx.lineTo(cex, cey)
+            _state.ctx.strokeStyle = col
+            _state.ctx.lineWidth = size
+            _state.ctx.stroke()
+    elif name == 'write':
+        _, x, y, text, col, align, font = op
+        cx, cy = _to_canvas(x, y)
+        if font and len(font) >= 2:
+            try:
+                weight = font[2] if len(font) > 2 else 'normal'
+                _state.ctx.font = f'{weight} {font[1]}px {font[0]}, "Noto Sans Arabic", Arial'
+            except:
+                _state.ctx.font = '14px Arial, "Noto Sans Arabic"'
+        else:
+            _state.ctx.font = '14px Arial, "Noto Sans Arabic"'
+        _state.ctx.fillStyle = col
+        _state.ctx.textAlign = align
+        _state.ctx.textBaseline = 'middle'
+        _state.ctx.fillText(text, cx, cy)
+    elif name == 'dot':
+        _, x, y, size, col = op
+        cx, cy = _to_canvas(x, y)
+        _state.ctx.beginPath()
+        _state.ctx.arc(cx, cy, size/2, 0, 2*math.pi)
+        _state.ctx.fillStyle = col
+        _state.ctx.fill()
+    elif name == 'bg':
+        _, c = op
+        _state.ctx.fillStyle = c
+        _state.ctx.fillRect(0, 0, _state.canvas.width, _state.canvas.height)
+    elif name == 'clear':
+        _state.ctx.fillStyle = _state.bg
+        _state.ctx.fillRect(0, 0, _state.canvas.width, _state.canvas.height)
+    elif name == 'end_fill':
+        _, path, col = op
+        if len(path) >= 3:
+            _state.ctx.beginPath()
+            for i, (px, py) in enumerate(path):
+                cx, cy = _to_canvas(px, py)
+                if i == 0: _state.ctx.moveTo(cx, cy)
+                else: _state.ctx.lineTo(cx, cy)
+            _state.ctx.closePath()
+            _state.ctx.fillStyle = col
+            _state.ctx.fill()
+    # 'begin_fill' is just a marker; nothing to render
+
+async def _flush_turtle_queue():
+    # Heavy ops (lines, writes, dots) get a delay; others render instantly.
+    visible_ops = {'line', 'write', 'dot'}
+    for op in _op_queue:
+        _render_op(op)
+        if op[0] in visible_ops:
+            await asyncio.sleep(_delay_for_speed())
+        else:
+            # Yield once per non-visible op so browser stays responsive
+            await asyncio.sleep(0)
+    _op_queue.clear()
+
+# Module wiring
+for _name in ['forward','fd','backward','bk','back','left','lt','right','rt',
+              'goto','setpos','setposition','setx','sety','setheading','seth',
+              'home','penup','up','pu','pendown','down','pd','pensize','width',
+              'color','pencolor','fillcolor','bgcolor','speed','begin_fill',
+              'end_fill','circle','dot','write','clear','reset','done',
+              'exitonclick','mainloop','hideturtle','ht','showturtle','st',
+              'shape','shapesize','tracer','update','delay','title','setup',
+              'screensize','xcor','ycor','heading','position','pos','isdown']:
+    setattr(_turtle_mod, _name, globals()[_name])
+
+_turtle_mod.Turtle = _TurtleClass
+_turtle_mod.RawTurtle = _TurtleClass
+_turtle_mod.Pen = _TurtleClass
 _turtle_mod.Screen = lambda: _Screen()
-_turtle_mod.RawTurtle = _Turtle
-_turtle_mod.Pen = _Turtle
 
 sys.modules['turtle'] = _turtle_mod
+print(f"[turtle] ready: canvas {_state.canvas.width}x{_state.canvas.height}")
 `;
 
 // ====================================================================
@@ -1040,7 +1037,7 @@ async function runCode() {
     const wrappedCode = `
 ${userImports}
 
-import builtins as __builtins, js as __js_mod
+import sys, builtins as __builtins, js as __js_mod
 async def __ainput(prompt=""):
     if prompt:
         print(prompt, end="")
@@ -1054,6 +1051,15 @@ async def __user_main__():
 ${userBody.split('\n').map(l => '    ' + l).join('\n') || '    pass'}
 
 await __user_main__()
+
+# If turtle was used, animate the recorded queue
+try:
+    if 'turtle' in sys.modules and hasattr(sys.modules['turtle'], 'forward'):
+        # Queue exists in our injected globals
+        if '_op_queue' in dir() and len(_op_queue) > 0:
+            await _flush_turtle_queue()
+except NameError:
+    pass
 `;
     
     await pyodide.runPythonAsync(wrappedCode);
