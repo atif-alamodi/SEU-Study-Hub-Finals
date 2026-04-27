@@ -2633,233 +2633,848 @@ TOPICS['quiz'] = `
 <section class="topic-section" id="topic-quiz">
   <div class="topic-header" style="background: linear-gradient(135deg, #f59e0b 0%, #dc2626 100%);">
     <div class="label">📝 الاختبار الشامل</div>
-    <h1>اختبر استعدادك للنهائي</h1>
-    <p>20 سؤال يغطي كل المنهج: الإحصاء الأساسي، الارتباط، الاحتمالات، التوزيع الطبيعي، الانحدار</p>
+    <h1>80 سؤال لاجتياز النهائي بثقة</h1>
+    <p>أسئلة موزعة على كل المنهج. كل سؤال له شرح فوري بعد الإجابة.</p>
   </div>
 
-  <div class="section quiz-section" style="border-color: #f59e0b;">
-    <h2><span class="icon">🧠</span> أسئلة شاملة</h2>
+  <div class="section" style="background: var(--accent-light); border-color: var(--accent);">
+    <h2 style="color: #b45309;"><span class="icon" style="background: white; color: var(--accent);">💡</span> تعليمات</h2>
+    <ul>
+      <li>80 سؤال موزعة على المواضيع السبعة</li>
+      <li>اضغط الإجابة لمعرفة الصحة (أخضر صحيح، أحمر خطأ) ولرؤية الشرح</li>
+      <li>راجع كل سؤال تخطئ فيه قبل الانتقال للتالي</li>
+      <li>كرر الاختبار حتى تحصل على 100% في كل موضوع</li>
+    </ul>
+  </div>
 
-    <div class="quiz-q">
-      <div class="q-text">س1: متوسط الأرقام 12, 18, 24, 30, 36 هو:</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>20</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>22</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>24</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>30</span></button>
+    <div class="section quiz-section" style="border-color: #f59e0b; margin-top: 16px;">
+      <h2 style="color: #b45309;"><span class="icon" style="background: #fde68a; color: #b45309;">📋</span> الموضوع 1: الإحصاء، المجتمع، النزعة المركزية <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;">(14 أسئلة)</span></h2>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س1:</strong> ما الفرق بين المعلمة والإحصاءة؟</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>كلاهما من العينة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>المعلمة من المجتمع، الإحصاءة من العينة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>المعلمة أصغر دائمًا</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>لا فرق بينهما</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> المعلمة (Parameter) قيمة وصفية للمجتمع كاملاً، والإحصاءة (Statistic) قيمة وصفية للعينة.</div>
       </div>
-      <div class="quiz-explain">المجموع = 12+18+24+30+36 = 120. المتوسط = 120/5 = 24.</div>
-    </div>
-
-    <div class="quiz-q">
-      <div class="q-text">س2: في رمي قطعتي نقد، احتمال الحصول على صورتين:</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>1/2</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>1/4</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>1/8</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>2/4</span></button>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س2:</strong> متوسط الأعداد 5, 10, 15, 20, 25 هو:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>10</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>12</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>15</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>20</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> المجموع = 75، عدد القيم = 5، المتوسط = 75/5 = 15.</div>
       </div>
-      <div class="quiz-explain">حدثان مستقلان. P = 1/2 × 1/2 = 1/4.</div>
-    </div>
-
-    <div class="quiz-q">
-      <div class="q-text">س3: r = 0.05 يدل على:</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>ارتباط قوي</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>ارتباط عكسي</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>ارتباط ضعيف جدًا أو منعدم تقريبًا</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>خطأ</span></button>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س3:</strong> للبيانات: 4, 8, 8, 12, 16، الوسيط هو:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>4</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>8</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>10</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>12</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> البيانات مرتبة، n=5 (فردي)، الوسيط في الموضع 3 = 8.</div>
       </div>
-      <div class="quiz-explain">قيمة قريبة من الصفر تعني عدم وجود علاقة خطية ذات معنى.</div>
-    </div>
-
-    <div class="quiz-q">
-      <div class="q-text">س4: في توزيع طبيعي μ=100, σ=15، Z-score للقيمة 130:</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>1</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>2</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>3</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>15</span></button>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س4:</strong> للبيانات: 3, 7, 7, 7, 12, 15، المنوال هو:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>3</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>7</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>9</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>12</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> 7 تكررت 3 مرات، الباقي مرة. المنوال = 7.</div>
       </div>
-      <div class="quiz-explain">z = (130 − 100)/15 = 30/15 = 2.</div>
-    </div>
-
-    <div class="quiz-q">
-      <div class="q-text">س5: لاكتشاف العلاقة بين دخل الشخص وعدد ساعات استخدامه للهاتف:</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>هستوغرام</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>مخطط دائري</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>مخطط الانتشار Scatter</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>مخطط شريطي</span></button>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س5:</strong> في توزيع متماثل تمامًا:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>المتوسط = الوسيط = المنوال</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>المتوسط أكبر من الوسيط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>الوسيط أكبر من المنوال</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>كلها مختلفة</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> في التوزيع المتماثل (كالطبيعي) تتساوى المقاييس الثلاثة في المركز.</div>
       </div>
-      <div class="quiz-explain">Scatter Plot هو الأفضل لإظهار العلاقة بين متغيرين كميين.</div>
-    </div>
-
-    <div class="quiz-q">
-      <div class="q-text">س6: للبيانات: 5, 8, 12, 8, 15, 8, 20، الوسيط هو:</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>8</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>10</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>12</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>15</span></button>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س6:</strong> لرواتب الموظفين فيها قيمة شاذة 100,000 ريال، أفضل مقياس للتمثيل:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>المتوسط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>الوسيط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>المجموع</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>النطاق</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> الوسيط لا يتأثر بالقيم المتطرفة، عكس المتوسط.</div>
       </div>
-      <div class="quiz-explain">رتب: 5,8,8,8,12,15,20. n=7، الوسيط في الموضع 4 = 8.</div>
-    </div>
-
-    <div class="quiz-q">
-      <div class="q-text">س7: AVERAGEIF(A2:A100, ">100") تحسب:</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>عدد القيم > 100</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>متوسط القيم > 100 فقط</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>مجموع القيم > 100</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>المتوسط الكلي</span></button>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س7:</strong> لون السيارة المفضل هو نوع بيانات:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>كمية متصلة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>اسمية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>ترتيبية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>كمية منفصلة</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> الألوان فئات بدون ترتيب طبيعي = اسمية (Nominal).</div>
       </div>
-      <div class="quiz-explain">AVERAGEIF(range, criteria) = متوسط القيم التي تحقق الشرط فقط.</div>
-    </div>
-
-    <div class="quiz-q">
-      <div class="q-text">س8: القانون y = 5x + 10 يخبرك:</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>كل x جديد يضاف 5 إلى y</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>كل وحدة في x تزيد y بـ 5، وعند x=0 تكون y=10</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>y أكبر من x بـ 5</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>y = 5</span></button>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س8:</strong> التقدير (ممتاز، جيد جدًا، جيد) هو نوع بيانات:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>اسمية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>ترتيبية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>كمية متصلة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>كمية منفصلة</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> فئات لها ترتيب طبيعي = ترتيبية (Ordinal).</div>
       </div>
-      <div class="quiz-explain">m=5 الميل (التغير في y لكل وحدة x). b=10 التقاطع (قيمة y عند x=0).</div>
-    </div>
-
-    <div class="quiz-q">
-      <div class="q-text">س9: مجموع جميع الاحتمالات لفضاء عينة كامل يساوي:</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>0</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>1</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>0.5</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>100</span></button>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س9:</strong> عدد الكتب في المكتبة هو:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>كمية متصلة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>كمية منفصلة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>اسمية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>ترتيبية</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> أرقام صحيحة قابلة للعد = كمية منفصلة (Discrete).</div>
       </div>
-      <div class="quiz-explain">P(S) = 1 (الحدث المؤكد). جميع الاحتمالات الممكنة مجموعها 1.</div>
-    </div>
-
-    <div class="quiz-q">
-      <div class="q-text">س10: عند المقارنة بين 4 فروع لشركة، الرسم الأنسب:</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>هستوغرام</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>عمودي/شريطي</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>خطي</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>سحاب</span></button>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س10:</strong> درجة الحرارة هي:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>كمية متصلة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>كمية منفصلة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>اسمية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>ترتيبية</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> أي قيمة في مدى = كمية متصلة (Continuous).</div>
       </div>
-      <div class="quiz-explain">المقارنة بين فئات → Bar/Column. الخطي للسلاسل الزمنية.</div>
-    </div>
-
-    <div class="quiz-q">
-      <div class="q-text">س11: الانحراف المعياري لـ {10, 10, 10, 10}:</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>0 (لا يوجد تشتت)</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>10</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>1</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>40</span></button>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س11:</strong> للبيانات الزوجية 10, 15, 20, 25، الوسيط:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>15</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>17.5</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>20</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>12.5</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> n=4 زوجي، الوسيط = (15+20)/2 = 17.5.</div>
       </div>
-      <div class="quiz-explain">كل القيم متطابقة، فلا يوجد انحراف عن المتوسط = 0.</div>
-    </div>
-
-    <div class="quiz-q">
-      <div class="q-text">س12: اختبر منتج جديد لدى 1000 شخص. هذا مثال على:</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>المجتمع</span></button>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س12:</strong> دالة إكسل لحساب المتوسط بشرط:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>AVERAGE</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>AVERAGEIF</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>MEDIAN</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>AVG</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> AVERAGEIF تحسب المتوسط للقيم التي تحقق شرطًا.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س13:</strong> متوسط رواتب 4 موظفين 8000 ريال. إذا انضم موظف خامس براتب 13000، المتوسط الجديد:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>8000</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>9000</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>10500</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>9000</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> المجموع القديم = 8000×4 = 32000. الجديد = 32000+13000 = 45000. المتوسط = 45000/5 = 9000.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س14:</strong> أخذ 500 طالب من 10000 لدراسة هو:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>مجتمع</span></button>
         <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>عينة</span></button>
         <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>معلمة</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>معامل</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>إحصاءة</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> جزء يمثل المجتمع = عينة (Sample).</div>
       </div>
-      <div class="quiz-explain">1000 شخص = جزء من جميع المستهلكين المحتملين = عينة Sample.</div>
     </div>
 
-    <div class="quiz-q">
-      <div class="q-text">س13: لون السيارة المفضل (أحمر/أزرق/أبيض) هو نوع بيانات:</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>كمية متصلة</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>اسمية (Nominal)</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>كمية منفصلة</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>ترتيبية</span></button>
+    <div class="section quiz-section" style="border-color: #f59e0b; margin-top: 16px;">
+      <h2 style="color: #b45309;"><span class="icon" style="background: #fde68a; color: #b45309;">📋</span> الموضوع 2: الارتباط وخط الاتجاه <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;">(12 أسئلة)</span></h2>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س15:</strong> معامل الارتباط r يتراوح بين:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>0 و 1</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>-1 و +1</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>-100 و +100</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>أي قيمة</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> r محصور دائمًا بين -1 و +1.</div>
       </div>
-      <div class="quiz-explain">الألوان فئات بدون ترتيب طبيعي = اسمية.</div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س16:</strong> r = -0.85 يدل على:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>ارتباط طردي قوي</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>ارتباط عكسي قوي</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>لا توجد علاقة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>خطأ في الحساب</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> الإشارة سالبة = عكسي. القيمة المطلقة 0.85 = قوي.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س17:</strong> r = 0 يعني:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>لا توجد علاقة خطية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>علاقة قوية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>خطأ</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>البيانات متطابقة</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> r=0 يعني عدم وجود علاقة خطية، لكن قد توجد علاقة غير خطية.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س18:</strong> r² = 0.64 يعني أن:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>r = 0.64</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>64% من تباين Y يفسره X</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>العلاقة ضعيفة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>لا فرق بين X و Y</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> r² (معامل التحديد) يبين نسبة التباين المفسّرة. 0.64 = 64%.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س19:</strong> في معادلة y = 4x + 7، عند x=3:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>12</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>15</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>19</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>21</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> y = 4(3) + 7 = 12 + 7 = 19.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س20:</strong> دالة إكسل لحساب الميل:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>INTERCEPT</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>SLOPE</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>FORECAST</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>AVERAGE</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> SLOPE(Y_range, X_range) تحسب ميل خط الانحدار.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س21:</strong> دالة إكسل لحساب نقطة التقاطع b:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>SLOPE</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>INTERCEPT</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>CORREL</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>TREND</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> INTERCEPT(Y, X) تحسب نقطة تقاطع الخط مع المحور Y.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س22:</strong> الارتباط القوي يعني السببية:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>نعم دائمًا</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>لا، الارتباط لا يعني السببية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>أحيانًا</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>إذا كان r=1</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> قاعدة ذهبية: Correlation does not imply causation.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س23:</strong> بين مبيعات الآيس كريم والحرارة، نتوقع r:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>موجب</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>سالب</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>صفر</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>أكبر من 1</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> كلما زادت الحرارة زادت المبيعات = ارتباط طردي (موجب).</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س24:</strong> معادلة الانحدار الخطي:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>y = mx + b</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>y = mx²</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>y = m/x</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>y = √x</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> الشكل القياسي: y = mx + b حيث m الميل و b التقاطع.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س25:</strong> إذا كان الميل m = -2، فالعلاقة:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>طردية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>عكسية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>منعدمة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>غير خطية</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> ميل سالب = X يزيد و Y يقل = علاقة عكسية.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س26:</strong> CORREL و PEARSON في إكسل:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>دالتان مختلفتان تمامًا</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>تعطيان نفس النتيجة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>PEARSON أدق</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>CORREL أسرع</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> كلتاهما تحسب معامل ارتباط بيرسون r، تعطيان نفس النتيجة.</div>
+      </div>
     </div>
 
-    <div class="quiz-q">
-      <div class="q-text">س14: P(A)=0.7. P(لا A) =</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>0.7</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>0.3</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>1</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>0</span></button>
+    <div class="section quiz-section" style="border-color: #f59e0b; margin-top: 16px;">
+      <h2 style="color: #b45309;"><span class="icon" style="background: #fde68a; color: #b45309;">📋</span> الموضوع 6: تحليل البيانات بإكسل <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;">(10 أسئلة)</span></h2>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س27:</strong> COUNTIF(A1:A10, ">50") تحسب:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>مجموع القيم</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>عدد القيم > 50</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>متوسط القيم</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>أكبر قيمة</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> COUNTIF تعد الخلايا التي تحقق الشرط.</div>
       </div>
-      <div class="quiz-explain">P(لا A) = 1 − P(A) = 1 − 0.7 = 0.3. (المتمم).</div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س28:</strong> الفرق بين STDEV.S و STDEV.P:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>S للمجتمع، P للعينة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>S للعينة (n-1)، P للمجتمع (n)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>لا فرق</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>STDEV.S أحدث</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> S=Sample (تقسم على n-1)، P=Population (تقسم على n).</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س29:</strong> لجمع المبيعات للفرع "الشرقي" فقط:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>SUM</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>SUMIF</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>SUMIFS</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>TOTAL</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> SUMIF(criteria_range, criteria, sum_range) للجمع بشرط واحد.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س30:</strong> لعد الذكور الناجحين (شرطين):</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>COUNTIF</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>COUNTIFS</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>COUNT</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>SUMIF</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> COUNTIFS تدعم شروطًا متعددة.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س31:</strong> التباين هو:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>جذر الانحراف المعياري</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>مربع الانحراف المعياري</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>المتوسط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>الوسيط</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Variance = s². Standard Deviation = √Variance = s.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س32:</strong> PivotTable مفيد لـ:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>كتابة معادلات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>تنسيق</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>تلخيص بيانات كثيرة من زوايا متعددة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>رسم فقط</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> PivotTable مصمم للتلخيص السريع للبيانات الضخمة.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س33:</strong> لإزالة المكررات في إكسل:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>Data → Sort</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>Data → Remove Duplicates</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>Insert → Filter</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>Format → Clear</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Data → Remove Duplicates أو الدالة UNIQUE في الإصدارات الجديدة.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س34:</strong> الانحراف المعياري لـ {5, 5, 5, 5, 5}:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>0</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>5</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>1</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>25</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> كل القيم متساوية، لا يوجد تشتت = 0.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س35:</strong> لحساب الربيع الأول Q1 في إكسل:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 3)"><span class="letter">أ</span><span>=QUARTILE(range, 1)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 3)"><span class="letter">ب</span><span>=Q1(range)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 3)"><span class="letter">ج</span><span>=PERCENTILE(range, 25)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 3)"><span class="letter">د</span><span>أ و ج صحيحة</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> QUARTILE(range,1) و PERCENTILE(range,0.25) كلاهما يعطي Q1.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س36:</strong> القيم المتطرفة (Outliers) عادة تكون خارج:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>[Q1, Q3]</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>[Q1 - 1.5×IQR, Q3 + 1.5×IQR]</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>[المتوسط - σ, المتوسط + σ]</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>[0, 100]</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> قاعدة 1.5×IQR هي المعيار الشائع لاكتشاف القيم المتطرفة.</div>
+      </div>
     </div>
 
-    <div class="quiz-q">
-      <div class="q-text">س15: لتنبؤ بقيمة y عند x=15 من معادلة الانحدار:</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>=AVERAGE</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>=CORREL</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>=FORECAST(15, Y_range, X_range)</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>=SLOPE</span></button>
+    <div class="section quiz-section" style="border-color: #f59e0b; margin-top: 16px;">
+      <h2 style="color: #b45309;"><span class="icon" style="background: #fde68a; color: #b45309;">📋</span> الموضوع 7: التوزيع الطبيعي والمعياري <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;">(12 أسئلة)</span></h2>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س37:</strong> التوزيع الطبيعي شكله:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>مستقيم</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>جرس متماثل</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>U</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>متذبذب</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Normal Distribution = Bell Curve = جرس متماثل.</div>
       </div>
-      <div class="quiz-explain">FORECAST مصممة خصيصًا للتنبؤ.</div>
-    </div>
-
-    <div class="quiz-q">
-      <div class="q-text">س16: في توزيع طبيعي، حوالي ____% من البيانات ضمن σ واحد:</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>50</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>68</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>95</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>99</span></button>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س38:</strong> التوزيع المعياري له:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>μ=1, σ=0</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>μ=0, σ=1</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>أي قيم</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>μ=σ</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Standard Normal: متوسط=0 وانحراف معياري=1.</div>
       </div>
-      <div class="quiz-explain">قاعدة 68-95-99.7: 68% ضمن σ، 95% ضمن 2σ، 99.7% ضمن 3σ.</div>
-    </div>
-
-    <div class="quiz-q">
-      <div class="q-text">س17: المنوال (Mode) للبيانات {3, 5, 7, 5, 8, 5, 9}:</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>7</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>5</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>3</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>9</span></button>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س39:</strong> Z = (x - μ)/σ تحول x إلى:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>نسبة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>درجة معيارية (z-score)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>احتمال</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>تكرار</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Z-score يخبر بكم انحراف معياري تبعد x عن المتوسط.</div>
       </div>
-      <div class="quiz-explain">5 تكرر 3 مرات، الباقي مرة واحدة. المنوال = 5.</div>
-    </div>
-
-    <div class="quiz-q">
-      <div class="q-text">س18: r = 1 يعني:</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>لا توجد علاقة</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>ارتباط طردي تام</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>ارتباط عكسي تام</span></button>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س40:</strong> Z = 0 يعني:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>x = 0</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>x = المتوسط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>x = الأدنى</span></button>
         <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>خطأ</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Z=0 يعني أن x = μ تمامًا.</div>
       </div>
-      <div class="quiz-explain">r = +1 = ارتباط طردي تام (كل النقاط على خط مستقيم بميل موجب).</div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س41:</strong> في توزيع طبيعي μ=70, σ=10، Z للقيمة 90:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>1</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>2</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>20</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>0.5</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> z = (90-70)/10 = 20/10 = 2.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س42:</strong> قاعدة 68-95-99.7: ضمن σ واحد ≈</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>50%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>68%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>95%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>99.7%</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> 68% ضمن σ، 95% ضمن 2σ، 99.7% ضمن 3σ.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س43:</strong> ضمن 2σ ≈</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>68%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>95%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>99.7%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>50%</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> 95% من البيانات في توزيع طبيعي تقع ضمن انحرافين.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س44:</strong> دالة إكسل لـ P(Z ≤ z):</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>NORM.DIST</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>NORM.S.DIST</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>Z.TEST</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>STANDARDIZE</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> NORM.S.DIST(z, TRUE) للتوزيع المعياري.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س45:</strong> لإيجاد x من احتمال:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>NORM.DIST</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>NORM.INV</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>NORM.S.DIST</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>STDEV</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> NORM.INV(prob, μ, σ) هي العكسية.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س46:</strong> في IQ بمتوسط 100 وانحراف 15، نسبة من IQ ≥ 130:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>50%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>16%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>2.5%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>0.15%</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> z=(130-100)/15=2. القيم > 2σ ≈ 2.5% (نصف 5% الباقية بعد 95%).</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س47:</strong> Z = -1.5 يعني x:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>تحت المتوسط بـ 1.5σ</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>فوق المتوسط بـ 1.5σ</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>= 1.5</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>خطأ</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> إشارة سالبة = تحت المتوسط، |z|=1.5 = بمقدار 1.5 انحراف.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س48:</strong> STANDARDIZE(x, μ, σ) في إكسل:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>تحسب التوزيع</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>تحول x إلى z-score</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>تحسب المتوسط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>خطأ</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> تطبق المعادلة (x-μ)/σ مباشرة.</div>
+      </div>
     </div>
 
-    <div class="quiz-q">
-      <div class="q-text">س19: لإيجاد عدد الذكور الناجحين (B="ذكر", C≥60):</div>
-      <div class="quiz-options">
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>=COUNTIF(B2:B100, "ذكر")</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>=COUNTIFS(B2:B100, "ذكر", C2:C100, ">=60")</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>=SUMIF(B2:B100, "ذكر")</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>=AVERAGE(C2:C100)</span></button>
+    <div class="section quiz-section" style="border-color: #f59e0b; margin-top: 16px;">
+      <h2 style="color: #b45309;"><span class="icon" style="background: #fde68a; color: #b45309;">📋</span> الموضوع 8: الاحتمالات الأساسية <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;">(14 أسئلة)</span></h2>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س49:</strong> احتمال أي حدث محصور بين:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>-1 و 1</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>0 و 1</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>أي قيمة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>0 و 100</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> P(A) ∈ [0, 1]. صفر=مستحيل، 1=مؤكد.</div>
       </div>
-      <div class="quiz-explain">COUNTIFS لشرطين معًا: نوع وذكر، ودرجة ≥ 60.</div>
-    </div>
-
-    <div class="quiz-q">
-      <div class="q-text">س20: قاعدة الجمع للأحداث المتنافية: P(A∪B) =</div>
-      <div class="quiz-options">
+      <div class="quiz-q">
+        <div class="q-text"><strong>س50:</strong> في رمي نرد، P(رقم زوجي):</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>1/6</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>1/2</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>1/3</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>2/3</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> {2,4,6} من {1,2,3,4,5,6} = 3/6 = 1/2.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س51:</strong> في رمي نرد، P(رقم ≥ 5):</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>1/6</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>1/3</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>1/2</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>2/3</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> {5, 6} = 2/6 = 1/3.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س52:</strong> للأحداث المتنافية: P(A ∪ B) =</div>
+        <div class="quiz-options">
         <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>P(A) × P(B)</span></button>
         <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>P(A) + P(B)</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>P(A) + P(B) − P(A∩B)</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>P(A) − P(B)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>P(A) + P(B) - P(A∩B)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>P(A) - P(B)</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> متنافية = P(A∩B)=0، فالقانون يبسط لجمع الاحتمالات.</div>
       </div>
-      <div class="quiz-explain">للمتنافية: P(A∩B)=0، فالقانون يبسط إلى P(A)+P(B). للأحداث غير المتنافية نطرح التقاطع.</div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س53:</strong> للأحداث غير المتنافية: P(A ∪ B) =</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>P(A) + P(B)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>P(A) + P(B) - P(A∩B)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>P(A) × P(B)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>P(A∩B)</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> نطرح P(A∩B) لأنه عُدّ مرتين.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س54:</strong> للأحداث المستقلة: P(A ∩ B) =</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>P(A) + P(B)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>P(A) × P(B)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>P(A) - P(B)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>P(A|B)</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> مستقلة = حدث لا يؤثر على الآخر، فالاحتمال = الضرب.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س55:</strong> للأحداث المعتمدة: P(A ∩ B) =</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>P(A) × P(B)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>P(A) × P(B|A)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>P(A) + P(B)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>P(A|B)</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> نضرب باحتمال الثاني بشرط الأول.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س56:</strong> سحب كرتين من 5 حمراء و 3 زرقاء بدون إرجاع، P(كلاهما حمراء):</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>25/64</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>5/14</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>5/8</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>1/2</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> (5/8) × (4/7) = 20/56 = 5/14.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س57:</strong> رمي عملة 3 مرات، P(3 صور):</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>1/2</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>1/4</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>1/8</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>3/8</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> (1/2)³ = 1/8. أحداث مستقلة.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س58:</strong> P(لا A) =</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>P(A)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>1 - P(A)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>1 + P(A)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>0</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> قانون المتمم: P(A') = 1 - P(A).</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س59:</strong> الاحتمال الشرطي P(A|B) =</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>P(A) × P(B)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>P(A∩B) / P(B)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>P(A) - P(B)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>P(A) + P(B)</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> احتمال A بشرط حدوث B.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س60:</strong> P(A)=0.4, P(B)=0.6, مستقلان. P(A∩B):</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>0.24</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>1.0</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>0.2</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>0.5</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> P(A) × P(B) = 0.4 × 0.6 = 0.24.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س61:</strong> في صف 30 طالبًا، 18 ذكور و 20 ناجحون و 12 ذكور ناجحون. P(ذكر | ناجح):</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>12/20 = 0.6</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>12/18 = 0.67</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>18/30</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>20/30</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> P(ذكر|ناجح) = 12/20 = 0.6 (12 ذكر ناجح من أصل 20 ناجح).</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س62:</strong> فضاء عينة لرمي حجرين نرد:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>6 نتائج</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>12 نتيجة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>36 نتيجة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>2 نتيجة</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> 6 × 6 = 36 نتيجة محتملة.</div>
+      </div>
     </div>
-  </div>
+
+    <div class="section quiz-section" style="border-color: #f59e0b; margin-top: 16px;">
+      <h2 style="color: #b45309;"><span class="icon" style="background: #fde68a; color: #b45309;">📋</span> الموضوع 9: الرسوم البيانية <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;">(8 أسئلة)</span></h2>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س63:</strong> لإظهار اتجاه عبر الزمن (12 شهرًا):</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>دائري</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>خطي</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>هستوغرام</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>Scatter</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Line Chart يربط النقاط بالتسلسل الزمني.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س64:</strong> لمقارنة 5 فروع شركة:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>خطي</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>Bar/Column</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>هستوغرام</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>Scatter</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> المقارنة بين فئات → Bar أو Column.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س65:</strong> لإظهار توزيع 100 درجة طالب:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>دائري</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>Histogram</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>خطي</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>Scatter</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Histogram يجمع البيانات في فئات لإظهار شكل التوزيع.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س66:</strong> لدراسة العلاقة بين متغيرين كميين:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>دائري</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>Bar</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>Scatter</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>Histogram</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Scatter يكشف الارتباطات بين متغيرين.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س67:</strong> المخطط الدائري لا يُنصح به عند:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>3 فئات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>أكثر من 6 فئات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>نسب مجموعها 100%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>البيانات الفئوية</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> كثرة الفئات تجعل الشرائح متشابهة وصعبة القراءة.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س68:</strong> لإظهار النسب من الكل (مع 4 فئات):</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>خطي</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>دائري</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>Scatter</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>Histogram</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Pie Chart مثالي للنسب عندما الفئات قليلة.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س69:</strong> اقتطاع المحور Y عند قيمة غير الصفر:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>تحسين</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>يضخم الفروقات بصريًا (مضلل)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>ضروري دائمًا</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>غير مهم</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> خطأ شائع يؤدي لتمثيل بصري مضلل.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س70:</strong> Bar (أفقي) يفضل عندما:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>البيانات قليلة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>أسماء الفئات طويلة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>البيانات زمنية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>النسب 100%</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> الأفقي يسمح بقراءة الأسماء الطويلة بدون قطع.</div>
+      </div>
+    </div>
+
+    <div class="section quiz-section" style="border-color: #f59e0b; margin-top: 16px;">
+      <h2 style="color: #b45309;"><span class="icon" style="background: #fde68a; color: #b45309;">📋</span> الموضوع 10: الانحدار الخطي <span style="font-size: 13px; color: var(--text-muted); font-weight: 500;">(10 أسئلة)</span></h2>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س71:</strong> في y = mx + b، m تمثل:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>التقاطع</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>الميل</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>المتوسط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>الخطأ</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> m = التغير في y لكل وحدة من x.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س72:</strong> في y = mx + b، b تمثل:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>الميل</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>نقطة التقاطع مع المحور Y</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>المتغير التابع</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>الخطأ</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> b = قيمة y عند x=0.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س73:</strong> طريقة المربعات الصغرى تقلل:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>متوسط الأخطاء</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>مجموع مربعات الأخطاء</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>الميل</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>عدد النقاط</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Least Squares = مجموع (الفرق)² → أقل ما يمكن.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س74:</strong> FORECAST(15, Y, X) في إكسل:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>متوسط Y</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>تنبؤ y عند x=15</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>ميل الخط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>تقاطع</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> FORECAST(x_new, Y_range, X_range) للتنبؤ بقيمة جديدة.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س75:</strong> R² قريب من 1 يعني:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>تنبؤ سيء</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>تنبؤ ممتاز</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>خطأ</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>بيانات قليلة</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> R² → 1: النموذج يفسر معظم التباين، تنبؤ جيد جدًا.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س76:</strong> في y = 3x - 5، عند x = 4:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>7</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>12</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>17</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>-5</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> y = 3(4) - 5 = 12 - 5 = 7.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س77:</strong> التنبؤ خارج نطاق البيانات (Extrapolation):</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>دائمًا دقيق</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>قد يكون غير موثوق</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>ممنوع</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>أفضل من Interpolation</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> النموذج تدرب على نطاق محدد، التنبؤ خارجه قد يكون خاطئًا.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س78:</strong> MAE = متوسط القيم المطلقة لـ:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>المتوسط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>الأخطاء (y الفعلي - y المتوقع)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>الميل</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>البيانات</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> Mean Absolute Error: متوسط |الأخطاء|.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س79:</strong> لتنبؤ عدة قيم دفعة واحدة في إكسل:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>FORECAST</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>TREND</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>AVERAGE</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>SUM</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> TREND(Y, X, new_X) ترجع مصفوفة تنبؤات.</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text"><strong>س80:</strong> الانحدار الخطي مناسب عندما:</div>
+        <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>العلاقة منحنية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>العلاقة خطية تقريبًا</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>البيانات اسمية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>متغير واحد</span></button>
+        </div>
+        <div class="quiz-explain"><strong>💡</strong> إذا العلاقة غير خطية، نستخدم انحدارات أخرى (تربيعي، أسي، إلخ).</div>
+      </div>
+    </div>
+
 </section>
 `;
 
