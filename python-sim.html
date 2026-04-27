@@ -21,78 +21,51 @@
   --success: #16a34a; --success-light: #dcfce7;
   --danger: #dc2626; --danger-light: #fee2e2;
   --warn: #f59e0b; --warn-light: #fef3c7;
-  --code-bg: #282a36; --code-text: #f8f8f2;
 }
-html, body {
-  font-family: 'Noto Sans Arabic', sans-serif;
-  background: var(--bg); color: var(--text);
-  height: 100vh; overflow: hidden;
-}
-.toolbar {
-  background: white; border-bottom: 1px solid var(--border);
-  padding: 10px 16px; display: flex; align-items: center; gap: 10px;
-  flex-wrap: wrap; min-height: 56px;
-}
-.toolbar-title {
-  font-weight: 700; font-size: 14px; color: var(--text);
-  display: flex; align-items: center; gap: 8px;
-}
-.toolbar-title .py-logo {
-  width: 28px; height: 28px; border-radius: 8px;
-  background: linear-gradient(135deg, #3776ab, #ffd43b);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px;
-}
-.toolbar-status {
-  font-size: 12px; padding: 4px 10px; border-radius: 12px;
-  background: var(--warn-light); color: #92400e; font-weight: 600;
-  display: flex; align-items: center; gap: 6px;
-}
+html, body { font-family: 'Noto Sans Arabic', sans-serif; background: var(--bg); color: var(--text); height: 100vh; overflow: hidden; }
+.toolbar { background: white; border-bottom: 1px solid var(--border); padding: 10px 16px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-height: 56px; }
+.toolbar-title { font-weight: 700; font-size: 14px; color: var(--text); display: flex; align-items: center; gap: 8px; }
+.toolbar-title .py-logo { width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg, #3776ab, #ffd43b); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.toolbar-status { font-size: 12px; padding: 4px 10px; border-radius: 12px; background: var(--warn-light); color: #92400e; font-weight: 600; display: flex; align-items: center; gap: 6px; }
 .toolbar-status.ready { background: var(--success-light); color: #14532d; }
 .toolbar-status.error { background: var(--danger-light); color: #991b1b; }
-.toolbar-status .dot {
-  width: 8px; height: 8px; border-radius: 50%; background: currentColor;
-  animation: pulse-dot 1.5s infinite;
-}
+.toolbar-status .dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; animation: pulse-dot 1.5s infinite; }
 .toolbar-status.ready .dot { animation: none; }
 @keyframes pulse-dot { 50% { opacity: 0.3; } }
 .toolbar-spacer { flex: 1; }
-.btn {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 7px 14px; border-radius: 8px; font-size: 13px;
-  font-weight: 600; font-family: inherit; cursor: pointer;
-  border: 1px solid var(--border-strong); background: white; color: var(--text);
-  transition: all 0.15s;
-}
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; border: 1px solid var(--border-strong); background: white; color: var(--text); transition: all 0.15s; }
 .btn:hover { background: var(--bg); }
 .btn:active { transform: scale(0.97); }
-.btn-primary { background: var(--primary); color: white; border-color: var(--primary); }
-.btn-primary:hover { background: var(--primary-dark); }
 .btn-success { background: var(--success); color: white; border-color: var(--success); font-size: 14px; padding: 8px 18px; }
 .btn-success:hover { background: #15803d; }
 .btn-danger { background: var(--danger); color: white; border-color: var(--danger); }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-select.btn { padding-right: 8px; }
-.main-area {
-  display: grid; grid-template-columns: 1fr 1fr;
-  height: calc(100vh - 56px); gap: 0;
-}
-.editor-pane, .output-pane {
-  display: flex; flex-direction: column; overflow: hidden; background: white;
-}
+.examples-bar { background: white; border-bottom: 1px solid var(--border); padding: 10px 14px; overflow-x: auto; white-space: nowrap; display: flex; gap: 8px; align-items: center; }
+.examples-bar::-webkit-scrollbar { height: 4px; }
+.examples-bar::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+.examples-label { font-size: 12px; font-weight: 700; color: var(--text-muted); margin-left: 6px; flex-shrink: 0; }
+.example-chip { display: inline-flex; align-items: center; gap: 5px; padding: 5px 11px; border-radius: 14px; background: var(--bg); border: 1px solid var(--border); cursor: pointer; font-size: 12px; font-weight: 600; color: var(--text-muted); transition: all 0.15s; flex-shrink: 0; font-family: inherit; }
+.example-chip:hover { background: var(--primary-light); color: var(--primary-dark); border-color: var(--primary); }
+.example-chip.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+.main-area { display: grid; grid-template-columns: 1fr 1fr; height: calc(100vh - 56px - 50px); gap: 0; }
+.editor-pane, .right-pane { display: flex; flex-direction: column; overflow: hidden; background: white; }
 .editor-pane { border-left: 1px solid var(--border); }
-.pane-header {
-  padding: 8px 14px; background: var(--bg); border-bottom: 1px solid var(--border);
-  font-size: 12px; font-weight: 600; color: var(--text-muted);
-  display: flex; align-items: center; justify-content: space-between;
-}
-.pane-header span { display: flex; align-items: center; gap: 6px; }
+.pane-header { padding: 6px 14px; background: var(--bg); border-bottom: 1px solid var(--border); font-size: 12px; font-weight: 600; color: var(--text-muted); display: flex; align-items: center; gap: 4px; min-height: 36px; }
+.pane-tab { padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 12px; font-weight: 600; color: var(--text-muted); border: none; background: transparent; display: flex; align-items: center; gap: 6px; }
+.pane-tab:hover { background: white; }
+.pane-tab.active { background: white; color: var(--primary); border: 1px solid var(--border); }
+.pane-tab .badge { background: var(--danger); color: white; font-size: 10px; padding: 1px 5px; border-radius: 8px; font-weight: 700; min-width: 16px; text-align: center; }
+.pane-spacer { flex: 1; }
+
 .editor-wrapper { flex: 1; overflow: hidden; position: relative; }
-.CodeMirror {
-  height: 100% !important; font-family: 'JetBrains Mono', monospace;
-  font-size: 14px; direction: ltr; text-align: left;
-}
+.CodeMirror { height: 100% !important; font-family: 'JetBrains Mono', monospace; font-size: 14px; direction: ltr; text-align: left; }
 .CodeMirror-scroll { direction: ltr; }
+
+.right-content { flex: 1; position: relative; overflow: hidden; }
+.right-panel { position: absolute; inset: 0; display: none; flex-direction: column; }
+.right-panel.active { display: flex; }
+
 .output-area {
   flex: 1; overflow-y: auto; padding: 12px 14px;
   background: #1e1e2e; color: #cdd6f4;
@@ -100,61 +73,41 @@ select.btn { padding-right: 8px; }
   direction: ltr; text-align: left;
   white-space: pre-wrap; word-break: break-word;
 }
-.output-line { padding: 1px 0; }
-.output-line.stdin { color: #f9e2af; }
+.output-line { padding: 1px 0; min-height: 18px; }
 .output-line.stderr { color: #f38ba8; }
-.output-line.stdout { color: #cdd6f4; }
 .output-line.system { color: #89b4fa; font-style: italic; }
 .output-line.success { color: #a6e3a1; font-weight: 600; }
-.output-area img { max-width: 100%; margin: 8px 0; border-radius: 6px; background: white; padding: 4px; }
+
 .input-prompt {
   background: #313244; padding: 12px; margin: 6px 0; border-radius: 6px;
   border-right: 3px solid #f9e2af; display: flex; flex-direction: column; gap: 8px;
 }
-.input-prompt-label { color: #f9e2af; font-size: 12px; }
-.input-prompt-input {
-  background: #1e1e2e; border: 1px solid #45475a; color: #cdd6f4;
-  padding: 7px 10px; border-radius: 4px; font-family: inherit; font-size: 13px;
-  outline: none; direction: ltr;
-}
+.input-prompt-label { color: #f9e2af; font-size: 13px; white-space: pre-wrap; }
+.input-prompt-input { background: #1e1e2e; border: 1px solid #45475a; color: #cdd6f4; padding: 7px 10px; border-radius: 4px; font-family: inherit; font-size: 13px; outline: none; direction: ltr; }
 .input-prompt-input:focus { border-color: #89b4fa; }
-.input-prompt-btn {
-  align-self: flex-start; background: #89b4fa; color: #1e1e2e;
-  border: none; padding: 6px 14px; border-radius: 4px; font-weight: 600;
-  cursor: pointer; font-family: inherit; font-size: 12px;
-}
-.examples-bar {
-  background: white; border-bottom: 1px solid var(--border);
-  padding: 10px 14px; overflow-x: auto; white-space: nowrap;
-  display: flex; gap: 8px; align-items: center;
-}
-.examples-bar::-webkit-scrollbar { height: 4px; }
-.examples-bar::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
-.examples-label {
-  font-size: 12px; font-weight: 700; color: var(--text-muted);
-  margin-left: 6px; flex-shrink: 0;
-}
-.example-chip {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 5px 11px; border-radius: 14px; background: var(--bg);
-  border: 1px solid var(--border); cursor: pointer; font-size: 12px;
-  font-weight: 600; color: var(--text-muted); transition: all 0.15s;
-  flex-shrink: 0; font-family: inherit;
-}
-.example-chip:hover { background: var(--primary-light); color: var(--primary-dark); border-color: var(--primary); }
-.example-chip.active { background: var(--primary); color: white; border-color: var(--primary); }
+.input-prompt-btn { align-self: flex-start; background: #89b4fa; color: #1e1e2e; border: none; padding: 6px 14px; border-radius: 4px; font-weight: 600; cursor: pointer; font-family: inherit; font-size: 12px; }
+
+.canvas-area { flex: 1; background: #f1f5f9; display: flex; align-items: center; justify-content: center; overflow: auto; padding: 16px; }
+.canvas-wrap { background: white; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,0.1); padding: 8px; max-width: 100%; max-height: 100%; }
+#turtleCanvas { display: block; background: white; border-radius: 4px; max-width: 100%; height: auto; }
+.canvas-empty { color: var(--text-light); font-size: 14px; text-align: center; padding: 30px; }
+.canvas-empty .ico { font-size: 48px; margin-bottom: 12px; }
+.canvas-empty p { line-height: 1.7; }
+.canvas-empty code { background: #1e1e2e; color: #a6e3a1; padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono'; font-size: 12px; direction: ltr; display: inline-block; margin: 2px; }
+
+.plot-area { padding: 14px; background: #f1f5f9; flex: 1; overflow-y: auto; text-align: center; }
+.plot-area img { max-width: 100%; margin: 10px auto; border-radius: 6px; background: white; padding: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); display: block; }
+
 @media (max-width: 900px) {
-  .main-area { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; height: calc(100vh - 56px - 50px); }
-  .editor-pane { border-left: none; border-top: 1px solid var(--border); }
+  .main-area { grid-template-columns: 1fr; grid-template-rows: 45vh 45vh; height: calc(100vh - 56px - 50px); }
+  .editor-pane { border-left: none; border-top: 1px solid var(--border); order: 1; }
+  .right-pane { order: 2; }
   .toolbar { padding: 8px 12px; }
   .toolbar-title { font-size: 13px; }
 }
-.welcome {
-  padding: 14px; background: #313244; border-radius: 8px;
-  margin-bottom: 12px; border-right: 3px solid #89b4fa;
-}
+.welcome { padding: 14px; background: #313244; border-radius: 8px; margin-bottom: 12px; border-right: 3px solid #89b4fa; }
 .welcome strong { color: #89b4fa; }
-.kbd { background: #45475a; padding: 1px 6px; border-radius: 3px; font-size: 11px; font-family: 'JetBrains Mono'; }
+.welcome code { background: #45475a; padding: 1px 6px; border-radius: 3px; font-family: 'JetBrains Mono'; font-size: 11px; }
 </style>
 </head>
 <body>
@@ -169,104 +122,105 @@ select.btn { padding-right: 8px; }
     <span id="statusText">جاري تحميل المحرك...</span>
   </div>
   <div class="toolbar-spacer"></div>
-  <button class="btn" onclick="clearOutput()" title="مسح المخرجات">
-    🗑️ مسح
-  </button>
-  <button class="btn" onclick="resetCode()" title="إعادة تحميل المثال">
-    🔄 إعادة تعيين
-  </button>
-  <button class="btn btn-success" id="runBtn" onclick="runCode()" disabled>
-    ▶ تشغيل الكود
-  </button>
+  <button class="btn" onclick="clearAll()" title="مسح الكل">🗑️ مسح</button>
+  <button class="btn" onclick="resetCode()" title="إعادة تحميل المثال">🔄 إعادة</button>
+  <button class="btn btn-success" id="runBtn" onclick="runCode()" disabled>▶ تشغيل الكود</button>
 </div>
 
 <div class="examples-bar" id="examplesBar">
-  <span class="examples-label">📚 أمثلة جاهزة:</span>
-  <!-- chips inserted by JS -->
+  <span class="examples-label">📚 أمثلة:</span>
 </div>
 
 <div class="main-area">
   <div class="editor-pane">
     <div class="pane-header">
-      <span>📝 محرر الكود</span>
-      <span style="font-size: 11px; color: var(--text-light);">Python 3.12 (Pyodide)</span>
+      <span style="display:flex;align-items:center;gap:6px;padding:6px 14px;font-weight:700;color:var(--text);"><span>📝</span><span>محرر الكود</span></span>
+      <div class="pane-spacer"></div>
+      <span style="font-size: 11px; color: var(--text-light); padding-left: 8px;">Python 3.12 (Pyodide)</span>
     </div>
     <div class="editor-wrapper">
       <textarea id="codeEditor"></textarea>
     </div>
   </div>
-  <div class="output-pane">
+  
+  <div class="right-pane">
     <div class="pane-header">
-      <span>💻 المخرجات</span>
-      <span style="font-size: 11px; color: var(--text-light);">Console + Plots</span>
+      <button class="pane-tab active" data-panel="output" onclick="switchPanel('output')">
+        <span>💻</span><span>المخرجات</span>
+      </button>
+      <button class="pane-tab" data-panel="canvas" onclick="switchPanel('canvas')">
+        <span>🎨</span><span>الرسم</span>
+      </button>
+      <button class="pane-tab" data-panel="plot" onclick="switchPanel('plot')">
+        <span>📊</span><span>الرسم البياني</span>
+      </button>
+      <div class="pane-spacer"></div>
     </div>
-    <div class="output-area" id="output">
-      <div class="welcome">
+    
+    <div class="right-content">
+      <div class="right-panel active" id="panel-output">
+        <div class="output-area" id="output">
+<div class="welcome">
 <strong>🐍 محاكي بايثون الكامل</strong>
 
-أهلاً بك! هذا محاكي بايثون يشغّل الأكواد <strong>فعليًا في متصفحك</strong> دون الحاجة لخادم.
+أهلاً بك! المحاكي يشغّل بايثون <strong>فعليًا في متصفحك</strong> ويتجسّد عمل البرنامج أمامك.
 
 <strong>المكتبات المدعومة:</strong>
-• numpy, pandas, matplotlib (مدمجة)
-• math, random, json, datetime (قياسية)
-• الكثير من المكتبات الأخرى
+• numpy، matplotlib، pandas (تظهر في تبويب 📊 الرسم البياني)
+• <code>turtle</code> للرسوم الجرافيكية (تظهر في تبويب 🎨 الرسم)
+• كل المكتبات القياسية: math، random، json، datetime...
 
-<strong>الاختصارات:</strong>
-<span class="kbd">Ctrl + Enter</span> = تشغيل الكود
-<span class="kbd">Ctrl + L</span> = مسح المخرجات
+<strong>اختصارات:</strong>
+<code>Ctrl + Enter</code> = تشغيل الكود
+<code>Ctrl + L</code> = مسح المخرجات
 
-اختر مثالاً من الأعلى أو اكتب كودك الخاص ✨
+اختر مثالاً من الأعلى أو اكتب كودك ✨
+</div>
+        </div>
+      </div>
+      
+      <div class="right-panel" id="panel-canvas">
+        <div class="canvas-area">
+          <div class="canvas-wrap" id="canvasWrap">
+            <canvas id="turtleCanvas" width="640" height="500"></canvas>
+          </div>
+          <div class="canvas-empty" id="canvasEmpty" style="display: none;">
+            <div class="ico">🎨</div>
+            <p>سيظهر هنا الرسم عند تشغيل كود يستخدم <code>turtle</code><br>
+            جرّب مثال "🐢 رسم turtle" من الأعلى</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="right-panel" id="panel-plot">
+        <div class="plot-area" id="plotArea">
+          <div class="canvas-empty">
+            <div class="ico">📊</div>
+            <p>سيظهر هنا الرسم البياني عند تشغيل كود يستخدم <code>matplotlib</code><br>
+            جرّب مثال "📈 رسم بياني" من الأعلى</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-// ======================================================================
-// EXAMPLES — including Supermarket project
-// ======================================================================
+// ====================================================================
+// EXAMPLES
+// ====================================================================
 const EXAMPLES = {
   hello: {
     name: '👋 Hello World',
-    code: `# مثال بسيط للبداية
+    code: `# مثال بسيط
 name = input("ما اسمك؟ ")
 print(f"مرحبًا يا {name}!")
 print(f"اسمك يحتوي على {len(name)} حرفًا")
 `
   },
-  calculator: {
-    name: '🧮 آلة حاسبة',
-    code: `# آلة حاسبة بسيطة
-print("=== آلة حاسبة ===")
-num1 = float(input("أدخل الرقم الأول: "))
-op = input("العملية (+, -, *, /): ")
-num2 = float(input("أدخل الرقم الثاني: "))
-
-if op == '+':
-    result = num1 + num2
-elif op == '-':
-    result = num1 - num2
-elif op == '*':
-    result = num1 * num2
-elif op == '/':
-    if num2 == 0:
-        print("خطأ: لا يمكن القسمة على صفر")
-        result = None
-    else:
-        result = num1 / num2
-else:
-    print("عملية غير معروفة")
-    result = None
-
-if result is not None:
-    print(f"النتيجة: {num1} {op} {num2} = {result}")
-`
-  },
   supermarket: {
     name: '🛒 السوبر ماركت الذكي',
     code: `# نظام السوبر ماركت الذكي
-# مشروع PYT103 — إدارة المنتجات والمبيعات
-
 products = {
     "tomato": {"name": "طماطم", "price": 5.50, "stock": 50},
     "milk":   {"name": "حليب",   "price": 8.00, "stock": 30},
@@ -274,7 +228,6 @@ products = {
     "rice":   {"name": "أرز",    "price": 25.00, "stock": 20},
     "oil":    {"name": "زيت",    "price": 18.50, "stock": 15},
 }
-
 cart = []
 total = 0.0
 
@@ -282,7 +235,6 @@ print("=" * 40)
 print("🛒  مرحبًا بك في السوبر ماركت الذكي")
 print("=" * 40)
 
-# عرض المنتجات
 print("\\n📦 المنتجات المتوفرة:")
 print(f"{'الكود':<10}{'المنتج':<12}{'السعر':<10}{'المخزون'}")
 print("-" * 40)
@@ -307,151 +259,137 @@ while True:
     if qty > products[choice]["stock"]:
         print(f"❌ المخزون فقط {products[choice]['stock']}")
         continue
-    
     line_total = qty * products[choice]["price"]
     cart.append((products[choice]["name"], qty, line_total))
     products[choice]["stock"] -= qty
     total += line_total
-    print(f"✅ أُضيف: {qty} × {products[choice]['name']} = {line_total} ريال")
+    print(f"✅ أُضيف: {qty} x {products[choice]['name']} = {line_total} ريال")
 
-# الفاتورة
 if cart:
     print("\\n" + "=" * 40)
     print("🧾  الفاتورة النهائية")
     print("=" * 40)
     for name, qty, lt in cart:
-        print(f"  {qty} × {name:<10}  {lt:>8.2f} ريال")
+        print(f"  {qty} x {name:<10}  {lt:>8.2f} ريال")
     print("-" * 40)
     print(f"  {'المجموع':<14}  {total:>8.2f} ريال")
-    
-    # ضريبة القيمة المضافة 15%
     vat = total * 0.15
     grand = total + vat
     print(f"  {'ضريبة 15%':<14}  {vat:>8.2f} ريال")
     print("=" * 40)
-    print(f"  {'الإجمالي':<14}  {grand:>8.2f} ريال")
+    print(f"  {'الاجمالي':<14}  {grand:>8.2f} ريال")
     print("=" * 40)
     print("\\n🙏 شكرًا لتسوقك معنا!")
 else:
     print("\\nالسلة فارغة. مع السلامة!")
 `
   },
-  loops: {
-    name: '🔁 الحلقات',
-    code: `# الحلقات في بايثون
+  turtle_rana: {
+    name: '🐢 رسم turtle',
+    code: `from turtle import *
 
-# حلقة for
-print("=== جدول ضرب الرقم 5 ===")
-for i in range(1, 11):
-    print(f"5 × {i} = {5 * i}")
+bgcolor("black")
+speed(0)
+colors = ["red", "magenta", "purple"]
 
-print()
+for i in range(60):
+    color(colors[i % 3])
+    penup()
+    goto(0, 0)
+    pendown()
+    write("رنا", align="center", font=("Arial", 24, "bold"))
+    left(6)
 
-# حلقة while
-print("=== العد التنازلي ===")
-counter = 5
-while counter > 0:
-    print(f"⏱️ {counter}...")
-    counter -= 1
-print("🚀 انطلاق!")
-
-print()
-
-# جمع الأعداد الزوجية من 1 إلى 20
-total = 0
-for n in range(1, 21):
-    if n % 2 == 0:
-        total += n
-print(f"مجموع الأعداد الزوجية من 1 إلى 20 = {total}")
+done()
 `
   },
-  list_dict: {
-    name: '📋 القوائم والقواميس',
-    code: `# القوائم والقواميس — مثال طلاب SEU
+  turtle_spiral: {
+    name: '🌀 حلزون ملون',
+    code: `from turtle import *
 
-students = [
-    {"name": "عاطف", "subject": "PYT103", "grade": 95},
-    {"name": "أحمد", "subject": "STA104", "grade": 88},
-    {"name": "نورة", "subject": "OSC",    "grade": 92},
-    {"name": "سارة", "subject": "ELG201", "grade": 85},
-    {"name": "خالد", "subject": "PYT103", "grade": 78},
-]
+bgcolor("#1a1a2e")
+speed(0)
+colors = ["#ff006e", "#fb5607", "#ffbe0b", "#8338ec", "#3a86ff"]
 
-# عرض جميع الطلاب
-print("📚 قائمة الطلاب:")
-for s in students:
-    print(f"  • {s['name']} | {s['subject']} | {s['grade']}")
+for i in range(120):
+    color(colors[i % 5])
+    forward(i * 2)
+    right(59)
 
-# المتوسط
-total = sum(s['grade'] for s in students)
-avg = total / len(students)
-print(f"\\nالمتوسط الإجمالي: {avg:.2f}")
-
-# الأعلى درجة
-top = max(students, key=lambda s: s['grade'])
-print(f"الأعلى درجة: {top['name']} ({top['grade']})")
-
-# الناجحون (≥ 80)
-passed = [s for s in students if s['grade'] >= 80]
-print(f"\\nالناجحون ({len(passed)}):")
-for s in passed:
-    print(f"  ✅ {s['name']} - {s['grade']}")
+done()
 `
   },
-  functions: {
-    name: '⚡ الدوال',
-    code: `# الدوال في بايثون
+  turtle_star: {
+    name: '⭐ نجمة',
+    code: `from turtle import *
 
-def calculate_bmi(weight, height):
-    """حساب مؤشر كتلة الجسم"""
-    bmi = weight / (height ** 2)
-    if bmi < 18.5:
-        category = "نحيف"
-    elif bmi < 25:
-        category = "طبيعي"
-    elif bmi < 30:
-        category = "وزن زائد"
-    else:
-        category = "سمنة"
-    return round(bmi, 2), category
+bgcolor("navy")
+color("yellow")
+speed(5)
 
-def factorial(n):
-    """حساب المضروب — recursive"""
-    if n <= 1:
-        return 1
-    return n * factorial(n - 1)
+for _ in range(5):
+    forward(150)
+    right(144)
 
-def is_prime(n):
-    """فحص إذا كان الرقم أوّليًا"""
-    if n < 2:
-        return False
-    for i in range(2, int(n ** 0.5) + 1):
-        if n % i == 0:
-            return False
-    return True
-
-# تجربة الدوال
-print("🩺 حاسبة BMI")
-weight = float(input("الوزن (kg): "))
-height = float(input("الطول (m): "))
-bmi, category = calculate_bmi(weight, height)
-print(f"BMI = {bmi} → {category}\\n")
-
-print("🔢 المضروب")
-n = int(input("أدخل رقمًا: "))
-print(f"!{n} = {factorial(n)}\\n")
-
-print("🔍 الأعداد الأوّلية من 1 إلى 30:")
-primes = [n for n in range(1, 31) if is_prime(n)]
-print(primes)
+done()
 `
   },
-  numpy: {
-    name: '🔢 NumPy',
-    code: `# مثال NumPy — احصاء STA104
+  calculator: {
+    name: '🧮 آلة حاسبة',
+    code: `print("=== آلة حاسبة ===")
+num1 = float(input("الرقم الأول: "))
+op = input("العملية (+, -, *, /): ")
+num2 = float(input("الرقم الثاني: "))
+
+if op == '+':
+    result = num1 + num2
+elif op == '-':
+    result = num1 - num2
+elif op == '*':
+    result = num1 * num2
+elif op == '/':
+    result = num1 / num2 if num2 != 0 else None
+    if result is None:
+        print("خطأ: لا يمكن القسمة على صفر")
+else:
+    result = None
+    print("عملية غير معروفة")
+
+if result is not None:
+    print(f"النتيجة: {num1} {op} {num2} = {result}")
+`
+  },
+  matplotlib: {
+    name: '📈 رسم بياني',
+    code: `import matplotlib.pyplot as plt
 import numpy as np
 
-# درجات طلاب
+months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
+sales = [12000, 15500, 13800, 17200, 19500, 21000]
+
+fig, axes = plt.subplots(1, 2, figsize=(11, 4))
+
+axes[0].bar(months, sales, color='#0891b2', edgecolor='#0e7490')
+axes[0].set_title('Monthly Sales', fontsize=12, fontweight='bold')
+axes[0].set_ylabel('Sales (SAR)')
+axes[0].grid(axis='y', alpha=0.3)
+
+axes[1].plot(months, sales, marker='o', linewidth=2.5, color='#16a34a', markersize=10)
+axes[1].set_title('Sales Trend', fontsize=12, fontweight='bold')
+axes[1].grid(alpha=0.3)
+axes[1].fill_between(range(len(months)), sales, alpha=0.15, color='#16a34a')
+
+plt.tight_layout()
+plt.show()
+
+print(f"إجمالي المبيعات: {sum(sales):,} SAR")
+print(f"متوسط المبيعات: {sum(sales)/len(sales):,.0f} SAR/month")
+`
+  },
+  numpy_stats: {
+    name: '🔢 NumPy',
+    code: `import numpy as np
+
 scores = np.array([85, 92, 78, 95, 88, 76, 91, 84, 90, 79])
 
 print("📊 تحليل الدرجات")
@@ -460,58 +398,19 @@ print(f"المتوسط:    {np.mean(scores):.2f}")
 print(f"الوسيط:     {np.median(scores):.2f}")
 print(f"الانحراف:   {np.std(scores):.2f}")
 print(f"التباين:    {np.var(scores):.2f}")
-print(f"الحد الأدنى: {np.min(scores)}")
-print(f"الحد الأعلى: {np.max(scores)}")
-print(f"المدى:      {np.max(scores) - np.min(scores)}")
 
-# Z-Score لكل طالب
 mean = np.mean(scores)
 std = np.std(scores)
 z_scores = (scores - mean) / std
 
 print(f"\\nZ-Scores:")
 for s, z in zip(scores, z_scores):
-    print(f"  درجة {s} → Z = {z:+.2f}")
-`
-  },
-  matplotlib: {
-    name: '📈 رسوم بيانية',
-    code: `# رسوم بيانية بـ matplotlib
-import matplotlib.pyplot as plt
-import numpy as np
-
-# بيانات: مبيعات شهرية
-months = ['ينا', 'فبر', 'مار', 'أبر', 'ماي', 'يون']
-sales = [12000, 15500, 13800, 17200, 19500, 21000]
-
-# إنشاء الشكل
-fig, axes = plt.subplots(1, 2, figsize=(11, 4))
-
-# مخطط شريطي
-axes[0].bar(months, sales, color='#0891b2', edgecolor='#0e7490')
-axes[0].set_title('Monthly Sales (SAR)', fontsize=12, fontweight='bold')
-axes[0].set_ylabel('Sales')
-axes[0].grid(axis='y', alpha=0.3)
-
-# مخطط خطي
-axes[1].plot(months, sales, marker='o', linewidth=2.5, color='#16a34a', markersize=10)
-axes[1].set_title('Sales Trend', fontsize=12, fontweight='bold')
-axes[1].set_ylabel('Sales')
-axes[1].grid(alpha=0.3)
-axes[1].fill_between(range(len(months)), sales, alpha=0.15, color='#16a34a')
-
-plt.tight_layout()
-plt.show()
-
-print(f"📈 إجمالي المبيعات: {sum(sales):,} ريال")
-print(f"📊 متوسط المبيعات: {sum(sales)/len(sales):,.0f} ريال/شهر")
-print(f"🏆 أعلى شهر: {months[sales.index(max(sales))]} ({max(sales):,})")
+    print(f"  {s} -> Z = {z:+.2f}")
 `
   },
   guess_game: {
     name: '🎯 لعبة التخمين',
-    code: `# لعبة التخمين
-import random
+    code: `import random
 
 secret = random.randint(1, 100)
 attempts = 0
@@ -526,11 +425,9 @@ while attempts < max_attempts:
     except ValueError:
         print("❌ أدخل رقمًا صحيحًا")
         continue
-    
     attempts += 1
-    
     if guess == secret:
-        print(f"\\n🎉 ممتاز! خمّنت الرقم في {attempts} محاولات")
+        print(f"\\n🎉 ممتاز! خمّنت في {attempts} محاولات")
         break
     elif guess < secret:
         print("⬆️  الرقم أعلى")
@@ -542,11 +439,342 @@ else:
   }
 };
 
-// ======================================================================
-// PYODIDE SETUP
-// ======================================================================
-let pyodide = null;
-let pyodideReady = false;
+// ====================================================================
+// TURTLE IMPLEMENTATION (Python code injected before user code)
+// ====================================================================
+const TURTLE_SETUP = `
+import sys, types, math, builtins
+import js
+from pyodide.ffi import create_proxy
+
+_turtle_mod = types.ModuleType('turtle')
+
+class _TurtleState:
+    def __init__(self):
+        self.canvas = js.document.getElementById('turtleCanvas')
+        self.ctx = self.canvas.getContext('2d')
+        self.cx = self.canvas.width / 2
+        self.cy = self.canvas.height / 2
+        self.x = 0.0
+        self.y = 0.0
+        self.heading = 0.0  # degrees, 0 = east
+        self.pen_down = True
+        self.pen_color = 'black'
+        self.fill_color = 'black'
+        self.bg = 'white'
+        self.pen_size = 1
+        self.speed_val = 6
+        # Clear canvas
+        self.canvas.style.backgroundColor = self.bg
+        self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height)
+        self.ctx.lineCap = 'round'
+        self.ctx.lineJoin = 'round'
+
+_state = _TurtleState()
+
+def _to_canvas(x, y):
+    return _state.cx + x, _state.cy - y
+
+def _forward(dist):
+    rad = math.radians(_state.heading)
+    nx = _state.x + dist * math.cos(rad)
+    ny = _state.y + dist * math.sin(rad)
+    if _state.pen_down:
+        sx, sy = _to_canvas(_state.x, _state.y)
+        ex, ey = _to_canvas(nx, ny)
+        _state.ctx.beginPath()
+        _state.ctx.moveTo(sx, sy)
+        _state.ctx.lineTo(ex, ey)
+        _state.ctx.strokeStyle = _state.pen_color
+        _state.ctx.lineWidth = _state.pen_size
+        _state.ctx.stroke()
+    _state.x = nx
+    _state.y = ny
+
+def _backward(dist): _forward(-dist)
+def _left(angle): _state.heading += angle
+def _right(angle): _state.heading -= angle
+
+def _goto(x, y=None):
+    if y is None and isinstance(x, (tuple, list)):
+        x, y = x
+    if _state.pen_down:
+        sx, sy = _to_canvas(_state.x, _state.y)
+        ex, ey = _to_canvas(x, y)
+        _state.ctx.beginPath()
+        _state.ctx.moveTo(sx, sy)
+        _state.ctx.lineTo(ex, ey)
+        _state.ctx.strokeStyle = _state.pen_color
+        _state.ctx.lineWidth = _state.pen_size
+        _state.ctx.stroke()
+    _state.x = x
+    _state.y = y
+
+def _setpos(x, y=None): _goto(x, y)
+def _setx(x): _goto(x, _state.y)
+def _sety(y): _goto(_state.x, y)
+def _setheading(angle): _state.heading = angle
+def _home(): _goto(0, 0); _state.heading = 0
+
+def _penup(): _state.pen_down = False
+def _pendown(): _state.pen_down = True
+def _pensize(n): _state.pen_size = n
+def _width(n): _state.pen_size = n
+
+def _color(*args):
+    if len(args) == 1:
+        _state.pen_color = args[0]
+        _state.fill_color = args[0]
+    elif len(args) == 2:
+        _state.pen_color = args[0]
+        _state.fill_color = args[1]
+    elif len(args) == 3:
+        # rgb tuple-like
+        r, g, b = args
+        c = f'rgb({int(r*255) if r<=1 else int(r)},{int(g*255) if g<=1 else int(g)},{int(b*255) if b<=1 else int(b)})'
+        _state.pen_color = c
+        _state.fill_color = c
+
+def _pencolor(c): _state.pen_color = c
+def _fillcolor(c): _state.fill_color = c
+
+def _bgcolor(c):
+    _state.bg = c
+    _state.canvas.style.backgroundColor = c
+
+def _speed(s): _state.speed_val = s if isinstance(s, (int, float)) else 6
+
+_filling = False
+_fill_path = []
+
+def _begin_fill():
+    global _filling, _fill_path
+    _filling = True
+    _fill_path = [(_state.x, _state.y)]
+
+def _end_fill():
+    global _filling, _fill_path
+    if _fill_path and len(_fill_path) > 2:
+        _state.ctx.beginPath()
+        for i, (px, py) in enumerate(_fill_path):
+            cx, cy = _to_canvas(px, py)
+            if i == 0:
+                _state.ctx.moveTo(cx, cy)
+            else:
+                _state.ctx.lineTo(cx, cy)
+        _state.ctx.closePath()
+        _state.ctx.fillStyle = _state.fill_color
+        _state.ctx.fill()
+    _filling = False
+    _fill_path = []
+
+def _circle(radius, extent=None, steps=None):
+    if extent is None:
+        extent = 360
+    if steps is None:
+        steps = max(int(abs(extent) / 5), 8)
+    step_angle = extent / steps
+    step_len = 2 * radius * math.sin(math.radians(step_angle / 2))
+    for _ in range(steps):
+        _forward(step_len)
+        _left(step_angle)
+
+def _dot(size=5, *color_args):
+    save_color = _state.fill_color
+    if color_args:
+        _state.fill_color = color_args[0]
+    cx, cy = _to_canvas(_state.x, _state.y)
+    _state.ctx.beginPath()
+    _state.ctx.arc(cx, cy, size/2, 0, 2*math.pi)
+    _state.ctx.fillStyle = _state.fill_color
+    _state.ctx.fill()
+    _state.fill_color = save_color
+
+def _write(text, move=False, align='left', font=None):
+    cx, cy = _to_canvas(_state.x, _state.y)
+    if font:
+        try:
+            family, size, weight = font[0], font[1], font[2] if len(font) > 2 else 'normal'
+            _state.ctx.font = f'{weight} {size}px {family}, "Noto Sans Arabic", Arial'
+        except:
+            _state.ctx.font = '14px Arial'
+    else:
+        _state.ctx.font = '14px Arial'
+    _state.ctx.fillStyle = _state.pen_color
+    _state.ctx.textAlign = align
+    _state.ctx.textBaseline = 'middle'
+    _state.ctx.fillText(str(text), cx, cy)
+
+def _clear():
+    _state.ctx.clearRect(0, 0, _state.canvas.width, _state.canvas.height)
+
+def _reset():
+    _clear()
+    _state.x = 0
+    _state.y = 0
+    _state.heading = 0
+
+def _done(): pass
+def _exitonclick(): pass
+def _mainloop(): pass
+def _hideturtle(): pass
+def _showturtle(): pass
+def _shape(*a): pass
+def _shapesize(*a): pass
+def _tracer(*a): pass
+def _update(): pass
+def _delay(*a): pass
+def _title(*a): pass
+def _setup(*a): pass
+def _screensize(w=None, h=None, *a):
+    if w and h:
+        _state.canvas.width = w
+        _state.canvas.height = h
+        _state.cx = w / 2
+        _state.cy = h / 2
+
+# Heading info
+def _xcor(): return _state.x
+def _ycor(): return _state.y
+def _heading(): return _state.heading
+def _position(): return (_state.x, _state.y)
+def _pos(): return (_state.x, _state.y)
+def _isdown(): return _state.pen_down
+
+# Class compatibility (Turtle())
+class _Turtle:
+    def forward(self, d): _forward(d)
+    fd = forward
+    def backward(self, d): _backward(d)
+    bk = backward
+    back = backward
+    def left(self, a): _left(a)
+    lt = left
+    def right(self, a): _right(a)
+    rt = right
+    def goto(self, x, y=None): _goto(x, y)
+    setpos = goto
+    setposition = goto
+    def setx(self, x): _setx(x)
+    def sety(self, y): _sety(y)
+    def setheading(self, a): _setheading(a)
+    seth = setheading
+    def home(self): _home()
+    def penup(self): _penup()
+    up = penup
+    pu = penup
+    def pendown(self): _pendown()
+    down = pendown
+    pd = pendown
+    def pensize(self, n): _pensize(n)
+    width = pensize
+    def color(self, *a): _color(*a)
+    def pencolor(self, c): _pencolor(c)
+    def fillcolor(self, c): _fillcolor(c)
+    def speed(self, s): _speed(s)
+    def begin_fill(self): _begin_fill()
+    def end_fill(self): _end_fill()
+    def circle(self, r, extent=None, steps=None): _circle(r, extent, steps)
+    def dot(self, size=5, *c): _dot(size, *c)
+    def write(self, t, move=False, align='left', font=None): _write(t, move, align, font)
+    def clear(self): _clear()
+    def reset(self): _reset()
+    def hideturtle(self): pass
+    ht = hideturtle
+    def showturtle(self): pass
+    st = showturtle
+    def shape(self, *a): pass
+    def shapesize(self, *a): pass
+    def xcor(self): return _state.x
+    def ycor(self): return _state.y
+    def heading(self): return _state.heading
+    def position(self): return (_state.x, _state.y)
+    pos = position
+    def isdown(self): return _state.pen_down
+
+class _Screen:
+    def bgcolor(self, *a):
+        if a: _bgcolor(a[0])
+        else: return _state.bg
+    def setup(self, *a, **kw): pass
+    def title(self, *a): pass
+    def tracer(self, *a): pass
+    def update(self): pass
+    def exitonclick(self): pass
+    def mainloop(self): pass
+    def screensize(self, w=None, h=None, *a): _screensize(w, h)
+    def setworldcoordinates(self, *a): pass
+
+_turtle_mod.forward = _forward
+_turtle_mod.fd = _forward
+_turtle_mod.backward = _backward
+_turtle_mod.bk = _backward
+_turtle_mod.back = _backward
+_turtle_mod.left = _left
+_turtle_mod.lt = _left
+_turtle_mod.right = _right
+_turtle_mod.rt = _right
+_turtle_mod.goto = _goto
+_turtle_mod.setpos = _setpos
+_turtle_mod.setposition = _setpos
+_turtle_mod.setx = _setx
+_turtle_mod.sety = _sety
+_turtle_mod.setheading = _setheading
+_turtle_mod.seth = _setheading
+_turtle_mod.home = _home
+_turtle_mod.penup = _penup
+_turtle_mod.up = _penup
+_turtle_mod.pu = _penup
+_turtle_mod.pendown = _pendown
+_turtle_mod.down = _pendown
+_turtle_mod.pd = _pendown
+_turtle_mod.pensize = _pensize
+_turtle_mod.width = _width
+_turtle_mod.color = _color
+_turtle_mod.pencolor = _pencolor
+_turtle_mod.fillcolor = _fillcolor
+_turtle_mod.bgcolor = _bgcolor
+_turtle_mod.speed = _speed
+_turtle_mod.begin_fill = _begin_fill
+_turtle_mod.end_fill = _end_fill
+_turtle_mod.circle = _circle
+_turtle_mod.dot = _dot
+_turtle_mod.write = _write
+_turtle_mod.clear = _clear
+_turtle_mod.reset = _reset
+_turtle_mod.done = _done
+_turtle_mod.exitonclick = _exitonclick
+_turtle_mod.mainloop = _mainloop
+_turtle_mod.hideturtle = _hideturtle
+_turtle_mod.ht = _hideturtle
+_turtle_mod.showturtle = _showturtle
+_turtle_mod.st = _showturtle
+_turtle_mod.shape = _shape
+_turtle_mod.shapesize = _shapesize
+_turtle_mod.tracer = _tracer
+_turtle_mod.update = _update
+_turtle_mod.delay = _delay
+_turtle_mod.title = _title
+_turtle_mod.setup = _setup
+_turtle_mod.screensize = _screensize
+_turtle_mod.xcor = _xcor
+_turtle_mod.ycor = _ycor
+_turtle_mod.heading = _heading
+_turtle_mod.position = _position
+_turtle_mod.pos = _pos
+_turtle_mod.isdown = _isdown
+_turtle_mod.Turtle = _Turtle
+_turtle_mod.Screen = lambda: _Screen()
+_turtle_mod.RawTurtle = _Turtle
+_turtle_mod.Pen = _Turtle
+
+sys.modules['turtle'] = _turtle_mod
+`;
+
+// ====================================================================
+// PYODIDE INIT
+// ====================================================================
+let pyodide = null, pyodideReady = false, matplotlibLoaded = false;
 const statusEl = document.getElementById('status');
 const statusText = document.getElementById('statusText');
 const runBtn = document.getElementById('runBtn');
@@ -557,93 +785,111 @@ function setStatus(text, type) {
   statusEl.className = 'toolbar-status' + (type ? ' ' + type : '');
 }
 
-function appendOutput(text, cls = 'stdout') {
-  const line = document.createElement('div');
-  line.className = 'output-line ' + cls;
-  line.textContent = text;
-  outputEl.appendChild(line);
+function appendOutput(text, cls = '') {
+  // Split on newlines and append each as a line to preserve formatting
+  const lines = String(text).split('\n');
+  lines.forEach((l, i) => {
+    if (i > 0 || outputEl.lastChild) {
+      const div = document.createElement('div');
+      div.className = 'output-line ' + cls;
+      div.textContent = l;
+      outputEl.appendChild(div);
+    } else {
+      const last = outputEl.lastChild;
+      if (last && last.classList && last.classList.contains('output-line') && !last.classList.contains('system')) {
+        last.textContent += l;
+      } else {
+        const div = document.createElement('div');
+        div.className = 'output-line ' + cls;
+        div.textContent = l;
+        outputEl.appendChild(div);
+      }
+    }
+  });
   outputEl.scrollTop = outputEl.scrollHeight;
 }
 
-function clearOutput() {
-  outputEl.innerHTML = '';
+function appendOutputBatched(text, cls = '') {
+  // Render multi-line text into separate <div> lines so very long output renders without truncation
+  const div = document.createElement('div');
+  div.className = 'output-line ' + cls;
+  div.textContent = text;
+  outputEl.appendChild(div);
+  outputEl.scrollTop = outputEl.scrollHeight;
 }
 
 async function initPyodide() {
   try {
     setStatus('جاري تحميل المحرك...', '');
-    pyodide = await loadPyodide({
-      indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.26.2/full/'
-    });
-    
-    setStatus('تحميل المكتبات...', '');
-    await pyodide.loadPackage(['numpy', 'matplotlib']);
-    
-    // Setup matplotlib for inline output
-    pyodide.runPython(`
-import matplotlib
-matplotlib.use('AGG')
-import matplotlib.pyplot as plt
-import io, base64, sys, builtins
-
-_original_show = plt.show
-_image_outputs = []
-
-def _custom_show(*args, **kwargs):
-    buf = io.BytesIO()
-    plt.gcf().savefig(buf, format='png', dpi=90, bbox_inches='tight')
-    buf.seek(0)
-    img_b64 = base64.b64encode(buf.read()).decode()
-    _image_outputs.append(img_b64)
-    plt.clf()
-    plt.close('all')
-
-plt.show = _custom_show
-    `);
-    
-    pyodideReady = true;
+    pyodide = await loadPyodide({ indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.26.2/full/' });
     setStatus('جاهز ✓ Python 3.12', 'ready');
+    pyodideReady = true;
     runBtn.disabled = false;
   } catch (err) {
     setStatus('فشل التحميل', 'error');
-    appendOutput('❌ فشل تحميل المحرك: ' + err.message, 'stderr');
+    appendOutputBatched('❌ فشل تحميل المحرك: ' + err.message, 'stderr');
   }
 }
 
-// ======================================================================
-// INPUT HANDLING (asynchronous)
-// ======================================================================
-function pyInput(prompt) {
+async function ensureMatplotlib() {
+  if (matplotlibLoaded) return;
+  setStatus('تحميل matplotlib...', '');
+  await pyodide.loadPackage(['numpy', 'matplotlib']);
+  pyodide.runPython(`
+import matplotlib
+matplotlib.use('AGG')
+import matplotlib.pyplot as plt
+import io, base64
+_image_outputs = []
+_orig_show = plt.show
+def _custom_show(*a, **k):
+    buf = io.BytesIO()
+    plt.gcf().savefig(buf, format='png', dpi=90, bbox_inches='tight')
+    buf.seek(0)
+    _image_outputs.append(base64.b64encode(buf.read()).decode())
+    plt.clf(); plt.close('all')
+plt.show = _custom_show
+  `);
+  matplotlibLoaded = true;
+  setStatus('جاهز ✓ Python 3.12', 'ready');
+}
+
+async function ensureNumpy() {
+  if (!pyodide.loadedPackages || !pyodide.loadedPackages.numpy) {
+    setStatus('تحميل numpy...', '');
+    await pyodide.loadPackage(['numpy']);
+    setStatus('جاهز ✓ Python 3.12', 'ready');
+  }
+}
+
+// ====================================================================
+// INPUT HANDLING (async + visible prompt)
+// ====================================================================
+function pyInput(promptText) {
   return new Promise((resolve) => {
     const wrapper = document.createElement('div');
     wrapper.className = 'input-prompt';
-    
     const label = document.createElement('div');
     label.className = 'input-prompt-label';
-    label.textContent = prompt || 'أدخل قيمة:';
-    
+    label.textContent = promptText || 'أدخل قيمة:';
     const input = document.createElement('input');
     input.type = 'text';
     input.className = 'input-prompt-input';
     input.placeholder = 'اكتب هنا واضغط Enter...';
-    
     const btn = document.createElement('button');
     btn.className = 'input-prompt-btn';
     btn.textContent = 'إرسال ✓';
-    
     const submit = () => {
-      const value = input.value;
-      label.textContent = (prompt || '') + value;
+      const val = input.value;
+      label.textContent = (promptText || '') + val;
       input.remove();
       btn.remove();
-      resolve(value);
+      resolve(val);
     };
-    
     btn.addEventListener('click', submit);
     input.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') { e.preventDefault(); submit(); }
     });
-    
     wrapper.appendChild(label);
     wrapper.appendChild(input);
     wrapper.appendChild(btn);
@@ -654,145 +900,187 @@ function pyInput(prompt) {
 }
 window.pyInput = pyInput;
 
-// ======================================================================
+// ====================================================================
+// CODE TRANSFORMATION
+// ====================================================================
+function transformInputCalls(code) {
+  // Replace input(...) with (await __ainput(...))
+  // Avoid matching inside strings is hard, but for typical user code this works
+  // Use negative lookbehind for word/dot to avoid matching .input() or xinput()
+  return code.replace(/(?<![\w.])input\s*\(/g, '(await __ainput(') 
+             .replace(/await __ainput\(/g, '__AINPUT__(');
+  // The wrapping happens later by adding closing paren handling
+  // Actually simpler: do the substitution carefully with parens balanced
+}
+
+// Better: smart transform that balances parens
+function smartTransformInput(code) {
+  let out = '';
+  let i = 0;
+  while (i < code.length) {
+    // Match "input(" not preceded by word/dot
+    if (code[i] === 'i' && code.startsWith('input', i)) {
+      const before = i > 0 ? code[i-1] : ' ';
+      if (!/[\w.]/.test(before)) {
+        // Check if followed by optional spaces then '('
+        let j = i + 5;
+        while (j < code.length && code[j] === ' ') j++;
+        if (code[j] === '(') {
+          // Find matching closing paren
+          let depth = 1, k = j + 1;
+          let inStr = null;
+          while (k < code.length && depth > 0) {
+            const c = code[k];
+            if (inStr) {
+              if (c === '\\') { k += 2; continue; }
+              if (c === inStr) inStr = null;
+            } else {
+              if (c === '"' || c === "'") inStr = c;
+              else if (c === '(') depth++;
+              else if (c === ')') depth--;
+            }
+            k++;
+          }
+          // Replace input(...) with (await __ainput(...))
+          out += '(await __ainput' + code.substring(j, k) + ')';
+          i = k;
+          continue;
+        }
+      }
+    }
+    out += code[i];
+    i++;
+  }
+  return out;
+}
+
+// ====================================================================
+// PANEL SWITCHING
+// ====================================================================
+function switchPanel(name) {
+  document.querySelectorAll('.pane-tab').forEach(t => t.classList.toggle('active', t.dataset.panel === name));
+  document.querySelectorAll('.right-panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + name));
+}
+window.switchPanel = switchPanel;
+
+// ====================================================================
 // RUN CODE
-// ======================================================================
+// ====================================================================
 async function runCode() {
   if (!pyodideReady) return;
-  const code = editor.getValue();
-  if (!code.trim()) return;
+  const userCode = editor.getValue();
+  if (!userCode.trim()) return;
   
-  clearOutput();
-  appendOutput('▶ تشغيل الكود...', 'system');
-  appendOutput('─'.repeat(40), 'system');
+  // Clear outputs
+  outputEl.innerHTML = '';
+  document.getElementById('plotArea').innerHTML = '<div class="canvas-empty"><div class="ico">📊</div><p>سيظهر هنا الرسم البياني عند تشغيل كود يستخدم matplotlib</p></div>';
+  
+  appendOutputBatched('▶ تشغيل الكود...', 'system');
   
   runBtn.disabled = true;
   runBtn.innerHTML = '⏳ يعمل...';
   
+  // Detect features
+  const usesTurtle = /\b(import\s+turtle|from\s+turtle)/.test(userCode);
+  const usesMatplotlib = /\b(import\s+matplotlib|from\s+matplotlib|matplotlib\.|pyplot|plt\.)/.test(userCode);
+  const usesNumpy = /\b(import\s+numpy|from\s+numpy|np\.)/.test(userCode);
+  
   try {
-    // Set up stdout/stderr capture
-    pyodide.setStdout({
-      batched: (text) => appendOutput(text, 'stdout')
-    });
-    pyodide.setStderr({
-      batched: (text) => appendOutput(text, 'stderr')
-    });
+    if (usesMatplotlib) await ensureMatplotlib();
+    else if (usesNumpy) await ensureNumpy();
     
-    // Override input() with async JS prompt
-    pyodide.globals.set('__js_input__', pyInput);
+    // Setup turtle if needed
+    if (usesTurtle) {
+      // Reset canvas
+      const canvas = document.getElementById('turtleCanvas');
+      canvas.width = 640;
+      canvas.height = 500;
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      canvas.style.backgroundColor = 'white';
+      pyodide.runPython(TURTLE_SETUP);
+      switchPanel('canvas');
+    }
     
-    // Reset image outputs
-    pyodide.runPython('_image_outputs.clear()');
+    // Setup stdout/stderr
+    pyodide.setStdout({ batched: (text) => appendOutputBatched(text, '') });
+    pyodide.setStderr({ batched: (text) => appendOutputBatched(text, 'stderr') });
     
-    // Wrap user code with async input handler
+    // Reset matplotlib outputs
+    if (matplotlibLoaded) {
+      try { pyodide.runPython('_image_outputs.clear()'); } catch(e) {}
+    }
+    
+    // Transform input() calls and wrap in async function
+    const transformed = smartTransformInput(userCode);
+    
     const wrappedCode = `
-import builtins, asyncio, js
-from pyodide.ffi import to_js
-
-async def __async_input__(prompt=""):
-    print(prompt, end="")
-    result = await js.pyInput(prompt)
-    print(result)
-    return str(result)
-
-builtins.input = lambda prompt="": __run_input_sync__(prompt)
-
-# We need to run user code in async context to support input()
-async def __user_main__():
-${code.split('\n').map(l => '    ' + l).join('\n')}
-
-# Replace input() to use async version
-import builtins
-async def _ainput(prompt=""):
-    print(prompt, end="")
-    result = await js.pyInput(prompt)
-    print(result)
-    return str(result)
-
-# Patch builtins.input
-class _AsyncInput:
-    def __call__(self, prompt=""):
-        # This will be intercepted
-        raise RuntimeError("Use ainput in async code")
-
-# Run via runPythonAsync
-`;
-    
-    // Simpler approach: detect input() usage and replace
-    const hasInput = /\binput\s*\(/.test(code);
-    
-    if (hasInput) {
-      // Make input() asynchronous via runPythonAsync
-      const asyncCode = `
 import builtins, js
-
 async def __ainput(prompt=""):
     if prompt:
         print(prompt, end="")
-    result = await js.pyInput(prompt)
+    result = await js.pyInput(str(prompt))
     print(result)
     return str(result)
 
-builtins.input = __ainput
+builtins.__ainput = __ainput
 
-# User code as async
-async def __main():
-${code.split('\n').map(l => '    ' + l).join('\n')}
+async def __user_main__():
+${transformed.split('\n').map(l => '    ' + l).join('\n') || '    pass'}
 
-await __main()
+await __user_main__()
 `;
-      await pyodide.runPythonAsync(asyncCode);
-    } else {
-      pyodide.runPython(code);
+    
+    await pyodide.runPythonAsync(wrappedCode);
+    
+    // Display matplotlib images
+    if (matplotlibLoaded) {
+      try {
+        const imgs = pyodide.globals.get('_image_outputs');
+        if (imgs && imgs.length > 0) {
+          const list = imgs.toJs();
+          const plotArea = document.getElementById('plotArea');
+          plotArea.innerHTML = '';
+          for (const b64 of list) {
+            const img = document.createElement('img');
+            img.src = 'data:image/png;base64,' + b64;
+            plotArea.appendChild(img);
+          }
+          imgs.destroy();
+          switchPanel('plot');
+        }
+      } catch(e) {}
     }
     
-    // Display matplotlib images if any
-    const images = pyodide.globals.get('_image_outputs');
-    if (images && images.length > 0) {
-      const imgList = images.toJs();
-      for (const b64 of imgList) {
-        const img = document.createElement('img');
-        img.src = 'data:image/png;base64,' + b64;
-        outputEl.appendChild(img);
-      }
-      images.destroy();
-    }
-    
-    appendOutput('─'.repeat(40), 'system');
-    appendOutput('✓ انتهى التنفيذ بنجاح', 'success');
+    appendOutputBatched('✓ انتهى التنفيذ بنجاح', 'success');
   } catch (err) {
-    appendOutput('─'.repeat(40), 'system');
-    appendOutput('❌ خطأ:', 'stderr');
-    appendOutput(err.message || String(err), 'stderr');
+    appendOutputBatched('❌ خطأ:', 'stderr');
+    appendOutputBatched(err.message || String(err), 'stderr');
   } finally {
     runBtn.disabled = false;
     runBtn.innerHTML = '▶ تشغيل الكود';
     outputEl.scrollTop = outputEl.scrollHeight;
   }
 }
+window.runCode = runCode;
 
-// ======================================================================
+// ====================================================================
 // EDITOR
-// ======================================================================
+// ====================================================================
 const editor = CodeMirror.fromTextArea(document.getElementById('codeEditor'), {
-  mode: 'python',
-  theme: 'dracula',
-  lineNumbers: true,
-  indentUnit: 4,
-  tabSize: 4,
-  autoCloseBrackets: true,
-  matchBrackets: true,
+  mode: 'python', theme: 'dracula', lineNumbers: true,
+  indentUnit: 4, tabSize: 4,
+  autoCloseBrackets: true, matchBrackets: true,
   lineWrapping: false,
   extraKeys: {
-    'Ctrl-Enter': runCode,
-    'Cmd-Enter': runCode,
+    'Ctrl-Enter': runCode, 'Cmd-Enter': runCode,
     'Tab': (cm) => cm.replaceSelection('    ', 'end')
   }
 });
 
-// ======================================================================
+// ====================================================================
 // EXAMPLES BAR
-// ======================================================================
+// ====================================================================
 let currentExample = 'supermarket';
 const examplesBar = document.getElementById('examplesBar');
 Object.entries(EXAMPLES).forEach(([key, ex]) => {
@@ -805,34 +1093,39 @@ Object.entries(EXAMPLES).forEach(([key, ex]) => {
     chip.classList.add('active');
     currentExample = key;
     editor.setValue(ex.code);
-    clearOutput();
-    appendOutput('📝 تم تحميل المثال: ' + ex.name, 'system');
-    appendOutput('اضغط ▶ تشغيل الكود لبدء التنفيذ', 'system');
+    outputEl.innerHTML = '<div class="output-line system">📝 تم تحميل المثال: ' + ex.name + '</div><div class="output-line system">اضغط ▶ تشغيل الكود لبدء التنفيذ</div>';
   });
   examplesBar.appendChild(chip);
 });
 
-// Load default example
 editor.setValue(EXAMPLES[currentExample].code);
 
-// Reset / Clear handlers
 function resetCode() {
   editor.setValue(EXAMPLES[currentExample].code);
-  clearOutput();
-  appendOutput('🔄 تمت إعادة تعيين الكود', 'system');
+  clearAll();
+  appendOutputBatched('🔄 تمت إعادة تعيين الكود', 'system');
+}
+function clearAll() {
+  outputEl.innerHTML = '';
+  // Clear canvas
+  const canvas = document.getElementById('turtleCanvas');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    canvas.style.backgroundColor = 'white';
+  }
+  document.getElementById('plotArea').innerHTML = '<div class="canvas-empty"><div class="ico">📊</div><p>سيظهر هنا الرسم البياني عند تشغيل كود يستخدم matplotlib</p></div>';
 }
 window.resetCode = resetCode;
-window.clearOutput = clearOutput;
+window.clearAll = clearAll;
 
-// Global keyboard shortcut
 document.addEventListener('keydown', (e) => {
   if ((e.ctrlKey || e.metaKey) && e.key === 'l') {
     e.preventDefault();
-    clearOutput();
+    clearAll();
   }
 });
 
-// Init
 initPyodide();
 </script>
 </body>
