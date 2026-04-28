@@ -569,59 +569,135 @@ TOPICS['1'] = `
   </div>
 
   <!-- ============ INTERACTIVE STEP-BY-STEP SOLVER 1 ============ -->
-  <div class="step-solver" id="solver-1-1" data-total="5" data-current="-1">
+  <!-- ===== SOLVER 1.1: MEAN (يدوي + إكسل + بايثون) ===== -->
+  <div class="step-solver" id="solver-1-1" data-total="9" data-current="-1">
     <div class="step-solver-header">
-      <div class="step-solver-title">🧮 حل تفاعلي: حساب المتوسط</div>
-      <div class="step-progress">0 / 5</div>
+      <div class="step-solver-title">🧮 الحل التفاعلي 1: حساب المتوسط الحسابي</div>
+      <div class="step-progress">0 / 9</div>
     </div>
     <div class="step-solver-body">
       <div class="step-question">احسب <strong>المتوسط الحسابي</strong> لدرجات 6 طلاب في اختبار الإحصاء:<br>
-      <code style="background: white; padding: 4px 10px; border-radius: 6px; font-family: 'JetBrains Mono'; direction: ltr; display: inline-block; margin-top: 6px;">85, 92, 78, 95, 88, 76</code></div>
+      <code style="background: white; padding: 4px 10px; border-radius: 6px; font-family: 'JetBrains Mono'; direction: ltr; display: inline-block; margin-top: 6px;">85, 92, 78, 95, 88, 76</code>
+      <br>اعرض الحل: <strong>يدويًا</strong> ثم في <strong>إكسل</strong> ثم في <strong>بايثون</strong>.</div>
 
       <div class="step-item" data-step="1">
-        <div class="step-label">الخطوة 1 — كتابة القانون</div>
+        <div class="step-label">🖐️ الخطوة 1 — قانون المتوسط (يدوي)</div>
         <div class="step-content">
-          المتوسط الحسابي يحسب بقسمة <strong>مجموع القيم</strong> على <strong>عددها</strong>:
+          المتوسط = مجموع القيم ÷ عددها:
           <div class="calc">x̄ = (Σ xᵢ) / n</div>
-          هذه هي البداية الأساسية لأي مسألة متوسط. حدد دائمًا أنك تحتاج: المجموع وعدد القيم.
+          <ul>
+            <li>x̄ = المتوسط (يقرأ "x bar")</li>
+            <li>Σ = حرف سيغما اليوناني = <strong>المجموع</strong></li>
+            <li>xᵢ = كل قيمة من القيم</li>
+            <li>n = عدد القيم</li>
+          </ul>
+          <strong>الفكرة:</strong> نوزع المجموع الكلي بالتساوي على عدد المفردات.
         </div>
       </div>
 
       <div class="step-item" data-step="2">
-        <div class="step-label">الخطوة 2 — حساب المجموع</div>
+        <div class="step-label">🖐️ الخطوة 2 — حساب المجموع</div>
         <div class="step-content">
-          نجمع كل الدرجات:
-          <div class="calc">Σ = 85 + 92 + 78 + 95 + 88 + 76</div>
-          <div class="calc">Σ = 514</div>
-          <strong>نصيحة:</strong> اجمع الأرقام في زوجين زوجين لتقليل الأخطاء: (85+92)=177، (78+95)=173، (88+76)=164، ثم 177+173+164=514.
+          نجمع كل الدرجات يدويًا، نقسمها لأزواج لتقليل الأخطاء:
+          <div class="calc">85 + 92 = 177</div>
+          <div class="calc">78 + 95 = 173</div>
+          <div class="calc">88 + 76 = 164</div>
+          <div class="calc">177 + 173 + 164 = <strong>514</strong></div>
+          <strong>إذن:</strong> Σ xᵢ = 514
         </div>
       </div>
 
       <div class="step-item" data-step="3">
-        <div class="step-label">الخطوة 3 — تحديد عدد القيم</div>
+        <div class="step-label">🖐️ الخطوة 3 — تحديد عدد القيم n</div>
         <div class="step-content">
-          نعد كم عدد القيم لدينا:
-          <div class="calc">n = 6</div>
-          هنا 6 درجات. اعتمد دائمًا على <span class="highlight">العد الفعلي</span> ولا تقدر.
+          نعد القيم: 85, 92, 78, 95, 88, 76
+          <div class="calc">n = <strong>6</strong></div>
+          <strong>نصيحة مهمة:</strong> دائمًا اعتمد على العد الفعلي ولا تخمن.
         </div>
       </div>
 
       <div class="step-item" data-step="4">
-        <div class="step-label">الخطوة 4 — التطبيق في القانون</div>
+        <div class="step-label">🖐️ الخطوة 4 — تطبيق القانون</div>
         <div class="step-content">
-          نضع القيم في معادلة المتوسط:
           <div class="calc">x̄ = 514 / 6</div>
-          <div class="calc">x̄ = 85.67</div>
+          <div class="calc">x̄ = <strong>85.67</strong></div>
+          <strong>الإجابة اليدوية:</strong> المتوسط ≈ 85.67 درجة
         </div>
       </div>
 
       <div class="step-item" data-step="5">
-        <div class="step-label">الإجابة النهائية</div>
+        <div class="step-label">🖐️ الخطوة 5 — التحقق المنطقي</div>
+        <div class="step-content">
+          <ul>
+            <li>أصغر قيمة = 76، أكبر قيمة = 95</li>
+            <li>المتوسط 85.67 يقع بينهما ✓</li>
+            <li>قريب من نقطة الوسط (76+95)/2 = 85.5 → منطقي ✓</li>
+          </ul>
+          <strong>قاعدة:</strong> المتوسط دائمًا بين أصغر وأكبر قيمة. لو كانت إجابتك خارج هذا المدى، هناك خطأ.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="6">
+        <div class="step-label">📊 الخطوة 6 — الحل في إكسل</div>
+        <div class="step-content">
+          <strong>الطريقة 1 — استخدام دالة AVERAGE (الأسهل):</strong>
+          <ol>
+            <li>افتح إكسل</li>
+            <li>أدخل القيم في الخلايا A1:A6 (85, 92, 78, 95, 88, 76)</li>
+            <li>في الخلية B1 اكتب:</li>
+          </ol>
+          <div class="calc">=AVERAGE(A1:A6)</div>
+          <div class="calc">النتيجة: 85.67</div>
+          <strong>الطريقة 2 — يدويًا في إكسل:</strong>
+          <div class="calc">=SUM(A1:A6)/COUNT(A1:A6)</div>
+          <strong>الطريقة 3 — بشرط:</strong> متوسط الدرجات الناجحة (≥ 60):
+          <div class="calc">=AVERAGEIF(A1:A6, ">=60")</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="7">
+        <div class="step-label">🐍 الخطوة 7 — الحل في بايثون</div>
+        <div class="step-content">
+          <strong>طريقة 1 — مكتبة statistics:</strong>
+          <div class="code-block">
+<span class="keyword">import</span> statistics
+scores = [<span class="number">85</span>, <span class="number">92</span>, <span class="number">78</span>, <span class="number">95</span>, <span class="number">88</span>, <span class="number">76</span>]
+mean_val = statistics.<span class="func">mean</span>(scores)
+<span class="func">print</span>(<span class="string">f"المتوسط: {mean_val:.2f}"</span>)
+<span class="comment"># المتوسط: 85.67</span></div>
+          <strong>طريقة 2 — numpy:</strong>
+          <div class="code-block">
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+scores = np.<span class="func">array</span>([<span class="number">85</span>, <span class="number">92</span>, <span class="number">78</span>, <span class="number">95</span>, <span class="number">88</span>, <span class="number">76</span>])
+<span class="func">print</span>(np.<span class="func">mean</span>(scores))  <span class="comment"># 85.666...</span></div>
+          <strong>طريقة 3 — بدون مكتبات:</strong>
+          <div class="code-block">
+scores = [<span class="number">85</span>, <span class="number">92</span>, <span class="number">78</span>, <span class="number">95</span>, <span class="number">88</span>, <span class="number">76</span>]
+mean_val = <span class="func">sum</span>(scores) / <span class="func">len</span>(scores)
+<span class="func">print</span>(mean_val)  <span class="comment"># 85.66666...</span></div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="8">
+        <div class="step-label">📊🐍 الخطوة 8 — مقارنة النتائج</div>
+        <div class="step-content">
+          <table class="compare-table" style="margin-top: 8px; background: white;">
+            <tr><th>الطريقة</th><th>الناتج</th><th>الميزة</th></tr>
+            <tr><td>🖐️ يدوي</td><td>85.67</td><td>يبني الفهم العميق</td></tr>
+            <tr><td>📊 إكسل</td><td>85.67</td><td>سريع للجداول الكبيرة</td></tr>
+            <tr><td>🐍 بايثون</td><td>85.67</td><td>الأقوى للتحليل المتقدم</td></tr>
+          </table>
+          <strong>الثلاث طرق أعطت نفس النتيجة</strong> — هذا تأكيد أن الحساب صحيح.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="9">
+        <div class="step-label">✅ الخطوة 9 — الإجابة النهائية</div>
         <div class="step-content">
           <strong>متوسط درجات الطلاب الستة = <span class="highlight">85.67 درجة</span></strong>
           <div style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
-            <strong>التفسير:</strong> في المتوسط، حصل الطلاب على 85.67 درجة من 100. هذا يدل على مستوى جيد جدًا.
-            <br><strong>تحقق:</strong> القيم بين 76 و 95، والمتوسط 85.67 ضمن هذا المدى ✓
+            <strong>التفسير:</strong> في المتوسط حصل كل طالب على 85.67. مستوى عام جيد جدًا.<br>
+            <strong>متى تستخدم المتوسط؟</strong> عندما تكون البيانات متجانسة وبدون قيم متطرفة.
           </div>
         </div>
       </div>
@@ -636,70 +712,154 @@ TOPICS['1'] = `
     </div>
   </div>
 
-  <!-- ============ INTERACTIVE SOLVER 2: MEDIAN ============ -->
-  <div class="step-solver" id="solver-1-2" data-total="6" data-current="-1">
+  <!-- ===== SOLVER 1.2: MEDIAN (يدوي + إكسل + بايثون) ===== -->
+  <div class="step-solver" id="solver-1-2" data-total="10" data-current="-1">
     <div class="step-solver-header">
-      <div class="step-solver-title">🧮 حل تفاعلي: حساب الوسيط (عدد فردي)</div>
-      <div class="step-progress">0 / 6</div>
+      <div class="step-solver-title">🧮 الحل التفاعلي 2: حساب الوسيط (حالتا الفردي والزوجي)</div>
+      <div class="step-progress">0 / 10</div>
     </div>
     <div class="step-solver-body">
-      <div class="step-question">احسب <strong>الوسيط</strong> للبيانات التالية:<br>
-      <code style="background: white; padding: 4px 10px; border-radius: 6px; font-family: 'JetBrains Mono'; direction: ltr; display: inline-block; margin-top: 6px;">15, 102, 68, 44, 52</code></div>
+      <div class="step-question">احسب <strong>الوسيط</strong> للبيانات: <code style="background: white; padding: 4px 10px; border-radius: 6px; font-family: 'JetBrains Mono'; direction: ltr; display: inline-block;">15, 102, 68, 44, 52</code><br>
+      ثم احسبه إذا أضفنا قيمة سادسة <strong>72</strong> (لتجربة الحالة الزوجية).</div>
 
       <div class="step-item" data-step="1">
-        <div class="step-label">الخطوة 1 — تحديد عدد القيم</div>
+        <div class="step-label">🖐️ الخطوة 1 — مفهوم الوسيط</div>
         <div class="step-content">
-          نعد القيم: <strong>15, 102, 68, 44, 52</strong>
-          <div class="calc">n = 5 (عدد فردي)</div>
-          عندما يكون <span class="highlight">n فردي</span>، الوسيط هو القيمة الوسطى مباشرة.
+          <strong>الوسيط</strong> = القيمة التي تقع في <strong>منتصف البيانات بعد ترتيبها</strong>.
+          <ul>
+            <li>إذا n فردي → قيمة واحدة في المنتصف</li>
+            <li>إذا n زوجي → متوسط القيمتين الوسطيتين</li>
+          </ul>
+          <strong>لماذا الوسيط مهم؟</strong> لأنه <strong>لا يتأثر بالقيم المتطرفة</strong> عكس المتوسط.
         </div>
       </div>
 
       <div class="step-item" data-step="2">
-        <div class="step-label">الخطوة 2 — ترتيب البيانات تصاعديًا</div>
+        <div class="step-label">🖐️ الخطوة 2 — تحديد عدد القيم n</div>
         <div class="step-content">
-          <strong>قاعدة ذهبية:</strong> دائمًا رتب البيانات قبل البحث عن الوسيط.
-          <div class="calc">15, 44, 52, 68, 102</div>
-          هذا الترتيب من الأصغر إلى الأكبر.
+          البيانات: 15, 102, 68, 44, 52
+          <div class="calc">n = <strong>5</strong> (فردي)</div>
+          <strong>إذن:</strong> الوسيط = قيمة واحدة في الموضع المركزي.
         </div>
       </div>
 
       <div class="step-item" data-step="3">
-        <div class="step-label">الخطوة 3 — حساب رتبة الوسيط</div>
+        <div class="step-label">🖐️ الخطوة 3 — ترتيب البيانات تصاعديًا</div>
         <div class="step-content">
-          نستخدم القانون:
-          <div class="calc">رتبة الوسيط = (n + 1) / 2</div>
-          <div class="calc">= (5 + 1) / 2 = 3</div>
-          إذن الوسيط هو القيمة في <span class="highlight">الموضع الثالث</span> بعد الترتيب.
+          <strong>قاعدة ذهبية:</strong> الترتيب أولاً قبل أي حساب للوسيط.
+          <table class="compare-table" style="margin-top: 8px; background: white;">
+            <tr><th>قبل الترتيب</th><th>بعد الترتيب</th></tr>
+            <tr><td>15</td><td>15</td></tr>
+            <tr><td>102</td><td>44</td></tr>
+            <tr><td>68</td><td>52</td></tr>
+            <tr><td>44</td><td>68</td></tr>
+            <tr><td>52</td><td>102</td></tr>
+          </table>
         </div>
       </div>
 
       <div class="step-item" data-step="4">
-        <div class="step-label">الخطوة 4 — تحديد القيمة في الموضع 3</div>
+        <div class="step-label">🖐️ الخطوة 4 — حساب رتبة الوسيط</div>
         <div class="step-content">
-          من البيانات المرتبة:
-          <div class="calc">الموضع: 1 → 15<br>الموضع: 2 → 44<br>الموضع: 3 → 52  ⟵ هذا الوسيط<br>الموضع: 4 → 68<br>الموضع: 5 → 102</div>
+          القانون:
+          <div class="calc">رتبة الوسيط = (n + 1) / 2</div>
+          <div class="calc">= (5 + 1) / 2 = <strong>3</strong></div>
+          <strong>إذن:</strong> الوسيط هو القيمة في <span class="highlight">الموضع الثالث</span> بعد الترتيب.
         </div>
       </div>
 
       <div class="step-item" data-step="5">
-        <div class="step-label">الإجابة النهائية</div>
+        <div class="step-label">🖐️ الخطوة 5 — تحديد القيمة في الموضع الثالث</div>
         <div class="step-content">
-          <strong>الوسيط = <span class="highlight">52</span></strong>
-          <div style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
-            <strong>ملاحظة مهمة:</strong> لاحظ أن المتوسط الحسابي لهذه البيانات = 56.2 (متأثر بالقيمة 102 الكبيرة)، أما الوسيط = 52 (لم يتأثر). هذا يبين قوة الوسيط مع البيانات المتطرفة.
-          </div>
+          البيانات المرتبة:
+          <table class="compare-table" style="margin-top: 8px; background: white;">
+            <tr><th>الموضع</th><th>1</th><th>2</th><th>3 ⭐</th><th>4</th><th>5</th></tr>
+            <tr><td>القيمة</td><td>15</td><td>44</td><td><strong>52</strong></td><td>68</td><td>102</td></tr>
+          </table>
+          <div class="calc">الوسيط = <strong>52</strong></div>
         </div>
       </div>
 
       <div class="step-item" data-step="6">
-        <div class="step-label">⚡ ماذا لو كان n زوجي؟</div>
+        <div class="step-label">🖐️ الخطوة 6 — الحالة الزوجية (إضافة 72)</div>
         <div class="step-content">
-          إذا أضفنا قيمة سادسة 72:
-          <div class="calc">15, 44, 52, 68, 72, 102 (n=6)</div>
-          الوسيط = متوسط القيمتين الوسطيتين (الموضع 3 و 4):
-          <div class="calc">الوسيط = (52 + 68) / 2 = 60</div>
-          <strong>القاعدة:</strong> n فردي → قيمة واحدة. n زوجي → متوسط قيمتين.
+          البيانات الجديدة بعد الترتيب: 15, 44, 52, 68, 72, 102 (n = 6)
+          <div class="calc">رتبة الوسيط = (6 + 1) / 2 = 3.5</div>
+          <strong>المعنى:</strong> n زوجي، فالوسيط يقع <span class="highlight">بين الموضعين 3 و 4</span>.
+          <table class="compare-table" style="margin-top: 8px; background: white;">
+            <tr><th>الموضع</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr>
+            <tr><td>القيمة</td><td>15</td><td>44</td><td><strong>52</strong></td><td><strong>68</strong></td><td>72</td><td>102</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="7">
+        <div class="step-label">🖐️ الخطوة 7 — حساب الوسيط للزوجي</div>
+        <div class="step-content">
+          الوسيط = متوسط القيمتين الوسطيتين:
+          <div class="calc">الوسيط = (52 + 68) / 2</div>
+          <div class="calc">الوسيط = 120 / 2 = <strong>60</strong></div>
+          <strong>القاعدة:</strong> n فردي → قيمة. n زوجي → متوسط قيمتين.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="8">
+        <div class="step-label">📊 الخطوة 8 — الحل في إكسل</div>
+        <div class="step-content">
+          <strong>دالة MEDIAN تتولى كل شيء تلقائيًا</strong> (ترتيب + تحديد منتصف):
+          <ol>
+            <li>أدخل البيانات في A1:A5</li>
+            <li>اكتب في B1:</li>
+          </ol>
+          <div class="calc">=MEDIAN(A1:A5)</div>
+          <div class="calc">النتيجة: 52</div>
+          <strong>للحالة الزوجية:</strong>
+          <div class="calc">=MEDIAN(A1:A6)  →  60</div>
+          <strong>ميزة إكسل:</strong> لا تحتاج لترتيب البيانات يدويًا — الدالة تفعل ذلك.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="9">
+        <div class="step-label">🐍 الخطوة 9 — الحل في بايثون</div>
+        <div class="step-content">
+          <div class="code-block">
+<span class="keyword">import</span> statistics
+
+<span class="comment"># الحالة الفردية</span>
+data1 = [<span class="number">15</span>, <span class="number">102</span>, <span class="number">68</span>, <span class="number">44</span>, <span class="number">52</span>]
+<span class="func">print</span>(statistics.<span class="func">median</span>(data1))  <span class="comment"># 52</span>
+
+<span class="comment"># الحالة الزوجية</span>
+data2 = [<span class="number">15</span>, <span class="number">102</span>, <span class="number">68</span>, <span class="number">44</span>, <span class="number">52</span>, <span class="number">72</span>]
+<span class="func">print</span>(statistics.<span class="func">median</span>(data2))  <span class="comment"># 60.0</span>
+
+<span class="comment"># أو يدويًا (لفهم الآلية)</span>
+<span class="keyword">def</span> <span class="func">my_median</span>(data):
+    s = <span class="func">sorted</span>(data)
+    n = <span class="func">len</span>(s)
+    <span class="keyword">if</span> n % <span class="number">2</span> == <span class="number">1</span>:
+        <span class="keyword">return</span> s[n // <span class="number">2</span>]
+    <span class="keyword">else</span>:
+        <span class="keyword">return</span> (s[n // <span class="number">2</span> - <span class="number">1</span>] + s[n // <span class="number">2</span>]) / <span class="number">2</span></div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="10">
+        <div class="step-label">✅ الخطوة 10 — الإجابة النهائية والمقارنة</div>
+        <div class="step-content">
+          <ul>
+            <li><strong>الفردي (5 قيم):</strong> الوسيط = <span class="highlight">52</span></li>
+            <li><strong>الزوجي (6 قيم):</strong> الوسيط = <span class="highlight">60</span></li>
+          </ul>
+          <div style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
+            <strong>ملاحظة قوية:</strong>
+            <ul>
+              <li>المتوسط الحسابي للبيانات الأولى = (15+44+52+68+102)/5 = 56.2</li>
+              <li>الوسيط = 52</li>
+              <li><strong>الفرق:</strong> القيمة 102 (المتطرفة) سحبت المتوسط لأعلى. الوسيط لم يتأثر</li>
+            </ul>
+            <strong>الدرس:</strong> إذا كانت البيانات تحوي قيمًا متطرفة، استخدم الوسيط لا المتوسط.
+          </div>
         </div>
       </div>
 
@@ -713,61 +873,143 @@ TOPICS['1'] = `
     </div>
   </div>
 
-  <!-- ============ INTERACTIVE SOLVER 3: MODE ============ -->
-  <div class="step-solver" id="solver-1-3" data-total="4" data-current="-1">
+  <!-- ===== SOLVER 1.3: MODE (يدوي + إكسل + بايثون) ===== -->
+  <div class="step-solver" id="solver-1-3" data-total="9" data-current="-1">
     <div class="step-solver-header">
-      <div class="step-solver-title">🧮 حل تفاعلي: حساب المنوال</div>
-      <div class="step-progress">0 / 4</div>
+      <div class="step-solver-title">🧮 الحل التفاعلي 3: حساب المنوال (مع الحالات الخاصة)</div>
+      <div class="step-progress">0 / 9</div>
     </div>
     <div class="step-solver-body">
-      <div class="step-question">حدد <strong>المنوال</strong> لدرجات الطلاب التالية:<br>
-      <code style="background: white; padding: 4px 10px; border-radius: 6px; font-family: 'JetBrains Mono'; direction: ltr; display: inline-block; margin-top: 6px;">85, 90, 85, 70, 95, 85, 90, 80</code></div>
+      <div class="step-question">حدد <strong>المنوال</strong> لـ 3 مجموعات بيانات:<br>
+      <strong>المجموعة A:</strong> 85, 90, 85, 70, 95, 85, 90, 80<br>
+      <strong>المجموعة B:</strong> 5, 10, 5, 15, 10, 20<br>
+      <strong>المجموعة C:</strong> 1, 2, 3, 4, 5</div>
 
       <div class="step-item" data-step="1">
-        <div class="step-label">الخطوة 1 — جدولة التكرارات</div>
+        <div class="step-label">🖐️ الخطوة 1 — تعريف المنوال</div>
         <div class="step-content">
-          المنوال = <strong>القيمة الأكثر تكرارًا</strong>. نعد كل قيمة:
-          <table class="compare-table" style="margin-top: 8px;">
-            <tr><th>القيمة</th><th>عدد التكرار</th></tr>
+          <strong>المنوال (Mode)</strong> = القيمة <strong>الأكثر تكرارًا</strong> في البيانات.
+          <ul>
+            <li>قد يوجد منوال واحد (Unimodal)</li>
+            <li>قد يوجد منوالان أو أكثر (Bimodal/Multimodal)</li>
+            <li>قد <strong>لا يوجد منوال</strong> (إذا كل القيم متساوية في التكرار)</li>
+          </ul>
+          <strong>متى يستخدم المنوال؟</strong> هو الوحيد الذي يصلح <strong>للبيانات الاسمية</strong> (ألوان، أنواع).
+        </div>
+      </div>
+
+      <div class="step-item" data-step="2">
+        <div class="step-label">🖐️ الخطوة 2 — جدولة تكرارات المجموعة A</div>
+        <div class="step-content">
+          البيانات: 85, 90, 85, 70, 95, 85, 90, 80
+          <table class="compare-table" style="margin-top: 8px; background: white;">
+            <tr><th>القيمة</th><th>التكرار</th></tr>
             <tr><td>70</td><td>1</td></tr>
             <tr><td>80</td><td>1</td></tr>
-            <tr><td>85</td><td>3 ⭐</td></tr>
+            <tr style="background: #fef3c7;"><td><strong>85</strong></td><td><strong>3 ⭐</strong></td></tr>
             <tr><td>90</td><td>2</td></tr>
             <tr><td>95</td><td>1</td></tr>
           </table>
         </div>
       </div>
 
-      <div class="step-item" data-step="2">
-        <div class="step-label">الخطوة 2 — اختيار الأعلى تكرارًا</div>
-        <div class="step-content">
-          من الجدول، القيمة 85 تكررت 3 مرات (الأعلى).
-          <div class="calc">المنوال = 85</div>
-        </div>
-      </div>
-
       <div class="step-item" data-step="3">
-        <div class="step-label">الخطوة 3 — التحقق</div>
+        <div class="step-label">🖐️ الخطوة 3 — منوال المجموعة A</div>
         <div class="step-content">
-          نتأكد:
-          <ul>
-            <li>هل 85 موجودة في البيانات؟ ✓ (نعم)</li>
-            <li>هل تكرارها أكثر من غيرها؟ ✓ (3 > 2 > 1)</li>
-            <li>هل توجد قيمة بنفس عدد التكرار؟ ✗ (لا، إذن المنوال واحد)</li>
-          </ul>
+          القيمة 85 تكررت 3 مرات (الأعلى).
+          <div class="calc">منوال A = <strong>85</strong></div>
+          <strong>النوع:</strong> Unimodal (منوال واحد).
         </div>
       </div>
 
       <div class="step-item" data-step="4">
-        <div class="step-label">الإجابة النهائية</div>
+        <div class="step-label">🖐️ الخطوة 4 — جدولة تكرارات المجموعة B</div>
         <div class="step-content">
-          <strong>المنوال = <span class="highlight">85</span></strong>
+          البيانات: 5, 10, 5, 15, 10, 20
+          <table class="compare-table" style="margin-top: 8px; background: white;">
+            <tr><th>القيمة</th><th>التكرار</th></tr>
+            <tr style="background: #fef3c7;"><td><strong>5</strong></td><td><strong>2 ⭐</strong></td></tr>
+            <tr style="background: #fef3c7;"><td><strong>10</strong></td><td><strong>2 ⭐</strong></td></tr>
+            <tr><td>15</td><td>1</td></tr>
+            <tr><td>20</td><td>1</td></tr>
+          </table>
+          <strong>إذن:</strong> منوالان (5 و 10) — البيانات <span class="highlight">Bimodal</span>.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="5">
+        <div class="step-label">🖐️ الخطوة 5 — جدولة تكرارات المجموعة C</div>
+        <div class="step-content">
+          البيانات: 1, 2, 3, 4, 5 — كل قيمة تكررت مرة واحدة فقط.
+          <div class="calc">المنوال = <strong>لا يوجد</strong></div>
+          <strong>السبب:</strong> لا توجد قيمة "أكثر تكرارًا" من غيرها.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="6">
+        <div class="step-label">📊 الخطوة 6 — الحل في إكسل</div>
+        <div class="step-content">
+          <strong>دالة MODE.SNGL — للحالة العادية (منوال واحد):</strong>
+          <div class="calc">=MODE.SNGL(A1:A8)  →  85 (للمجموعة A)</div>
+          <strong>دالة MODE.MULT — للحالات متعددة المنوالات:</strong>
+          <ol>
+            <li>حدد عدة خلايا فارغة (مثل B1:B3)</li>
+            <li>اكتب: <code>=MODE.MULT(A1:A6)</code> (للمجموعة B)</li>
+            <li>اضغط <strong>Ctrl + Shift + Enter</strong> (في الإصدارات القديمة)</li>
+          </ol>
+          <div class="calc">النتيجة: 5 و 10 (في خليتين)</div>
+          <strong>إذا لم يوجد منوال:</strong> الدالة ترجع خطأ <code>#N/A</code>.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="7">
+        <div class="step-label">🐍 الخطوة 7 — الحل في بايثون</div>
+        <div class="step-content">
+          <div class="code-block">
+<span class="keyword">import</span> statistics
+<span class="keyword">from</span> collections <span class="keyword">import</span> Counter
+
+<span class="comment"># المجموعة A — منوال واحد</span>
+data_a = [<span class="number">85</span>, <span class="number">90</span>, <span class="number">85</span>, <span class="number">70</span>, <span class="number">95</span>, <span class="number">85</span>, <span class="number">90</span>, <span class="number">80</span>]
+<span class="func">print</span>(statistics.<span class="func">mode</span>(data_a))  <span class="comment"># 85</span>
+
+<span class="comment"># المجموعة B — منوالان</span>
+data_b = [<span class="number">5</span>, <span class="number">10</span>, <span class="number">5</span>, <span class="number">15</span>, <span class="number">10</span>, <span class="number">20</span>]
+<span class="func">print</span>(statistics.<span class="func">multimode</span>(data_b))  <span class="comment"># [5, 10]</span>
+
+<span class="comment"># طريقة Counter (الأكثر مرونة)</span>
+counter = <span class="func">Counter</span>(data_a)
+<span class="func">print</span>(counter.<span class="func">most_common</span>(<span class="number">1</span>))  <span class="comment"># [(85, 3)]</span></div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="8">
+        <div class="step-label">📊🐍 الخطوة 8 — مقارنة بين الأدوات</div>
+        <div class="step-content">
+          <table class="compare-table" style="margin-top: 8px; background: white;">
+            <tr><th>المجموعة</th><th>إكسل</th><th>بايثون</th><th>الناتج</th></tr>
+            <tr><td>A</td><td>=MODE.SNGL</td><td>statistics.mode</td><td>85</td></tr>
+            <tr><td>B</td><td>=MODE.MULT</td><td>statistics.multimode</td><td>[5, 10]</td></tr>
+            <tr><td>C</td><td>#N/A</td><td>multimode → كل القيم</td><td>لا يوجد</td></tr>
+          </table>
+          <strong>توصية:</strong> استخدم <code>multimode</code> في بايثون دائمًا — أكثر أمانًا من <code>mode</code> الذي قد يخطئ مع تعدد المنوالات.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="9">
+        <div class="step-label">✅ الخطوة 9 — الإجابات النهائية</div>
+        <div class="step-content">
+          <ul>
+            <li>المجموعة A → المنوال = <span class="highlight">85</span> (Unimodal)</li>
+            <li>المجموعة B → المنوال = <span class="highlight">5 و 10</span> (Bimodal)</li>
+            <li>المجموعة C → <span class="highlight">لا يوجد منوال</span></li>
+          </ul>
           <div style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
-            <strong>حالات خاصة:</strong>
+            <strong>متى تستخدم المنوال؟</strong>
             <ul>
-              <li>إذا تكررت قيمتان بنفس العدد الأعلى → <strong>منوالان</strong> (Bimodal)</li>
-              <li>إذا كلها بنفس التكرار → <strong>لا يوجد منوال</strong></li>
-              <li>هذه البيانات أحادية المنوال (Unimodal)</li>
+              <li>للبيانات الاسمية (ألوان، تخصصات، علامات تجارية)</li>
+              <li>عند الاهتمام بـ "الأكثر شيوعًا" (مقاس الحذاء الأكثر طلبًا)</li>
+              <li>كمؤشر سريع على القيمة المتكررة</li>
             </ul>
           </div>
         </div>
@@ -962,97 +1204,162 @@ TOPICS['2'] = `
   </div>
 
   <!-- ===== INTERACTIVE SOLVER: Pearson Correlation ===== -->
-  <div class="step-solver" id="solver-2-1" data-total="7" data-current="-1">
+  <!-- ===== SOLVER 2.1: PEARSON r ===== -->
+  <div class="step-solver" id="solver-2-1" data-total="11" data-current="-1">
     <div class="step-solver-header">
-      <div class="step-solver-title">🧮 حل تفاعلي: حساب معامل ارتباط بيرسون</div>
-      <div class="step-progress">0 / 7</div>
+      <div class="step-solver-title">🧮 الحل التفاعلي 1: حساب معامل ارتباط بيرسون r</div>
+      <div class="step-progress">0 / 11</div>
     </div>
     <div class="step-solver-body">
-      <div class="step-question">احسب معامل ارتباط بيرسون <strong>r</strong> بين ساعات المذاكرة (X) والدرجة (Y) لخمسة طلاب:<br>
+      <div class="step-question">احسب معامل ارتباط <strong>بيرسون r</strong> بين ساعات المذاكرة (X) والدرجة (Y) لخمسة طلاب:<br>
       <code style="background: white; padding: 4px 10px; border-radius: 6px; font-family: 'JetBrains Mono'; direction: ltr; display: inline-block; margin-top: 6px;">X: 2, 4, 6, 8, 10<br>Y: 50, 60, 70, 85, 95</code></div>
 
       <div class="step-item" data-step="1">
-        <div class="step-label">الخطوة 1 — حساب المتوسطين</div>
+        <div class="step-label">🖐️ الخطوة 1 — قانون بيرسون</div>
         <div class="step-content">
-          نحسب متوسط X ومتوسط Y:
-          <div class="calc">x̄ = (2+4+6+8+10)/5 = 30/5 = 6</div>
-          <div class="calc">ȳ = (50+60+70+85+95)/5 = 360/5 = 72</div>
+          <div class="calc">r = Σ[(xᵢ − x̄)(yᵢ − ȳ)] / √[Σ(xᵢ − x̄)² · Σ(yᵢ − ȳ)²]</div>
+          <strong>المكونات:</strong>
+          <ul>
+            <li>البسط: مجموع حواصل ضرب الانحرافات (يخبرنا إن كانت العلاقة طردية أو عكسية)</li>
+            <li>المقام: ضرب الجذور للتطبيع (يجعل r محصورًا بين -1 و +1)</li>
+          </ul>
+          <strong>الخطة:</strong> ننشئ جدولاً بـ 5 أعمدة ونحسب كل عمود تدريجيًا.
         </div>
       </div>
 
       <div class="step-item" data-step="2">
-        <div class="step-label">الخطوة 2 — حساب الانحرافات (xᵢ − x̄) و (yᵢ − ȳ)</div>
+        <div class="step-label">🖐️ الخطوة 2 — حساب المتوسطين</div>
         <div class="step-content">
-          نطرح كل قيمة من متوسطها:
-          <table class="compare-table" style="margin-top: 8px;">
-            <tr><th>X</th><th>Y</th><th>X − x̄</th><th>Y − ȳ</th></tr>
-            <tr><td>2</td><td>50</td><td>−4</td><td>−22</td></tr>
-            <tr><td>4</td><td>60</td><td>−2</td><td>−12</td></tr>
-            <tr><td>6</td><td>70</td><td>0</td><td>−2</td></tr>
-            <tr><td>8</td><td>85</td><td>2</td><td>13</td></tr>
-            <tr><td>10</td><td>95</td><td>4</td><td>23</td></tr>
-          </table>
+          <div class="calc">x̄ = (2+4+6+8+10) / 5 = 30/5 = <strong>6</strong></div>
+          <div class="calc">ȳ = (50+60+70+85+95) / 5 = 360/5 = <strong>72</strong></div>
         </div>
       </div>
 
       <div class="step-item" data-step="3">
-        <div class="step-label">الخطوة 3 — حساب حاصل ضرب الانحرافات (xᵢ − x̄)(yᵢ − ȳ)</div>
+        <div class="step-label">🖐️ الخطوة 3 — حساب الانحرافات</div>
         <div class="step-content">
-          نضرب الانحرافين لكل صف:
-          <table class="compare-table" style="margin-top: 8px;">
-            <tr><th>X − x̄</th><th>Y − ȳ</th><th>(X − x̄)(Y − ȳ)</th></tr>
-            <tr><td>−4</td><td>−22</td><td>88</td></tr>
-            <tr><td>−2</td><td>−12</td><td>24</td></tr>
-            <tr><td>0</td><td>−2</td><td>0</td></tr>
-            <tr><td>2</td><td>13</td><td>26</td></tr>
-            <tr><td>4</td><td>23</td><td>92</td></tr>
+          <table class="compare-table" style="margin-top: 8px; background: white;">
+            <tr><th>X</th><th>Y</th><th>X − x̄</th><th>Y − ȳ</th></tr>
+            <tr><td>2</td><td>50</td><td>2 − 6 = -4</td><td>50 − 72 = -22</td></tr>
+            <tr><td>4</td><td>60</td><td>4 − 6 = -2</td><td>60 − 72 = -12</td></tr>
+            <tr><td>6</td><td>70</td><td>6 − 6 = 0</td><td>70 − 72 = -2</td></tr>
+            <tr><td>8</td><td>85</td><td>8 − 6 = 2</td><td>85 − 72 = 13</td></tr>
+            <tr><td>10</td><td>95</td><td>10 − 6 = 4</td><td>95 − 72 = 23</td></tr>
           </table>
-          <div class="calc">Σ[(xᵢ − x̄)(yᵢ − ȳ)] = 88 + 24 + 0 + 26 + 92 = 230</div>
+          <strong>تحقق:</strong> مجموع كل عمود انحرافات = 0 (-4-2+0+2+4 = 0 ✓).
         </div>
       </div>
 
       <div class="step-item" data-step="4">
-        <div class="step-label">الخطوة 4 — حساب مربع انحرافات X</div>
+        <div class="step-label">🖐️ الخطوة 4 — حواصل ضرب الانحرافات</div>
         <div class="step-content">
-          نربّع كل (X − x̄):
-          <div class="calc">(−4)² + (−2)² + 0² + 2² + 4² = 16 + 4 + 0 + 4 + 16 = <strong>40</strong></div>
-          <strong>إذن:</strong> Σ(xᵢ − x̄)² = 40
+          <table class="compare-table" style="margin-top: 8px; background: white;">
+            <tr><th>X−x̄</th><th>Y−ȳ</th><th>(X−x̄)(Y−ȳ)</th></tr>
+            <tr><td>-4</td><td>-22</td><td>(-4)(-22) = 88</td></tr>
+            <tr><td>-2</td><td>-12</td><td>(-2)(-12) = 24</td></tr>
+            <tr><td>0</td><td>-2</td><td>0 × -2 = 0</td></tr>
+            <tr><td>2</td><td>13</td><td>2 × 13 = 26</td></tr>
+            <tr><td>4</td><td>23</td><td>4 × 23 = 92</td></tr>
+          </table>
+          <div class="calc">Σ[(xᵢ−x̄)(yᵢ−ȳ)] = 88+24+0+26+92 = <strong>230</strong></div>
         </div>
       </div>
 
       <div class="step-item" data-step="5">
-        <div class="step-label">الخطوة 5 — حساب مربع انحرافات Y</div>
+        <div class="step-label">🖐️ الخطوة 5 — مربعات انحرافات X</div>
         <div class="step-content">
-          نربّع كل (Y − ȳ):
-          <div class="calc">(−22)² + (−12)² + (−2)² + 13² + 23² = 484 + 144 + 4 + 169 + 529 = <strong>1330</strong></div>
-          <strong>إذن:</strong> Σ(yᵢ − ȳ)² = 1330
+          <div class="calc">(-4)² = 16</div>
+          <div class="calc">(-2)² = 4</div>
+          <div class="calc">0² = 0</div>
+          <div class="calc">2² = 4</div>
+          <div class="calc">4² = 16</div>
+          <div class="calc">Σ(xᵢ−x̄)² = 16+4+0+4+16 = <strong>40</strong></div>
         </div>
       </div>
 
       <div class="step-item" data-step="6">
-        <div class="step-label">الخطوة 6 — تطبيق القانون</div>
+        <div class="step-label">🖐️ الخطوة 6 — مربعات انحرافات Y</div>
         <div class="step-content">
-          نضع القيم في معادلة بيرسون:
-          <div class="calc">r = 230 / √(40 × 1330)</div>
-          <div class="calc">r = 230 / √53200</div>
-          <div class="calc">r = 230 / 230.65</div>
-          <div class="calc">r ≈ 0.997</div>
+          <div class="calc">(-22)² = 484</div>
+          <div class="calc">(-12)² = 144</div>
+          <div class="calc">(-2)² = 4</div>
+          <div class="calc">13² = 169</div>
+          <div class="calc">23² = 529</div>
+          <div class="calc">Σ(yᵢ−ȳ)² = 484+144+4+169+529 = <strong>1330</strong></div>
         </div>
       </div>
 
       <div class="step-item" data-step="7">
-        <div class="step-label">الإجابة النهائية والتفسير</div>
+        <div class="step-label">🖐️ الخطوة 7 — حساب المقام (الجذر)</div>
+        <div class="step-content">
+          <div class="calc">المقام = √(40 × 1330)</div>
+          <div class="calc">= √53,200</div>
+          <div class="calc">≈ <strong>230.65</strong></div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="8">
+        <div class="step-label">🖐️ الخطوة 8 — حساب r</div>
+        <div class="step-content">
+          <div class="calc">r = البسط / المقام</div>
+          <div class="calc">r = 230 / 230.65</div>
+          <div class="calc">r ≈ <strong>0.997</strong></div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="9">
+        <div class="step-label">📊 الخطوة 9 — الحل في إكسل</div>
+        <div class="step-content">
+          <strong>طريقة 1 — دالة CORREL:</strong>
+          <ol>
+            <li>X في A1:A5، Y في B1:B5</li>
+            <li>اكتب:</li>
+          </ol>
+          <div class="calc">=CORREL(A1:A5, B1:B5)  →  0.9971</div>
+          <strong>طريقة 2 — دالة PEARSON (نفس النتيجة):</strong>
+          <div class="calc">=PEARSON(A1:A5, B1:B5)  →  0.9971</div>
+          <strong>للحصول على R²:</strong>
+          <div class="calc">=RSQ(B1:B5, A1:A5)  →  0.9943</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="10">
+        <div class="step-label">🐍 الخطوة 10 — الحل في بايثون</div>
+        <div class="step-content">
+          <div class="code-block">
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+<span class="keyword">from</span> scipy <span class="keyword">import</span> stats
+
+x = np.<span class="func">array</span>([<span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">10</span>])
+y = np.<span class="func">array</span>([<span class="number">50</span>, <span class="number">60</span>, <span class="number">70</span>, <span class="number">85</span>, <span class="number">95</span>])
+
+<span class="comment"># طريقة 1: scipy</span>
+r, p_value = stats.<span class="func">pearsonr</span>(x, y)
+<span class="func">print</span>(<span class="string">f"r = {r:.4f}"</span>)  <span class="comment"># 0.9971</span>
+<span class="func">print</span>(<span class="string">f"p = {p_value:.6f}"</span>)
+
+<span class="comment"># طريقة 2: numpy (مصفوفة الارتباط)</span>
+corr_matrix = np.<span class="func">corrcoef</span>(x, y)
+<span class="func">print</span>(corr_matrix[<span class="number">0</span>][<span class="number">1</span>])  <span class="comment"># 0.9971</span>
+
+<span class="comment"># R²</span>
+<span class="func">print</span>(<span class="string">f"R² = {r**2:.4f}"</span>)  <span class="comment"># 0.9943</span></div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="11">
+        <div class="step-label">✅ الخطوة 11 — الإجابة النهائية والتفسير</div>
         <div class="step-content">
           <strong>r ≈ <span class="highlight">0.997</span></strong>
           <div style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
-            <strong>التفسير:</strong>
+            <strong>التفسير الإحصائي:</strong>
             <ul>
-              <li>r قريب جدًا من +1 → ارتباط طردي قوي جدًا</li>
-              <li>كلما زادت ساعات المذاكرة، زادت الدرجة بشكل شبه تام</li>
-              <li>r² = 0.994 → 99.4% من التغير في الدرجة يفسره عدد ساعات المذاكرة</li>
-              <li><strong>القرار:</strong> العلاقة موثوقة جدًا للاستخدام في التنبؤ</li>
+              <li>القيمة قريبة جدًا من +1 → <strong>ارتباط طردي قوي جدًا</strong></li>
+              <li>كل ساعة مذاكرة إضافية ترتبط بزيادة في الدرجة</li>
+              <li>R² = 0.994 → <strong>99.4% من التغير في الدرجة يفسره X</strong></li>
             </ul>
-            <strong>في إكسل:</strong> <code>=CORREL(A2:A6, B2:B6)</code> أو <code>=PEARSON(A2:A6, B2:B6)</code>
+            <strong>التفسير العملي:</strong> العلاقة موثوقة جدًا للاستخدام في التنبؤ.<br><br>
+            <strong>تحذير مهم:</strong> الارتباط ≠ السببية! r قوي يعني علاقة، لكن يحتمل وجود متغير ثالث يؤثر في الاثنين.
           </div>
         </div>
       </div>
@@ -1067,99 +1374,150 @@ TOPICS['2'] = `
     </div>
   </div>
 
-  <div class="section">
-    <h2><span class="icon">📈</span> خط الاتجاه ومعادلة الانحدار</h2>
-    <p>عندما يكون الارتباط قويًا، يمكننا رسم <strong>خط أفضل توافق <span class="eng">Best Fit Line</span></strong> يمر بين النقاط، ونستخدمه للتنبؤ.</p>
-
-    <div class="formula-box">
-      <div class="formula-name">معادلة خط الانحدار</div>
-      <div class="formula">y = mx + b</div>
-      <div class="legend">m = الميل (Slope)، b = نقطة التقاطع مع المحور Y (Intercept)</div>
-    </div>
-
-    <h3>قوانين الميل والتقاطع</h3>
-    <div class="formula-box">
-      <div class="formula-name">قانون الميل</div>
-      <div class="formula">m = Σ[(xᵢ − x̄)(yᵢ − ȳ)] / Σ(xᵢ − x̄)²</div>
-    </div>
-    <div class="formula-box">
-      <div class="formula-name">قانون التقاطع</div>
-      <div class="formula">b = ȳ − m · x̄</div>
-    </div>
-  </div>
-
-  <!-- ===== INTERACTIVE SOLVER: Regression Line ===== -->
-  <div class="step-solver" id="solver-2-2" data-total="6" data-current="-1">
+  <!-- ===== SOLVER 2.2: REGRESSION ===== -->
+  <div class="step-solver" id="solver-2-2" data-total="10" data-current="-1">
     <div class="step-solver-header">
-      <div class="step-solver-title">🧮 حل تفاعلي: إيجاد معادلة خط الانحدار والتنبؤ</div>
-      <div class="step-progress">0 / 6</div>
+      <div class="step-solver-title">🧮 الحل التفاعلي 2: معادلة خط الانحدار والتنبؤ</div>
+      <div class="step-progress">0 / 10</div>
     </div>
     <div class="step-solver-body">
-      <div class="step-question">باستخدام نفس البيانات السابقة (X: 2,4,6,8,10 و Y: 50,60,70,85,95)، أوجد معادلة خط الانحدار، ثم <strong>توقع الدرجة</strong> لطالب يذاكر 7 ساعات.</div>
+      <div class="step-question">باستخدام نفس البيانات (X: 2,4,6,8,10 و Y: 50,60,70,85,95)، أوجد <strong>معادلة خط الانحدار</strong>، ثم <strong>توقع الدرجة</strong> لطالب يذاكر 7 ساعات.</div>
 
       <div class="step-item" data-step="1">
-        <div class="step-label">الخطوة 1 — استرجاع القيم المحسوبة</div>
+        <div class="step-label">🖐️ الخطوة 1 — معادلة الانحدار وقوانينها</div>
         <div class="step-content">
-          من المسألة السابقة:
-          <ul>
-            <li>x̄ = 6</li>
-            <li>ȳ = 72</li>
-            <li>Σ[(xᵢ − x̄)(yᵢ − ȳ)] = 230</li>
-            <li>Σ(xᵢ − x̄)² = 40</li>
-          </ul>
+          المعادلة العامة:
+          <div class="calc">y = mx + b</div>
+          قانون الميل m:
+          <div class="calc">m = Σ[(xᵢ−x̄)(yᵢ−ȳ)] / Σ(xᵢ−x̄)²</div>
+          قانون التقاطع b:
+          <div class="calc">b = ȳ − m · x̄</div>
+          <strong>ملاحظة:</strong> بسط m هو نفسه بسط r! فلو حسبنا r سابقًا فلدينا نصف العمل جاهز.
         </div>
       </div>
 
       <div class="step-item" data-step="2">
-        <div class="step-label">الخطوة 2 — حساب الميل m</div>
+        <div class="step-label">🖐️ الخطوة 2 — استرجاع القيم المحسوبة</div>
         <div class="step-content">
-          نطبق قانون الميل:
-          <div class="calc">m = 230 / 40 = <strong>5.75</strong></div>
-          <strong>التفسير:</strong> كل ساعة مذاكرة إضافية تزيد الدرجة بـ 5.75 درجة.
+          من حل بيرسون السابق:
+          <ul>
+            <li>x̄ = 6</li>
+            <li>ȳ = 72</li>
+            <li>Σ[(xᵢ−x̄)(yᵢ−ȳ)] = 230</li>
+            <li>Σ(xᵢ−x̄)² = 40</li>
+          </ul>
         </div>
       </div>
 
       <div class="step-item" data-step="3">
-        <div class="step-label">الخطوة 3 — حساب نقطة التقاطع b</div>
+        <div class="step-label">🖐️ الخطوة 3 — حساب الميل m</div>
         <div class="step-content">
-          نطبق قانون التقاطع:
-          <div class="calc">b = ȳ − m · x̄</div>
-          <div class="calc">b = 72 − (5.75 × 6)</div>
-          <div class="calc">b = 72 − 34.5 = <strong>37.5</strong></div>
-          <strong>التفسير:</strong> طالب لا يذاكر (X=0) متوقع أن يحصل على 37.5 درجة.
+          <div class="calc">m = 230 / 40</div>
+          <div class="calc">m = <strong>5.75</strong></div>
+          <strong>التفسير:</strong> كل ساعة مذاكرة إضافية ترفع الدرجة بـ 5.75 درجة.
         </div>
       </div>
 
       <div class="step-item" data-step="4">
-        <div class="step-label">الخطوة 4 — كتابة معادلة خط الانحدار</div>
+        <div class="step-label">🖐️ الخطوة 4 — حساب التقاطع b</div>
         <div class="step-content">
-          <div class="calc">y = 5.75x + 37.5</div>
-          <strong>هذه هي المعادلة النهائية</strong> التي تستخدم للتنبؤ.
+          <div class="calc">b = ȳ − m · x̄</div>
+          <div class="calc">b = 72 − (5.75 × 6)</div>
+          <div class="calc">b = 72 − 34.5</div>
+          <div class="calc">b = <strong>37.5</strong></div>
+          <strong>التفسير:</strong> طالب لا يذاكر (X=0) من المتوقع أن يحصل على 37.5 درجة (التفسير نظري — قد لا يكون منطقيًا في الواقع).
         </div>
       </div>
 
       <div class="step-item" data-step="5">
-        <div class="step-label">الخطوة 5 — التنبؤ بالدرجة لطالب يذاكر 7 ساعات</div>
+        <div class="step-label">🖐️ الخطوة 5 — كتابة معادلة خط الانحدار</div>
         <div class="step-content">
-          نضع X = 7 في المعادلة:
-          <div class="calc">y = 5.75 × 7 + 37.5</div>
-          <div class="calc">y = 40.25 + 37.5</div>
-          <div class="calc">y = <strong>77.75</strong></div>
+          <div class="calc">y = 5.75x + 37.5</div>
+          <strong>هذه هي معادلة التنبؤ.</strong> أي x جديد يُعطى يمكن استخدامها لإيجاد y المتوقع.
         </div>
       </div>
 
       <div class="step-item" data-step="6">
-        <div class="step-label">الإجابة النهائية</div>
+        <div class="step-label">🖐️ الخطوة 6 — التنبؤ بدرجة طالب يذاكر 7 ساعات</div>
         <div class="step-content">
-          <strong>الدرجة المتوقعة لطالب يذاكر 7 ساعات = <span class="highlight">77.75</span></strong>
+          نضع x = 7 في المعادلة:
+          <div class="calc">y = 5.75 × 7 + 37.5</div>
+          <div class="calc">y = 40.25 + 37.5</div>
+          <div class="calc">y = <strong>77.75</strong></div>
+          <strong>تحقق منطقي:</strong> 7 ساعات بين 6 (الدرجة 70) و 8 (الدرجة 85). الإجابة 77.75 ضمن هذا المدى ✓
+        </div>
+      </div>
+
+      <div class="step-item" data-step="7">
+        <div class="step-label">📊 الخطوة 7 — الحل في إكسل</div>
+        <div class="step-content">
+          <strong>دوال إكسل تتولى كل الحسابات:</strong>
+          <div class="calc">=SLOPE(B1:B5, A1:A5)  →  5.75</div>
+          <div class="calc">=INTERCEPT(B1:B5, A1:A5)  →  37.5</div>
+          <strong>للتنبؤ مباشرة بـ x=7:</strong>
+          <div class="calc">=FORECAST(7, B1:B5, A1:A5)  →  77.75</div>
+          <div class="calc">=FORECAST.LINEAR(7, B1:B5, A1:A5)  →  77.75</div>
+          <strong>إنشاء خط الاتجاه على الرسم:</strong>
+          <ol>
+            <li>أنشئ Scatter Plot من البيانات</li>
+            <li>انقر بزر الفأرة الأيمن على نقطة → Add Trendline → Linear</li>
+            <li>فعّل Display Equation و Display R-squared value</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="8">
+        <div class="step-label">🐍 الخطوة 8 — الحل في بايثون (طريقتان)</div>
+        <div class="step-content">
+          <strong>الطريقة 1 — scipy:</strong>
+          <div class="code-block">
+<span class="keyword">from</span> scipy <span class="keyword">import</span> stats
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+x = np.<span class="func">array</span>([<span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">10</span>])
+y = np.<span class="func">array</span>([<span class="number">50</span>, <span class="number">60</span>, <span class="number">70</span>, <span class="number">85</span>, <span class="number">95</span>])
+
+slope, intercept, r, p, se = stats.<span class="func">linregress</span>(x, y)
+<span class="func">print</span>(<span class="string">f"y = {slope:.2f}x + {intercept:.2f}"</span>)
+<span class="comment"># y = 5.75x + 37.50</span>
+
+<span class="comment"># التنبؤ بـ x=7</span>
+y_pred = slope * <span class="number">7</span> + intercept
+<span class="func">print</span>(<span class="string">f"التنبؤ: {y_pred:.2f}"</span>)  <span class="comment"># 77.75</span></div>
+          <strong>الطريقة 2 — sklearn (للذكاء الاصطناعي):</strong>
+          <div class="code-block">
+<span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LinearRegression
+
+X = x.<span class="func">reshape</span>(-<span class="number">1</span>, <span class="number">1</span>)
+model = <span class="func">LinearRegression</span>().<span class="func">fit</span>(X, y)
+<span class="func">print</span>(model.<span class="func">predict</span>([[<span class="number">7</span>]]))  <span class="comment"># [77.75]</span></div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="9">
+        <div class="step-label">📊🐍 الخطوة 9 — جدول مقارنة</div>
+        <div class="step-content">
+          <table class="compare-table" style="margin-top: 8px; background: white;">
+            <tr><th>الطريقة</th><th>الميل</th><th>التقاطع</th><th>التنبؤ x=7</th></tr>
+            <tr><td>🖐️ يدوي</td><td>5.75</td><td>37.50</td><td>77.75</td></tr>
+            <tr><td>📊 إكسل</td><td>5.75</td><td>37.50</td><td>77.75</td></tr>
+            <tr><td>🐍 بايثون</td><td>5.75</td><td>37.50</td><td>77.75</td></tr>
+          </table>
+          <strong>كل الطرق تعطي نفس النتيجة</strong> — الرياضيات وراءها واحدة.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="10">
+        <div class="step-label">✅ الخطوة 10 — الإجابة النهائية والتحذيرات</div>
+        <div class="step-content">
+          <strong>معادلة الانحدار: <span class="highlight">y = 5.75x + 37.5</span></strong><br>
+          <strong>الدرجة المتوقعة لـ 7 ساعات = <span class="highlight">77.75</span></strong>
           <div style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
-            <strong>تحقق منطقي:</strong> 7 ساعات بين 6 (الدرجة 70) و 8 (الدرجة 85). الإجابة 77.75 ضمن هذا المدى ✓
-            <br><br><strong>في إكسل:</strong>
+            <strong>تحذيرات مهمة:</strong>
             <ul>
-              <li>الميل: <code>=SLOPE(B2:B6, A2:A6)</code></li>
-              <li>التقاطع: <code>=INTERCEPT(B2:B6, A2:A6)</code></li>
-              <li>التنبؤ: <code>=FORECAST(7, B2:B6, A2:A6)</code></li>
-              <li>أو في الإصدارات الجديدة: <code>=FORECAST.LINEAR(7, B2:B6, A2:A6)</code></li>
+              <li><strong>التنبؤ خارج النطاق (Extrapolation):</strong> النموذج تدرب على X بين 2 و 10. التنبؤ بـ X=20 قد يكون غير موثوق</li>
+              <li><strong>افتراض الخطية:</strong> المعادلة تفترض علاقة خطية. إذا العلاقة منحنية، النموذج لا يصلح</li>
+              <li><strong>R² = 0.994 → التنبؤ موثوق جدًا</strong> ضمن النطاق</li>
             </ul>
           </div>
         </div>
@@ -1352,67 +1710,157 @@ TOPICS['6'] = `
   </div>
 
   <!-- ===== INTERACTIVE SOLVER: Standard Deviation ===== -->
-  <div class="step-solver" id="solver-6-1" data-total="6" data-current="-1">
+  <!-- ===== SOLVER 6.1: STD DEV ===== -->
+  <div class="step-solver" id="solver-6-1" data-total="11" data-current="-1">
     <div class="step-solver-header">
-      <div class="step-solver-title">🧮 حل تفاعلي: حساب الانحراف المعياري</div>
-      <div class="step-progress">0 / 6</div>
+      <div class="step-solver-title">🧮 الحل التفاعلي 1: الانحراف المعياري والتباين</div>
+      <div class="step-progress">0 / 11</div>
     </div>
     <div class="step-solver-body">
-      <div class="step-question">احسب <strong>الانحراف المعياري</strong> لدرجات 5 طلاب: <code style="background: white; padding: 4px 10px; border-radius: 6px; font-family: 'JetBrains Mono'; direction: ltr; display: inline-block;">68, 75, 82, 90, 65</code></div>
+      <div class="step-question">احسب <strong>الانحراف المعياري</strong> لدرجات 5 طلاب:<br>
+      <code style="background: white; padding: 4px 10px; border-radius: 6px; font-family: 'JetBrains Mono'; direction: ltr; display: inline-block;">68, 75, 82, 90, 65</code></div>
 
       <div class="step-item" data-step="1">
-        <div class="step-label">الخطوة 1 — حساب المتوسط</div>
+        <div class="step-label">🖐️ الخطوة 1 — قانون الانحراف المعياري</div>
+        <div class="step-content">
+          للعينة:
+          <div class="calc">s = √[Σ(xᵢ − x̄)² / (n − 1)]</div>
+          للمجتمع:
+          <div class="calc">σ = √[Σ(xᵢ − μ)² / n]</div>
+          <strong>لماذا (n−1) للعينة؟</strong> تصحيح Bessel — يعوض حقيقة أن العينة لا تمثل المجتمع تمامًا. هذا الفرق يجعل تقدير العينة غير متحيز.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="2">
+        <div class="step-label">🖐️ الخطوة 2 — حساب المتوسط</div>
         <div class="step-content">
           <div class="calc">x̄ = (68 + 75 + 82 + 90 + 65) / 5</div>
           <div class="calc">x̄ = 380 / 5 = <strong>76</strong></div>
         </div>
       </div>
 
-      <div class="step-item" data-step="2">
-        <div class="step-label">الخطوة 2 — حساب الانحرافات (xᵢ − x̄)</div>
-        <div class="step-content">
-          <table class="compare-table" style="margin-top: 8px;">
-            <tr><th>x</th><th>x − x̄</th></tr>
-            <tr><td>68</td><td>−8</td></tr>
-            <tr><td>75</td><td>−1</td></tr>
-            <tr><td>82</td><td>6</td></tr>
-            <tr><td>90</td><td>14</td></tr>
-            <tr><td>65</td><td>−11</td></tr>
-          </table>
-        </div>
-      </div>
-
       <div class="step-item" data-step="3">
-        <div class="step-label">الخطوة 3 — تربيع الانحرافات</div>
+        <div class="step-label">🖐️ الخطوة 3 — حساب الانحرافات (xᵢ − x̄)</div>
         <div class="step-content">
-          <div class="calc">(−8)² = 64<br>(−1)² = 1<br>6² = 36<br>14² = 196<br>(−11)² = 121</div>
-          <div class="calc">Σ(xᵢ − x̄)² = 64 + 1 + 36 + 196 + 121 = <strong>418</strong></div>
+          <table class="compare-table" style="margin-top: 8px; background: white;">
+            <tr><th>x</th><th>x − 76</th></tr>
+            <tr><td>68</td><td>68 − 76 = -8</td></tr>
+            <tr><td>75</td><td>75 − 76 = -1</td></tr>
+            <tr><td>82</td><td>82 − 76 = 6</td></tr>
+            <tr><td>90</td><td>90 − 76 = 14</td></tr>
+            <tr><td>65</td><td>65 − 76 = -11</td></tr>
+          </table>
+          <strong>تحقق:</strong> مجموع الانحرافات = -8-1+6+14-11 = 0 ✓
         </div>
       </div>
 
       <div class="step-item" data-step="4">
-        <div class="step-label">الخطوة 4 — حساب التباين (للعينة)</div>
+        <div class="step-label">🖐️ الخطوة 4 — تربيع الانحرافات</div>
         <div class="step-content">
-          <div class="calc">s² = 418 / (5 − 1) = 418 / 4 = <strong>104.5</strong></div>
-          <strong>ملاحظة:</strong> نقسم على (n−1) للعينة، وعلى n للمجتمع كاملاً.
+          <table class="compare-table" style="margin-top: 8px; background: white;">
+            <tr><th>x − x̄</th><th>(x − x̄)²</th></tr>
+            <tr><td>-8</td><td>(-8)² = 64</td></tr>
+            <tr><td>-1</td><td>(-1)² = 1</td></tr>
+            <tr><td>6</td><td>6² = 36</td></tr>
+            <tr><td>14</td><td>14² = 196</td></tr>
+            <tr><td>-11</td><td>(-11)² = 121</td></tr>
+          </table>
+          <strong>لماذا التربيع؟</strong> لتجنب إلغاء الموجب والسالب، ولتعظيم تأثير القيم البعيدة.
         </div>
       </div>
 
       <div class="step-item" data-step="5">
-        <div class="step-label">الخطوة 5 — حساب الانحراف المعياري</div>
+        <div class="step-label">🖐️ الخطوة 5 — مجموع المربعات</div>
         <div class="step-content">
-          <div class="calc">s = √104.5 ≈ <strong>10.22</strong></div>
+          <div class="calc">Σ(xᵢ − x̄)² = 64 + 1 + 36 + 196 + 121</div>
+          <div class="calc">Σ(xᵢ − x̄)² = <strong>418</strong></div>
         </div>
       </div>
 
       <div class="step-item" data-step="6">
-        <div class="step-label">الإجابة النهائية والتفسير</div>
+        <div class="step-label">🖐️ الخطوة 6 — حساب التباين s²</div>
         <div class="step-content">
-          <strong>s ≈ <span class="highlight">10.22</span></strong>
+          نقسم على (n − 1):
+          <div class="calc">s² = 418 / (5 − 1)</div>
+          <div class="calc">s² = 418 / 4</div>
+          <div class="calc">s² = <strong>104.5</strong></div>
+          <strong>هذا التباين</strong> Variance — يقيس التشتت بوحدات مربعة.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="7">
+        <div class="step-label">🖐️ الخطوة 7 — حساب الانحراف المعياري</div>
+        <div class="step-content">
+          نأخذ الجذر التربيعي للتباين:
+          <div class="calc">s = √104.5</div>
+          <div class="calc">s ≈ <strong>10.22</strong></div>
+          <strong>الفرق الجوهري:</strong> الانحراف المعياري بنفس وحدة البيانات الأصلية (درجات هنا)، عكس التباين.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="8">
+        <div class="step-label">📊 الخطوة 8 — الحل في إكسل</div>
+        <div class="step-content">
+          <strong>للعينة (تقسيم على n−1):</strong>
+          <div class="calc">=STDEV.S(A1:A5)  →  10.22</div>
+          <div class="calc">=VAR.S(A1:A5)  →  104.5  (التباين)</div>
+          <strong>للمجتمع كاملاً (تقسيم على n):</strong>
+          <div class="calc">=STDEV.P(A1:A5)  →  9.14</div>
+          <div class="calc">=VAR.P(A1:A5)  →  83.6</div>
+          <strong>متى أستخدم S أو P؟</strong>
+          <ul>
+            <li>S: إذا البيانات <strong>عينة</strong> من مجتمع أكبر (الأكثر شيوعًا)</li>
+            <li>P: إذا البيانات <strong>تمثل كل المجتمع</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="9">
+        <div class="step-label">🐍 الخطوة 9 — الحل في بايثون</div>
+        <div class="step-content">
+          <div class="code-block">
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+<span class="keyword">import</span> statistics
+
+data = [<span class="number">68</span>, <span class="number">75</span>, <span class="number">82</span>, <span class="number">90</span>, <span class="number">65</span>]
+
+<span class="comment"># للعينة (n-1) - مهم!</span>
+<span class="func">print</span>(np.<span class="func">std</span>(data, ddof=<span class="number">1</span>))   <span class="comment"># 10.22</span>
+<span class="func">print</span>(statistics.<span class="func">stdev</span>(data))   <span class="comment"># 10.22</span>
+
+<span class="comment"># للمجتمع (n)</span>
+<span class="func">print</span>(np.<span class="func">std</span>(data, ddof=<span class="number">0</span>))   <span class="comment"># 9.14</span>
+<span class="func">print</span>(statistics.<span class="func">pstdev</span>(data))  <span class="comment"># 9.14</span>
+
+<span class="comment"># التباين</span>
+<span class="func">print</span>(np.<span class="func">var</span>(data, ddof=<span class="number">1</span>))   <span class="comment"># 104.5</span></div>
+          <strong>تحذير:</strong> <code>numpy.std()</code> الافتراضي ddof=0 (للمجتمع). للعينة لازم <code>ddof=1</code>.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="10">
+        <div class="step-label">📊🐍 الخطوة 10 — جدول مقارنة</div>
+        <div class="step-content">
+          <table class="compare-table" style="margin-top: 8px; background: white;">
+            <tr><th>الطريقة</th><th>التباين</th><th>الانحراف المعياري</th></tr>
+            <tr><td>🖐️ يدوي (عينة)</td><td>104.5</td><td>10.22</td></tr>
+            <tr><td>📊 إكسل STDEV.S</td><td>104.5</td><td>10.22</td></tr>
+            <tr><td>🐍 بايثون ddof=1</td><td>104.5</td><td>10.22</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="11">
+        <div class="step-label">✅ الخطوة 11 — الإجابة والتفسير</div>
+        <div class="step-content">
+          <strong>التباين s² = <span class="highlight">104.5</span> · الانحراف s ≈ <span class="highlight">10.22</span></strong>
           <div style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
-            <strong>التفسير:</strong> الدرجات تنحرف عن متوسطها (76) بمقدار 10.22 درجة في المتوسط.
-            <br><strong>في إكسل:</strong> <code>=STDEV.S(A1:A5)</code>
-            <br><strong>في بايثون:</strong> <code>numpy.std(data, ddof=1)</code>
+            <strong>التفسير:</strong>
+            <ul>
+              <li>الدرجات تنحرف عن متوسطها (76) بمقدار 10.22 درجة في المتوسط</li>
+              <li>قاعدة 68% (للتوزيع الطبيعي): 68% من الطلاب درجاتهم بين 65.78 و 86.22</li>
+              <li>أصغر من الانحراف الكبير (مثل 30) → البيانات قريبة نسبيًا من بعضها</li>
+            </ul>
           </div>
         </div>
       </div>
@@ -1635,72 +2083,154 @@ TOPICS['7'] = `
   </div>
 
   <!-- ===== INTERACTIVE SOLVER: Z-score and Probability ===== -->
-  <div class="step-solver" id="solver-7-1" data-total="6" data-current="-1">
+  <!-- ===== SOLVER 7.1: Z-SCORE & PROBABILITY ===== -->
+  <div class="step-solver" id="solver-7-1" data-total="10" data-current="-1">
     <div class="step-solver-header">
-      <div class="step-solver-title">🧮 حل تفاعلي: Z-score وحساب الاحتمال</div>
-      <div class="step-progress">0 / 6</div>
+      <div class="step-solver-title">🧮 الحل التفاعلي 1: Z-score وحساب الاحتمال</div>
+      <div class="step-progress">0 / 10</div>
     </div>
     <div class="step-solver-body">
-      <div class="step-question">طول الطلاب يتبع توزيعًا طبيعيًا بمتوسط <strong>μ = 170 سم</strong> وانحراف معياري <strong>σ = 10 سم</strong>. ما هي الدرجة المعيارية Z لطالب طوله 185 سم؟ وما احتمال أن يكون طول طالب أعلى من 185 سم؟</div>
+      <div class="step-question">طول الطلاب يتبع توزيعًا طبيعيًا بمتوسط <strong>μ = 170 سم</strong> وانحراف معياري <strong>σ = 10 سم</strong>. ما هي الدرجة المعيارية Z لطالب طوله 185 سم؟ وما <strong>احتمال أن يكون طول طالب أعلى من 185 سم</strong>؟</div>
 
       <div class="step-item" data-step="1">
-        <div class="step-label">الخطوة 1 — تحديد المعطيات</div>
+        <div class="step-label">🖐️ الخطوة 1 — مفهوم Z-score</div>
         <div class="step-content">
-          من السؤال:
+          <strong>Z-score</strong> يخبرك <strong>كم انحراف معياري</strong> تبعد قيمة عن المتوسط.
+          <div class="calc">z = (x − μ) / σ</div>
           <ul>
-            <li>x = 185 (طول الطالب)</li>
+            <li>z = 0 → x = المتوسط</li>
+            <li>z = +1 → x فوق المتوسط بانحراف معياري</li>
+            <li>z = -2 → x تحت المتوسط بانحرافين</li>
+            <li>|z| > 3 → قيمة شاذة</li>
+          </ul>
+          <strong>الفائدة:</strong> توحيد القياس — يسمح بمقارنة قيم من توزيعات مختلفة.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="2">
+        <div class="step-label">🖐️ الخطوة 2 — تحديد المعطيات</div>
+        <div class="step-content">
+          <ul>
+            <li>x = 185 (الطول المطلوب)</li>
             <li>μ = 170 (المتوسط)</li>
             <li>σ = 10 (الانحراف المعياري)</li>
           </ul>
         </div>
       </div>
 
-      <div class="step-item" data-step="2">
-        <div class="step-label">الخطوة 2 — تطبيق قانون Z-score</div>
-        <div class="step-content">
-          <div class="calc">z = (x − μ) / σ</div>
-          <div class="calc">z = (185 − 170) / 10</div>
-          <div class="calc">z = 15 / 10 = <strong>1.5</strong></div>
-        </div>
-      </div>
-
       <div class="step-item" data-step="3">
-        <div class="step-label">الخطوة 3 — تفسير قيمة Z</div>
+        <div class="step-label">🖐️ الخطوة 3 — حساب Z</div>
         <div class="step-content">
-          <strong>z = 1.5</strong> يعني أن طول الطالب يبعد عن المتوسط بـ <span class="highlight">1.5 انحراف معياري للأعلى</span>.
-          <br>هذا يضعه فوق المتوسط لكن ليس متطرفًا.
+          <div class="calc">z = (185 − 170) / 10</div>
+          <div class="calc">z = 15 / 10</div>
+          <div class="calc">z = <strong>1.5</strong></div>
+          <strong>التفسير:</strong> طول 185 يبعد عن المتوسط بـ <span class="highlight">1.5 انحراف معياري للأعلى</span>.
         </div>
       </div>
 
       <div class="step-item" data-step="4">
-        <div class="step-label">الخطوة 4 — البحث عن P(Z ≤ 1.5) في جدول التوزيع المعياري</div>
+        <div class="step-label">🖐️ الخطوة 4 — استخدام جدول Z</div>
         <div class="step-content">
-          من جدول Z القياسي:
+          من الجدول القياسي للتوزيع المعياري:
           <div class="calc">P(Z ≤ 1.5) ≈ 0.9332</div>
-          أي 93.32% من الطلاب طولهم أقل من أو يساوي 185 سم.
-          <br><strong>في إكسل:</strong> <code>=NORM.S.DIST(1.5, TRUE)</code>
+          <strong>المعنى:</strong> 93.32% من الناس طولهم ≤ 185 سم.
+          <br><strong>كيف نقرأ الجدول:</strong>
+          <ul>
+            <li>الصف: العشرات والآحاد (1.5)</li>
+            <li>العمود: المئات (0.00)</li>
+            <li>التقاطع: P(Z ≤ z) = 0.9332</li>
+          </ul>
         </div>
       </div>
 
       <div class="step-item" data-step="5">
-        <div class="step-label">الخطوة 5 — حساب احتمال الأكبر من 185</div>
+        <div class="step-label">🖐️ الخطوة 5 — حساب الاحتمال للأكبر من 185</div>
         <div class="step-content">
-          <div class="calc">P(X > 185) = 1 − P(Z ≤ 1.5)</div>
+          نستخدم قانون المتمم:
+          <div class="calc">P(X > 185) = 1 − P(X ≤ 185)</div>
           <div class="calc">P(X > 185) = 1 − 0.9332</div>
           <div class="calc">P(X > 185) = <strong>0.0668</strong> = 6.68%</div>
         </div>
       </div>
 
       <div class="step-item" data-step="6">
-        <div class="step-label">الإجابة النهائية</div>
+        <div class="step-label">🖐️ الخطوة 6 — تحقق بقاعدة 68-95-99.7</div>
         <div class="step-content">
-          <strong>z = <span class="highlight">1.5</span> · احتمال الطول > 185 سم = <span class="highlight">6.68%</span></strong>
+          <ul>
+            <li>المتوسط 170، σ=10</li>
+            <li>μ + 1σ = 180 (84.13% أقل منه)</li>
+            <li>μ + 2σ = 190 (97.5% أقل منه)</li>
+            <li>185 بين 180 و 190 → النسبة بين 84% و 97.5% ✓ (وجدنا 93.32%)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="7">
+        <div class="step-label">📊 الخطوة 7 — الحل في إكسل</div>
+        <div class="step-content">
+          <strong>طريقة 1 — مباشرة (بدون Z):</strong>
+          <div class="calc">=NORM.DIST(185, 170, 10, TRUE)  →  0.9332</div>
+          <div class="calc">=1 - NORM.DIST(185, 170, 10, TRUE)  →  0.0668</div>
+          <strong>طريقة 2 — عبر Z:</strong>
+          <div class="calc">=STANDARDIZE(185, 170, 10)  →  1.5  (Z-score)</div>
+          <div class="calc">=NORM.S.DIST(1.5, TRUE)  →  0.9332  (P(Z≤1.5))</div>
+          <div class="calc">=1 - NORM.S.DIST(1.5, TRUE)  →  0.0668</div>
+          <strong>المعكوسة (إيجاد x من احتمال):</strong>
+          <div class="calc">=NORM.INV(0.9332, 170, 10)  →  185</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="8">
+        <div class="step-label">🐍 الخطوة 8 — الحل في بايثون</div>
+        <div class="step-content">
+          <div class="code-block">
+<span class="keyword">from</span> scipy.stats <span class="keyword">import</span> norm
+
+mu = <span class="number">170</span>
+sigma = <span class="number">10</span>
+x = <span class="number">185</span>
+
+<span class="comment"># Z-score</span>
+z = (x - mu) / sigma
+<span class="func">print</span>(<span class="string">f"z = {z}"</span>)  <span class="comment"># 1.5</span>
+
+<span class="comment"># P(X ≤ 185)</span>
+p_less = norm.<span class="func">cdf</span>(x, loc=mu, scale=sigma)
+<span class="func">print</span>(<span class="string">f"P(X ≤ 185) = {p_less:.4f}"</span>)  <span class="comment"># 0.9332</span>
+
+<span class="comment"># P(X > 185)</span>
+p_more = <span class="number">1</span> - p_less
+<span class="func">print</span>(<span class="string">f"P(X > 185) = {p_more:.4f}"</span>)  <span class="comment"># 0.0668</span>
+
+<span class="comment"># طريقة بديلة</span>
+p_more2 = norm.<span class="func">sf</span>(x, loc=mu, scale=sigma)  <span class="comment"># Survival function</span>
+<span class="func">print</span>(p_more2)  <span class="comment"># 0.0668</span></div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="9">
+        <div class="step-label">📊🐍 الخطوة 9 — مقارنة الطرق</div>
+        <div class="step-content">
+          <table class="compare-table" style="margin-top: 8px; background: white;">
+            <tr><th>السؤال</th><th>يدوي + جدول Z</th><th>إكسل</th><th>بايثون</th></tr>
+            <tr><td>P(X ≤ 185)</td><td>0.9332</td><td>NORM.DIST</td><td>norm.cdf</td></tr>
+            <tr><td>P(X > 185)</td><td>0.0668</td><td>1 - NORM.DIST</td><td>norm.sf</td></tr>
+            <tr><td>إيجاد x من P</td><td>عكس الجدول</td><td>NORM.INV</td><td>norm.ppf</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="10">
+        <div class="step-label">✅ الخطوة 10 — الإجابة النهائية</div>
+        <div class="step-content">
+          <strong>z = <span class="highlight">1.5</span></strong><br>
+          <strong>P(الطول > 185 سم) = <span class="highlight">6.68%</span></strong>
           <div style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
-            <strong>التفسير العملي:</strong> فقط 6.68% من الطلاب طولهم أكبر من 185 سم. هذا يعني أن طالبًا بطول 185 يقع في أعلى 6.68% من زملائه.
-            <br><br><strong>في إكسل (مباشرة):</strong>
+            <strong>التفسير العملي:</strong>
             <ul>
-              <li><code>=1 - NORM.DIST(185, 170, 10, TRUE)</code> = 0.0668</li>
-              <li>أو: <code>=1 - NORM.S.DIST(1.5, TRUE)</code></li>
+              <li>طالب بطول 185 يقع في <strong>أعلى 6.68%</strong> من زملائه</li>
+              <li>كل 100 طالب → 7 منهم تقريبًا أطول من 185 سم</li>
+              <li>طول 185 ليس متطرفًا (|z| = 1.5 < 3)</li>
             </ul>
           </div>
         </div>
@@ -1878,46 +2408,61 @@ TOPICS['8'] = `
   </div>
 
   <!-- ===== INTERACTIVE SOLVER: Addition Rule ===== -->
-  <div class="step-solver" id="solver-8-1" data-total="5" data-current="-1">
+  <!-- ===== SOLVER 8.1: Addition Rule ===== -->
+  <div class="step-solver" id="solver-8-1" data-total="9" data-current="-1">
     <div class="step-solver-header">
-      <div class="step-solver-title">🧮 حل تفاعلي: قاعدة الجمع</div>
-      <div class="step-progress">0 / 5</div>
+      <div class="step-solver-title">🧮 الحل التفاعلي 1: قاعدة الجمع للأحداث</div>
+      <div class="step-progress">0 / 9</div>
     </div>
     <div class="step-solver-body">
-      <div class="step-question">في فصل من 30 طالبًا: 18 يحبون الرياضيات، 15 يحبون الفيزياء، 8 يحبون كلتيهما. ما احتمال أن يكون طالب عشوائي يحب <strong>الرياضيات أو الفيزياء</strong>؟</div>
+      <div class="step-question">في فصل من 30 طالبًا: 18 يحبون الرياضيات، 15 يحبون الفيزياء، 8 يحبون كلتيهما. ما <strong>احتمال</strong> أن يكون طالب عشوائي يحب <strong>الرياضيات أو الفيزياء</strong>؟</div>
 
       <div class="step-item" data-step="1">
-        <div class="step-label">الخطوة 1 — تحديد الأحداث</div>
+        <div class="step-label">🖐️ الخطوة 1 — قاعدة الجمع</div>
         <div class="step-content">
-          نعرّف الأحداث:
-          <ul>
-            <li>A = "يحب الرياضيات" (n=18)</li>
-            <li>B = "يحب الفيزياء" (n=15)</li>
-            <li>A ∩ B = "يحب كلتيهما" (n=8)</li>
-            <li>إجمالي الفصل = 30</li>
-          </ul>
+          للأحداث <strong>غير المتنافية</strong>:
+          <div class="calc">P(A ∪ B) = P(A) + P(B) − P(A ∩ B)</div>
+          للأحداث <strong>المتنافية</strong> (لا تقاطع):
+          <div class="calc">P(A ∪ B) = P(A) + P(B)</div>
+          <strong>لماذا الفرق؟</strong> في الأولى نجمع ثم نطرح التقاطع لأنه عُدّ مرتين. في الثانية لا تقاطع.
         </div>
       </div>
 
       <div class="step-item" data-step="2">
-        <div class="step-label">الخطوة 2 — حساب الاحتمالات الفردية</div>
+        <div class="step-label">🖐️ الخطوة 2 — تعريف الأحداث</div>
         <div class="step-content">
-          <div class="calc">P(A) = 18/30 = 0.6</div>
-          <div class="calc">P(B) = 15/30 = 0.5</div>
-          <div class="calc">P(A ∩ B) = 8/30 ≈ 0.267</div>
+          <ul>
+            <li>A = "يحب الرياضيات" → 18 طالب</li>
+            <li>B = "يحب الفيزياء" → 15 طالب</li>
+            <li>A ∩ B = "يحب كلتيهما" → 8 طلاب</li>
+            <li>إجمالي = 30</li>
+          </ul>
         </div>
       </div>
 
       <div class="step-item" data-step="3">
-        <div class="step-label">الخطوة 3 — تحديد نوع الأحداث</div>
+        <div class="step-label">🖐️ الخطوة 3 — تحديد نوع الأحداث</div>
         <div class="step-content">
-          الأحداث <strong>غير متنافية</strong> لأن هناك طلابًا (8) يحبون كلتيهما (التقاطع موجود).
-          <br>إذن نستخدم: <strong>P(A ∪ B) = P(A) + P(B) − P(A ∩ B)</strong>
+          <strong>هل الأحداث متنافية؟</strong>
+          <ul>
+            <li>التقاطع = 8 ≠ 0</li>
+            <li>إذن: <span class="highlight">غير متنافية</span> — يوجد طلاب يحبون الاثنين</li>
+          </ul>
+          <strong>القانون المناسب:</strong> P(A ∪ B) = P(A) + P(B) − P(A ∩ B)
         </div>
       </div>
 
       <div class="step-item" data-step="4">
-        <div class="step-label">الخطوة 4 — تطبيق القانون</div>
+        <div class="step-label">🖐️ الخطوة 4 — حساب الاحتمالات الفردية</div>
+        <div class="step-content">
+          <div class="calc">P(A) = 18/30 = <strong>0.6</strong></div>
+          <div class="calc">P(B) = 15/30 = <strong>0.5</strong></div>
+          <div class="calc">P(A ∩ B) = 8/30 ≈ <strong>0.267</strong></div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="5">
+        <div class="step-label">🖐️ الخطوة 5 — تطبيق القانون</div>
         <div class="step-content">
           <div class="calc">P(A ∪ B) = 0.6 + 0.5 − 0.267</div>
           <div class="calc">P(A ∪ B) = 1.1 − 0.267</div>
@@ -1925,13 +2470,70 @@ TOPICS['8'] = `
         </div>
       </div>
 
-      <div class="step-item" data-step="5">
-        <div class="step-label">الإجابة النهائية</div>
+      <div class="step-item" data-step="6">
+        <div class="step-label">🖐️ الخطوة 6 — التحقق بالعد المباشر</div>
+        <div class="step-content">
+          عدد الذين يحبون <strong>أحدهما على الأقل</strong>:
+          <div class="calc">= (18 + 15) − 8</div>
+          <div class="calc">= 25 طالبًا</div>
+          <div class="calc">P = 25/30 ≈ 0.833 ✓</div>
+          <strong>المنطق:</strong> الـ 8 الذين يحبون كلاهما عُدوا في الـ 18 وأيضًا في الـ 15، فنطرحهم مرة لتصحيح العد المضاعف.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="7">
+        <div class="step-label">📊 الخطوة 7 — الحل في إكسل</div>
+        <div class="step-content">
+          <strong>إذا كانت لديك بيانات الطلاب في جدول:</strong>
+          <ul>
+            <li>عمود B = "math" (1 = يحب، 0 = لا)</li>
+            <li>عمود C = "physics"</li>
+          </ul>
+          <div class="calc">P(A) = =COUNTIF(B2:B31, 1) / 30</div>
+          <div class="calc">P(B) = =COUNTIF(C2:C31, 1) / 30</div>
+          <div class="calc">P(A∩B) = =COUNTIFS(B2:B31, 1, C2:C31, 1) / 30</div>
+          <div class="calc">P(A∪B) = =((P(A)) + (P(B)) - (P(A∩B)))</div>
+          <strong>أو حساب مباشر:</strong>
+          <div class="calc">=18/30 + 15/30 - 8/30  →  0.833</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="8">
+        <div class="step-label">🐍 الخطوة 8 — الحل في بايثون</div>
+        <div class="step-content">
+          <div class="code-block">
+<span class="comment"># حساب مباشر</span>
+total = <span class="number">30</span>
+math = <span class="number">18</span>
+physics = <span class="number">15</span>
+both = <span class="number">8</span>
+
+P_A = math / total
+P_B = physics / total
+P_AB = both / total
+
+P_A_or_B = P_A + P_B - P_AB
+<span class="func">print</span>(<span class="string">f"P(A∪B) = {P_A_or_B:.3f}"</span>)  <span class="comment"># 0.833</span>
+
+<span class="comment"># بمحاكاة Monte Carlo</span>
+<span class="keyword">import</span> random
+hits = <span class="number">0</span>; trials = <span class="number">100000</span>
+<span class="keyword">for</span> _ <span class="keyword">in</span> <span class="func">range</span>(trials):
+    student = random.<span class="func">randint</span>(<span class="number">1</span>, <span class="number">30</span>)
+    likes_math = student <= <span class="number">18</span>
+    likes_physics = (student >= <span class="number">11</span> <span class="keyword">and</span> student <= <span class="number">25</span>)
+    <span class="keyword">if</span> likes_math <span class="keyword">or</span> likes_physics:
+        hits += <span class="number">1</span>
+<span class="func">print</span>(hits/trials)  <span class="comment"># ≈ 0.833</span></div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="9">
+        <div class="step-label">✅ الخطوة 9 — الإجابة النهائية</div>
         <div class="step-content">
           <strong>P(يحب الرياضيات أو الفيزياء) = <span class="highlight">0.833 = 83.3%</span></strong>
           <div style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
-            <strong>تحقق:</strong> عدد الطلاب الذين يحبون أحدهما على الأقل = 18 + 15 − 8 = 25 من 30. 25/30 ≈ 0.833 ✓
-            <br><br><strong>المنطق:</strong> طرحنا 8 لأنهم محسوبون في كلا المجموعتين (الـ 18 والـ 15).
+            <strong>التفسير:</strong> 25 من أصل 30 طالب يحبون <strong>إحدى</strong> أو <strong>كلتا</strong> المادتين. فقط 5 طلاب لا يحبون أيًا منهما.
           </div>
         </div>
       </div>
@@ -1946,87 +2548,137 @@ TOPICS['8'] = `
     </div>
   </div>
 
-  <div class="section">
-    <h2><span class="icon">✖️</span> قاعدة الضرب</h2>
-    <p>تحسب احتمال حدوث <strong>A و B معًا</strong>.</p>
-
-    <h3>1. الأحداث المستقلة <span class="eng">Independent</span></h3>
-    <p>حدوث A لا يؤثر على احتمال B (مثل: رميتين متتاليتين لقطعة نقد).</p>
-    <div class="formula-box">
-      <div class="formula-name">للأحداث المستقلة</div>
-      <div class="formula">P(A ∩ B) = P(A) × P(B)</div>
-    </div>
-
-    <h3>2. الأحداث المعتمدة <span class="eng">Dependent</span></h3>
-    <p>حدوث A يؤثر على احتمال B (مثل: سحب كرتين دون إرجاع).</p>
-    <div class="formula-box">
-      <div class="formula-name">للأحداث المعتمدة</div>
-      <div class="formula">P(A ∩ B) = P(A) × P(B|A)</div>
-      <div class="legend">P(B|A) = احتمال B بشرط حدوث A</div>
-    </div>
-  </div>
-
-  <!-- ===== INTERACTIVE SOLVER: Multiplication Rule ===== -->
-  <div class="step-solver" id="solver-8-2" data-total="5" data-current="-1">
+  <!-- ===== SOLVER 8.2: Multiplication Rule ===== -->
+  <div class="step-solver" id="solver-8-2" data-total="9" data-current="-1">
     <div class="step-solver-header">
-      <div class="step-solver-title">🧮 حل تفاعلي: قاعدة الضرب (أحداث معتمدة)</div>
-      <div class="step-progress">0 / 5</div>
+      <div class="step-solver-title">🧮 الحل التفاعلي 2: قاعدة الضرب (مع وبدون إرجاع)</div>
+      <div class="step-progress">0 / 9</div>
     </div>
     <div class="step-solver-body">
-      <div class="step-question">في صندوق فيه <strong>5 كرات حمراء</strong> و <strong>3 كرات زرقاء</strong>. نسحب كرتين بالتتابع <strong>دون إرجاع</strong>. ما احتمال أن تكون الكرتان حمراوين؟</div>
+      <div class="step-question">في صندوق فيه <strong>5 كرات حمراء</strong> و <strong>3 زرقاء</strong>. نسحب كرتين بالتتابع <strong>دون إرجاع</strong>. ما احتمال أن تكون الكرتان حمراوين؟<br>وماذا لو كان السحب <strong>مع الإرجاع</strong>؟</div>
 
       <div class="step-item" data-step="1">
-        <div class="step-label">الخطوة 1 — تحديد المعطيات</div>
+        <div class="step-label">🖐️ الخطوة 1 — قاعدة الضرب</div>
         <div class="step-content">
+          <strong>للأحداث المستقلة:</strong>
+          <div class="calc">P(A ∩ B) = P(A) × P(B)</div>
+          <strong>للأحداث المعتمدة:</strong>
+          <div class="calc">P(A ∩ B) = P(A) × P(B|A)</div>
+          <strong>الفرق:</strong>
           <ul>
-            <li>إجمالي الكرات = 5 + 3 = 8</li>
-            <li>كرات حمراء = 5</li>
-            <li>كرات زرقاء = 3</li>
-            <li>السحب <strong>دون إرجاع</strong> → الأحداث معتمدة</li>
+            <li>مع الإرجاع → الأحداث <strong>مستقلة</strong></li>
+            <li>دون الإرجاع → الأحداث <strong>معتمدة</strong> (السحب الأول يغير الاحتمالات)</li>
           </ul>
         </div>
       </div>
 
       <div class="step-item" data-step="2">
-        <div class="step-label">الخطوة 2 — احتمال الكرة الحمراء الأولى P(A)</div>
+        <div class="step-label">🖐️ الخطوة 2 — المعطيات</div>
         <div class="step-content">
-          <div class="calc">P(A) = عدد الحمراء / الإجمالي</div>
-          <div class="calc">P(A) = 5/8</div>
+          <ul>
+            <li>إجمالي = 5 + 3 = 8</li>
+            <li>حمراء = 5، زرقاء = 3</li>
+          </ul>
         </div>
       </div>
 
       <div class="step-item" data-step="3">
-        <div class="step-label">الخطوة 3 — احتمال الكرة الحمراء الثانية بشرط الأولى P(B|A)</div>
+        <div class="step-label">🖐️ الخطوة 3 — حالة دون إرجاع: السحب الأول</div>
         <div class="step-content">
-          بعد سحب كرة حمراء، تبقى:
-          <ul>
-            <li>الإجمالي = 7 (نقصت 1)</li>
-            <li>الحمراء = 4 (نقصت 1)</li>
-          </ul>
-          <div class="calc">P(B|A) = 4/7</div>
-          <strong>ملاحظة مهمة:</strong> لا نقسم على 8 لأن الكرة الأولى لم تُرجع.
+          <div class="calc">P(الأولى حمراء) = 5/8</div>
+          <strong>المنطق:</strong> 5 من 8 كرات في الصندوق حمراء.
         </div>
       </div>
 
       <div class="step-item" data-step="4">
-        <div class="step-label">الخطوة 4 — تطبيق قانون الضرب للأحداث المعتمدة</div>
+        <div class="step-label">🖐️ الخطوة 4 — السحب الثاني (بشرط)</div>
         <div class="step-content">
-          <div class="calc">P(A ∩ B) = P(A) × P(B|A)</div>
-          <div class="calc">P(A ∩ B) = (5/8) × (4/7)</div>
-          <div class="calc">P(A ∩ B) = 20/56</div>
-          <div class="calc">P(A ∩ B) = <strong>5/14 ≈ 0.357</strong></div>
+          بعد سحب كرة حمراء، الصندوق أصبح:
+          <ul>
+            <li>إجمالي = 7 (نقصت 1)</li>
+            <li>حمراء = 4 (نقصت 1)</li>
+          </ul>
+          <div class="calc">P(الثانية حمراء | الأولى حمراء) = 4/7</div>
+          <strong>تنبيه:</strong> المقام الآن 7 وليس 8 — هذا الفرق المهم في "دون إرجاع".
         </div>
       </div>
 
       <div class="step-item" data-step="5">
-        <div class="step-label">الإجابة النهائية</div>
+        <div class="step-label">🖐️ الخطوة 5 — تطبيق قاعدة الضرب</div>
         <div class="step-content">
-          <strong>P(الكرتان حمراوان) = <span class="highlight">5/14 ≈ 35.7%</span></strong>
+          <div class="calc">P(كلاهما حمراء) = (5/8) × (4/7)</div>
+          <div class="calc">= 20/56</div>
+          <div class="calc">= <strong>5/14 ≈ 0.357</strong></div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="6">
+        <div class="step-label">🖐️ الخطوة 6 — حالة مع الإرجاع</div>
+        <div class="step-content">
+          الكرة تعود قبل السحب الثاني، فالصندوق يبقى كما هو:
+          <div class="calc">P(الأولى حمراء) = 5/8</div>
+          <div class="calc">P(الثانية حمراء) = 5/8</div>
+          <div class="calc">P(كلاهما حمراء) = (5/8) × (5/8)</div>
+          <div class="calc">= 25/64 ≈ <strong>0.391</strong></div>
+          <strong>الفرق المنطقي:</strong> مع الإرجاع الاحتمال أعلى قليلاً (39.1%) لأن الفرصة لا تنقص.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="7">
+        <div class="step-label">📊 الخطوة 7 — الحل في إكسل</div>
+        <div class="step-content">
+          <strong>دون إرجاع:</strong>
+          <div class="calc">=(5/8) * (4/7)  →  0.3571</div>
+          <strong>مع إرجاع:</strong>
+          <div class="calc">=(5/8) * (5/8)  →  0.3906</div>
+          <strong>أو باستخدام دالة COMBIN (للحالات الكبيرة):</strong>
+          <div class="calc">دون إرجاع: =COMBIN(5,2) / COMBIN(8,2)  →  0.3571</div>
+          <strong>المنطق:</strong> COMBIN(5,2) = طرق اختيار 2 من 5 حمراء، COMBIN(8,2) = إجمالي الطرق لاختيار 2 من 8.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="8">
+        <div class="step-label">🐍 الخطوة 8 — الحل في بايثون</div>
+        <div class="step-content">
+          <div class="code-block">
+<span class="comment"># حساب مباشر</span>
+P_no_replace = (<span class="number">5</span>/<span class="number">8</span>) * (<span class="number">4</span>/<span class="number">7</span>)
+P_with_replace = (<span class="number">5</span>/<span class="number">8</span>) * (<span class="number">5</span>/<span class="number">8</span>)
+<span class="func">print</span>(<span class="string">f"دون إرجاع: {P_no_replace:.4f}"</span>)
+<span class="func">print</span>(<span class="string">f"مع إرجاع:  {P_with_replace:.4f}"</span>)
+
+<span class="comment"># محاكاة بـ random</span>
+<span class="keyword">import</span> random
+trials = <span class="number">100000</span>
+hits = <span class="number">0</span>
+<span class="keyword">for</span> _ <span class="keyword">in</span> <span class="func">range</span>(trials):
+    box = [<span class="string">'R'</span>]*<span class="number">5</span> + [<span class="string">'B'</span>]*<span class="number">3</span>
+    random.<span class="func">shuffle</span>(box)
+    <span class="comment"># أول كرتين بعد الخلط = سحب دون إرجاع</span>
+    <span class="keyword">if</span> box[<span class="number">0</span>] == <span class="string">'R'</span> <span class="keyword">and</span> box[<span class="number">1</span>] == <span class="string">'R'</span>:
+        hits += <span class="number">1</span>
+<span class="func">print</span>(<span class="string">f"محاكاة: {hits/trials:.4f}"</span>)  <span class="comment"># ≈ 0.357</span>
+
+<span class="comment"># أو باستخدام scipy</span>
+<span class="keyword">from</span> scipy.stats <span class="keyword">import</span> hypergeom
+<span class="func">print</span>(hypergeom.<span class="func">pmf</span>(<span class="number">2</span>, <span class="number">8</span>, <span class="number">5</span>, <span class="number">2</span>))  <span class="comment"># 0.357</span></div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="9">
+        <div class="step-label">✅ الخطوة 9 — الإجابات النهائية</div>
+        <div class="step-content">
+          <ul>
+            <li><strong>دون إرجاع:</strong> P = <span class="highlight">5/14 ≈ 35.7%</span></li>
+            <li><strong>مع الإرجاع:</strong> P = <span class="highlight">25/64 ≈ 39.1%</span></li>
+          </ul>
           <div style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
-            <strong>ماذا لو كان السحب <em>مع الإرجاع</em>؟</strong>
-            <br>تكون الأحداث مستقلة:
-            <br>P = (5/8) × (5/8) = 25/64 ≈ 0.391
-            <br>أعلى قليلاً (39.1%) لأن الكرة الأولى تعود فيبقى الاحتمال نفسه.
+            <strong>القاعدة المهمة:</strong>
+            <ul>
+              <li>"دون إرجاع" → الأحداث معتمدة → استخدم P(B|A)</li>
+              <li>"مع إرجاع" → الأحداث مستقلة → استخدم P(A) × P(B)</li>
+              <li>دائمًا الاحتمال مع الإرجاع أعلى قليلاً (لا تنقص الفرصة)</li>
+            </ul>
           </div>
         </div>
       </div>
@@ -2251,60 +2903,155 @@ TOPICS['9'] = `
   </div>
 
   <!-- ===== INTERACTIVE SOLVER: Chart Selection ===== -->
-  <div class="step-solver" id="solver-9-1" data-total="5" data-current="-1">
+  <!-- ===== SOLVER 9.1: CHART CHOICE ===== -->
+  <div class="step-solver" id="solver-9-1" data-total="9" data-current="-1">
     <div class="step-solver-header">
-      <div class="step-solver-title">🧮 حل تفاعلي: اختيار الرسم البياني المناسب</div>
-      <div class="step-progress">0 / 5</div>
+      <div class="step-solver-title">🧮 الحل التفاعلي 1: اختيار الرسم البياني المناسب</div>
+      <div class="step-progress">0 / 9</div>
     </div>
     <div class="step-solver-body">
-      <div class="step-question">شركة لديها بيانات مبيعات شهرية لـ 12 شهرًا، وتريد إظهار: (أ) الاتجاه عبر الزمن، (ب) مقارنة بين 5 فروع للمبيعات السنوية، (ج) نسبة كل فرع من الإجمالي. <strong>ما الرسم المناسب لكل حالة؟</strong></div>
+      <div class="step-question">شركة لديها بيانات مبيعات شهرية لـ 12 شهرًا، 5 فروع. تريد إظهار:<br>
+      <strong>(أ) الاتجاه عبر الزمن</strong><br>
+      <strong>(ب) مقارنة الفروع الـ 5</strong><br>
+      <strong>(ج) نسبة كل فرع من الإجمالي</strong><br>
+      ما الرسم المناسب لكل حالة، وكيف ترسمه في إكسل وبايثون؟</div>
 
       <div class="step-item" data-step="1">
-        <div class="step-label">الخطوة 1 — تحليل الحالة (أ): الاتجاه عبر الزمن</div>
+        <div class="step-label">🖐️ الخطوة 1 — قاعدة الاختيار</div>
         <div class="step-content">
-          <strong>نوع البيانات:</strong> كمية + سلسلة زمنية (12 شهرًا)
-          <br><strong>الهدف:</strong> إظهار التغير عبر الزمن
-          <br><strong>القرار:</strong> <span class="highlight">المخطط الخطي (Line Chart)</span>
-          <br><strong>السبب:</strong> الخط يربط النقاط بالتسلسل الزمني ويوضح الاتجاه (صعود/نزول/استقرار).
+          <strong>قبل اختيار الرسم، اسأل:</strong>
+          <ol>
+            <li>ما نوع البيانات؟ (فئوية / كمية / زمنية)</li>
+            <li>ما الهدف؟ (مقارنة / اتجاه / نسبة / علاقة / توزيع)</li>
+          </ol>
+          <table class="compare-table" style="margin-top: 8px; background: white;">
+            <tr><th>الهدف</th><th>الرسم</th></tr>
+            <tr><td>اتجاه زمني</td><td>Line</td></tr>
+            <tr><td>مقارنة فئات</td><td>Bar / Column</td></tr>
+            <tr><td>نسبة من الكل</td><td>Pie</td></tr>
+            <tr><td>توزيع</td><td>Histogram</td></tr>
+            <tr><td>علاقة</td><td>Scatter</td></tr>
+          </table>
         </div>
       </div>
 
       <div class="step-item" data-step="2">
-        <div class="step-label">الخطوة 2 — تحليل الحالة (ب): مقارنة 5 فروع</div>
+        <div class="step-label">🖐️ الخطوة 2 — الحالة (أ): الاتجاه عبر الزمن</div>
         <div class="step-content">
-          <strong>نوع البيانات:</strong> فئوية (الفروع) مع قيم كمية
-          <br><strong>الهدف:</strong> مقارنة الكمية بين الفئات
-          <br><strong>القرار:</strong> <span class="highlight">المخطط الشريطي أو العمودي (Bar/Column)</span>
-          <br><strong>السبب:</strong> الأشرطة المتجاورة تسهّل المقارنة البصرية بين الفروع.
+          <strong>التحليل:</strong>
+          <ul>
+            <li>المحور X = الزمن (12 شهر)</li>
+            <li>المحور Y = المبيعات</li>
+            <li>الهدف = إظهار التغير</li>
+          </ul>
+          <strong>القرار:</strong> <span class="highlight">Line Chart</span>
+          <br><strong>السبب:</strong> الخط يربط النقاط بالتسلسل ويظهر الاتجاه (صاعد/نازل).
         </div>
       </div>
 
       <div class="step-item" data-step="3">
-        <div class="step-label">الخطوة 3 — تحليل الحالة (ج): نسبة كل فرع من الإجمالي</div>
+        <div class="step-label">🖐️ الخطوة 3 — الحالة (ب): مقارنة الفروع</div>
         <div class="step-content">
-          <strong>نوع البيانات:</strong> فئوية + إظهار نسب من الكل
-          <br><strong>الهدف:</strong> إظهار التكوين/النسب
-          <br><strong>القرار:</strong> <span class="highlight">المخطط الدائري (Pie Chart)</span>
-          <br><strong>السبب:</strong> 5 فروع ضمن الحد الأقصى المقبول (6)، والمخطط الدائري ممتاز للنسب.
+          <strong>التحليل:</strong>
+          <ul>
+            <li>5 فئات (الفروع)</li>
+            <li>قيمة كمية لكل فرع (المبيعات السنوية)</li>
+            <li>الهدف = مقارنة</li>
+          </ul>
+          <strong>القرار:</strong> <span class="highlight">Bar أو Column Chart</span>
+          <br><strong>الفرق:</strong> Column عمودي (للأسماء القصيرة)، Bar أفقي (للأسماء الطويلة).
         </div>
       </div>
 
       <div class="step-item" data-step="4">
-        <div class="step-label">الخطوة 4 — ملاحظة عن الحالة (ب)</div>
+        <div class="step-label">🖐️ الخطوة 4 — الحالة (ج): نسبة كل فرع</div>
         <div class="step-content">
-          <strong>متى نختار Bar (أفقي) ومتى Column (عمودي)؟</strong>
+          <strong>التحليل:</strong>
           <ul>
-            <li><strong>Column (عمودي):</strong> عندما تكون الفئات قليلة وأسماؤها قصيرة</li>
-            <li><strong>Bar (أفقي):</strong> عندما تكون أسماء الفئات طويلة (تظهر بدون قطع)</li>
+            <li>5 فئات (ضمن الحد ≤ 6)</li>
+            <li>نريد إظهار النسب من الكل</li>
           </ul>
+          <strong>القرار:</strong> <span class="highlight">Pie Chart</span>
+          <br><strong>تنبيه:</strong> لو كانت 10 فروع، لتحاشى Pie واستخدم Bar — تكون أوضح.
         </div>
       </div>
 
       <div class="step-item" data-step="5">
-        <div class="step-label">الإجابة النهائية الموحدة</div>
+        <div class="step-label">📊 الخطوة 5 — في إكسل (الحالة أ - Line)</div>
+        <div class="step-content">
+          <ol>
+            <li>أدخل البيانات: العمود A = الأشهر، العمود B = المبيعات</li>
+            <li>حدد A1:B13</li>
+            <li>Insert → Charts → <strong>Line Chart</strong></li>
+            <li>أضف عنوان: انقر الرسم → Chart Title</li>
+            <li>أضف عناوين المحاور: Chart Elements → Axis Titles</li>
+          </ol>
+          <strong>تنبيه:</strong> لا تقتطع المحور Y، بل ابدأه من 0 (تجنبًا للتضليل البصري).
+        </div>
+      </div>
+
+      <div class="step-item" data-step="6">
+        <div class="step-label">📊 الخطوة 6 — في إكسل (الحالة ب - Bar/Column)</div>
+        <div class="step-content">
+          <ol>
+            <li>العمود A = أسماء الفروع، B = المبيعات</li>
+            <li>حدد A1:B6</li>
+            <li>Insert → <strong>Column Chart</strong> (للأسماء القصيرة) أو <strong>Bar Chart</strong> (للطويلة)</li>
+            <li>رتب البيانات تنازليًا قبل الرسم لإظهار الأعلى أولاً</li>
+          </ol>
+          <strong>للحالة (ج) - Pie:</strong>
+          <ol>
+            <li>نفس البيانات</li>
+            <li>Insert → <strong>Pie Chart</strong></li>
+            <li>فعّل Data Labels → Percentage</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="7">
+        <div class="step-label">🐍 الخطوة 7 — في بايثون (matplotlib)</div>
+        <div class="step-content">
+          <div class="code-block">
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+
+<span class="comment"># (أ) Line Chart</span>
+months = [<span class="string">'Jan'</span>, <span class="string">'Feb'</span>, <span class="string">'Mar'</span>, <span class="string">'Apr'</span>, <span class="string">'May'</span>, <span class="string">'Jun'</span>]
+sales = [<span class="number">100</span>, <span class="number">120</span>, <span class="number">115</span>, <span class="number">140</span>, <span class="number">160</span>, <span class="number">155</span>]
+plt.<span class="func">plot</span>(months, sales, marker=<span class="string">'o'</span>)
+plt.<span class="func">title</span>(<span class="string">'Monthly Sales Trend'</span>)
+plt.<span class="func">xlabel</span>(<span class="string">'Month'</span>); plt.<span class="func">ylabel</span>(<span class="string">'Sales'</span>)
+plt.<span class="func">show</span>()
+
+<span class="comment"># (ب) Bar Chart</span>
+branches = [<span class="string">'Riyadh'</span>, <span class="string">'Jeddah'</span>, <span class="string">'Dammam'</span>, <span class="string">'Mecca'</span>, <span class="string">'Madinah'</span>]
+sales_yr = [<span class="number">500</span>, <span class="number">450</span>, <span class="number">300</span>, <span class="number">280</span>, <span class="number">200</span>]
+plt.<span class="func">bar</span>(branches, sales_yr, color=<span class="string">'steelblue'</span>)
+plt.<span class="func">title</span>(<span class="string">'Branch Comparison'</span>)
+plt.<span class="func">show</span>()
+
+<span class="comment"># (ج) Pie Chart</span>
+plt.<span class="func">pie</span>(sales_yr, labels=branches, autopct=<span class="string">'%1.1f%%'</span>)
+plt.<span class="func">title</span>(<span class="string">'Branch Share'</span>)
+plt.<span class="func">show</span>()</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="8">
+        <div class="step-label">📊🐍 الخطوة 8 — أخطاء شائعة</div>
+        <div class="step-content">
+          <strong>1. اقتطاع المحور Y:</strong> يضخم الفروقات. مثال: قيم بين 95 و 100 ترسم على محور 0-100 (الفرق صغير حقيقة)، لا 90-100 (يبدو ضخمًا).
+          <br><strong>2. Pie لـ 10+ فئات:</strong> الشرائح صغيرة وغير مميزة. استخدم Bar.
+          <br><strong>3. Line لبيانات فئوية:</strong> ربط الألوان بخطوط لا معنى له.
+          <br><strong>4. ألوان متشابهة:</strong> صعب التمييز للقارئ.
+          <br><strong>5. عدم وضع وحدات:</strong> الأرقام بدون "ريال" أو "kg" مبهمة.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="9">
+        <div class="step-label">✅ الخطوة 9 — الإجابات النهائية</div>
         <div class="step-content">
           <ul>
-            <li>(أ) الاتجاه عبر 12 شهرًا → <span class="highlight">Line Chart</span></li>
+            <li>(أ) اتجاه عبر 12 شهرًا → <span class="highlight">Line Chart</span></li>
             <li>(ب) مقارنة 5 فروع → <span class="highlight">Bar/Column Chart</span></li>
             <li>(ج) نسبة كل فرع → <span class="highlight">Pie Chart</span></li>
           </ul>
@@ -2313,9 +3060,9 @@ TOPICS['9'] = `
             <ul>
               <li>زمن → Line</li>
               <li>مقارنة → Bar/Column</li>
-              <li>نسب → Pie (إذا الفئات ≤ 6)</li>
-              <li>توزيع → Histogram</li>
-              <li>علاقة → Scatter</li>
+              <li>نسب (≤ 6) → Pie</li>
+              <li>توزيع كمي → Histogram</li>
+              <li>علاقة بين متغيرين → Scatter</li>
             </ul>
           </div>
         </div>
@@ -2496,72 +3243,161 @@ TOPICS['10'] = `
   </div>
 
   <!-- ===== INTERACTIVE SOLVER: Forecasting ===== -->
-  <div class="step-solver" id="solver-10-1" data-total="6" data-current="-1">
+  <!-- ===== SOLVER 10.1: REGRESSION FORECAST ===== -->
+  <div class="step-solver" id="solver-10-1" data-total="10" data-current="-1">
     <div class="step-solver-header">
-      <div class="step-solver-title">🧮 حل تفاعلي: التنبؤ بالمبيعات بدلالة الحرارة</div>
-      <div class="step-progress">0 / 6</div>
+      <div class="step-solver-title">🧮 الحل التفاعلي 1: التنبؤ بالانحدار الخطي</div>
+      <div class="step-progress">0 / 10</div>
     </div>
     <div class="step-solver-body">
-      <div class="step-question">من بيانات سابقة، علاقة درجة الحرارة (X) بمبيعات الآيس كريم (Y) تُمثَّل بالمعادلة <strong>y = 2x − 10</strong>. توقع المبيعات عند درجة حرارة <strong>32°C</strong>.</div>
+      <div class="step-question">من بيانات سابقة، علاقة درجة الحرارة (X) بمبيعات الآيس كريم (Y) تُمثَّل بـ <strong>y = 2x − 10</strong>.<br>
+      توقع المبيعات عند درجة حرارة <strong>32°C</strong>، ثم قارن مع التنبؤ في إكسل وبايثون.</div>
 
       <div class="step-item" data-step="1">
-        <div class="step-label">الخطوة 1 — تحديد المعادلة والمعطيات</div>
+        <div class="step-label">🖐️ الخطوة 1 — مكونات معادلة الانحدار</div>
         <div class="step-content">
-          <div class="calc">y = 2x − 10</div>
+          <div class="calc">y = mx + b</div>
           <ul>
-            <li>الميل m = 2 (كل درجة حرارة إضافية تزيد المبيعات بـ 2 كوب)</li>
-            <li>التقاطع b = −10 (افتراضي: عند 0°C، تكون المبيعات سالبة، وهو غير منطقي عمليًا — خط الانحدار صالح فقط في النطاق الذي تدربنا عليه)</li>
-            <li>x = 32°C (القيمة المطلوب التنبؤ بها)</li>
+            <li><strong>x:</strong> المتغير المستقل (الحرارة)</li>
+            <li><strong>y:</strong> المتغير التابع (المبيعات)</li>
+            <li><strong>m:</strong> الميل (تغير y لكل وحدة x)</li>
+            <li><strong>b:</strong> التقاطع (قيمة y عند x=0)</li>
+          </ul>
+          في معادلتنا: y = 2x − 10
+          <ul>
+            <li>m = 2: كل درجة حرارة إضافية → +2 كوب</li>
+            <li>b = -10: عند 0°C، المبيعات سالبة (وهو غير منطقي عمليًا — هذا يحدث حين نستخدم النموذج خارج نطاق التدريب)</li>
           </ul>
         </div>
       </div>
 
       <div class="step-item" data-step="2">
-        <div class="step-label">الخطوة 2 — تعويض قيمة x</div>
+        <div class="step-label">🖐️ الخطوة 2 — تعويض x = 32</div>
         <div class="step-content">
-          نضع x = 32 في المعادلة:
-          <div class="calc">y = 2(32) − 10</div>
+          <div class="calc">y = 2x − 10</div>
+          <div class="calc">y = 2 × 32 − 10</div>
         </div>
       </div>
 
       <div class="step-item" data-step="3">
-        <div class="step-label">الخطوة 3 — حساب الضرب أولاً (الأولوية)</div>
+        <div class="step-label">🖐️ الخطوة 3 — حساب الضرب أولاً</div>
         <div class="step-content">
+          أولوية الضرب قبل الطرح:
           <div class="calc">2 × 32 = 64</div>
           <div class="calc">y = 64 − 10</div>
         </div>
       </div>
 
       <div class="step-item" data-step="4">
-        <div class="step-label">الخطوة 4 — حساب الطرح</div>
+        <div class="step-label">🖐️ الخطوة 4 — حساب الطرح</div>
         <div class="step-content">
-          <div class="calc">y = 54</div>
+          <div class="calc">y = <strong>54</strong></div>
+          <strong>الإجابة اليدوية:</strong> 54 كوبًا.
         </div>
       </div>
 
       <div class="step-item" data-step="5">
-        <div class="step-label">الخطوة 5 — التطبيق في إكسل</div>
+        <div class="step-label">🖐️ الخطوة 5 — التحقق المنطقي</div>
         <div class="step-content">
-          <strong>طريقة 1 — حساب يدوي:</strong>
-          <div class="calc">=2*32-10  →  54</div>
-          <strong>طريقة 2 — استخدام FORECAST مع البيانات الأصلية:</strong>
-          <div class="calc">=FORECAST(32, B2:B6, A2:A6)</div>
           <ul>
-            <li>32 = القيمة الجديدة لـ x</li>
-            <li>B2:B6 = نطاق y الأصلي (المبيعات)</li>
-            <li>A2:A6 = نطاق x الأصلي (الحرارة)</li>
+            <li>32°C يوم حار → نتوقع مبيعات عالية ✓</li>
+            <li>الميل موجب (2) → كلما زادت الحرارة زادت المبيعات ✓</li>
+            <li>54 رقم معقول (ليس سالبًا، ليس بالآلاف)</li>
           </ul>
-          <strong>الإصدارات الحديثة:</strong> <code>=FORECAST.LINEAR(32, B2:B6, A2:A6)</code>
         </div>
       </div>
 
       <div class="step-item" data-step="6">
-        <div class="step-label">الإجابة النهائية</div>
+        <div class="step-label">📊 الخطوة 6 — الحل في إكسل (طريقة 1: المعادلة مباشرة)</div>
+        <div class="step-content">
+          إذا كانت لدينا المعادلة جاهزة:
+          <div class="calc">=2*32 - 10  →  54</div>
+          <strong>أو في خلية بمتغير:</strong>
+          <ul>
+            <li>A1 = 32 (الحرارة)</li>
+            <li>B1 = =2*A1 - 10 → 54</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="7">
+        <div class="step-label">📊 الخطوة 7 — في إكسل (طريقة 2: من البيانات الأصلية)</div>
+        <div class="step-content">
+          إذا كانت لدينا بيانات تاريخية بدلاً من المعادلة:
+          <ul>
+            <li>الحرارة في A1:A10، المبيعات في B1:B10</li>
+          </ul>
+          <strong>التنبؤ مباشرة:</strong>
+          <div class="calc">=FORECAST(32, B1:B10, A1:A10)</div>
+          <div class="calc">=FORECAST.LINEAR(32, B1:B10, A1:A10)</div>
+          <strong>للحصول على الميل والتقاطع:</strong>
+          <div class="calc">=SLOPE(B1:B10, A1:A10)  →  2</div>
+          <div class="calc">=INTERCEPT(B1:B10, A1:A10)  →  -10</div>
+          <strong>للتنبؤ بعدة قيم دفعة واحدة:</strong>
+          <div class="calc">=TREND(B1:B10, A1:A10, {25; 30; 32; 35})</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="8">
+        <div class="step-label">🐍 الخطوة 8 — في بايثون</div>
+        <div class="step-content">
+          <strong>طريقة 1 — تطبيق المعادلة مباشرة:</strong>
+          <div class="code-block">
+<span class="keyword">def</span> <span class="func">predict</span>(x):
+    <span class="keyword">return</span> <span class="number">2</span> * x - <span class="number">10</span>
+
+<span class="func">print</span>(<span class="func">predict</span>(<span class="number">32</span>))  <span class="comment"># 54</span></div>
+          <strong>طريقة 2 — sklearn (تدريب النموذج من البيانات):</strong>
+          <div class="code-block">
+<span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LinearRegression
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+<span class="comment"># بيانات تاريخية</span>
+X = np.<span class="func">array</span>([[<span class="number">15</span>], [<span class="number">20</span>], [<span class="number">25</span>], [<span class="number">28</span>], [<span class="number">30</span>]])
+y = np.<span class="func">array</span>([<span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">46</span>, <span class="number">50</span>])
+
+model = <span class="func">LinearRegression</span>().<span class="func">fit</span>(X, y)
+<span class="func">print</span>(<span class="string">f"الميل: {model.coef_[0]:.2f}"</span>)
+<span class="func">print</span>(<span class="string">f"التقاطع: {model.intercept_:.2f}"</span>)
+
+<span class="comment"># التنبؤ</span>
+prediction = model.<span class="func">predict</span>([[<span class="number">32</span>]])
+<span class="func">print</span>(<span class="string">f"التنبؤ: {prediction[<span class="number">0</span>]:.1f}"</span>)</div>
+          <strong>طريقة 3 — scipy:</strong>
+          <div class="code-block">
+<span class="keyword">from</span> scipy <span class="keyword">import</span> stats
+slope, intercept, r, p, se = stats.<span class="func">linregress</span>(X.<span class="func">flatten</span>(), y)
+<span class="func">print</span>(slope * <span class="number">32</span> + intercept)</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="9">
+        <div class="step-label">📊🐍 الخطوة 9 — تحذيرات الانحدار</div>
+        <div class="step-content">
+          <strong>1. Extrapolation (التنبؤ خارج النطاق):</strong>
+          <ul>
+            <li>إذا تدربنا على 15-30°C، فالتنبؤ بـ 32°C قريب وعادل</li>
+            <li>التنبؤ بـ 60°C سيكون غير موثوق (خارج النطاق)</li>
+          </ul>
+          <strong>2. R² المنخفض:</strong> إذا R² < 0.5، لا تثق بالتنبؤ.
+          <br><strong>3. علاقة غير خطية:</strong> الانحدار الخطي لا يصلح للعلاقات المنحنية.
+          <br><strong>4. القيم المتطرفة:</strong> تشوه الميل والتقاطع.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="10">
+        <div class="step-label">✅ الخطوة 10 — الإجابة النهائية</div>
         <div class="step-content">
           <strong>المبيعات المتوقعة عند 32°C = <span class="highlight">54 كوبًا</span></strong>
           <div style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
-            <strong>تحذير مهم:</strong> الانحدار يعمل بشكل أفضل ضمن نطاق البيانات التي تدربنا عليها. إذا تدربنا على درجات حرارة 15-30°C، فالتنبؤ بـ 32 قريب لكنه خارج النطاق قليلاً — التنبؤ بـ 60°C سيكون غير موثوق (Extrapolation).
-            <br><br><strong>تحقق منطقي:</strong> 32°C يوم حار، نتوقع مبيعات عالية. 54 كوب رقم منطقي ✓
+            <strong>الطرق الثلاث متفقة:</strong>
+            <table class="compare-table" style="margin-top: 8px; background: white;">
+              <tr><th>الطريقة</th><th>النتيجة</th></tr>
+              <tr><td>🖐️ يدوي</td><td>54</td></tr>
+              <tr><td>📊 إكسل</td><td>54</td></tr>
+              <tr><td>🐍 بايثون</td><td>54</td></tr>
+            </table>
+            <strong>الفائدة في الواقع:</strong> هذه الأنواع من النماذج تستخدم في توقع المخزون، التسعير الديناميكي، وتخطيط الموارد.
           </div>
         </div>
       </div>
