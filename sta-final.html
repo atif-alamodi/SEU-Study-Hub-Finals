@@ -326,7 +326,7 @@ body { display: flex; min-height: 100vh; }
       </div>
     </div>
   </div>
-  <div class="progress-summary" id="progressSummary">📈 تقدمك: 0 / 7</div>
+  <div class="progress-summary" id="progressSummary">📈 تقدمك: 0 / 8</div>
   <ul class="topic-list" id="topicList">
     <li class="topic-item" data-topic="1"><span class="topic-num">1</span><span>الإحصاء، المجتمع، النزعة المركزية</span></li>
     <li class="topic-item" data-topic="2"><span class="topic-num">2</span><span>الارتباط وخط الاتجاه</span></li>
@@ -335,6 +335,7 @@ body { display: flex; min-height: 100vh; }
     <li class="topic-item" data-topic="8"><span class="topic-num">8</span><span>الاحتمالات الأساسية</span></li>
     <li class="topic-item" data-topic="9"><span class="topic-num">9</span><span>الرسوم البيانية</span></li>
     <li class="topic-item" data-topic="10"><span class="topic-num">10</span><span>الانحدار الخطي</span></li>
+    <li class="topic-item" data-topic="grouped" style="background: linear-gradient(135deg, #ede9fe, #fce7f3); border: 1px solid #c084fc;"><span class="topic-num" style="background: #7c3aed; color: white;">⭐</span><span style="font-weight: 700;">البيانات المبوبة</span></li>
     <li class="topic-item" data-topic="quiz" style="border-top: 1px solid var(--border); margin-top: 8px; padding-top: 16px;"><span class="topic-num" style="background: var(--accent); color: white;">📝</span><span style="font-weight: 800;">الاختبار الشامل</span></li>
   </ul>
   <div class="sidebar-footer">
@@ -393,6 +394,67 @@ function answerQuiz(qElement, optionIdx, correctIdx) {
     if (i === correctIdx) o.classList.add('correct');
     else if (i === optionIdx) o.classList.add('wrong');
   });
+}
+
+
+// === STEP-BY-STEP SOLUTION ENGINE ===
+function nextStep(solverId) {
+  const solver = document.getElementById(solverId);
+  if (!solver) return;
+  const total = parseInt(solver.dataset.total);
+  let current = parseInt(solver.dataset.current || '-1');
+  current++;
+  if (current > total) return;
+  solver.dataset.current = current;
+  
+  if (current === 0) {
+    solver.querySelector('.step-question').classList.add('shown');
+  } else {
+    const step = solver.querySelector('.step-item[data-step="' + current + '"]');
+    if (step) step.classList.add('shown');
+  }
+  
+  // Update progress badge
+  const progress = solver.querySelector('.step-progress');
+  if (progress) {
+    if (current === -1) progress.textContent = '0 / ' + total;
+    else if (current === 0) progress.textContent = '0 / ' + total;
+    else progress.textContent = current + ' / ' + total;
+  }
+  
+  // Update button
+  const btn = solver.querySelector('.step-btn.next');
+  if (btn) {
+    if (current === -1) btn.innerHTML = '<span>اضغط لعرض السؤال</span><span class="arrow">←</span>';
+    else if (current === 0) btn.innerHTML = '<span>اعرض الخطوة الأولى</span><span class="arrow">←</span>';
+    else if (current < total) btn.innerHTML = '<span>الخطوة التالية (' + (current+1) + ')</span><span class="arrow">←</span>';
+    else { btn.innerHTML = '✅ تم الحل بالكامل'; btn.disabled = true; }
+  }
+  
+  // Smooth scroll to the new step
+  if (current > 0) {
+    setTimeout(function() {
+      const newStep = solver.querySelector('.step-item[data-step="' + current + '"]');
+      if (newStep) newStep.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+  }
+}
+
+function resetStepSolver(solverId) {
+  const solver = document.getElementById(solverId);
+  if (!solver) return;
+  solver.dataset.current = '-1';
+  const q = solver.querySelector('.step-question');
+  if (q) q.classList.remove('shown');
+  solver.querySelectorAll('.step-item').forEach(function(s) { s.classList.remove('shown'); });
+  const progress = solver.querySelector('.step-progress');
+  const total = solver.dataset.total;
+  if (progress) progress.textContent = '0 / ' + total;
+  const btn = solver.querySelector('.step-btn.next');
+  if (btn) {
+    btn.disabled = false;
+    btn.innerHTML = '<span>اضغط لعرض السؤال</span><span class="arrow">←</span>';
+  }
 }
 
 // All STA104 topic content with interactive step-by-step solvers
@@ -2628,6 +2690,684 @@ prediction = model.<span class="func">predict</span>([[<span class="number">32</
 </section>
 `;
 
+// ========== TOPIC GROUPED: GROUPED DATA (NEW) ==========
+TOPICS['grouped'] = `
+<section class="topic-section" id="topic-grouped">
+  <div class="topic-header" style="background: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);">
+    <div class="label">⭐ موضوع متخصص · مهم جدًا للنهائي</div>
+    <h1>البيانات المبوبة (Grouped Data)</h1>
+    <p>المتوسط، الوسيط، المنوال، الانحراف المعياري — كل المقاييس عندما تكون البيانات في فئات</p>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>فهم مفهوم البيانات المبوبة وأنواعها</li>
+      <li>التعرف على مصطلحات الجدول التكراري</li>
+      <li>حساب مركز الفئة (Class Mark / Midpoint)</li>
+      <li>إتقان حساب المتوسط للبيانات المبوبة بطريقة تفصيلية</li>
+      <li>إتقان حساب الوسيط للبيانات المبوبة</li>
+      <li>إتقان حساب المنوال للبيانات المبوبة</li>
+      <li>حساب الانحراف المعياري للبيانات المبوبة</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📚</span> ما هي البيانات المبوبة؟</h2>
+    <p><strong>البيانات المبوبة <span class="eng">Grouped Data</span></strong> هي بيانات تم تقسيمها إلى <strong>فئات أو مجموعات</strong> بحيث تظهر التكرارات لكل فئة بدلاً من القيم الفردية.</p>
+
+    <div class="story-box">
+      تخيل أن لديك درجات 100 طالب. بدلاً من سرد كل درجة على حدة (وهذا مرهق ومحير)، نقسمها لفئات: <strong>50-60 (10 طلاب)، 60-70 (25 طالبًا)، 70-80 (35 طالبًا)</strong>... هذا تبويب البيانات. يجعل المعلومات أوضح ويسمح بالتحليل السريع.
+    </div>
+
+    <h3>المصطلحات الأساسية</h3>
+    <table class="compare-table">
+      <tr><th>المصطلح</th><th>التعريف</th><th>مثال</th></tr>
+      <tr><td><strong>الفئة <span class="eng">Class</span></strong></td><td>مجموعة فرعية من البيانات</td><td>50-60</td></tr>
+      <tr><td><strong>الحد الأدنى <span class="eng">Lower Limit</span></strong></td><td>أصغر قيمة في الفئة</td><td>50</td></tr>
+      <tr><td><strong>الحد الأعلى <span class="eng">Upper Limit</span></strong></td><td>أكبر قيمة في الفئة</td><td>60</td></tr>
+      <tr><td><strong>طول الفئة <span class="eng">Class Width (h)</span></strong></td><td>الحد الأعلى − الحد الأدنى</td><td>60 − 50 = 10</td></tr>
+      <tr><td><strong>مركز الفئة <span class="eng">Class Mark (xᵢ)</span></strong></td><td>(الحد الأدنى + الحد الأعلى) / 2</td><td>(50+60)/2 = 55</td></tr>
+      <tr><td><strong>التكرار <span class="eng">Frequency (fᵢ)</span></strong></td><td>عدد القيم في الفئة</td><td>10 طلاب</td></tr>
+      <tr><td><strong>التكرار المتجمع <span class="eng">Cumulative Freq (F)</span></strong></td><td>مجموع التكرارات حتى هذه الفئة</td><td>F₃ = f₁+f₂+f₃</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📐</span> القوانين الأساسية للبيانات المبوبة</h2>
+
+    <div class="formula-box">
+      <div class="formula-name">المتوسط الحسابي</div>
+      <div class="formula">x̄ = Σ(fᵢ · xᵢ) / Σfᵢ</div>
+      <div class="legend">xᵢ = مركز الفئة، fᵢ = تكرار الفئة، Σfᵢ = n (إجمالي التكرارات)</div>
+    </div>
+
+    <div class="formula-box">
+      <div class="formula-name">الوسيط</div>
+      <div class="formula">Median = L + [(n/2 − F) / fₘ] · h</div>
+      <div class="legend">L = الحد الأدنى لفئة الوسيط، n = مجموع التكرارات، F = التكرار المتجمع قبل فئة الوسيط، fₘ = تكرار فئة الوسيط، h = طول الفئة</div>
+    </div>
+
+    <div class="formula-box">
+      <div class="formula-name">المنوال</div>
+      <div class="formula">Mode = L + [d₁ / (d₁ + d₂)] · h</div>
+      <div class="legend">L = الحد الأدنى للفئة المنوالية، d₁ = الفرق بين تكرار المنوالية والتي قبلها، d₂ = الفرق بينها والتي بعدها، h = طول الفئة</div>
+    </div>
+
+    <div class="formula-box">
+      <div class="formula-name">الانحراف المعياري</div>
+      <div class="formula">s = √[Σfᵢ(xᵢ − x̄)² / (n − 1)]</div>
+      <div class="legend">للعينة. للمجتمع نقسم على n بدلاً من n−1.</div>
+    </div>
+  </div>
+
+  <!-- ===== INTERACTIVE SOLVER 1: MEAN OF GROUPED DATA ===== -->
+  <div class="step-solver" id="solver-grp-1" data-total="7" data-current="-1">
+    <div class="step-solver-header">
+      <div class="step-solver-title">🧮 الحل التفاعلي 1: حساب المتوسط للبيانات المبوبة</div>
+      <div class="step-progress">0 / 7</div>
+    </div>
+    <div class="step-solver-body">
+      <div class="step-question">الجدول التالي يبين توزيع <strong>درجات 50 طالبًا</strong> في اختبار الإحصاء:<br>
+      <table class="compare-table" style="margin-top: 8px; background: white;">
+        <tr><th>الفئة</th><th>التكرار (fᵢ)</th></tr>
+        <tr><td>40 - 50</td><td>5</td></tr>
+        <tr><td>50 - 60</td><td>8</td></tr>
+        <tr><td>60 - 70</td><td>15</td></tr>
+        <tr><td>70 - 80</td><td>12</td></tr>
+        <tr><td>80 - 90</td><td>7</td></tr>
+        <tr><td>90 - 100</td><td>3</td></tr>
+      </table>
+      <strong>احسب المتوسط الحسابي.</strong></div>
+
+      <div class="step-item" data-step="1">
+        <div class="step-label">الخطوة 1 — كتابة قانون المتوسط</div>
+        <div class="step-content">
+          للبيانات المبوبة نستخدم القانون:
+          <div class="calc">x̄ = Σ(fᵢ · xᵢ) / Σfᵢ</div>
+          <strong>ماذا يعني هذا؟</strong>
+          <ul>
+            <li><strong>fᵢ:</strong> تكرار كل فئة (موجود في الجدول)</li>
+            <li><strong>xᵢ:</strong> مركز الفئة (يلزم حسابه)</li>
+            <li><strong>Σ(fᵢ · xᵢ):</strong> مجموع حاصل ضرب كل تكرار في مركز فئته</li>
+            <li><strong>Σfᵢ:</strong> مجموع التكرارات = n = 50</li>
+          </ul>
+          <strong>السبب:</strong> نفترض أن كل القيم في الفئة تتمركز عند مركزها، فنضرب التكرار في المركز ليعطينا تقديرًا للمجموع الكلي.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="2">
+        <div class="step-label">الخطوة 2 — حساب مركز كل فئة (xᵢ)</div>
+        <div class="step-content">
+          مركز الفئة = (الحد الأدنى + الحد الأعلى) ÷ 2
+          <table class="compare-table" style="margin: 8px 0; background: white;">
+            <tr><th>الفئة</th><th>الحساب</th><th>xᵢ</th></tr>
+            <tr><td>40 - 50</td><td>(40+50)/2</td><td><strong>45</strong></td></tr>
+            <tr><td>50 - 60</td><td>(50+60)/2</td><td><strong>55</strong></td></tr>
+            <tr><td>60 - 70</td><td>(60+70)/2</td><td><strong>65</strong></td></tr>
+            <tr><td>70 - 80</td><td>(70+80)/2</td><td><strong>75</strong></td></tr>
+            <tr><td>80 - 90</td><td>(80+90)/2</td><td><strong>85</strong></td></tr>
+            <tr><td>90 - 100</td><td>(90+100)/2</td><td><strong>95</strong></td></tr>
+          </table>
+          <strong>ملاحظة:</strong> المراكز تزداد بمقدار <span class="highlight">10 (= طول الفئة h)</span> في كل صف.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="3">
+        <div class="step-label">الخطوة 3 — حساب fᵢ · xᵢ لكل فئة</div>
+        <div class="step-content">
+          نضرب كل تكرار في مركز فئته:
+          <table class="compare-table" style="margin: 8px 0; background: white;">
+            <tr><th>الفئة</th><th>fᵢ</th><th>xᵢ</th><th>fᵢ · xᵢ</th></tr>
+            <tr><td>40 - 50</td><td>5</td><td>45</td><td>5 × 45 = <strong>225</strong></td></tr>
+            <tr><td>50 - 60</td><td>8</td><td>55</td><td>8 × 55 = <strong>440</strong></td></tr>
+            <tr><td>60 - 70</td><td>15</td><td>65</td><td>15 × 65 = <strong>975</strong></td></tr>
+            <tr><td>70 - 80</td><td>12</td><td>75</td><td>12 × 75 = <strong>900</strong></td></tr>
+            <tr><td>80 - 90</td><td>7</td><td>85</td><td>7 × 85 = <strong>595</strong></td></tr>
+            <tr><td>90 - 100</td><td>3</td><td>95</td><td>3 × 95 = <strong>285</strong></td></tr>
+          </table>
+          <strong>الفكرة العملية:</strong> هذه القيم تمثل "مجموع تقديري" لكل فئة — كأننا نقول: لو كل الـ 5 طلاب الذين في الفئة الأولى حصلوا على 45 درجة، مجموعهم سيكون 225.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="4">
+        <div class="step-label">الخطوة 4 — حساب Σ(fᵢ · xᵢ)</div>
+        <div class="step-content">
+          نجمع كل قيم العمود الأخير:
+          <div class="calc">Σ(fᵢ · xᵢ) = 225 + 440 + 975 + 900 + 595 + 285</div>
+          <div class="calc">Σ(fᵢ · xᵢ) = <strong>3420</strong></div>
+          <strong>نصيحة:</strong> اجمع الأرقام في أزواج لتقليل الأخطاء:<br>
+          (225 + 440) = 665<br>
+          (975 + 900) = 1875<br>
+          (595 + 285) = 880<br>
+          المجموع: 665 + 1875 + 880 = 3420 ✓
+        </div>
+      </div>
+
+      <div class="step-item" data-step="5">
+        <div class="step-label">الخطوة 5 — حساب Σfᵢ (مجموع التكرارات)</div>
+        <div class="step-content">
+          <div class="calc">Σfᵢ = 5 + 8 + 15 + 12 + 7 + 3</div>
+          <div class="calc">Σfᵢ = <strong>50</strong> = n</div>
+          <strong>تحقق:</strong> هذا الرقم يجب أن يساوي عدد المفردات الكلي المذكور في السؤال (50 طالبًا) ✓
+        </div>
+      </div>
+
+      <div class="step-item" data-step="6">
+        <div class="step-label">الخطوة 6 — تطبيق القانون</div>
+        <div class="step-content">
+          نضع القيم في معادلة المتوسط:
+          <div class="calc">x̄ = Σ(fᵢ · xᵢ) / Σfᵢ</div>
+          <div class="calc">x̄ = 3420 / 50</div>
+          <div class="calc">x̄ = <strong>68.4</strong></div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="7">
+        <div class="step-label">الإجابة النهائية والتفسير</div>
+        <div class="step-content">
+          <strong>متوسط درجات الطلاب الـ 50 = <span class="highlight">68.4 درجة</span></strong>
+          <div style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
+            <strong>التفسير العملي:</strong>
+            <ul>
+              <li>المتوسط 68.4 يقع في الفئة (60-70) وهذه الفئة الأكثر تكرارًا (15 طالبًا) — منطقي!</li>
+              <li>المستوى العام للطلاب جيد (فوق 60% في الاختبار)</li>
+            </ul>
+            <strong>تحقق منطقي:</strong> المتوسط يجب أن يقع بين أدنى مركز فئة (45) وأعلاها (95)، و 68.4 ضمن هذا المدى ✓<br>
+            <strong>في إكسل:</strong> ضع المراكز في عمود والتكرارات في عمود آخر، ثم استخدم:
+            <div class="calc">=SUMPRODUCT(B2:B7, C2:C7) / SUM(C2:C7)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-controls">
+        <button class="step-btn next" onclick="nextStep('solver-grp-1')">
+          <span>اضغط لعرض السؤال</span>
+          <span class="arrow">←</span>
+        </button>
+        <button class="step-btn reset" onclick="resetStepSolver('solver-grp-1')">🔄 إعادة</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== INTERACTIVE SOLVER 2: MEDIAN OF GROUPED DATA ===== -->
+  <div class="step-solver" id="solver-grp-2" data-total="8" data-current="-1">
+    <div class="step-solver-header">
+      <div class="step-solver-title">🧮 الحل التفاعلي 2: حساب الوسيط للبيانات المبوبة</div>
+      <div class="step-progress">0 / 8</div>
+    </div>
+    <div class="step-solver-body">
+      <div class="step-question">باستخدام نفس الجدول السابق (50 طالبًا)، احسب <strong>الوسيط</strong>.<br>
+      تذكر: الوسيط هو القيمة التي تقسم البيانات إلى نصفين متساويين.</div>
+
+      <div class="step-item" data-step="1">
+        <div class="step-label">الخطوة 1 — كتابة قانون الوسيط</div>
+        <div class="step-content">
+          <div class="calc">Median = L + [(n/2 − F) / fₘ] · h</div>
+          <strong>عناصر القانون:</strong>
+          <ul>
+            <li><strong>L:</strong> الحد الأدنى لـ <em>فئة الوسيط</em> (التي تحتوي على الوسيط)</li>
+            <li><strong>n:</strong> مجموع التكرارات</li>
+            <li><strong>F:</strong> التكرار المتجمع <em>قبل</em> فئة الوسيط</li>
+            <li><strong>fₘ:</strong> تكرار فئة الوسيط نفسها</li>
+            <li><strong>h:</strong> طول الفئة</li>
+          </ul>
+          <strong>الخطة:</strong> سنحسب n/2، نبني التكرار المتجمع، نحدد فئة الوسيط، ثم نطبق القانون.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="2">
+        <div class="step-label">الخطوة 2 — حساب n/2</div>
+        <div class="step-content">
+          <div class="calc">n = 50 (من السؤال السابق)</div>
+          <div class="calc">n/2 = 50/2 = <strong>25</strong></div>
+          <strong>المعنى:</strong> الوسيط هو القيمة التي تكون <span class="highlight">25 طالبًا أقل منها</span> و 25 طالبًا أعلى منها.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="3">
+        <div class="step-label">الخطوة 3 — بناء جدول التكرار المتجمع (F)</div>
+        <div class="step-content">
+          نجمع التكرارات تراكميًا:
+          <table class="compare-table" style="margin: 8px 0; background: white;">
+            <tr><th>الفئة</th><th>fᵢ</th><th>التكرار المتجمع F</th><th>الحساب</th></tr>
+            <tr><td>40 - 50</td><td>5</td><td><strong>5</strong></td><td>5</td></tr>
+            <tr><td>50 - 60</td><td>8</td><td><strong>13</strong></td><td>5 + 8</td></tr>
+            <tr><td>60 - 70</td><td>15</td><td><strong>28</strong></td><td>13 + 15</td></tr>
+            <tr><td>70 - 80</td><td>12</td><td><strong>40</strong></td><td>28 + 12</td></tr>
+            <tr><td>80 - 90</td><td>7</td><td><strong>47</strong></td><td>40 + 7</td></tr>
+            <tr><td>90 - 100</td><td>3</td><td><strong>50</strong></td><td>47 + 3</td></tr>
+          </table>
+          <strong>تحقق:</strong> آخر تكرار متجمع = 50 = n ✓
+        </div>
+      </div>
+
+      <div class="step-item" data-step="4">
+        <div class="step-label">الخطوة 4 — تحديد فئة الوسيط</div>
+        <div class="step-content">
+          <strong>القاعدة:</strong> فئة الوسيط هي أول فئة يكون تكرارها المتجمع <span class="highlight">≥ n/2 = 25</span>.
+          <table class="compare-table" style="margin: 8px 0; background: white;">
+            <tr><th>الفئة</th><th>F</th><th>هل F ≥ 25؟</th></tr>
+            <tr><td>40-50</td><td>5</td><td>لا (5 < 25)</td></tr>
+            <tr><td>50-60</td><td>13</td><td>لا (13 < 25)</td></tr>
+            <tr style="background: #fef3c7;"><td><strong>60-70</strong></td><td><strong>28</strong></td><td><strong>نعم ✓ → فئة الوسيط</strong></td></tr>
+          </table>
+          <strong>إذن:</strong> فئة الوسيط هي <span class="highlight">60 - 70</span>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="5">
+        <div class="step-label">الخطوة 5 — استخراج عناصر القانون</div>
+        <div class="step-content">
+          من فئة الوسيط (60-70):
+          <ul>
+            <li><strong>L = 60</strong> (الحد الأدنى لفئة الوسيط)</li>
+            <li><strong>n/2 = 25</strong> (محسوبة)</li>
+            <li><strong>F = 13</strong> (التكرار المتجمع <em>للفئة السابقة</em> 50-60)</li>
+            <li><strong>fₘ = 15</strong> (تكرار فئة الوسيط 60-70 نفسها)</li>
+            <li><strong>h = 70 − 60 = 10</strong> (طول الفئة)</li>
+          </ul>
+          <strong>تحذير شائع:</strong> F ليست تكرار فئة الوسيط، بل التكرار المتجمع <em>للفئة التي قبلها</em>.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="6">
+        <div class="step-label">الخطوة 6 — التعويض في القانون</div>
+        <div class="step-content">
+          <div class="calc">Median = L + [(n/2 − F) / fₘ] · h</div>
+          <div class="calc">Median = 60 + [(25 − 13) / 15] · 10</div>
+          نحسب البسط أولاً:
+          <div class="calc">25 − 13 = 12</div>
+          ثم نقسم على fₘ:
+          <div class="calc">12 / 15 = 0.8</div>
+          ثم نضرب في h:
+          <div class="calc">0.8 × 10 = 8</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="7">
+        <div class="step-label">الخطوة 7 — الحساب النهائي</div>
+        <div class="step-content">
+          <div class="calc">Median = 60 + 8</div>
+          <div class="calc">Median = <strong>68</strong></div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="8">
+        <div class="step-label">الإجابة النهائية والتفسير</div>
+        <div class="step-content">
+          <strong>الوسيط = <span class="highlight">68 درجة</span></strong>
+          <div style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
+            <strong>التفسير:</strong>
+            <ul>
+              <li>50% من الطلاب حصلوا على درجة <strong>أقل من 68</strong></li>
+              <li>50% حصلوا على درجة <strong>أكبر من 68</strong></li>
+              <li>الوسيط (68) قريب جدًا من المتوسط (68.4) → التوزيع شبه متماثل ✓</li>
+            </ul>
+            <strong>الفكرة الذكية للقانون:</strong> "ادخل من بداية فئة الوسيط (60)، ثم أضف نسبة من طول الفئة (10) تتناسب مع كم بقي للوصول لمنتصف البيانات."
+          </div>
+        </div>
+      </div>
+
+      <div class="step-controls">
+        <button class="step-btn next" onclick="nextStep('solver-grp-2')">
+          <span>اضغط لعرض السؤال</span>
+          <span class="arrow">←</span>
+        </button>
+        <button class="step-btn reset" onclick="resetStepSolver('solver-grp-2')">🔄 إعادة</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== INTERACTIVE SOLVER 3: MODE OF GROUPED DATA ===== -->
+  <div class="step-solver" id="solver-grp-3" data-total="7" data-current="-1">
+    <div class="step-solver-header">
+      <div class="step-solver-title">🧮 الحل التفاعلي 3: حساب المنوال للبيانات المبوبة</div>
+      <div class="step-progress">0 / 7</div>
+    </div>
+    <div class="step-solver-body">
+      <div class="step-question">باستخدام نفس الجدول السابق، احسب <strong>المنوال</strong>.<br>
+      تذكر: المنوال هو القيمة الأكثر تكرارًا.</div>
+
+      <div class="step-item" data-step="1">
+        <div class="step-label">الخطوة 1 — كتابة قانون المنوال</div>
+        <div class="step-content">
+          <div class="calc">Mode = L + [d₁ / (d₁ + d₂)] · h</div>
+          <strong>عناصر القانون:</strong>
+          <ul>
+            <li><strong>L:</strong> الحد الأدنى للفئة المنوالية (الأكثر تكرارًا)</li>
+            <li><strong>d₁:</strong> الفرق بين تكرار الفئة المنوالية والفئة <em>السابقة</em></li>
+            <li><strong>d₂:</strong> الفرق بين تكرار الفئة المنوالية والفئة <em>التالية</em></li>
+            <li><strong>h:</strong> طول الفئة</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="2">
+        <div class="step-label">الخطوة 2 — تحديد الفئة المنوالية</div>
+        <div class="step-content">
+          الفئة المنوالية = الفئة <strong>الأعلى تكرارًا</strong>.
+          <table class="compare-table" style="margin: 8px 0; background: white;">
+            <tr><th>الفئة</th><th>fᵢ</th></tr>
+            <tr><td>40-50</td><td>5</td></tr>
+            <tr><td>50-60</td><td>8</td></tr>
+            <tr style="background: #fef3c7;"><td><strong>60-70</strong></td><td><strong>15 ⭐</strong> أعلى تكرار</td></tr>
+            <tr><td>70-80</td><td>12</td></tr>
+            <tr><td>80-90</td><td>7</td></tr>
+            <tr><td>90-100</td><td>3</td></tr>
+          </table>
+          <strong>إذن:</strong> الفئة المنوالية = <span class="highlight">60 - 70</span> (تكرارها 15)
+        </div>
+      </div>
+
+      <div class="step-item" data-step="3">
+        <div class="step-label">الخطوة 3 — حساب d₁ (الفرق مع السابقة)</div>
+        <div class="step-content">
+          d₁ = تكرار المنوالية − تكرار السابقة
+          <div class="calc">d₁ = 15 − 8 = <strong>7</strong></div>
+          <strong>المعنى:</strong> الفئة المنوالية تتفوق على السابقة بـ 7 طلاب.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="4">
+        <div class="step-label">الخطوة 4 — حساب d₂ (الفرق مع التالية)</div>
+        <div class="step-content">
+          d₂ = تكرار المنوالية − تكرار التالية
+          <div class="calc">d₂ = 15 − 12 = <strong>3</strong></div>
+          <strong>المعنى:</strong> الفئة المنوالية تتفوق على التالية بـ 3 فقط (فرق صغير، يعني التركز أقرب لجهة الأعلى).
+        </div>
+      </div>
+
+      <div class="step-item" data-step="5">
+        <div class="step-label">الخطوة 5 — استخراج باقي العناصر والتعويض</div>
+        <div class="step-content">
+          <ul>
+            <li>L = 60 (الحد الأدنى للفئة المنوالية)</li>
+            <li>d₁ = 7</li>
+            <li>d₂ = 3</li>
+            <li>h = 10</li>
+          </ul>
+          نضع في القانون:
+          <div class="calc">Mode = 60 + [7 / (7 + 3)] · 10</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="6">
+        <div class="step-label">الخطوة 6 — الحساب خطوة بخطوة</div>
+        <div class="step-content">
+          نحسب المقام أولاً:
+          <div class="calc">7 + 3 = 10</div>
+          ثم القسمة:
+          <div class="calc">7 / 10 = 0.7</div>
+          ثم الضرب في h:
+          <div class="calc">0.7 × 10 = 7</div>
+          أخيرًا:
+          <div class="calc">Mode = 60 + 7</div>
+          <div class="calc">Mode = <strong>67</strong></div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="7">
+        <div class="step-label">الإجابة النهائية والتفسير</div>
+        <div class="step-content">
+          <strong>المنوال = <span class="highlight">67 درجة</span></strong>
+          <div style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
+            <strong>المقارنة بين المقاييس الثلاثة:</strong>
+            <ul>
+              <li>المتوسط = 68.4</li>
+              <li>الوسيط = 68</li>
+              <li>المنوال = 67</li>
+            </ul>
+            القيم متقاربة جدًا → التوزيع <strong>شبه متماثل</strong> (ملتوٍ قليلاً لليمين لأن المتوسط > الوسيط > المنوال).<br><br>
+            <strong>فهم القانون:</strong> "ادخل في الفئة المنوالية بنسبة (الفرق مع السابق) إلى (مجموع الفروق) — كلما كان d₁ أكبر من d₂، اقترب المنوال من نهاية الفئة، والعكس."
+          </div>
+        </div>
+      </div>
+
+      <div class="step-controls">
+        <button class="step-btn next" onclick="nextStep('solver-grp-3')">
+          <span>اضغط لعرض السؤال</span>
+          <span class="arrow">←</span>
+        </button>
+        <button class="step-btn reset" onclick="resetStepSolver('solver-grp-3')">🔄 إعادة</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== INTERACTIVE SOLVER 4: STD DEV OF GROUPED DATA ===== -->
+  <div class="step-solver" id="solver-grp-4" data-total="9" data-current="-1">
+    <div class="step-solver-header">
+      <div class="step-solver-title">🧮 الحل التفاعلي 4: الانحراف المعياري للبيانات المبوبة</div>
+      <div class="step-progress">0 / 9</div>
+    </div>
+    <div class="step-solver-body">
+      <div class="step-question">باستخدام نفس الجدول، احسب <strong>الانحراف المعياري</strong> لدرجات الطلاب.<br>
+      علمًا أن المتوسط x̄ = 68.4 (محسوب سابقًا).</div>
+
+      <div class="step-item" data-step="1">
+        <div class="step-label">الخطوة 1 — كتابة القانون</div>
+        <div class="step-content">
+          <div class="calc">s = √[Σfᵢ(xᵢ − x̄)² / (n − 1)]</div>
+          <strong>الفكرة:</strong> نقيس متوسط <em>التشتت</em> حول المتوسط، مع مراعاة تكرار كل فئة.
+          <br><strong>الخطة:</strong>
+          <ol>
+            <li>نحسب (xᵢ − x̄) لكل فئة</li>
+            <li>نربّع كل فرق</li>
+            <li>نضربه في تكراره</li>
+            <li>نجمع</li>
+            <li>نقسم على (n−1)</li>
+            <li>نأخذ الجذر</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="2">
+        <div class="step-label">الخطوة 2 — حساب (xᵢ − x̄) لكل فئة</div>
+        <div class="step-content">
+          نطرح المتوسط 68.4 من كل مركز:
+          <table class="compare-table" style="margin: 8px 0; background: white;">
+            <tr><th>الفئة</th><th>xᵢ</th><th>(xᵢ − 68.4)</th></tr>
+            <tr><td>40-50</td><td>45</td><td>45 − 68.4 = <strong>-23.4</strong></td></tr>
+            <tr><td>50-60</td><td>55</td><td>55 − 68.4 = <strong>-13.4</strong></td></tr>
+            <tr><td>60-70</td><td>65</td><td>65 − 68.4 = <strong>-3.4</strong></td></tr>
+            <tr><td>70-80</td><td>75</td><td>75 − 68.4 = <strong>6.6</strong></td></tr>
+            <tr><td>80-90</td><td>85</td><td>85 − 68.4 = <strong>16.6</strong></td></tr>
+            <tr><td>90-100</td><td>95</td><td>95 − 68.4 = <strong>26.6</strong></td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="3">
+        <div class="step-label">الخطوة 3 — تربيع كل انحراف (xᵢ − x̄)²</div>
+        <div class="step-content">
+          <table class="compare-table" style="margin: 8px 0; background: white;">
+            <tr><th>(xᵢ − x̄)</th><th>التربيع</th><th>(xᵢ − x̄)²</th></tr>
+            <tr><td>-23.4</td><td>(-23.4)²</td><td><strong>547.56</strong></td></tr>
+            <tr><td>-13.4</td><td>(-13.4)²</td><td><strong>179.56</strong></td></tr>
+            <tr><td>-3.4</td><td>(-3.4)²</td><td><strong>11.56</strong></td></tr>
+            <tr><td>6.6</td><td>(6.6)²</td><td><strong>43.56</strong></td></tr>
+            <tr><td>16.6</td><td>(16.6)²</td><td><strong>275.56</strong></td></tr>
+            <tr><td>26.6</td><td>(26.6)²</td><td><strong>707.56</strong></td></tr>
+          </table>
+          <strong>ملاحظة:</strong> تربيع الانحرافات السالبة يجعلها موجبة (مثل (-23.4)² = 547.56).
+        </div>
+      </div>
+
+      <div class="step-item" data-step="4">
+        <div class="step-label">الخطوة 4 — ضرب كل تربيع في تكراره: fᵢ(xᵢ − x̄)²</div>
+        <div class="step-content">
+          <table class="compare-table" style="margin: 8px 0; background: white;">
+            <tr><th>fᵢ</th><th>(xᵢ − x̄)²</th><th>fᵢ × (xᵢ − x̄)²</th></tr>
+            <tr><td>5</td><td>547.56</td><td>5 × 547.56 = <strong>2737.80</strong></td></tr>
+            <tr><td>8</td><td>179.56</td><td>8 × 179.56 = <strong>1436.48</strong></td></tr>
+            <tr><td>15</td><td>11.56</td><td>15 × 11.56 = <strong>173.40</strong></td></tr>
+            <tr><td>12</td><td>43.56</td><td>12 × 43.56 = <strong>522.72</strong></td></tr>
+            <tr><td>7</td><td>275.56</td><td>7 × 275.56 = <strong>1928.92</strong></td></tr>
+            <tr><td>3</td><td>707.56</td><td>3 × 707.56 = <strong>2122.68</strong></td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="5">
+        <div class="step-label">الخطوة 5 — جمع العمود الأخير Σfᵢ(xᵢ − x̄)²</div>
+        <div class="step-content">
+          <div class="calc">Σ = 2737.80 + 1436.48 + 173.40 + 522.72 + 1928.92 + 2122.68</div>
+          <div class="calc">Σ = <strong>8922.00</strong></div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="6">
+        <div class="step-label">الخطوة 6 — حساب التباين (s²)</div>
+        <div class="step-content">
+          نقسم على (n − 1):
+          <div class="calc">n − 1 = 50 − 1 = 49</div>
+          <div class="calc">s² = 8922 / 49</div>
+          <div class="calc">s² ≈ <strong>182.08</strong></div>
+          <strong>هذا التباين</strong> (Variance) للعينة.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="7">
+        <div class="step-label">الخطوة 7 — حساب الجذر التربيعي</div>
+        <div class="step-content">
+          <div class="calc">s = √182.08</div>
+          <div class="calc">s ≈ <strong>13.49</strong></div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="8">
+        <div class="step-label">الخطوة 8 — التحقق المنطقي</div>
+        <div class="step-content">
+          هل النتيجة منطقية؟
+          <ul>
+            <li>الدرجات تتراوح بين ~45 و ~95 → مدى ≈ 50</li>
+            <li>قاعدة تقريبية: s ≈ المدى / 4 ≈ 50/4 = 12.5</li>
+            <li>قيمتنا (13.49) قريبة من 12.5 ✓ → النتيجة معقولة</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="9">
+        <div class="step-label">الإجابة النهائية والتفسير</div>
+        <div class="step-content">
+          <strong>الانحراف المعياري s ≈ <span class="highlight">13.49 درجة</span></strong>
+          <div style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
+            <strong>التفسير العملي:</strong>
+            <ul>
+              <li>درجات الطلاب تنحرف عن متوسطها (68.4) بمقدار <strong>13.49 درجة</strong> في المتوسط</li>
+              <li>معظم الطلاب (≈ 68%) يقعون بين: 68.4 ± 13.49 → <strong>54.9 إلى 81.9</strong></li>
+              <li>هذا يطابق الفئات الأكثر تكرارًا (60-70 و 70-80) ✓</li>
+            </ul>
+            <strong>في إكسل (طريقة sumproduct):</strong>
+            <div class="calc">=SQRT(SUMPRODUCT(C2:C7, (B2:B7-D1)^2) / (SUM(C2:C7)-1))</div>
+            حيث B = المراكز، C = التكرارات، D1 = المتوسط.
+          </div>
+        </div>
+      </div>
+
+      <div class="step-controls">
+        <button class="step-btn next" onclick="nextStep('solver-grp-4')">
+          <span>اضغط لعرض السؤال</span>
+          <span class="arrow">←</span>
+        </button>
+        <button class="step-btn reset" onclick="resetStepSolver('solver-grp-4')">🔄 إعادة</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🐍</span> البيانات المبوبة في Python</h2>
+    <div class="code-block">
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+<span class="comment"># المراكز والتكرارات</span>
+midpoints = np.<span class="func">array</span>([<span class="number">45</span>, <span class="number">55</span>, <span class="number">65</span>, <span class="number">75</span>, <span class="number">85</span>, <span class="number">95</span>])
+freq = np.<span class="func">array</span>([<span class="number">5</span>, <span class="number">8</span>, <span class="number">15</span>, <span class="number">12</span>, <span class="number">7</span>, <span class="number">3</span>])
+
+<span class="comment"># المتوسط</span>
+n = freq.<span class="func">sum</span>()
+mean = (freq * midpoints).<span class="func">sum</span>() / n
+<span class="func">print</span>(<span class="string">f"المتوسط: {mean}"</span>)  <span class="comment"># 68.4</span>
+
+<span class="comment"># الانحراف المعياري للعينة</span>
+variance = (freq * (midpoints - mean)**<span class="number">2</span>).<span class="func">sum</span>() / (n - <span class="number">1</span>)
+std_dev = np.<span class="func">sqrt</span>(variance)
+<span class="func">print</span>(<span class="string">f"الانحراف: {std_dev:.2f}"</span>)  <span class="comment"># 13.49</span>
+
+<span class="comment"># للوسيط: نحتاج التكرار المتجمع</span>
+cum_freq = np.<span class="func">cumsum</span>(freq)
+<span class="func">print</span>(<span class="string">f"التكرار المتجمع: {cum_freq}"</span>)
+<span class="comment"># [ 5 13 28 40 47 50]</span></div>
+
+    <div class="app-link-row">
+      <a href="excel-sim.html" target="_blank" class="app-link excel"><span class="ico">📊</span><span>جرّب SUMPRODUCT في إكسل</span></a>
+      <a href="python-sim.html" target="_blank" class="app-link python"><span class="ico">🐍</span><span>محاكي بايثون</span></a>
+    </div>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> اختبر فهمك للبيانات المبوبة</h2>
+
+    <div class="quiz-q">
+      <div class="q-text">س1: مركز الفئة (60 - 70) يساوي:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>60</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>65</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>70</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>10</span></button>
+      </div>
+      <div class="quiz-explain">مركز الفئة = (الحد الأدنى + الحد الأعلى) / 2 = (60+70)/2 = 65.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س2: في قانون الوسيط Median = L + [(n/2 − F) / fₘ] · h، الرمز F يمثل:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>تكرار فئة الوسيط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>التكرار المتجمع للفئة قبل فئة الوسيط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>طول الفئة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>المتوسط</span></button>
+      </div>
+      <div class="quiz-explain">F = التكرار المتجمع للفئة السابقة لفئة الوسيط (قبل دخولها).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س3: الفئة المنوالية هي:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>الفئة الأولى</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>الفئة ذات أعلى تكرار</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>الفئة الوسطى</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>الفئة الأكبر</span></button>
+      </div>
+      <div class="quiz-explain">الفئة المنوالية = الأكثر تكرارًا (Maximum Frequency).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س4: لحساب المتوسط للبيانات المبوبة في إكسل (المراكز في B والتكرارات في C):</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>=AVERAGE(B:B)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>=SUMPRODUCT(B:B, C:C) / SUM(C:C)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>=SUM(B:B) / COUNT(C:C)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>=MEDIAN(B:B)</span></button>
+      </div>
+      <div class="quiz-explain">SUMPRODUCT يحسب Σ(fᵢ·xᵢ)، ثم نقسمها على Σfᵢ = SUM(C:C).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س5: في جدول تكراري بمجموع تكرارات n=80، فئة الوسيط هي:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>الفئة الأولى</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>أول فئة يكون تكرارها المتجمع ≥ 40</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>الفئة الأخيرة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>الفئة المنوالية</span></button>
+      </div>
+      <div class="quiz-explain">n/2 = 80/2 = 40. فئة الوسيط هي أول فئة يكون تكرارها المتجمع ≥ 40.</div>
+    </div>
+  </div>
+</section>
+`;
+
+
+
 // ========== COMPREHENSIVE QUIZ ==========
 TOPICS['quiz'] = `
 <section class="topic-section" id="topic-quiz">
@@ -3483,7 +4223,7 @@ console.log("All STA topics built. Total topics:", Object.keys(TOPICS).length);
 
 
 // Inject all topic sections
-const TOPIC_ORDER = ['1','2','6','7','8','9','10','quiz'];
+const TOPIC_ORDER = ['1','2','6','7','8','9','10','grouped','quiz'];
 const container = document.getElementById('topicsContainer');
 TOPIC_ORDER.forEach(id => {
   if (TOPICS[id]) {
