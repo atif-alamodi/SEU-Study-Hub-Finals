@@ -650,7 +650,7 @@ TOPICS['1'] = `
     </ul>
 
     <div class="real-life-box">
-      عندما تستخدم Instagram أو ChatGPT أو تشاهد Netflix، أنت تستخدم تطبيقات مكتوبة جزئيًا بـ بايثون. حتى تطبيقات الـ HR التي تستخدمها مثل Workday و BambooHR تعتمد عليها في تحليل البيانات.
+      عندما تستخدم Instagram أو ChatGPT أو تشاهد Netflix، أنت تستخدم تطبيقات مكتوبة جزئيًا بـ بايثون. حتى تطبيقات الجامعة مثل Blackboard وأنظمة التسجيل الإلكتروني تعتمد على بايثون في الخفاء.
     </div>
   </div>
 
@@ -759,11 +759,11 @@ Hello, World!</div>
       <div class="step-progress">0 / 12</div>
     </div>
     <div class="step-solver-body">
-      <div class="step-question"><strong>المطلوب:</strong> برنامج بايثون يحسب راتب موظف بناءً على:<br>
-      • الراتب الأساسي (يدخله المستخدم)<br>
-      • العلاوة 15% من الأساسي<br>
-      • الضريبة 10% من (الأساسي + العلاوة)<br>
-      • صافي الراتب = الأساسي + العلاوة − الضريبة<br>
+      <div class="step-question"><strong>المطلوب:</strong> برنامج يحسب التكلفة الإجمالية لرحلة طلابية بناءً على:<br>
+      • سعر التذكرة (يدخله المستخدم)<br>
+      • تكلفة الإقامة 60% من التذكرة<br>
+      • رسوم الخدمة 8% من (التذكرة + الإقامة)<br>
+      • التكلفة الإجمالية = التذكرة + الإقامة + الرسوم<br>
       ويطبع النتيجة بشكل واضح. <strong>سنحل بطريقة المبرمج المحترف خطوة بخطوة.</strong></div>
 
       <div class="step-item" data-step="1">
@@ -771,8 +771,8 @@ Hello, World!</div>
         <div class="step-content">
           <strong>اسأل نفسك على الورقة:</strong>
           <ul>
-            <li>ما المدخلات؟ → <strong>الراتب الأساسي (رقم)</strong></li>
-            <li>ما المخرجات؟ → <strong>العلاوة، الضريبة، صافي الراتب</strong></li>
+            <li>ما المدخلات؟ → <strong>سعر التذكرة (رقم)</strong></li>
+            <li>ما المخرجات؟ → <strong>الإقامة، الرسوم، التكلفة الإجمالية</strong></li>
             <li>ما العمليات؟ → <strong>3 عمليات حسابية</strong></li>
           </ul>
           <strong>لا تكتب أي سطر كود حتى تجيب على هذه الأسئلة الثلاثة!</strong>
@@ -784,10 +784,10 @@ Hello, World!</div>
         <div class="step-content">
           مشكلة كبيرة → عدة مشاكل صغيرة:
           <ol>
-            <li>مشكلة فرعية 1: استلام الراتب من المستخدم</li>
-            <li>مشكلة فرعية 2: حساب العلاوة (15%)</li>
-            <li>مشكلة فرعية 3: حساب الضريبة (10% من الأساسي+العلاوة)</li>
-            <li>مشكلة فرعية 4: حساب صافي الراتب</li>
+            <li>مشكلة فرعية 1: استلام سعر التذكرة من المستخدم</li>
+            <li>مشكلة فرعية 2: حساب الإقامة (60%)</li>
+            <li>مشكلة فرعية 3: حساب الرسوم (8% من التذكرة+الإقامة)</li>
+            <li>مشكلة فرعية 4: حساب التكلفة الإجمالية</li>
             <li>مشكلة فرعية 5: عرض النتائج</li>
           </ol>
           <strong>السر:</strong> كل مشكلة فرعية = سطر أو سطرين من الكود لاحقًا.
@@ -799,12 +799,12 @@ Hello, World!</div>
         <div class="step-content">
           ترجم الخطوات لجمل عربية واضحة:
           <div class="code-block" style="direction: rtl; text-align: right;">
-1. اعرض رسالة "أدخل الراتب الأساسي"
-2. استلم الراتب وحوّله لرقم وخزنه في "basic"
-3. احسب allowance = basic × 0.15
-4. احسب tax = (basic + allowance) × 0.10
-5. احسب net = basic + allowance − tax
-6. اعرض basic, allowance, tax, net</div>
+1. اعرض رسالة "أدخل سعر التذكرة"
+2. استلم السعر وحوّله لرقم وخزنه في "ticket"
+3. احسب hotel = ticket × 0.60
+4. احسب fees = (ticket + hotel) × 0.08
+5. احسب total = ticket + hotel + fees
+6. اعرض ticket, hotel, fees, total</div>
         </div>
       </div>
 
@@ -812,12 +812,12 @@ Hello, World!</div>
         <div class="step-label">📝 الخطوة 4 — اختبر يدويًا برقم</div>
         <div class="step-content">
           <strong>قبل الكتابة، احل المسألة بالحاسبة!</strong>
-          <br>لنفترض الراتب = 10,000 ريال:
+          <br>لنفترض سعر التذكرة = 1000 ريال:
           <ul>
-            <li>العلاوة = 10000 × 0.15 = <strong>1500</strong></li>
-            <li>المجموع = 10000 + 1500 = 11500</li>
-            <li>الضريبة = 11500 × 0.10 = <strong>1150</strong></li>
-            <li>الصافي = 10000 + 1500 − 1150 = <strong>10350</strong></li>
+            <li>الإقامة = 1000 × 0.60 = <strong>600</strong></li>
+            <li>المجموع قبل الرسوم = 1000 + 600 = 1600</li>
+            <li>الرسوم = 1600 × 0.08 = <strong>128</strong></li>
+            <li>الإجمالي = 1000 + 600 + 128 = <strong>1728</strong></li>
           </ul>
           <strong>الآن نعرف الإجابة الصحيحة قبل البرمجة!</strong> هذا يساعدنا نكتشف الأخطاء.
         </div>
@@ -841,66 +841,66 @@ Hello, World!</div>
         <div class="step-content">
           الآن فقط نلمس الكيبورد. كل خطوة من الـ Pseudocode = سطر بايثون:
           <div class="code-block">
-<span class="comment"># 1. عرض الرسالة + 2. استلام الراتب وتحويله لرقم</span>
-basic = <span class="builtin">float</span>(<span class="func">input</span>(<span class="string">"أدخل الراتب الأساسي: "</span>))
+<span class="comment"># 1. عرض الرسالة + 2. استلام السعر وتحويله لرقم</span>
+ticket = <span class="builtin">float</span>(<span class="func">input</span>(<span class="string">"أدخل سعر التذكرة: "</span>))
 
-<span class="comment"># 3. حساب العلاوة</span>
-allowance = basic * <span class="number">0.15</span>
+<span class="comment"># 3. حساب الإقامة</span>
+hotel = ticket * <span class="number">0.60</span>
 
-<span class="comment"># 4. حساب الضريبة</span>
-tax = (basic + allowance) * <span class="number">0.10</span>
+<span class="comment"># 4. حساب الرسوم</span>
+fees = (ticket + hotel) * <span class="number">0.08</span>
 
-<span class="comment"># 5. حساب صافي الراتب</span>
-net = basic + allowance - tax
+<span class="comment"># 5. حساب التكلفة الإجمالية</span>
+total = ticket + hotel + fees
 
 <span class="comment"># 6. عرض النتائج</span>
-<span class="func">print</span>(<span class="string">"الراتب الأساسي:"</span>, basic)
-<span class="func">print</span>(<span class="string">"العلاوة:"</span>, allowance)
-<span class="func">print</span>(<span class="string">"الضريبة:"</span>, tax)
-<span class="func">print</span>(<span class="string">"صافي الراتب:"</span>, net)</div>
+<span class="func">print</span>(<span class="string">"سعر التذكرة:"</span>, ticket)
+<span class="func">print</span>(<span class="string">"الإقامة:"</span>, hotel)
+<span class="func">print</span>(<span class="string">"الرسوم:"</span>, fees)
+<span class="func">print</span>(<span class="string">"الإجمالي:"</span>, total)</div>
         </div>
       </div>
 
       <div class="step-item" data-step="7">
         <div class="step-label">🔍 الخطوة 7 — افهم كل سطر منطقيًا</div>
         <div class="step-content">
-          لنحلل السطر الأول: <code>basic = float(input("..."))</code>
+          لنحلل السطر الأول: <code>ticket = float(input("..."))</code>
           <ul>
             <li><code>input("...")</code> — يطبع الرسالة وينتظر إدخال المستخدم. <strong>يرجع نصًا (string)</strong></li>
-            <li><code>float(...)</code> — يحول النص إلى رقم عشري. لماذا؟ لأن <code>"10000"</code> (نص) لا يُضرب في <code>0.15</code> (رقم)</li>
-            <li><code>basic = ...</code> — يخزن النتيجة في صندوق اسمه <code>basic</code></li>
+            <li><code>float(...)</code> — يحول النص إلى رقم عشري. لماذا؟ لأن <code>"1000"</code> (نص) لا يُضرب في <code>0.60</code> (رقم)</li>
+            <li><code>ticket = ...</code> — يخزن النتيجة في صندوق اسمه <code>ticket</code></li>
           </ul>
-          <strong>السطر بأكمله يعني:</strong> "اطلب من المستخدم رقمًا، حوّله لعدد عشري، وخزنه باسم basic".
+          <strong>السطر بأكمله يعني:</strong> "اطلب من المستخدم رقمًا، حوّله لعدد عشري، وخزنه باسم ticket".
         </div>
       </div>
 
       <div class="step-item" data-step="8">
         <div class="step-label">🧪 الخطوة 8 — جرّب البرنامج</div>
         <div class="step-content">
-          شغّل البرنامج وأدخل 10000:
+          شغّل البرنامج وأدخل 1000:
           <div class="code-block" style="background: #1e293b;">
-أدخل الراتب الأساسي: <span class="string">10000</span>
-الراتب الأساسي: <span class="number">10000.0</span>
-العلاوة: <span class="number">1500.0</span>
-الضريبة: <span class="number">1150.0</span>
-صافي الراتب: <span class="number">10350.0</span></div>
-          <strong>قارن مع حسابك اليدوي:</strong> الصافي = 10350 ✓ النتيجة صحيحة!
+أدخل سعر التذكرة: <span class="string">1000</span>
+سعر التذكرة: <span class="number">1000.0</span>
+الإقامة: <span class="number">600.0</span>
+الرسوم: <span class="number">128.0</span>
+الإجمالي: <span class="number">1728.0</span></div>
+          <strong>قارن مع حسابك اليدوي:</strong> الإجمالي = 1728 ✓ النتيجة صحيحة!
         </div>
       </div>
 
       <div class="step-item" data-step="9">
         <div class="step-label">🎨 الخطوة 9 — حسّن المخرجات</div>
         <div class="step-content">
-          الأرقام الكثيرة بعد الفاصلة (10000.0) قبيحة. لنتنسقها بـ f-strings:
+          الأرقام الكثيرة بعد الفاصلة (1000.0) قبيحة. لنتنسقها بـ f-strings:
           <div class="code-block">
-<span class="func">print</span>(<span class="string">f"الراتب الأساسي: {basic:,.2f} ريال"</span>)
-<span class="func">print</span>(<span class="string">f"العلاوة: {allowance:,.2f} ريال"</span>)
-<span class="func">print</span>(<span class="string">f"الضريبة: {tax:,.2f} ريال"</span>)
-<span class="func">print</span>(<span class="string">f"صافي الراتب: {net:,.2f} ريال"</span>)</div>
+<span class="func">print</span>(<span class="string">f"سعر التذكرة: {ticket:,.2f} ريال"</span>)
+<span class="func">print</span>(<span class="string">f"الإقامة: {hotel:,.2f} ريال"</span>)
+<span class="func">print</span>(<span class="string">f"الرسوم: {fees:,.2f} ريال"</span>)
+<span class="func">print</span>(<span class="string">f"الإجمالي: {total:,.2f} ريال"</span>)</div>
           <ul>
             <li><code>f"..."</code> — نص منسق، يسمح بإدخال متغيرات داخله</li>
-            <li><code>{basic:,.2f}</code> — اعرض basic بفاصلة آلاف ومنزلتين عشريتين</li>
-            <li>الناتج: <code>10,350.00 ريال</code></li>
+            <li><code>{ticket:,.2f}</code> — اعرض ticket بفاصلة آلاف ومنزلتين عشريتين</li>
+            <li>الناتج: <code>1,728.00 ريال</code></li>
           </ul>
         </div>
       </div>
@@ -910,11 +910,11 @@ net = basic + allowance - tax
         <div class="step-content">
           هذا البرنامج ليس مجرد تمرين. هذا <strong>بالضبط</strong> ما يحدث في:
           <ul>
-            <li><strong>أنظمة الرواتب (Payroll Systems):</strong> Workday, BambooHR, Jisr</li>
-            <li><strong>محاسبة الموظفين في رسال الود:</strong> نفس المنطق لكن مع علاوات أكثر</li>
-            <li><strong>حاسبات الضرائب الإلكترونية</strong></li>
+            <li><strong>تطبيقات الحجز:</strong> Booking.com، طيران ناس، الحرمين</li>
+            <li><strong>التسوق الإلكتروني:</strong> noon، Amazon، حساب الفواتير مع الضريبة والشحن</li>
+            <li><strong>حاسبات الميزانية الشخصية</strong></li>
           </ul>
-          الفرق الوحيد: المؤسسات تستخدم بيانات من قاعدة بيانات بدلاً من <code>input()</code>، وتحفظ النتائج في ملف بدلاً من <code>print()</code>.
+          الفرق الوحيد: المواقع تستخدم بيانات من قاعدة بيانات بدلاً من <code>input()</code>، وتحفظ النتائج في ملف بدلاً من <code>print()</code>.
         </div>
       </div>
 
@@ -924,9 +924,9 @@ net = basic + allowance - tax
           الآن بعد أن نجح برنامجك، فكّر كيف تطوّره:
           <ul>
             <li>🔐 إضافة معالجة الأخطاء (لو أدخل المستخدم نصًا)</li>
-            <li>📊 معالجة عدة موظفين (حلقة for)</li>
+            <li>📊 حساب تكلفة عدة رحلات (حلقة for)</li>
             <li>💾 حفظ النتائج في ملف Excel</li>
-            <li>📧 إرسال كشف الراتب بالإيميل تلقائيًا</li>
+            <li>📧 إرسال الفاتورة بالإيميل تلقائيًا</li>
             <li>🌐 تحويله إلى تطبيق ويب بـ Streamlit</li>
           </ul>
           <strong>هذا هو الفرق</strong> بين برنامج تعليمي وبرنامج إنتاج فعلي.
@@ -1071,9 +1071,9 @@ TOPICS['2'] = `
 
   <div class="planning-box">
     <ol>
-      <li><strong>اسأل:</strong> ما المعلومات التي يحتاج برنامجي تخزينها؟ (اسم؟ راتب؟ تاريخ؟)</li>
+      <li><strong>اسأل:</strong> ما المعلومات التي يحتاج برنامجي تخزينها؟ (اسم؟ درجة؟ تاريخ؟)</li>
       <li><strong>حدد:</strong> ما نوع كل معلومة؟ (نص، رقم صحيح، رقم عشري، صح/خطأ)</li>
-      <li><strong>سمّ:</strong> اختر اسمًا واضحًا لكل متغير (employee_name وليس x)</li>
+      <li><strong>سمّ:</strong> اختر اسمًا واضحًا لكل متغير (student_name وليس x)</li>
       <li><strong>ارسم:</strong> اعمل قائمة على الورقة بأسماء المتغيرات وأنواعها قبل البرمجة</li>
     </ol>
   </div>
@@ -1083,20 +1083,20 @@ TOPICS['2'] = `
     <p><strong>المتغير</strong> = صندوق تخزن فيه قيمة، ويمكنك الوصول إليها لاحقًا باسم الصندوق.</p>
 
     <div class="story-box">
-      <strong>تشبيه:</strong> تخيل أن لديك صندوقًا في مكتبك مكتوب عليه "راتب موظف". تضع فيه ورقة كُتب عليها "10000". في أي وقت تفتح الصندوق وتقرأ القيمة. لاحقًا قد تستبدل الورقة بأخرى مكتوب عليها "12000". <strong>هذا هو المتغير في البرمجة.</strong>
+      <strong>تشبيه:</strong> تخيل أن لديك صندوقًا على مكتبك مكتوب عليه "درجة الاختبار". تضع فيه ورقة كُتب عليها "85". في أي وقت تفتح الصندوق وتقرأ القيمة. لاحقًا قد تستبدل الورقة بأخرى مكتوب عليها "92". <strong>هذا هو المتغير في البرمجة.</strong>
     </div>
 
     <h3>كيف تنشئ متغيرًا؟</h3>
     <div class="code-block">
 <span class="comment"># الصيغة: اسم_المتغير = القيمة</span>
-employee_name = <span class="string">"عاطف"</span>
-basic_salary = <span class="number">10000</span>
-years_of_experience = <span class="number">9</span>
-is_manager = <span class="keyword">True</span>
+student_name = <span class="string">"محمد"</span>
+student_age = <span class="number">21</span>
+gpa = <span class="number">3.85</span>
+is_passed = <span class="keyword">True</span>
 
 <span class="comment"># استخدام المتغيرات</span>
-<span class="func">print</span>(employee_name)        <span class="comment"># عاطف</span>
-<span class="func">print</span>(basic_salary * <span class="number">12</span>)    <span class="comment"># 120000 (الراتب السنوي)</span></div>
+<span class="func">print</span>(student_name)        <span class="comment"># محمد</span>
+<span class="func">print</span>(gpa * <span class="number">25</span>)              <span class="comment"># 96.25 (الدرجة من 100)</span></div>
 
     <h3>قواعد تسمية المتغيرات</h3>
     <table class="compare-table">
@@ -1105,11 +1105,11 @@ is_manager = <span class="keyword">True</span>
       <tr><td>بدون مسافات</td><td>full_name</td><td>full name</td></tr>
       <tr><td>حساسة لحالة الأحرف</td><td>Name ≠ name</td><td>اعتبارهما متطابقين</td></tr>
       <tr><td>لا كلمات محجوزة</td><td>my_class</td><td>class, if, return</td></tr>
-      <tr><td>أسماء واضحة</td><td>employee_count</td><td>x, ec</td></tr>
+      <tr><td>أسماء واضحة</td><td>student_count</td><td>x, sc</td></tr>
     </table>
 
     <div class="tip-box">
-      <strong>اصطلاح snake_case:</strong> الكلمات الصغيرة مفصولة بشرطة سفلية. هذا الاصطلاح القياسي في بايثون. مثال: <code>employee_full_name</code> وليس <code>employeeFullName</code>.
+      <strong>اصطلاح snake_case:</strong> الكلمات الصغيرة مفصولة بشرطة سفلية. هذا الاصطلاح القياسي في بايثون. مثال: <code>student_full_name</code> وليس <code>studentFullName</code>.
     </div>
   </div>
 
@@ -1118,25 +1118,25 @@ is_manager = <span class="keyword">True</span>
 
     <table class="compare-table">
       <tr><th>النوع</th><th>الوصف</th><th>أمثلة</th><th>متى يستخدم</th></tr>
-      <tr><td><code>int</code></td><td>عدد صحيح</td><td>10, -5, 100</td><td>عدد الموظفين، السنوات</td></tr>
-      <tr><td><code>float</code></td><td>عدد عشري</td><td>3.14, 0.5, -2.7</td><td>الراتب، النسبة المئوية</td></tr>
-      <tr><td><code>str</code></td><td>نص (سلسلة حروف)</td><td>"عاطف", 'HR'</td><td>الأسماء، العناوين</td></tr>
-      <tr><td><code>bool</code></td><td>صح/خطأ</td><td>True, False</td><td>هل ناجح؟ هل مدير؟</td></tr>
+      <tr><td><code>int</code></td><td>عدد صحيح</td><td>10, -5, 100</td><td>عدد الطلاب، عدد المواد</td></tr>
+      <tr><td><code>float</code></td><td>عدد عشري</td><td>3.14, 0.5, -2.7</td><td>المعدل GPA، النسبة المئوية</td></tr>
+      <tr><td><code>str</code></td><td>نص (سلسلة حروف)</td><td>"محمد", 'علوم'</td><td>الأسماء، التخصصات</td></tr>
+      <tr><td><code>bool</code></td><td>صح/خطأ</td><td>True, False</td><td>هل ناجح؟ هل مسجل؟</td></tr>
     </table>
 
     <h3>كيف تعرف نوع المتغير؟</h3>
     <div class="code-block">
-salary = <span class="number">10000.50</span>
-<span class="func">print</span>(<span class="builtin">type</span>(salary))    <span class="comment"># &lt;class 'float'&gt;</span>
+gpa = <span class="number">3.85</span>
+<span class="func">print</span>(<span class="builtin">type</span>(gpa))        <span class="comment"># &lt;class 'float'&gt;</span>
 
-name = <span class="string">"عاطف"</span>
+name = <span class="string">"محمد"</span>
 <span class="func">print</span>(<span class="builtin">type</span>(name))      <span class="comment"># &lt;class 'str'&gt;</span>
 
-is_active = <span class="keyword">True</span>
-<span class="func">print</span>(<span class="builtin">type</span>(is_active)) <span class="comment"># &lt;class 'bool'&gt;</span></div>
+is_passed = <span class="keyword">True</span>
+<span class="func">print</span>(<span class="builtin">type</span>(is_passed)) <span class="comment"># &lt;class 'bool'&gt;</span></div>
 
     <div class="real-life-box">
-      في نظام HR Analytics الذي تبنيه، كل عمود في قاعدة البيانات له نوع: <code>name (str)</code>, <code>age (int)</code>, <code>salary (float)</code>, <code>is_active (bool)</code>. اختيار النوع الخطأ يسبب أخطاء كارثية (مثل تخزين الراتب كنص بدل رقم).
+      في نظام تسجيل الجامعة، كل عمود في قاعدة البيانات له نوع: <code>name (str)</code>, <code>age (int)</code>, <code>gpa (float)</code>, <code>is_enrolled (bool)</code>. اختيار النوع الخطأ يسبب أخطاء كارثية (مثل تخزين المعدل كنص بدل رقم).
     </div>
   </div>
 
@@ -1152,12 +1152,12 @@ name = <span class="func">input</span>(<span class="string">"ما اسمك؟ "</
     <p><strong>تذكير مهم:</strong> <code>input()</code> دائمًا ترجع <strong>نصًا</strong> حتى لو أدخل المستخدم رقمًا!</p>
 
     <div class="code-block">
-age_text = <span class="func">input</span>(<span class="string">"كم عمرك؟ "</span>)   <span class="comment"># "30" نص</span>
-age = <span class="builtin">int</span>(age_text)               <span class="comment"># 30 رقم</span>
+age_text = <span class="func">input</span>(<span class="string">"كم عمرك؟ "</span>)   <span class="comment"># "21" نص</span>
+age = <span class="builtin">int</span>(age_text)               <span class="comment"># 21 رقم</span>
 <span class="func">print</span>(<span class="string">"عمرك بعد 5 سنوات:"</span>, age + <span class="number">5</span>)
 
 <span class="comment"># أو في سطر واحد</span>
-salary = <span class="builtin">float</span>(<span class="func">input</span>(<span class="string">"الراتب: "</span>))</div>
+price = <span class="builtin">float</span>(<span class="func">input</span>(<span class="string">"السعر: "</span>))</div>
 
     <div class="warn-box">
       نسيان <code>int()</code> أو <code>float()</code> سيسبب خطأ مثل: <code>"50" + 10</code> → ❌ Error. لأن النص + رقم غير ممكن في بايثون.
@@ -1174,16 +1174,16 @@ salary = <span class="builtin">float</span>(<span class="func">input</span>(<spa
 
     <h3>f-strings (الطريقة الحديثة - الأفضل)</h3>
     <div class="code-block">
-name = <span class="string">"عاطف"</span>
-salary = <span class="number">10000</span>
+name = <span class="string">"محمد"</span>
+score = <span class="number">95</span>
 
 <span class="comment"># استخدم f قبل علامة التنصيص + {متغير} داخلها</span>
-<span class="func">print</span>(<span class="string">f"اسمي {name} وراتبي {salary} ريال"</span>)
-<span class="comment"># الناتج: اسمي عاطف وراتبي 10000 ريال</span>
+<span class="func">print</span>(<span class="string">f"اسمي {name} ودرجتي {score}"</span>)
+<span class="comment"># الناتج: اسمي محمد ودرجتي 95</span>
 
 <span class="comment"># تنسيق الأرقام</span>
-<span class="func">print</span>(<span class="string">f"الراتب: {salary:,.2f}"</span>)  <span class="comment"># 10,000.00</span>
-<span class="func">print</span>(<span class="string">f"النسبة: {0.156:.1%}"</span>)    <span class="comment"># 15.6%</span></div>
+<span class="func">print</span>(<span class="string">f"الدرجة: {score:.2f}"</span>)      <span class="comment"># 95.00</span>
+<span class="func">print</span>(<span class="string">f"النسبة: {0.856:.1%}"</span>)    <span class="comment"># 85.6%</span></div>
 
     <h3>تنسيقات شائعة في f-strings</h3>
     <table class="compare-table">
@@ -1191,8 +1191,8 @@ salary = <span class="number">10000</span>
       <tr><td><code>{x:.2f}</code></td><td>3.14</td><td>منزلتان عشريتان</td></tr>
       <tr><td><code>{x:,}</code></td><td>10,000</td><td>فاصلة آلاف</td></tr>
       <tr><td><code>{x:,.2f}</code></td><td>10,000.50</td><td>فاصلة آلاف + منزلتان</td></tr>
-      <tr><td><code>{x:.1%}</code></td><td>15.6%</td><td>نسبة مئوية</td></tr>
-      <tr><td><code>{x:&lt;10}</code></td><td>"عاطف      "</td><td>محاذاة لليسار في 10 خانات</td></tr>
+      <tr><td><code>{x:.1%}</code></td><td>85.6%</td><td>نسبة مئوية</td></tr>
+      <tr><td><code>{x:&lt;10}</code></td><td>"محمد      "</td><td>محاذاة لليسار في 10 خانات</td></tr>
     </table>
   </div>
 
@@ -1308,7 +1308,7 @@ bmi = weight / (height ** <span class="number">2</span>)
             <li><strong>تطبيقات اللياقة البدنية:</strong> MyFitnessPal, Apple Health</li>
             <li><strong>الأنظمة الطبية:</strong> ملف المريض في المستشفيات</li>
             <li><strong>برامج التأمين الصحي:</strong> تقييم المخاطر</li>
-            <li><strong>برامج HR للصحة المهنية:</strong> تقييم الموظفين السنوي</li>
+            <li><strong>الفحص الدوري للطلاب</strong> في عيادة الجامعة</li>
           </ul>
           <strong>الفكرة العامة:</strong> أي حساب بسيط (input → process → output) يتبع نفس النمط.
         </div>
@@ -1383,7 +1383,7 @@ bmi = weight / (height ** <span class="number">2</span>)
       <div class="quiz-options">
         <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>2name</span></button>
         <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>full name</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>employee_name</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>student_name</span></button>
         <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>class</span></button>
       </div>
       <div class="quiz-explain">يبدأ بحرف، بدون مسافات، ليس كلمة محجوزة.</div>
@@ -1496,21 +1496,21 @@ seconds = total_seconds % <span class="number">60</span>    <span class="comment
     </table>
 
     <div class="code-block">
-age = <span class="number">25</span>
-salary = <span class="number">8000</span>
+age = <span class="number">21</span>
+gpa = <span class="number">3.5</span>
 
 <span class="comment"># and: الاثنان معًا</span>
-<span class="keyword">if</span> age &gt;= <span class="number">18</span> <span class="keyword">and</span> salary &gt;= <span class="number">5000</span>:
-    <span class="func">print</span>(<span class="string">"يتأهل للقرض"</span>)
+<span class="keyword">if</span> age &gt;= <span class="number">18</span> <span class="keyword">and</span> gpa &gt;= <span class="number">3.0</span>:
+    <span class="func">print</span>(<span class="string">"يتأهل للمنحة"</span>)
 
 <span class="comment"># or: أحدهما على الأقل</span>
-<span class="keyword">if</span> age &lt; <span class="number">18</span> <span class="keyword">or</span> age &gt; <span class="number">65</span>:
-    <span class="func">print</span>(<span class="string">"خارج سن العمل"</span>)
+<span class="keyword">if</span> age &lt; <span class="number">18</span> <span class="keyword">or</span> age &gt; <span class="number">30</span>:
+    <span class="func">print</span>(<span class="string">"خارج الفئة المستهدفة"</span>)
 
 <span class="comment"># not: عكس الشرط</span>
-is_employed = <span class="keyword">True</span>
-<span class="keyword">if</span> <span class="keyword">not</span> is_employed:
-    <span class="func">print</span>(<span class="string">"عاطل عن العمل"</span>)</div>
+is_enrolled = <span class="keyword">True</span>
+<span class="keyword">if</span> <span class="keyword">not</span> is_enrolled:
+    <span class="func">print</span>(<span class="string">"غير مسجل"</span>)</div>
   </div>
 
   <div class="section">
@@ -1534,8 +1534,8 @@ result = <span class="number">2</span> + <span class="number">3</span> * <span c
 <span class="comment"># مع أقواس (الجمع أولاً)</span>
 result = (<span class="number">2</span> + <span class="number">3</span>) * <span class="number">4</span>    <span class="comment"># 20</span>
 
-<span class="comment"># تطبيق فعلي</span>
-total = price * quantity * (<span class="number">1</span> - discount)</div>
+<span class="comment"># تطبيق فعلي - حساب فاتورة المكتبة</span>
+total = price * quantity * (<span class="number">1</span> - student_discount)</div>
 
     <div class="tip-box">
       عند الشك، استخدم الأقواس! حتى لو لم تكن ضرورية، الأقواس تجعل الكود أوضح للقراءة.
@@ -1549,13 +1549,13 @@ total = price * quantity * (<span class="number">1</span> - discount)</div>
       <div class="step-progress">0 / 9</div>
     </div>
     <div class="step-solver-body">
-      <div class="step-question"><strong>المطلوب:</strong> برنامج لحاسبة فاتورة:<br>
-      • سعر المنتج × الكمية = الإجمالي<br>
-      • الخصم 10% من الإجمالي<br>
+      <div class="step-question"><strong>المطلوب:</strong> برنامج لحاسبة فاتورة كافيتيريا الجامعة:<br>
+      • سعر الوجبة × عدد الطلاب = الإجمالي<br>
+      • خصم الطلاب 10% من الإجمالي<br>
       • السعر بعد الخصم = الإجمالي − الخصم<br>
       • الضريبة 15% من السعر بعد الخصم<br>
       • الفاتورة النهائية = بعد الخصم + الضريبة<br><br>
-      <strong>القيم للاختبار:</strong> سعر = 100، كمية = 3</div>
+      <strong>القيم للاختبار:</strong> سعر = 100، عدد طلاب = 3</div>
 
       <div class="step-item" data-step="1">
         <div class="step-label">📝 الخطوة 1 — الحساب اليدوي أولاً</div>
@@ -1666,10 +1666,10 @@ final = price * quantity * (<span class="number">1</span> - <span class="number"
         <div class="step-content">
           <strong>هذا بالضبط ما يحدث في:</strong>
           <ul>
-            <li><strong>أنظمة نقاط البيع (POS)</strong> في المتاجر</li>
-            <li><strong>تطبيقات المتاجر الإلكترونية</strong> مثل سلة وزد</li>
-            <li><strong>أنظمة الفوترة</strong> في رسال الود لتقنية المعلومات</li>
-            <li><strong>برامج المحاسبة</strong> مثل QuickBooks</li>
+            <li><strong>أنظمة نقاط البيع (POS)</strong> في المتاجر والكافيتيريات</li>
+            <li><strong>تطبيقات التوصيل:</strong> هنقرستيشن، جاهز، مرسول</li>
+            <li><strong>المتاجر الإلكترونية:</strong> noon، Amazon، سلة</li>
+            <li><strong>تطبيقات حجز الرحلات</strong> مع الخصومات والضرائب</li>
           </ul>
           المنطق الأساسي واحد، الفرق فقط في عدد العمليات وتعقيدها.
         </div>
@@ -1680,10 +1680,10 @@ final = price * quantity * (<span class="number">1</span> - <span class="number"
         <div class="step-content">
           <ul>
             <li>اجعل نسبة الخصم متغيرة (يدخلها المستخدم)</li>
-            <li>أضف عدة منتجات (موضوع القوائم)</li>
+            <li>أضف عدة وجبات (موضوع القوائم)</li>
             <li>اطبع تاريخ الفاتورة (موضوع التاريخ)</li>
             <li>احفظ الفاتورة في ملف (موضوع الملفات)</li>
-            <li>أضف شروطًا (إذا الإجمالي > 1000، خصم 15%)</li>
+            <li>أضف شروطًا (إذا الإجمالي > 500، خصم 15%)</li>
           </ul>
         </div>
       </div>
@@ -1877,22 +1877,22 @@ score = <span class="number">85</span>
 
     <div class="code-block">
 age = <span class="number">25</span>
-salary = <span class="number">8000</span>
+gpa = <span class="number">3.5</span>
 
 <span class="keyword">if</span> age &gt;= <span class="number">18</span>:
-    <span class="keyword">if</span> salary &gt;= <span class="number">5000</span>:
+    <span class="keyword">if</span> gpa &gt;= <span class="number">3.0</span>:
         <span class="func">print</span>(<span class="string">"يتأهل للقرض"</span>)
     <span class="keyword">else</span>:
-        <span class="func">print</span>(<span class="string">"الراتب غير كافٍ"</span>)
+        <span class="func">print</span>(<span class="string">"الدخل غير كافٍ"</span>)
 <span class="keyword">else</span>:
     <span class="func">print</span>(<span class="string">"دون السن القانونية"</span>)</div>
 
     <p><strong>أو نفس المنطق بـ <code>and</code>:</strong></p>
     <div class="code-block">
-<span class="keyword">if</span> age &gt;= <span class="number">18</span> <span class="keyword">and</span> salary &gt;= <span class="number">5000</span>:
+<span class="keyword">if</span> age &gt;= <span class="number">18</span> <span class="keyword">and</span> gpa &gt;= <span class="number">3.0</span>:
     <span class="func">print</span>(<span class="string">"يتأهل للقرض"</span>)
 <span class="keyword">elif</span> age &gt;= <span class="number">18</span>:
-    <span class="func">print</span>(<span class="string">"الراتب غير كافٍ"</span>)
+    <span class="func">print</span>(<span class="string">"الدخل غير كافٍ"</span>)
 <span class="keyword">else</span>:
     <span class="func">print</span>(<span class="string">"دون السن القانونية"</span>)</div>
 
@@ -2073,10 +2073,10 @@ score = <span class="builtin">float</span>(<span class="func">input</span>(<span
           <strong>هذا المنطق مستخدم في:</strong>
           <ul>
             <li><strong>أنظمة الجامعات:</strong> SEU, جامعة الملك سعود، إلخ</li>
-            <li><strong>تقييم الموظفين السنوي:</strong> A/B/C/D للأداء</li>
-            <li><strong>تقييم العملاء:</strong> Loyal/Active/At Risk/Churned</li>
-            <li><strong>تقييم المخاطر في البنوك:</strong> Low/Medium/High/Critical</li>
-            <li><strong>أنظمة كلاود:</strong> AWS uses tiers</li>
+            <li><strong>تطبيقات الكتب:</strong> تصنيف الكتب حسب التقييم (1-5 نجوم)</li>
+            <li><strong>تطبيقات المراجعات:</strong> Google Maps - excellent/good/average/poor</li>
+            <li><strong>الألعاب:</strong> ترتيب اللاعبين Bronze/Silver/Gold/Platinum</li>
+            <li><strong>تطبيقات اللياقة:</strong> فئات اللياقة البدنية حسب BMI</li>
           </ul>
           الفكرة الأساسية: <strong>تقسيم القيم المستمرة لفئات منفصلة</strong>.
         </div>
@@ -2251,8 +2251,8 @@ TOPICS['7'] = `
     <h3>for مع القوائم والنصوص</h3>
     <div class="code-block">
 <span class="comment"># على قائمة</span>
-employees = [<span class="string">"عاطف"</span>, <span class="string">"محمد"</span>, <span class="string">"سارة"</span>]
-<span class="keyword">for</span> name <span class="keyword">in</span> employees:
+students = [<span class="string">"محمد"</span>, <span class="string">"سارة"</span>, <span class="string">"خالد"</span>]
+<span class="keyword">for</span> name <span class="keyword">in</span> students:
     <span class="func">print</span>(<span class="string">f"مرحبًا {name}"</span>)
 
 <span class="comment"># على نص</span>
@@ -2497,8 +2497,8 @@ average = total / <span class="number">5</span>
         <div class="step-content">
           <strong>هذا النمط (التكرار + التجميع + التحديث) مستخدم في:</strong>
           <ul>
-            <li><strong>أنظمة المبيعات:</strong> حساب أعلى/أدنى مبيعات شهرية</li>
-            <li><strong>أنظمة HR:</strong> أعلى راتب، متوسط الرواتب، عدد الموظفين الناشطين</li>
+            <li><strong>تحليل درجات الفصل:</strong> أعلى/أدنى/متوسط درجات الطلاب</li>
+            <li><strong>تطبيقات الرياضة:</strong> حساب السعرات في كل وجبة</li>
             <li><strong>تحليل البيانات:</strong> أي ملف Excel/CSV يحتاج تجميع</li>
             <li><strong>الذكاء الاصطناعي:</strong> حساب الأخطاء عبر العينات</li>
           </ul>
@@ -2626,7 +2626,7 @@ TOPICS['4'] = `
       <li><strong>اسأل:</strong> هل أحتاج تخزين عدة قيم متشابهة؟ (نعم → list/tuple)</li>
       <li><strong>قرر:</strong> هل القيم ستتغير لاحقاً؟ (نعم → list. لا → tuple)</li>
       <li><strong>خطط:</strong> ما حجم القائمة؟ ما نوع عناصرها؟</li>
-      <li><strong>اختر:</strong> اسماً واضحاً بصيغة الجمع (employees لا employee)</li>
+      <li><strong>اختر:</strong> اسماً واضحاً بصيغة الجمع (students لا student)</li>
     </ol>
   </div>
 
@@ -2641,12 +2641,12 @@ TOPICS['4'] = `
     <h3>إنشاء قائمة</h3>
     <div class="code-block">
 <span class="comment"># قائمة فارغة</span>
-employees = []
+students = []
 
 <span class="comment"># قائمة بقيم</span>
-names = [<span class="string">"عاطف"</span>, <span class="string">"محمد"</span>, <span class="string">"سارة"</span>, <span class="string">"خالد"</span>]
-salaries = [<span class="number">10000</span>, <span class="number">8500</span>, <span class="number">12000</span>, <span class="number">9500</span>]
-mixed = [<span class="string">"عاطف"</span>, <span class="number">35</span>, <span class="number">10000.5</span>, <span class="keyword">True</span>]  <span class="comment"># أنواع مختلفة</span></div>
+names = [<span class="string">"محمد"</span>, <span class="string">"سارة"</span>, <span class="string">"خالد"</span>, <span class="string">"نورة"</span>]
+scores = [<span class="number">85</span>, <span class="number">92</span>, <span class="number">78</span>, <span class="number">95</span>]
+mixed = [<span class="string">"محمد"</span>, <span class="number">21</span>, <span class="number">3.85</span>, <span class="keyword">True</span>]  <span class="comment"># أنواع مختلفة</span></div>
   </div>
 
   <div class="section">
@@ -2654,13 +2654,13 @@ mixed = [<span class="string">"عاطف"</span>, <span class="number">35</span>,
     <p>كل عنصر له <strong>رقم</strong> (index). الترقيم يبدأ من <strong>0</strong>!</p>
 
     <div class="code-block">
-names = [<span class="string">"عاطف"</span>, <span class="string">"محمد"</span>, <span class="string">"سارة"</span>, <span class="string">"خالد"</span>]
+names = [<span class="string">"محمد"</span>, <span class="string">"سارة"</span>, <span class="string">"خالد"</span>, <span class="string">"نورة"</span>]
 <span class="comment">#         [0]      [1]      [2]      [3]</span>
 
-<span class="func">print</span>(names[<span class="number">0</span>])    <span class="comment"># عاطف</span>
-<span class="func">print</span>(names[<span class="number">2</span>])    <span class="comment"># سارة</span>
-<span class="func">print</span>(names[-<span class="number">1</span>])   <span class="comment"># خالد (الأخير)</span>
-<span class="func">print</span>(names[-<span class="number">2</span>])   <span class="comment"># سارة (قبل الأخير)</span></div>
+<span class="func">print</span>(names[<span class="number">0</span>])    <span class="comment"># محمد</span>
+<span class="func">print</span>(names[<span class="number">2</span>])    <span class="comment"># خالد</span>
+<span class="func">print</span>(names[-<span class="number">1</span>])   <span class="comment"># نورة (الأخير)</span>
+<span class="func">print</span>(names[-<span class="number">2</span>])   <span class="comment"># خالد (قبل الأخير)</span></div>
 
     <div class="warn-box">
       <strong>الخطأ الأشهر:</strong> الترقيم يبدأ من <strong>0</strong> وليس 1!
@@ -2689,7 +2689,7 @@ numbers = [<span class="number">10</span>, <span class="number">20</span>, <span
       <tr><th>التابع</th><th>الوظيفة</th><th>مثال</th></tr>
       <tr><td><code>append(x)</code></td><td>إضافة في النهاية</td><td>names.append("علي")</td></tr>
       <tr><td><code>insert(i, x)</code></td><td>إضافة في موضع محدد</td><td>names.insert(0, "أحمد")</td></tr>
-      <tr><td><code>remove(x)</code></td><td>حذف أول قيمة x</td><td>names.remove("محمد")</td></tr>
+      <tr><td><code>remove(x)</code></td><td>حذف أول قيمة x</td><td>names.remove("سارة")</td></tr>
       <tr><td><code>pop(i)</code></td><td>حذف وإرجاع العنصر</td><td>names.pop(2)</td></tr>
       <tr><td><code>sort()</code></td><td>ترتيب تصاعدي</td><td>numbers.sort()</td></tr>
       <tr><td><code>reverse()</code></td><td>عكس الترتيب</td><td>numbers.reverse()</td></tr>
@@ -2699,18 +2699,18 @@ numbers = [<span class="number">10</span>, <span class="number">20</span>, <span
     </table>
 
     <div class="code-block">
-employees = [<span class="string">"عاطف"</span>, <span class="string">"محمد"</span>, <span class="string">"سارة"</span>]
+students = [<span class="string">"محمد"</span>, <span class="string">"سارة"</span>, <span class="string">"خالد"</span>]
 
-employees.<span class="func">append</span>(<span class="string">"خالد"</span>)
-<span class="func">print</span>(employees)  <span class="comment"># ['عاطف', 'محمد', 'سارة', 'خالد']</span>
+students.<span class="func">append</span>(<span class="string">"نورة"</span>)
+<span class="func">print</span>(students)  <span class="comment"># ['محمد', 'سارة', 'خالد', 'نورة']</span>
 
-employees.<span class="func">insert</span>(<span class="number">1</span>, <span class="string">"أحمد"</span>)
-<span class="func">print</span>(employees)  <span class="comment"># ['عاطف', 'أحمد', 'محمد', 'سارة', 'خالد']</span>
+students.<span class="func">insert</span>(<span class="number">1</span>, <span class="string">"أحمد"</span>)
+<span class="func">print</span>(students)  <span class="comment"># ['محمد', 'أحمد', 'سارة', 'خالد', 'نورة']</span>
 
-employees.<span class="func">remove</span>(<span class="string">"محمد"</span>)
-<span class="func">print</span>(employees)  <span class="comment"># ['عاطف', 'أحمد', 'سارة', 'خالد']</span>
+students.<span class="func">remove</span>(<span class="string">"سارة"</span>)
+<span class="func">print</span>(students)  <span class="comment"># ['محمد', 'أحمد', 'خالد', 'نورة']</span>
 
-<span class="func">print</span>(<span class="builtin">len</span>(employees))  <span class="comment"># 4</span></div>
+<span class="func">print</span>(<span class="builtin">len</span>(students))  <span class="comment"># 4</span></div>
   </div>
 
   <div class="section">
@@ -2718,19 +2718,19 @@ employees.<span class="func">remove</span>(<span class="string">"محمد"</span
     <p><strong>أهم استخدام للقوائم</strong> هو المرور عليها بحلقة for:</p>
 
     <div class="code-block">
-salaries = [<span class="number">10000</span>, <span class="number">8500</span>, <span class="number">12000</span>, <span class="number">9500</span>]
+scores = [<span class="number">85</span>, <span class="number">92</span>, <span class="number">78</span>, <span class="number">95</span>]
 
 <span class="comment"># طريقة 1: المرور على القيم</span>
-<span class="keyword">for</span> salary <span class="keyword">in</span> salaries:
-    <span class="func">print</span>(salary)
+<span class="keyword">for</span> score <span class="keyword">in</span> scores:
+    <span class="func">print</span>(score)
 
 <span class="comment"># طريقة 2: مع الـ index</span>
-<span class="keyword">for</span> i <span class="keyword">in</span> <span class="builtin">range</span>(<span class="builtin">len</span>(salaries)):
-    <span class="func">print</span>(<span class="string">f"الموظف {i+1}: {salaries[i]}"</span>)
+<span class="keyword">for</span> i <span class="keyword">in</span> <span class="builtin">range</span>(<span class="builtin">len</span>(scores)):
+    <span class="func">print</span>(<span class="string">f"الطالب {i+1}: {scores[i]}"</span>)
 
 <span class="comment"># طريقة 3: enumerate (الأذكى - يعطي index و value معاً)</span>
-<span class="keyword">for</span> i, salary <span class="keyword">in</span> <span class="func">enumerate</span>(salaries):
-    <span class="func">print</span>(<span class="string">f"الموظف {i+1}: {salary}"</span>)</div>
+<span class="keyword">for</span> i, score <span class="keyword">in</span> <span class="func">enumerate</span>(scores):
+    <span class="func">print</span>(<span class="string">f"الطالب {i+1}: {score}"</span>)</div>
 
     <h3>الدوال الجاهزة المفيدة</h3>
     <div class="code-block">
@@ -2749,20 +2749,20 @@ nums = [<span class="number">85</span>, <span class="number">92</span>, <span cl
 
     <div class="code-block">
 <span class="comment"># قائمة (قابلة للتغيير)</span>
-employee = [<span class="string">"عاطف"</span>, <span class="number">35</span>, <span class="number">10000</span>]
-employee[<span class="number">2</span>] = <span class="number">12000</span>  <span class="comment"># ✅ يعمل</span>
+student = [<span class="string">"محمد"</span>, <span class="number">21</span>, <span class="number">3.85</span>]
+student[<span class="number">2</span>] = <span class="number">3.95</span>  <span class="comment"># ✅ يعمل</span>
 
 <span class="comment"># صف (غير قابل للتغيير)</span>
-employee = (<span class="string">"عاطف"</span>, <span class="number">35</span>, <span class="number">10000</span>)
-employee[<span class="number">2</span>] = <span class="number">12000</span>  <span class="comment"># ❌ TypeError!</span>
+student = (<span class="string">"محمد"</span>, <span class="number">21</span>, <span class="number">3.85</span>)
+student[<span class="number">2</span>] = <span class="number">3.95</span>  <span class="comment"># ❌ TypeError!</span>
 
 <span class="comment"># ولكن يمكن قراءته</span>
-<span class="func">print</span>(employee[<span class="number">0</span>])  <span class="comment"># عاطف ✅</span></div>
+<span class="func">print</span>(student[<span class="number">0</span>])  <span class="comment"># محمد ✅</span></div>
 
     <h3>متى نستخدم Tuple بدلاً من List؟</h3>
     <table class="compare-table">
       <tr><th>الحالة</th><th>القائمة</th><th>الصف</th></tr>
-      <tr><td>قائمة الموظفين (تتغير)</td><td>✅ List</td><td>❌</td></tr>
+      <tr><td>قائمة الطلاب المسجلين (تتغير)</td><td>✅ List</td><td>❌</td></tr>
       <tr><td>إحداثيات (x, y)</td><td>❌</td><td>✅ Tuple</td></tr>
       <tr><td>تاريخ ميلاد ثابت</td><td>❌</td><td>✅ Tuple</td></tr>
       <tr><td>قائمة المهام (تضيف وتحذف)</td><td>✅ List</td><td>❌</td></tr>
@@ -2770,10 +2770,10 @@ employee[<span class="number">2</span>] = <span class="number">12000</span>  <sp
     </table>
 
     <div class="real-life-box">
-      في برمجة قاعدة بيانات الموظفين:
+      في برمجة قاعدة بيانات الطلاب:
       <ul>
-        <li><strong>List:</strong> قائمة الموظفين الحاليين (يدخل ويخرج موظفون)</li>
-        <li><strong>Tuple:</strong> إحداثيات موقع المكتب (35.4, 24.7) — لا تتغير</li>
+        <li><strong>List:</strong> قائمة الطلاب المسجلين (يدخل ويخرج طلاب كل فصل)</li>
+        <li><strong>Tuple:</strong> إحداثيات موقع الجامعة (35.4, 24.7) — لا تتغير</li>
       </ul>
     </div>
   </div>
@@ -2781,15 +2781,15 @@ employee[<span class="number">2</span>] = <span class="number">12000</span>  <sp
   <!-- ===== SOLVER 4.1: Employee Salary Analyzer ===== -->
   <div class="step-solver" id="solver-4-1" data-total="11" data-current="-1">
     <div class="step-solver-header">
-      <div class="step-solver-title">🧮 الحل التفاعلي: محلل رواتب الموظفين</div>
+      <div class="step-solver-title">🧮 الحل التفاعلي: محلل درجات الطلاب</div>
       <div class="step-progress">0 / 11</div>
     </div>
     <div class="step-solver-body">
-      <div class="step-question"><strong>المطلوب:</strong> برنامج يحفظ رواتب 5 موظفين في قائمة، ويعرض:<br>
-      • أعلى وأدنى راتب<br>
-      • إجمالي الرواتب<br>
-      • متوسط الرواتب<br>
-      • قائمة الرواتب فوق المتوسط<br>
+      <div class="step-question"><strong>المطلوب:</strong> برنامج يحفظ درجات 5 طلاب في قائمة، ويعرض:<br>
+      • أعلى وأدنى درجة<br>
+      • إجمالي الدرجات<br>
+      • متوسط الفصل<br>
+      • قائمة الدرجات فوق المتوسط<br>
       • القائمة مرتبة تنازلياً</div>
 
       <div class="step-item" data-step="1">
@@ -2797,17 +2797,17 @@ employee[<span class="number">2</span>] = <span class="number">12000</span>  <sp
         <div class="step-content">
           <strong>المتغيرات المطلوبة:</strong>
           <ul>
-            <li><code>salaries</code> (list) — الرواتب</li>
+            <li><code>scores</code> (list) — الدرجات</li>
             <li><code>highest, lowest, total, average</code> (أرقام محسوبة)</li>
-            <li><code>above_average</code> (list) — الرواتب فوق المتوسط</li>
+            <li><code>above_average</code> (list) — الدرجات فوق المتوسط</li>
           </ul>
           <strong>الخطة:</strong>
           <ol>
             <li>أنشئ قائمة فارغة</li>
-            <li>اطلب 5 رواتب من المستخدم وأضفها</li>
+            <li>اطلب 5 درجات من المستخدم وأضفها</li>
             <li>استخدم max(), min(), sum() المباشرة</li>
             <li>احسب المتوسط</li>
-            <li>افلتر الرواتب فوق المتوسط</li>
+            <li>افلتر الدرجات فوق المتوسط</li>
             <li>اعرض النتائج</li>
           </ol>
         </div>
@@ -2817,7 +2817,7 @@ employee[<span class="number">2</span>] = <span class="number">12000</span>  <sp
         <div class="step-label">📝 الخطوة 2 — Pseudocode</div>
         <div class="step-content">
           <div class="code-block" style="direction: rtl; text-align: right;">
-1. أنشئ salaries = []
+1. أنشئ scores = []
 2. كرر 5 مرات:
      استلم رقم
      أضفه للقائمة
@@ -2826,8 +2826,8 @@ employee[<span class="number">2</span>] = <span class="number">12000</span>  <sp
 5. total = مجموع
 6. average = المجموع / 5
 7. above_average = []
-   لكل راتب:
-     لو > average: أضفه
+   لكل درجة:
+     لو > average: أضفها
 8. عرض النتائج
 9. رتب تنازلياً واعرض</div>
         </div>
@@ -2837,13 +2837,13 @@ employee[<span class="number">2</span>] = <span class="number">12000</span>  <sp
         <div class="step-label">💻 الخطوة 3 — استلام الرواتب</div>
         <div class="step-content">
           <div class="code-block">
-salaries = []  <span class="comment"># قائمة فارغة</span>
+scores = []  <span class="comment"># قائمة فارغة</span>
 
 <span class="keyword">for</span> i <span class="keyword">in</span> <span class="builtin">range</span>(<span class="number">1</span>, <span class="number">6</span>):
-    salary = <span class="builtin">float</span>(<span class="func">input</span>(<span class="string">f"راتب الموظف {i}: "</span>))
-    salaries.<span class="func">append</span>(salary)
+    score = <span class="builtin">float</span>(<span class="func">input</span>(<span class="string">f"درجة الطالب {i}: "</span>))
+    scores.<span class="func">append</span>(score)
 
-<span class="func">print</span>(<span class="string">f"القائمة: {salaries}"</span>)</div>
+<span class="func">print</span>(<span class="string">f"القائمة: {scores}"</span>)</div>
           <strong>افهم:</strong> 
           <ul>
             <li><code>append</code> يضيف في النهاية</li>
@@ -2856,10 +2856,10 @@ salaries = []  <span class="comment"># قائمة فارغة</span>
         <div class="step-label">💻 الخطوة 4 — الحسابات الأساسية</div>
         <div class="step-content">
           <div class="code-block">
-highest = <span class="builtin">max</span>(salaries)
-lowest = <span class="builtin">min</span>(salaries)
-total = <span class="builtin">sum</span>(salaries)
-average = total / <span class="builtin">len</span>(salaries)
+highest = <span class="builtin">max</span>(scores)
+lowest = <span class="builtin">min</span>(scores)
+total = <span class="builtin">sum</span>(scores)
+average = total / <span class="builtin">len</span>(scores)
 
 <span class="func">print</span>(<span class="string">f"الأعلى: {highest}"</span>)
 <span class="func">print</span>(<span class="string">f"الأدنى: {lowest}"</span>)
@@ -2875,14 +2875,14 @@ average = total / <span class="builtin">len</span>(salaries)
           <strong>الطريقة الكلاسيكية بالحلقة:</strong>
           <div class="code-block">
 above_average = []
-<span class="keyword">for</span> salary <span class="keyword">in</span> salaries:
-    <span class="keyword">if</span> salary &gt; average:
-        above_average.<span class="func">append</span>(salary)
+<span class="keyword">for</span> score <span class="keyword">in</span> scores:
+    <span class="keyword">if</span> score &gt; average:
+        above_average.<span class="func">append</span>(score)
 
 <span class="func">print</span>(<span class="string">f"فوق المتوسط: {above_average}"</span>)</div>
           <strong>الطريقة المختصرة (List Comprehension):</strong>
           <div class="code-block">
-above_average = [s <span class="keyword">for</span> s <span class="keyword">in</span> salaries <span class="keyword">if</span> s &gt; average]</div>
+above_average = [s <span class="keyword">for</span> s <span class="keyword">in</span> scores <span class="keyword">if</span> s &gt; average]</div>
           <strong>تقرأ:</strong> "اعمل قائمة من s لكل s في salaries بشرط s > average".
         </div>
       </div>
@@ -2892,11 +2892,11 @@ above_average = [s <span class="keyword">for</span> s <span class="keyword">in</
         <div class="step-content">
           <div class="code-block">
 <span class="comment"># طريقة 1: تعديل القائمة الأصلية</span>
-salaries.<span class="func">sort</span>(reverse=<span class="keyword">True</span>)
-<span class="func">print</span>(salaries)
+scores.<span class="func">sort</span>(reverse=<span class="keyword">True</span>)
+<span class="func">print</span>(scores)
 
 <span class="comment"># طريقة 2: قائمة جديدة (بدون تعديل الأصلية)</span>
-sorted_list = <span class="builtin">sorted</span>(salaries, reverse=<span class="keyword">True</span>)</div>
+sorted_list = <span class="builtin">sorted</span>(scores, reverse=<span class="keyword">True</span>)</div>
           <strong>الفرق:</strong>
           <ul>
             <li><code>list.sort()</code> — يعدل القائمة، لا يرجع شيئاً</li>
@@ -2910,25 +2910,25 @@ sorted_list = <span class="builtin">sorted</span>(salaries, reverse=<span class=
         <div class="step-content">
           <div class="code-block">
 <span class="comment"># الإدخال</span>
-salaries = []
+scores = []
 <span class="keyword">for</span> i <span class="keyword">in</span> <span class="builtin">range</span>(<span class="number">1</span>, <span class="number">6</span>):
-    salaries.<span class="func">append</span>(<span class="builtin">float</span>(<span class="func">input</span>(<span class="string">f"راتب الموظف {i}: "</span>)))
+    scores.<span class="func">append</span>(<span class="builtin">float</span>(<span class="func">input</span>(<span class="string">f"درجة الطالب {i}: "</span>)))
 
 <span class="comment"># الحسابات</span>
-highest = <span class="builtin">max</span>(salaries)
-lowest = <span class="builtin">min</span>(salaries)
-total = <span class="builtin">sum</span>(salaries)
-average = total / <span class="builtin">len</span>(salaries)
-above_avg = [s <span class="keyword">for</span> s <span class="keyword">in</span> salaries <span class="keyword">if</span> s &gt; average]
-sorted_desc = <span class="builtin">sorted</span>(salaries, reverse=<span class="keyword">True</span>)
+highest = <span class="builtin">max</span>(scores)
+lowest = <span class="builtin">min</span>(scores)
+total = <span class="builtin">sum</span>(scores)
+average = total / <span class="builtin">len</span>(scores)
+above_avg = [s <span class="keyword">for</span> s <span class="keyword">in</span> scores <span class="keyword">if</span> s &gt; average]
+sorted_desc = <span class="builtin">sorted</span>(scores, reverse=<span class="keyword">True</span>)
 
 <span class="comment"># العرض</span>
 <span class="func">print</span>(<span class="string">"━━━━━━━━━━━━━━━━━━"</span>)
-<span class="func">print</span>(<span class="string">f"الرواتب: {salaries}"</span>)
-<span class="func">print</span>(<span class="string">f"الأعلى:    {highest:,.2f}"</span>)
-<span class="func">print</span>(<span class="string">f"الأدنى:    {lowest:,.2f}"</span>)
-<span class="func">print</span>(<span class="string">f"المجموع:   {total:,.2f}"</span>)
-<span class="func">print</span>(<span class="string">f"المتوسط:   {average:,.2f}"</span>)
+<span class="func">print</span>(<span class="string">f"الدرجات: {scores}"</span>)
+<span class="func">print</span>(<span class="string">f"الأعلى:    {highest:.2f}"</span>)
+<span class="func">print</span>(<span class="string">f"الأدنى:    {lowest:.2f}"</span>)
+<span class="func">print</span>(<span class="string">f"المجموع:   {total:.2f}"</span>)
+<span class="func">print</span>(<span class="string">f"المتوسط:   {average:.2f}"</span>)
 <span class="func">print</span>(<span class="string">f"فوق المتوسط: {above_avg}"</span>)
 <span class="func">print</span>(<span class="string">f"مرتبة:     {sorted_desc}"</span>)</div>
         </div>
@@ -2937,20 +2937,20 @@ sorted_desc = <span class="builtin">sorted</span>(salaries, reverse=<span class=
       <div class="step-item" data-step="8">
         <div class="step-label">🧪 الخطوة 8 — اختبار</div>
         <div class="step-content">
-          الإدخال: 10000, 8500, 12000, 9500, 11000
+          الإدخال: 85, 92, 78, 95, 88
           <div class="code-block" style="background: #1e293b;">
-الرواتب: [<span class="number">10000</span>, <span class="number">8500</span>, <span class="number">12000</span>, <span class="number">9500</span>, <span class="number">11000</span>]
-الأعلى:    <span class="number">12,000.00</span>
-الأدنى:    <span class="number">8,500.00</span>
-المجموع:   <span class="number">51,000.00</span>
-المتوسط:   <span class="number">10,200.00</span>
-فوق المتوسط: [<span class="number">12000</span>, <span class="number">11000</span>]
-مرتبة:     [<span class="number">12000</span>, <span class="number">11000</span>, <span class="number">10000</span>, <span class="number">9500</span>, <span class="number">8500</span>]</div>
+الدرجات: [<span class="number">85</span>, <span class="number">92</span>, <span class="number">78</span>, <span class="number">95</span>, <span class="number">88</span>]
+الأعلى:    <span class="number">95.00</span>
+الأدنى:    <span class="number">78.00</span>
+المجموع:   <span class="number">438.00</span>
+المتوسط:   <span class="number">87.60</span>
+فوق المتوسط: [<span class="number">92</span>, <span class="number">95</span>, <span class="number">88</span>]
+مرتبة:     [<span class="number">95</span>, <span class="number">92</span>, <span class="number">88</span>, <span class="number">85</span>, <span class="number">78</span>]</div>
           <strong>التحقق اليدوي:</strong>
           <ul>
-            <li>المجموع: 10000+8500+12000+9500+11000 = 51000 ✓</li>
-            <li>المتوسط: 51000/5 = 10200 ✓</li>
-            <li>فوق 10200: 12000 و 11000 ✓</li>
+            <li>المجموع: 85+92+78+95+88 = 438 ✓</li>
+            <li>المتوسط: 438/5 = 87.6 ✓</li>
+            <li>فوق 87.6: 92, 95, 88 ✓</li>
           </ul>
         </div>
       </div>
@@ -2960,9 +2960,9 @@ sorted_desc = <span class="builtin">sorted</span>(salaries, reverse=<span class=
         <div class="step-content">
           <strong>هذا النمط يستخدم في:</strong>
           <ul>
-            <li><strong>HR Analytics:</strong> تحليل توزيع الرواتب لاكتشاف عدم العدالة</li>
-            <li><strong>أنظمة التقييم:</strong> اكتشاف المتميزين (فوق المتوسط)</li>
-            <li><strong>تحليل المبيعات:</strong> أعلى/أدنى/متوسط مبيعات الفروع</li>
+            <li><strong>تحليل درجات الطلاب:</strong> اكتشاف المتميزين والمتعثرين</li>
+            <li><strong>تطبيقات الرياضة:</strong> أعلى نقاط، متوسط النقاط في الموسم</li>
+            <li><strong>تحليل أوقات الدراسة:</strong> أكثر/أقل وقت دراسة في الأسبوع</li>
             <li><strong>الذكاء الاصطناعي:</strong> تطبيع البيانات (normalization)</li>
           </ul>
         </div>
@@ -2973,14 +2973,14 @@ sorted_desc = <span class="builtin">sorted</span>(salaries, reverse=<span class=
         <div class="step-content">
           <strong>الكود الاحترافي المختصر:</strong>
           <div class="code-block">
-<span class="comment"># استلام الرواتب في سطر واحد!</span>
-salaries = [<span class="builtin">float</span>(<span class="func">input</span>(<span class="string">f"راتب {i}: "</span>)) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="builtin">range</span>(<span class="number">1</span>, <span class="number">6</span>)]
+<span class="comment"># استلام الدرجات في سطر واحد!</span>
+scores = [<span class="builtin">float</span>(<span class="func">input</span>(<span class="string">f"درجة {i}: "</span>)) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="builtin">range</span>(<span class="number">1</span>, <span class="number">6</span>)]
 
 <span class="comment"># كل العمليات في statistics</span>
 <span class="keyword">import</span> statistics
-<span class="func">print</span>(<span class="string">f"المتوسط: {statistics.mean(salaries):.2f}"</span>)
-<span class="func">print</span>(<span class="string">f"الوسيط: {statistics.median(salaries):.2f}"</span>)
-<span class="func">print</span>(<span class="string">f"الانحراف: {statistics.stdev(salaries):.2f}"</span>)</div>
+<span class="func">print</span>(<span class="string">f"المتوسط: {statistics.mean(scores):.2f}"</span>)
+<span class="func">print</span>(<span class="string">f"الوسيط: {statistics.median(scores):.2f}"</span>)
+<span class="func">print</span>(<span class="string">f"الانحراف: {statistics.stdev(scores):.2f}"</span>)</div>
           <strong>القاعدة:</strong> اكتب أولاً نسخة مفهومة بسيطة، ثم اختصر إذا أصبح الكود مفهوماً لك تماماً.
         </div>
       </div>
@@ -3101,69 +3101,69 @@ TOPICS['14'] = `
     <h3>إنشاء قاموس</h3>
     <div class="code-block">
 <span class="comment"># قاموس فارغ</span>
-employee = {}
+student = {}
 
 <span class="comment"># قاموس بقيم</span>
-employee = {
-    <span class="string">"name"</span>: <span class="string">"عاطف"</span>,
-    <span class="string">"age"</span>: <span class="number">35</span>,
-    <span class="string">"salary"</span>: <span class="number">10000</span>,
-    <span class="string">"department"</span>: <span class="string">"HR"</span>,
-    <span class="string">"is_manager"</span>: <span class="keyword">True</span>
+student = {
+    <span class="string">"name"</span>: <span class="string">"محمد"</span>,
+    <span class="string">"age"</span>: <span class="number">21</span>,
+    <span class="string">"gpa"</span>: <span class="number">3.85</span>,
+    <span class="string">"major"</span>: <span class="string">"Computer Science"</span>,
+    <span class="string">"is_enrolled"</span>: <span class="keyword">True</span>
 }</div>
   </div>
 
   <div class="section">
     <h2><span class="icon">🔑</span> الوصول للقيم</h2>
     <div class="code-block">
-<span class="func">print</span>(employee[<span class="string">"name"</span>])      <span class="comment"># عاطف</span>
-<span class="func">print</span>(employee[<span class="string">"salary"</span>])    <span class="comment"># 10000</span>
+<span class="func">print</span>(student[<span class="string">"name"</span>])      <span class="comment"># محمد</span>
+<span class="func">print</span>(student[<span class="string">"gpa"</span>])       <span class="comment"># 3.85</span>
 
 <span class="comment"># تنبيه: مفتاح غير موجود يسبب خطأ!</span>
-<span class="func">print</span>(employee[<span class="string">"phone"</span>])     <span class="comment"># ❌ KeyError!</span>
+<span class="func">print</span>(student[<span class="string">"phone"</span>])     <span class="comment"># ❌ KeyError!</span>
 
 <span class="comment"># الحل: استخدم get</span>
-<span class="func">print</span>(employee.<span class="func">get</span>(<span class="string">"phone"</span>))           <span class="comment"># None</span>
-<span class="func">print</span>(employee.<span class="func">get</span>(<span class="string">"phone"</span>, <span class="string">"غير متوفر"</span>))  <span class="comment"># غير متوفر</span></div>
+<span class="func">print</span>(student.<span class="func">get</span>(<span class="string">"phone"</span>))           <span class="comment"># None</span>
+<span class="func">print</span>(student.<span class="func">get</span>(<span class="string">"phone"</span>, <span class="string">"غير متوفر"</span>))  <span class="comment"># غير متوفر</span></div>
 
     <h3>إضافة وتحديث وحذف</h3>
     <div class="code-block">
 <span class="comment"># إضافة مفتاح جديد</span>
-employee[<span class="string">"phone"</span>] = <span class="string">"0501234567"</span>
+student[<span class="string">"phone"</span>] = <span class="string">"0501234567"</span>
 
 <span class="comment"># تحديث قيمة موجودة</span>
-employee[<span class="string">"salary"</span>] = <span class="number">12000</span>
+student[<span class="string">"gpa"</span>] = <span class="number">3.95</span>
 
 <span class="comment"># حذف مفتاح</span>
-<span class="keyword">del</span> employee[<span class="string">"phone"</span>]
+<span class="keyword">del</span> student[<span class="string">"phone"</span>]
 <span class="comment"># أو</span>
-employee.<span class="func">pop</span>(<span class="string">"phone"</span>, <span class="keyword">None</span>)  <span class="comment"># آمن (لا يخطئ لو غير موجود)</span></div>
+student.<span class="func">pop</span>(<span class="string">"phone"</span>, <span class="keyword">None</span>)  <span class="comment"># آمن (لا يخطئ لو غير موجود)</span></div>
   </div>
 
   <div class="section">
     <h2><span class="icon">⚙️</span> دوال القواميس المهمة</h2>
     <table class="compare-table">
       <tr><th>الدالة</th><th>الوظيفة</th><th>مثال</th></tr>
-      <tr><td><code>keys()</code></td><td>كل المفاتيح</td><td>employee.keys()</td></tr>
-      <tr><td><code>values()</code></td><td>كل القيم</td><td>employee.values()</td></tr>
-      <tr><td><code>items()</code></td><td>أزواج (key, value)</td><td>employee.items()</td></tr>
-      <tr><td><code>get(k, default)</code></td><td>قيمة آمنة (لا تخطئ)</td><td>employee.get("phone")</td></tr>
-      <tr><td><code>in</code></td><td>هل المفتاح موجود؟</td><td>"name" in employee</td></tr>
-      <tr><td><code>len()</code></td><td>عدد الأزواج</td><td>len(employee)</td></tr>
-      <tr><td><code>update()</code></td><td>دمج قاموس آخر</td><td>employee.update(other)</td></tr>
-      <tr><td><code>clear()</code></td><td>تفريغ تماماً</td><td>employee.clear()</td></tr>
+      <tr><td><code>keys()</code></td><td>كل المفاتيح</td><td>student.keys()</td></tr>
+      <tr><td><code>values()</code></td><td>كل القيم</td><td>student.values()</td></tr>
+      <tr><td><code>items()</code></td><td>أزواج (key, value)</td><td>student.items()</td></tr>
+      <tr><td><code>get(k, default)</code></td><td>قيمة آمنة (لا تخطئ)</td><td>student.get("phone")</td></tr>
+      <tr><td><code>in</code></td><td>هل المفتاح موجود؟</td><td>"name" in student</td></tr>
+      <tr><td><code>len()</code></td><td>عدد الأزواج</td><td>len(student)</td></tr>
+      <tr><td><code>update()</code></td><td>دمج قاموس آخر</td><td>student.update(other)</td></tr>
+      <tr><td><code>clear()</code></td><td>تفريغ تماماً</td><td>student.clear()</td></tr>
     </table>
 
     <h3>المرور على القاموس بحلقة</h3>
     <div class="code-block">
-employee = {<span class="string">"name"</span>: <span class="string">"عاطف"</span>, <span class="string">"age"</span>: <span class="number">35</span>, <span class="string">"salary"</span>: <span class="number">10000</span>}
+student = {<span class="string">"name"</span>: <span class="string">"محمد"</span>, <span class="string">"age"</span>: <span class="number">21</span>, <span class="string">"gpa"</span>: <span class="number">3.85</span>}
 
 <span class="comment"># المرور على المفاتيح فقط</span>
-<span class="keyword">for</span> key <span class="keyword">in</span> employee:
-    <span class="func">print</span>(key)  <span class="comment"># name, age, salary</span>
+<span class="keyword">for</span> key <span class="keyword">in</span> student:
+    <span class="func">print</span>(key)  <span class="comment"># name, age, gpa</span>
 
 <span class="comment"># المرور على المفاتيح والقيم معاً (الأفضل)</span>
-<span class="keyword">for</span> key, value <span class="keyword">in</span> employee.<span class="func">items</span>():
+<span class="keyword">for</span> key, value <span class="keyword">in</span> student.<span class="func">items</span>():
     <span class="func">print</span>(<span class="string">f"{key}: {value}"</span>)</div>
   </div>
 
@@ -3180,13 +3180,13 @@ employee = {<span class="string">"name"</span>: <span class="string">"عاطف"<
 unique_names = <span class="builtin">set</span>()
 
 <span class="comment"># مجموعة بقيم</span>
-departments = {<span class="string">"HR"</span>, <span class="string">"IT"</span>, <span class="string">"Finance"</span>, <span class="string">"HR"</span>}  <span class="comment"># التكرار يُحذف تلقائياً</span>
-<span class="func">print</span>(departments)  <span class="comment"># {'HR', 'IT', 'Finance'} - 3 فقط</span>
+majors = {<span class="string">"CS"</span>, <span class="string">"IT"</span>, <span class="string">"Math"</span>, <span class="string">"CS"</span>}  <span class="comment"># التكرار يُحذف تلقائياً</span>
+<span class="func">print</span>(majors)  <span class="comment"># {'CS', 'IT', 'Math'} - 3 فقط</span>
 
 <span class="comment"># من قائمة (إزالة التكرارات)</span>
-all_departments = [<span class="string">"HR"</span>, <span class="string">"IT"</span>, <span class="string">"HR"</span>, <span class="string">"Finance"</span>, <span class="string">"IT"</span>]
-unique = <span class="builtin">set</span>(all_departments)
-<span class="func">print</span>(unique)  <span class="comment"># {'HR', 'IT', 'Finance'}</span></div>
+all_majors = [<span class="string">"CS"</span>, <span class="string">"IT"</span>, <span class="string">"CS"</span>, <span class="string">"Math"</span>, <span class="string">"IT"</span>]
+unique = <span class="builtin">set</span>(all_majors)
+<span class="func">print</span>(unique)  <span class="comment"># {'CS', 'IT', 'Math'}</span></div>
 
     <h3>دوال المجموعات</h3>
     <div class="code-block">
@@ -3200,30 +3200,30 @@ fruits.<span class="func">discard</span>(<span class="string">"عنب"</span>)  
 
     <h3>العمليات الرياضية على المجموعات</h3>
     <div class="code-block">
-hr_team = {<span class="string">"عاطف"</span>, <span class="string">"محمد"</span>, <span class="string">"سارة"</span>}
-training_attended = {<span class="string">"محمد"</span>, <span class="string">"سارة"</span>, <span class="string">"خالد"</span>}
+class_a = {<span class="string">"محمد"</span>, <span class="string">"سارة"</span>, <span class="string">"خالد"</span>}
+class_b = {<span class="string">"سارة"</span>, <span class="string">"خالد"</span>, <span class="string">"نورة"</span>}
 
-<span class="comment"># الاتحاد - الكل (بدون تكرار)</span>
-all_people = hr_team | training_attended
-<span class="comment"># {'عاطف', 'محمد', 'سارة', 'خالد'}</span>
+<span class="comment"># الاتحاد - كل الطلاب (بدون تكرار)</span>
+all_students = class_a | class_b
+<span class="comment"># {'محمد', 'سارة', 'خالد', 'نورة'}</span>
 
-<span class="comment"># التقاطع - المشترك</span>
-both = hr_team &amp; training_attended
-<span class="comment"># {'محمد', 'سارة'}</span>
+<span class="comment"># التقاطع - الطلاب في الفصلين</span>
+both = class_a &amp; class_b
+<span class="comment"># {'سارة', 'خالد'}</span>
 
-<span class="comment"># الفرق - في hr_team فقط</span>
-hr_only = hr_team - training_attended
-<span class="comment"># {'عاطف'}</span>
+<span class="comment"># الفرق - في class_a فقط</span>
+a_only = class_a - class_b
+<span class="comment"># {'محمد'}</span>
 
-<span class="comment"># الفرق المتماثل - الفرق من الاتحاد</span>
-diff = hr_team ^ training_attended
-<span class="comment"># {'عاطف', 'خالد'}</span></div>
+<span class="comment"># الفرق المتماثل - في فصل واحد فقط</span>
+diff = class_a ^ class_b
+<span class="comment"># {'محمد', 'نورة'}</span></div>
 
     <div class="real-life-box">
       <strong>أين نستخدم Sets؟</strong>
       <ul>
         <li><strong>إزالة المكررات</strong> من قائمة بسرعة: <code>list(set(my_list))</code></li>
-        <li><strong>تحليل HR:</strong> الموظفون الذين حضروا تدريباً واحداً ولم يحضروا آخر</li>
+        <li><strong>تحليل المواد:</strong> المواد المشتركة بين تخصصين</li>
         <li><strong>الذكاء الاصطناعي:</strong> اختيار العينات الفريدة</li>
         <li><strong>قواعد البيانات:</strong> اكتشاف الفروقات بين جدولين</li>
       </ul>
@@ -3245,28 +3245,28 @@ diff = hr_team ^ training_attended
   <!-- ===== SOLVER 14.1: HR Database with Dict ===== -->
   <div class="step-solver" id="solver-14-1" data-total="10" data-current="-1">
     <div class="step-solver-header">
-      <div class="step-solver-title">🧮 الحل التفاعلي: قاعدة بيانات HR بسيطة</div>
+      <div class="step-solver-title">🧮 الحل التفاعلي: قاعدة بيانات طلاب بسيطة</div>
       <div class="step-progress">0 / 10</div>
     </div>
     <div class="step-solver-body">
-      <div class="step-question"><strong>المطلوب:</strong> برنامج يحفظ معلومات 3 موظفين كقواميس داخل قائمة، ويعرض:<br>
+      <div class="step-question"><strong>المطلوب:</strong> برنامج يحفظ معلومات 3 طلاب كقواميس داخل قائمة، ويعرض:<br>
       • كل البيانات منسقة<br>
-      • أعلى راتب<br>
-      • متوسط الرواتب<br>
-      • قائمة الأقسام الفريدة (بدون تكرار)<br>
-      • عدد موظفين قسم HR</div>
+      • أعلى GPA<br>
+      • متوسط GPA<br>
+      • قائمة التخصصات الفريدة (بدون تكرار)<br>
+      • عدد طلاب تخصص CS</div>
 
       <div class="step-item" data-step="1">
         <div class="step-label">📝 الخطوة 1 — تخطيط البنية</div>
         <div class="step-content">
-          <strong>كيف نخزن "موظف" بكل معلوماته؟</strong>
-          <br>الموظف الواحد له عدة خصائص (اسم، عمر، راتب، قسم) → <strong>قاموس</strong>.
-          <br>عدة موظفين → <strong>قائمة من قواميس</strong>.
+          <strong>كيف نخزن "طالب" بكل معلوماته؟</strong>
+          <br>الطالب الواحد له عدة خصائص (اسم، عمر، GPA، تخصص) → <strong>قاموس</strong>.
+          <br>عدة طلاب → <strong>قائمة من قواميس</strong>.
           <div class="code-block" style="direction: rtl; text-align: right;">
-employees = [
-    {اسم، عمر، راتب، قسم},  ← موظف 1
-    {اسم، عمر، راتب، قسم},  ← موظف 2
-    {اسم، عمر، راتب، قسم},  ← موظف 3
+students = [
+    {اسم، عمر، GPA، تخصص},  ← طالب 1
+    {اسم، عمر، GPA، تخصص},  ← طالب 2
+    {اسم، عمر، GPA، تخصص},  ← طالب 3
 ]</div>
         </div>
       </div>
@@ -3275,16 +3275,16 @@ employees = [
         <div class="step-label">💻 الخطوة 2 — إنشاء البيانات</div>
         <div class="step-content">
           <div class="code-block">
-employees = [
-    {<span class="string">"name"</span>: <span class="string">"عاطف"</span>, <span class="string">"age"</span>: <span class="number">35</span>, <span class="string">"salary"</span>: <span class="number">10000</span>, <span class="string">"dept"</span>: <span class="string">"HR"</span>},
-    {<span class="string">"name"</span>: <span class="string">"محمد"</span>, <span class="string">"age"</span>: <span class="number">28</span>, <span class="string">"salary"</span>: <span class="number">12000</span>, <span class="string">"dept"</span>: <span class="string">"IT"</span>},
-    {<span class="string">"name"</span>: <span class="string">"سارة"</span>, <span class="string">"age"</span>: <span class="number">40</span>, <span class="string">"salary"</span>: <span class="number">15000</span>, <span class="string">"dept"</span>: <span class="string">"HR"</span>},
+students = [
+    {<span class="string">"name"</span>: <span class="string">"محمد"</span>, <span class="string">"age"</span>: <span class="number">21</span>, <span class="string">"gpa"</span>: <span class="number">3.85</span>, <span class="string">"major"</span>: <span class="string">"CS"</span>},
+    {<span class="string">"name"</span>: <span class="string">"سارة"</span>, <span class="string">"age"</span>: <span class="number">22</span>, <span class="string">"gpa"</span>: <span class="number">3.95</span>, <span class="string">"major"</span>: <span class="string">"IT"</span>},
+    {<span class="string">"name"</span>: <span class="string">"خالد"</span>, <span class="string">"age"</span>: <span class="number">20</span>, <span class="string">"gpa"</span>: <span class="number">3.50</span>, <span class="string">"major"</span>: <span class="string">"CS"</span>},
 ]</div>
           <strong>افهم البنية:</strong>
           <ul>
-            <li><code>employees</code> = قائمة (list)</li>
+            <li><code>students</code> = قائمة (list)</li>
             <li>كل عنصر فيها قاموس (dict)</li>
-            <li><code>employees[0]["name"]</code> = "عاطف"</li>
+            <li><code>students[0]["name"]</code> = "محمد"</li>
           </ul>
         </div>
       </div>
@@ -3293,31 +3293,31 @@ employees = [
         <div class="step-label">💻 الخطوة 3 — عرض البيانات</div>
         <div class="step-content">
           <div class="code-block">
-<span class="func">print</span>(<span class="string">"━━ بيانات الموظفين ━━"</span>)
-<span class="keyword">for</span> emp <span class="keyword">in</span> employees:
-    <span class="func">print</span>(<span class="string">f"{emp['name']:&lt;10} | {emp['age']} | {emp['salary']:,} | {emp['dept']}"</span>)</div>
+<span class="func">print</span>(<span class="string">"━━ بيانات الطلاب ━━"</span>)
+<span class="keyword">for</span> s <span class="keyword">in</span> students:
+    <span class="func">print</span>(<span class="string">f"{s['name']:&lt;10} | {s['age']} | {s['gpa']:.2f} | {s['major']}"</span>)</div>
           <strong>الناتج:</strong>
           <div class="code-block" style="background: #1e293b;">
-عاطف       | <span class="number">35</span> | <span class="number">10,000</span> | HR
-محمد       | <span class="number">28</span> | <span class="number">12,000</span> | IT
-سارة       | <span class="number">40</span> | <span class="number">15,000</span> | HR</div>
+محمد       | <span class="number">21</span> | <span class="number">3.85</span> | CS
+سارة       | <span class="number">22</span> | <span class="number">3.95</span> | IT
+خالد       | <span class="number">20</span> | <span class="number">3.50</span> | CS</div>
         </div>
       </div>
 
       <div class="step-item" data-step="4">
-        <div class="step-label">💻 الخطوة 4 — أعلى راتب</div>
+        <div class="step-label">💻 الخطوة 4 — أعلى GPA</div>
         <div class="step-content">
-          <strong>الفكرة:</strong> استخرج كل الرواتب في قائمة، ثم استخدم max.
+          <strong>الفكرة:</strong> استخرج كل المعدلات في قائمة، ثم استخدم max.
           <div class="code-block">
 <span class="comment"># طريقة 1: List comprehension</span>
-salaries = [emp[<span class="string">"salary"</span>] <span class="keyword">for</span> emp <span class="keyword">in</span> employees]
-<span class="func">print</span>(<span class="builtin">max</span>(salaries))  <span class="comment"># 15000</span>
+gpas = [s[<span class="string">"gpa"</span>] <span class="keyword">for</span> s <span class="keyword">in</span> students]
+<span class="func">print</span>(<span class="builtin">max</span>(gpas))  <span class="comment"># 3.95</span>
 
 <span class="comment"># طريقة 2: max مع key (الأكثر احترافية)</span>
-top_emp = <span class="builtin">max</span>(employees, key=<span class="keyword">lambda</span> e: e[<span class="string">"salary"</span>])
-<span class="func">print</span>(<span class="string">f"الأعلى: {top_emp['name']} - {top_emp['salary']}"</span>)
-<span class="comment"># الأعلى: سارة - 15000</span></div>
-          <strong>الفائدة:</strong> الطريقة الثانية ترجع <strong>الموظف كاملاً</strong> وليس الراتب فقط.
+top_student = <span class="builtin">max</span>(students, key=<span class="keyword">lambda</span> s: s[<span class="string">"gpa"</span>])
+<span class="func">print</span>(<span class="string">f"الأعلى: {top_student['name']} - {top_student['gpa']}"</span>)
+<span class="comment"># الأعلى: سارة - 3.95</span></div>
+          <strong>الفائدة:</strong> الطريقة الثانية ترجع <strong>الطالب كاملاً</strong> وليس المعدل فقط.
         </div>
       </div>
 
@@ -3325,10 +3325,10 @@ top_emp = <span class="builtin">max</span>(employees, key=<span class="keyword">
         <div class="step-label">💻 الخطوة 5 — متوسط الرواتب</div>
         <div class="step-content">
           <div class="code-block">
-salaries = [emp[<span class="string">"salary"</span>] <span class="keyword">for</span> emp <span class="keyword">in</span> employees]
-average = <span class="builtin">sum</span>(salaries) / <span class="builtin">len</span>(salaries)
-<span class="func">print</span>(<span class="string">f"المتوسط: {average:,.2f}"</span>)
-<span class="comment"># المتوسط: 12,333.33</span></div>
+gpas = [s[<span class="string">"gpa"</span>] <span class="keyword">for</span> s <span class="keyword">in</span> students]
+average = <span class="builtin">sum</span>(gpas) / <span class="builtin">len</span>(gpas)
+<span class="func">print</span>(<span class="string">f"المتوسط: {average:.2f}"</span>)
+<span class="comment"># المتوسط: 3.77</span></div>
         </div>
       </div>
 
@@ -3337,35 +3337,35 @@ average = <span class="builtin">sum</span>(salaries) / <span class="builtin">len
         <div class="step-content">
           <strong>المطلوب:</strong> قائمة الأقسام بدون تكرار. <strong>هنا تأتي قوة Set!</strong>
           <div class="code-block">
-all_depts = [emp[<span class="string">"dept"</span>] <span class="keyword">for</span> emp <span class="keyword">in</span> employees]
-<span class="func">print</span>(all_depts)  <span class="comment"># ['HR', 'IT', 'HR'] فيه تكرار</span>
+all_majors = [s[<span class="string">"major"</span>] <span class="keyword">for</span> s <span class="keyword">in</span> students]
+<span class="func">print</span>(all_majors)  <span class="comment"># ['CS', 'IT', 'CS'] فيه تكرار</span>
 
-unique_depts = <span class="builtin">set</span>(all_depts)
-<span class="func">print</span>(unique_depts)  <span class="comment"># {'HR', 'IT'} بدون تكرار</span>
+unique_majors = <span class="builtin">set</span>(all_majors)
+<span class="func">print</span>(unique_majors)  <span class="comment"># {'CS', 'IT'} بدون تكرار</span>
 
 <span class="comment"># أو في سطر واحد</span>
-unique = {emp[<span class="string">"dept"</span>] <span class="keyword">for</span> emp <span class="keyword">in</span> employees}  <span class="comment"># Set comprehension</span></div>
+unique = {s[<span class="string">"major"</span>] <span class="keyword">for</span> s <span class="keyword">in</span> students}  <span class="comment"># Set comprehension</span></div>
           <strong>الجمال:</strong> Set يحذف التكرار تلقائياً!
         </div>
       </div>
 
       <div class="step-item" data-step="7">
-        <div class="step-label">💻 الخطوة 7 — عدد موظفين HR</div>
+        <div class="step-label">💻 الخطوة 7 — عدد طلاب CS</div>
         <div class="step-content">
           <div class="code-block">
 <span class="comment"># طريقة 1: حلقة وعداد</span>
-hr_count = <span class="number">0</span>
-<span class="keyword">for</span> emp <span class="keyword">in</span> employees:
-    <span class="keyword">if</span> emp[<span class="string">"dept"</span>] == <span class="string">"HR"</span>:
-        hr_count += <span class="number">1</span>
+cs_count = <span class="number">0</span>
+<span class="keyword">for</span> s <span class="keyword">in</span> students:
+    <span class="keyword">if</span> s[<span class="string">"major"</span>] == <span class="string">"CS"</span>:
+        cs_count += <span class="number">1</span>
 
 <span class="comment"># طريقة 2: list comprehension + len</span>
-hr_count = <span class="builtin">len</span>([e <span class="keyword">for</span> e <span class="keyword">in</span> employees <span class="keyword">if</span> e[<span class="string">"dept"</span>] == <span class="string">"HR"</span>])
+cs_count = <span class="builtin">len</span>([s <span class="keyword">for</span> s <span class="keyword">in</span> students <span class="keyword">if</span> s[<span class="string">"major"</span>] == <span class="string">"CS"</span>])
 
 <span class="comment"># طريقة 3: sum مع شرط (الأذكى!)</span>
-hr_count = <span class="builtin">sum</span>(<span class="number">1</span> <span class="keyword">for</span> e <span class="keyword">in</span> employees <span class="keyword">if</span> e[<span class="string">"dept"</span>] == <span class="string">"HR"</span>)
+cs_count = <span class="builtin">sum</span>(<span class="number">1</span> <span class="keyword">for</span> s <span class="keyword">in</span> students <span class="keyword">if</span> s[<span class="string">"major"</span>] == <span class="string">"CS"</span>)
 
-<span class="func">print</span>(<span class="string">f"موظفو HR: {hr_count}"</span>)  <span class="comment"># 2</span></div>
+<span class="func">print</span>(<span class="string">f"طلاب CS: {cs_count}"</span>)  <span class="comment"># 2</span></div>
         </div>
       </div>
 
@@ -3373,26 +3373,26 @@ hr_count = <span class="builtin">sum</span>(<span class="number">1</span> <span 
         <div class="step-label">💻 الخطوة 8 — الكود الكامل</div>
         <div class="step-content">
           <div class="code-block">
-employees = [
-    {<span class="string">"name"</span>: <span class="string">"عاطف"</span>, <span class="string">"age"</span>: <span class="number">35</span>, <span class="string">"salary"</span>: <span class="number">10000</span>, <span class="string">"dept"</span>: <span class="string">"HR"</span>},
-    {<span class="string">"name"</span>: <span class="string">"محمد"</span>, <span class="string">"age"</span>: <span class="number">28</span>, <span class="string">"salary"</span>: <span class="number">12000</span>, <span class="string">"dept"</span>: <span class="string">"IT"</span>},
-    {<span class="string">"name"</span>: <span class="string">"سارة"</span>, <span class="string">"age"</span>: <span class="number">40</span>, <span class="string">"salary"</span>: <span class="number">15000</span>, <span class="string">"dept"</span>: <span class="string">"HR"</span>},
+students = [
+    {<span class="string">"name"</span>: <span class="string">"محمد"</span>, <span class="string">"age"</span>: <span class="number">21</span>, <span class="string">"gpa"</span>: <span class="number">3.85</span>, <span class="string">"major"</span>: <span class="string">"CS"</span>},
+    {<span class="string">"name"</span>: <span class="string">"سارة"</span>, <span class="string">"age"</span>: <span class="number">22</span>, <span class="string">"gpa"</span>: <span class="number">3.95</span>, <span class="string">"major"</span>: <span class="string">"IT"</span>},
+    {<span class="string">"name"</span>: <span class="string">"خالد"</span>, <span class="string">"age"</span>: <span class="number">20</span>, <span class="string">"gpa"</span>: <span class="number">3.50</span>, <span class="string">"major"</span>: <span class="string">"CS"</span>},
 ]
 
 <span class="comment"># التحليل</span>
-salaries = [e[<span class="string">"salary"</span>] <span class="keyword">for</span> e <span class="keyword">in</span> employees]
-top = <span class="builtin">max</span>(employees, key=<span class="keyword">lambda</span> e: e[<span class="string">"salary"</span>])
+gpas = [e[<span class="string">"gpa"</span>] <span class="keyword">for</span> e <span class="keyword">in</span> students]
+top = <span class="builtin">max</span>(students, key=<span class="keyword">lambda</span> e: e[<span class="string">"gpa"</span>])
 average = <span class="builtin">sum</span>(salaries) / <span class="builtin">len</span>(salaries)
-unique_depts = {e[<span class="string">"dept"</span>] <span class="keyword">for</span> e <span class="keyword">in</span> employees}
-hr_count = <span class="builtin">sum</span>(<span class="number">1</span> <span class="keyword">for</span> e <span class="keyword">in</span> employees <span class="keyword">if</span> e[<span class="string">"dept"</span>] == <span class="string">"HR"</span>)
+unique_majors = {e[<span class="string">"major"</span>] <span class="keyword">for</span> e <span class="keyword">in</span> students}
+cs_count = <span class="builtin">sum</span>(<span class="number">1</span> <span class="keyword">for</span> e <span class="keyword">in</span> students <span class="keyword">if</span> e[<span class="string">"major"</span>] == <span class="string">"CS"</span>)
 
 <span class="comment"># التقرير</span>
 <span class="func">print</span>(<span class="string">"━━━━━━━━━━━━━━━━━━"</span>)
-<span class="func">print</span>(<span class="string">f"عدد الموظفين: {len(employees)}"</span>)
-<span class="func">print</span>(<span class="string">f"الأعلى راتباً: {top['name']} ({top['salary']:,})"</span>)
+<span class="func">print</span>(<span class="string">f"عدد الطلاب: {len(students)}"</span>)
+<span class="func">print</span>(<span class="string">f"الأعلى GPA: {top['name']} ({top['gpa']})"</span>)
 <span class="func">print</span>(<span class="string">f"متوسط الرواتب: {average:,.2f}"</span>)
 <span class="func">print</span>(<span class="string">f"الأقسام: {unique_depts}"</span>)
-<span class="func">print</span>(<span class="string">f"موظفو HR: {hr_count}"</span>)</div>
+<span class="func">print</span>(<span class="string">f"طلاب CS: {cs_count}"</span>)</div>
         </div>
       </div>
 
@@ -3404,7 +3404,7 @@ hr_count = <span class="builtin">sum</span>(<span class="number">1</span> <span 
             <li><strong>JSON</strong> الذي تستقبله من الـ APIs</li>
             <li><strong>قواعد البيانات</strong> NoSQL مثل MongoDB</li>
             <li><strong>صفوف الإكسل</strong> عند قراءتها بـ pandas (DataFrame)</li>
-            <li><strong>بيانات HR Analytics</strong> الذي تبنيه</li>
+            <li><strong>أنظمة الجامعة:</strong> سجلات الطلاب والدرجات</li>
           </ul>
           <strong>كل تطبيق ويب أو موبايل في العالم</strong> يستخدم هذا الهيكل.
         </div>
@@ -3511,7 +3511,7 @@ TOPICS['8'] = `
       <li><strong>اكتشف التكرار:</strong> هل أكتب نفس المنطق عدة مرات؟ → اعمله دالة</li>
       <li><strong>حدد المدخلات:</strong> ما الذي تحتاجه الدالة لتعمل؟ → معاملات</li>
       <li><strong>حدد المخرجات:</strong> ما الذي ترجعه؟ → return</li>
-      <li><strong>سمّ بفعل:</strong> calculate_tax، get_employee، not tax أو emp</li>
+      <li><strong>سمّ بفعل:</strong> calculate_tax، get_student، not tax أو s</li>
     </ol>
   </div>
 
@@ -3552,8 +3552,8 @@ TOPICS['8'] = `
 
     <h3>دالة بمعاملين</h3>
     <div class="code-block">
-<span class="keyword">def</span> <span class="func">calculate_bonus</span>(salary, percentage):
-    bonus = salary * (percentage / <span class="number">100</span>)
+<span class="keyword">def</span> <span class="func">calculate_discount</span>(price, percentage):
+    discount = price * (percentage / <span class="number">100</span>)
     <span class="func">print</span>(<span class="string">f"المكافأة: {bonus}"</span>)
 
 <span class="func">calculate_bonus</span>(<span class="number">10000</span>, <span class="number">15</span>)  <span class="comment"># المكافأة: 1500.0</span>
@@ -3574,19 +3574,19 @@ TOPICS['8'] = `
 
     <div class="code-block">
 <span class="comment"># دالة تطبع فقط</span>
-<span class="keyword">def</span> <span class="func">print_bonus</span>(salary):
-    <span class="func">print</span>(salary * <span class="number">0.15</span>)
+<span class="keyword">def</span> <span class="func">print_discount</span>(price):
+    <span class="func">print</span>(price * <span class="number">0.15</span>)
 
 <span class="comment"># دالة ترجع</span>
-<span class="keyword">def</span> <span class="func">calculate_bonus</span>(salary):
-    <span class="keyword">return</span> salary * <span class="number">0.15</span>
+<span class="keyword">def</span> <span class="func">calculate_discount</span>(price):
+    <span class="keyword">return</span> price * <span class="number">0.15</span>
 
 <span class="comment"># الفرق في الاستخدام</span>
-<span class="func">print_bonus</span>(<span class="number">10000</span>)            <span class="comment"># فقط يطبع 1500</span>
+<span class="func">print_discount</span>(<span class="number">200</span>)              <span class="comment"># فقط يطبع 30</span>
 
-bonus = <span class="func">calculate_bonus</span>(<span class="number">10000</span>)  <span class="comment"># bonus = 1500</span>
-total = <span class="number">10000</span> + bonus           <span class="comment"># يمكن استخدامها</span>
-<span class="func">print</span>(<span class="func">calculate_bonus</span>(<span class="number">10000</span>))  <span class="comment"># أو طباعتها</span></div>
+discount = <span class="func">calculate_discount</span>(<span class="number">200</span>)  <span class="comment"># discount = 30</span>
+final = <span class="number">200</span> - discount               <span class="comment"># يمكن استخدامها</span>
+<span class="func">print</span>(<span class="func">calculate_discount</span>(<span class="number">200</span>))  <span class="comment"># أو طباعتها</span></div>
 
     <div class="warn-box">
       نسيان <code>return</code> = الدالة ترجع <code>None</code> ضمنياً. هذا مصدر أخطاء كبير للمبتدئين.
@@ -3594,15 +3594,15 @@ total = <span class="number">10000</span> + bonus           <span class="comment
 
     <h3>إرجاع عدة قيم</h3>
     <div class="code-block">
-<span class="keyword">def</span> <span class="func">analyze_salary</span>(salary):
-    bonus = salary * <span class="number">0.15</span>
-    tax = salary * <span class="number">0.10</span>
-    net = salary + bonus - tax
-    <span class="keyword">return</span> bonus, tax, net  <span class="comment"># tuple</span>
+<span class="keyword">def</span> <span class="func">analyze_price</span>(price):
+    discount = price * <span class="number">0.15</span>
+    tax = price * <span class="number">0.10</span>
+    final = price - discount + tax
+    <span class="keyword">return</span> discount, tax, final  <span class="comment"># tuple</span>
 
 <span class="comment"># استلام القيم الثلاث</span>
-b, t, n = <span class="func">analyze_salary</span>(<span class="number">10000</span>)
-<span class="func">print</span>(<span class="string">f"Bonus: {b}, Tax: {t}, Net: {n}"</span>)</div>
+d, t, f = <span class="func">analyze_price</span>(<span class="number">200</span>)
+<span class="func">print</span>(<span class="string">f"Discount: {d}, Tax: {t}, Final: {f}"</span>)</div>
   </div>
 
   <div class="section">
@@ -3610,17 +3610,17 @@ b, t, n = <span class="func">analyze_salary</span>(<span class="number">10000</s
     <p>تعطي قيمة جاهزة للمعامل لو لم يمررها المستخدم.</p>
 
     <div class="code-block">
-<span class="keyword">def</span> <span class="func">calculate_bonus</span>(salary, percentage=<span class="number">15</span>):
-    <span class="keyword">return</span> salary * (percentage / <span class="number">100</span>)
+<span class="keyword">def</span> <span class="func">calculate_discount</span>(price, percentage=<span class="number">15</span>):
+    <span class="keyword">return</span> price * (percentage / <span class="number">100</span>)
 
 <span class="comment"># استدعاء بدون النسبة</span>
-<span class="func">print</span>(<span class="func">calculate_bonus</span>(<span class="number">10000</span>))         <span class="comment"># 1500 (15% الافتراضي)</span>
+<span class="func">print</span>(<span class="func">calculate_discount</span>(<span class="number">200</span>))         <span class="comment"># 30 (15% الافتراضي)</span>
 
 <span class="comment"># استدعاء بنسبة مختلفة</span>
-<span class="func">print</span>(<span class="func">calculate_bonus</span>(<span class="number">10000</span>, <span class="number">20</span>))     <span class="comment"># 2000</span>
+<span class="func">print</span>(<span class="func">calculate_discount</span>(<span class="number">200</span>, <span class="number">20</span>))     <span class="comment"># 40</span>
 
 <span class="comment"># استدعاء بأسماء المعاملات (Keyword arguments)</span>
-<span class="func">print</span>(<span class="func">calculate_bonus</span>(percentage=<span class="number">25</span>, salary=<span class="number">10000</span>))  <span class="comment"># 2500</span></div>
+<span class="func">print</span>(<span class="func">calculate_discount</span>(percentage=<span class="number">25</span>, price=<span class="number">200</span>))  <span class="comment"># 50</span></div>
 
     <div class="tip-box">
       <strong>قاعدة:</strong> المعاملات بقيم افتراضية يجب أن تكون <strong>بعد</strong> المعاملات بدون افتراضي.
@@ -3635,14 +3635,14 @@ b, t, n = <span class="func">analyze_salary</span>(<span class="number">10000</s
     <h2><span class="icon">🌐</span> النطاق (Scope) — Local vs Global</h2>
     <div class="code-block">
 <span class="comment"># متغير عام (Global)</span>
-company = <span class="string">"رسال الود"</span>
+university = <span class="string">"SEU"</span>
 
-<span class="keyword">def</span> <span class="func">show_employee</span>(name):
+<span class="keyword">def</span> <span class="func">show_student</span>(name):
     <span class="comment"># متغير محلي (Local) - يعيش داخل الدالة فقط</span>
-    title = <span class="string">"موظف"</span>
-    <span class="func">print</span>(<span class="string">f"{title} {name} في {company}"</span>)
+    title = <span class="string">"طالب"</span>
+    <span class="func">print</span>(<span class="string">f"{title} {name} في {university}"</span>)
 
-<span class="func">show_employee</span>(<span class="string">"عاطف"</span>)    <span class="comment"># موظف عاطف في رسال الود</span>
+<span class="func">show_student</span>(<span class="string">"محمد"</span>)    <span class="comment"># طالب محمد في SEU</span>
 <span class="func">print</span>(title)              <span class="comment"># ❌ NameError - title لا يوجد خارج الدالة</span></div>
 
     <div class="story-box">
@@ -3653,26 +3653,26 @@ company = <span class="string">"رسال الود"</span>
   <!-- ===== SOLVER 8.1: Tax Calculator with Functions ===== -->
   <div class="step-solver" id="solver-8-1" data-total="11" data-current="-1">
     <div class="step-solver-header">
-      <div class="step-solver-title">🧮 الحل التفاعلي: حاسبة راتب موظف بالدوال</div>
+      <div class="step-solver-title">🧮 الحل التفاعلي: حاسبة فاتورة طالب بالدوال</div>
       <div class="step-progress">0 / 11</div>
     </div>
     <div class="step-solver-body">
       <div class="step-question"><strong>المطلوب:</strong> اكتب 4 دوال:<br>
-      • <code>calculate_bonus(salary)</code> — تحسب 15% علاوة<br>
-      • <code>calculate_tax(salary)</code> — تحسب 10% ضريبة<br>
-      • <code>calculate_net(salary)</code> — تستخدم الدالتين السابقتين<br>
-      • <code>display_payslip(name, salary)</code> — تعرض كشف الراتب<br>
-      ثم استخدمهم لحساب راتب 3 موظفين.</div>
+      • <code>calculate_discount(price)</code> — تحسب 15% خصم طالب<br>
+      • <code>calculate_tax(price)</code> — تحسب 10% ضريبة<br>
+      • <code>calculate_total(price)</code> — تستخدم الدالتين السابقتين<br>
+      • <code>display_invoice(name, price)</code> — تعرض الفاتورة<br>
+      ثم استخدمهم لحساب فاتورة 3 طلاب من المكتبة.</div>
 
       <div class="step-item" data-step="1">
         <div class="step-label">📝 الخطوة 1 — لماذا الدوال هنا؟</div>
         <div class="step-content">
-          <strong>السؤال:</strong> لماذا لا نكتب الكود مباشرة 3 مرات (لكل موظف)؟
+          <strong>السؤال:</strong> لماذا لا نكتب الكود مباشرة 3 مرات (لكل طالب)؟
           <br><strong>الإجابة:</strong>
           <ul>
             <li>تكرار الكود = أخطاء أكثر</li>
             <li>تغيير النسبة = تعديل في 3 أماكن</li>
-            <li>إضافة موظف رابع = نسخ ولصق وأخطاء</li>
+            <li>إضافة طالب رابع = نسخ ولصق وأخطاء</li>
           </ul>
           <strong>الحل:</strong> نكتب المنطق <strong>مرة واحدة</strong> في دالة، ونستدعيها 3 مرات.
         </div>
@@ -3682,9 +3682,9 @@ company = <span class="string">"رسال الود"</span>
         <div class="step-label">💻 الخطوة 2 — دالة calculate_bonus</div>
         <div class="step-content">
           <div class="code-block">
-<span class="keyword">def</span> <span class="func">calculate_bonus</span>(salary):
-    <span class="string">"""تحسب علاوة 15% من الراتب"""</span>
-    <span class="keyword">return</span> salary * <span class="number">0.15</span></div>
+<span class="keyword">def</span> <span class="func">calculate_discount</span>(price):
+    <span class="string">"""تحسب خصم طالب 15% من السعر"""</span>
+    <span class="keyword">return</span> price * <span class="number">0.15</span></div>
           <strong>الـ docstring</strong> (النص بين """""") يصف ما تفعله الدالة. مهم جداً للقراءة لاحقاً.
         </div>
       </div>
@@ -3693,9 +3693,9 @@ company = <span class="string">"رسال الود"</span>
         <div class="step-label">💻 الخطوة 3 — دالة calculate_tax</div>
         <div class="step-content">
           <div class="code-block">
-<span class="keyword">def</span> <span class="func">calculate_tax</span>(salary):
-    <span class="string">"""تحسب ضريبة 10% من الراتب"""</span>
-    <span class="keyword">return</span> salary * <span class="number">0.10</span></div>
+<span class="keyword">def</span> <span class="func">calculate_tax</span>(price):
+    <span class="string">"""تحسب ضريبة 10% من السعر"""</span>
+    <span class="keyword">return</span> price * <span class="number">0.10</span></div>
           <strong>ملاحظة:</strong> كل دالة تفعل <strong>شيئاً واحداً</strong>. هذا مبدأ "Single Responsibility".
         </div>
       </div>
@@ -3704,11 +3704,11 @@ company = <span class="string">"رسال الود"</span>
         <div class="step-label">💻 الخطوة 4 — دالة calculate_net (تستخدم السابقتين)</div>
         <div class="step-content">
           <div class="code-block">
-<span class="keyword">def</span> <span class="func">calculate_net</span>(salary):
-    <span class="string">"""تحسب صافي الراتب = الأساسي + العلاوة - الضريبة"""</span>
-    bonus = <span class="func">calculate_bonus</span>(salary)
-    tax = <span class="func">calculate_tax</span>(salary)
-    <span class="keyword">return</span> salary + bonus - tax</div>
+<span class="keyword">def</span> <span class="func">calculate_total</span>(price):
+    <span class="string">"""تحسب الإجمالي = السعر - الخصم + الضريبة"""</span>
+    discount = <span class="func">calculate_discount</span>(price)
+    tax = <span class="func">calculate_tax</span>(price)
+    <span class="keyword">return</span> price - discount + tax</div>
           <strong>السحر:</strong> دوال تستدعي دوال = <strong>كود نظيف وقابل للقراءة</strong>.
         </div>
       </div>
@@ -3717,19 +3717,19 @@ company = <span class="string">"رسال الود"</span>
         <div class="step-label">💻 الخطوة 5 — دالة display_payslip</div>
         <div class="step-content">
           <div class="code-block">
-<span class="keyword">def</span> <span class="func">display_payslip</span>(name, salary):
-    <span class="string">"""تعرض كشف راتب موظف"""</span>
-    bonus = <span class="func">calculate_bonus</span>(salary)
-    tax = <span class="func">calculate_tax</span>(salary)
-    net = <span class="func">calculate_net</span>(salary)
+<span class="keyword">def</span> <span class="func">display_invoice</span>(name, price):
+    <span class="string">"""تعرض فاتورة طالب"""</span>
+    discount = <span class="func">calculate_discount</span>(price)
+    tax = <span class="func">calculate_tax</span>(price)
+    total = <span class="func">calculate_total</span>(price)
     
     <span class="func">print</span>(<span class="string">f"━━━━━━━━━━━━━━━━━"</span>)
-    <span class="func">print</span>(<span class="string">f"كشف راتب: {name}"</span>)
+    <span class="func">print</span>(<span class="string">f"فاتورة: {name}"</span>)
     <span class="func">print</span>(<span class="string">f"━━━━━━━━━━━━━━━━━"</span>)
-    <span class="func">print</span>(<span class="string">f"الأساسي: {salary:,.2f}"</span>)
-    <span class="func">print</span>(<span class="string">f"العلاوة: {bonus:,.2f}"</span>)
-    <span class="func">print</span>(<span class="string">f"الضريبة: {tax:,.2f}"</span>)
-    <span class="func">print</span>(<span class="string">f"الصافي:  {net:,.2f}"</span>)
+    <span class="func">print</span>(<span class="string">f"السعر:    {price:,.2f}"</span>)
+    <span class="func">print</span>(<span class="string">f"الخصم:    {discount:,.2f}"</span>)
+    <span class="func">print</span>(<span class="string">f"الضريبة:  {tax:,.2f}"</span>)
+    <span class="func">print</span>(<span class="string">f"الإجمالي: {total:,.2f}"</span>)
     <span class="func">print</span>(<span class="string">f"━━━━━━━━━━━━━━━━━"</span>)</div>
         </div>
       </div>
@@ -3738,43 +3738,43 @@ company = <span class="string">"رسال الود"</span>
         <div class="step-label">💻 الخطوة 6 — استخدام الدوال</div>
         <div class="step-content">
           <div class="code-block">
-<span class="comment"># 3 موظفين بسطر واحد كل!</span>
-<span class="func">display_payslip</span>(<span class="string">"عاطف"</span>, <span class="number">10000</span>)
-<span class="func">display_payslip</span>(<span class="string">"محمد"</span>, <span class="number">12000</span>)
-<span class="func">display_payslip</span>(<span class="string">"سارة"</span>, <span class="number">15000</span>)</div>
+<span class="comment"># 3 طلاب بسطر واحد كل!</span>
+<span class="func">display_invoice</span>(<span class="string">"محمد"</span>, <span class="number">200</span>)
+<span class="func">display_invoice</span>(<span class="string">"سارة"</span>, <span class="number">350</span>)
+<span class="func">display_invoice</span>(<span class="string">"خالد"</span>, <span class="number">150</span>)</div>
           <strong>قارن:</strong> بدون دوال كنا سنحتاج 30 سطر! مع الدوال 3 سطور.
         </div>
       </div>
 
       <div class="step-item" data-step="7">
-        <div class="step-label">🚀 الخطوة 7 — تحسين بقائمة موظفين</div>
+        <div class="step-label">🚀 الخطوة 7 — تحسين بقائمة طلاب</div>
         <div class="step-content">
           <div class="code-block">
-employees = [
-    (<span class="string">"عاطف"</span>, <span class="number">10000</span>),
-    (<span class="string">"محمد"</span>, <span class="number">12000</span>),
-    (<span class="string">"سارة"</span>, <span class="number">15000</span>),
+students = [
+    (<span class="string">"محمد"</span>, <span class="number">200</span>),
+    (<span class="string">"سارة"</span>, <span class="number">350</span>),
+    (<span class="string">"خالد"</span>, <span class="number">150</span>),
 ]
 
-<span class="keyword">for</span> name, salary <span class="keyword">in</span> employees:
-    <span class="func">display_payslip</span>(name, salary)</div>
-          <strong>القوة:</strong> أضف موظفاً جديداً = سطر واحد فقط في القائمة!
+<span class="keyword">for</span> name, price <span class="keyword">in</span> students:
+    <span class="func">display_invoice</span>(name, price)</div>
+          <strong>القوة:</strong> أضف طالباً جديداً = سطر واحد فقط في القائمة!
         </div>
       </div>
 
       <div class="step-item" data-step="8">
         <div class="step-label">🚀 الخطوة 8 — جعل الدوال أكثر مرونة</div>
         <div class="step-content">
-          ماذا لو احتجنا تغيير نسبة العلاوة لموظف معين؟
+          ماذا لو احتجنا تغيير نسبة الخصم لطالب معين؟
           <div class="code-block">
-<span class="keyword">def</span> <span class="func">calculate_bonus</span>(salary, percentage=<span class="number">15</span>):
-    <span class="string">"""تحسب علاوة بنسبة معطاة (افتراضي 15%)"""</span>
-    <span class="keyword">return</span> salary * (percentage / <span class="number">100</span>)
+<span class="keyword">def</span> <span class="func">calculate_discount</span>(price, percentage=<span class="number">15</span>):
+    <span class="string">"""تحسب خصماً بنسبة معطاة (افتراضي 15%)"""</span>
+    <span class="keyword">return</span> price * (percentage / <span class="number">100</span>)
 
 <span class="comment"># الاستخدام</span>
-<span class="func">calculate_bonus</span>(<span class="number">10000</span>)         <span class="comment"># 1500 - افتراضي 15%</span>
-<span class="func">calculate_bonus</span>(<span class="number">10000</span>, <span class="number">20</span>)     <span class="comment"># 2000 - مدير</span>
-<span class="func">calculate_bonus</span>(<span class="number">10000</span>, <span class="number">25</span>)     <span class="comment"># 2500 - تنفيذي</span></div>
+<span class="func">calculate_discount</span>(<span class="number">200</span>)         <span class="comment"># 30 - افتراضي 15%</span>
+<span class="func">calculate_discount</span>(<span class="number">200</span>, <span class="number">20</span>)     <span class="comment"># 40 - متفوق</span>
+<span class="func">calculate_discount</span>(<span class="number">200</span>, <span class="number">25</span>)     <span class="comment"># 50 - متميز</span></div>
         </div>
       </div>
 
@@ -3783,10 +3783,10 @@ employees = [
         <div class="step-content">
           <strong>هذا بالضبط ما يحدث في:</strong>
           <ul>
-            <li><strong>Workday:</strong> دوال لحساب رواتب آلاف الموظفين</li>
-            <li><strong>SAP:</strong> دوال لحساب الضرائب والاستقطاعات</li>
-            <li><strong>HR Analytics في رسال الود:</strong> الدوال أساس النظام</li>
-            <li><strong>أنظمة البنوك:</strong> دوال للقروض والفوائد</li>
+            <li><strong>Amazon, noon:</strong> دوال لحساب الفواتير والخصومات</li>
+            <li><strong>أنظمة المطاعم:</strong> دوال لحساب الفاتورة مع الضريبة والبقشيش</li>
+            <li><strong>تطبيقات الجامعة:</strong> دوال لحساب GPA والدرجات</li>
+            <li><strong>تطبيقات البنوك:</strong> دوال للقروض والفوائد</li>
           </ul>
           الفرق فقط: تستقبل البيانات من قاعدة بيانات وتحفظ النتائج فيها.
         </div>
@@ -3800,7 +3800,7 @@ employees = [
             <li><strong>دالة = مهمة واحدة:</strong> لا تجمع منطقاً مختلفاً</li>
             <li><strong>قصيرة:</strong> لو الدالة > 20 سطراً، قسّمها</li>
             <li><strong>docstring:</strong> اكتب وصفاً</li>
-            <li><strong>parameters واضحة:</strong> <code>(salary)</code> لا <code>(s)</code></li>
+            <li><strong>parameters واضحة:</strong> <code>(price)</code> لا <code>(p)</code></li>
             <li><strong>return بدلاً من print:</strong> أكثر مرونة (يمكن استخدام النتيجة)</li>
           </ul>
         </div>
@@ -4190,9 +4190,9 @@ finally:
         <div class="step-content">
           <strong>أين تستخدم هذا في الواقع؟</strong>
           <ul>
-            <li><strong>HR Analytics:</strong> قراءة بيانات الموظفين من Excel/CSV</li>
+            <li><strong>أنظمة الجامعة:</strong> قراءة بيانات الطلاب من Excel/CSV</li>
             <li><strong>أنظمة التتبع:</strong> حفظ logs العمليات اليومية</li>
-            <li><strong>تقارير الرواتب:</strong> توليد ملف PDF للموظف</li>
+            <li><strong>تقارير الدرجات:</strong> توليد ملف PDF لكل طالب</li>
             <li><strong>أنظمة الباك أب:</strong> نسخ احتياطية من البيانات</li>
             <li><strong>تطبيقات الويب:</strong> log الأخطاء وتتبعها</li>
           </ul>
@@ -4293,7 +4293,7 @@ TOPICS['10'] = `
   <div class="topic-header">
     <div class="label">الموضوع 10</div>
     <h1>البرمجة الكينونية (OOP)</h1>
-    <p>كيف ترتب كودك ككائنات حقيقية مثل الموظف، السيارة، الحساب البنكي</p>
+    <p>كيف ترتب كودك ككائنات حقيقية مثل الطالب، الكتاب، الحساب البنكي</p>
   </div>
 
   <div class="objectives">
@@ -4310,9 +4310,9 @@ TOPICS['10'] = `
 
   <div class="planning-box">
     <ol>
-      <li><strong>اكتشف الكائنات:</strong> ما "الأشياء" في برنامجي؟ (موظف، سيارة، حساب)</li>
-      <li><strong>حدد الخصائص:</strong> ما يميز كل كائن؟ (الاسم، السن، الراتب)</li>
-      <li><strong>حدد السلوكيات:</strong> ما يفعله كل كائن؟ (يحسب راتبه، يطبع نفسه)</li>
+      <li><strong>اكتشف الكائنات:</strong> ما "الأشياء" في برنامجي؟ (طالب، كتاب، سيارة)</li>
+      <li><strong>حدد الخصائص:</strong> ما يميز كل كائن؟ (الاسم، العمر، المعدل)</li>
+      <li><strong>حدد السلوكيات:</strong> ما يفعله كل كائن؟ (يحسب معدله، يطبع نفسه)</li>
       <li><strong>ارسم على الورقة:</strong> Class = صندوق فيه خصائص + دوال</li>
     </ol>
   </div>
@@ -4329,7 +4329,7 @@ TOPICS['10'] = `
     <table class="compare-table">
       <tr><th>Class (الصنف)</th><th>Object (الكائن)</th></tr>
       <tr><td>قالب نظري</td><td>نسخة حقيقية</td></tr>
-      <tr><td>"الموظف" مفهوم عام</td><td>"عاطف" موظف محدد</td></tr>
+      <tr><td>"الطالب" مفهوم عام</td><td>"محمد" طالب محدد</td></tr>
       <tr><td>تكتبه مرة</td><td>تنشئ منه نسخاً كثيرة</td></tr>
       <tr><td>يحدد الخصائص والدوال</td><td>يحمل قيماً فعلية</td></tr>
     </table>
@@ -4339,38 +4339,38 @@ TOPICS['10'] = `
     <h2><span class="icon">🎨</span> أول صنف: Employee</h2>
 
     <div class="code-block">
-<span class="keyword">class</span> <span class="func">Employee</span>:
+<span class="keyword">class</span> <span class="func">Student</span>:
     <span class="comment"># دالة البناء - تستدعى عند إنشاء كائن</span>
-    <span class="keyword">def</span> <span class="func">__init__</span>(self, name, salary):
-        self.name = name        <span class="comment"># خاصية</span>
-        self.salary = salary    <span class="comment"># خاصية</span>
+    <span class="keyword">def</span> <span class="func">__init__</span>(self, name, gpa):
+        self.name = name      <span class="comment"># خاصية</span>
+        self.gpa = gpa        <span class="comment"># خاصية</span>
     
     <span class="comment"># دالة (method)</span>
     <span class="keyword">def</span> <span class="func">introduce</span>(self):
-        <span class="func">print</span>(<span class="string">f"اسمي {self.name} وراتبي {self.salary}"</span>)
+        <span class="func">print</span>(<span class="string">f"اسمي {self.name} ومعدلي {self.gpa}"</span>)
     
-    <span class="keyword">def</span> <span class="func">give_raise</span>(self, amount):
-        self.salary += amount
+    <span class="keyword">def</span> <span class="func">add_to_gpa</span>(self, amount):
+        self.gpa += amount
 
 <span class="comment"># إنشاء كائنات</span>
-emp1 = <span class="func">Employee</span>(<span class="string">"عاطف"</span>, <span class="number">10000</span>)
-emp2 = <span class="func">Employee</span>(<span class="string">"محمد"</span>, <span class="number">12000</span>)
+s1 = <span class="func">Student</span>(<span class="string">"محمد"</span>, <span class="number">3.50</span>)
+s2 = <span class="func">Student</span>(<span class="string">"سارة"</span>, <span class="number">3.85</span>)
 
-emp1.<span class="func">introduce</span>()  <span class="comment"># اسمي عاطف وراتبي 10000</span>
-emp2.<span class="func">introduce</span>()  <span class="comment"># اسمي محمد وراتبي 12000</span>
+s1.<span class="func">introduce</span>()  <span class="comment"># اسمي محمد ومعدلي 3.5</span>
+s2.<span class="func">introduce</span>()  <span class="comment"># اسمي سارة ومعدلي 3.85</span>
 
-emp1.<span class="func">give_raise</span>(<span class="number">2000</span>)
-emp1.<span class="func">introduce</span>()  <span class="comment"># اسمي عاطف وراتبي 12000</span></div>
+s1.<span class="func">add_to_gpa</span>(<span class="number">0.20</span>)
+s1.<span class="func">introduce</span>()  <span class="comment"># اسمي محمد ومعدلي 3.7</span></div>
 
     <h3>افهم كل سطر</h3>
     <table class="compare-table">
       <tr><th>السطر</th><th>المعنى</th></tr>
-      <tr><td><code>class Employee:</code></td><td>تعريف صنف جديد</td></tr>
+      <tr><td><code>class Student:</code></td><td>تعريف صنف جديد</td></tr>
       <tr><td><code>def __init__(self, ...)</code></td><td>دالة البناء (تستدعى عند الإنشاء)</td></tr>
       <tr><td><code>self</code></td><td>إشارة للكائن نفسه (يمرر تلقائياً)</td></tr>
       <tr><td><code>self.name = name</code></td><td>تخزين القيمة كخاصية للكائن</td></tr>
-      <tr><td><code>Employee("عاطف", 10000)</code></td><td>إنشاء كائن (يستدعي __init__)</td></tr>
-      <tr><td><code>emp1.introduce()</code></td><td>استدعاء method على الكائن</td></tr>
+      <tr><td><code>Student("محمد", 3.50)</code></td><td>إنشاء كائن (يستدعي __init__)</td></tr>
+      <tr><td><code>s1.introduce()</code></td><td>استدعاء method على الكائن</td></tr>
     </table>
   </div>
 
@@ -4391,8 +4391,8 @@ emp1.<span class="func">introduce</span>()  <span class="comment"># اسمي ع�
     <span class="keyword">def</span> <span class="func">get_balance</span>(self):
         <span class="keyword">return</span> self.__balance
 
-acc = <span class="func">BankAccount</span>(<span class="string">"عاطف"</span>, <span class="number">1000</span>)
-<span class="func">print</span>(acc.owner)         <span class="comment"># عاطف ✅</span>
+acc = <span class="func">BankAccount</span>(<span class="string">"محمد"</span>, <span class="number">1000</span>)
+<span class="func">print</span>(acc.owner)         <span class="comment"># محمد ✅</span>
 <span class="func">print</span>(acc.<span class="func">get_balance</span>())  <span class="comment"># 1000 ✅</span>
 <span class="func">print</span>(acc.__balance)     <span class="comment"># ❌ AttributeError</span></div>
 
@@ -4404,32 +4404,32 @@ acc = <span class="func">BankAccount</span>(<span class="string">"عاطف"</spa
   <!-- ===== SOLVER 10.1: Employee Class ===== -->
   <div class="step-solver" id="solver-10-1" data-total="10" data-current="-1">
     <div class="step-solver-header">
-      <div class="step-solver-title">🧮 الحل التفاعلي: نظام إدارة موظفين بالـ OOP</div>
+      <div class="step-solver-title">🧮 الحل التفاعلي: نظام إدارة طلاب بالـ OOP</div>
       <div class="step-progress">0 / 10</div>
     </div>
     <div class="step-solver-body">
-      <div class="step-question"><strong>المطلوب:</strong> أنشئ صنف <code>Employee</code> فيه:<br>
-      • الاسم، الراتب، القسم<br>
-      • دالة <code>calculate_bonus()</code> ترجع 15% من الراتب<br>
+      <div class="step-question"><strong>المطلوب:</strong> أنشئ صنف <code>Student</code> فيه:<br>
+      • الاسم، GPA، التخصص<br>
+      • دالة <code>letter_grade()</code> ترجع التقدير الحرفي (A/B/C/D/F)<br>
       • دالة <code>display()</code> تطبع المعلومات<br>
-      • دالة <code>give_raise(amount)</code> تزيد الراتب<br>
-      ثم أنشئ 3 موظفين واستخدم الدوال.</div>
+      • دالة <code>add_to_gpa(amount)</code> تزيد GPA<br>
+      ثم أنشئ 3 طلاب واستخدم الدوال.</div>
 
       <div class="step-item" data-step="1">
         <div class="step-label">📝 الخطوة 1 — التخطيط على الورقة</div>
         <div class="step-content">
-          <strong>الصنف Employee:</strong>
+          <strong>الصنف Student:</strong>
           <div class="code-block" style="direction: rtl; text-align: right;">
 الخصائص:
   - name (نص)
-  - salary (رقم)
-  - department (نص)
+  - gpa (رقم)
+  - major (نص)
 
 الدوال:
-  - __init__(name, salary, dept)  ← البناء
-  - calculate_bonus()              ← ترجع 15%
-  - display()                      ← تطبع
-  - give_raise(amount)             ← تزيد الراتب</div>
+  - __init__(name, gpa, major)     ← البناء
+  - letter_grade()                  ← A/B/C/D/F
+  - display()                       ← تطبع
+  - add_to_gpa(amount)              ← تزيد GPA</div>
         </div>
       </div>
 
@@ -4437,29 +4437,33 @@ acc = <span class="func">BankAccount</span>(<span class="string">"عاطف"</spa
         <div class="step-label">💻 الخطوة 2 — كتابة الصنف</div>
         <div class="step-content">
           <div class="code-block">
-<span class="keyword">class</span> <span class="func">Employee</span>:
-    <span class="string">"""يمثل موظفاً في الشركة"""</span>
+<span class="keyword">class</span> <span class="func">Student</span>:
+    <span class="string">"""يمثل طالباً في الجامعة"""</span>
     
-    <span class="keyword">def</span> <span class="func">__init__</span>(self, name, salary, department):
+    <span class="keyword">def</span> <span class="func">__init__</span>(self, name, gpa, major):
         self.name = name
-        self.salary = salary
-        self.department = department
+        self.gpa = gpa
+        self.major = major
     
-    <span class="keyword">def</span> <span class="func">calculate_bonus</span>(self):
-        <span class="string">"""ترجع 15% علاوة"""</span>
-        <span class="keyword">return</span> self.salary * <span class="number">0.15</span>
+    <span class="keyword">def</span> <span class="func">letter_grade</span>(self):
+        <span class="string">"""ترجع التقدير الحرفي حسب GPA"""</span>
+        <span class="keyword">if</span> self.gpa &gt;= <span class="number">3.5</span>: <span class="keyword">return</span> <span class="string">"A"</span>
+        <span class="keyword">elif</span> self.gpa &gt;= <span class="number">3.0</span>: <span class="keyword">return</span> <span class="string">"B"</span>
+        <span class="keyword">elif</span> self.gpa &gt;= <span class="number">2.5</span>: <span class="keyword">return</span> <span class="string">"C"</span>
+        <span class="keyword">elif</span> self.gpa &gt;= <span class="number">2.0</span>: <span class="keyword">return</span> <span class="string">"D"</span>
+        <span class="keyword">else</span>: <span class="keyword">return</span> <span class="string">"F"</span>
     
     <span class="keyword">def</span> <span class="func">display</span>(self):
-        <span class="string">"""تطبع معلومات الموظف"""</span>
+        <span class="string">"""تطبع معلومات الطالب"""</span>
         <span class="func">print</span>(<span class="string">f"━━━ {self.name} ━━━"</span>)
-        <span class="func">print</span>(<span class="string">f"القسم:  {self.department}"</span>)
-        <span class="func">print</span>(<span class="string">f"الراتب: {self.salary:,.2f}"</span>)
-        <span class="func">print</span>(<span class="string">f"العلاوة: {self.calculate_bonus():,.2f}"</span>)
+        <span class="func">print</span>(<span class="string">f"التخصص: {self.major}"</span>)
+        <span class="func">print</span>(<span class="string">f"المعدل: {self.gpa:.2f}"</span>)
+        <span class="func">print</span>(<span class="string">f"التقدير: {self.letter_grade()}"</span>)
     
-    <span class="keyword">def</span> <span class="func">give_raise</span>(self, amount):
-        <span class="string">"""تزيد الراتب بمبلغ"""</span>
-        self.salary += amount
-        <span class="func">print</span>(<span class="string">f"تمت إضافة {amount} لراتب {self.name}"</span>)</div>
+    <span class="keyword">def</span> <span class="func">add_to_gpa</span>(self, amount):
+        <span class="string">"""تزيد GPA بقيمة"""</span>
+        self.gpa += amount
+        <span class="func">print</span>(<span class="string">f"تمت إضافة {amount} لمعدل {self.name}"</span>)</div>
         </div>
       </div>
 
@@ -4467,14 +4471,14 @@ acc = <span class="func">BankAccount</span>(<span class="string">"عاطف"</spa
         <div class="step-label">💻 الخطوة 3 — إنشاء الكائنات</div>
         <div class="step-content">
           <div class="code-block">
-<span class="comment"># إنشاء 3 موظفين</span>
-emp1 = <span class="func">Employee</span>(<span class="string">"عاطف"</span>, <span class="number">10000</span>, <span class="string">"HR"</span>)
-emp2 = <span class="func">Employee</span>(<span class="string">"محمد"</span>, <span class="number">12000</span>, <span class="string">"IT"</span>)
-emp3 = <span class="func">Employee</span>(<span class="string">"سارة"</span>, <span class="number">15000</span>, <span class="string">"HR"</span>)</div>
+<span class="comment"># إنشاء 3 طلاب</span>
+s1 = <span class="func">Student</span>(<span class="string">"محمد"</span>, <span class="number">3.85</span>, <span class="string">"CS"</span>)
+s2 = <span class="func">Student</span>(<span class="string">"سارة"</span>, <span class="number">3.95</span>, <span class="string">"IT"</span>)
+s3 = <span class="func">Student</span>(<span class="string">"خالد"</span>, <span class="number">3.50</span>, <span class="string">"CS"</span>)</div>
           <strong>كل سطر:</strong>
           <ol>
-            <li><code>Employee(...)</code> يستدعي <code>__init__</code> تلقائياً</li>
-            <li>القيم تخزن في الخصائص: <code>self.name</code>، <code>self.salary</code>...</li>
+            <li><code>Student(...)</code> يستدعي <code>__init__</code> تلقائياً</li>
+            <li>القيم تخزن في الخصائص: <code>self.name</code>، <code>self.gpa</code>...</li>
             <li>الناتج كائن جديد له خصائصه الخاصة</li>
           </ol>
         </div>
@@ -4484,18 +4488,18 @@ emp3 = <span class="func">Employee</span>(<span class="string">"سارة"</span>
         <div class="step-label">💻 الخطوة 4 — استخدام الدوال</div>
         <div class="step-content">
           <div class="code-block">
-<span class="comment"># عرض كل موظف</span>
-emp1.<span class="func">display</span>()
-emp2.<span class="func">display</span>()
-emp3.<span class="func">display</span>()
+<span class="comment"># عرض كل طالب</span>
+s1.<span class="func">display</span>()
+s2.<span class="func">display</span>()
+s3.<span class="func">display</span>()
 
-<span class="comment"># ترقية لعاطف</span>
-emp1.<span class="func">give_raise</span>(<span class="number">2000</span>)
-emp1.<span class="func">display</span>()  <span class="comment"># الراتب الجديد 12000</span>
+<span class="comment"># تحسين معدل محمد</span>
+s1.<span class="func">add_to_gpa</span>(<span class="number">0.10</span>)
+s1.<span class="func">display</span>()  <span class="comment"># المعدل الجديد 3.95</span>
 
-<span class="comment"># استخدام عودة calculate_bonus</span>
-total_bonuses = emp1.<span class="func">calculate_bonus</span>() + emp2.<span class="func">calculate_bonus</span>() + emp3.<span class="func">calculate_bonus</span>()
-<span class="func">print</span>(<span class="string">f"إجمالي العلاوات: {total_bonuses}"</span>)</div>
+<span class="comment"># استخدام التقديرات</span>
+<span class="func">print</span>(<span class="string">f"تقدير {s1.name}: {s1.letter_grade()}"</span>)
+<span class="func">print</span>(<span class="string">f"تقدير {s2.name}: {s2.letter_grade()}"</span>)</div>
         </div>
       </div>
 
@@ -4503,36 +4507,36 @@ total_bonuses = emp1.<span class="func">calculate_bonus</span>() + emp2.<span cl
         <div class="step-label">🔍 الخطوة 5 — افهم self</div>
         <div class="step-content">
           <strong>ما هو self؟</strong> هو <strong>الكائن الذي يستدعي الدالة</strong>.
-          <br>عندما تكتب <code>emp1.display()</code>، بايثون تترجمها إلى <code>Employee.display(emp1)</code>.
+          <br>عندما تكتب <code>s1.display()</code>، بايثون تترجمها إلى <code>Student.display(s1)</code>.
           <br>self يربط الدالة بالكائن المحدد:
           <ul>
-            <li><code>emp1.display()</code> → self = emp1 → يطبع معلومات عاطف</li>
-            <li><code>emp2.display()</code> → self = emp2 → يطبع معلومات محمد</li>
+            <li><code>s1.display()</code> → self = s1 → يطبع معلومات محمد</li>
+            <li><code>s2.display()</code> → self = s2 → يطبع معلومات سارة</li>
           </ul>
           <strong>بدون self:</strong> الدالة لن تعرف <em>أي</em> كائن نتحدث عنه.
         </div>
       </div>
 
       <div class="step-item" data-step="6">
-        <div class="step-label">🚀 الخطوة 6 — قائمة موظفين</div>
+        <div class="step-label">🚀 الخطوة 6 — قائمة طلاب</div>
         <div class="step-content">
           <div class="code-block">
-employees = [
-    <span class="func">Employee</span>(<span class="string">"عاطف"</span>, <span class="number">10000</span>, <span class="string">"HR"</span>),
-    <span class="func">Employee</span>(<span class="string">"محمد"</span>, <span class="number">12000</span>, <span class="string">"IT"</span>),
-    <span class="func">Employee</span>(<span class="string">"سارة"</span>, <span class="number">15000</span>, <span class="string">"HR"</span>),
+students = [
+    <span class="func">Student</span>(<span class="string">"محمد"</span>, <span class="number">3.85</span>, <span class="string">"CS"</span>),
+    <span class="func">Student</span>(<span class="string">"سارة"</span>, <span class="number">3.95</span>, <span class="string">"IT"</span>),
+    <span class="func">Student</span>(<span class="string">"خالد"</span>, <span class="number">3.50</span>, <span class="string">"CS"</span>),
 ]
 
-<span class="comment"># المرور على كل موظف</span>
-<span class="keyword">for</span> emp <span class="keyword">in</span> employees:
-    emp.<span class="func">display</span>()
+<span class="comment"># المرور على كل طالب</span>
+<span class="keyword">for</span> s <span class="keyword">in</span> students:
+    s.<span class="func">display</span>()
 
-<span class="comment"># إجمالي الرواتب</span>
-total = <span class="builtin">sum</span>(emp.salary <span class="keyword">for</span> emp <span class="keyword">in</span> employees)
-<span class="func">print</span>(<span class="string">f"إجمالي الرواتب: {total}"</span>)
+<span class="comment"># متوسط المعدلات</span>
+avg = <span class="builtin">sum</span>(s.gpa <span class="keyword">for</span> s <span class="keyword">in</span> students) / <span class="builtin">len</span>(students)
+<span class="func">print</span>(<span class="string">f"متوسط GPA: {avg:.2f}"</span>)
 
-<span class="comment"># أعلى راتب</span>
-top = <span class="builtin">max</span>(employees, key=<span class="keyword">lambda</span> e: e.salary)
+<span class="comment"># أعلى GPA</span>
+top = <span class="builtin">max</span>(students, key=<span class="keyword">lambda</span> s: s.gpa)
 <span class="func">print</span>(<span class="string">f"الأعلى: {top.name}"</span>)</div>
         </div>
       </div>
@@ -4540,28 +4544,29 @@ top = <span class="builtin">max</span>(employees, key=<span class="keyword">lamb
       <div class="step-item" data-step="7">
         <div class="step-label">🔒 الخطوة 7 — إضافة التغليف</div>
         <div class="step-content">
-          <strong>المشكلة:</strong> أي شخص يستطيع تعديل الراتب مباشرة <code>emp1.salary = -1000</code>!
-          <br><strong>الحل:</strong> اجعل الراتب خاصاً.
+          <strong>المشكلة:</strong> أي شخص يستطيع تعديل GPA مباشرة <code>s1.gpa = -1.0</code>!
+          <br><strong>الحل:</strong> اجعل GPA خاصاً.
           <div class="code-block">
-<span class="keyword">class</span> <span class="func">Employee</span>:
-    <span class="keyword">def</span> <span class="func">__init__</span>(self, name, salary, department):
+<span class="keyword">class</span> <span class="func">Student</span>:
+    <span class="keyword">def</span> <span class="func">__init__</span>(self, name, gpa, major):
         self.name = name
-        self.__salary = salary  <span class="comment"># خاص</span>
-        self.department = department
+        self.__gpa = gpa  <span class="comment"># خاص</span>
+        self.major = major
     
-    <span class="keyword">def</span> <span class="func">get_salary</span>(self):
-        <span class="keyword">return</span> self.__salary
+    <span class="keyword">def</span> <span class="func">get_gpa</span>(self):
+        <span class="keyword">return</span> self.__gpa
     
-    <span class="keyword">def</span> <span class="func">set_salary</span>(self, value):
-        <span class="keyword">if</span> value &gt; <span class="number">0</span>:
-            self.__salary = value
+    <span class="keyword">def</span> <span class="func">set_gpa</span>(self, value):
+        <span class="keyword">if</span> <span class="number">0</span> &lt;= value &lt;= <span class="number">4.0</span>:
+            self.__gpa = value
         <span class="keyword">else</span>:
-            <span class="func">print</span>(<span class="string">"خطأ: الراتب يجب أن يكون موجباً"</span>)
+            <span class="func">print</span>(<span class="string">"خطأ: GPA يجب أن تكون بين 0 و 4"</span>)
     
-    <span class="keyword">def</span> <span class="func">give_raise</span>(self, amount):
-        <span class="keyword">if</span> amount &gt; <span class="number">0</span>:
-            self.__salary += amount</div>
-          الآن الراتب محمي من القيم السالبة!
+    <span class="keyword">def</span> <span class="func">add_to_gpa</span>(self, amount):
+        new = self.__gpa + amount
+        <span class="keyword">if</span> <span class="number">0</span> &lt;= new &lt;= <span class="number">4.0</span>:
+            self.__gpa = new</div>
+          الآن GPA محمي من القيم غير المنطقية!
         </div>
       </div>
 
@@ -4573,7 +4578,7 @@ top = <span class="builtin">max</span>(employees, key=<span class="keyword">lamb
             <li><strong>Django/Flask:</strong> Models = Classes للبيانات</li>
             <li><strong>تطبيقات الموبايل:</strong> Activities, ViewControllers = Classes</li>
             <li><strong>الألعاب:</strong> كل وحش، شخصية، سلاح = Class</li>
-            <li><strong>HR Analytics:</strong> Employee, Department, Project = Classes</li>
+            <li><strong>أنظمة الجامعات:</strong> Student, Course, Grade = Classes</li>
             <li><strong>أنظمة البنوك:</strong> Account, Transaction, Customer = Classes</li>
           </ul>
         </div>
@@ -4584,7 +4589,7 @@ top = <span class="builtin">max</span>(employees, key=<span class="keyword">lamb
         <div class="step-content">
           <strong>استخدمها عندما:</strong>
           <ul>
-            <li>عندك "أشياء" في برنامجك (موظف، منتج، حساب)</li>
+            <li>عندك "أشياء" في برنامجك (طالب، منتج، حساب)</li>
             <li>كل شيء له خصائص + سلوكيات</li>
             <li>تريد إنشاء كائنات متعددة من نفس النوع</li>
             <li>الكود يصبح طويلاً ومعقداً</li>
@@ -4789,14 +4794,14 @@ result = arr * <span class="number">2</span>  <span class="comment"># خلاص!<
   <div class="section">
     <h2><span class="icon">📐</span> الدوال الإحصائية</h2>
     <div class="code-block">
-salaries = np.<span class="func">array</span>([<span class="number">10000</span>, <span class="number">12000</span>, <span class="number">8500</span>, <span class="number">15000</span>, <span class="number">9500</span>])
+scores = np.<span class="func">array</span>([<span class="number">85</span>, <span class="number">92</span>, <span class="number">78</span>, <span class="number">95</span>, <span class="number">88</span>])
 
-<span class="func">print</span>(salaries.<span class="func">sum</span>())     <span class="comment"># 55000</span>
-<span class="func">print</span>(salaries.<span class="func">mean</span>())    <span class="comment"># 11000</span>
-<span class="func">print</span>(salaries.<span class="func">max</span>())     <span class="comment"># 15000</span>
-<span class="func">print</span>(salaries.<span class="func">min</span>())     <span class="comment"># 8500</span>
-<span class="func">print</span>(salaries.<span class="func">std</span>())     <span class="comment"># الانحراف المعياري</span>
-<span class="func">print</span>(np.<span class="func">median</span>(salaries))  <span class="comment"># 10000</span></div>
+<span class="func">print</span>(scores.<span class="func">sum</span>())     <span class="comment"># 438</span>
+<span class="func">print</span>(scores.<span class="func">mean</span>())    <span class="comment"># 87.6</span>
+<span class="func">print</span>(scores.<span class="func">max</span>())     <span class="comment"># 95</span>
+<span class="func">print</span>(scores.<span class="func">min</span>())     <span class="comment"># 78</span>
+<span class="func">print</span>(scores.<span class="func">std</span>())     <span class="comment"># الانحراف المعياري</span>
+<span class="func">print</span>(np.<span class="func">median</span>(scores))  <span class="comment"># 88</span></div>
 
     <h3>الفهرسة والفلترة</h3>
     <div class="code-block">
@@ -4819,16 +4824,16 @@ m = np.<span class="func">array</span>([[<span class="number">1</span>, <span cl
   <!-- ===== SOLVER 11.1: Salary Analysis with NumPy ===== -->
   <div class="step-solver" id="solver-11-1" data-total="9" data-current="-1">
     <div class="step-solver-header">
-      <div class="step-solver-title">🧮 الحل التفاعلي: تحليل 100 راتب بـ NumPy</div>
+      <div class="step-solver-title">🧮 الحل التفاعلي: تحليل 100 درجة طالب بـ NumPy</div>
       <div class="step-progress">0 / 9</div>
     </div>
     <div class="step-solver-body">
-      <div class="step-question"><strong>المطلوب:</strong> لديك 100 راتب موظف. احسب: المتوسط، الوسيط، الانحراف، الأعلى، الأدنى، عدد الرواتب فوق المتوسط، الرواتب بعد علاوة 10%.</div>
+      <div class="step-question"><strong>المطلوب:</strong> لديك درجات 100 طالب في اختبار. احسب: المتوسط، الوسيط، الانحراف، الأعلى، الأدنى، عدد الدرجات فوق المتوسط، الدرجات بعد إضافة منحة 5 درجات للجميع.</div>
 
       <div class="step-item" data-step="1">
         <div class="step-label">📝 الخطوة 1 — لماذا NumPy هنا؟</div>
         <div class="step-content">
-          <strong>تخيل:</strong> 100 موظف اليوم، 10,000 غداً، مليون بعد سنة.
+          <strong>تخيل:</strong> 100 طالب اليوم، 10,000 طالب في الجامعة كاملة، مليون طالب على مستوى وزارة التعليم.
           <br>NumPy تتعامل مع المليون بنفس سرعة الـ 100. <strong>كل عملية = سطر واحد!</strong>
         </div>
       </div>
@@ -4840,11 +4845,11 @@ m = np.<span class="func">array</span>([[<span class="number">1</span>, <span cl
 <span class="keyword">import</span> numpy <span class="keyword">as</span> np
 
 np.random.<span class="func">seed</span>(<span class="number">42</span>)  <span class="comment"># لنتائج ثابتة</span>
-salaries = np.random.<span class="func">randint</span>(<span class="number">5000</span>, <span class="number">20000</span>, size=<span class="number">100</span>)
+scores = np.random.<span class="func">randint</span>(<span class="number">50</span>, <span class="number">100</span>, size=<span class="number">100</span>)
 
-<span class="func">print</span>(salaries.size)   <span class="comment"># 100</span>
-<span class="func">print</span>(salaries.shape)  <span class="comment"># (100,)</span>
-<span class="func">print</span>(salaries[:<span class="number">10</span>])   <span class="comment"># أول 10 رواتب</span></div>
+<span class="func">print</span>(scores.size)   <span class="comment"># 100</span>
+<span class="func">print</span>(scores.shape)  <span class="comment"># (100,)</span>
+<span class="func">print</span>(scores[:<span class="number">10</span>])   <span class="comment"># أول 10 درجات</span></div>
         </div>
       </div>
 
@@ -4853,11 +4858,11 @@ salaries = np.random.<span class="func">randint</span>(<span class="number">5000
         <div class="step-content">
           <div class="code-block">
 <span class="comment"># كل العمليات بسطر واحد!</span>
-<span class="func">print</span>(<span class="string">f"المتوسط:  {salaries.mean():,.2f}"</span>)
-<span class="func">print</span>(<span class="string">f"الوسيط:   {np.median(salaries):,.2f}"</span>)
-<span class="func">print</span>(<span class="string">f"الانحراف: {salaries.std():,.2f}"</span>)
-<span class="func">print</span>(<span class="string">f"الأعلى:   {salaries.max():,}"</span>)
-<span class="func">print</span>(<span class="string">f"الأدنى:   {salaries.min():,}"</span>)</div>
+<span class="func">print</span>(<span class="string">f"المتوسط:  {scores.mean():.2f}"</span>)
+<span class="func">print</span>(<span class="string">f"الوسيط:   {np.median(scores):.2f}"</span>)
+<span class="func">print</span>(<span class="string">f"الانحراف: {scores.std():.2f}"</span>)
+<span class="func">print</span>(<span class="string">f"الأعلى:   {scores.max()}"</span>)
+<span class="func">print</span>(<span class="string">f"الأدنى:   {scores.min()}"</span>)</div>
           <strong>الفائدة:</strong> 5 إحصاءات على 100 رقم بدون أي حلقة!
         </div>
       </div>
@@ -4866,15 +4871,15 @@ salaries = np.random.<span class="func">randint</span>(<span class="number">5000
         <div class="step-label">💻 الخطوة 4 — الفلترة بشرط</div>
         <div class="step-content">
           <div class="code-block">
-average = salaries.<span class="func">mean</span>()
-above_avg = salaries[salaries &gt; average]
+average = scores.<span class="func">mean</span>()
+above_avg = scores[scores &gt; average]
 
 <span class="func">print</span>(<span class="string">f"عدد فوق المتوسط: {len(above_avg)}"</span>)
 <span class="func">print</span>(<span class="string">f"النسبة: {len(above_avg)/100*100:.1f}%"</span>)</div>
           <strong>السحر:</strong>
           <ul>
-            <li><code>salaries &gt; average</code> ينتج مصفوفة <code>True/False</code></li>
-            <li><code>salaries[boolean]</code> يأخذ فقط القيم True</li>
+            <li><code>scores &gt; average</code> ينتج مصفوفة <code>True/False</code></li>
+            <li><code>scores[boolean]</code> يأخذ فقط القيم True</li>
           </ul>
         </div>
       </div>
@@ -4883,15 +4888,15 @@ above_avg = salaries[salaries &gt; average]
         <div class="step-label">💻 الخطوة 5 — العمليات الجماعية</div>
         <div class="step-content">
           <div class="code-block">
-<span class="comment"># زيادة 10% للجميع</span>
-new_salaries = salaries * <span class="number">1.10</span>
+<span class="comment"># منحة 5 درجات للجميع</span>
+new_scores = scores + <span class="number">5</span>
 
-<span class="func">print</span>(<span class="string">f"المتوسط الجديد: {new_salaries.mean():,.2f}"</span>)
+<span class="func">print</span>(<span class="string">f"المتوسط الجديد: {new_scores.mean():.2f}"</span>)
 
-<span class="comment"># خصم ضريبة 5%</span>
-after_tax = salaries * <span class="number">1.10</span> * <span class="number">0.95</span>
+<span class="comment"># تحديد الحد الأقصى 100</span>
+final = np.<span class="func">minimum</span>(new_scores, <span class="number">100</span>)
 
-<span class="comment"># كل عملية تطبق على الـ 100 موظف فوراً!</span></div>
+<span class="comment"># كل عملية تطبق على الـ 100 طالب فوراً!</span></div>
         </div>
       </div>
 
@@ -4900,11 +4905,11 @@ after_tax = salaries * <span class="number">1.10</span> * <span class="number">0
         <div class="step-content">
           <div class="code-block">
 <span class="comment"># np.where يشبه IF في إكسل</span>
-high = np.<span class="func">sum</span>(salaries &gt;= <span class="number">15000</span>)
-medium = np.<span class="func">sum</span>((salaries &gt;= <span class="number">10000</span>) &amp; (salaries &lt; <span class="number">15000</span>))
-low = np.<span class="func">sum</span>(salaries &lt; <span class="number">10000</span>)
+excellent = np.<span class="func">sum</span>(scores &gt;= <span class="number">90</span>)
+good = np.<span class="func">sum</span>((scores &gt;= <span class="number">75</span>) &amp; (scores &lt; <span class="number">90</span>))
+fail = np.<span class="func">sum</span>(scores &lt; <span class="number">60</span>)
 
-<span class="func">print</span>(<span class="string">f"عالي: {high}, متوسط: {medium}, منخفض: {low}"</span>)</div>
+<span class="func">print</span>(<span class="string">f"ممتاز: {excellent}, جيد: {good}, راسب: {fail}"</span>)</div>
         </div>
       </div>
 
@@ -4915,15 +4920,15 @@ low = np.<span class="func">sum</span>(salaries &lt; <span class="number">10000<
 <span class="keyword">import</span> numpy <span class="keyword">as</span> np
 
 np.random.<span class="func">seed</span>(<span class="number">42</span>)
-salaries = np.random.<span class="func">randint</span>(<span class="number">5000</span>, <span class="number">20000</span>, <span class="number">100</span>)
+scores = np.random.<span class="func">randint</span>(<span class="number">50</span>, <span class="number">100</span>, <span class="number">100</span>)
 
-<span class="func">print</span>(<span class="string">"━━━ تحليل رواتب 100 موظف ━━━"</span>)
-<span class="func">print</span>(<span class="string">f"المتوسط:  {salaries.mean():,.2f}"</span>)
-<span class="func">print</span>(<span class="string">f"الوسيط:   {np.median(salaries):,.2f}"</span>)
-<span class="func">print</span>(<span class="string">f"الأعلى:   {salaries.max():,}"</span>)
-<span class="func">print</span>(<span class="string">f"الأدنى:   {salaries.min():,}"</span>)
-<span class="func">print</span>(<span class="string">f"فوق المتوسط: {len(salaries[salaries &gt; salaries.mean()])} موظف"</span>)
-<span class="func">print</span>(<span class="string">f"بعد علاوة 10%: {(salaries * 1.10).mean():,.2f}"</span>)</div>
+<span class="func">print</span>(<span class="string">"━━━ تحليل درجات 100 طالب ━━━"</span>)
+<span class="func">print</span>(<span class="string">f"المتوسط:  {scores.mean():.2f}"</span>)
+<span class="func">print</span>(<span class="string">f"الوسيط:   {np.median(scores):.2f}"</span>)
+<span class="func">print</span>(<span class="string">f"الأعلى:   {scores.max()}"</span>)
+<span class="func">print</span>(<span class="string">f"الأدنى:   {scores.min()}"</span>)
+<span class="func">print</span>(<span class="string">f"فوق المتوسط: {len(scores[scores &gt; scores.mean()])} طالب"</span>)
+<span class="func">print</span>(<span class="string">f"بعد منحة 5 درجات: {(scores + 5).mean():.2f}"</span>)</div>
         </div>
       </div>
 
@@ -4935,7 +4940,7 @@ salaries = np.random.<span class="func">randint</span>(<span class="number">5000
             <li><strong>الذكاء الاصطناعي:</strong> أساس TensorFlow و PyTorch</li>
             <li><strong>تحليل البيانات:</strong> Pandas مبنية عليها</li>
             <li><strong>معالجة الصور:</strong> الصورة = مصفوفة من الأرقام</li>
-            <li><strong>HR Analytics:</strong> تحليل آلاف السجلات بكفاءة</li>
+            <li><strong>تحليل بيانات الجامعات:</strong> درجات الطلاب، حضور المحاضرات</li>
             <li><strong>التنبؤ المالي:</strong> Monte Carlo simulations</li>
           </ul>
           <strong>إتقان NumPy = البوابة لـ Data Science و AI.</strong>
@@ -5116,7 +5121,7 @@ np.<span class="func">hstack</span>([m1, m2])  <span class="comment"># horizonta
     <p><strong>السحر:</strong> عمليات بين مصفوفات بأحجام مختلفة (numpy يوسعها تلقائياً).</p>
 
     <div class="story-box">
-      <strong>تشبيه:</strong> عندك جدول رواتب (2D) وتريد إضافة 1000 ريال لكل راتب. لا تحتاج أن تكتب جدولاً من 1000 — numpy "يبث" القيمة على كل عنصر.
+      <strong>تشبيه:</strong> عندك جدول درجات الطلاب (2D) وتريد إضافة 5 درجات منحة لكل درجة. لا تحتاج كتابة جدول من 5ات — numpy "يبث" القيمة على كل عنصر.
     </div>
 
     <div class="code-block">
@@ -5134,52 +5139,52 @@ row = np.<span class="func">array</span>([<span class="number">10</span>, <span 
 #  [14 25 36]]   ← الصف الثاني + row</span></div>
 
     <div class="real-life-box">
-      في تحليل HR: لديك جدول رواتب 100 موظف × 12 شهراً، وتريد زيادة 5% لكل الجدول. سطر واحد: <code>salaries * 1.05</code>. Broadcasting!
+      في تحليل الجامعة: لديك جدول درجات 100 طالب × 12 مادة، وتريد إضافة منحة 3% لكل الجدول. سطر واحد: <code>scores * 1.03</code>. Broadcasting!
     </div>
   </div>
 
   <div class="section">
     <h2><span class="icon">❓</span> np.where — IF متجه</h2>
     <div class="code-block">
-salaries = np.<span class="func">array</span>([<span class="number">10000</span>, <span class="number">5000</span>, <span class="number">15000</span>, <span class="number">8000</span>])
+scores = np.<span class="func">array</span>([<span class="number">85</span>, <span class="number">55</span>, <span class="number">95</span>, <span class="number">70</span>])
 
 <span class="comment"># مثل IF في إكسل</span>
-status = np.<span class="func">where</span>(salaries &gt;= <span class="number">10000</span>, <span class="string">"high"</span>, <span class="string">"low"</span>)
-<span class="func">print</span>(status)  <span class="comment"># ['high' 'low' 'high' 'low']</span>
+status = np.<span class="func">where</span>(scores &gt;= <span class="number">60</span>, <span class="string">"ناجح"</span>, <span class="string">"راسب"</span>)
+<span class="func">print</span>(status)  <span class="comment"># ['ناجح' 'راسب' 'ناجح' 'ناجح']</span>
 
 <span class="comment"># متعدد المستويات (متداخل)</span>
-category = np.<span class="func">where</span>(salaries &gt;= <span class="number">12000</span>, <span class="string">"A"</span>,
-            np.<span class="func">where</span>(salaries &gt;= <span class="number">8000</span>, <span class="string">"B"</span>, <span class="string">"C"</span>))</div>
+grade = np.<span class="func">where</span>(scores &gt;= <span class="number">90</span>, <span class="string">"A"</span>,
+          np.<span class="func">where</span>(scores &gt;= <span class="number">75</span>, <span class="string">"B"</span>, <span class="string">"C"</span>))</div>
   </div>
 
   <!-- ===== SOLVER 12.1: Sales Matrix ===== -->
   <div class="step-solver" id="solver-12-1" data-total="9" data-current="-1">
     <div class="step-solver-header">
-      <div class="step-solver-title">🧮 الحل التفاعلي: تحليل مبيعات شركة بـ NumPy 2D</div>
+      <div class="step-solver-title">🧮 الحل التفاعلي: تحليل درجات الفصول الدراسية بـ NumPy 2D</div>
       <div class="step-progress">0 / 9</div>
     </div>
     <div class="step-solver-body">
-      <div class="step-question"><strong>المطلوب:</strong> شركة لها 4 فروع، نريد تحليل مبيعاتها عبر 3 أشهر (Q1):<br>
-      • مجموع كل فرع<br>
-      • متوسط كل شهر<br>
-      • أعلى فرع<br>
-      • زيادة 10% للجميع<br>
-      • تصنيف الفروع (high/low)</div>
+      <div class="step-question"><strong>المطلوب:</strong> 4 فصول دراسية، نريد تحليل متوسط درجاتها في 3 اختبارات:<br>
+      • متوسط كل فصل (لكل اختبار)<br>
+      • متوسط كل اختبار (عبر الفصول)<br>
+      • أعلى فصل أداءً<br>
+      • منحة 5 درجات للجميع<br>
+      • تصنيف الفصول (متفوق/متعثر)</div>
 
       <div class="step-item" data-step="1">
         <div class="step-label">📝 الخطوة 1 — تخطيط البيانات</div>
         <div class="step-content">
           <strong>كيف نمثل البيانات؟</strong> مصفوفة 2D:
           <ul>
-            <li>الصفوف = الفروع (4)</li>
-            <li>الأعمدة = الأشهر (3)</li>
+            <li>الصفوف = الفصول (4)</li>
+            <li>الأعمدة = الاختبارات (3)</li>
           </ul>
           <table class="compare-table" style="margin-top: 8px; background: white;">
-            <tr><th>الفرع</th><th>يناير</th><th>فبراير</th><th>مارس</th></tr>
-            <tr><td>الرياض</td><td>50000</td><td>55000</td><td>60000</td></tr>
-            <tr><td>جدة</td><td>40000</td><td>45000</td><td>50000</td></tr>
-            <tr><td>الدمام</td><td>30000</td><td>35000</td><td>40000</td></tr>
-            <tr><td>مكة</td><td>20000</td><td>25000</td><td>30000</td></tr>
+            <tr><th>الفصل</th><th>الاختبار 1</th><th>الاختبار 2</th><th>النهائي</th></tr>
+            <tr><td>الفصل A</td><td>85</td><td>88</td><td>92</td></tr>
+            <tr><td>الفصل B</td><td>78</td><td>82</td><td>85</td></tr>
+            <tr><td>الفصل C</td><td>72</td><td>75</td><td>80</td></tr>
+            <tr><td>الفصل D</td><td>68</td><td>70</td><td>75</td></tr>
           </table>
           <strong>الشكل:</strong> (4, 3) = 4 صفوف × 3 أعمدة.
         </div>
@@ -5191,17 +5196,17 @@ category = np.<span class="func">where</span>(salaries &gt;= <span class="number
           <div class="code-block">
 <span class="keyword">import</span> numpy <span class="keyword">as</span> np
 
-sales = np.<span class="func">array</span>([
-    [<span class="number">50000</span>, <span class="number">55000</span>, <span class="number">60000</span>],   <span class="comment"># الرياض</span>
-    [<span class="number">40000</span>, <span class="number">45000</span>, <span class="number">50000</span>],   <span class="comment"># جدة</span>
-    [<span class="number">30000</span>, <span class="number">35000</span>, <span class="number">40000</span>],   <span class="comment"># الدمام</span>
-    [<span class="number">20000</span>, <span class="number">25000</span>, <span class="number">30000</span>],   <span class="comment"># مكة</span>
+scores = np.<span class="func">array</span>([
+    [<span class="number">85</span>, <span class="number">88</span>, <span class="number">92</span>],   <span class="comment"># الفصل A</span>
+    [<span class="number">78</span>, <span class="number">82</span>, <span class="number">85</span>],   <span class="comment"># الفصل B</span>
+    [<span class="number">72</span>, <span class="number">75</span>, <span class="number">80</span>],   <span class="comment"># الفصل C</span>
+    [<span class="number">68</span>, <span class="number">70</span>, <span class="number">75</span>],   <span class="comment"># الفصل D</span>
 ])
 
-branches = [<span class="string">"الرياض"</span>, <span class="string">"جدة"</span>, <span class="string">"الدمام"</span>, <span class="string">"مكة"</span>]
+classes = [<span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"C"</span>, <span class="string">"D"</span>]
 
-<span class="func">print</span>(sales.shape)   <span class="comment"># (4, 3)</span>
-<span class="func">print</span>(sales.size)    <span class="comment"># 12</span></div>
+<span class="func">print</span>(scores.shape)   <span class="comment"># (4, 3)</span>
+<span class="func">print</span>(scores.size)    <span class="comment"># 12</span></div>
         </div>
       </div>
 
@@ -5209,12 +5214,12 @@ branches = [<span class="string">"الرياض"</span>, <span class="string">"ج
         <div class="step-label">💻 الخطوة 3 — مجموع كل فرع (axis=1)</div>
         <div class="step-content">
           <div class="code-block">
-<span class="comment"># axis=1 يعني "اجمع على الأعمدة" → نحصل على قيمة لكل صف (فرع)</span>
-totals = sales.<span class="func">sum</span>(axis=<span class="number">1</span>)
-<span class="func">print</span>(totals)  <span class="comment"># [165000 135000 105000 75000]</span>
+<span class="comment"># axis=1 يعني "اجمع على الأعمدة" → نحصل على قيمة لكل صف (فصل)</span>
+class_avg = scores.<span class="func">mean</span>(axis=<span class="number">1</span>)
+<span class="func">print</span>(class_avg)  <span class="comment"># [88.33 81.67 75.67 71.0]</span>
 
-<span class="keyword">for</span> i, branch <span class="keyword">in</span> <span class="func">enumerate</span>(branches):
-    <span class="func">print</span>(<span class="string">f"{branch}: {totals[i]:,}"</span>)</div>
+<span class="keyword">for</span> i, c <span class="keyword">in</span> <span class="func">enumerate</span>(classes):
+    <span class="func">print</span>(<span class="string">f"الفصل {c}: متوسط {class_avg[i]:.2f}"</span>)</div>
           <strong>افهم axis:</strong>
           <ul>
             <li>axis=0: اجمع على الصفوف (لكل عمود)</li>
@@ -5227,14 +5232,14 @@ totals = sales.<span class="func">sum</span>(axis=<span class="number">1</span>)
         <div class="step-label">💻 الخطوة 4 — متوسط كل شهر (axis=0)</div>
         <div class="step-content">
           <div class="code-block">
-<span class="comment"># axis=0 يعني "احسب على الصفوف" → قيمة لكل عمود (شهر)</span>
-monthly_avg = sales.<span class="func">mean</span>(axis=<span class="number">0</span>)
-<span class="func">print</span>(monthly_avg)
-<span class="comment"># [35000. 40000. 45000.]</span>
+<span class="comment"># axis=0 يعني "احسب على الصفوف" → قيمة لكل عمود (اختبار)</span>
+exam_avg = scores.<span class="func">mean</span>(axis=<span class="number">0</span>)
+<span class="func">print</span>(exam_avg)
+<span class="comment"># [75.75 78.75 83.0]</span>
 
-months = [<span class="string">"يناير"</span>, <span class="string">"فبراير"</span>, <span class="string">"مارس"</span>]
-<span class="keyword">for</span> i, month <span class="keyword">in</span> <span class="func">enumerate</span>(months):
-    <span class="func">print</span>(<span class="string">f"{month}: متوسط {monthly_avg[i]:,.0f}"</span>)</div>
+exams = [<span class="string">"الأول"</span>, <span class="string">"الثاني"</span>, <span class="string">"النهائي"</span>]
+<span class="keyword">for</span> i, exam <span class="keyword">in</span> <span class="func">enumerate</span>(exams):
+    <span class="func">print</span>(<span class="string">f"الاختبار {exam}: متوسط {exam_avg[i]:.2f}"</span>)</div>
         </div>
       </div>
 
@@ -5242,11 +5247,11 @@ months = [<span class="string">"يناير"</span>, <span class="string">"فبر
         <div class="step-label">💻 الخطوة 5 — أعلى فرع</div>
         <div class="step-content">
           <div class="code-block">
-totals = sales.<span class="func">sum</span>(axis=<span class="number">1</span>)
-top_index = totals.<span class="func">argmax</span>()  <span class="comment"># index الأعلى</span>
+class_avg = scores.<span class="func">mean</span>(axis=<span class="number">1</span>)
+top_index = class_avg.<span class="func">argmax</span>()  <span class="comment"># index الأعلى</span>
 
-<span class="func">print</span>(<span class="string">f"الأعلى: {branches[top_index]} ({totals[top_index]:,})"</span>)
-<span class="comment"># الأعلى: الرياض (165,000)</span></div>
+<span class="func">print</span>(<span class="string">f"الأفضل: الفصل {classes[top_index]} ({class_avg[top_index]:.2f})"</span>)
+<span class="comment"># الأفضل: الفصل A (88.33)</span></div>
           <strong>argmax:</strong> ترجع <strong>index</strong> أكبر قيمة (وليس القيمة نفسها).
         </div>
       </div>
@@ -5256,11 +5261,11 @@ top_index = totals.<span class="func">argmax</span>()  <span class="comment"># i
         <div class="step-content">
           <div class="code-block">
 <span class="comment"># سطر واحد فقط!</span>
-new_sales = sales * <span class="number">1.10</span>
+new_scores = scores + <span class="number">5</span>
 
-<span class="func">print</span>(<span class="string">"المبيعات بعد الزيادة:"</span>)
-<span class="func">print</span>(new_sales)
-<span class="comment"># كل العناصر زادت 10% بدون أي حلقة!</span></div>
+<span class="func">print</span>(<span class="string">"الدرجات بعد المنحة:"</span>)
+<span class="func">print</span>(new_scores)
+<span class="comment"># كل العناصر زادت 5 بدون أي حلقة!</span></div>
         </div>
       </div>
 
@@ -5268,13 +5273,13 @@ new_sales = sales * <span class="number">1.10</span>
         <div class="step-label">💻 الخطوة 7 — التصنيف (np.where)</div>
         <div class="step-content">
           <div class="code-block">
-totals = sales.<span class="func">sum</span>(axis=<span class="number">1</span>)
-average = totals.<span class="func">mean</span>()
+class_avg = scores.<span class="func">mean</span>(axis=<span class="number">1</span>)
+threshold = class_avg.<span class="func">mean</span>()
 
-categories = np.<span class="func">where</span>(totals &gt; average, <span class="string">"high"</span>, <span class="string">"low"</span>)
+categories = np.<span class="func">where</span>(class_avg &gt; threshold, <span class="string">"متفوق"</span>, <span class="string">"متعثر"</span>)
 
-<span class="keyword">for</span> i, branch <span class="keyword">in</span> <span class="func">enumerate</span>(branches):
-    <span class="func">print</span>(<span class="string">f"{branch}: {categories[i]} ({totals[i]:,})"</span>)</div>
+<span class="keyword">for</span> i, c <span class="keyword">in</span> <span class="func">enumerate</span>(classes):
+    <span class="func">print</span>(<span class="string">f"الفصل {c}: {categories[i]} ({class_avg[i]:.2f})"</span>)</div>
         </div>
       </div>
 
@@ -5283,8 +5288,8 @@ categories = np.<span class="func">where</span>(totals &gt; average, <span class
         <div class="step-content">
           <strong>هذا النمط (مصفوفة 2D + axis) هو أساس:</strong>
           <ul>
-            <li><strong>تحليل المبيعات في رسال الود:</strong> فروع × منتجات</li>
-            <li><strong>تحليل HR:</strong> أقسام × مؤشرات (راتب، أداء، تدريب)</li>
+            <li><strong>تحليل أداء الفصول:</strong> فصول × اختبارات</li>
+            <li><strong>تحليل بيانات الطلاب:</strong> طلاب × مواد (الدرجات في كل مادة)</li>
             <li><strong>الذكاء الاصطناعي:</strong> صور (pixels × channels)</li>
             <li><strong>المالية:</strong> أسهم × أيام</li>
             <li><strong>Pandas DataFrames:</strong> بنيت على هذا!</li>
@@ -5516,7 +5521,7 @@ TOPICS['quiz'] = `
       <div class="quiz-options">
         <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>2name</span></button>
         <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>full name</span></button>
-        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>employee_name</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>student_name</span></button>
         <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>class</span></button>
       </div>
       <div class="quiz-explain">يبدأ بحرف، بدون مسافات، ليس كلمة محجوزة.</div>
@@ -6107,7 +6112,7 @@ TOPICS['quiz'] = `
         <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>أبداً</span></button>
         <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>للأرقام فقط</span></button>
       </div>
-      <div class="quiz-explain">OOP عندما البرنامج فيه entities واضحة (موظف، منتج، حساب).</div>
+      <div class="quiz-explain">OOP عندما البرنامج فيه entities واضحة (طالب، منتج، حساب).</div>
     </div>    <h2 style="margin-top: 24px; padding: 12px 16px; background: linear-gradient(135deg, #fef3c7, #fde68a); border-radius: 10px; color: #854d0e; font-size: 17px;">🎯 الموضوع 11 — مقدمة NumPy</h2>
 
     <div class="quiz-q">
