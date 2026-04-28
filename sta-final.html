@@ -326,15 +326,17 @@ body { display: flex; min-height: 100vh; }
       </div>
     </div>
   </div>
-  <div class="progress-summary" id="progressSummary">📈 تقدمك: 0 / 8</div>
+  <div class="progress-summary" id="progressSummary">📈 تقدمك: 0 / 10</div>
   <ul class="topic-list" id="topicList">
     <li class="topic-item" data-topic="1"><span class="topic-num">1</span><span>الإحصاء، المجتمع، النزعة المركزية</span></li>
     <li class="topic-item" data-topic="2"><span class="topic-num">2</span><span>الارتباط وخط الاتجاه</span></li>
+    <li class="topic-item" data-topic="3" style="background: linear-gradient(135deg, #cffafe, #a5f3fc); border: 1px solid #06b6d4;"><span class="topic-num" style="background: #0891b2; color: white;">3</span><span style="font-weight: 700;">⭐ التصوير البياني</span></li>
     <li class="topic-item" data-topic="6"><span class="topic-num">6</span><span>تحليل البيانات بإكسل</span></li>
     <li class="topic-item" data-topic="7"><span class="topic-num">7</span><span>التوزيع الطبيعي والمعياري</span></li>
     <li class="topic-item" data-topic="8"><span class="topic-num">8</span><span>الاحتمالات الأساسية</span></li>
     <li class="topic-item" data-topic="9"><span class="topic-num">9</span><span>الرسوم البيانية</span></li>
     <li class="topic-item" data-topic="10"><span class="topic-num">10</span><span>الانحدار الخطي</span></li>
+    <li class="topic-item" data-topic="11" style="background: linear-gradient(135deg, #dcfce7, #bbf7d0); border: 1px solid #16a34a;"><span class="topic-num" style="background: #16a34a; color: white;">11</span><span style="font-weight: 700;">⭐ تحليل البيانات (IF)</span></li>
     <li class="topic-item" data-topic="grouped" style="background: linear-gradient(135deg, #ede9fe, #fce7f3); border: 1px solid #c084fc;"><span class="topic-num" style="background: #7c3aed; color: white;">⭐</span><span style="font-weight: 700;">البيانات المبوبة</span></li>
     <li class="topic-item" data-topic="quiz" style="border-top: 1px solid var(--border); margin-top: 8px; padding-top: 16px;"><span class="topic-num" style="background: var(--accent); color: white;">📝</span><span style="font-weight: 800;">الاختبار الشامل</span></li>
   </ul>
@@ -3526,6 +3528,847 @@ prediction = model.<span class="func">predict</span>([[<span class="number">32</
 </section>
 `;
 
+
+// ============================================================================
+// TOPIC 3 (NEW): التصوير البياني - المدرج التكراري، الشريطي، التشتت
+// ============================================================================
+TOPICS['3'] = `
+<section class="topic-section" id="topic-3">
+  <div class="topic-header" style="background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);">
+    <div class="label">⭐ موضوع متخصص · مهم جداً للنهائي</div>
+    <h1>التصوير البياني: المدرج التكراري، الشريطي، التشتت</h1>
+    <p>كيف تعرض البيانات بصرياً وتفهم توزيعها وعلاقاتها</p>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>إنشاء وقراءة <strong>المدرج التكراري</strong> Histogram</li>
+      <li>إنشاء وقراءة <strong>الرسم الشريطي</strong> Bar Chart</li>
+      <li>إنشاء وقراءة <strong>رسم التشتت</strong> Scatter Plot</li>
+      <li>التمييز بين الأنواع الثلاثة ومتى نستخدم كلاً منها</li>
+      <li>تطبيق الرسومات الثلاثة في إكسل وبايثون</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📊</span> الفرق بين الأنواع الثلاثة</h2>
+    <table class="compare-table">
+      <tr><th>النوع</th><th>الاستخدام</th><th>نوع البيانات</th><th>المثال</th></tr>
+      <tr><td><strong>المدرج التكراري</strong></td><td>عرض توزيع البيانات الكمية المستمرة</td><td>كمية مستمرة</td><td>توزيع الأطوال أو الدرجات</td></tr>
+      <tr><td><strong>الرسم الشريطي</strong></td><td>مقارنة فئات منفصلة</td><td>فئات</td><td>المبيعات لكل فرع</td></tr>
+      <tr><td><strong>رسم التشتت</strong></td><td>إظهار العلاقة بين متغيرين</td><td>متغيرين كميين</td><td>الطول vs الوزن</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📈</span> 1. المدرج التكراري (Histogram)</h2>
+    <p>يقسم البيانات لفئات (bins) ويعرض عدد القيم في كل فئة كأعمدة <strong>متلاصقة</strong>.</p>
+
+    <div class="story-box">
+      <strong>تشبيه:</strong> تخيل أن لديك درجات 100 طالب. ترتبها في صناديق (60-70، 70-80، 80-90، 90-100) ثم ترسم عمودًا لكل صندوق ارتفاعه = عدد الطلاب فيه. هذا هو المدرج التكراري.
+    </div>
+
+    <h3>متى نستخدمه؟</h3>
+    <ul>
+      <li>عرض توزيع البيانات (هل هي طبيعية؟ ملتوية؟ متعددة القمم؟)</li>
+      <li>اكتشاف القيم الشاذة</li>
+      <li>تحديد المنوال (الفئة الأعلى)</li>
+    </ul>
+  </div>
+
+  <!-- ===== SOLVER 3.1: HISTOGRAM ===== -->
+  <div class="step-solver" id="solver-3-1" data-total="9" data-current="-1">
+    <div class="step-solver-header">
+      <div class="step-solver-title">🧮 الحل التفاعلي 1: إنشاء مدرج تكراري</div>
+      <div class="step-progress">0 / 9</div>
+    </div>
+    <div class="step-solver-body">
+      <div class="step-question">لديك درجات 30 طالبًا في اختبار. اعرضها في <strong>مدرج تكراري</strong> بـ 5 فئات (50-60، 60-70، 70-80، 80-90، 90-100). البيانات: 65, 72, 88, 91, 78, 55, 67, 82, 95, 73, 68, 84, 79, 62, 87, 93, 71, 76, 85, 69, 92, 80, 74, 86, 77, 64, 89, 75, 81, 70.</div>
+
+      <div class="step-item" data-step="1">
+        <div class="step-label">🖐️ الخطوة 1 — تحديد عدد الفئات وطول الفئة</div>
+        <div class="step-content">
+          <div class="calc">عدد الفئات = 5 (محدد في السؤال)</div>
+          <div class="calc">طول الفئة h = (100 − 50) / 5 = <strong>10</strong></div>
+          <strong>الفئات:</strong> 50-60، 60-70، 70-80، 80-90، 90-100
+        </div>
+      </div>
+
+      <div class="step-item" data-step="2">
+        <div class="step-label">🖐️ الخطوة 2 — حساب التكرار لكل فئة</div>
+        <div class="step-content">
+          نعد القيم في كل فئة:
+          <table class="compare-table" style="margin-top: 8px; background: white;">
+            <tr><th>الفئة</th><th>القيم</th><th>التكرار</th></tr>
+            <tr><td>50-60</td><td>55</td><td>1</td></tr>
+            <tr><td>60-70</td><td>65, 67, 68, 62, 69, 64</td><td>6</td></tr>
+            <tr><td>70-80</td><td>72, 78, 73, 79, 71, 76, 74, 77, 75, 70</td><td>10</td></tr>
+            <tr><td>80-90</td><td>88, 82, 84, 87, 85, 86, 89, 81, 80</td><td>9</td></tr>
+            <tr><td>90-100</td><td>91, 95, 93, 92</td><td>4</td></tr>
+          </table>
+          <strong>تحقق:</strong> 1+6+10+9+4 = 30 ✓
+        </div>
+      </div>
+
+      <div class="step-item" data-step="3">
+        <div class="step-label">🖐️ الخطوة 3 — رسم المدرج يدوياً</div>
+        <div class="step-content">
+          ارسم محاور إحداثيات:
+          <ul>
+            <li>المحور X: الفئات (50-60، 60-70...)</li>
+            <li>المحور Y: التكرارات (0-12)</li>
+            <li>كل عمود يقابل فئته بارتفاع يساوي التكرار</li>
+            <li><strong>الأعمدة متلاصقة</strong> (لا فراغ بينها)</li>
+          </ul>
+          الشكل: عمود قصير (1)، أطول (6)، الأطول (10)، عالٍ (9)، متوسط (4) → <strong>منحنى يشبه الجرس</strong> = توزيع طبيعي تقريباً.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="4">
+        <div class="step-label">🖐️ الخطوة 4 — التفسير</div>
+        <div class="step-content">
+          <ul>
+            <li><strong>الفئة المنوالية</strong> = 70-80 (الأعلى تكراراً، 10 طلاب)</li>
+            <li><strong>الشكل</strong> = شبه طبيعي (متمركز حول 70-80)</li>
+            <li><strong>لا قيم شاذة</strong> (لا فئات بعيدة)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="5">
+        <div class="step-label">📊 الخطوة 5 — في إكسل (الطريقة الأولى: Histogram Chart)</div>
+        <div class="step-content">
+          <ol>
+            <li>أدخل البيانات في العمود A (A2:A31)</li>
+            <li>حدد البيانات</li>
+            <li>Insert → Charts → <strong>Histogram</strong></li>
+            <li>اضبط الفئات: انقر بزر الفأرة الأيمن على المحور X → Format Axis → Bin width = 10</li>
+            <li>أضف عناوين</li>
+          </ol>
+          <strong>هذا الأسرع وأبسط طريقة في إكسل الحديث.</strong>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="6">
+        <div class="step-label">📊 الخطوة 6 — في إكسل (الطريقة الثانية: FREQUENCY)</div>
+        <div class="step-content">
+          إذا أردت تحكم أكبر:
+          <ol>
+            <li>في عمود B اكتب الحدود العليا للفئات: 60، 70، 80، 90، 100</li>
+            <li>حدد الخلايا C2:C6 (5 خلايا للتكرارات)</li>
+            <li>اكتب الصيغة:</li>
+          </ol>
+          <div class="calc">=FREQUENCY(A2:A31, B2:B6)</div>
+          <ol start="4">
+            <li>اضغط <strong>Ctrl + Shift + Enter</strong> (في الإصدارات القديمة)</li>
+            <li>الآن لديك التكرارات: 1، 6، 10، 9، 4</li>
+            <li>أنشئ Bar Chart منها (سيكون فعلياً مدرج تكراري)</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="7">
+        <div class="step-label">🐍 الخطوة 7 — في بايثون</div>
+        <div class="step-content">
+          <div class="code-block">
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+scores = [<span class="number">65</span>, <span class="number">72</span>, <span class="number">88</span>, <span class="number">91</span>, <span class="number">78</span>, <span class="number">55</span>, <span class="number">67</span>, <span class="number">82</span>, <span class="number">95</span>, <span class="number">73</span>,
+          <span class="number">68</span>, <span class="number">84</span>, <span class="number">79</span>, <span class="number">62</span>, <span class="number">87</span>, <span class="number">93</span>, <span class="number">71</span>, <span class="number">76</span>, <span class="number">85</span>, <span class="number">69</span>,
+          <span class="number">92</span>, <span class="number">80</span>, <span class="number">74</span>, <span class="number">86</span>, <span class="number">77</span>, <span class="number">64</span>, <span class="number">89</span>, <span class="number">75</span>, <span class="number">81</span>, <span class="number">70</span>]
+
+bins = [<span class="number">50</span>, <span class="number">60</span>, <span class="number">70</span>, <span class="number">80</span>, <span class="number">90</span>, <span class="number">100</span>]
+plt.<span class="func">hist</span>(scores, bins=bins, edgecolor=<span class="string">'black'</span>, color=<span class="string">'steelblue'</span>)
+plt.<span class="func">title</span>(<span class="string">'Distribution of Student Scores'</span>)
+plt.<span class="func">xlabel</span>(<span class="string">'Score'</span>); plt.<span class="func">ylabel</span>(<span class="string">'Frequency'</span>)
+plt.<span class="func">grid</span>(axis=<span class="string">'y'</span>, alpha=<span class="number">0.3</span>)
+plt.<span class="func">show</span>()
+
+<span class="comment"># للحصول على التكرارات فقط</span>
+freq, _ = np.<span class="func">histogram</span>(scores, bins=bins)
+<span class="func">print</span>(freq)  <span class="comment"># [1 6 10 9 4]</span></div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="8">
+        <div class="step-label">📊🐍 الخطوة 8 — جدول مقارنة</div>
+        <div class="step-content">
+          <table class="compare-table" style="margin-top: 8px; background: white;">
+            <tr><th>الطريقة</th><th>السرعة</th><th>التحكم</th><th>الاستخدام</th></tr>
+            <tr><td>🖐️ يدوي</td><td>بطيء</td><td>كامل</td><td>الفهم وللاختبار</td></tr>
+            <tr><td>📊 إكسل Histogram</td><td>سريع جدًا</td><td>محدود</td><td>تقارير سريعة</td></tr>
+            <tr><td>📊 إكسل FREQUENCY</td><td>متوسط</td><td>عالٍ</td><td>تقارير احترافية</td></tr>
+            <tr><td>🐍 بايثون</td><td>متوسط</td><td>كامل</td><td>تحليل بيانات + AI</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="9">
+        <div class="step-label">✅ الخطوة 9 — الإجابة والملخص</div>
+        <div class="step-content">
+          <strong>التكرارات:</strong> <span class="highlight">1, 6, 10, 9, 4</span>
+          <div style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
+            <strong>المدرج التكراري vs الرسم الشريطي:</strong>
+            <ul>
+              <li>المدرج: للبيانات <strong>المستمرة</strong> (الأعمدة متلاصقة)</li>
+              <li>الشريطي: للبيانات <strong>الفئوية</strong> (الأعمدة منفصلة)</li>
+            </ul>
+            <strong>القراءة:</strong> توزيع شبه طبيعي، الفئة المنوالية 70-80.
+          </div>
+        </div>
+      </div>
+
+      <div class="step-controls">
+        <button class="step-btn next" onclick="nextStep('solver-3-1')">
+          <span>اضغط لعرض السؤال</span>
+          <span class="arrow">←</span>
+        </button>
+        <button class="step-btn reset" onclick="resetStepSolver('solver-3-1')">🔄 إعادة</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📊</span> 2. الرسم الشريطي (Bar Chart)</h2>
+    <p>يقارن قيم بين <strong>فئات منفصلة</strong> (أعمدة <strong>غير متلاصقة</strong>).</p>
+
+    <div class="story-box">
+      <strong>الفرق الجوهري عن المدرج:</strong>
+      <ul>
+        <li>المدرج التكراري: للأرقام (الأعمدة متلاصقة لأن الفئات متصلة)</li>
+        <li>الرسم الشريطي: للفئات (الأعمدة منفصلة لأن "الرياض" و"جدة" منفصلتان)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ===== SOLVER 3.2: BAR CHART ===== -->
+  <div class="step-solver" id="solver-3-2" data-total="8" data-current="-1">
+    <div class="step-solver-header">
+      <div class="step-solver-title">🧮 الحل التفاعلي 2: إنشاء رسم شريطي للمبيعات</div>
+      <div class="step-progress">0 / 8</div>
+    </div>
+    <div class="step-solver-body">
+      <div class="step-question">شركة لها 5 فروع، مبيعاتها السنوية (بالألف ريال): الرياض=850، جدة=720، الدمام=550، مكة=480، المدينة=320. ارسم <strong>رسماً شريطياً</strong> يقارنها.</div>
+
+      <div class="step-item" data-step="1">
+        <div class="step-label">🖐️ الخطوة 1 — تحضير البيانات</div>
+        <div class="step-content">
+          البيانات بالفعل جاهزة:
+          <table class="compare-table" style="margin-top: 8px; background: white;">
+            <tr><th>الفرع</th><th>المبيعات (ألف ريال)</th></tr>
+            <tr><td>الرياض</td><td>850</td></tr>
+            <tr><td>جدة</td><td>720</td></tr>
+            <tr><td>الدمام</td><td>550</td></tr>
+            <tr><td>مكة</td><td>480</td></tr>
+            <tr><td>المدينة</td><td>320</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="2">
+        <div class="step-label">🖐️ الخطوة 2 — ترتيب البيانات (نصيحة)</div>
+        <div class="step-content">
+          <strong>أفضل ممارسة:</strong> رتّب من الأعلى للأقل (أو العكس) — يجعل الرسم أوضح.
+          <br>هنا البيانات مرتبة تنازلياً بالفعل ✓.
+          <br><strong>تحذير:</strong> لا ترتب لو الترتيب الأصلي مهم (مثل: شهور السنة).
+        </div>
+      </div>
+
+      <div class="step-item" data-step="3">
+        <div class="step-label">🖐️ الخطوة 3 — الرسم اليدوي</div>
+        <div class="step-content">
+          <ul>
+            <li>المحور X: أسماء الفروع (5 فئات منفصلة)</li>
+            <li>المحور Y: المبيعات (0 إلى 1000 مع تدرج 100 أو 200)</li>
+            <li>عمود لكل فرع بارتفاع = المبيعات</li>
+            <li><strong>فراغ بين الأعمدة</strong> (لأن الفئات منفصلة)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="4">
+        <div class="step-label">📊 الخطوة 4 — في إكسل</div>
+        <div class="step-content">
+          <ol>
+            <li>أدخل أسماء الفروع في A1:A5 والمبيعات في B1:B5</li>
+            <li>حدد A1:B5</li>
+            <li>Insert → Charts → <strong>Column Chart</strong> (عمودي) أو <strong>Bar Chart</strong> (أفقي)</li>
+            <li>أضف عنواناً: <code>Annual Sales by Branch</code></li>
+            <li>أضف عناوين المحاور</li>
+            <li>(اختياري) لون كل عمود مختلف للتمييز</li>
+          </ol>
+          <strong>متى تختار Column vs Bar؟</strong>
+          <ul>
+            <li>Column (عمودي): الأسماء قصيرة (3-6 فئات)</li>
+            <li>Bar (أفقي): الأسماء طويلة أو عدد الفئات كبير (6+)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="5">
+        <div class="step-label">🐍 الخطوة 5 — في بايثون</div>
+        <div class="step-content">
+          <div class="code-block">
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+
+branches = [<span class="string">'Riyadh'</span>, <span class="string">'Jeddah'</span>, <span class="string">'Dammam'</span>, <span class="string">'Mecca'</span>, <span class="string">'Madinah'</span>]
+sales = [<span class="number">850</span>, <span class="number">720</span>, <span class="number">550</span>, <span class="number">480</span>, <span class="number">320</span>]
+
+<span class="comment"># رسم شريطي عمودي</span>
+plt.<span class="func">bar</span>(branches, sales, color=[<span class="string">'#3776ab'</span>, <span class="string">'#16a34a'</span>, <span class="string">'#dc2626'</span>, <span class="string">'#f59e0b'</span>, <span class="string">'#7c3aed'</span>])
+plt.<span class="func">title</span>(<span class="string">'Annual Sales by Branch'</span>)
+plt.<span class="func">xlabel</span>(<span class="string">'Branch'</span>); plt.<span class="func">ylabel</span>(<span class="string">'Sales (Thousand SAR)'</span>)
+plt.<span class="func">grid</span>(axis=<span class="string">'y'</span>, alpha=<span class="number">0.3</span>)
+plt.<span class="func">show</span>()
+
+<span class="comment"># رسم شريطي أفقي (للأسماء الطويلة)</span>
+plt.<span class="func">barh</span>(branches, sales)
+plt.<span class="func">show</span>()</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="6">
+        <div class="step-label">🖐️ الخطوة 6 — التفسير من الرسم</div>
+        <div class="step-content">
+          <ul>
+            <li><strong>الأعلى مبيعاً:</strong> الرياض (850)</li>
+            <li><strong>الأقل:</strong> المدينة (320)</li>
+            <li><strong>الفجوة:</strong> الرياض ضعف المدينة تقريباً</li>
+            <li><strong>المتوسط البصري:</strong> ~580</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="7">
+        <div class="step-label">⚠️ الخطوة 7 — أخطاء شائعة في الرسم الشريطي</div>
+        <div class="step-content">
+          <ul>
+            <li><strong>اقتطاع المحور Y:</strong> بدء المحور من 200 بدلاً من 0 يضخم الفروقات</li>
+            <li><strong>ألوان متشابهة:</strong> صعب التمييز</li>
+            <li><strong>عدم وضع وحدات:</strong> 850 ماذا؟ ريال؟ ألف ريال؟</li>
+            <li><strong>أسماء مائلة بدون داعٍ:</strong> صعب القراءة</li>
+            <li><strong>الـ 3D:</strong> يشوه القراءة، تجنبه</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="8">
+        <div class="step-label">✅ الخطوة 8 — الملخص</div>
+        <div class="step-content">
+          <strong>الاستخدام:</strong> الرسم الشريطي للمقارنة بين فئات منفصلة.
+          <div style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
+            <strong>تطبيقات في الواقع:</strong>
+            <ul>
+              <li>HR: مقارنة الرواتب بين الإدارات</li>
+              <li>المبيعات: مقارنة المنتجات/الفروع/الشهور</li>
+              <li>التعليم: مقارنة درجات الطلاب أو المواد</li>
+              <li>التحليل المالي: مقارنة الإيرادات السنوية</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-controls">
+        <button class="step-btn next" onclick="nextStep('solver-3-2')">
+          <span>اضغط لعرض السؤال</span>
+          <span class="arrow">←</span>
+        </button>
+        <button class="step-btn reset" onclick="resetStepSolver('solver-3-2')">🔄 إعادة</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📍</span> 3. رسم التشتت (Scatter Plot)</h2>
+    <p>يعرض <strong>كل قيمة كنقطة</strong> في إحداثيات (X, Y) لإظهار العلاقة بين متغيرين.</p>
+
+    <h3>قراءة رسم التشتت</h3>
+    <table class="compare-table">
+      <tr><th>الشكل</th><th>المعنى</th></tr>
+      <tr><td>نقاط ترتفع من اليسار لليمين</td><td>علاقة طردية موجبة</td></tr>
+      <tr><td>نقاط تنخفض من اليسار لليمين</td><td>علاقة عكسية سالبة</td></tr>
+      <tr><td>نقاط متناثرة بدون نمط</td><td>لا توجد علاقة (ارتباط ≈ 0)</td></tr>
+      <tr><td>نقاط على خط مستقيم تقريباً</td><td>علاقة خطية قوية</td></tr>
+      <tr><td>نقاط على منحنى</td><td>علاقة غير خطية</td></tr>
+    </table>
+  </div>
+
+  <!-- ===== SOLVER 3.3: SCATTER PLOT ===== -->
+  <div class="step-solver" id="solver-3-3" data-total="8" data-current="-1">
+    <div class="step-solver-header">
+      <div class="step-solver-title">🧮 الحل التفاعلي 3: رسم تشتت لساعات المذاكرة والدرجات</div>
+      <div class="step-progress">0 / 8</div>
+    </div>
+    <div class="step-solver-body">
+      <div class="step-question">بيانات 6 طلاب: ساعات المذاكرة (X) والدرجات (Y):<br>
+      <code style="background: white; padding: 4px 10px; border-radius: 6px; font-family: monospace; direction: ltr; display: inline-block;">X: 1, 2, 3, 5, 7, 9<br>Y: 50, 55, 65, 75, 85, 92</code><br>
+      ارسم رسم تشتت ووصف العلاقة.</div>
+
+      <div class="step-item" data-step="1">
+        <div class="step-label">🖐️ الخطوة 1 — تحديد المحاور</div>
+        <div class="step-content">
+          <ul>
+            <li><strong>المتغير المستقل (X):</strong> ساعات المذاكرة → المحور الأفقي</li>
+            <li><strong>المتغير التابع (Y):</strong> الدرجة → المحور الرأسي</li>
+          </ul>
+          <strong>قاعدة:</strong> المتغير الذي "نتحكم فيه" أو "السبب" يوضع على X. المتغير الذي "يتأثر" أو "النتيجة" على Y.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="2">
+        <div class="step-label">🖐️ الخطوة 2 — رسم النقاط يدوياً</div>
+        <div class="step-content">
+          ضع كل زوج (X, Y) كنقطة:
+          <ul>
+            <li>(1, 50) — يسار سفلي</li>
+            <li>(2, 55)</li>
+            <li>(3, 65)</li>
+            <li>(5, 75)</li>
+            <li>(7, 85)</li>
+            <li>(9, 92) — يمين علوي</li>
+          </ul>
+          <strong>ملاحظة:</strong> النقاط ترتفع من اليسار لليمين → علاقة طردية.
+        </div>
+      </div>
+
+      <div class="step-item" data-step="3">
+        <div class="step-label">🖐️ الخطوة 3 — وصف العلاقة</div>
+        <div class="step-content">
+          <ul>
+            <li><strong>الاتجاه:</strong> طردي موجب (مع زيادة الساعات تزيد الدرجة)</li>
+            <li><strong>القوة:</strong> قوية (النقاط قريبة من خط مستقيم)</li>
+            <li><strong>الشكل:</strong> خطي (وليس منحنى)</li>
+            <li><strong>قيم شاذة:</strong> لا توجد</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="4">
+        <div class="step-label">📊 الخطوة 4 — في إكسل</div>
+        <div class="step-content">
+          <ol>
+            <li>X في A2:A7، Y في B2:B7</li>
+            <li>حدد A1:B7</li>
+            <li>Insert → Charts → <strong>Scatter</strong> (الخيار الأول: نقاط فقط)</li>
+            <li>(اختياري) أضف خط الاتجاه:</li>
+          </ol>
+          <ul>
+            <li>انقر بزر الفأرة الأيمن على نقطة → <strong>Add Trendline</strong></li>
+            <li>اختر Linear</li>
+            <li>فعّل: <strong>Display Equation</strong> و <strong>Display R-squared</strong></li>
+          </ul>
+          ستظهر معادلة الانحدار: y = 5.4x + 47.8 و R² ≈ 0.99
+        </div>
+      </div>
+
+      <div class="step-item" data-step="5">
+        <div class="step-label">🐍 الخطوة 5 — في بايثون</div>
+        <div class="step-content">
+          <div class="code-block">
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+x = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">9</span>]
+y = [<span class="number">50</span>, <span class="number">55</span>, <span class="number">65</span>, <span class="number">75</span>, <span class="number">85</span>, <span class="number">92</span>]
+
+plt.<span class="func">scatter</span>(x, y, color=<span class="string">'steelblue'</span>, s=<span class="number">100</span>, edgecolor=<span class="string">'black'</span>)
+plt.<span class="func">title</span>(<span class="string">'Study Hours vs Score'</span>)
+plt.<span class="func">xlabel</span>(<span class="string">'Hours'</span>); plt.<span class="func">ylabel</span>(<span class="string">'Score'</span>)
+plt.<span class="func">grid</span>(<span class="keyword">True</span>, alpha=<span class="number">0.3</span>)
+
+<span class="comment"># إضافة خط الاتجاه</span>
+z = np.<span class="func">polyfit</span>(x, y, <span class="number">1</span>)
+p = np.<span class="func">poly1d</span>(z)
+plt.<span class="func">plot</span>(x, p(x), <span class="string">'r--'</span>, label=<span class="string">f'y={z[0]:.2f}x+{z[1]:.2f}'</span>)
+plt.<span class="func">legend</span>()
+plt.<span class="func">show</span>()</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="6">
+        <div class="step-label">🖐️ الخطوة 6 — حساب الارتباط (يدوياً)</div>
+        <div class="step-content">
+          من النظرة البصرية، النقاط على خط شبه مستقيم → r قريب من +1.
+          <br>الحساب الفعلي يتطلب قانون بيرسون (الموضوع الثاني).
+          <br><strong>تقدير سريع:</strong> r ≈ 0.99 (لأن النقاط محاذية تقريباً تماماً).
+        </div>
+      </div>
+
+      <div class="step-item" data-step="7">
+        <div class="step-label">📊🐍 الخطوة 7 — حساب الارتباط (إكسل/بايثون)</div>
+        <div class="step-content">
+          <strong>إكسل:</strong> <code>=CORREL(A2:A7, B2:B7)</code> → <span class="highlight">0.992</span>
+          <br><strong>بايثون:</strong>
+          <div class="code-block">
+<span class="keyword">from</span> scipy.stats <span class="keyword">import</span> pearsonr
+r, _ = <span class="func">pearsonr</span>(x, y)
+<span class="func">print</span>(<span class="string">f"r = {r:.3f}"</span>)  <span class="comment"># 0.992</span></div>
+          <strong>التفسير:</strong> 0.992 ≈ +1 → علاقة طردية قوية جداً ✓ (يطابق ما رأيناه بصرياً).
+        </div>
+      </div>
+
+      <div class="step-item" data-step="8">
+        <div class="step-label">✅ الخطوة 8 — الملخص</div>
+        <div class="step-content">
+          <strong>النتائج:</strong>
+          <ul>
+            <li>الشكل: خطي صاعد</li>
+            <li>الاتجاه: طردي قوي جداً (r=0.992)</li>
+            <li>الاستنتاج: ساعات المذاكرة تؤثر بقوة في الدرجة</li>
+          </ul>
+          <div style="margin-top: 10px; font-size: 13px; color: var(--text-muted);">
+            <strong>تحذير مهم:</strong> الارتباط لا يعني السببية! قد توجد عوامل أخرى (الذكاء، طريقة الدراسة) تؤثر في الاثنين معاً.
+          </div>
+        </div>
+      </div>
+
+      <div class="step-controls">
+        <button class="step-btn next" onclick="nextStep('solver-3-3')">
+          <span>اضغط لعرض السؤال</span>
+          <span class="arrow">←</span>
+        </button>
+        <button class="step-btn reset" onclick="resetStepSolver('solver-3-3')">🔄 إعادة</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> اختبر فهمك للتصوير البياني</h2>
+    
+    <div class="quiz-q">
+      <div class="q-text">س1: ما الرسم المناسب لعرض توزيع درجات 100 طالب في اختبار؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>رسم دائري Pie</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>المدرج التكراري Histogram</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>رسم خطي Line</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>رسم تشتت</span></button>
+      </div>
+      <div class="quiz-explain">المدرج التكراري هو الأنسب لعرض توزيع البيانات الكمية المستمرة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س2: ما الفرق الرئيسي بين Histogram و Bar Chart؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>اللون فقط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>الـ Histogram للبيانات الكمية المستمرة (أعمدة متلاصقة)، Bar للفئات (منفصلة)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>Histogram أكبر</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>لا فرق</span></button>
+      </div>
+      <div class="quiz-explain">Histogram للبيانات المستمرة، Bar Chart للفئات المنفصلة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س3: في رسم التشتت، نقاط ترتفع من اليسار لليمين تشير إلى:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>علاقة سالبة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>علاقة طردية موجبة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>لا علاقة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>علاقة دائرية</span></button>
+      </div>
+      <div class="quiz-explain">ارتفاع النقاط مع زيادة X = علاقة طردية (X و Y يتزايدان معاً).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س4: دالة إكسل لحساب التكرارات لإنشاء مدرج تكراري:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>=COUNT</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>=FREQUENCY(data, bins)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>=AVERAGE</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>=BINS</span></button>
+      </div>
+      <div class="quiz-explain">FREQUENCY تحسب عدد القيم في كل فئة (bin).</div>
+    </div>
+  </div>
+</section>
+`;
+
+
+// ============================================================================
+// TOPIC 11 (NEW): تحليل البيانات باستخدام IF والدوال الشرطية (إكسل)
+// ============================================================================
+TOPICS['11'] = `
+<section class="topic-section" id="topic-11">
+  <div class="topic-header" style="background: linear-gradient(135deg, #16a34a 0%, #14532d 100%);">
+    <div class="label">⭐ موضوع متخصص في إكسل · مهم للنهائي</div>
+    <h1>تحليل البيانات باستخدام IF والدوال الشرطية</h1>
+    <p>كيف تجعل إكسل يتخذ قرارات وتحسب بشروط متعددة</p>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>إتقان دالة IF البسيطة والمتداخلة</li>
+      <li>استخدام AND و OR لشروط متعددة</li>
+      <li>تطبيق COUNTIF و COUNTIFS للعد المشروط</li>
+      <li>تطبيق SUMIF و SUMIFS للجمع المشروط</li>
+      <li>تطبيق AVERAGEIF و AVERAGEIFS للمتوسط المشروط</li>
+      <li>استخدام IFS (الإصدارات الحديثة) كبديل لـ IF المتداخلة</li>
+    </ul>
+  </div>
+
+  <div class="planning-box">
+    <ol>
+      <li><strong>اسأل:</strong> ما القرار/الحساب المشروط الذي أحتاجه؟</li>
+      <li><strong>عدّ الشروط:</strong> شرط واحد → IF. شرطان → IF + AND/OR. شروط متعددة → IFS أو IF متداخلة</li>
+      <li><strong>حدد العملية:</strong> هل نعد؟ نجمع؟ نحسب متوسط؟ → COUNTIF / SUMIF / AVERAGEIF</li>
+      <li><strong>اختبر:</strong> طبّق على عينة صغيرة قبل تطبيق على آلاف الصفوف</li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🎯</span> دالة IF الأساسية</h2>
+    <div class="code-block" style="direction: ltr;">
+=IF(condition, value_if_true, value_if_false)</div>
+    <p><strong>أمثلة عملية:</strong></p>
+    <div class="code-block" style="direction: ltr;">
+=IF(A2>=60, "Pass", "Fail")
+=IF(B5>10000, B5*0.15, B5*0.10)
+=IF(C3="HR", "Approved", "Pending")</div>
+  </div>
+
+  <!-- ===== SOLVER 11.1: NESTED IF ===== -->
+  <div class="step-solver" id="solver-11-1" data-total="9" data-current="-1">
+    <div class="step-solver-header">
+      <div class="step-solver-title">🧮 الحل التفاعلي 1: تقدير الطالب بـ IF متداخلة</div>
+      <div class="step-progress">0 / 9</div>
+    </div>
+    <div class="step-solver-body">
+      <div class="step-question">في إكسل، اكتب صيغة تقرأ درجة الطالب في الخلية A2 وتعرض التقدير: <br>
+      ≥90: A، ≥80: B، ≥70: C، ≥60: D، أقل: F.<br>
+      ثم في بايثون نفس المنطق بـ if/elif.</div>
+
+      <div class="step-item" data-step="1">
+        <div class="step-label">📝 الخطوة 1 — التخطيط على الورقة</div>
+        <div class="step-content">
+          5 حالات → نحتاج 4 شروط متداخلة + قيمة افتراضية:
+          <div class="code-block" style="direction: rtl; text-align: right;">
+لو ≥ 90 → A
+وإلا لو ≥ 80 → B
+وإلا لو ≥ 70 → C
+وإلا لو ≥ 60 → D
+وإلا → F</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="2">
+        <div class="step-label">📊 الخطوة 2 — IF المتداخلة في إكسل</div>
+        <div class="step-content">
+          <div class="code-block" style="direction: ltr;">
+=IF(A2>=90, "A",
+   IF(A2>=80, "B",
+      IF(A2>=70, "C",
+         IF(A2>=60, "D", "F"))))</div>
+          <strong>القراءة:</strong> لو ≥ 90 → A، وإلا (لو ≥ 80) → B، وإلا (لو ≥ 70) → C... وهكذا.
+          <br><strong>تنبيه:</strong> عدد الأقواس المغلقة = عدد IF المفتوحة (4).
+        </div>
+      </div>
+
+      <div class="step-item" data-step="3">
+        <div class="step-label">📊 الخطوة 3 — IFS (الأنظف، إكسل 2019+)</div>
+        <div class="step-content">
+          <div class="code-block" style="direction: ltr;">
+=IFS(A2>=90, "A",
+     A2>=80, "B",
+     A2>=70, "C",
+     A2>=60, "D",
+     TRUE, "F")</div>
+          <strong>أوضح بكثير!</strong> لكنها متاحة فقط في Excel 2019/365.
+          <br><code>TRUE</code> الأخيرة = "أي شيء آخر" (else).
+        </div>
+      </div>
+
+      <div class="step-item" data-step="4">
+        <div class="step-label">📊 الخطوة 4 — VLOOKUP بديل أنيق</div>
+        <div class="step-content">
+          أنشئ جدول مرجع في E1:F5:
+          <table class="compare-table" style="margin-top: 8px; background: white;">
+            <tr><th>E</th><th>F</th></tr>
+            <tr><td>0</td><td>F</td></tr>
+            <tr><td>60</td><td>D</td></tr>
+            <tr><td>70</td><td>C</td></tr>
+            <tr><td>80</td><td>B</td></tr>
+            <tr><td>90</td><td>A</td></tr>
+          </table>
+          <div class="code-block" style="direction: ltr;">
+=VLOOKUP(A2, E1:F5, 2, TRUE)</div>
+          <strong>الميزة:</strong> سهل الصيانة (تغيّر الجدول فقط، لا الصيغة).
+        </div>
+      </div>
+
+      <div class="step-item" data-step="5">
+        <div class="step-label">🐍 الخطوة 5 — في بايثون</div>
+        <div class="step-content">
+          <div class="code-block">
+score = <span class="number">85</span>
+
+<span class="keyword">if</span> score &gt;= <span class="number">90</span>:
+    grade = <span class="string">"A"</span>
+<span class="keyword">elif</span> score &gt;= <span class="number">80</span>:
+    grade = <span class="string">"B"</span>
+<span class="keyword">elif</span> score &gt;= <span class="number">70</span>:
+    grade = <span class="string">"C"</span>
+<span class="keyword">elif</span> score &gt;= <span class="number">60</span>:
+    grade = <span class="string">"D"</span>
+<span class="keyword">else</span>:
+    grade = <span class="string">"F"</span>
+
+<span class="func">print</span>(grade)  <span class="comment"># B</span></div>
+          <strong>أوضح وأسهل قراءة من IF المتداخلة!</strong>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="6">
+        <div class="step-label">🐍 الخطوة 6 — تطبيق على DataFrame</div>
+        <div class="step-content">
+          <div class="code-block">
+<span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+
+df = pd.<span class="func">DataFrame</span>({<span class="string">'Score'</span>: [<span class="number">95</span>, <span class="number">82</span>, <span class="number">71</span>, <span class="number">60</span>, <span class="number">45</span>]})
+
+<span class="keyword">def</span> <span class="func">get_grade</span>(s):
+    <span class="keyword">if</span> s &gt;= <span class="number">90</span>: <span class="keyword">return</span> <span class="string">"A"</span>
+    <span class="keyword">elif</span> s &gt;= <span class="number">80</span>: <span class="keyword">return</span> <span class="string">"B"</span>
+    <span class="keyword">elif</span> s &gt;= <span class="number">70</span>: <span class="keyword">return</span> <span class="string">"C"</span>
+    <span class="keyword">elif</span> s &gt;= <span class="number">60</span>: <span class="keyword">return</span> <span class="string">"D"</span>
+    <span class="keyword">else</span>: <span class="keyword">return</span> <span class="string">"F"</span>
+
+df[<span class="string">'Grade'</span>] = df[<span class="string">'Score'</span>].<span class="func">apply</span>(get_grade)
+<span class="func">print</span>(df)</div>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="7">
+        <div class="step-label">📊🐍 الخطوة 7 — جدول مقارنة</div>
+        <div class="step-content">
+          <table class="compare-table" style="margin-top: 8px; background: white;">
+            <tr><th>الطريقة</th><th>التعقيد</th><th>الوضوح</th><th>متى تستخدمها</th></tr>
+            <tr><td>📊 IF متداخلة</td><td>صعب</td><td>منخفض</td><td>عند الضرورة فقط</td></tr>
+            <tr><td>📊 IFS</td><td>سهل</td><td>عالي</td><td>الأفضل في إكسل الحديث</td></tr>
+            <tr><td>📊 VLOOKUP</td><td>متوسط</td><td>عالي</td><td>قواعد كثيرة قابلة للتغيير</td></tr>
+            <tr><td>🐍 if/elif</td><td>سهل جداً</td><td>عالي جداً</td><td>الأفضل دائماً في بايثون</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="8">
+        <div class="step-label">⚠️ الخطوة 8 — أخطاء شائعة</div>
+        <div class="step-content">
+          <ul>
+            <li><strong>الترتيب:</strong> ضع الشرط الأكثر صرامة أولاً (≥90 قبل ≥60)</li>
+            <li><strong>عدم إغلاق الأقواس:</strong> 4 IF تحتاج 4 أقواس مغلقة</li>
+            <li><strong>نسيان الافتراضي:</strong> IF بدون قيمة else يرجع FALSE</li>
+            <li><strong>الفاصلة العشرية:</strong> في بعض الإصدارات = ; بدلاً من ,</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="step-item" data-step="9">
+        <div class="step-label">✅ الخطوة 9 — الإجابة النهائية</div>
+        <div class="step-content">
+          <strong>أفضل صيغة:</strong>
+          <div class="code-block" style="direction: ltr;">
+=IFS(A2>=90,"A", A2>=80,"B", A2>=70,"C", A2>=60,"D", TRUE,"F")</div>
+          <strong>في بايثون:</strong> if/elif chain أوضح وأسهل دائماً.
+        </div>
+      </div>
+
+      <div class="step-controls">
+        <button class="step-btn next" onclick="nextStep('solver-11-1')">
+          <span>اضغط لعرض السؤال</span>
+          <span class="arrow">←</span>
+        </button>
+        <button class="step-btn reset" onclick="resetStepSolver('solver-11-1')">🔄 إعادة</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🔢</span> COUNTIF / SUMIF / AVERAGEIF</h2>
+    <p>عمليات مشروطة على نطاقات.</p>
+    
+    <div class="code-block" style="direction: ltr;">
+COUNTIF(range, criteria)         → عدّ الخلايا المطابقة
+SUMIF(range, criteria, [sum])    → جمع المطابقة
+AVERAGEIF(range, criteria, [avg])→ متوسط المطابقة</div>
+
+    <h3>أمثلة:</h3>
+    <table class="compare-table">
+      <tr><th>المطلوب</th><th>الصيغة</th></tr>
+      <tr><td>عدد الموظفين بقسم HR</td><td><code>=COUNTIF(B:B, "HR")</code></td></tr>
+      <tr><td>عدد الناجحين (≥60)</td><td><code>=COUNTIF(C:C, ">=60")</code></td></tr>
+      <tr><td>إجمالي رواتب HR</td><td><code>=SUMIF(B:B, "HR", D:D)</code></td></tr>
+      <tr><td>متوسط رواتب HR</td><td><code>=AVERAGEIF(B:B, "HR", D:D)</code></td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🔢🔢</span> الإصدارات المتعددة الشروط (IFS)</h2>
+    <div class="code-block" style="direction: ltr;">
+COUNTIFS(rng1, crit1, rng2, crit2, ...)
+SUMIFS(sum_range, rng1, crit1, rng2, crit2, ...)
+AVERAGEIFS(avg_range, rng1, crit1, rng2, crit2, ...)</div>
+    
+    <p><strong>ملاحظة الفرق:</strong> SUMIFS و AVERAGEIFS يبدآن بـ <strong>نطاق العملية</strong> أولاً (عكس SUMIF).</p>
+
+    <h3>مثال HR:</h3>
+    <p>عدد موظفين قسم HR، رواتبهم ≥ 8000، خبرتهم ≥ 5 سنوات:</p>
+    <div class="code-block" style="direction: ltr;">
+=COUNTIFS(B:B, "HR", D:D, ">=8000", E:E, ">=5")</div>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> اختبر فهمك للدوال الشرطية</h2>
+    
+    <div class="quiz-q">
+      <div class="q-text">س1: لجمع رواتب موظفي قسم HR فقط (الأقسام في B، الرواتب في D):</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>=SUM(D:D)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>=SUMIF(B:B, "HR", D:D)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>=COUNTIF(D:D)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>=AVERAGE(D:D)</span></button>
+      </div>
+      <div class="quiz-explain">SUMIF(criteria_range, condition, sum_range) — الشرط على B، والجمع على D.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س2: ما الفرق بين IF و IFS؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>لا فرق</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>IF لشرط واحد، IFS لعدة شروط بشكل أوضح من IF المتداخلة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>IFS أبطأ</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>IFS للأرقام فقط</span></button>
+      </div>
+      <div class="quiz-explain">IFS تتيح كتابة شروط متعددة دون التداخل المعقد.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س3: ترتيب الأرقمنت في SUMIFS:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>(criteria_range, criteria, sum_range)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>(sum_range, criteria_range1, criteria1, ...)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>(criteria, sum_range)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>(range, condition)</span></button>
+      </div>
+      <div class="quiz-explain">SUMIFS يبدأ بنطاق المجموع، ثم أزواج (نطاق، شرط).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س4: لعد الموظفين الذين رواتبهم بين 5000 و 10000:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>=COUNTIF(D:D, ">=5000")</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>=COUNTIFS(D:D, ">=5000", D:D, "<=10000")</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>=SUM(D:D)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>=AVERAGE(D:D)</span></button>
+      </div>
+      <div class="quiz-explain">COUNTIFS تطبق شرطين على نفس النطاق: ≥5000 AND ≤10000.</div>
+    </div>
+  </div>
+</section>
+`;
+
+
 // ========== TOPIC GROUPED: GROUPED DATA (NEW) ==========
 TOPICS['grouped'] = `
 <section class="topic-section" id="topic-grouped">
@@ -5059,7 +5902,7 @@ console.log("All STA topics built. Total topics:", Object.keys(TOPICS).length);
 
 
 // Inject all topic sections
-const TOPIC_ORDER = ['1','2','6','7','8','9','10','grouped','quiz'];
+const TOPIC_ORDER = ['1','2','3','6','7','8','9','10','11','grouped','quiz'];
 const container = document.getElementById('topicsContainer');
 TOPIC_ORDER.forEach(id => {
   if (TOPICS[id]) {
