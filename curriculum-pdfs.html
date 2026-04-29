@@ -195,10 +195,18 @@ html, body {
       <div class="subject-icon">📊</div>
       <div>
         <div class="subject-title">الإحصاء (STA104)</div>
-        <div class="subject-meta">المنهج الكامل (264 صفحة، مقسم لـ 4 أجزاء)</div>
+        <div class="subject-meta">المنهج الكامل (264 صفحة، مقسم لـ 4 أجزاء) + 3 دروس جديدة</div>
       </div>
     </div>
+
+    <h3 style="margin: 6px 0 10px; font-size: 14px; color: var(--text-muted);">📖 المنهج الكامل (4 أجزاء)</h3>
     <div class="parts-grid" id="sta-parts"></div>
+
+    <h3 style="margin: 18px 0 10px; font-size: 14px; color: var(--text-muted);">🆕 الدروس الإضافية الحديثة</h3>
+    <div class="note-box">
+      <strong>3 دروس جديدة من المنهج المحدث:</strong> الانحدار الخطي بإكسل، مقدمة إلى تعلم الآلة، وتقييم النموذج (R²/MAE/MSE). متاحة الآن في المنصة كمواضيع تفاعلية، وكذلك للتحميل بصيغتها الأصلية.
+    </div>
+    <div class="parts-grid" id="sta-lessons-parts"></div>
   </div>
 
   <!-- البايثون -->
@@ -252,6 +260,11 @@ const PARTS = {
     { file: 'STA104-statistics-part3.pdf', label: 'الجزء الثالث', meta: 'صفحات 141-210 · 3.0 MB' },
     { file: 'STA104-statistics-part4.pdf', label: 'الجزء الرابع', meta: 'صفحات 211-264 · 1.5 MB' }
   ],
+  staLessons: [
+    { file: 'STA104-lesson10-regression.pdf', label: '🆕 الدرس 10: الانحدار الخطي (إكسل)', meta: 'الدرس الجديد · 0.8 MB' },
+    { file: 'STA104-lesson11-machine-learning.pdf', label: '🆕 الدرس 11: مقدمة إلى تعلم الآلة', meta: 'الدرس الجديد · 0.9 MB' },
+    { file: 'STA104-lesson12-model-evaluation.pdf', label: '🆕 الدرس 12: تقييم النموذج (R²/MAE/MSE)', meta: 'الدرس الجديد · 0.9 MB' }
+  ],
   pyt: [
     { file: 'PYT103-python-part1.pdf', label: 'الجزء الأول', meta: 'صفحات 1-80 · 17.8 MB' },
     { file: 'PYT103-python-part2.pdf', label: 'الجزء الثاني', meta: 'صفحات 81-160 · 10.8 MB' },
@@ -285,6 +298,7 @@ function renderParts(containerId, partsList, subjectName) {
 
 renderParts('osc-parts', PARTS.osc, 'نظم التشغيل');
 renderParts('sta-parts', PARTS.sta, 'الإحصاء');
+renderParts('sta-lessons-parts', PARTS.staLessons, 'الإحصاء - الدروس الجديدة');
 renderParts('pyt-parts', PARTS.pyt, 'البايثون');
 
 function openPdf(file, title) {

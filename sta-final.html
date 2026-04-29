@@ -364,6 +364,8 @@ body { display: flex; min-height: 100vh; }
     <li class="topic-item" data-topic="8"><span class="topic-num">8</span><span>الاحتمالات الأساسية</span></li>
     <li class="topic-item" data-topic="9"><span class="topic-num">9</span><span>الرسوم البيانية</span></li>
     <li class="topic-item" data-topic="10"><span class="topic-num">10</span><span>الانحدار الخطي</span></li>
+    <li class="topic-item" data-topic="ml" style="background: linear-gradient(135deg, #dcfce7, #bbf7d0); border: 1px solid #16a34a;"><span class="topic-num" style="background: #16a34a; color: white;">11</span><span style="font-weight: 700;">🆕 تعلم الآلة</span></li>
+    <li class="topic-item" data-topic="eval" style="background: linear-gradient(135deg, #fee2e2, #fecaca); border: 1px solid #dc2626;"><span class="topic-num" style="background: #dc2626; color: white;">12</span><span style="font-weight: 700;">🆕 تقييم النموذج</span></li>
     <li class="topic-item" data-topic="11" style="background: linear-gradient(135deg, #dcfce7, #bbf7d0); border: 1px solid #16a34a;"><span class="topic-num" style="background: #16a34a; color: white;">11</span><span style="font-weight: 700;">⭐ تحليل البيانات (IF)</span></li>
     <li class="topic-item" data-topic="grouped" style="background: linear-gradient(135deg, #ede9fe, #fce7f3); border: 1px solid #c084fc;"><span class="topic-num" style="background: #7c3aed; color: white;">⭐</span><span style="font-weight: 700;">البيانات المبوبة</span></li>
     <li class="topic-item" data-topic="quiz" style="border-top: 1px solid var(--border); margin-top: 8px; padding-top: 16px;"><span class="topic-num" style="background: var(--accent); color: white;">📝</span><span style="font-weight: 800;">الاختبار الشامل</span></li>
@@ -5980,7 +5982,725 @@ console.log("All STA topics built. Total topics:", Object.keys(TOPICS).length);
 
 
 // Inject all topic sections
-const TOPIC_ORDER = ['1','2','3','6','7','8','9','10','11','grouped','quiz'];
+
+// ============================================================================
+// NEW TOPIC: تعلم الآلة (الموضوع 11 من المنهج الجديد)
+// ============================================================================
+TOPICS['ml'] = `
+<section class="topic-section" id="topic-ml">
+  <div class="topic-header" style="background: linear-gradient(135deg, #16a34a, #15803d);">
+    <div class="label">الدرس الجديد · المنهج 11</div>
+    <h1>مقدمة إلى تعلم الآلة</h1>
+    <p>كيف تتعلم الحواسيب من البيانات بدون برمجة صريحة لكل حالة</p>
+  </div>
+
+  <div class="definition-box">
+    <span class="term">تعلم الآلة (Machine Learning)</span> فرع من الذكاء الاصطناعي يُمكّن أنظمة الحاسوب من التعلم والتحسن تلقائياً من الخبرة دون أن تتم برمجتها لكل حالة. وفقاً لتعريف <strong>توم ميتشل (1998)</strong>: يُقال إن البرنامج يتعلم من الخبرة E فيما يتعلق بمجموعة من المهام T ومقياس الأداء P، إذا تحسن أداؤه في T كما يقيس P مع الخبرة E.
+    <div class="logic">في البرمجة التقليدية نُعلّم الحاسوب "كيف" يفعل الشيء (نكتب قواعد). في تعلم الآلة نُعلّمه "ماذا" نريد ونتركه يكتشف "كيف" بنفسه. مثلاً: بدلاً من كتابة 1000 قاعدة لتمييز القطط في الصور، نعطيه آلاف الصور المُسماة، فيستنتج القواعد. القاعدة الذهبية: <em>Garbage In, Garbage Out</em> — جودة النموذج تعتمد على جودة البيانات قبل أي شيء آخر.</div>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>فهم المفهوم الأساسي لتعلم الآلة وتمييزه عن البرمجة التقليدية</li>
+      <li>التعرف على الأنواع الثلاثة الرئيسية: المُشرف، غير المُشرف، التعزيزي</li>
+      <li>التمييز بين التصنيف (Classification) والانحدار (Regression)</li>
+      <li>فهم تقسيم البيانات إلى تدريبية، تحقق، اختبارية</li>
+      <li>إدراك مشكلتَي الإفراط في التعلم (Overfitting) والتعلم الناقص (Underfitting)</li>
+      <li>التعرف على خطوات بناء نموذج عملي</li>
+      <li>إدراك التحديات الأخلاقية وقضايا التحيّز</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">💡</span> لماذا تعلم الآلة الآن؟</h2>
+    <p>نعيش في عصر البيانات الضخمة. نولّد كميات هائلة من البيانات يومياً يستحيل تحليلها يدوياً. تعلم الآلة يحوّل هذه البيانات إلى قرارات.</p>
+    <ul>
+      <li><strong>مشاكل معقدة</strong> يصعب برمجتها يدوياً (التعرف على الكلام، تشخيص الأمراض)</li>
+      <li><strong>الأتمتة</strong> توفر الوقت وتقلل الأخطاء البشرية</li>
+      <li><strong>التخصيص</strong> (Netflix يقترح أفلاماً، Spotify يقترح أغانٍ)</li>
+      <li><strong>اكتشاف أنماط</strong> غير مرئية للعين البشرية</li>
+    </ul>
+    <div class="story-box">
+      <strong>تشبيه:</strong> الطفل لا يتعلم تمييز الكلب عبر قائمة قواعد ("4 أرجل، فرو، يعوي")، بل يرى أمثلة كثيرة ويستنتج النمط بنفسه. تعلم الآلة يعمل بالطريقة ذاتها.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🆚</span> البرمجة التقليدية مقابل تعلم الآلة</h2>
+    <table class="compare-table">
+      <thead>
+        <tr><th>الجانب</th><th>البرمجة التقليدية</th><th>تعلم الآلة</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>المدخلات</td><td>بيانات + قواعد</td><td>بيانات + نتائج مرغوبة</td></tr>
+        <tr><td>المخرجات</td><td>نتائج</td><td>قواعد (نموذج)</td></tr>
+        <tr><td>المبرمج يكتب</td><td>القواعد كاملة</td><td>الخوارزمية فقط</td></tr>
+        <tr><td>مناسب لـ</td><td>مشاكل واضحة القواعد</td><td>مشاكل معقدة بأنماط خفية</td></tr>
+        <tr><td>مثال</td><td>حساب الراتب</td><td>التعرف على الوجوه</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🌐</span> الذكاء الاصطناعي ↔ تعلم الآلة ↔ التعلم العميق</h2>
+    <p>هذه ثلاثة مفاهيم متداخلة، لكنها ليست متطابقة:</p>
+    <ul>
+      <li><strong>الذكاء الاصطناعي (AI):</strong> المجال الأوسع — أي نظام يحاكي الذكاء البشري.</li>
+      <li><strong>تعلم الآلة (ML):</strong> فرع من AI، يركّز على الأنظمة التي تتعلم من البيانات.</li>
+      <li><strong>التعلم العميق (DL):</strong> فرع من ML، يستخدم شبكات عصبية متعددة الطبقات.</li>
+    </ul>
+    <div class="formula-box">
+      <div class="formula-name">التسلسل الهرمي</div>
+      <div class="formula">AI ⊃ ML ⊃ DL</div>
+      <div class="legend">كل تعلم آلة هو ذكاء اصطناعي، لكن ليس كل ذكاء اصطناعي تعلم آلة. وكل تعلم عميق هو تعلم آلة، لكن ليس كل تعلم آلة تعلماً عميقاً.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📚</span> الأنواع الثلاثة لتعلم الآلة</h2>
+
+    <h3>1. التعلم الخاضع للإشراف <span class="eng">Supervised Learning</span></h3>
+    <p>نعطي النموذج بيانات مُسماة (مصنفة مسبقاً): مدخلات + الإجابة الصحيحة. يتعلم النموذج العلاقة، ثم يتنبأ بالإجابات للبيانات الجديدة.</p>
+    <ul>
+      <li><strong>مثال:</strong> آلاف صور القطط/الكلاب مُسماة → النموذج يتعلم تمييزها → يصنف صورة جديدة</li>
+      <li><strong>تشبيه:</strong> معلم يعطي طالباً أسئلة وأجوبتها، ثم يختبره</li>
+    </ul>
+
+    <h3>2. التعلم غير الخاضع للإشراف <span class="eng">Unsupervised Learning</span></h3>
+    <p>نعطي النموذج بيانات بدون تسميات. الهدف: اكتشاف البنية الخفية أو الأنماط بنفسه.</p>
+    <ul>
+      <li><strong>مثال:</strong> تجميع العملاء حسب سلوك الشراء (Clustering)</li>
+      <li><strong>تشبيه:</strong> طفل يفرز ألعابه دون أن يقول له أحد كيف</li>
+    </ul>
+
+    <h3>3. التعلم التعزيزي <span class="eng">Reinforcement Learning</span></h3>
+    <p>نموذج يتفاعل مع بيئة، يتخذ قرارات، ويتعلم من المكافآت والعقوبات.</p>
+    <ul>
+      <li><strong>مثال:</strong> AlphaGo يتعلم لعبة Go بلعب ملايين المرات ضد نفسه</li>
+      <li><strong>تشبيه:</strong> تدريب كلب: يفعل شيئاً صحيحاً → مكافأة، خطأ → لا شيء</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🎯</span> داخل التعلم الخاضع للإشراف: تصنيف vs انحدار</h2>
+    <table class="compare-table">
+      <thead>
+        <tr><th>المعيار</th><th>التصنيف (Classification)</th><th>الانحدار (Regression)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>الهدف</td><td>التنبؤ بفئة</td><td>التنبؤ برقم مستمر</td></tr>
+        <tr><td>المخرج</td><td>"قط" أو "كلب"</td><td>250,000 ريال</td></tr>
+        <tr><td>أمثلة</td><td>spam/not spam، مريض/سليم</td><td>سعر منزل، درجة حرارة، مبيعات</td></tr>
+        <tr><td>تقييم</td><td>دقة (Accuracy)، F1</td><td>R²، MAE، MSE</td></tr>
+      </tbody>
+    </table>
+    <div class="story-box">
+      <strong>قاعدة سريعة:</strong> هل المخرج "نوع/فئة"؟ → تصنيف. هل المخرج "رقم"؟ → انحدار.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📦</span> تقسيم البيانات: التدريب، التحقق، الاختبار</h2>
+    <p>قبل بناء أي نموذج، نُقسّم البيانات إلى ثلاث مجموعات. هذا أهم مبدأ في تعلم الآلة الموثوق:</p>
+    <ul>
+      <li><strong>بيانات التدريب (Training):</strong> 70-80% — يتعلم منها النموذج</li>
+      <li><strong>بيانات التحقق (Validation):</strong> 10-15% — لضبط المُعاملات (Hyperparameters)</li>
+      <li><strong>بيانات الاختبار (Test):</strong> 10-15% — لتقييم الأداء النهائي على بيانات لم يرها النموذج أبداً</li>
+    </ul>
+    <div class="warn-box">
+      <strong>خطأ فادح شائع:</strong> النظر إلى بيانات الاختبار قبل التقييم النهائي = "تسريب البيانات" (Data Leakage). كأن تختبر طالباً بنفس الأسئلة التي درسها — لن تعرف هل فهم فعلاً أم حفظ.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">⚠️</span> مشكلتان قاتلتان: Overfitting & Underfitting</h2>
+
+    <h3>1. الإفراط في التعلم <span class="eng">Overfitting</span></h3>
+    <p>النموذج يحفظ البيانات التدريبية بدلاً من تعلم الأنماط العامة. أداء ممتاز على التدريب، سيئ على الاختبار.</p>
+    <ul>
+      <li><strong>السبب:</strong> النموذج معقد جداً مقارنة بكمية البيانات</li>
+      <li><strong>تشبيه:</strong> طالب يحفظ الأسئلة بحذافيرها بدلاً من فهم المفاهيم — يفشل في أسئلة مختلفة</li>
+      <li><strong>الحل:</strong> المزيد من البيانات، تبسيط النموذج، التنظيم (Regularization)، التحقق المتقاطع</li>
+    </ul>
+
+    <h3>2. التعلم الناقص <span class="eng">Underfitting</span></h3>
+    <p>النموذج بسيط جداً ولم يلتقط الأنماط. أداء سيء على التدريب والاختبار معاً.</p>
+    <ul>
+      <li><strong>السبب:</strong> النموذج بسيط جداً أو ميزات غير كافية</li>
+      <li><strong>تشبيه:</strong> رسم منحنى بخط مستقيم — لا يلتقط التعقيد الحقيقي</li>
+      <li><strong>الحل:</strong> نموذج أكثر تعقيداً، إضافة ميزات، تقليل التنظيم إن كان مفرطاً</li>
+    </ul>
+
+    <div class="formula-box">
+      <div class="formula-name">المنطقة الذهبية</div>
+      <div class="formula">Generalization = Sweet Spot</div>
+      <div class="legend">نموذج متوازن: يتعلم الأنماط العامة دون حفظ الضجيج. هذا هو الهدف النهائي.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🛠️</span> خطوات بناء نموذج تعلم الآلة</h2>
+    <ol style="line-height: 2; padding-right: 20px;">
+      <li><strong>تحديد المشكلة:</strong> تصنيف؟ انحدار؟ ما الهدف؟</li>
+      <li><strong>جمع البيانات:</strong> كافية وممثلة وعالية الجودة</li>
+      <li><strong>استكشاف وتنظيف البيانات:</strong> معالجة المفقود، الشاذ، المكرر</li>
+      <li><strong>هندسة الميزات (Feature Engineering):</strong> اختيار/إنشاء ميزات مفيدة</li>
+      <li><strong>اختيار الخوارزمية:</strong> انحدار خطي؟ شجرة قرار؟ شبكة عصبية؟</li>
+      <li><strong>تدريب النموذج:</strong> تغذية بيانات التدريب وضبط المُعاملات</li>
+      <li><strong>تقييم النموذج:</strong> اختباره على بيانات لم يرها (الموضوع 12)</li>
+      <li><strong>النشر والمراقبة:</strong> استخدامه في الإنتاج وتحديثه دورياً</li>
+    </ol>
+    <div class="story-box">
+      <strong>قاعدة:</strong> ميزات جيدة + خوارزمية بسيطة &gt; ميزات سيئة + خوارزمية معقدة. جودة الميزات أهم من تعقيد الخوارزمية.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🔧</span> أشهر خوارزميات التعلم الخاضع للإشراف</h2>
+    <ul>
+      <li><strong>الانحدار الخطي (Linear Regression):</strong> أبسطها، للتنبؤ بقيم مستمرة</li>
+      <li><strong>الانحدار اللوجستي (Logistic Regression):</strong> للتصنيف الثنائي رغم اسمه</li>
+      <li><strong>أشجار القرار (Decision Trees):</strong> سهلة التفسير، تشبه if/else</li>
+      <li><strong>الغابات العشوائية (Random Forests):</strong> مجموعة أشجار = أداء أفضل</li>
+      <li><strong>K-أقرب الجيران (KNN):</strong> تصنيف بناءً على أقرب الجيران</li>
+      <li><strong>SVM:</strong> آلات المتجهات الداعمة، فعّالة في الأبعاد العالية</li>
+      <li><strong>الشبكات العصبية:</strong> أساس التعلم العميق</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🌍</span> تطبيقات تعلم الآلة في الحياة اليومية</h2>
+    <ul>
+      <li>📷 <strong>التعرف على الوجوه:</strong> Face ID، وسم الأصدقاء في الصور</li>
+      <li>💬 <strong>المساعدات الصوتية:</strong> Siri، Alexa، Google Assistant</li>
+      <li>🎬 <strong>توصيات المحتوى:</strong> Netflix، YouTube، Spotify</li>
+      <li>🛒 <strong>التجارة الإلكترونية:</strong> Amazon, noon — توصيات وأسعار ديناميكية</li>
+      <li>🏥 <strong>الرعاية الصحية:</strong> تشخيص من الأشعة، اكتشاف أدوية</li>
+      <li>🚗 <strong>القيادة الذاتية:</strong> Tesla، Waymo</li>
+      <li>📧 <strong>تصفية البريد:</strong> فلتر الـ Spam في Gmail</li>
+      <li>💳 <strong>كشف الاحتيال:</strong> في البطاقات والمعاملات المصرفية</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">⚖️</span> التحديات الأخلاقية</h2>
+    <ul>
+      <li><strong>التحيّز (Bias):</strong> النموذج قد يرث تحيّزات البيانات التاريخية. مثال: نظام توظيف يميّز ضد فئة معينة لأن البيانات السابقة منحازة.</li>
+      <li><strong>الخصوصية:</strong> البيانات الشخصية تثير قضايا قانونية (GDPR وغيره).</li>
+      <li><strong>الشفافية:</strong> بعض النماذج "صناديق سوداء" — يصعب شرح قراراتها (مهم في الطب والقانون).</li>
+      <li><strong>المساءلة:</strong> من المسؤول عند خطأ نموذج طبي أو حادث سيارة ذاتية القيادة؟</li>
+      <li><strong>التأثير على الوظائف:</strong> الأتمتة قد تُلغي وظائف — تتطلب إعادة تأهيل.</li>
+      <li><strong>الأمان:</strong> الهجمات العدائية (Adversarial Attacks) تخدع النماذج بتعديلات صغيرة.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🐍</span> جرّب بنفسك في بايثون</h2>
+    <div class="apps-row">
+      <a href="python-sim.html" target="_blank" class="app-link python"><span class="ico">🐍</span><span>افتح محاكي بايثون وجرّب sklearn</span></a>
+    </div>
+    <div class="story-box">
+      <strong>الخطوات الأولى:</strong> ابدأ بمكتبة <code>scikit-learn</code> الشهيرة. جرّب <code>LinearRegression</code> على بيانات بسيطة، ثم انتقل تدريجياً للنماذج الأعقد.
+    </div>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> اختبر فهمك للموضوع 11</h2>
+
+    <div class="quiz-q">
+      <div class="q-text">س1: ما الفرق الجوهري بين البرمجة التقليدية وتعلم الآلة؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>تعلم الآلة أسرع دائماً</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>البرمجة التقليدية: نكتب القواعد. تعلم الآلة: النموذج يكتشفها من البيانات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>تعلم الآلة لا يحتاج بيانات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>لا فرق بينهما</span></button>
+      </div>
+      <div class="quiz-explain">في البرمجة التقليدية: المبرمج يكتب القواعد كاملة. في ML: نعطي النموذج بيانات + نتائج مرغوبة، فيستنتج القواعد بنفسه.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س2: التنبؤ بسعر منزل (رقم) هو مهمة:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>تصنيف</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>انحدار</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>تعلم تعزيزي</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>تجميع</span></button>
+      </div>
+      <div class="quiz-explain">المخرج رقم مستمر (السعر) → انحدار. لو كان المخرج فئة (مثل "غالي"/"رخيص") لكان تصنيفاً.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س3: نموذج يحقق دقة 99% على التدريب لكن 60% على الاختبار. ما المشكلة؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>تعلم ناقص (Underfitting)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>إفراط في التعلم (Overfitting)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>أداء مثالي</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>خطأ في البيانات</span></button>
+      </div>
+      <div class="quiz-explain">العلامة المميزة: ممتاز على التدريب + سيء على الاختبار = Overfitting. النموذج حفظ ولم يتعلم.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س4: تجميع العملاء في فئات بدون تسميات مسبقة هو:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>تعلم خاضع للإشراف</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>تعلم غير خاضع للإشراف (Clustering)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>تعلم تعزيزي</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>برمجة تقليدية</span></button>
+      </div>
+      <div class="quiz-explain">"بدون تسميات" + "اكتشاف بنية" = unsupervised. التجميع (Clustering) أشهر تطبيقاته.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س5: لماذا نقسّم البيانات إلى تدريب واختبار؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>لتسريع التدريب</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>لقياس قدرة النموذج على التعميم على بيانات جديدة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>لتقليل حجم البيانات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>عادة فقط</span></button>
+      </div>
+      <div class="quiz-explain">إذا اختبرناه على نفس بيانات التدريب، لن نعرف هل سيعمل في العالم الحقيقي. الاختبار = قياس التعميم.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س6: التعلم العميق (Deep Learning) هو:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>منافس لتعلم الآلة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>فرع من تعلم الآلة يستخدم شبكات عصبية متعددة الطبقات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>برمجة تقليدية متقدمة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>نوع من قواعد البيانات</span></button>
+      </div>
+      <div class="quiz-explain">AI ⊃ ML ⊃ DL. التعلم العميق نوع من تعلم الآلة، يستخدم شبكات عصبية ذات طبقات كثيرة.</div>
+    </div>
+  </div>
+</section>
+`;
+
+
+// ============================================================================
+// NEW TOPIC: تقييم النموذج (الموضوع 12 من المنهج الجديد)
+// ============================================================================
+TOPICS['eval'] = `
+<section class="topic-section" id="topic-eval">
+  <div class="topic-header" style="background: linear-gradient(135deg, #dc2626, #b91c1c);">
+    <div class="label">الدرس الجديد · المنهج 12</div>
+    <h1>تقييم النموذج: R² ، MAE ، MSE</h1>
+    <p>كيف نقيس جودة نماذج الانحدار ونقارن بينها بثقة</p>
+  </div>
+
+  <div class="definition-box">
+    <span class="term">تقييم النموذج (Model Evaluation)</span> هو قياس جودة نموذج الانحدار باستخدام معايير إحصائية تقارن القيم المتوقعة بالقيم الفعلية. أهم المعايير: <strong>متوسط الخطأ المطلق (MAE)</strong>، <strong>متوسط مربع الخطأ (MSE)</strong>، <strong>جذر متوسط مربع الخطأ (RMSE)</strong>، و<strong>معامل التحديد (R²)</strong> الذي يقيس نسبة التباين المُفسَّر من قِبَل النموذج.
+    <div class="logic">بعد بناء النموذج، السؤال الحاسم: "كم هو جيد؟" بدون معايير تقييم لا نستطيع المقارنة بين نماذج، ولا تحديد ما إذا كان النموذج جاهزاً للنشر. كل معيار يقيس جانباً: MAE = متوسط الخطأ بنفس وحدة البيانات (سهل التفسير). MSE = يعاقب الأخطاء الكبيرة بشدة (التربيع). R² = نسبة التباين المُفسَّر (بدون وحدة، قابل للمقارنة عبر مشاكل مختلفة). اختيار المعيار يعتمد على السياق: في الطب نُفضّل MSE (الخطأ الكبير كارثي)، في تقدير الأسعار MAE (خطأ بسيط متناسب).</div>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>إدراك الفرق بين الخطأ (Error) والبواقي (Residuals)</li>
+      <li>فهم MAE وحسابه وتفسيره</li>
+      <li>فهم MSE وخصائصه الرياضية</li>
+      <li>فهم RMSE ومتى يُستخدم</li>
+      <li>فهم R² وتفسيره الإحصائي</li>
+      <li>المقارنة بين المعايير ومعرفة متى نستخدم كلاً منها</li>
+      <li>فهم مفهوم مجموع المربعات (Sum of Squares) بأنواعه</li>
+      <li>إدراك حدود ومحاذير كل معيار</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">❓</span> لماذا نحتاج تقييم النماذج؟</h2>
+    <ul>
+      <li><strong>المقارنة بين النماذج:</strong> أنشأنا 3 نماذج، أيها أفضل؟ نحتاج معياراً موحداً.</li>
+      <li><strong>قياس الجودة المطلقة:</strong> هل النموذج جيد بما يكفي للاستخدام في العالم الحقيقي؟</li>
+      <li><strong>تحديد نقاط التحسين:</strong> أين يخطئ النموذج؟ كيف نُحسّنه؟</li>
+      <li><strong>قرارات مبنية على البيانات:</strong> في البيئات العملية، القرارات تُبنى على دقة النموذج.</li>
+      <li><strong>التواصل مع الآخرين:</strong> المعايير الكمية لغة مشتركة لشرح جودة النموذج للمدراء والعملاء.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📐</span> المفاهيم الأساسية: الخطأ والبواقي</h2>
+    <ul>
+      <li><strong>القيمة الفعلية (yᵢ):</strong> ما نعرفه من الواقع</li>
+      <li><strong>القيمة المتوقعة (ŷᵢ):</strong> ما يخرجه النموذج</li>
+      <li><strong>الخطأ / البواقي (eᵢ):</strong> الفرق بينهما</li>
+    </ul>
+    <div class="formula-box">
+      <div class="formula-name">معادلة الخطأ</div>
+      <div class="formula">eᵢ = yᵢ − ŷᵢ</div>
+      <div class="legend">
+        <strong>أنواع الخطأ:</strong><br>
+        eᵢ &gt; 0 (موجب): النموذج توقّع قيمة <em>أقل</em> من الواقع (Underestimation)<br>
+        eᵢ &lt; 0 (سالب): النموذج توقّع قيمة <em>أكبر</em> من الواقع (Overestimation)<br>
+        eᵢ = 0: توقع مثالي (نادر جداً)
+      </div>
+    </div>
+    <div class="story-box">
+      <strong>مثال:</strong> سعر منزل فعلي = 500,000 ريال. توقع النموذج = 480,000 ريال. الخطأ = 500,000 − 480,000 = 20,000. النموذج قلّل التقدير بـ 20 ألف ريال.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">⚠️</span> لماذا لا نستخدم متوسط الخطأ فقط؟</h2>
+    <p>لو حسبنا متوسط الأخطاء مباشرة، الأخطاء الموجبة تلغي السالبة فنحصل على رقم مضلل!</p>
+    <div class="formula-box">
+      <div class="formula-name">متوسط الخطأ (Mean Error) — المعيار المُضلِّل</div>
+      <div class="formula">ME = (1/n) Σ(yᵢ − ŷᵢ)</div>
+    </div>
+    <div class="warn-box">
+      <strong>مثال يوضح الخطر:</strong> 4 طلاب، أخطاء التنبؤ = +20، -20، +10، -10. ME = 0! يبدو النموذج مثالياً لكنه أخطأ في كل تنبؤ بمقدار 10-20 درجة. الحل: نستخدم القيمة المطلقة (MAE) أو التربيع (MSE) لإلغاء تأثير الإشارة.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📏</span> متوسط الخطأ المطلق <span class="eng">MAE</span></h2>
+    <div class="formula-box">
+      <div class="formula-name">Mean Absolute Error</div>
+      <div class="formula">MAE = (1/n) Σ |yᵢ − ŷᵢ|</div>
+      <div class="legend">|...| = القيمة المطلقة (تحوّل كل قيمة لموجبة)</div>
+    </div>
+
+    <h3>خطوات الحساب</h3>
+    <ol>
+      <li>احسب الخطأ لكل ملاحظة: eᵢ = yᵢ − ŷᵢ</li>
+      <li>خذ القيمة المطلقة لكل خطأ: |eᵢ|</li>
+      <li>اجمع كل القيم المطلقة</li>
+      <li>اقسم على عدد الملاحظات</li>
+    </ol>
+
+    <h3>مثال محسوب: التنبؤ بدرجات الحرارة (°C)</h3>
+    <table class="compare-table">
+      <thead>
+        <tr><th>اليوم</th><th>الفعلي</th><th>المتوقع</th><th>الخطأ</th><th>|الخطأ|</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>25</td><td>23</td><td>+2</td><td>2</td></tr>
+        <tr><td>2</td><td>28</td><td>30</td><td>-2</td><td>2</td></tr>
+        <tr><td>3</td><td>22</td><td>24</td><td>-2</td><td>2</td></tr>
+        <tr><td>4</td><td>30</td><td>28</td><td>+2</td><td>2</td></tr>
+        <tr><td>5</td><td>26</td><td>26</td><td>0</td><td>0</td></tr>
+        <tr><td colspan="4"><strong>المجموع</strong></td><td><strong>8</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="formula-box">
+      <div class="formula-name">النتيجة</div>
+      <div class="formula">MAE = 8 / 5 = 1.6 °C</div>
+      <div class="legend">النموذج يخطئ في المتوسط بـ 1.6 درجة. التوقعات عادة ضمن نطاق ±1.6° من الفعلي.</div>
+    </div>
+
+    <h3>مزايا MAE</h3>
+    <ul>
+      <li><strong>سهل التفسير:</strong> نفس وحدة المتغير الأصلي (ريال، كيلومتر، درجة)</li>
+      <li><strong>قوي ضد القيم الشاذة:</strong> لا تأثير ضخم لقيمة شاذة واحدة</li>
+      <li><strong>معاملة متساوية للأخطاء:</strong> خطأ 100 يساهم 10× أكثر من خطأ 10 (خطّياً)</li>
+    </ul>
+
+    <h3>عيوب MAE</h3>
+    <ul>
+      <li>لا يميز بين الأخطاء الكبيرة والصغيرة بشكل خاص (في بعض التطبيقات الكبيرة كارثية)</li>
+      <li>غير قابل للاشتقاق عند الصفر — مشكلة في خوارزميات التحسين</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📐</span> متوسط مربع الخطأ <span class="eng">MSE</span></h2>
+    <div class="formula-box">
+      <div class="formula-name">Mean Squared Error</div>
+      <div class="formula">MSE = (1/n) Σ (yᵢ − ŷᵢ)²</div>
+      <div class="legend">التربيع يحقق هدفين: (1) إلغاء الإشارة السالبة، (2) معاقبة الأخطاء الكبيرة بشدة.</div>
+    </div>
+
+    <h3>لماذا نُربّع؟</h3>
+    <ul>
+      <li><strong>خطأ 2 يساهم بـ 4، خطأ 10 يساهم بـ 100!</strong></li>
+      <li>التربيع يجعل الأخطاء الكبيرة أكثر "ألماً" → النموذج يتعلم تجنبها</li>
+      <li>مفيد عندما الأخطاء الكبيرة كارثية (طب، طيران، مال)</li>
+    </ul>
+
+    <h3>مثال على نفس بيانات MAE</h3>
+    <p>الأخطاء: 2, -2, -2, 2, 0 → التربيع: 4, 4, 4, 4, 0 → المجموع = 16</p>
+    <div class="formula-box">
+      <div class="formula-name">النتيجة</div>
+      <div class="formula">MSE = 16 / 5 = 3.2 (°C)²</div>
+      <div class="legend"><strong>تنبيه مهم:</strong> الوحدة مُربّعة! لذلك التفسير المباشر صعب. ما معنى "100 ريال²"؟</div>
+    </div>
+
+    <h3>تأثير قيمة شاذة (مهم جداً)</h3>
+    <p>أضفنا يوماً 6: فعلي = 25، متوقع = 35 (خطأ -10):</p>
+    <ul>
+      <li><strong>MAE</strong>: من 1.6 → 3.0 (زيادة 87%)</li>
+      <li><strong>MSE</strong>: من 3.2 → 19.33 (زيادة 504%!)</li>
+    </ul>
+    <div class="warn-box">
+      <strong>الخلاصة:</strong> MSE شديد الحساسية للقيم الشاذة. لو كانت بياناتك تحتوي شواذ كثيرة، استخدم MAE.
+    </div>
+
+    <h3>مزايا MSE</h3>
+    <ul>
+      <li>يعاقب الأخطاء الكبيرة بشدة (مفيد في التطبيقات الحساسة)</li>
+      <li>قابل للاشتقاق في كل نقطة (مثالي لخوارزميات التحسين)</li>
+      <li>دالة محدّبة (Convex) — يسهل إيجاد الحد الأدنى</li>
+      <li>أساس طريقة المربعات الصغرى في الانحدار الخطي</li>
+    </ul>
+
+    <h3>عيوب MSE</h3>
+    <ul>
+      <li>الوحدة مُربّعة → صعوبة التفسير</li>
+      <li>حساسية شديدة للقيم الشاذة</li>
+      <li>صعوبة المقارنة بين مشاكل مختلفة</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">√</span> جذر متوسط مربع الخطأ <span class="eng">RMSE</span></h2>
+    <div class="formula-box">
+      <div class="formula-name">Root Mean Squared Error</div>
+      <div class="formula">RMSE = √(MSE) = √[(1/n) Σ (yᵢ − ŷᵢ)²]</div>
+      <div class="legend">يحل مشكلة الوحدة المربعة في MSE — يعيدنا إلى وحدة البيانات الأصلية.</div>
+    </div>
+    <p>في مثالنا السابق: RMSE = √3.2 ≈ 1.79 °C — وحدة طبيعية!</p>
+    <div class="story-box">
+      <strong>متى نستخدم RMSE بدلاً من MAE؟</strong> عندما نريد كلتا الميزتين: (1) معاقبة الأخطاء الكبيرة كما يفعل MSE، (2) وحدة طبيعية كما يفعل MAE. لذلك RMSE هو المعيار الأكثر شيوعاً في تقييم نماذج الانحدار.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📊</span> معامل التحديد <span class="eng">R²</span></h2>
+    <p>المعايير السابقة تخبرنا "كم" يخطئ النموذج، لكن لا تقول لنا "ما مدى جودته" مقارنةً بخط الأساس. هنا يأتي دور R².</p>
+
+    <div class="formula-box">
+      <div class="formula-name">معامل التحديد</div>
+      <div class="formula">R² = 1 − (SS_res / SS_tot)</div>
+      <div class="legend">
+        SS_res = Σ(yᵢ − ŷᵢ)² — مجموع مربعات البواقي<br>
+        SS_tot = Σ(yᵢ − ȳ)² — مجموع المربعات الكلي<br>
+        ȳ = متوسط القيم الفعلية
+      </div>
+    </div>
+
+    <h3>ما الذي يقيسه R²؟</h3>
+    <p>يجيب على السؤال: <strong>"ما نسبة التباين في Y التي يستطيع نموذجنا تفسيرها؟"</strong></p>
+
+    <h3>تفسير القيم</h3>
+    <table class="compare-table">
+      <thead>
+        <tr><th>قيمة R²</th><th>التفسير</th><th>مستوى الجودة</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1.0 (100%)</td><td>نموذج مثالي تماماً</td><td>نادر جداً (قد يدل على Overfitting)</td></tr>
+        <tr><td>0.9 (90%+)</td><td>ممتاز جداً</td><td>الفيزياء، الهندسة المضبوطة</td></tr>
+        <tr><td>0.7 - 0.9</td><td>جيد جداً → ممتاز</td><td>كثير من التطبيقات العملية</td></tr>
+        <tr><td>0.5 - 0.7</td><td>متوسط</td><td>قد يكون مفيداً حسب السياق</td></tr>
+        <tr><td>0.3 - 0.5</td><td>ضعيف</td><td>يحتاج تحسين كبير</td></tr>
+        <tr><td>&lt; 0.3</td><td>ضعيف جداً</td><td>غير عملي</td></tr>
+        <tr><td>سالب</td><td>أسوأ من استخدام المتوسط فقط!</td><td>علامة فشل كبيرة</td></tr>
+      </tbody>
+    </table>
+
+    <h3>مثال محسوب: التنبؤ بأسعار المنازل (بالألف ريال)</h3>
+    <table class="compare-table">
+      <thead>
+        <tr><th>المنزل</th><th>الفعلي (yᵢ)</th><th>المتوقع (ŷᵢ)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>200</td><td>195</td></tr>
+        <tr><td>2</td><td>250</td><td>240</td></tr>
+        <tr><td>3</td><td>300</td><td>310</td></tr>
+        <tr><td>4</td><td>350</td><td>345</td></tr>
+        <tr><td>5</td><td>400</td><td>410</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>الخطوة 1:</strong> ȳ = (200+250+300+350+400)/5 = 300</p>
+    <p><strong>الخطوة 2:</strong> SS_tot = (-100)² + (-50)² + 0² + 50² + 100² = 10,000 + 2,500 + 0 + 2,500 + 10,000 = <strong>25,000</strong></p>
+    <p><strong>الخطوة 3:</strong> SS_res = 5² + 10² + (-10)² + 5² + (-10)² = 25 + 100 + 100 + 25 + 100 = <strong>350</strong></p>
+    <div class="formula-box">
+      <div class="formula-name">النتيجة</div>
+      <div class="formula">R² = 1 − (350 / 25,000) = 0.986</div>
+      <div class="legend">النموذج يفسر 98.6% من التباين في أسعار المنازل. ممتاز جداً!</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">⚖️</span> R²: المزايا والمحاذير</h2>
+
+    <h3>المزايا</h3>
+    <ul>
+      <li><strong>معيار نسبي موحَّد:</strong> يمكن مقارنته بين مشاكل مختلفة (بعكس MAE/MSE)</li>
+      <li><strong>تفسير حدسي:</strong> "النموذج يفسر X% من التباين"</li>
+      <li><strong>يقيس الجودة النسبية:</strong> يقارن النموذج بخط الأساس (المتوسط)</li>
+    </ul>
+
+    <h3>المحاذير المهمة</h3>
+    <ul>
+      <li><strong>يزداد دائماً بإضافة متغيرات</strong> حتى لو كانت غير مفيدة! → استخدم Adjusted R² في الانحدار المتعدد</li>
+      <li><strong>لا يكشف Overfitting:</strong> R² عالٍ على التدريب لا يضمن أداءً جيداً على الاختبار</li>
+      <li><strong>لا يكشف العلاقات غير الخطية:</strong> قد يكون منخفضاً مع علاقة قوية لكن غير خطية</li>
+      <li><strong>حساس للقيم الشاذة</strong> (مثل MSE)</li>
+      <li><strong>السياق ضروري:</strong> R²=0.6 ممتاز في علم النفس، ضعيف في الفيزياء</li>
+      <li><strong>لا يحل محل الفحص البصري:</strong> ارسم البيانات والتنبؤات دائماً</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🤝</span> متى نستخدم كل معيار؟</h2>
+    <table class="compare-table">
+      <thead>
+        <tr><th>المعيار</th><th>متى نستخدمه</th><th>متى نتجنبه</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>MAE</strong></td>
+          <td>تفسير سهل مطلوب، بيانات تحتوي شواذ، خطأ خطّي</td>
+          <td>لا نريد كل الأخطاء متساوية</td>
+        </tr>
+        <tr>
+          <td><strong>MSE</strong></td>
+          <td>الأخطاء الكبيرة كارثية (طب، أمان)، تدريب النماذج</td>
+          <td>تفسير للجمهور، بيانات بشواذ كثيرة</td>
+        </tr>
+        <tr>
+          <td><strong>RMSE</strong></td>
+          <td>أفضل من MSE للتفسير (نفس الوحدة)، الأكثر شيوعاً عملياً</td>
+          <td>إن أردت قوة ضد الشواذ → MAE</td>
+        </tr>
+        <tr>
+          <td><strong>R²</strong></td>
+          <td>المقارنة بين نماذج، شرح الجودة للجمهور</td>
+          <td>كمعيار وحيد، الانحدار المتعدد بمتغيرات كثيرة</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="story-box">
+      <strong>القاعدة الذهبية:</strong> لا تعتمد على معيار واحد. استخدم 2-3 معايير معاً، وافحص البواقي بصرياً. النموذج الجيد يحقق نتائج معقولة في كل المعايير.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🔄</span> العلاقة بين المعايير</h2>
+    <div class="formula-box">
+      <div class="formula-name">SS_res و MSE</div>
+      <div class="formula">SS_res = n × MSE</div>
+      <div class="legend">مجموع مربعات البواقي = عدد العينات × متوسط مربع الخطأ.</div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-name">RMSE و MSE</div>
+      <div class="formula">RMSE = √MSE</div>
+      <div class="legend">RMSE = جذر MSE، يُعيد الوحدة الأصلية.</div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-name">R² والبواقي</div>
+      <div class="formula">R² = 1 − (SS_res / SS_tot)</div>
+      <div class="legend">R² يقارن أخطاء النموذج بأخطاء أبسط نموذج (التنبؤ بالمتوسط دائماً).</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">⚠️</span> التقييم على بيانات التدريب vs الاختبار</h2>
+    <ul>
+      <li><strong>على التدريب:</strong> يقيس قدرة النموذج على التذكر (Memorization)</li>
+      <li><strong>على الاختبار:</strong> يقيس قدرة النموذج على التعميم (Generalization) — وهذا ما يهم!</li>
+    </ul>
+    <div class="warn-box">
+      <strong>إنذار Overfitting:</strong> R² التدريب = 0.95، R² الاختبار = 0.50 → نموذج حفظ التدريب وفشل في التعميم. الحل: ابحث في الموضوع 11 عن طرق المعالجة.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🐍</span> جرّب التقييم في بايثون</h2>
+    <div class="apps-row">
+      <a href="python-sim.html" target="_blank" class="app-link python"><span class="ico">🐍</span><span>افتح محاكي بايثون لحساب MAE/MSE/R²</span></a>
+    </div>
+    <div class="story-box">
+      <strong>في sklearn:</strong> <code>from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score</code>. ثلاث دوال جاهزة تختصر كل العمليات أعلاه في سطر واحد لكل معيار.
+    </div>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> اختبر فهمك للموضوع 12</h2>
+
+    <div class="quiz-q">
+      <div class="q-text">س1: لماذا لا يكفي حساب متوسط الأخطاء كمعيار للتقييم؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>صعب الحساب</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>الأخطاء الموجبة والسالبة تلغي بعضها فيُعطي نتيجة مضللة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>غير دقيق رياضياً</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>بطيء الحساب</span></button>
+      </div>
+      <div class="quiz-explain">+20 و -20 يُعطيان متوسطاً = 0، رغم أن النموذج أخطأ فعلاً. الحل: القيمة المطلقة (MAE) أو التربيع (MSE).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س2: نموذج تنبؤ بالأسعار: MAE = 5,000 ريال. هذا يعني:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>الخطأ الأكبر = 5,000</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>النموذج يخطئ في المتوسط بـ 5,000 ريال (أعلى أو أقل من السعر الفعلي)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>السعر = 5,000 ريال</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>R² = 5,000</span></button>
+      </div>
+      <div class="quiz-explain">MAE = متوسط القيمة المطلقة للأخطاء بنفس وحدة المتغير. تفسير سهل ومباشر.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س3: لماذا MSE شديد الحساسية للقيم الشاذة؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>التربيع يضخّم الأخطاء الكبيرة بشكل غير متناسب</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>معادلته خاطئة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>صدفة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>لا يحسب الإشارة</span></button>
+      </div>
+      <div class="quiz-explain">خطأ 10 يساهم بـ 100 (تربيعه)، بينما خطأ 2 يساهم بـ 4 فقط. قيمة شاذة تطغى على الباقي.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س4: R² = 0.85 يعني:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>الخطأ = 85%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>النموذج يفسر 85% من التباين في المتغير التابع</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>الدقة = 85%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>الميل = 0.85</span></button>
+      </div>
+      <div class="quiz-explain">R² = نسبة التباين المُفسَّر بواسطة النموذج. 0.85 = 85% مفسَّر، 15% يبقى بسبب عوامل غير مدرجة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س5: ما الفرق الجوهري بين MAE و RMSE؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>RMSE يعاقب الأخطاء الكبيرة أكثر، MAE يعاملها متساوية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>لا فرق</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>RMSE أسرع حساباً</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>MAE فقط للتصنيف</span></button>
+      </div>
+      <div class="quiz-explain">RMSE = √MSE، يرث من MSE معاقبة الأخطاء الكبيرة (التربيع). MAE خطّي في معاملة الأخطاء.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س6: نموذج يحقق R² = 0.95 على التدريب و R² = 0.40 على الاختبار. ما المشكلة؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>أداء طبيعي</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>إفراط في التعلم (Overfitting) — النموذج حفظ ولم يتعلم</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>تعلم ناقص</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>R² عالٍ → النموذج ممتاز</span></button>
+      </div>
+      <div class="quiz-explain">فجوة كبيرة بين أداء التدريب والاختبار = Overfitting. النموذج لا يعمم على بيانات جديدة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س7: في الفيزياء التجريبية، نتوقع R² ≥ ____. في علم النفس، R² = 0.4 يعتبر:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>0.95 / فاشل</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>0.95 / مقبول وقد يكون جيداً</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>0.30 / ممتاز</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>0.50 / مقبول</span></button>
+      </div>
+      <div class="quiz-explain">السياق مهم! الفيزياء تتطلب دقة عالية (≥0.95). علم النفس يدرس سلوكاً معقداً ومتغيراً، فـ 0.3-0.5 قد يكون مفيداً.</div>
+    </div>
+  </div>
+</section>
+`;
+
+const TOPIC_ORDER = ['1','2','3','6','7','8','9','10','ml','eval','11','grouped','quiz'];
 const container = document.getElementById('topicsContainer');
 TOPIC_ORDER.forEach(id => {
   if (TOPICS[id]) {
