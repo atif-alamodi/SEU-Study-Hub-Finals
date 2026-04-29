@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ملفات المقررات الأصلية | SEU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #2563eb; --accent: #7c3aed; --success: #16a34a;
+  --bg: #f8fafc; --white: #ffffff; --text: #1e293b; --text-muted: #64748b;
+  --border: #e2e8f0; --osc: #2563eb; --sta: #f59e0b; --pyt: #16a34a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  font-family: 'Noto Sans Arabic', 'Cairo', sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.7;
+  margin: 0; overscroll-behavior-y: auto; -webkit-overflow-scrolling: touch;
+}
+.container { max-width: 1100px; margin: 0 auto; padding: 24px 16px 60px; }
+.back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--primary); text-decoration: none; margin-bottom: 16px; font-weight: 600; padding: 8px 14px; background: white; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+.back-link:hover { background: var(--primary); color: white; }
+
+.hero {
+  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+  color: white; padding: 32px 28px; border-radius: 20px;
+  margin-bottom: 24px; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2);
+}
+.hero h1 { font-size: 26px; margin-bottom: 8px; font-weight: 800; }
+.hero p { font-size: 15px; opacity: 0.95; }
+.hero .icon { font-size: 40px; margin-bottom: 10px; }
+
+.subject-card {
+  background: white; border-radius: 16px; padding: 22px;
+  margin-bottom: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+  border-right: 5px solid var(--osc);
+}
+.subject-card.sta { border-right-color: var(--sta); }
+.subject-card.pyt { border-right-color: var(--pyt); }
+
+.subject-header {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 16px;
+  padding-bottom: 14px; border-bottom: 1px dashed var(--border);
+}
+.subject-icon {
+  width: 56px; height: 56px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; flex-shrink: 0;
+  background: linear-gradient(135deg, #dbeafe, #93c5fd); color: white;
+}
+.sta .subject-icon { background: linear-gradient(135deg, #fef3c7, #fde68a); }
+.pyt .subject-icon { background: linear-gradient(135deg, #dcfce7, #86efac); }
+
+.subject-title { font-size: 18px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+.subject-meta { font-size: 13px; color: var(--text-muted); }
+
+.note-box {
+  background: #fef3c7; border-right: 4px solid #f59e0b;
+  padding: 12px 16px; border-radius: 10px; margin-bottom: 14px;
+  font-size: 13px; color: #78350f;
+}
+.note-box::before { content: '💡 '; font-weight: 700; }
+
+.parts-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px; margin-top: 6px;
+}
+.pdf-link {
+  display: flex; align-items: center; gap: 12px; padding: 14px 16px;
+  background: var(--bg); border-radius: 12px; text-decoration: none;
+  color: var(--text); border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+.pdf-link:hover {
+  background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+  border-color: var(--accent); transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.15);
+}
+.pdf-icon {
+  width: 44px; height: 44px; border-radius: 10px;
+  background: linear-gradient(135deg, #ef4444, #dc2626); color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0; font-weight: 700;
+}
+.pdf-info { flex: 1; min-width: 0; }
+.pdf-name { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+.pdf-meta { font-size: 12px; color: var(--text-muted); }
+.pdf-arrow { color: var(--text-muted); font-size: 20px; }
+
+.single-link { grid-column: 1 / -1; max-width: 380px; }
+
+@media (max-width: 600px) {
+  .container { padding: 16px 12px 40px; }
+  .hero h1 { font-size: 22px; }
+  .hero { padding: 24px 20px; }
+  .subject-card { padding: 18px; }
+  .parts-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <a class="back-link" href="index.html">← العودة للمنصة</a>
+
+  <div class="hero">
+    <div class="icon">📚</div>
+    <h1>ملفات المقررات الأصلية</h1>
+    <p>كامل المناهج بصيغة PDF كما اعتمدتها الجامعة. الملفات الكبيرة قُسمت لأجزاء لتسهيل التحميل على الجوال.</p>
+  </div>
+
+  <!-- نظم التشغيل -->
+  <div class="subject-card">
+    <div class="subject-header">
+      <div class="subject-icon">💻</div>
+      <div>
+        <div class="subject-title">نظم التشغيل (OSC)</div>
+        <div class="subject-meta">المنهج الكامل + أسئلة المراجعة الرسمية للأستاذة</div>
+      </div>
+    </div>
+
+    <div class="note-box">
+      <strong>أسئلة الأستاذة الرسمية</strong> هي ملف واحد صغير. أما <strong>المنهج الكامل</strong> فمقسم لـ 6 أجزاء (334 صفحة، 51 ميجابايت إجمالاً) لتسهيل التحميل.
+    </div>
+
+    <div class="parts-grid">
+      <a class="pdf-link single-link" href="OSC-teacher-review-questions.pdf" download>
+        <div class="pdf-icon">⭐</div>
+        <div class="pdf-info">
+          <div class="pdf-name">أسئلة المراجعة الرسمية للأستاذة</div>
+          <div class="pdf-meta">51 سؤال · 0.3 MB</div>
+        </div>
+        <div class="pdf-arrow">←</div>
+      </a>
+    </div>
+
+    <h3 style="margin: 18px 0 10px; font-size: 14px; color: var(--text-muted);">📖 المنهج الكامل (مقسم لـ 6 أجزاء)</h3>
+    <div class="parts-grid">
+      <a class="pdf-link" href="OSC-curriculum-part1.pdf" download>
+        <div class="pdf-icon">1</div>
+        <div class="pdf-info">
+          <div class="pdf-name">الجزء الأول</div>
+          <div class="pdf-meta">صفحات 1-60 · 20.7 MB</div>
+        </div>
+        <div class="pdf-arrow">←</div>
+      </a>
+      <a class="pdf-link" href="OSC-curriculum-part2.pdf" download>
+        <div class="pdf-icon">2</div>
+        <div class="pdf-info">
+          <div class="pdf-name">الجزء الثاني</div>
+          <div class="pdf-meta">صفحات 61-120 · 9.5 MB</div>
+        </div>
+        <div class="pdf-arrow">←</div>
+      </a>
+      <a class="pdf-link" href="OSC-curriculum-part3.pdf" download>
+        <div class="pdf-icon">3</div>
+        <div class="pdf-info">
+          <div class="pdf-name">الجزء الثالث</div>
+          <div class="pdf-meta">صفحات 121-180 · 4.4 MB</div>
+        </div>
+        <div class="pdf-arrow">←</div>
+      </a>
+      <a class="pdf-link" href="OSC-curriculum-part4.pdf" download>
+        <div class="pdf-icon">4</div>
+        <div class="pdf-info">
+          <div class="pdf-name">الجزء الرابع</div>
+          <div class="pdf-meta">صفحات 181-240 · 5.7 MB</div>
+        </div>
+        <div class="pdf-arrow">←</div>
+      </a>
+      <a class="pdf-link" href="OSC-curriculum-part5.pdf" download>
+        <div class="pdf-icon">5</div>
+        <div class="pdf-info">
+          <div class="pdf-name">الجزء الخامس</div>
+          <div class="pdf-meta">صفحات 241-300 · 10.5 MB</div>
+        </div>
+        <div class="pdf-arrow">←</div>
+      </a>
+      <a class="pdf-link" href="OSC-curriculum-part6.pdf" download>
+        <div class="pdf-icon">6</div>
+        <div class="pdf-info">
+          <div class="pdf-name">الجزء السادس</div>
+          <div class="pdf-meta">صفحات 301-334 · 6.6 MB</div>
+        </div>
+        <div class="pdf-arrow">←</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- الإحصاء -->
+  <div class="subject-card sta">
+    <div class="subject-header">
+      <div class="subject-icon">📊</div>
+      <div>
+        <div class="subject-title">الإحصاء (STA104)</div>
+        <div class="subject-meta">المنهج الكامل في ملف واحد</div>
+      </div>
+    </div>
+    <div class="parts-grid">
+      <a class="pdf-link single-link" href="STA104-statistics.pdf" download>
+        <div class="pdf-icon">📊</div>
+        <div class="pdf-info">
+          <div class="pdf-name">منهج الإحصاء كاملاً</div>
+          <div class="pdf-meta">264 صفحة · 8.9 MB</div>
+        </div>
+        <div class="pdf-arrow">←</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- البايثون -->
+  <div class="subject-card pyt">
+    <div class="subject-header">
+      <div class="subject-icon">🐍</div>
+      <div>
+        <div class="subject-title">البايثون (PYT103)</div>
+        <div class="subject-meta">المنهج الكامل (326 صفحة · 40 MB إجمالاً)</div>
+      </div>
+    </div>
+
+    <div class="note-box">
+      المنهج الكامل مقسم لـ 5 أجزاء بسبب حجمه الكبير. حمّل الأجزاء حسب المواضيع التي تحتاجها.
+    </div>
+
+    <div class="parts-grid">
+      <a class="pdf-link" href="PYT103-python-part1.pdf" download>
+        <div class="pdf-icon">1</div>
+        <div class="pdf-info">
+          <div class="pdf-name">الجزء الأول</div>
+          <div class="pdf-meta">صفحات 1-80 · 17.8 MB</div>
+        </div>
+        <div class="pdf-arrow">←</div>
+      </a>
+      <a class="pdf-link" href="PYT103-python-part2.pdf" download>
+        <div class="pdf-icon">2</div>
+        <div class="pdf-info">
+          <div class="pdf-name">الجزء الثاني</div>
+          <div class="pdf-meta">صفحات 81-160 · 10.8 MB</div>
+        </div>
+        <div class="pdf-arrow">←</div>
+      </a>
+      <a class="pdf-link" href="PYT103-python-part3.pdf" download>
+        <div class="pdf-icon">3</div>
+        <div class="pdf-info">
+          <div class="pdf-name">الجزء الثالث</div>
+          <div class="pdf-meta">صفحات 161-240 · 4.1 MB</div>
+        </div>
+        <div class="pdf-arrow">←</div>
+      </a>
+      <a class="pdf-link" href="PYT103-python-part4.pdf" download>
+        <div class="pdf-icon">4</div>
+        <div class="pdf-info">
+          <div class="pdf-name">الجزء الرابع</div>
+          <div class="pdf-meta">صفحات 241-320 · 7.2 MB</div>
+        </div>
+        <div class="pdf-arrow">←</div>
+      </a>
+      <a class="pdf-link" href="PYT103-python-part5.pdf" download>
+        <div class="pdf-icon">5</div>
+        <div class="pdf-info">
+          <div class="pdf-name">الجزء الخامس</div>
+          <div class="pdf-meta">صفحات 321-326 · 0.8 MB</div>
+        </div>
+        <div class="pdf-arrow">←</div>
+      </a>
+    </div>
+  </div>
+
+  <div style="text-align: center; padding: 24px; color: var(--text-muted); font-size: 13px;">
+    🎓 منصة المراجعة النهائية · الجامعة السعودية الإلكترونية · دبلوم الذكاء الاصطناعي التوليدي
+  </div>
+</div>
+</body>
+</html>
