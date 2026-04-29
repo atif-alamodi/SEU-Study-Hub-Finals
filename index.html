@@ -139,6 +139,8 @@ html, body { font-family: 'Noto Sans Arabic', 'Cairo', sans-serif; background: v
   <button class="tab-btn" data-tab="games" onclick="switchTab('games')"><span class="tab-icon">🎮</span><span class="tab-name">الألعاب التفاعلية</span></button>
   <button class="tab-btn" data-tab="pylab" onclick="switchTab('pylab')"><span class="tab-icon">🐍</span><span class="tab-name">محاكي بايثون</span></button>
   <button class="tab-btn" data-tab="xllab" onclick="switchTab('xllab')"><span class="tab-icon">📊</span><span class="tab-name">محاكي إكسل</span></button>
+  <div class="tab-divider"></div>
+  <button class="tab-btn" data-tab="pdfs" onclick="switchTab('pdfs')"><span class="tab-icon">📚</span><span class="tab-name">ملفات المقررات</span><span class="tab-code">PDF</span></button>
 </nav>
 
 <main class="content-area">
@@ -240,6 +242,7 @@ html, body { font-family: 'Noto Sans Arabic', 'Cairo', sans-serif; background: v
   <div class="tab-panel" id="panel-games"><div class="loading-overlay" id="loading-games"><div class="spinner"></div><div class="loading-text">جاري تحميل الألعاب التفاعلية...</div></div></div>
   <div class="tab-panel" id="panel-pylab"><div class="loading-overlay" id="loading-pylab"><div class="spinner"></div><div class="loading-text">جاري تحميل محاكي بايثون...</div></div></div>
   <div class="tab-panel" id="panel-xllab"><div class="loading-overlay" id="loading-xllab"><div class="spinner"></div><div class="loading-text">جاري تحميل محاكي إكسل...</div></div></div>
+  <div class="tab-panel" id="panel-pdfs"><div class="loading-overlay" id="loading-pdfs"><div class="spinner"></div><div class="loading-text">جاري تحميل ملفات المقررات...</div></div></div>
 </main>
 
 <script>
@@ -251,7 +254,8 @@ const PAGE_URLS = {
   elg:   'https://atif-alamodi.github.io/English_Mid_Tirm/',
   games: 'games.html',
   pylab: 'python-sim.html',
-  xllab: 'excel-sim.html'
+  xllab: 'excel-sim.html',
+  pdfs:  'curriculum-pdfs.html'
 };
 const loadedIframes = new Set();
 function loadIframe(key) {
