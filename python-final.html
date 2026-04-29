@@ -36,7 +36,10 @@ body {
   color: var(--text);
   line-height: 1.7;
   font-size: 15px;
+  overscroll-behavior-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
+html { overscroll-behavior-y: auto; }
 .container { display: flex; max-width: 1400px; margin: 0 auto; min-height: 100vh; }
 
 /* Sidebar */
