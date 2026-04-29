@@ -359,15 +359,16 @@ body { display: flex; min-height: 100vh; }
     <li class="topic-item" data-topic="1"><span class="topic-num">1</span><span>الإحصاء، المجتمع، النزعة المركزية</span></li>
     <li class="topic-item" data-topic="2"><span class="topic-num">2</span><span>الارتباط وخط الاتجاه</span></li>
     <li class="topic-item" data-topic="3" style="background: linear-gradient(135deg, #cffafe, #a5f3fc); border: 1px solid #06b6d4;"><span class="topic-num" style="background: #0891b2; color: white;">3</span><span style="font-weight: 700;">⭐ التصوير البياني</span></li>
-    <li class="topic-item" data-topic="6"><span class="topic-num">4</span><span>تحليل البيانات بإكسل</span></li>
-    <li class="topic-item" data-topic="7"><span class="topic-num">5</span><span>التوزيع الطبيعي والمعياري</span></li>
-    <li class="topic-item" data-topic="8"><span class="topic-num">6</span><span>الاحتمالات الأساسية</span></li>
-    <li class="topic-item" data-topic="9"><span class="topic-num">7</span><span>الرسوم البيانية</span></li>
-    <li class="topic-item" data-topic="10"><span class="topic-num">8</span><span>الانحدار الخطي</span></li>
-    <li class="topic-item" data-topic="ml" style="background: linear-gradient(135deg, #dcfce7, #bbf7d0); border: 1px solid #16a34a;"><span class="topic-num" style="background: #16a34a; color: white;">9</span><span style="font-weight: 700;">🆕 تعلم الآلة</span></li>
-    <li class="topic-item" data-topic="eval" style="background: linear-gradient(135deg, #fee2e2, #fecaca); border: 1px solid #dc2626;"><span class="topic-num" style="background: #dc2626; color: white;">10</span><span style="font-weight: 700;">🆕 تقييم النموذج</span></li>
-    <li class="topic-item" data-topic="11" style="background: linear-gradient(135deg, #dcfce7, #bbf7d0); border: 1px solid #16a34a;"><span class="topic-num" style="background: #16a34a; color: white;">11</span><span style="font-weight: 700;">تحليل البيانات (IF)</span></li>
-    <li class="topic-item" data-topic="grouped" style="background: linear-gradient(135deg, #ede9fe, #fce7f3); border: 1px solid #c084fc;"><span class="topic-num" style="background: #7c3aed; color: white;">12</span><span style="font-weight: 700;">البيانات المبوبة</span></li>
+    <li class="topic-item" data-topic="dispersion" style="background: linear-gradient(135deg, #cffafe, #a5f3fc); border: 1px solid #0891b2;"><span class="topic-num" style="background: #0891b2; color: white;">4</span><span style="font-weight: 700;">🆕 مقاييس التشتت</span></li>
+    <li class="topic-item" data-topic="6"><span class="topic-num">5</span><span>تحليل البيانات بإكسل</span></li>
+    <li class="topic-item" data-topic="7"><span class="topic-num">6</span><span>التوزيع الطبيعي والمعياري</span></li>
+    <li class="topic-item" data-topic="8"><span class="topic-num">7</span><span>الاحتمالات الأساسية</span></li>
+    <li class="topic-item" data-topic="9"><span class="topic-num">8</span><span>الرسوم البيانية</span></li>
+    <li class="topic-item" data-topic="10"><span class="topic-num">9</span><span>الانحدار الخطي</span></li>
+    <li class="topic-item" data-topic="ml" style="background: linear-gradient(135deg, #dcfce7, #bbf7d0); border: 1px solid #16a34a;"><span class="topic-num" style="background: #16a34a; color: white;">10</span><span style="font-weight: 700;">🆕 تعلم الآلة</span></li>
+    <li class="topic-item" data-topic="eval" style="background: linear-gradient(135deg, #fee2e2, #fecaca); border: 1px solid #dc2626;"><span class="topic-num" style="background: #dc2626; color: white;">11</span><span style="font-weight: 700;">🆕 تقييم النموذج</span></li>
+    <li class="topic-item" data-topic="11" style="background: linear-gradient(135deg, #dcfce7, #bbf7d0); border: 1px solid #16a34a;"><span class="topic-num" style="background: #16a34a; color: white;">⭐</span><span style="font-weight: 700;">تحليل البيانات (IF)</span></li>
+    <li class="topic-item" data-topic="grouped" style="background: linear-gradient(135deg, #ede9fe, #fce7f3); border: 1px solid #c084fc;"><span class="topic-num" style="background: #7c3aed; color: white;">⭐</span><span style="font-weight: 700;">البيانات المبوبة</span></li>
     <li class="topic-item" data-topic="quiz" style="border-top: 1px solid var(--border); margin-top: 8px; padding-top: 16px;"><span class="topic-num" style="background: var(--accent); color: white;">📝</span><span style="font-weight: 800;">الاختبار الشامل</span></li>
   </ul>
   <div class="sidebar-footer">
@@ -1669,7 +1670,7 @@ y_pred = slope * <span class="number">7</span> + intercept
 TOPICS['6'] = `
 <section class="topic-section" id="topic-6">
   <div class="topic-header">
-    <div class="label">الموضوع الرابع</div>
+    <div class="label">الموضوع الخامس</div>
     <h1>تحليل البيانات بإكسل</h1>
     <p>الدوال الشرطية، إحصاءات وصفية، تنظيف البيانات، Pivot Tables</p>
   </div>
@@ -1985,7 +1986,7 @@ pivot = df.<span class="func">pivot_table</span>(values=<span class="string">'sa
   </div>
 
   <div class="section quiz-section">
-    <h2><span class="icon">📝</span> اختبر فهمك للموضوع 4</h2>
+    <h2><span class="icon">📝</span> اختبر فهمك للموضوع 5</h2>
 
     <div class="quiz-q">
       <div class="q-text">س1: لحساب عدد الخلايا التي قيمتها أكبر من 100 في النطاق B2:B50:</div>
@@ -2038,7 +2039,7 @@ pivot = df.<span class="func">pivot_table</span>(values=<span class="string">'sa
 TOPICS['7'] = `
 <section class="topic-section" id="topic-7">
   <div class="topic-header">
-    <div class="label">الموضوع الخامس</div>
+    <div class="label">الموضوع السادس</div>
     <h1>التوزيع الطبيعي والمعياري</h1>
     <p>الجرس Bell Curve، Z-score، قاعدة 68-95-99.7، دوال إكسل</p>
   </div>
@@ -2343,7 +2344,7 @@ x = norm.<span class="func">ppf</span>(<span class="number">0.90</span>, loc=<sp
   </div>
 
   <div class="section quiz-section">
-    <h2><span class="icon">📝</span> اختبر فهمك للموضوع 5</h2>
+    <h2><span class="icon">📝</span> اختبر فهمك للموضوع 6</h2>
 
     <div class="quiz-q">
       <div class="q-text">س1: في توزيع طبيعي μ=50, σ=5، ما Z-score للقيمة x=60؟</div>
@@ -2396,7 +2397,7 @@ x = norm.<span class="func">ppf</span>(<span class="number">0.90</span>, loc=<sp
 TOPICS['8'] = `
 <section class="topic-section" id="topic-8">
   <div class="topic-header">
-    <div class="label">الموضوع السادس</div>
+    <div class="label">الموضوع السابع</div>
     <h1>الاحتمالات الأساسية</h1>
     <p>التجربة، الحدث، فضاء العينة، قواعد الجمع والضرب، الاحتمال الشرطي</p>
   </div>
@@ -2798,7 +2799,7 @@ success = <span class="number">0</span>
   </div>
 
   <div class="section quiz-section">
-    <h2><span class="icon">📝</span> اختبر فهمك للموضوع 6</h2>
+    <h2><span class="icon">📝</span> اختبر فهمك للموضوع 7</h2>
 
     <div class="quiz-q">
       <div class="q-text">س1: في رمي حجر نرد، احتمال ظهور رقم أكبر من 4 يساوي:</div>
@@ -2851,7 +2852,7 @@ success = <span class="number">0</span>
 TOPICS['9'] = `
 <section class="topic-section" id="topic-9">
   <div class="topic-header">
-    <div class="label">الموضوع السابع</div>
+    <div class="label">الموضوع الثامن</div>
     <h1>الرسوم البيانية في إكسل</h1>
     <p>اختيار الرسم المناسب، أنواع الرسومات، والتطبيق العملي</p>
   </div>
@@ -3172,7 +3173,7 @@ plt.<span class="func">show</span>()</div>
   </div>
 
   <div class="section quiz-section">
-    <h2><span class="icon">📝</span> اختبر فهمك للموضوع 7</h2>
+    <h2><span class="icon">📝</span> اختبر فهمك للموضوع 8</h2>
 
     <div class="quiz-q">
       <div class="q-text">س1: لإظهار اتجاه درجات الحرارة خلال 30 يومًا، أفضل رسم:</div>
@@ -3225,7 +3226,7 @@ plt.<span class="func">show</span>()</div>
 TOPICS['10'] = `
 <section class="topic-section" id="topic-10">
   <div class="topic-header">
-    <div class="label">الموضوع الثامن</div>
+    <div class="label">الموضوع التاسع</div>
     <h1>مقدمة إلى الانحدار الخطي (إكسل)</h1>
     <p>نمذجة العلاقات، طريقة المربعات الصغرى، والتنبؤ بالقيم</p>
   </div>
@@ -3544,7 +3545,7 @@ prediction = model.<span class="func">predict</span>([[<span class="number">32</
   </div>
 
   <div class="section quiz-section">
-    <h2><span class="icon">📝</span> اختبر فهمك للموضوع 8</h2>
+    <h2><span class="icon">📝</span> اختبر فهمك للموضوع 9</h2>
 
     <div class="quiz-q">
       <div class="q-text">س1: في معادلة الانحدار y = mx + b، m تمثل:</div>
@@ -4161,7 +4162,7 @@ r, _ = <span class="func">pearsonr</span>(x, y)
 TOPICS['11'] = `
 <section class="topic-section" id="topic-11">
   <div class="topic-header" style="background: linear-gradient(135deg, #16a34a 0%, #14532d 100%);">
-    <div class="label">الموضوع الحادي عشر · مهم للنهائي</div>
+    <div class="label">⭐ موضوع متخصص في إكسل · مهم للنهائي</div>
     <h1>تحليل البيانات باستخدام IF والدوال الشرطية</h1>
     <p>كيف تجعل إكسل يتخذ قرارات وتحسب بشروط متعددة</p>
   </div>
@@ -4448,7 +4449,7 @@ AVERAGEIFS(avg_range, rng1, crit1, rng2, crit2, ...)</div>
 TOPICS['grouped'] = `
 <section class="topic-section" id="topic-grouped">
   <div class="topic-header" style="background: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);">
-    <div class="label">الموضوع الثاني عشر · مهم جدًا للنهائي</div>
+    <div class="label">⭐ موضوع إضافي · مهم جدًا للنهائي</div>
     <h1>البيانات المبوبة (Grouped Data)</h1>
     <p>المتوسط، الوسيط، المنوال، الانحراف المعياري — كل المقاييس عندما تكون البيانات في فئات</p>
   </div>
@@ -5989,7 +5990,7 @@ console.log("All STA topics built. Total topics:", Object.keys(TOPICS).length);
 TOPICS['ml'] = `
 <section class="topic-section" id="topic-ml">
   <div class="topic-header" style="background: linear-gradient(135deg, #16a34a, #15803d);">
-    <div class="label">الموضوع التاسع · المنهج 11</div>
+    <div class="label">الموضوع العاشر · من المنهج</div>
     <h1>مقدمة إلى تعلم الآلة</h1>
     <p>كيف تتعلم الحواسيب من البيانات بدون برمجة صريحة لكل حالة</p>
   </div>
@@ -6698,7 +6699,7 @@ elif (الصورة فيها لسان طويل) and (الذيل مفروش) and (
 TOPICS['eval'] = `
 <section class="topic-section" id="topic-eval">
   <div class="topic-header" style="background: linear-gradient(135deg, #dc2626, #b91c1c);">
-    <div class="label">الموضوع العاشر · المنهج 12</div>
+    <div class="label">الموضوع الحادي عشر · من المنهج</div>
     <h1>تقييم النموذج: R² ، MAE ، MSE</h1>
     <p>كيف نقيس جودة نماذج الانحدار ونقارن بينها بثقة</p>
   </div>
@@ -7470,7 +7471,7 @@ TOPICS['eval'] = `
 
 
   <div class="section quiz-section">
-    <h2><span class="icon">📝</span> اختبر فهمك للموضوع 10</h2>
+    <h2><span class="icon">📝</span> اختبر فهمك للموضوع 11</h2>
 
     <div class="quiz-q">
       <div class="q-text">س1: لماذا لا يكفي حساب متوسط الأخطاء كمعيار للتقييم؟</div>
@@ -7552,7 +7553,336 @@ TOPICS['eval'] = `
 </section>
 `;
 
-const TOPIC_ORDER = ['1','2','3','6','7','8','9','10','ml','eval','11','grouped','quiz'];
+
+// ============================================================================
+// NEW TOPIC: مقاييس التشتت (الدرس المفقود من المنهج)
+// ============================================================================
+TOPICS['dispersion'] = `
+<section class="topic-section" id="topic-dispersion">
+  <div class="topic-header" style="background: linear-gradient(135deg, #0891b2, #0e7490);">
+    <div class="label">الموضوع الرابع · من المنهج</div>
+    <h1>مقاييس التشتت: المدى، التباين، الانحراف المعياري</h1>
+    <p>قياس مدى تجانس أو تشتت البيانات حول مركزها</p>
+  </div>
+
+  <div class="definition-box">
+    <span class="term">مقاييس التشتت (Measures of Dispersion)</span> مقاييس عددية تستخدم لقياس درجة تجانس (تقارب) أو تشتت البيانات حول قيمة مركزية (مثل المتوسط). أهمها: <strong>المدى (Range)</strong>، <strong>التباين (Variance)</strong>، و<strong>الانحراف المعياري (Standard Deviation)</strong>.
+    <div class="logic">مقاييس النزعة المركزية (متوسط، وسيط، منوال) تخبرنا عن "مركز" البيانات، لكنها لا تكفي وحدها. تخيل فصلَيْن متوسط درجاتهما 75: الأول كل طلابه بين 70-80 (متجانس)، الثاني نصفهم 95 ونصفهم 55 (متشتت). نفس المركز، سلوك مختلف تماماً! مقاييس التشتت تكشف هذا الفرق المخفي. فائدة عملية: في الجودة الصناعية → تشتت قليل = منتج موحد. في الاستثمار → تشتت كبير = مخاطرة عالية. في التعليم → تشتت كبير = تفاوت في فهم الطلاب يحتاج معالجة.</div>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>فهم مفهوم التشتت ولماذا نحتاجه إضافة للنزعة المركزية</li>
+      <li>حساب المدى (Range) وفهم محدودياته</li>
+      <li>حساب التباين (Variance) للعينة والمجتمع</li>
+      <li>حساب الانحراف المعياري (Standard Deviation)</li>
+      <li>تفسير قيم التشتت في السياق العملي</li>
+      <li>تطبيق هذه المقاييس باستخدام إكسل والبايثون</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">💡</span> لماذا نحتاج مقاييس التشتت؟</h2>
+    <p>لنبدأ بمثال يوضح ضرورة هذه المقاييس:</p>
+
+    <div class="story-box">
+      <strong>قصة فصلين:</strong> أنت معلم لديك فصلان، متوسط درجاتهما <strong>75</strong>. هل أداؤهما متشابه؟<br><br>
+      <strong>الفصل أ:</strong> 70، 73، 75، 77، 80 (كلهم قريبون من المتوسط)<br>
+      <strong>الفصل ب:</strong> 50، 60، 75، 90، 100 (متفاوتون جداً)<br><br>
+      نفس المتوسط، لكن السلوك مختلف تماماً! الفصل أ متجانس، الفصل ب متشتت. <strong>المتوسط لا يكفي</strong>.
+    </div>
+
+    <p>هذا بالضبط ما تكشفه مقاييس التشتت:</p>
+    <ul>
+      <li><strong>تشتت صغير</strong> → البيانات قريبة من المتوسط (متجانسة)</li>
+      <li><strong>تشتت كبير</strong> → البيانات متباعدة عن المتوسط (متفاوتة)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📏</span> 1️⃣ المدى (Range) — الأبسط</h2>
+
+    <div class="formula-box">
+      <div class="formula-name">المعادلة</div>
+      <div class="formula">المدى = أكبر قيمة − أصغر قيمة</div>
+      <div class="legend">Range = Max − Min</div>
+    </div>
+
+    <h3>مثال محسوب</h3>
+    <p>درجات 5 طلاب: <strong>72، 85، 90، 68، 95</strong></p>
+    <ul>
+      <li>أكبر قيمة = 95</li>
+      <li>أصغر قيمة = 68</li>
+      <li><strong>المدى = 95 − 68 = 27</strong></li>
+    </ul>
+
+    <h3>المزايا والعيوب</h3>
+    <table class="compare-table">
+      <thead><tr><th>المزايا ✅</th><th>العيوب ❌</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>سهل جداً الحساب</td>
+          <td>يعتمد فقط على قيمتين (الأعلى والأدنى)</td>
+        </tr>
+        <tr>
+          <td>سهل الفهم لأي شخص</td>
+          <td>يتأثر بشدة بالقيم الشاذة</td>
+        </tr>
+        <tr>
+          <td>مفيد لمعرفة "أقصى تباين"</td>
+          <td>يتجاهل توزيع باقي البيانات</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="warn-box">
+      <strong>تحذير:</strong> قيمة شاذة واحدة تشوّه المدى. مثلاً: 70، 72، 73، 75، <strong>200</strong> → المدى = 130 (لكن 4 طلاب من 5 درجاتهم متقاربة!)
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📐</span> 2️⃣ التباين (Variance) — يأخذ كل البيانات</h2>
+
+    <h3>الفكرة الأساسية</h3>
+    <p>بدل الاعتماد على قيمتين فقط، التباين ينظر إلى <strong>كل قيمة</strong> ويقيس مدى بُعدها عن المتوسط.</p>
+
+    <div class="formula-box">
+      <div class="formula-name">تباين المجتمع (Population Variance)</div>
+      <div class="formula">σ² = (1/N) × Σ(xᵢ − μ)²</div>
+      <div class="legend">μ = متوسط المجتمع، N = عدد عناصر المجتمع</div>
+    </div>
+
+    <div class="formula-box">
+      <div class="formula-name">تباين العينة (Sample Variance)</div>
+      <div class="formula">s² = (1/(n−1)) × Σ(xᵢ − x̄)²</div>
+      <div class="legend">x̄ = متوسط العينة، n = حجم العينة. لاحظ القسمة على (n−1) وليس n.</div>
+    </div>
+
+    <h3>لماذا (n−1) في العينة بدل n؟</h3>
+    <div class="story-box">
+      <strong>تصحيح بِسِل (Bessel's Correction):</strong> عندما نحسب التباين من عينة، نُقدّر التباين الحقيقي للمجتمع. القسمة على n تُعطي تقديراً أقل من الحقيقي (متحيز). القسمة على (n−1) تُصحّح هذا التحيز. هذا أمر تقني — في الامتحان: <strong>إذا قال "عينة" → استخدم n−1، إذا قال "مجتمع كامل" → استخدم n</strong>.
+    </div>
+
+    <h3>خطوات الحساب</h3>
+    <ol style="line-height: 2; padding-right: 20px;">
+      <li>احسب المتوسط (x̄)</li>
+      <li>اطرح المتوسط من كل قيمة: (xᵢ − x̄)</li>
+      <li>ربّع كل ناتج: (xᵢ − x̄)²</li>
+      <li>اجمع كل المربعات: Σ(xᵢ − x̄)²</li>
+      <li>اقسم على n (للمجتمع) أو (n−1) (للعينة)</li>
+    </ol>
+
+    <h3>مثال محسوب كاملاً</h3>
+    <p>نفس درجات الطلاب الخمسة (عينة): <strong>72، 85، 90، 68، 95</strong></p>
+
+    <p><strong>الخطوة 1:</strong> المتوسط x̄ = (72 + 85 + 90 + 68 + 95) ÷ 5 = 410 ÷ 5 = <strong>82</strong></p>
+
+    <table class="compare-table">
+      <thead>
+        <tr><th>xᵢ</th><th>xᵢ − x̄</th><th>(xᵢ − x̄)²</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>72</td><td>72 − 82 = -10</td><td>100</td></tr>
+        <tr><td>85</td><td>3</td><td>9</td></tr>
+        <tr><td>90</td><td>8</td><td>64</td></tr>
+        <tr><td>68</td><td>-14</td><td>196</td></tr>
+        <tr><td>95</td><td>13</td><td>169</td></tr>
+        <tr style="background: #dbeafe;"><td colspan="2"><strong>المجموع</strong></td><td><strong>538</strong></td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>الخطوة 2:</strong> اقسم على (n−1) = (5−1) = 4</p>
+
+    <div class="formula-box">
+      <div class="formula-name">النتيجة</div>
+      <div class="formula">s² = 538 / 4 = 134.5</div>
+      <div class="legend"><strong>تنبيه:</strong> الوحدة "درجة²" — وحدة مربعة! هذا أكبر عيب للتباين.</div>
+    </div>
+
+    <h3>لماذا نُربّع الفروق؟</h3>
+    <ul>
+      <li>الفروق الموجبة والسالبة لن تلغي بعضها (3 + (-3) = 0، لكن 3² + (-3)² = 18)</li>
+      <li>القيم البعيدة عن المتوسط تُعطى وزناً أكبر</li>
+      <li>خصائص رياضية ممتازة (قابل للاشتقاق)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📊</span> 3️⃣ الانحراف المعياري (Standard Deviation) — الأشهر</h2>
+
+    <h3>الفكرة</h3>
+    <p>الانحراف المعياري = جذر التباين. يحل مشكلة الوحدة المربعة في التباين، فيُرجعنا إلى وحدة البيانات الأصلية.</p>
+
+    <div class="formula-box">
+      <div class="formula-name">انحراف معياري المجتمع</div>
+      <div class="formula">σ = √σ²</div>
+    </div>
+
+    <div class="formula-box">
+      <div class="formula-name">انحراف معياري العينة</div>
+      <div class="formula">s = √s²</div>
+    </div>
+
+    <h3>من المثال السابق</h3>
+    <p>التباين s² = 134.5 → الانحراف المعياري:</p>
+    <div class="formula-box">
+      <div class="formula">s = √134.5 ≈ 11.6 درجة</div>
+      <div class="legend">الترجمة: "في المتوسط، تبتعد درجات الطلاب عن المتوسط (82) بحوالي 11.6 درجة."</div>
+    </div>
+
+    <h3>تفسير القيم</h3>
+    <table class="compare-table">
+      <thead>
+        <tr><th>السياق</th><th>انحراف معياري صغير</th><th>انحراف معياري كبير</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>درجات الطلاب</td><td>الفصل متجانس</td><td>تفاوت كبير في الأداء</td></tr>
+        <tr><td>أرباح الأسهم</td><td>استثمار مستقر</td><td>استثمار محفوف بالمخاطر</td></tr>
+        <tr><td>أوزان منتج</td><td>جودة عالية وثابتة</td><td>مشاكل في خط الإنتاج</td></tr>
+        <tr><td>وقت التوصيل</td><td>خدمة موثوقة</td><td>تجربة عميل سيئة</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">⚖️</span> مقارنة الفصلَيْن (المثال الافتتاحي)</h2>
+
+    <p>لنحسب التشتت للفصلَيْن في القصة:</p>
+
+    <h3>الفصل أ: 70، 73، 75، 77، 80 (المتوسط = 75)</h3>
+    <p>الفروق المربعة: 25، 4، 0، 4، 25 → المجموع = 58</p>
+    <p><strong>التباين = 58/4 = 14.5، الانحراف المعياري ≈ 3.81</strong></p>
+
+    <h3>الفصل ب: 50، 60، 75، 90، 100 (المتوسط = 75)</h3>
+    <p>الفروق المربعة: 625، 225، 0، 225، 625 → المجموع = 1700</p>
+    <p><strong>التباين = 1700/4 = 425، الانحراف المعياري ≈ 20.6</strong></p>
+
+    <table class="compare-table" style="background: #f5f3ff;">
+      <thead>
+        <tr><th>الفصل</th><th>المتوسط</th><th>الانحراف المعياري</th><th>التفسير</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>أ (متجانس)</td><td>75</td><td><strong>3.81</strong></td><td>درجات قريبة من المتوسط</td></tr>
+        <tr><td>ب (متشتت)</td><td>75</td><td><strong>20.6</strong></td><td>تفاوت ضخم بين الطلاب</td></tr>
+      </tbody>
+    </table>
+
+    <p>الفرق <strong>5.4×</strong> أكبر! نفس المتوسط، لكن سلوك مختلف جذرياً. هذا ما تكشفه مقاييس التشتت.</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📊</span> الحساب في إكسل</h2>
+
+    <h3>الدوال الجاهزة</h3>
+    <table class="compare-table">
+      <thead>
+        <tr><th>المقياس</th><th>دالة العينة</th><th>دالة المجتمع</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>المدى</td><td colspan="2">=MAX(range) - MIN(range)</td></tr>
+        <tr><td>التباين</td><td>=VAR.S(range)</td><td>=VAR.P(range)</td></tr>
+        <tr><td>الانحراف المعياري</td><td>=STDEV.S(range)</td><td>=STDEV.P(range)</td></tr>
+      </tbody>
+    </table>
+
+    <div class="story-box">
+      <strong>تذكير:</strong> حرف <code>S</code> = Sample (عينة، تقسم على n−1)، <code>P</code> = Population (مجتمع، تقسم على n).
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🐍</span> الحساب في البايثون</h2>
+    <p>باستخدام مكتبة NumPy:</p>
+    <div class="code-block" style="direction: ltr; text-align: left; background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; line-height: 1.8;">
+import numpy as np<br><br>
+data = [72, 85, 90, 68, 95]<br><br>
+print("المدى:", np.ptp(data))      # 27<br>
+print("متوسط:", np.mean(data))     # 82.0<br>
+print("تباين عينة:", np.var(data, ddof=1))    # 134.5<br>
+print("تباين مجتمع:", np.var(data, ddof=0))   # 107.6<br>
+print("انحراف معياري عينة:", np.std(data, ddof=1))   # 11.6<br>
+print("انحراف معياري مجتمع:", np.std(data, ddof=0))  # 10.37
+    </div>
+    <div class="apps-row">
+      <a href="python-sim.html" target="_blank" class="app-link python"><span class="ico">🐍</span><span>جرّب الحساب في محاكي بايثون</span></a>
+    </div>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> اختبر فهمك للموضوع 4</h2>
+
+    <div class="quiz-q">
+      <div class="q-text">س1: لماذا نحتاج مقاييس التشتت إضافة للمتوسط؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>عادة فقط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>توزيعان قد يكون لهما نفس المتوسط لكن سلوك مختلف</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>المتوسط خاطئ</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>لا فائدة منها</span></button>
+      </div>
+      <div class="quiz-explain">قصة الفصلَيْن: نفس المتوسط 75، لكن واحد متجانس والآخر متشتت. التشتت يكشف الفرق المخفي.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س2: المدى للبيانات: 12، 18، 25، 30، 45 يساوي:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>27</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>33</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>45</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>12</span></button>
+      </div>
+      <div class="quiz-explain">المدى = أكبر − أصغر = 45 − 12 = 33.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س3: ما الفرق بين تباين العينة وتباين المجتمع؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>لا فرق</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>تباين العينة يقسم على n−1، المجتمع على n</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>المعادلة مختلفة كلياً</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>وحدات مختلفة</span></button>
+      </div>
+      <div class="quiz-explain">تصحيح بِسِل: العينة تقسم على n−1 لتصحيح التحيز في تقدير تباين المجتمع.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س4: ما العلاقة بين الانحراف المعياري والتباين؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>لا علاقة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>الانحراف المعياري = جذر التباين</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>الانحراف المعياري = التباين × 2</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>التباين = جذر الانحراف المعياري</span></button>
+      </div>
+      <div class="quiz-explain">σ = √σ². نأخذ الجذر للحصول على وحدة طبيعية بدلاً من الوحدة المربعة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س5: مصنعان ينتجان أوزان منتج بمتوسط 100 جرام: مصنع أ (انحراف 0.5)، مصنع ب (انحراف 5). أيهما أفضل جودة؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>المصنع أ (تشتت أقل = جودة موحدة)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>المصنع ب (تشتت أكبر = أفضل)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>متساويان</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>لا يمكن المعرفة</span></button>
+      </div>
+      <div class="quiz-explain">انحراف صغير = منتج موحد ومتسق. مصنع أ ينتج أوزاناً قريبة من 100 دائماً، ب يتفاوت كثيراً.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س6: في إكسل، أي دالة تحسب الانحراف المعياري لعينة؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>=STDEV.S(range)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>=VAR.P(range)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>=AVERAGE(range)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>=RANGE(range)</span></button>
+      </div>
+      <div class="quiz-explain">STDEV.S = Standard Deviation Sample. VAR.P للتباين المجتمع. AVERAGE للمتوسط.</div>
+    </div>
+  </div>
+</section>
+`;
+
+
+const TOPIC_ORDER = ['1','2','3','dispersion','6','7','8','9','10','ml','eval','11','grouped','quiz'];
 const container = document.getElementById('topicsContainer');
 TOPIC_ORDER.forEach(id => {
   if (TOPICS[id]) {
