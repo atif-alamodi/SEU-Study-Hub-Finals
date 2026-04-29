@@ -26,7 +26,9 @@
   --pylab-color: #0891b2; --pylab-light: #cffafe;
   --xllab-color: #16a34a; --xllab-light: #dcfce7;
 }
-html, body { font-family: 'Noto Sans Arabic', 'Cairo', sans-serif; background: var(--bg); color: var(--text); height: 100vh; overflow: hidden; overscroll-behavior-y: contain; }
+html, body { font-family: 'Noto Sans Arabic', 'Cairo', sans-serif; background: var(--bg); color: var(--text); overscroll-behavior-y: auto; -webkit-overflow-scrolling: touch; }
+html { height: 100%; }
+body { min-height: 100%; }
 .top-header { background: var(--white); color: var(--text); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); box-shadow: var(--shadow-sm); z-index: 100; position: relative; }
 .brand { display: flex; align-items: center; gap: 14px; cursor: pointer; transition: transform 0.2s; }
 .brand:hover { transform: translateX(-4px); }
@@ -125,7 +127,7 @@ html, body { font-family: 'Noto Sans Arabic', 'Cairo', sans-serif; background: v
       <p>الجامعة السعودية الإلكترونية — دبلوم الذكاء الاصطناعي التوليدي</p>
     </div>
   </div>
-  <button onclick="window.location.reload(true)" title="تحديث الصفحة" style="background: white; border: 2px solid #2563eb; color: #2563eb; width: 42px; height: 42px; border-radius: 50%; cursor: pointer; font-size: 20px; margin-left: 10px; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);" onmouseover="this.style.background='#2563eb'; this.style.color='white';" onmouseout="this.style.background='white'; this.style.color='#2563eb';">🔄</button><span>🔥</span><span>الاختبارات النهائية</span></div>
+  <span>🔥</span><span>الاختبارات النهائية</span></div>
 </header>
 
 <nav class="tabs-bar" id="tabsBar">
