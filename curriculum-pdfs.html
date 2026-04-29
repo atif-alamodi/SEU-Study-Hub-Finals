@@ -48,7 +48,7 @@ html, body {
   width: 56px; height: 56px; border-radius: 14px;
   display: flex; align-items: center; justify-content: center;
   font-size: 28px; flex-shrink: 0;
-  background: linear-gradient(135deg, #dbeafe, #93c5fd); color: white;
+  background: linear-gradient(135deg, #dbeafe, #93c5fd);
 }
 .sta .subject-icon { background: linear-gradient(135deg, #fef3c7, #fde68a); }
 .pyt .subject-icon { background: linear-gradient(135deg, #dcfce7, #86efac); }
@@ -67,15 +67,16 @@ html, body {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 12px; margin-top: 6px;
 }
-.pdf-link {
+
+.pdf-item {
   display: flex; align-items: center; gap: 12px; padding: 14px 16px;
-  background: var(--bg); border-radius: 12px; text-decoration: none;
-  color: var(--text); border: 1px solid var(--border);
+  background: var(--bg); border-radius: 12px;
+  border: 1px solid var(--border);
   transition: all 0.2s;
 }
-.pdf-link:hover {
+.pdf-item:hover {
   background: linear-gradient(135deg, #ede9fe, #ddd6fe);
-  border-color: var(--accent); transform: translateY(-2px);
+  border-color: var(--accent);
   box-shadow: 0 6px 16px rgba(124, 58, 237, 0.15);
 }
 .pdf-icon {
@@ -84,12 +85,55 @@ html, body {
   display: flex; align-items: center; justify-content: center;
   font-size: 20px; flex-shrink: 0; font-weight: 700;
 }
-.pdf-info { flex: 1; min-width: 0; }
+.pdf-info { flex: 1; min-width: 0; cursor: pointer; }
 .pdf-name { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
 .pdf-meta { font-size: 12px; color: var(--text-muted); }
-.pdf-arrow { color: var(--text-muted); font-size: 20px; }
+.pdf-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.pdf-btn {
+  width: 38px; height: 38px; border-radius: 10px; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; font-size: 16px;
+  transition: all 0.2s; text-decoration: none; color: white;
+}
+.pdf-btn.view { background: var(--primary); }
+.pdf-btn.view:hover { background: #1d4ed8; transform: scale(1.05); }
+.pdf-btn.download { background: var(--success); }
+.pdf-btn.download:hover { background: #15803d; transform: scale(1.05); }
 
-.single-link { grid-column: 1 / -1; max-width: 380px; }
+.single-link { grid-column: 1 / -1; max-width: 480px; }
+
+/* PDF Viewer Modal */
+.pdf-modal {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+  z-index: 9999; display: none; flex-direction: column;
+  padding: 0;
+}
+.pdf-modal.open { display: flex; }
+.pdf-modal-header {
+  background: var(--white); padding: 12px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; border-bottom: 1px solid var(--border);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.pdf-modal-title {
+  font-size: 14px; font-weight: 700; color: var(--text);
+  flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pdf-modal-actions { display: flex; gap: 8px; flex-shrink: 0; }
+.modal-btn {
+  padding: 8px 14px; border-radius: 10px; border: none; cursor: pointer;
+  font-family: inherit; font-size: 13px; font-weight: 700;
+  display: inline-flex; align-items: center; gap: 6px;
+  text-decoration: none; transition: all 0.2s;
+}
+.modal-btn.download { background: var(--success); color: white; }
+.modal-btn.download:hover { background: #15803d; }
+.modal-btn.close { background: #ef4444; color: white; }
+.modal-btn.close:hover { background: #dc2626; }
+.pdf-modal-body { flex: 1; background: #525659; overflow: hidden; }
+.pdf-modal-body iframe {
+  width: 100%; height: 100%; border: none;
+}
 
 @media (max-width: 600px) {
   .container { padding: 16px 12px 40px; }
@@ -97,6 +141,8 @@ html, body {
   .hero { padding: 24px 20px; }
   .subject-card { padding: 18px; }
   .parts-grid { grid-template-columns: 1fr; }
+  .modal-btn { padding: 8px 10px; font-size: 12px; }
+  .pdf-modal-title { font-size: 13px; }
 }
 </style>
 </head>
@@ -107,7 +153,7 @@ html, body {
   <div class="hero">
     <div class="icon">📚</div>
     <h1>ملفات المقررات الأصلية</h1>
-    <p>كامل المناهج بصيغة PDF كما اعتمدتها الجامعة. الملفات الكبيرة قُسمت لأجزاء لتسهيل التحميل على الجوال.</p>
+    <p>كامل المناهج بصيغة PDF كما اعتمدتها الجامعة. اضغط 👁️ لعرض الملف داخل المنصة، أو ⬇️ للتحميل.</p>
   </div>
 
   <!-- نظم التشغيل -->
@@ -121,71 +167,26 @@ html, body {
     </div>
 
     <div class="note-box">
-      <strong>أسئلة الأستاذة الرسمية</strong> هي ملف واحد صغير. أما <strong>المنهج الكامل</strong> فمقسم لـ 6 أجزاء (334 صفحة، 51 ميجابايت إجمالاً) لتسهيل التحميل.
+      <strong>أسئلة الأستاذة الرسمية</strong> هي ملف واحد. أما <strong>المنهج الكامل</strong> فمقسم لـ 6 أجزاء (334 صفحة) لتسهيل التحميل والعرض.
     </div>
 
+    <h3 style="margin: 6px 0 10px; font-size: 14px; color: var(--text-muted);">⭐ أسئلة المراجعة الرسمية</h3>
     <div class="parts-grid">
-      <a class="pdf-link single-link" href="OSC-teacher-review-questions.pdf" download>
+      <div class="pdf-item single-link">
         <div class="pdf-icon">⭐</div>
-        <div class="pdf-info">
+        <div class="pdf-info" onclick="openPdf('OSC-teacher-review-questions.pdf', 'أسئلة المراجعة الرسمية - نظم التشغيل')">
           <div class="pdf-name">أسئلة المراجعة الرسمية للأستاذة</div>
           <div class="pdf-meta">51 سؤال · 0.3 MB</div>
         </div>
-        <div class="pdf-arrow">←</div>
-      </a>
+        <div class="pdf-actions">
+          <button class="pdf-btn view" onclick="openPdf('OSC-teacher-review-questions.pdf', 'أسئلة المراجعة الرسمية - نظم التشغيل')" title="عرض">👁️</button>
+          <a class="pdf-btn download" href="OSC-teacher-review-questions.pdf" download title="تنزيل">⬇️</a>
+        </div>
+      </div>
     </div>
 
-    <h3 style="margin: 18px 0 10px; font-size: 14px; color: var(--text-muted);">📖 المنهج الكامل (مقسم لـ 6 أجزاء)</h3>
-    <div class="parts-grid">
-      <a class="pdf-link" href="OSC-curriculum-part1.pdf" download>
-        <div class="pdf-icon">1</div>
-        <div class="pdf-info">
-          <div class="pdf-name">الجزء الأول</div>
-          <div class="pdf-meta">صفحات 1-60 · 20.7 MB</div>
-        </div>
-        <div class="pdf-arrow">←</div>
-      </a>
-      <a class="pdf-link" href="OSC-curriculum-part2.pdf" download>
-        <div class="pdf-icon">2</div>
-        <div class="pdf-info">
-          <div class="pdf-name">الجزء الثاني</div>
-          <div class="pdf-meta">صفحات 61-120 · 9.5 MB</div>
-        </div>
-        <div class="pdf-arrow">←</div>
-      </a>
-      <a class="pdf-link" href="OSC-curriculum-part3.pdf" download>
-        <div class="pdf-icon">3</div>
-        <div class="pdf-info">
-          <div class="pdf-name">الجزء الثالث</div>
-          <div class="pdf-meta">صفحات 121-180 · 4.4 MB</div>
-        </div>
-        <div class="pdf-arrow">←</div>
-      </a>
-      <a class="pdf-link" href="OSC-curriculum-part4.pdf" download>
-        <div class="pdf-icon">4</div>
-        <div class="pdf-info">
-          <div class="pdf-name">الجزء الرابع</div>
-          <div class="pdf-meta">صفحات 181-240 · 5.7 MB</div>
-        </div>
-        <div class="pdf-arrow">←</div>
-      </a>
-      <a class="pdf-link" href="OSC-curriculum-part5.pdf" download>
-        <div class="pdf-icon">5</div>
-        <div class="pdf-info">
-          <div class="pdf-name">الجزء الخامس</div>
-          <div class="pdf-meta">صفحات 241-300 · 10.5 MB</div>
-        </div>
-        <div class="pdf-arrow">←</div>
-      </a>
-      <a class="pdf-link" href="OSC-curriculum-part6.pdf" download>
-        <div class="pdf-icon">6</div>
-        <div class="pdf-info">
-          <div class="pdf-name">الجزء السادس</div>
-          <div class="pdf-meta">صفحات 301-334 · 6.6 MB</div>
-        </div>
-        <div class="pdf-arrow">←</div>
-      </a>
-    </div>
+    <h3 style="margin: 18px 0 10px; font-size: 14px; color: var(--text-muted);">📖 المنهج الكامل (6 أجزاء)</h3>
+    <div class="parts-grid" id="osc-parts"></div>
   </div>
 
   <!-- الإحصاء -->
@@ -194,19 +195,10 @@ html, body {
       <div class="subject-icon">📊</div>
       <div>
         <div class="subject-title">الإحصاء (STA104)</div>
-        <div class="subject-meta">المنهج الكامل في ملف واحد</div>
+        <div class="subject-meta">المنهج الكامل (264 صفحة، مقسم لـ 4 أجزاء)</div>
       </div>
     </div>
-    <div class="parts-grid">
-      <a class="pdf-link single-link" href="STA104-statistics.pdf" download>
-        <div class="pdf-icon">📊</div>
-        <div class="pdf-info">
-          <div class="pdf-name">منهج الإحصاء كاملاً</div>
-          <div class="pdf-meta">264 صفحة · 8.9 MB</div>
-        </div>
-        <div class="pdf-arrow">←</div>
-      </a>
-    </div>
+    <div class="parts-grid" id="sta-parts"></div>
   </div>
 
   <!-- البايثون -->
@@ -215,61 +207,120 @@ html, body {
       <div class="subject-icon">🐍</div>
       <div>
         <div class="subject-title">البايثون (PYT103)</div>
-        <div class="subject-meta">المنهج الكامل (326 صفحة · 40 MB إجمالاً)</div>
+        <div class="subject-meta">المنهج الكامل (326 صفحة، مقسم لـ 5 أجزاء)</div>
       </div>
     </div>
-
-    <div class="note-box">
-      المنهج الكامل مقسم لـ 5 أجزاء بسبب حجمه الكبير. حمّل الأجزاء حسب المواضيع التي تحتاجها.
-    </div>
-
-    <div class="parts-grid">
-      <a class="pdf-link" href="PYT103-python-part1.pdf" download>
-        <div class="pdf-icon">1</div>
-        <div class="pdf-info">
-          <div class="pdf-name">الجزء الأول</div>
-          <div class="pdf-meta">صفحات 1-80 · 17.8 MB</div>
-        </div>
-        <div class="pdf-arrow">←</div>
-      </a>
-      <a class="pdf-link" href="PYT103-python-part2.pdf" download>
-        <div class="pdf-icon">2</div>
-        <div class="pdf-info">
-          <div class="pdf-name">الجزء الثاني</div>
-          <div class="pdf-meta">صفحات 81-160 · 10.8 MB</div>
-        </div>
-        <div class="pdf-arrow">←</div>
-      </a>
-      <a class="pdf-link" href="PYT103-python-part3.pdf" download>
-        <div class="pdf-icon">3</div>
-        <div class="pdf-info">
-          <div class="pdf-name">الجزء الثالث</div>
-          <div class="pdf-meta">صفحات 161-240 · 4.1 MB</div>
-        </div>
-        <div class="pdf-arrow">←</div>
-      </a>
-      <a class="pdf-link" href="PYT103-python-part4.pdf" download>
-        <div class="pdf-icon">4</div>
-        <div class="pdf-info">
-          <div class="pdf-name">الجزء الرابع</div>
-          <div class="pdf-meta">صفحات 241-320 · 7.2 MB</div>
-        </div>
-        <div class="pdf-arrow">←</div>
-      </a>
-      <a class="pdf-link" href="PYT103-python-part5.pdf" download>
-        <div class="pdf-icon">5</div>
-        <div class="pdf-info">
-          <div class="pdf-name">الجزء الخامس</div>
-          <div class="pdf-meta">صفحات 321-326 · 0.8 MB</div>
-        </div>
-        <div class="pdf-arrow">←</div>
-      </a>
-    </div>
+    <div class="parts-grid" id="pyt-parts"></div>
   </div>
 
   <div style="text-align: center; padding: 24px; color: var(--text-muted); font-size: 13px;">
     🎓 منصة المراجعة النهائية · الجامعة السعودية الإلكترونية · دبلوم الذكاء الاصطناعي التوليدي
   </div>
 </div>
+
+<!-- PDF Viewer Modal -->
+<div class="pdf-modal" id="pdfModal">
+  <div class="pdf-modal-header">
+    <div class="pdf-modal-title" id="pdfModalTitle">عرض الملف</div>
+    <div class="pdf-modal-actions">
+      <a class="modal-btn download" id="pdfDownloadBtn" href="#" download>
+        <span>⬇️</span><span>تحميل</span>
+      </a>
+      <button class="modal-btn close" onclick="closePdf()">
+        <span>✕</span><span>إغلاق</span>
+      </button>
+    </div>
+  </div>
+  <div class="pdf-modal-body">
+    <iframe id="pdfFrame" src="" title="PDF Viewer"></iframe>
+  </div>
+</div>
+
+<script>
+const PARTS = {
+  osc: [
+    { file: 'OSC-curriculum-part1.pdf', label: 'الجزء الأول', meta: 'صفحات 1-60 · 20.7 MB' },
+    { file: 'OSC-curriculum-part2.pdf', label: 'الجزء الثاني', meta: 'صفحات 61-120 · 9.5 MB' },
+    { file: 'OSC-curriculum-part3.pdf', label: 'الجزء الثالث', meta: 'صفحات 121-180 · 4.4 MB' },
+    { file: 'OSC-curriculum-part4.pdf', label: 'الجزء الرابع', meta: 'صفحات 181-240 · 5.7 MB' },
+    { file: 'OSC-curriculum-part5.pdf', label: 'الجزء الخامس', meta: 'صفحات 241-300 · 10.5 MB' },
+    { file: 'OSC-curriculum-part6.pdf', label: 'الجزء السادس', meta: 'صفحات 301-334 · 6.6 MB' }
+  ],
+  sta: [
+    { file: 'STA104-statistics-part1.pdf', label: 'الجزء الأول', meta: 'صفحات 1-70 · 2.7 MB' },
+    { file: 'STA104-statistics-part2.pdf', label: 'الجزء الثاني', meta: 'صفحات 71-140 · 3.0 MB' },
+    { file: 'STA104-statistics-part3.pdf', label: 'الجزء الثالث', meta: 'صفحات 141-210 · 3.0 MB' },
+    { file: 'STA104-statistics-part4.pdf', label: 'الجزء الرابع', meta: 'صفحات 211-264 · 1.5 MB' }
+  ],
+  pyt: [
+    { file: 'PYT103-python-part1.pdf', label: 'الجزء الأول', meta: 'صفحات 1-80 · 17.8 MB' },
+    { file: 'PYT103-python-part2.pdf', label: 'الجزء الثاني', meta: 'صفحات 81-160 · 10.8 MB' },
+    { file: 'PYT103-python-part3.pdf', label: 'الجزء الثالث', meta: 'صفحات 161-240 · 4.1 MB' },
+    { file: 'PYT103-python-part4.pdf', label: 'الجزء الرابع', meta: 'صفحات 241-320 · 7.2 MB' },
+    { file: 'PYT103-python-part5.pdf', label: 'الجزء الخامس', meta: 'صفحات 321-326 · 0.8 MB' }
+  ]
+};
+
+function escapeAttr(s) {
+  return s.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+}
+
+function renderParts(containerId, partsList, subjectName) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = partsList.map((p, i) => `
+    <div class="pdf-item">
+      <div class="pdf-icon">${i + 1}</div>
+      <div class="pdf-info" onclick="openPdf('${escapeAttr(p.file)}', '${escapeAttr(p.label + ' - ' + subjectName)}')">
+        <div class="pdf-name">${p.label}</div>
+        <div class="pdf-meta">${p.meta}</div>
+      </div>
+      <div class="pdf-actions">
+        <button class="pdf-btn view" onclick="openPdf('${escapeAttr(p.file)}', '${escapeAttr(p.label + ' - ' + subjectName)}')" title="عرض">👁️</button>
+        <a class="pdf-btn download" href="${p.file}" download title="تنزيل">⬇️</a>
+      </div>
+    </div>
+  `).join('');
+}
+
+renderParts('osc-parts', PARTS.osc, 'نظم التشغيل');
+renderParts('sta-parts', PARTS.sta, 'الإحصاء');
+renderParts('pyt-parts', PARTS.pyt, 'البايثون');
+
+function openPdf(file, title) {
+  const modal = document.getElementById('pdfModal');
+  const iframe = document.getElementById('pdfFrame');
+  const titleEl = document.getElementById('pdfModalTitle');
+  const downloadBtn = document.getElementById('pdfDownloadBtn');
+  
+  titleEl.textContent = title;
+  downloadBtn.href = file;
+  downloadBtn.download = file;
+  
+  // Use #toolbar=1 to show built-in PDF toolbar where supported
+  iframe.src = file + '#toolbar=1&navpanes=0&zoom=page-fit';
+  
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePdf() {
+  const modal = document.getElementById('pdfModal');
+  const iframe = document.getElementById('pdfFrame');
+  modal.classList.remove('open');
+  iframe.src = '';
+  document.body.style.overflow = '';
+}
+
+// Close modal on Escape key
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closePdf();
+});
+
+// Close modal on clicking dark backdrop (but not on header/iframe)
+document.getElementById('pdfModal').addEventListener('click', e => {
+  if (e.target.id === 'pdfModal') closePdf();
+});
+</script>
 </body>
 </html>
