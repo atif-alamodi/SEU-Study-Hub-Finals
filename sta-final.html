@@ -369,6 +369,7 @@ body { display: flex; min-height: 100vh; }
     <li class="topic-item" data-topic="eval" style="background: linear-gradient(135deg, #fee2e2, #fecaca); border: 1px solid #dc2626;"><span class="topic-num" style="background: #dc2626; color: white;">11</span><span style="font-weight: 700;">🆕 تقييم النموذج</span></li>
     <li class="topic-item" data-topic="11" style="background: linear-gradient(135deg, #dcfce7, #bbf7d0); border: 1px solid #16a34a;"><span class="topic-num" style="background: #16a34a; color: white;">⭐</span><span style="font-weight: 700;">تحليل البيانات (IF)</span></li>
     <li class="topic-item" data-topic="grouped" style="background: linear-gradient(135deg, #ede9fe, #fce7f3); border: 1px solid #c084fc;"><span class="topic-num" style="background: #7c3aed; color: white;">⭐</span><span style="font-weight: 700;">البيانات المبوبة</span></li>
+    <li class="topic-item" data-topic="teacherQuiz" style="background: linear-gradient(135deg, #fef9c3, #fde68a); border: 2px solid #ca8a04; margin-top: 10px;"><span class="topic-num" style="background: #ca8a04; color: white;">⭐</span><span style="font-weight: 800;">أسئلة الأستاذة (13)</span></li>
     <li class="topic-item" data-topic="quiz" style="border-top: 1px solid var(--border); margin-top: 8px; padding-top: 16px;"><span class="topic-num" style="background: var(--accent); color: white;">📝</span><span style="font-weight: 800;">الاختبار الشامل</span></li>
   </ul>
   <div class="sidebar-footer">
@@ -7882,7 +7883,174 @@ print("انحراف معياري مجتمع:", np.std(data, ddof=0))  # 10.37
 `;
 
 
-const TOPIC_ORDER = ['1','2','3','dispersion','6','7','8','9','10','ml','eval','11','grouped','quiz'];
+
+// ============================================================================
+// أسئلة الأستاذة الرسمية — الإحصاء
+// ============================================================================
+TOPICS['teacherQuiz'] = `
+<section class="topic-section" id="topic-teacherQuiz">
+  <div class="topic-header" style="background: linear-gradient(135deg, #ca8a04, #a16207);">
+    <div class="label">⭐ مهم جداً للنهائي</div>
+    <h1>أسئلة الأستاذة الرسمية — الإحصاء</h1>
+    <p>13 سؤالاً مأخوذة حرفياً من ملف المراجعة الذي شاركتْه الأستاذة. ركّز عليها جيداً.</p>
+  </div>
+
+  <div class="section" style="background: linear-gradient(135deg, #fef9c3, #fef3c7); border: 2px solid #ca8a04; padding: 18px; border-radius: 12px;">
+    <h2 style="color: #854d0e;"><span class="icon" style="background: #ca8a04; color: white;">📋</span> ملاحظة مهمة</h2>
+    <p style="line-height: 2;">هذه الأسئلة هي الأقرب لما قد يأتي في الامتحان النهائي. كل سؤال يغطي موضوعاً مختلفاً من المنهج. اضغط على إجابتك لتعرف الإجابة الصحيحة مع الشرح.</p>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> الأسئلة (13 سؤالاً)</h2>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س1:</strong> مجموعتان لهما نفس المتوسط لكن الانحراف المعياري للأولى 3 وللثانية 9. أي العبارات أدق؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>الأولى أكثر تشتتاً</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>الثانية أكثر تشتتاً</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>التشتت متساوٍ</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>لا علاقة بين الانحراف والتشتت</span></button>
+      </div>
+      <div class="quiz-explain">الانحراف المعياري الأكبر = تشتت أكبر. الثانية انحرافها 9 (أكبر من 3) → أكثر تشتتاً عن المتوسط.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س2:</strong> المنوال يفيد أكثر عندما تكون البيانات:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>كمية فقط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>وصفية ونريد معرفة النمط الشائع</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>متناظرة تماماً</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>صغيرة الحجم جداً</span></button>
+      </div>
+      <div class="quiz-explain">المنوال = القيمة الأكثر تكراراً. مفيد جداً للبيانات الوصفية (مثل اللون المفضل) لمعرفة النمط الشائع. المتوسط/الوسيط لا يصلحان للبيانات الوصفية.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س3:</strong> طالب حصل على 86/100 في (أ) بمتوسط 77 وانحراف 11، و96/100 في (ب) بمتوسط 84 وانحراف 17. أداؤه النسبي أفضل في:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>(أ) لأن Z≈0.82</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>(ب) لأن Z≈0.71</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>كلاهما متساوي</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>لا يمكن المقارنة</span></button>
+      </div>
+      <div class="quiz-explain">Z(أ) = (86−77)/11 = 9/11 ≈ 0.82. Z(ب) = (96−84)/17 = 12/17 ≈ 0.71. الـ Z الأعلى = أداء نسبي أفضل. (أ) أفضل لأن طالب أبعد عن متوسط فصله.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س4:</strong> لديك بيانات مستمرة وتريد إبراز القيم المتطرفة وشكل التوزيع:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>شريطي أفقي + متوسط فقط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>مدرج تكراري + وصف التوزيع مع ملاحظة القيم المتطرفة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>دائري + وسيط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>تشتت + نسب مكدسة</span></button>
+      </div>
+      <div class="quiz-explain">المدرج التكراري (Histogram) هو الأداة الأمثل للبيانات المستمرة لأنه يكشف شكل التوزيع (طبيعي/ملتوٍ/ثنائي القمة) ويُظهر القيم المتطرفة بوضوح.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س5:</strong> إذا كانت Σ(X−X̄)² = 40 وَ Σ(X−X̄)(Y−Ȳ) = 150، فما قيمة الميل؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>2.50</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>3.75</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>4.00</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>0.375</span></button>
+      </div>
+      <div class="quiz-explain">الميل m = Σ(X−X̄)(Y−Ȳ) ÷ Σ(X−X̄)² = 150 ÷ 40 = 3.75.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س6:</strong> IF(AND(A2&gt;=50, B2&gt;=75), "ناجح", "راسب") عندما A2=80 و B2=60؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>ناجح</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>راسب</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>خطأ</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>TRUE</span></button>
+      </div>
+      <div class="quiz-explain">AND يحتاج كل الشروط صحيحة. A2=80 ≥ 50 ✓ لكن B2=60 ليس ≥ 75 ✗. AND ترجع FALSE → الناتج "راسب".</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س7:</strong> أي القيم تمثل بيانات متباعدة جداً عن المتوسط؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>|Z| &gt; 3</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>Z = 1</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>Z = 0</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>Z = -1</span></button>
+      </div>
+      <div class="quiz-explain">|Z| &gt; 3 يعني القيمة تبعد أكثر من 3 انحرافات معيارية عن المتوسط. وفق التوزيع الطبيعي: 99.7% من البيانات ضمن ±3، فأي قيمة خارج ذلك تُعتبر شاذة (متطرفة جداً).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س8:</strong> إذا كان P(A)=0.4 فما احتمال مكمّله؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>0.4</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>0.6</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>1.4</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>0.5</span></button>
+      </div>
+      <div class="quiz-explain">قاعدة المكمّل: P(A') = 1 − P(A) = 1 − 0.4 = 0.6. مجموع احتمال الحدث ومكمّله يساوي 1 دائماً.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س9:</strong> الميزة الرئيسية للرسم المساحي:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>يظهر النسب فقط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>يبرز حجم التغير الكلي بين الفترات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>يستخدم لمحور واحد فقط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>فقط بيانات نوعية</span></button>
+      </div>
+      <div class="quiz-explain">الرسم المساحي (Area Chart) يجمع بين الخطي والمساحة المُلوّنة، مما يبرز "حجم" التغير الكلي عبر الزمن، وليس فقط القيمة في كل لحظة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س10:</strong> أفضل خط انحدار:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>يقلل مجموع مربعات الأخطاء</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>يمر بكل النقاط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>ميله صفر</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>R² = 0</span></button>
+      </div>
+      <div class="quiz-explain">طريقة المربعات الصغرى (Least Squares): أفضل خط هو الذي يُقلّل مجموع مربعات الفروق بين القيم الفعلية والمتوقعة. هذا أساس الانحدار الخطي.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س11:</strong> تحدٍّ أخلاقي في تعلم الآلة:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>التحيّز في البيانات والنماذج</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>نقص البرمجيات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>بطء المعالجة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>ضعف التصميم</span></button>
+      </div>
+      <div class="quiz-explain">التحيّز (Bias) أكبر تحدٍّ أخلاقي. النموذج يرث تحيّزات بياناته (مثل التمييز ضد فئة معينة في التوظيف). الباقي تحديات تقنية وليست أخلاقية.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س12:</strong> متى تكون R² سالبة؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>عندما يكون النموذج أسوأ من المتوسط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>النموذج مثالي</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>البيانات متوازنة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>تدريب فقط</span></button>
+      </div>
+      <div class="quiz-explain">R² &lt; 0 يعني أن النموذج أسوأ من مجرد التنبؤ بالمتوسط دائماً. علامة فشل كبيرة، شائعة على بيانات الاختبار عند Overfitting شديد.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س13:</strong> R² عالٍ جداً (0.99) قد يدل على:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>Overfitting (الإفراط في التعلم)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>نموذج ضعيف</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>قلة البيانات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>خطأ في الصيغة</span></button>
+      </div>
+      <div class="quiz-explain">R² عالٍ جداً على بيانات التدريب يُثير الشك في Overfitting (النموذج حفظ البيانات بدلاً من تعلم الأنماط). الفحص الصحيح: قارن R² التدريب بـ R² الاختبار.</div>
+    </div>
+  </div>
+</section>
+`;
+
+
+const TOPIC_ORDER = ['1','2','3','dispersion','6','7','8','9','10','ml','eval','11','grouped','teacherQuiz','quiz'];
 const container = document.getElementById('topicsContainer');
 TOPIC_ORDER.forEach(id => {
   if (TOPICS[id]) {
