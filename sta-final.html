@@ -369,6 +369,9 @@ body { display: flex; min-height: 100vh; }
     <li class="topic-item" data-topic="eval" style="background: linear-gradient(135deg, #fee2e2, #fecaca); border: 1px solid #dc2626;"><span class="topic-num" style="background: #dc2626; color: white;">11</span><span style="font-weight: 700;">🆕 تقييم النموذج</span></li>
     <li class="topic-item" data-topic="11" style="background: linear-gradient(135deg, #dcfce7, #bbf7d0); border: 1px solid #16a34a;"><span class="topic-num" style="background: #16a34a; color: white;">⭐</span><span style="font-weight: 700;">تحليل البيانات (IF)</span></li>
     <li class="topic-item" data-topic="grouped" style="background: linear-gradient(135deg, #ede9fe, #fce7f3); border: 1px solid #c084fc;"><span class="topic-num" style="background: #7c3aed; color: white;">⭐</span><span style="font-weight: 700;">البيانات المبوبة</span></li>
+    <li class="topic-item" data-topic="midtermExam" style="background: linear-gradient(135deg, #cffafe, #a5f3fc); border: 2px solid #0891b2; margin-top: 12px;"><span class="topic-num" style="background: #0891b2; color: white;">📋</span><span style="font-weight: 700;">اختبار منتصف الفصل (20)</span></li>
+    <li class="topic-item" data-topic="quiz1" style="background: linear-gradient(135deg, #ede9fe, #ddd6fe); border: 2px solid #7c3aed;"><span class="topic-num" style="background: #7c3aed; color: white;">📋</span><span style="font-weight: 700;">الكويز الأول (7)</span></li>
+    <li class="topic-item" data-topic="quiz2" style="background: linear-gradient(135deg, #fce7f3, #fbcfe8); border: 2px solid #db2777;"><span class="topic-num" style="background: #db2777; color: white;">📋</span><span style="font-weight: 700;">الكويز الثاني (7)</span></li>
     <li class="topic-item" data-topic="teacherQuiz" style="background: linear-gradient(135deg, #fef9c3, #fde68a); border: 2px solid #ca8a04; margin-top: 10px;"><span class="topic-num" style="background: #ca8a04; color: white;">⭐</span><span style="font-weight: 800;">أسئلة الأستاذة (13)</span></li>
     <li class="topic-item" data-topic="quiz" style="border-top: 1px solid var(--border); margin-top: 8px; padding-top: 16px;"><span class="topic-num" style="background: var(--accent); color: white;">📝</span><span style="font-weight: 800;">الاختبار الشامل</span></li>
   </ul>
@@ -8050,7 +8053,451 @@ TOPICS['teacherQuiz'] = `
 `;
 
 
-const TOPIC_ORDER = ['1','2','3','dispersion','6','7','8','9','10','ml','eval','11','grouped','teacherQuiz','quiz'];
+
+// ============================================================================
+// اختبار منتصف الفصل — الإحصاء
+// ============================================================================
+TOPICS['midtermExam'] = `
+<section class="topic-section" id="topic-midtermExam">
+  <div class="topic-header" style="background: linear-gradient(135deg, #0891b2, #0e7490);">
+    <div class="label">📋 اختبار شامل · 20 سؤالاً</div>
+    <h1>اختبار منتصف الفصل — الإحصاء</h1>
+    <p>أسئلة مأخوذة من اختبار المنتصف الرسمي. تغطي المنهج من بدايته حتى منتصفه.</p>
+  </div>
+
+  <div class="section" style="background: linear-gradient(135deg, #cffafe, #a5f3fc); border: 2px solid #0891b2; padding: 18px; border-radius: 12px;">
+    <h2 style="color: #155e75;"><span class="icon" style="background: #0891b2; color: white;">📋</span> ملاحظة</h2>
+    <p style="line-height: 2;">هذه أسئلة اختبار منتصف الفصل الرسمي للإحصاء. تُغطي المفاهيم الأساسية: تعريف الإحصاء، التباين، الارتباط، البيانات الكمية، الانحراف المعياري، دوال إكسل، الوسيط، المنوال، المدى، التوزيع الطبيعي، والتشتت.</p>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> الأسئلة (20 سؤالاً)</h2>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س1:</strong> "البيانات" في سياق علم الإحصاء تعني:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>أي معلومات غير منظمة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>معلومات مرتبة ومدعومة بالأرقام ويمكن تحليلها</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>آراء شخصية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>نصوص فقط</span></button>
+      </div>
+      <div class="quiz-explain">البيانات في الإحصاء = معلومات مرتبة ومدعومة بالأرقام يمكن تحليلها لاستخراج معاني واتخاذ قرارات.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س2:</strong> وحدة قياس التباين تكون:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>نفس وحدة البيانات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>بدون وحدة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>مربع وحدة البيانات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>ضعف وحدة البيانات</span></button>
+      </div>
+      <div class="quiz-explain">التباين = متوسط مربعات الانحرافات. الوحدة مربعة (مثل ريال² أو سنة²). لذلك نأخذ جذره للحصول على الانحراف المعياري بوحدة طبيعية.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س3:</strong> أي عبارة صحيحة بخصوص معامل ارتباط بيرسون r؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>دائماً صفر</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>لا يمكن أن يكون سالباً</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>يتراوح بين -1 و +1</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>يتراوح بين 0 و 100</span></button>
+      </div>
+      <div class="quiz-explain">معامل بيرسون r ∈ [-1, +1]. القيمة -1 = ارتباط سالب تام، +1 = ارتباط موجب تام، 0 = لا ارتباط خطي.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س4:</strong> أي من التالي يعد مثالاً على البيانات الكمية (Quantitative Data)؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>اللون</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>الجنسية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>العمر</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>النوع</span></button>
+      </div>
+      <div class="quiz-explain">البيانات الكمية = أرقام يمكن قياسها (العمر، الوزن، الراتب). البيانات النوعية = فئات (اللون، الجنسية، النوع).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س5:</strong> أي مما يلي يعبر عن الارتباط الإيجابي؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 3)"><span class="letter">أ</span><span>كلما زادت ساعات النوم تقل الدرجات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 3)"><span class="letter">ب</span><span>لا توجد علاقة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 3)"><span class="letter">ج</span><span>كلما زاد السعر يقل الطلب</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 3)"><span class="letter">د</span><span>كلما زادت ساعات الدراسة ارتفعت الدرجات</span></button>
+      </div>
+      <div class="quiz-explain">الارتباط الإيجابي = المتغيران يزيدان معاً (أو يقلان معاً). ساعات الدراسة ↑ + الدرجات ↑ = طردي.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س6:</strong> إذا كان r = 0.9 فإن العلاقة تكون:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>ضعيفة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>متوسطة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>قوية جداً</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>معدومة</span></button>
+      </div>
+      <div class="quiz-explain">|r| ≥ 0.7 = قوية، |r| ≥ 0.9 = قوية جداً. r = 0.9 يعني ارتباط طردي قوي جداً.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س7:</strong> الانحراف المعياري يقيس:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>مركز البيانات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>عدد القيم</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>تشتت البيانات حول المتوسط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>أكبر قيمة</span></button>
+      </div>
+      <div class="quiz-explain">الانحراف المعياري = مقياس للتشتت. صغير = البيانات قريبة من المتوسط. كبير = متفرقة عن المتوسط.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س8:</strong> الدالة المستخدمة للجمع الشرطي في Excel هي:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>IF</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>COUNTIF</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>SUMIF</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>MAX</span></button>
+      </div>
+      <div class="quiz-explain">SUMIF = جمع القيم التي تحقق شرطاً. COUNTIF = عدّ الخلايا التي تحقق شرطاً. IF = اتخاذ قرار. MAX = أكبر قيمة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س9:</strong> جمع وتنظيم وتلخيص وعرض وتحليل البيانات لاتخاذ قرارات سليمة هو:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>علم البرمجة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>علم الإحصاء</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>علم الحاسب</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>علم الرسم</span></button>
+      </div>
+      <div class="quiz-explain">هذا التعريف الرسمي لعلم الإحصاء وفق المنهج: الجمع + التنظيم + التلخيص + العرض + التحليل = اتخاذ قرارات سليمة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س10:</strong> يستخدم المدرج التكراري (Histogram) لعرض:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>البيانات النصية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>الصور</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>البيانات المستمرة ضمن فئات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>البيانات النوعية</span></button>
+      </div>
+      <div class="quiz-explain">المدرج التكراري يقسم البيانات المستمرة لفئات (bins) ويُظهر تكرار كل فئة بأعمدة متلاصقة. مثالي لرؤية شكل التوزيع.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س11:</strong> المنوال هو:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 3)"><span class="letter">أ</span><span>المتوسط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 3)"><span class="letter">ب</span><span>الوسيط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 3)"><span class="letter">ج</span><span>القيمة الأكبر</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 3)"><span class="letter">د</span><span>القيمة الأكثر تكراراً</span></button>
+      </div>
+      <div class="quiz-explain">المنوال (Mode) = القيمة الأكثر تكراراً في البيانات. مفيد جداً للبيانات الوصفية (مثل اللون الأكثر شيوعاً).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س12:</strong> تستخدم دالة IF في Excel من أجل:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>جمع القيم</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>حساب المتوسط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>اتخاذ قرار بناءً على شرط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>ترتيب البيانات</span></button>
+      </div>
+      <div class="quiz-explain">IF(condition, value_if_true, value_if_false). تقيّم الشرط وترجع قيمة مختلفة بحسب نتيجته.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س13:</strong> عند إضافة Trendline في Excel مع عرض R²، ذلك يساعد في:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>حساب المتوسط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>ترتيب البيانات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>تفسير قوة النموذج</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>حذف القيم</span></button>
+      </div>
+      <div class="quiz-explain">R² يخبرنا بنسبة التباين المُفسَّر. R² قريب من 1 = نموذج جيد. R² قريب من 0 = ضعيف.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س14:</strong> دالة الوسيط الصحيحة في Excel:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>=AVERAGE(range)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>=MEDIAN(range)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>=SUM(range)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>=COUNT(range)</span></button>
+      </div>
+      <div class="quiz-explain">MEDIAN = الوسيط (القيمة الوسطى بعد الترتيب). AVERAGE = المتوسط. SUM = المجموع. COUNT = عدد الخلايا.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س15:</strong> بصرياً، ما المعيار الجيد للاختيار بين Python و Excel عند مقارنة نفس البيانات؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>السرعة فقط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>عدد الأوامر</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>سهولة التخصيص والتوثيق وقابلية إعادة الإنتاج</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>حجم الشاشة</span></button>
+      </div>
+      <div class="quiz-explain">الأداتان مفيدتان. الاختيار يعتمد على: قابلية التخصيص (Python أعلى)، التوثيق (Python أعلى عبر notebooks)، إعادة الإنتاج (Python أوضح).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س16:</strong> في التوزيع الطبيعي المثالي:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>المتوسط أكبر من الوسيط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>الوسيط أكبر من المنوال</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>المتوسط = الوسيط = المنوال</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>لا علاقة بينهم</span></button>
+      </div>
+      <div class="quiz-explain">في التوزيع الطبيعي (شكل الجرس)، المنحنى متناظر تماماً، فمقاييس النزعة المركزية الثلاث تنطبق في نقطة واحدة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س17:</strong> في مخطط التشتت، إذا كان اتجاه النقاط من أسفل اليسار إلى أعلى اليمين، فهذا يدل على:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>علاقة عكسية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>لا علاقة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>علاقة طردية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>علاقة عشوائية</span></button>
+      </div>
+      <div class="quiz-explain">من أسفل اليسار لأعلى اليمين = X يزيد و Y يزيد معاً = علاقة طردية (موجبة).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س18:</strong> ما التعريف الصحيح للمدى؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>مجموع القيم</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>المتوسط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>أكبر قيمة مطروحاً منها أصغر قيمة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>عدد القيم</span></button>
+      </div>
+      <div class="quiz-explain">المدى (Range) = Max − Min. أبسط مقياس للتشتت لكنه يتأثر بشدة بالقيم الشاذة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س19:</strong> ما الذي تفعله دالة AND داخل IF؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>تتحقق من شرط واحد</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>تتحقق أن جميع الشروط صحيحة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>تجمع القيم</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>تحذف القيم</span></button>
+      </div>
+      <div class="quiz-explain">AND ترجع TRUE فقط إذا كانت كل الشروط صحيحة. مثال: AND(A2&gt;=50, B2&gt;=75) = TRUE فقط لو الشرطان صحيحان.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س20:</strong> يقيس معامل الارتباط (R):</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>عدد القيم</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>المتوسط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>قوة واتجاه العلاقة الخطية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>المدى</span></button>
+      </div>
+      <div class="quiz-explain">معامل الارتباط R يخبرنا بشيئين: القوة (|R| كبير = قوي) والاتجاه (موجب = طردي، سالب = عكسي).</div>
+    </div>
+  </div>
+</section>
+`;
+
+
+// ============================================================================
+// الكويز الأول — الإحصاء
+// ============================================================================
+TOPICS['quiz1'] = `
+<section class="topic-section" id="topic-quiz1">
+  <div class="topic-header" style="background: linear-gradient(135deg, #7c3aed, #5b21b6);">
+    <div class="label">📋 كويز رقم 1 · 7 أسئلة</div>
+    <h1>الكويز الأول — الإحصاء</h1>
+    <p>أسئلة الكويز الأول الرسمي. يركّز على المفاهيم الأساسية ودوال إكسل.</p>
+  </div>
+
+  <div class="section" style="background: linear-gradient(135deg, #ede9fe, #ddd6fe); border: 2px solid #7c3aed; padding: 18px; border-radius: 12px;">
+    <h2 style="color: #5b21b6;"><span class="icon" style="background: #7c3aed; color: white;">📋</span> ملاحظة</h2>
+    <p style="line-height: 2;">7 أسئلة من الكويز الأول الرسمي. تغطي: تعريف البيانات، حساب المدى، تعريف الإحصاء، الحساسية للقيم الشاذة، دوال الوسيط والمدى، ووحدة التباين.</p>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> الأسئلة (7 أسئلة)</h2>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س1:</strong> "البيانات" هي:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>نصوص فقط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>معلومات مرتبة ومدعومة بالأرقام ويمكن تحليلها</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>آراء</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>صور</span></button>
+      </div>
+      <div class="quiz-explain">البيانات = معلومات مرتبة ومدعومة بأرقام يمكن تحليلها. النصوص والصور والآراء قد تكون مصادر للبيانات لكنها ليست بيانات بحد ذاتها.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س2:</strong> إذا كان الحد الأقصى = 70 والحد الأدنى = 35 لمبيعات الفرع، فإن المدى يساوي:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>25</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>30</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>35</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>40</span></button>
+      </div>
+      <div class="quiz-explain">المدى = أكبر − أصغر = 70 − 35 = 35.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س3:</strong> أي تعريف أدق لعلم الإحصاء؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>دراسة الأرقام فقط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>جمع البيانات فقط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>العلم الذي يختص بجمع وتنظيم وتلخيص وعرض وتحليل البيانات لاتخاذ قرارات سليمة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>تحليل الرسوم</span></button>
+      </div>
+      <div class="quiz-explain">التعريف الرسمي للإحصاء يشمل 5 خطوات: جمع + تنظيم + تلخيص + عرض + تحليل، بهدف اتخاذ قرارات سليمة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س4:</strong> أي مقياس هو "الأكثر حساسية" للقيم الشاذة؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>المتوسط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>الوسيط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>المدى (Range)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>المنوال</span></button>
+      </div>
+      <div class="quiz-explain">المدى يعتمد فقط على القيمة العظمى والصغرى، فقيمة شاذة واحدة تُغيّره جذرياً. الوسيط والمنوال أقل تأثراً، والمتوسط يتأثر لكن بدرجة أقل من المدى.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س5:</strong> دالة الوسيط المناسبة في Excel هي:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>SUM</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>AVERAGE</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>=MEDIAN(range)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>COUNT</span></button>
+      </div>
+      <div class="quiz-explain">MEDIAN = الوسيط. مثلاً =MEDIAN(A2:A10) يعطي القيمة الوسطى بعد ترتيب الخلايا تصاعدياً.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س6:</strong> الصيغة والدالة الصحيحة لحساب المدى لنطاق A2:A7 في Excel:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>=SUM(A2:A7)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>=MAX(A2:A7) - MIN(A2:A7)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>=AVERAGE(A2:A7)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>=COUNT(A2:A7)</span></button>
+      </div>
+      <div class="quiz-explain">إكسل لا يحتوي دالة Range جاهزة، لذلك نحسبها يدوياً: =MAX(range) - MIN(range).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س7:</strong> وحدة قياس "التباين" (Variance) تكون:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>نفس الوحدة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>بدون وحدة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>مربع وحدة القياس</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>ضعف الوحدة</span></button>
+      </div>
+      <div class="quiz-explain">التباين = متوسط مربعات الانحرافات → الوحدة مربعة. لذلك نأخذ جذره (الانحراف المعياري) للحصول على وحدة طبيعية.</div>
+    </div>
+  </div>
+</section>
+`;
+
+
+// ============================================================================
+// الكويز الثاني — الإحصاء (التوزيع الطبيعي)
+// ============================================================================
+TOPICS['quiz2'] = `
+<section class="topic-section" id="topic-quiz2">
+  <div class="topic-header" style="background: linear-gradient(135deg, #db2777, #be185d);">
+    <div class="label">📋 كويز رقم 2 · 7 أسئلة</div>
+    <h1>الكويز الثاني — الإحصاء</h1>
+    <p>أسئلة الكويز الثاني الرسمي. يركّز على التوزيع الطبيعي وخصائصه.</p>
+  </div>
+
+  <div class="section" style="background: linear-gradient(135deg, #fce7f3, #fbcfe8); border: 2px solid #db2777; padding: 18px; border-radius: 12px;">
+    <h2 style="color: #831843;"><span class="icon" style="background: #db2777; color: white;">📋</span> ملاحظة</h2>
+    <p style="line-height: 2;">7 أسئلة من الكويز الثاني الرسمي. تركّز على: التوزيع الطبيعي، شكل الجرس، التوزيع المعياري، القاعدة التجريبية (68-95-99.7)، ودالة NORM.DIST في إكسل.</p>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> الأسئلة (7 أسئلة)</h2>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س1:</strong> أي من القيم التالية تتساوى تماماً في التوزيع الطبيعي؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>المتوسط = الوسيط = المنوال</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>المنوال والانحراف المعياري</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>المتوسط والتباين</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>الوسيط والمدى</span></button>
+      </div>
+      <div class="quiz-explain">في التوزيع الطبيعي المتناظر تماماً (شكل الجرس)، الذروة في المنتصف تجعل مقاييس النزعة المركزية الثلاث متطابقة في نقطة واحدة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س2:</strong> ما الشكل البياني الذي يمثل التوزيع الطبيعي؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>شكل الجرس (Bell Curve)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>شكل مثلث</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>موجة جيبية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>مستطيل</span></button>
+      </div>
+      <div class="quiz-explain">شكل الجرس (Bell Curve) هو الاسم الشهير للتوزيع الطبيعي بسبب شكله: ذروة في المنتصف وذيلان متناظران.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س3:</strong> ما المقصود بالتوزيع الطبيعي؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>توزيع عشوائي غير منتظم</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>توزيع احتمالي مستمر متناظر حول المتوسط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>توزيع يعتمد على قيم نسبية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>توزيع احتمالي منفصل</span></button>
+      </div>
+      <div class="quiz-explain">التوزيع الطبيعي = توزيع احتمالي مستمر (continuous)، متناظر حول المتوسط، شكله جرس. أهم توزيع في الإحصاء.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س4:</strong> ما الدالة الأساسية للتعامل مع التوزيع الطبيعي في Excel؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>=MEDIAN</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>=COUNTIFS</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>=NORM.DIST</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>=AVERAGE</span></button>
+      </div>
+      <div class="quiz-explain">NORM.DIST(x, mean, std_dev, cumulative) تحسب احتمال x في توزيع طبيعي بمتوسط و انحراف معياري معطيين.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س5:</strong> ما قيمة المتوسط في التوزيع الطبيعي المعياري (Standard Normal)؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>المتوسط = 100</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>المتوسط = 0</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>المتوسط = 0.5</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>المتوسط = 1.1</span></button>
+      </div>
+      <div class="quiz-explain">التوزيع الطبيعي المعياري Z: متوسطه = 0 وانحرافه المعياري = 1. أي توزيع طبيعي يمكن تحويله إليه عبر Z = (X − μ) / σ.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س6:</strong> ما نسبة البيانات التي تقع ضمن انحراف معياري واحد من المتوسط (μ ± 1σ)؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>95%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>68%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>99.7%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>50%</span></button>
+      </div>
+      <div class="quiz-explain">القاعدة التجريبية 68-95-99.7: ضمن ±1σ ≈ 68%، ضمن ±2σ ≈ 95%، ضمن ±3σ ≈ 99.7% من البيانات.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س7:</strong> من العالم الذي يُنسب إليه أحياناً اسم التوزيع الطبيعي (التوزيع الجاوسي)؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 3)"><span class="letter">أ</span><span>أينشتاين</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 3)"><span class="letter">ب</span><span>نيوتن</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 3)"><span class="letter">ج</span><span>فيثاغورس</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 3)"><span class="letter">د</span><span>كارل فريدريش جاوس</span></button>
+      </div>
+      <div class="quiz-explain">العالم الألماني كارل فريدريش جاوس (Carl Friedrich Gauss) صاغ معادلة التوزيع الطبيعي رياضياً، لذا يُسمى أيضاً "التوزيع الجاوسي".</div>
+    </div>
+  </div>
+</section>
+`;
+
+
+const TOPIC_ORDER = ['1','2','3','dispersion','6','7','8','9','10','ml','eval','11','grouped','midtermExam','quiz1','quiz2','teacherQuiz','quiz'];
 const container = document.getElementById('topicsContainer');
 TOPIC_ORDER.forEach(id => {
   if (TOPICS[id]) {
