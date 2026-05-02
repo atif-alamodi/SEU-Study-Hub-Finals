@@ -241,11 +241,45 @@ html, body {
 }
 
 .ai-image-wrap { margin-top: 10px; }
-.ai-image { max-width: 100%; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: transform 0.2s; }
+.ai-image { max-width: 100%; border-radius: 12px; cursor: zoom-in; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: transform 0.2s; display: block; }
 .ai-image:hover { transform: scale(1.02); }
+
+/* Lightbox للصورة المكبّرة */
+.lightbox-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.92);
+  display: none; align-items: center; justify-content: center;
+  z-index: 99999; padding: 20px; cursor: zoom-out;
+  -webkit-overflow-scrolling: touch;
+}
+.lightbox-overlay.active { display: flex; }
+.lightbox-img {
+  max-width: 100%; max-height: 90vh; object-fit: contain;
+  border-radius: 8px; box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+  cursor: default;
+}
+.lightbox-close {
+  position: fixed; top: 16px; right: 16px;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(255,255,255,0.95); color: #000;
+  border: none; font-size: 24px; font-weight: 700;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+.lightbox-hint {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  color: rgba(255,255,255,0.85); font-size: 13px;
+  background: rgba(0,0,0,0.5); padding: 8px 16px; border-radius: 20px;
+}
 </style>
 </head>
 <body>
+
+<!-- Lightbox للصورة المكبّرة -->
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox(event)" aria-label="إغلاق">×</button>
+  <img class="lightbox-img" id="lightboxImg" src="" alt="" onclick="event.stopPropagation()">
+  <div class="lightbox-hint">انقر خارج الصورة للإغلاق</div>
+</div>
 
 <div class="app">
   <!-- Header -->
@@ -309,6 +343,24 @@ html, body {
 </div>
 
 <script>
+
+// === Lightbox: تكبير الصورة داخل الصفحة (بدلاً من window.open الذي يفشل في الموبايل) ===
+function openLightbox(src) {
+  const lb = document.getElementById('lightbox');
+  const img = document.getElementById('lightboxImg');
+  img.src = src;
+  lb.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(e) {
+  if (e && e.target && e.target.classList.contains('lightbox-img')) return;
+  const lb = document.getElementById('lightbox');
+  lb.classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeLightbox();
+});
 // Configuration — UPDATE THIS URL after deploying the worker!
 const AI_ENDPOINT = 'https://seu-ai.atif-alamodi.workers.dev/ask';
 
@@ -397,7 +449,7 @@ function renderMessage(role, content, imageBase64, imageSvg) {
   if (imageSvg) {
     bubbleContent += `<div class="ai-image-wrap" style="background:white;padding:6px;border-radius:14px;border:1px solid #e2e8f0;">${imageSvg}</div>`;
   } else if (imageBase64) {
-    bubbleContent += `<div class="ai-image-wrap"><img src="data:image/jpeg;base64,${imageBase64}" alt="generated image" class="ai-image" onclick="window.open(this.src, '_blank')"></div>`;
+    bubbleContent += `<div class="ai-image-wrap"><img src="data:image/jpeg;base64,${imageBase64}" alt="رسم تعليمي" class="ai-image" onclick="openLightbox(this.src)"></div>`;
   }
   div.innerHTML = `
     <div class="avatar">${role === 'user' ? '👤' : '🤖'}</div>

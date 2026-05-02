@@ -515,74 +515,82 @@ async function buildImagePrompt(env, userMessage, subjectName) {
           role: 'system',
           content: `You are an expert image-prompt engineer specializing in scientifically and academically accurate educational illustrations.
 
-Given an Arabic educational request, output a single English image prompt (max 200 words). Output ONLY the prompt, no preamble, no quotes, no explanation.
+Given an Arabic educational request, output a single English image prompt (max 250 words). Output ONLY the prompt, no preamble, no quotes, no explanation.
 
-CRITICAL RULES (these prevent garbled output):
-1. ABSOLUTELY NO TEXT, NO LABELS, NO CAPTIONS, NO WORDS, NO LETTERS in the image. The labels will be added separately in the chat below the image.
-2. Demand scientific accuracy: "anatomically accurate", "scientifically accurate", "factually correct proportions"
-3. Use clean educational illustration style: white or light neutral background, professional textbook look
-4. Specify exact organ positions, correct shapes, accurate biological/scientific structure when relevant
-5. For diagrams: clean vector-style, sharp lines, distinct colors per part
-6. ALWAYS end with: "no text, no labels, no letters, no words anywhere in the image, clean wordless illustration"
+CRITICAL RULES:
+1. NO TEXT WORDS, NO LABELS WITH WORDS, NO CAPTIONS, NO LETTERS, NO SENTENCES in the image. Words get garbled by image models.
+2. ONLY allowed text: simple single digit or two-digit NUMBERS (1, 2, 3, ..., up to 10) inside small white circles with thin black borders, placed precisely at each anatomical part. Numbers are simple and image models render them clearly.
+3. Each numbered circle has a thin black leader line connecting it to the corresponding part.
+4. Demand scientific accuracy: "anatomically accurate", "scientifically accurate", "factually correct proportions"
+5. Clean educational illustration: white background, professional textbook style, sharp clean lines
+6. Specify exact organ positions, correct shapes, accurate biological/scientific structure
+7. Numbers must be in sequential order from top to bottom or left to right
+8. ALWAYS end with: "small numbered circles 1 2 3 4 5 6 7 8 9 10 with thin black leader lines pointing to each part, no text words anywhere, only digit numbers in circles, clean scientific diagram"
 
 Subject context: ${subjectName}.
 
 Examples:
-Request: "ارسم تشريح ضفدع" 
-Prompt: "Anatomically accurate scientific illustration of frog internal anatomy, dorsal view with skin removed showing organs in correct anatomical positions: heart in upper chest, lungs flanking heart, liver below heart on right side covering stomach, small green gallbladder, coiled small intestine, large intestine, kidneys at back near spine, urinary bladder, brain in skull cavity. Each organ in distinct biologically correct color: red heart, pink lungs, dark red-brown liver, green gallbladder, pink coiled intestines, dark red kidneys. Clean white background, professional biology textbook illustration style, sharp clean lines, no text, no labels, no letters, no words anywhere in the image, clean wordless illustration"
-
-Request: "ارسم التوزيع الطبيعي"
-Prompt: "Clean professional educational illustration of a normal distribution bell curve, smooth symmetric blue curve filled with light blue gradient, clear x-axis and y-axis lines in dark gray, three vertical dashed lines marking standard deviation positions, white background, mathematical textbook style, no text, no labels, no letters, no numbers, no words anywhere in the image, clean wordless illustration"
+Request: "ارسم تشريح ضفدع"
+Prompt: "Anatomically accurate scientific illustration of frog internal anatomy, dorsal view with skin removed showing organs in correct positions: brain at top of head, heart in upper chest, lungs flanking heart, liver below heart on right covering stomach, small green gallbladder, coiled small intestine, large intestine, kidneys at back near spine, urinary bladder. Each organ in distinct biologically correct color: red heart, pink lungs, dark red-brown liver, green gallbladder, pink coiled intestines, dark red kidneys. Each labeled part has a small white circle with a single digit number (1, 2, 3, 4, 5, 6, 7, 8, 9, 10) and a thin black leader line connecting circle to the part. Numbers ordered top to bottom. Clean white background, professional biology textbook illustration, sharp lines, small numbered circles 1 2 3 4 5 6 7 8 9 10 with thin black leader lines pointing to each part, no text words anywhere, only digit numbers in circles, clean scientific diagram"
 
 Request: "ارسم خلية حيوانية"
-Prompt: "Scientifically accurate cross-section of an animal cell, biologically correct organelles in proper positions: large nucleus with nucleolus in center, mitochondria scattered, endoplasmic reticulum network, Golgi apparatus, ribosomes, lysosomes, cell membrane outer boundary. Each organelle in distinct realistic color, clean educational textbook illustration, white background, no text, no labels, no letters, no words anywhere in the image, clean wordless illustration"`
+Prompt: "Scientifically accurate cross-section of an animal cell with correctly positioned organelles: large central nucleus with nucleolus, mitochondria scattered around, rough endoplasmic reticulum network, smooth ER, Golgi apparatus, ribosomes as small dots, lysosomes as round vesicles, cell membrane outer boundary. Each organelle in distinct realistic color. Each organelle marked with a small white circle containing a single digit number (1, 2, 3, 4, 5, 6, 7, 8, 9, 10), thin black leader line connecting number to organelle. Clean educational textbook illustration, white background, small numbered circles 1 2 3 4 5 6 7 8 9 10 with thin black leader lines pointing to each part, no text words anywhere, only digit numbers in circles, clean scientific diagram"
+
+Request: "ارسم التوزيع الطبيعي"
+Prompt: "Clean professional educational illustration of a normal distribution bell curve, smooth symmetric blue curve filled with light blue gradient, clear horizontal and vertical axis lines in dark gray, three pairs of vertical dashed lines marking 1, 2, 3 standard deviation positions on both sides of the center. White background, mathematical textbook style, no text words anywhere, no labels, clean wordless illustration"`
         },
         { role: 'user', content: userMessage }
       ],
-      max_tokens: 350,
+      max_tokens: 450,
       temperature: 0.2
     });
     let prompt = (resp.response || resp.result?.response || '').trim();
-    prompt = prompt.replace(/^["'`]|["'`]$/g, '').replace(/\n+/g, ' ').slice(0, 1500);
-    // ضمان وجود "no text" حتى لو النموذج نسيها
+    prompt = prompt.replace(/^["'`]|["'`]$/g, '').replace(/\n+/g, ' ').slice(0, 1800);
+    // ضمان وجود "no text words" حتى لو النموذج نسيها
     if (!/no text|no label|wordless/i.test(prompt)) {
-      prompt += ', no text, no labels, no letters, no words anywhere in the image';
+      prompt += ', no text words anywhere, only digit numbers in circles';
     }
     if (!prompt) {
-      prompt = `Scientifically accurate educational illustration related to ${subjectName}, professional textbook style, white background, no text, no labels, clean wordless illustration`;
+      prompt = `Scientifically accurate educational illustration related to ${subjectName}, professional textbook style, white background, no text words anywhere, only digit numbers in circles, clean scientific diagram`;
     }
     return prompt;
   } catch (err) {
-    return `Scientifically accurate educational illustration related to ${subjectName}, professional textbook style, white background, no text, no labels, clean wordless illustration`;
+    return `Scientifically accurate educational illustration related to ${subjectName}, professional textbook style, white background, no text words anywhere, only digit numbers in circles, clean scientific diagram`;
   }
 }
 
-// توليد قائمة الـ labels نصياً (تحل محل النصوص داخل الصورة)
+// توليد قائمة الـ labels نصياً (بترقيم يطابق الأرقام المرسومة في الصورة)
 async function buildLabelList(env, userMessage, subjectName) {
   try {
     const resp = await env.AI.run('@cf/meta/llama-3.3-70b-instruct-fp8-fast', {
       messages: [
         {
           role: 'system',
-          content: `أنت خبير علمي. الطالب طلب رسماً تعليمياً، والصورة تُنتج بدون تسميات نصية (لتجنب التشويه). مهمتك إنشاء قائمة بالأجزاء/المكونات/المفاهيم الرئيسية المرتبطة بطلبه، بترقيم وبصيغة "اسم عربي (English term): شرح مختصر".
+          content: `أنت خبير علمي. الطالب طلب رسماً تعليمياً، والصورة تُولّد بأرقام مرقمة (1-10) داخل دوائر صغيرة فوق كل جزء، مع أذرع رفيعة من الأرقام إلى الأجزاء. مهمتك إنشاء قائمة دقيقة بالأجزاء بنفس الترقيم.
 
-قواعد:
-- 5 إلى 12 عنصراً فقط (الأهم)
-- دقة علمية تامة
-- صياغة موجزة (سطر واحد لكل عنصر)
-- لا مقدمة ولا خاتمة، فقط القائمة المرقّمة
-- إذا الطلب رياضي/إحصائي/برمجي، اذكر العناصر الأساسية في المخطط (مثلاً: المحور الأفقي x، منحنى الجرس، نقطة μ، إلخ)
+قواعد صارمة:
+- بالضبط 10 عناصر مرقّمة من 1 إلى 10 (أو أقل إذا كان الموضوع لا يحتمل 10، مثل دالة رياضية)
+- ترتيب منطقي: من الأعلى للأسفل أو من اليسار لليمين، أو حسب الأهمية البيولوجية
+- صياغة: "1. الاسم العربي (English Term): شرح مختصر ودقيق علمياً"
+- دقة علمية تامة، لا أخطاء، لا تخمين
+- الأسماء الإنجليزية بصيغتها العلمية الرسمية الصحيحة (مثل: Heart وليس Hart، Liver وليس Lievr)
+- لا مقدمة، لا خاتمة، فقط القائمة المرقّمة
 
 مثال للطلب "ارسم تشريح ضفدع":
-1. القلب (Heart): يقع في الجزء العلوي من الصدر، ثلاثي الحجرات
-2. الرئتان (Lungs): على جانبي القلب، صغيرتان وكيسيتا الشكل
-3. الكبد (Liver): أسفل القلب، بني داكن، يغطي المعدة
-4. الحوصلة الصفراوية (Gallbladder): خضراء صغيرة ملاصقة للكبد
-... وهكذا`
+1. الدماغ (Brain): العضو المركزي للجهاز العصبي، يقع في تجويف الجمجمة.
+2. القلب (Heart): ثلاثي الحجرات، يقع في الجزء العلوي من الصدر.
+3. الرئتان (Lungs): على جانبي القلب، كيسيتا الشكل، تتبادل الغازات.
+4. الكبد (Liver): أكبر غدة في الجسم، بني داكن، يقع أسفل القلب.
+5. الحوصلة الصفراوية (Gallbladder): كيس أخضر صغير ملاصق للكبد، يخزن الصفراء.
+6. المعدة (Stomach): عضو هضمي عضلي، يقع تحت الكبد.
+7. الأمعاء الدقيقة (Small Intestine): ملتفة، تستقمر هضم الطعام وامتصاصه.
+8. الأمعاء الغليظة (Large Intestine): تمتص الماء وتشكّل الفضلات.
+9. الكليتان (Kidneys): على جانبي العمود الفقري، تنقّيان الدم.
+10. المثانة البولية (Urinary Bladder): كيس مخزن للبول قبل إخراجه.`
         },
         { role: 'user', content: `الطلب: "${userMessage}"\nالمادة: ${subjectName}` }
       ],
-      max_tokens: 500,
+      max_tokens: 700,
       temperature: 0.2
     });
     let labels = (resp.response || resp.result?.response || '').trim();
@@ -737,7 +745,7 @@ ${subject.content}
 
     // إذا الطلب رسم وحصلنا على labels، نضيفها للجواب لتحلّ محل النصوص داخل الصورة
     if (isDrawingRequest && labels && labels.length > 30) {
-      answer = `${answer}\n\n**🏷️ الأجزاء/المكونات الرئيسية:**\n\n${labels}\n\n*ملاحظة: التسميات معروضة هنا نصياً لضمان دقتها العلمية، لأن نماذج توليد الصور قد تنتج كتابة مشوّهة داخل الصور.*`;
+      answer = `${answer}\n\n**🏷️ الأجزاء الموسومة بالأرقام في الرسم:**\n\n${labels}\n\n*الأرقام (1-10) داخل الدوائر البيضاء على الصورة تطابق الترقيم أعلاه.*`;
     }
 
     if (!answer && !(imgResult && imgResult.image)) {
