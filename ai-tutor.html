@@ -389,12 +389,14 @@ function formatBubble(text) {
   return html;
 }
 
-function renderMessage(role, content, imageBase64) {
+function renderMessage(role, content, imageBase64, imageSvg) {
   const messages = document.getElementById('messages');
   const div = document.createElement('div');
   div.className = `message ${role}`;
   let bubbleContent = formatBubble(content);
-  if (imageBase64) {
+  if (imageSvg) {
+    bubbleContent += `<div class="ai-image-wrap" style="background:white;padding:6px;border-radius:14px;border:1px solid #e2e8f0;">${imageSvg}</div>`;
+  } else if (imageBase64) {
     bubbleContent += `<div class="ai-image-wrap"><img src="data:image/jpeg;base64,${imageBase64}" alt="generated image" class="ai-image" onclick="window.open(this.src, '_blank')"></div>`;
   }
   div.innerHTML = `
@@ -476,9 +478,9 @@ async function sendMessage() {
         showError(data.message || 'حدث خطأ. حاول مرة أخرى.');
       }
       conversationHistory.pop();
-    } else if (data.answer) {
-      renderMessage('ai', data.answer, data.image);
-      conversationHistory.push({ role: 'assistant', content: data.answer });
+    } else if (data.answer || data.image_svg) {
+      renderMessage('ai', data.answer || '', data.image, data.image_svg);
+      conversationHistory.push({ role: 'assistant', content: data.answer || '' });
       saveChat();
     } else {
       showError('لم أستلم رداً. حاول مرة أخرى.');
