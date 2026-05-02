@@ -506,9 +506,86 @@ function wantsDrawing(question) {
 // النموذج الأحدث والأدق - أفضل بكثير في الدقة العلمية والنصوص
 // =============================================================
 
-async function buildImagePrompt(env, userMessage, subjectName) {
-  // نطلب من LLM بناء prompt إنجليزي محسّن لصورة تعليمية دقيقة
+// كاشف الطلبات الغامضة (ضمير بدون مرجع، طلب قصير جداً)
+function isAmbiguousDrawing(userMessage) {
+  const m = userMessage.trim();
+  // طلبات قصيرة جداً قد تكون غامضة: "ارسمه"، "ارسم"، "ارسم لي"، "ارسم ذلك"
+  const veryShort = /^(ارسم|ارسمه|ارسمها|ارسم لي|ارسم ذلك|ارسم هذا|اعرضه|اظهرها|أرني|draw|draw it|draw that|show me)\.?\s*$/i.test(m);
+  // ضمائر إشارة بدون اسم
+  const hasOnlyPronoun = /\bhذا\b|\bذلك\b|\bتلك\b|\bهذه\b/.test(m) && m.length < 25;
+  return veryShort || hasOnlyPronoun;
+}
+
+// حل مرجع الضمير من السياق: "ارسمه" → "ارسم التوزيع الطبيعي" (مثلاً)
+async function resolveDrawingSubject(env, userMessage, history, subjectName) {
+  // إذا الرسالة واضحة وفيها موضوع (>20 حرف وفيها كلمة مفتاحية)، نعيدها كما هي
+  const m = userMessage.trim();
+  if (m.length > 35) return m;
+
+  // نأخذ آخر 4 رسائل من المحادثة لاستخراج الموضوع
+  const ctx = (history || []).slice(-4).map(h => `${h.role === 'user' ? 'الطالب' : 'المساعد'}: ${h.content}`).join('\n');
+  if (!ctx) return m;
+
   try {
+    const resp = await env.AI.run('@cf/meta/llama-3.3-70b-instruct-fp8-fast', {
+      messages: [
+        {
+          role: 'system',
+          content: `أنت محلل سياق. الطالب يطلب رسماً، وقد تكون رسالته الحالية مختصرة وتحوي ضميراً ("ارسمه"، "ارسم ذلك") يشير لموضوع نوقش سابقاً.
+
+مهمتك: قراءة المحادثة السابقة + الطلب الحالي، واستخراج **الموضوع الفعلي** الذي يطلب الطالب رسمه. أعد جملة طلب رسم واضحة كاملة.
+
+قواعد صارمة:
+- إذا كان السياق واضحاً ويُحدد الموضوع، أعد: "ارسم لي [الموضوع المحدد]"
+- إذا كان السياق غامضاً ولا يمكن تحديد الموضوع بدقة، أعد فقط الكلمة: AMBIGUOUS
+- لا تخمّن. لا تخترع مواضيع غير مذكورة في السياق.
+- لا مقدمات ولا شروحات، فقط الجملة المطلوبة أو AMBIGUOUS
+
+أمثلة:
+
+السياق:
+الطالب: ما هو التوزيع الطبيعي؟
+المساعد: التوزيع الطبيعي هو توزيع احتمالي متماثل...
+الطالب الحالي: ارسمه
+الإجابة: ارسم لي التوزيع الطبيعي
+
+السياق:
+الطالب: اشرح لي خوارزمية Round Robin
+المساعد: Round Robin هي خوارزمية جدولة...
+الطالب الحالي: ارسم لي ذلك
+الإجابة: ارسم لي مخطط Gantt لخوارزمية Round Robin
+
+السياق:
+الطالب: مرحباً
+المساعد: أهلاً وسهلاً، كيف أساعدك؟
+الطالب الحالي: ارسم
+الإجابة: AMBIGUOUS`
+        },
+        {
+          role: 'user',
+          content: `المادة: ${subjectName}\n\nالسياق:\n${ctx}\n\nالطلب الحالي: ${m}\n\nاستخرج موضوع الرسم:`
+        }
+      ],
+      max_tokens: 80,
+      temperature: 0.0
+    });
+    let resolved = (resp.response || resp.result?.response || '').trim();
+    resolved = resolved.replace(/^["'`]|["'`]$/g, '').split('\n')[0].trim();
+    if (/AMBIGUOUS|غامض/i.test(resolved)) return null;
+    if (resolved.length < 5) return m;
+    return resolved;
+  } catch (err) {
+    return m; // في حالة الفشل، نستخدم الرسالة الأصلية
+  }
+}
+
+async function buildImagePrompt(env, userMessage, subjectName, subjectContent) {
+  // نطلب من LLM بناء prompt إنجليزي محسّن لصورة تعليمية دقيقة
+  // مع تمرير محتوى المنهج (RAG) لضمان الدقة العلمية
+  try {
+    // نقتطع المنهج لأول 3000 حرف لتجنب تجاوز حد التوكنز
+    const curriculumSnippet = subjectContent ? subjectContent.slice(0, 3000) : '';
+
     const resp = await env.AI.run('@cf/meta/llama-3.3-70b-instruct-fp8-fast', {
       messages: [
         {
@@ -525,9 +602,12 @@ THE MOST IMPORTANT RULES (failure to follow these produces garbled output):
 4. ONLY allowed text in the image: small white circles each containing ONE single digit (1, 2, 3, 4, 5, 6, 7, 8, 9, 10) with thin black leader lines pointing to each labeled part. Single digits do not get garbled.
 5. Demand scientific accuracy: "anatomically accurate", "scientifically accurate", "factually correct"
 6. Clean educational illustration: white background, sharp clean lines, professional textbook style
-7. ALWAYS end with this exact safety phrase: "absolutely no axis labels with words, no titles, no captions, no English words anywhere in the image, axes are clean lines with at most single digit tick numbers, only allowed text are the numbered marker circles 1 through 10"
+7. **CRITICAL**: Stay strictly faithful to what the student requested. Do NOT invent unrelated content. If the student asked for X, draw X — not something similar.
+8. ALWAYS end with this exact safety phrase: "absolutely no axis labels with words, no titles, no captions, no English words anywhere in the image, axes are clean lines with at most single digit tick numbers, only allowed text are the numbered marker circles 1 through 10"
 
 Subject context: ${subjectName}.
+
+${curriculumSnippet ? `Reference curriculum (use ONLY this for technical accuracy on this subject):\n---\n${curriculumSnippet}\n---\n` : ''}
 
 Examples:
 
@@ -535,20 +615,16 @@ Request: "ارسم تشريح ضفدع"
 Prompt: "Anatomically accurate scientific illustration of frog internal anatomy, dorsal view with skin removed showing organs in correct positions: brain at top of head, heart in upper chest, lungs flanking heart, liver below heart on right covering stomach, small green gallbladder, coiled small intestine, large intestine, kidneys at back near spine, urinary bladder. Each organ in distinct biologically correct color: red heart, pink lungs, dark red-brown liver, green gallbladder, pink coiled intestines, dark red kidneys. Each labeled part has a small white circle with a single digit number (1, 2, 3, 4, 5, 6, 7, 8, 9, 10) and a thin black leader line connecting circle to the part. Numbers ordered top to bottom. Clean white background, professional biology textbook illustration, sharp lines, absolutely no axis labels with words, no titles, no captions, no English words anywhere in the image, only allowed text are the numbered marker circles 1 through 10"
 
 Request: "ارسم التوزيع الطبيعي"
-Prompt: "Clean professional educational illustration of a normal distribution bell curve, smooth symmetric blue curve filled with light blue gradient, clean horizontal and vertical axis lines in dark gray with NO text labels on axes, three pairs of vertical dashed lines marking standard deviation positions on both sides of the center peak. Small white circle with digit 1 on the peak, digit 2 on the curve at one standard deviation, digit 3 at the inflection point, digit 4 marking the area, digit 5 on the horizontal axis center, with thin black leader lines. White background, mathematical textbook style, absolutely no axis labels with words, no titles, no captions, no English words anywhere in the image, axes are clean lines with at most single digit tick numbers, only allowed text are the numbered marker circles 1 through 10"
-
-Request: "ارسم خلية حيوانية"
-Prompt: "Scientifically accurate cross-section of an animal cell with correctly positioned organelles: large central nucleus with nucleolus, mitochondria scattered around, rough endoplasmic reticulum network, smooth ER, Golgi apparatus, ribosomes as small dots, lysosomes as round vesicles, cell membrane outer boundary. Each organelle in distinct realistic color. Each organelle marked with a small white circle containing a single digit number (1, 2, 3, 4, 5, 6, 7, 8, 9, 10), thin black leader line connecting number to organelle. Clean educational textbook illustration, white background, absolutely no axis labels with words, no titles, no captions, no English words anywhere in the image, only allowed text are the numbered marker circles 1 through 10"`
+Prompt: "Clean professional educational illustration of a normal distribution bell curve, smooth symmetric blue curve filled with light blue gradient, clean horizontal and vertical axis lines in dark gray with NO text labels on axes, three pairs of vertical dashed lines marking standard deviation positions on both sides of the center peak. Small white circle with digit 1 on the peak, digit 2 on the curve at one standard deviation, digit 3 at the inflection point, digit 4 marking the area, digit 5 on the horizontal axis center, with thin black leader lines. White background, mathematical textbook style, absolutely no axis labels with words, no titles, no captions, no English words anywhere in the image, axes are clean lines with at most single digit tick numbers, only allowed text are the numbered marker circles 1 through 10"`
         },
         { role: 'user', content: userMessage }
       ],
       max_tokens: 500,
-      temperature: 0.2
+      temperature: 0.1
     });
     let prompt = (resp.response || resp.result?.response || '').trim();
     prompt = prompt.replace(/^["'`]|["'`]$/g, '').replace(/\n+/g, ' ').slice(0, 2000);
 
-    // safety net: نضمن وجود التحذير حتى لو نسيه LLM
     const safety = ', absolutely no axis labels with words, no titles, no captions, no English words anywhere in the image, only allowed text are the numbered marker circles 1 through 10';
     if (!/no axis labels with words|no English words anywhere/i.test(prompt)) {
       prompt += safety;
@@ -563,8 +639,9 @@ Prompt: "Scientifically accurate cross-section of an animal cell with correctly 
 }
 
 // توليد قائمة الـ labels نصياً (بترقيم يطابق الأرقام المرسومة في الصورة)
-async function buildLabelList(env, userMessage, subjectName) {
+async function buildLabelList(env, userMessage, subjectName, subjectContent) {
   try {
+    const curriculumSnippet = subjectContent ? subjectContent.slice(0, 3000) : '';
     const resp = await env.AI.run('@cf/meta/llama-3.3-70b-instruct-fp8-fast', {
       messages: [
         {
@@ -572,12 +649,16 @@ async function buildLabelList(env, userMessage, subjectName) {
           content: `أنت خبير علمي. الطالب طلب رسماً تعليمياً، والصورة تُولّد بأرقام مرقمة (1-10) داخل دوائر صغيرة فوق كل جزء، مع أذرع رفيعة من الأرقام إلى الأجزاء. مهمتك إنشاء قائمة دقيقة بالأجزاء بنفس الترقيم.
 
 قواعد صارمة:
-- بالضبط 10 عناصر مرقّمة من 1 إلى 10 (أو أقل إذا كان الموضوع لا يحتمل 10، مثل دالة رياضية)
-- ترتيب منطقي: من الأعلى للأسفل أو من اليسار لليمين، أو حسب الأهمية البيولوجية
+- بالضبط 10 عناصر مرقّمة من 1 إلى 10 (أو أقل إذا كان الموضوع لا يحتمل 10)
+- ترتيب منطقي: من الأعلى للأسفل، أو من اليسار لليمين، أو حسب الأهمية
 - صياغة: "1. الاسم العربي (English Term): شرح مختصر ودقيق علمياً"
 - دقة علمية تامة، لا أخطاء، لا تخمين
-- الأسماء الإنجليزية بصيغتها العلمية الرسمية الصحيحة (مثل: Heart وليس Hart، Liver وليس Lievr)
+- الأسماء الإنجليزية بصيغتها العلمية الرسمية الصحيحة
+- **مهم**: اقتصر تماماً على ما طلبه الطالب. إذا طلب رسم X، اذكر مكوّنات X فقط، لا تخترع شيئاً مشابهاً.
+- اعتمد على المنهج المرجعي أدناه للدقة في المحتوى التقني، ولكن المعرفة العامة (تشريح، علم أحياء، إلخ) خارج المنهج مقبولة
 - لا مقدمة، لا خاتمة، فقط القائمة المرقّمة
+
+${curriculumSnippet ? `المنهج المرجعي للمادة (للدقة التقنية):\n---\n${curriculumSnippet}\n---\n` : ''}
 
 مثال للطلب "ارسم تشريح ضفدع":
 1. الدماغ (Brain): العضو المركزي للجهاز العصبي، يقع في تجويف الجمجمة.
@@ -586,7 +667,7 @@ async function buildLabelList(env, userMessage, subjectName) {
 4. الكبد (Liver): أكبر غدة في الجسم، بني داكن، يقع أسفل القلب.
 5. الحوصلة الصفراوية (Gallbladder): كيس أخضر صغير ملاصق للكبد، يخزن الصفراء.
 6. المعدة (Stomach): عضو هضمي عضلي، يقع تحت الكبد.
-7. الأمعاء الدقيقة (Small Intestine): ملتفة، تستقمر هضم الطعام وامتصاصه.
+7. الأمعاء الدقيقة (Small Intestine): ملتفة، تستكمل هضم الطعام وامتصاصه.
 8. الأمعاء الغليظة (Large Intestine): تمتص الماء وتشكّل الفضلات.
 9. الكليتان (Kidneys): على جانبي العمود الفقري، تنقّيان الدم.
 10. المثانة البولية (Urinary Bladder): كيس مخزن للبول قبل إخراجه.`
@@ -594,7 +675,7 @@ async function buildLabelList(env, userMessage, subjectName) {
         { role: 'user', content: `الطلب: "${userMessage}"\nالمادة: ${subjectName}` }
       ],
       max_tokens: 700,
-      temperature: 0.2
+      temperature: 0.1
     });
     let labels = (resp.response || resp.result?.response || '').trim();
     labels = filterForeignScripts(labels);
@@ -731,13 +812,29 @@ ${subject.content}
 
     let imagePromise = Promise.resolve(null);
     let labelsPromise = Promise.resolve(null);
+    let resolvedDrawingTopic = null;
+
     if (isDrawingRequest) {
+      // حل مرجع الضمير من السياق ("ارسمه" → "ارسم لي التوزيع الطبيعي")
+      resolvedDrawingTopic = await resolveDrawingSubject(env, userMessage, history, subject.name);
+
+      if (resolvedDrawingTopic === null) {
+        // المرجع غامض: لا نولّد صورة، بل نطلب توضيحاً من الطالب
+        return jsonResponse({
+          answer: 'لم أفهم بدقة ما تريد رسمه. هل يمكنك تحديد الموضوع؟ مثلاً: "ارسم لي التوزيع الطبيعي" أو "ارسم لي تشريح القلب".',
+          subject: subjectKey,
+          model: '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
+          image: null,
+          image_svg: null
+        }, request);
+      }
+
       imagePromise = (async () => {
-        const imgPrompt = await buildImagePrompt(env, userMessage, subject.name);
+        const imgPrompt = await buildImagePrompt(env, resolvedDrawingTopic, subject.name, subject.content);
         const img = await generateImage(env, imgPrompt);
         return { prompt: imgPrompt, image: img };
       })();
-      labelsPromise = buildLabelList(env, userMessage, subject.name);
+      labelsPromise = buildLabelList(env, resolvedDrawingTopic, subject.name, subject.content);
     }
 
     const [aiResponse, imgResult, labels] = await Promise.all([textPromise, imagePromise, labelsPromise]);
