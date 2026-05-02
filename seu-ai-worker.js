@@ -698,60 +698,7 @@ async function callTextLLM(env, model, messages, options = {}) {
   });
   const maxTokens = Math.min(options.max_tokens || 800, 1500);
 
-  // ━━━━━━━━━━ الطبقة 2: Pollinations.ai مباشر ━━━━━━━━━━
-  // الأكثر استقراراً وسرعة
-  try {
-    const resp = await fetchTimeout('https://text.pollinations.ai/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'User-Agent': 'Mozilla/5.0',
-        'Origin': 'https://atif-alamodi.github.io'
-      },
-      body: JSON.stringify({
-        messages: trimmedMessages,
-        model: 'openai',
-        seed: Math.floor(Math.random() * 99999)
-      })
-    }, 20000);
-    if (resp.ok) {
-      const text = (await resp.text() || '').trim();
-      if (text && text.length > 5) {
-        if (text.startsWith('{')) {
-          try {
-            const j = JSON.parse(text);
-            const t = j.choices?.[0]?.message?.content || j.content?.[0]?.text || '';
-            if (t) return { source: 'pollinations', text: t };
-          } catch (e) {}
-        } else {
-          return { source: 'pollinations', text };
-        }
-      }
-    }
-  } catch (err) {
-    console.log('Pollinations:', (err.message || '').slice(0, 60));
-  }
-
-  // ━━━━━━━━━━ الطبقة 3: zad-proxy (احتياط) ━━━━━━━━━━
-  if (env.ZAD_PROXY) {
-    try {
-      const proxyReq = new Request('https://zad-proxy/ai', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: trimmedMessages, max_tokens: maxTokens })
-      });
-      const resp = await env.ZAD_PROXY.fetch(proxyReq);
-      if (resp.ok) {
-        const data = await resp.json();
-        const text = data.content?.[0]?.text || '';
-        if (text) return { source: data.source || 'zad-proxy', text };
-      }
-    } catch (err) {
-      console.log('proxy:', (err.message || '').slice(0, 60));
-    }
-  }
-
-  // ━━━━━━━━━━ الطبقة 4: Google Gemini ━━━━━━━━━━
+  // ━━━━━━━━━━ الطبقة 2: Google Gemini (الأكثر استقراراً وسرعة) ━━━━━━━━━━
   let geminiKey = env.GEMINI_API_KEY;
   if (!geminiKey && env.ZAD_KV) {
     try { geminiKey = await env.ZAD_KV.get('admin_gemini_key'); } catch (e) {}
@@ -778,7 +725,7 @@ async function callTextLLM(env, model, messages, options = {}) {
       }
 
       const resp = await fetchTimeout(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -794,6 +741,59 @@ async function callTextLLM(env, model, messages, options = {}) {
       }
     } catch (err) {
       console.log('Gemini:', (err.message || '').slice(0, 60));
+    }
+  }
+
+  // ━━━━━━━━━━ الطبقة 3: Pollinations.ai مباشر ━━━━━━━━━━
+  // مجاني بدون مفتاح (احتياطي إذا فشل Gemini)
+  try {
+    const resp = await fetchTimeout('https://text.pollinations.ai/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'User-Agent': 'Mozilla/5.0',
+        'Origin': 'https://atif-alamodi.github.io'
+      },
+      body: JSON.stringify({
+        messages: trimmedMessages,
+        model: 'openai',
+        seed: Math.floor(Math.random() * 99999)
+      })
+    }, 15000);
+    if (resp.ok) {
+      const text = (await resp.text() || '').trim();
+      if (text && text.length > 5) {
+        if (text.startsWith('{')) {
+          try {
+            const j = JSON.parse(text);
+            const t = j.choices?.[0]?.message?.content || j.content?.[0]?.text || '';
+            if (t) return { source: 'pollinations', text: t };
+          } catch (e) {}
+        } else {
+          return { source: 'pollinations', text };
+        }
+      }
+    }
+  } catch (err) {
+    console.log('Pollinations:', (err.message || '').slice(0, 60));
+  }
+
+  // ━━━━━━━━━━ الطبقة 4: zad-proxy (آخر احتياط) ━━━━━━━━━━
+  if (env.ZAD_PROXY) {
+    try {
+      const proxyReq = new Request('https://zad-proxy/ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: trimmedMessages, max_tokens: maxTokens })
+      });
+      const resp = await env.ZAD_PROXY.fetch(proxyReq);
+      if (resp.ok) {
+        const data = await resp.json();
+        const text = data.content?.[0]?.text || '';
+        if (text) return { source: data.source || 'zad-proxy', text };
+      }
+    } catch (err) {
+      console.log('proxy:', (err.message || '').slice(0, 60));
     }
   }
 
