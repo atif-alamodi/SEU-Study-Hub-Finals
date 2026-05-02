@@ -114,6 +114,13 @@ html, body { font-family: 'Noto Sans Arabic', 'Cairo', sans-serif; background: v
   .tab-btn .tab-name { display: none; }
   .tab-btn.home-tab .tab-name { display: inline; }
 }
+
+.tab-btn.ai-tab:not(.active) { background: linear-gradient(135deg, #ede9fe, #fce7f3); color: #6d28d9; border: 1.5px solid #c084fc; box-shadow: 0 2px 8px rgba(124, 58, 237, 0.15); }
+.tab-btn.ai-tab:not(.active):hover { background: linear-gradient(135deg, #ddd6fe, #fbcfe8); color: #5b21b6; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25); }
+.tab-btn.ai-tab.active { background: linear-gradient(135deg, #7c3aed, #ec4899); color: white; border: 1.5px solid transparent; box-shadow: 0 4px 14px rgba(124, 58, 237, 0.4); }
+.tab-btn.ai-tab .ai-badge { background: linear-gradient(135deg, #f59e0b, #ef4444); color: white; font-weight: 800; animation: aiPulse 2s ease-in-out infinite; }
+.tab-btn.ai-tab.active .ai-badge { background: rgba(255,255,255,0.3); color: white; }
+@keyframes aiPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
 </style>
 </head>
 <body>
@@ -141,7 +148,7 @@ html, body { font-family: 'Noto Sans Arabic', 'Cairo', sans-serif; background: v
   <button class="tab-btn" data-tab="xllab" onclick="switchTab('xllab')"><span class="tab-icon">📊</span><span class="tab-name">محاكي إكسل</span></button>
   <div class="tab-divider"></div>
   <button class="tab-btn" data-tab="pdfs" onclick="switchTab('pdfs')"><span class="tab-icon">📚</span><span class="tab-name">ملفات المقررات</span><span class="tab-code">PDF</span></button>
-  <button class="tab-btn" data-tab="aitutor" onclick="switchTab('aitutor')" style="background: linear-gradient(135deg, #ede9fe, #fce7f3); border: 2px solid #c084fc;"><span class="tab-icon">🤖</span><span class="tab-name">المساعد الذكي</span><span class="tab-code">AI · جديد</span></button>
+  <button class="tab-btn ai-tab" data-tab="aitutor" onclick="switchTab('aitutor')"><span class="tab-icon">🤖</span><span class="tab-name">المساعد الذكي</span><span class="tab-code ai-badge">جديد</span></button>
 </nav>
 
 <main class="content-area">
