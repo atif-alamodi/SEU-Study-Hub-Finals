@@ -522,6 +522,34 @@ const QUESTION_BANKS = {
       'تنظيف الذاكرة المؤقتة',
       'تسريع نقل البيانات'
     ], a: 1, e: 'Thrashing يحدث عندما تكون الذاكرة محملة بشكل مفرط فيكون معدل Page Faults مرتفعاً جداً، ويُهدر المعالج وقته في I/O.' },
+
+    { d: 'hard', q: 'في خوارزمية الجدولة Round Robin، ماذا يحدث إذا كانت الشريحة الزمنية صغيرة جداً (مثلاً 1ms)؟', opts: [
+      'تتحسن الأداء كثيراً',
+      'يزداد عبء تبديل السياق (Context Switching) ويتدنى الأداء',
+      'لا يحدث أي تأثير',
+      'تختفي ظاهرة Starvation'
+    ], a: 1, e: 'الشريحة الصغيرة جداً تجعل النظام يقضي وقته في Context Switching أكثر من التنفيذ الفعلي، مما يقلل throughput بشكل كبير.' },
+
+    { d: 'hard', q: 'في حل مشكلة Producer-Consumer باستخدام Semaphores، ما عدد الـ semaphores المطلوبة عادةً؟', opts: [
+      '1 (واحد فقط)',
+      '2 (empty و full)',
+      '3 (mutex, empty, full)',
+      '4'
+    ], a: 2, e: 'نحتاج 3: mutex لحماية الوصول للمخزن، empty لعدّ الأماكن الفارغة، full لعدّ العناصر الموجودة.' },
+
+    { d: 'hard', q: 'ما الفرق بين Preemptive و Non-preemptive Scheduling؟', opts: [
+      'لا يوجد فرق',
+      'Preemptive: يمكن سحب المعالج من العملية قبل انتهائها. Non-preemptive: تنفّذ حتى تنتهي أو تنتظر',
+      'Preemptive للأنظمة القديمة، Non-preemptive للحديثة',
+      'Preemptive يعمل بدون نظام تشغيل'
+    ], a: 1, e: 'Preemptive يسمح بسحب المعالج (مثل Round Robin)، أما Non-preemptive فالعملية تحتفظ بالمعالج حتى تكمل أو تطلب I/O (مثل FCFS).' },
+
+    { d: 'hard', q: 'في مشكلة Dining Philosophers بـ 5 فلاسفة و5 شوكات، ما الحل الذي يمنع Deadlock؟', opts: [
+      'إجبار كل فيلسوف على رفع الشوكتين معاً (atomic) أو السماح فقط لـ 4 فلاسفة بالأكل في وقت واحد',
+      'إعطاء فيلسوف واحد كل الشوكات',
+      'حذف فيلسوف من الجدول',
+      'لا يوجد حل'
+    ], a: 0, e: 'حلول كلاسيكية: (1) السماح لـ N-1 فلاسفة فقط بمحاولة الأكل، (2) رفع الشوكتين معاً atomically، (3) ترقيم الشوكات وأخذها بترتيب محدد لكسر الانتظار الدائري.' },
   ],
 
   // ============ الإحصاء ============
@@ -665,6 +693,28 @@ const QUESTION_BANKS = {
     { d: 'hard', q: 'باستخدام قاعدة 68-95-99.7، إذا كانت درجات اختبار توزّع طبيعياً (μ=70, σ=10)، ما النسبة بين 50 و90؟', opts: [
       '68%', '95%', '99.7%', '50%'
     ], a: 1, e: '50 و90 تبعدان عن المتوسط 70 بمقدار 2σ (لأن 20/10=2). إذن 95% من الدرجات تقع في هذا النطاق.' },
+
+    { d: 'hard', q: 'إذا كان المتوسط 50 والانحراف المعياري 5، ما القيمة التي تكافئ Z = -2؟', opts: [
+      '40', '45', '55', '60'
+    ], a: 0, e: 'من Z = (x-μ)/σ نحصل على x = μ + Z×σ = 50 + (-2)(5) = 50 - 10 = 40.' },
+
+    { d: 'hard', q: 'لقيم: y الحقيقية = [3, 5, 7, 9]، y المتوقعة = [2, 5, 8, 10]. ما MAE؟', opts: [
+      '0.5', '0.75', '1.0', '1.5'
+    ], a: 1, e: 'الفروق المطلقة: |3-2|=1, |5-5|=0, |7-8|=1, |9-10|=1. المجموع = 3. MAE = 3/4 = 0.75.' },
+
+    { d: 'hard', q: 'ما الفرق بين تباين العينة s² وتباين المجتمع σ²؟', opts: [
+      'لا فرق',
+      'تباين العينة يُقسم على (n-1) لتقدير غير متحيز، تباين المجتمع يُقسم على n',
+      'تباين العينة دائماً أكبر من تباين المجتمع',
+      'تباين العينة سالب أحياناً'
+    ], a: 1, e: 'القسمة على (n-1) في تباين العينة (تصحيح Bessel) تعطي تقديراً غير متحيز لتباين المجتمع.' },
+
+    { d: 'hard', q: 'في دالة SUMIF بإكسل: =SUMIF(B2:B10, ">100", C2:C10) ماذا تفعل؟', opts: [
+      'تجمع كل قيم B التي > 100',
+      'تجمع قيم C في الصفوف التي يكون فيها B > 100',
+      'تجمع كل قيم B و C معاً',
+      'تعطي عدد الخلايا > 100'
+    ], a: 1, e: 'SUMIF(range, criteria, sum_range): تفحص B2:B10 بالشرط ">100"، وتجمع القيم المقابلة في C2:C10.' },
   ],
 
   // ============ البايثون ============
@@ -790,22 +840,69 @@ const QUESTION_BANKS = {
     { d: 'hard', q: 'ما ناتج هذا الكود:\n```\nnums = [1, 2, 3, 4]\nresult = list(filter(lambda x: x % 2 == 0, nums))\nprint(result)\n```', opts: [
       '[1, 3]', '[2, 4]', '[1, 2, 3, 4]', '[]'
     ], a: 1, e: 'filter() يحتفظ بالعناصر التي تحقق الشرط. lambda يفحص الزوجي (x%2==0)، فيُحتفظ بـ 2 و4.' },
+
+    { d: 'hard', q: 'ما ناتج: print({1, 2, 3} & {2, 3, 4})?', opts: [
+      '{1, 2, 3, 4}', '{2, 3}', '{1, 4}', '{}'
+    ], a: 1, e: 'العامل & على المجموعات (sets) يعطي التقاطع (intersection): العناصر المشتركة فقط = {2, 3}.' },
+
+    { d: 'hard', q: 'ما ناتج هذا الكود:\n```\nx = [1, 2, 3]\ny = x.copy()\ny.append(4)\nprint(x, y)\n```', opts: [
+      '[1, 2, 3, 4] [1, 2, 3, 4]',
+      '[1, 2, 3] [1, 2, 3, 4]',
+      '[1, 2, 3] [1, 2, 3]',
+      'خطأ'
+    ], a: 1, e: 'copy() ينشئ نسخة مستقلة (shallow copy)، فتعديل y لا يؤثر على x. هذا مختلف عن y = x الذي يشاركان نفس القائمة.' },
+
+    { d: 'hard', q: 'ما ناتج: print(list(zip([1, 2, 3], ["a", "b", "c"])))?', opts: [
+      '[(1, "a"), (2, "b"), (3, "c")]',
+      '[1, 2, 3, "a", "b", "c"]',
+      '[[1, "a"], [2, "b"], [3, "c"]]',
+      'خطأ'
+    ], a: 0, e: 'zip() يدمج تكرارين عنصراً بعنصر منتجاً tuples. list() يحوّل الناتج إلى قائمة من الـ tuples.' },
+
+    { d: 'hard', q: 'في الكود التالي:\n```\nclass A:\n    x = 10\nclass B(A):\n    pass\nprint(B.x)\n```\nماذا يُطبع؟', opts: [
+      '0', '10', 'AttributeError', 'None'
+    ], a: 1, e: 'B ترث من A، فالخاصية x مع قيمتها 10 تُورّث. B.x = 10 بدون الحاجة لإعادة تعريفها.' },
   ]
 };
 
 // ===========================================================
-// منطق المولد
+// منطق المولد + ذاكرة "آخر استخدام لكل سؤال"
+// المنطق: لكل سؤال نتتبع counter آخر استخدام. عند التوليد،
+//          نختار من الأسئلة الأقدم استخداماً أولاً، فلا يتكرر
+//          سؤال إلا بعد دوران كل أسئلة صعوبته في البنك.
 // ===========================================================
 let currentSubject = 'osc';
 let currentQuestions = [];
 let answeredCount = 0;
 let correctCount = 0;
 
+const HISTORY_KEY = 'seu_quiz_history_v2';
+
+function loadHistory() {
+  try {
+    const raw = localStorage.getItem(HISTORY_KEY);
+    if (!raw) return {};
+    return JSON.parse(raw) || {};
+  } catch(e) { return {}; }
+}
+function saveHistory(h) {
+  try { localStorage.setItem(HISTORY_KEY, JSON.stringify(h)); } catch(e) {}
+}
+
+function getSubjectState(subject) {
+  const h = loadHistory();
+  if (!h[subject]) h[subject] = { counter: 0, lastUsed: {} };
+  return h[subject];
+}
+
 function pickSubject(s) {
+  if (currentSubject === s) return;
   currentSubject = s;
   document.querySelectorAll('.subject-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.subject === s);
   });
+  // تغيير المادة → اختبار جديد فوراً
+  generateQuiz();
 }
 
 function shuffle(arr) {
@@ -817,29 +914,47 @@ function shuffle(arr) {
   return a;
 }
 
+// نختار الأقدم استخداماً، مع خلط الأسئلة المتساوية في "آخر استخدام"
+function pickOldest(pool, lastUsed, n) {
+  // نُجمّع حسب lastUsed value
+  const groups = new Map();
+  pool.forEach(q => {
+    const t = lastUsed[q.q] || 0;
+    if (!groups.has(t)) groups.set(t, []);
+    groups.get(t).push(q);
+  });
+  // نُرتب المفاتيح من الأقدم (أصغر counter) للأحدث، ونخلط داخل كل مجموعة
+  const sortedKeys = [...groups.keys()].sort((a, b) => a - b);
+  const ordered = [];
+  for (const k of sortedKeys) ordered.push(...shuffle(groups.get(k)));
+  return ordered.slice(0, n);
+}
+
 function pickRandomQuestions(bank, total = 10) {
-  // محاولة توزيع الصعوبة: ~3 سهل، 4 متوسط، 3 صعب (يتكيف حسب المتوفر)
+  const state = getSubjectState(currentSubject);
   const easy = bank.filter(q => q.d === 'easy');
   const medium = bank.filter(q => q.d === 'medium');
   const hard = bank.filter(q => q.d === 'hard');
 
-  // عشوائية في عدد كل صعوبة (لتختلف الاختبارات في كل مرة)
+  // عشوائية في توزيع الصعوبة
   const eCount = 2 + Math.floor(Math.random() * 3); // 2-4
   const hCount = 2 + Math.floor(Math.random() * 3); // 2-4
-  const mCount = total - eCount - hCount; // الباقي متوسط
+  const mCount = total - eCount - hCount;
 
   const picked = [
-    ...shuffle(easy).slice(0, Math.min(eCount, easy.length)),
-    ...shuffle(medium).slice(0, Math.min(mCount, medium.length)),
-    ...shuffle(hard).slice(0, Math.min(hCount, hard.length))
+    ...pickOldest(easy, state.lastUsed, eCount),
+    ...pickOldest(medium, state.lastUsed, mCount),
+    ...pickOldest(hard, state.lastUsed, hCount)
   ];
 
-  // إذا لم نصل لـ total، نملأ من المتبقي
-  if (picked.length < total) {
-    const used = new Set(picked.map(q => q.q));
-    const remaining = bank.filter(q => !used.has(q.q));
-    picked.push(...shuffle(remaining).slice(0, total - picked.length));
-  }
+  // تحديث counter وlastUsed
+  state.counter++;
+  picked.forEach(q => { state.lastUsed[q.q] = state.counter; });
+
+  // حفظ الحالة
+  const h = loadHistory();
+  h[currentSubject] = state;
+  saveHistory(h);
 
   return shuffle(picked).slice(0, total);
 }
@@ -855,9 +970,9 @@ function generateQuiz() {
   renderQuiz();
   document.getElementById('clearBtn').style.display = 'flex';
   document.getElementById('result-area').innerHTML = '';
-  // scroll to top of quiz area
   setTimeout(() => {
-    document.getElementById('progress').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const p = document.getElementById('progress');
+    if (p) p.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, 80);
 }
 
@@ -992,6 +1107,20 @@ function clearQuiz() {
       <p>اضغط "توليد اختبار جديد" لاختبار من 10 أسئلة عشوائية.</p>
     </div>`;
 }
+
+// ===========================================================
+// توليد تلقائي عند تحميل الصفحة (في كل مرة تُفتح)
+// ===========================================================
+document.addEventListener('DOMContentLoaded', () => {
+  generateQuiz();
+});
+
+// استقبال رسالة من المنصة الرئيسية عند فتح التبويب لتوليد اختبار جديد
+window.addEventListener('message', (e) => {
+  if (e.data && e.data.type === 'regenerate-quiz') {
+    generateQuiz();
+  }
+});
 </script>
 
 </body>

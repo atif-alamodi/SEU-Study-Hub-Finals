@@ -112,12 +112,19 @@ html, body { font-family: 'Noto Sans Arabic', 'Cairo', sans-serif; background: v
   .brand-logo { width: 36px; height: 36px; font-size: 18px; }
   .exam-badge span:not(:first-child) { display: none; }
   .tab-btn .tab-name { display: none; }
-  .tab-btn.home-tab .tab-name { display: inline; }
+  .tab-btn.home-tab .tab-name,
+  .tab-btn.ai-tab .tab-name,
+  .tab-btn.quiz-tab .tab-name { display: inline; }
+  .tab-btn.ai-tab, .tab-btn.quiz-tab { padding: 0 10px; }
 }
 
 .tab-btn.ai-tab:not(.active) { background: linear-gradient(135deg, #ede9fe, #fce7f3); color: #6d28d9; border: 1.5px solid #c084fc; box-shadow: 0 2px 8px rgba(124, 58, 237, 0.15); }
 .tab-btn.ai-tab:not(.active):hover { background: linear-gradient(135deg, #ddd6fe, #fbcfe8); color: #5b21b6; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25); }
 .tab-btn.ai-tab.active { background: linear-gradient(135deg, #7c3aed, #ec4899); color: white; border: 1.5px solid transparent; box-shadow: 0 4px 14px rgba(124, 58, 237, 0.4); }
+
+.tab-btn.quiz-tab:not(.active) { background: linear-gradient(135deg, #fef3c7, #fed7aa); color: #b45309; border: 1.5px solid #fbbf24; box-shadow: 0 2px 8px rgba(217, 119, 6, 0.15); }
+.tab-btn.quiz-tab:not(.active):hover { background: linear-gradient(135deg, #fde68a, #fdba74); color: #92400e; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25); }
+.tab-btn.quiz-tab.active { background: linear-gradient(135deg, #f59e0b, #ef4444); color: white; border: 1.5px solid transparent; box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4); }
 </style>
 </head>
 <body>
@@ -146,7 +153,7 @@ html, body { font-family: 'Noto Sans Arabic', 'Cairo', sans-serif; background: v
   <div class="tab-divider"></div>
   <button class="tab-btn" data-tab="pdfs" onclick="switchTab('pdfs')"><span class="tab-icon">📚</span><span class="tab-name">ملفات المقررات</span><span class="tab-code">PDF</span></button>
   <button class="tab-btn ai-tab" data-tab="aitutor" onclick="switchTab('aitutor')"><span class="tab-icon">🤖</span><span class="tab-name">المساعد الذكي</span></button>
-  <button class="tab-btn" data-tab="quiz" onclick="switchTab('quiz')" style="background:linear-gradient(135deg,#fef3c7,#fed7aa);color:#b45309;border:1.5px solid #fbbf24;font-weight:700;"><span class="tab-icon">🎯</span><span class="tab-name">مولد الاختبارات</span></button>
+  <button class="tab-btn quiz-tab" data-tab="quiz" onclick="switchTab('quiz')"><span class="tab-icon">🎯</span><span class="tab-name">مولد الاختبارات</span></button>
 </nav>
 
 <main class="content-area">
@@ -302,6 +309,13 @@ function switchTab(tabName) {
   document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.tab === tabName));
   document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.toggle('active', panel.id === 'panel-' + tabName));
   if (tabName !== 'home') loadIframe(tabName);
+  // عند العودة لتبويب مولد الاختبارات (وقد سبق تحميله)، نطلب توليد اختبار جديد
+  if (tabName === 'quiz' && loadedIframes.has('quiz')) {
+    const iframe = document.querySelector('#panel-quiz iframe');
+    if (iframe && iframe.contentWindow) {
+      iframe.contentWindow.postMessage({ type: 'regenerate-quiz' }, '*');
+    }
+  }
   if (history.replaceState) history.replaceState(null, '', '#' + tabName);
   const activeBtn = document.querySelector('.tab-btn.active');
   if (activeBtn) activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
