@@ -1341,21 +1341,277 @@ function chartIfElseFlow() {
 }
 
 // =============================================================
+// 15) المخطط الشريطي Bar Chart
+// =============================================================
+function chartBarChart() {
+  const data = [
+    { label: 'يناير\nJan',  value: 45, color: PALETTE.bgPurpleDeep },
+    { label: 'فبراير\nFeb', value: 78, color: PALETTE.bgPurple },
+    { label: 'مارس\nMar',   value: 62, color: PALETTE.bgPurpleLite },
+    { label: 'أبريل\nApr',  value: 90, color: PALETTE.bgBlueLite },
+    { label: 'مايو\nMay',   value: 55, color: PALETTE.bgPurpleVeryLite },
+    { label: 'يونيو\nJun',  value: 73, color: PALETTE.annotPurple },
+  ];
+  const maxVal = 100;
+  const plotX = 130, plotY = 200, plotW = 800, plotH = 480;
+  const barSpacing = plotW / data.length;
+  const barW = barSpacing * 0.65;
+
+  let bars = '';
+  let valueLabels = '';
+  data.forEach((d, i) => {
+    const bh = (d.value / maxVal) * plotH;
+    const x = plotX + i * barSpacing + (barSpacing - barW) / 2;
+    const y = plotY + plotH - bh;
+    bars += `<rect x="${x}" y="${y}" width="${barW}" height="${bh}" fill="${d.color}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="1.5" opacity="0.9" rx="2"/>`;
+    // قيمة فوق العمود
+    valueLabels += `<text x="${x + barW/2}" y="${y - 10}" text-anchor="middle" font-size="18" font-weight="700" fill="${PALETTE.bgPurpleDeep}">${d.value}</text>`;
+  });
+
+  // محور y
+  let yAxis = '';
+  for (let i = 0; i <= 5; i++) {
+    const v = i * 20;
+    const y = plotY + plotH - (v / maxVal) * plotH;
+    yAxis += `
+      <line x1="${plotX}" y1="${y}" x2="${plotX + plotW}" y2="${y}" stroke="${PALETTE.gridLine}" stroke-width="1" stroke-dasharray="4,4"/>
+      <text x="${plotX - 15}" y="${y + 6}" text-anchor="end" font-size="18" fill="${PALETTE.text}">${v}</text>
+    `;
+  }
+
+  // محور x مع labels ثنائية اللغة
+  let xAxis = '';
+  data.forEach((d, i) => {
+    const cx = plotX + i * barSpacing + barSpacing / 2;
+    const lines = d.label.split('\n');
+    xAxis += `
+      <text x="${cx}" y="${plotY + plotH + 28}" text-anchor="middle" direction="rtl" font-size="16" fill="${PALETTE.text}" font-weight="600">${lines[0]}</text>
+      <text x="${cx}" y="${plotY + plotH + 50}" text-anchor="middle" font-size="14" fill="${PALETTE.textMuted}">${lines[1] || ''}</text>
+    `;
+  });
+
+  return svgWrap(`
+    ${svgHeader('المخطط الشريطي', 'Bar Chart')}
+    ${yAxis}
+    ${bars}
+    ${valueLabels}
+    <line x1="${plotX}" y1="${plotY - 10}" x2="${plotX}" y2="${plotY + plotH + 5}" stroke="${PALETTE.text}" stroke-width="2"/>
+    <line x1="${plotX - 5}" y1="${plotY + plotH}" x2="${plotX + plotW + 10}" y2="${plotY + plotH}" stroke="${PALETTE.text}" stroke-width="2"/>
+    ${xAxis}
+
+    <text x="55" y="${plotY + plotH/2}" text-anchor="middle" direction="rtl" font-size="20" fill="${PALETTE.text}" transform="rotate(-90 55 ${plotY + plotH/2})">القيم / Values</text>
+    <text x="${plotX + plotW/2}" y="${plotY + plotH + 95}" text-anchor="middle" direction="rtl" font-size="20" fill="${PALETTE.text}">الفئات / Categories</text>
+
+    <!-- شرح -->
+    <rect x="${plotX + plotW + 30}" y="240" width="100" height="220" rx="8" fill="${PALETTE.boxBg}" stroke="${PALETTE.boxBorder}" stroke-width="2"/>
+    <text x="${plotX + plotW + 80}" y="265" text-anchor="middle" direction="rtl" font-size="14" font-weight="700" fill="${PALETTE.bgPurpleDeep}">المفتاح</text>
+    <text x="${plotX + plotW + 80}" y="285" text-anchor="middle" font-size="11" fill="${PALETTE.textMuted}">Legend</text>
+
+    ${svgKeyFeatures([
+      { ar: 'يقارن قيماً عبر فئات منفصلة', en: 'Compares values across categories' },
+      { ar: 'الأعمدة منفصلة (بفجوات بينها)', en: 'Bars are separate (with gaps)' },
+      { ar: 'مناسب للبيانات الفئوية (Categorical)', en: 'Best for categorical data' },
+      { ar: 'يختلف عن المدرج التكراري (Histogram)', en: 'Different from histogram' },
+    ])}
+  `);
+}
+
+// =============================================================
+// 16) المخطط الدائري Pie Chart
+// =============================================================
+function chartPieChart() {
+  const data = [
+    { label: 'القسم أ',    en: 'Section A', value: 35, color: PALETTE.bgPurpleDeep },
+    { label: 'القسم ب',    en: 'Section B', value: 25, color: PALETTE.bgPurple },
+    { label: 'القسم ج',    en: 'Section C', value: 20, color: PALETTE.bgPurpleLite },
+    { label: 'القسم د',    en: 'Section D', value: 12, color: PALETTE.bgBlueLite },
+    { label: 'أخرى',       en: 'Others',    value: 8,  color: PALETTE.bgPurpleVeryLite },
+  ];
+  const total = data.reduce((s, d) => s + d.value, 0);
+  const cx = 380, cy = 470, r = 220;
+
+  let slices = '';
+  let labels = '';
+  let legend = '';
+  let startAngle = -Math.PI / 2; // نبدأ من الأعلى
+
+  data.forEach((d, i) => {
+    const angle = (d.value / total) * 2 * Math.PI;
+    const endAngle = startAngle + angle;
+    const x1 = cx + r * Math.cos(startAngle);
+    const y1 = cy + r * Math.sin(startAngle);
+    const x2 = cx + r * Math.cos(endAngle);
+    const y2 = cy + r * Math.sin(endAngle);
+    const largeArc = angle > Math.PI ? 1 : 0;
+
+    slices += `<path d="M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${largeArc} 1 ${x2} ${y2} Z" fill="${d.color}" stroke="white" stroke-width="3" opacity="0.9"/>`;
+
+    // نسبة على القطعة
+    const midAngle = startAngle + angle / 2;
+    const labelR = r * 0.65;
+    const lx = cx + labelR * Math.cos(midAngle);
+    const ly = cy + labelR * Math.sin(midAngle);
+    const pct = Math.round((d.value / total) * 100);
+    labels += `<text x="${lx}" y="${ly + 6}" text-anchor="middle" font-size="20" font-weight="700" fill="white" style="paint-order:stroke;stroke:rgba(0,0,0,0.3);stroke-width:2;">${pct}%</text>`;
+
+    // مفتاح Legend (يسار)
+    const legendY = 280 + i * 50;
+    legend += `
+      <rect x="720" y="${legendY}" width="30" height="30" fill="${d.color}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="1.5" rx="4"/>
+      <text x="985" y="${legendY + 14}" text-anchor="end" direction="rtl" font-size="17" fill="${PALETTE.text}" font-weight="600">${d.label}</text>
+      <text x="985" y="${legendY + 32}" text-anchor="end" font-size="14" fill="${PALETTE.textMuted}">${d.en} — ${pct}%</text>
+    `;
+
+    startAngle = endAngle;
+  });
+
+  return svgWrap(`
+    ${svgHeader('المخطط الدائري', 'Pie Chart')}
+
+    <!-- ظل خفيف -->
+    <ellipse cx="${cx}" cy="${cy + r + 20}" rx="${r * 0.85}" ry="14" fill="rgba(0,0,0,0.08)"/>
+
+    ${slices}
+    ${labels}
+
+    <!-- المفتاح -->
+    <rect x="700" y="240" width="320" height="${data.length * 50 + 30}" rx="10" fill="${PALETTE.boxBg}" stroke="${PALETTE.boxBorder}" stroke-width="2"/>
+    <text x="985" y="270" text-anchor="end" direction="rtl" font-size="18" font-weight="700" fill="${PALETTE.bgPurpleDeep}">المفتاح / Legend</text>
+    ${legend}
+
+    ${svgKeyFeatures([
+      { ar: 'يُظهر النسب من الكل (المجموع 100%)', en: 'Shows proportions of a whole (sums to 100%)' },
+      { ar: 'مثالي لـ 3-7 فئات (تجنّب أكثر)', en: 'Best for 3-7 categories' },
+      { ar: 'كل قطعة تمثل نسبة مئوية', en: 'Each slice represents a percentage' },
+      { ar: 'لا يصلح للمقارنات الدقيقة', en: 'Not for precise comparisons' },
+    ])}
+  `);
+}
+
+// =============================================================
+// 17) المخطط الخطي Line Chart
+// =============================================================
+function chartLineChart() {
+  const data = [
+    { x: 'يناير\nJan',  y: 30 },
+    { x: 'فبراير\nFeb', y: 45 },
+    { x: 'مارس\nMar',   y: 38 },
+    { x: 'أبريل\nApr',  y: 65 },
+    { x: 'مايو\nMay',   y: 72 },
+    { x: 'يونيو\nJun',  y: 60 },
+    { x: 'يوليو\nJul',  y: 85 },
+    { x: 'أغسطس\nAug',  y: 92 },
+  ];
+  const maxVal = 100;
+  const plotX = 130, plotY = 200, plotW = 800, plotH = 480;
+  const stepW = plotW / (data.length - 1);
+
+  // مسار الخط
+  let pathPoints = [];
+  data.forEach((d, i) => {
+    const x = plotX + i * stepW;
+    const y = plotY + plotH - (d.y / maxVal) * plotH;
+    pathPoints.push(`${x},${y}`);
+  });
+  const linePath = `M ${pathPoints.join(' L ')}`;
+
+  // منطقة تحت الخط (gradient)
+  const areaPath = `M ${plotX},${plotY + plotH} L ${pathPoints.join(' L ')} L ${plotX + plotW},${plotY + plotH} Z`;
+
+  // نقاط
+  let points = '';
+  let valueLabels = '';
+  data.forEach((d, i) => {
+    const x = plotX + i * stepW;
+    const y = plotY + plotH - (d.y / maxVal) * plotH;
+    points += `<circle cx="${x}" cy="${y}" r="7" fill="white" stroke="${PALETTE.bgPurpleDeep}" stroke-width="3"/>`;
+    valueLabels += `<text x="${x}" y="${y - 18}" text-anchor="middle" font-size="14" font-weight="700" fill="${PALETTE.bgPurpleDeep}">${d.y}</text>`;
+  });
+
+  // محور y
+  let yAxis = '';
+  for (let i = 0; i <= 5; i++) {
+    const v = i * 20;
+    const y = plotY + plotH - (v / maxVal) * plotH;
+    yAxis += `
+      <line x1="${plotX}" y1="${y}" x2="${plotX + plotW}" y2="${y}" stroke="${PALETTE.gridLine}" stroke-width="1" stroke-dasharray="4,4"/>
+      <text x="${plotX - 15}" y="${y + 6}" text-anchor="end" font-size="18" fill="${PALETTE.text}">${v}</text>
+    `;
+  }
+
+  // محور x
+  let xAxis = '';
+  data.forEach((d, i) => {
+    const x = plotX + i * stepW;
+    const lines = d.x.split('\n');
+    xAxis += `
+      <text x="${x}" y="${plotY + plotH + 28}" text-anchor="middle" direction="rtl" font-size="14" fill="${PALETTE.text}" font-weight="600">${lines[0]}</text>
+      <text x="${x}" y="${plotY + plotH + 48}" text-anchor="middle" font-size="12" fill="${PALETTE.textMuted}">${lines[1] || ''}</text>
+    `;
+  });
+
+  return svgWrap(`
+    ${svgHeader('المخطط الخطي', 'Line Chart')}
+
+    <!-- gradient definition -->
+    <defs>
+      <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="${PALETTE.bgPurpleDeep}" stop-opacity="0.4"/>
+        <stop offset="100%" stop-color="${PALETTE.bgPurpleDeep}" stop-opacity="0.05"/>
+      </linearGradient>
+    </defs>
+
+    ${yAxis}
+
+    <!-- المنطقة المظللة تحت الخط -->
+    <path d="${areaPath}" fill="url(#areaGrad)"/>
+
+    <!-- الخط نفسه -->
+    <path d="${linePath}" fill="none" stroke="${PALETTE.bgPurpleDeep}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+    ${points}
+    ${valueLabels}
+
+    <line x1="${plotX}" y1="${plotY - 10}" x2="${plotX}" y2="${plotY + plotH + 5}" stroke="${PALETTE.text}" stroke-width="2"/>
+    <line x1="${plotX - 5}" y1="${plotY + plotH}" x2="${plotX + plotW + 10}" y2="${plotY + plotH}" stroke="${PALETTE.text}" stroke-width="2"/>
+    ${xAxis}
+
+    <text x="55" y="${plotY + plotH/2}" text-anchor="middle" direction="rtl" font-size="20" fill="${PALETTE.text}" transform="rotate(-90 55 ${plotY + plotH/2})">القيم / Values</text>
+    <text x="${plotX + plotW/2}" y="${plotY + plotH + 90}" text-anchor="middle" direction="rtl" font-size="20" fill="${PALETTE.text}">الزمن / Time</text>
+
+    ${svgKeyFeatures([
+      { ar: 'يُظهر التغيّر عبر الزمن أو بيانات متسلسلة', en: 'Shows change over time or sequential data' },
+      { ar: 'النقاط متصلة بخط (تُظهر الاتجاه)', en: 'Points connected by line (shows trend)' },
+      { ar: 'مثالي للسلاسل الزمنية', en: 'Ideal for time-series data' },
+      { ar: 'يكشف الذروات والقاع والاتجاهات', en: 'Reveals peaks, troughs, and trends' },
+    ])}
+  `);
+}
+
+// =============================================================
 // كشف نوع المخطط
 // =============================================================
 function detectChartType(query) {
   const q = (query || '').toLowerCase();
   const tests = [
+    // المخططات الإحصائية الأساسية
     { type: 'histogram',           keywords: ['مدرج تكراري', 'مدرج التكراري', 'هيستوغرام', 'histogram', 'مدرّج'] },
+    { type: 'bar_chart',           keywords: ['مخطط شريطي', 'المخطط الشريطي', 'مخطط الأعمدة', 'الرسم البياني الشريطي', 'bar chart', 'bar graph', 'الأعمدة البيانية', 'شريطي'] },
+    { type: 'pie_chart',           keywords: ['مخطط دائري', 'المخطط الدائري', 'الرسم الدائري', 'pie chart', 'دائري', 'القطاع الدائري'] },
+    { type: 'line_chart',          keywords: ['مخطط خطي', 'المخطط الخطي', 'الرسم الخطي', 'line chart', 'time series', 'سلسلة زمنية', 'مخطط زمني', 'خطي'] },
     { type: 'normal_distribution', keywords: ['توزيع طبيعي', 'التوزيع الطبيعي', 'منحنى الجرس', 'منحنى جرس', 'bell curve', 'normal distribution', 'جرسي'] },
     { type: 'scatter_plot',        keywords: ['مخطط الانتشار', 'مخطط انتشار', 'scatter', 'plot الانتشار', 'انتشار'] },
     { type: 'z_score',             keywords: ['z-score', 'z score', 'الدرجة المعيارية', 'z value', 'درجة معيارية'] },
     { type: 'linear_regression',   keywords: ['الانحدار الخطي', 'انحدار خطي', 'linear regression', 'خط الانحدار'] },
     { type: 'box_plot',            keywords: ['مخطط الصندوق', 'box plot', 'boxplot', 'الصندوق والشعيرات', 'box-and-whisker', 'صندوقي'] },
+
+    // نظم التشغيل
     { type: 'process_states',      keywords: ['حالات العملية', 'حالات المعالجة', 'process states', 'process state', 'دورة حياة العملية', 'process diagram'] },
     { type: 'round_robin',         keywords: ['round robin', 'rr', 'دائرية', 'دوائري', 'gantt', 'مخطط جانت', 'جدولة دائرية', 'round-robin', 'gantt chart', 'الجدولة الدوائرية'] },
     { type: 'memory_layout',       keywords: ['تخطيط الذاكرة', 'بنية الذاكرة', 'memory layout', 'stack heap', 'مخطط الذاكرة', 'memory segments', 'stack and heap', 'الكومة والمكدس'] },
     { type: 'page_table',          keywords: ['جدول الصفحات', 'page table', 'ترجمة العناوين', 'address translation', 'الذاكرة الافتراضية', 'virtual memory', 'paging'] },
+
+    // بايثون
     { type: 'python_list',         keywords: ['python list', 'قائمة بايثون', 'list في بايثون', 'ارسم list', 'ارسم القائمة', 'الفهرسة في بايثون', 'list indexing'] },
     { type: 'python_dict',         keywords: ['python dict', 'قاموس بايثون', 'dictionary بايثون', 'ارسم dict', 'ارسم القاموس', 'key value', 'مفتاح قيمة'] },
     { type: 'function_flow',       keywords: ['تدفق الدالة', 'دالة بايثون', 'function flow', 'ارسم دالة', 'function diagram', 'كيف تعمل الدالة', 'parameters return'] },
@@ -1370,6 +1626,9 @@ function detectChartType(query) {
 function buildSVGForType(type) {
   switch (type) {
     case 'histogram':           return chartHistogram();
+    case 'bar_chart':           return chartBarChart();
+    case 'pie_chart':           return chartPieChart();
+    case 'line_chart':          return chartLineChart();
     case 'normal_distribution': return chartNormalDistribution();
     case 'scatter_plot':        return chartScatterPlot();
     case 'z_score':             return chartZScore(1.5);
@@ -1502,6 +1761,104 @@ ${curriculumSnippet ? `المنهج المرجعي للدقة التقنية:\n$
   }
 }
 
+// =============================================================
+// GraphViz/Kroki: توليد رسم احترافي لأي موضوع
+// Gemini يكتب DOT → Kroki يحوّله SVG (بدون foreignObject)
+// timeout صارم 15s إجمالاً (8s Gemini + 6s Kroki)
+// =============================================================
+async function generateGraphvizSVG(env, userMessage) {
+  const cleaned = userMessage.replace(/^(ارسم لي|ارسم|اعرض|أرني|أظهر|draw|show me)\s+/i, '').trim();
+  if (!cleaned || cleaned.length < 3) return null;
+
+  // 1. الحصول على Gemini API key
+  let geminiKey = env.GEMINI_API_KEY;
+  if (!geminiKey) return null;
+
+  // 2. إنشاء prompt قصير وموجّه
+  const prompt = `Convert this Arabic educational topic into a GraphViz DOT diagram. Output ONLY the DOT code wrapped in \`\`\`dot ... \`\`\`. No explanation.
+
+Rules:
+- Use digraph
+- fontname="Noto Sans Arabic" for all nodes and edges
+- All node labels MUST be bilingual: "عربي\\nEnglish"
+- Use shape=ellipse for start/end (fillcolor="#6B46C1", fontcolor=white)
+- Use shape=diamond for decisions (fillcolor="#D6BCFA")
+- Use shape=box for steps (fillcolor="#9F7AEA", fontcolor=white) or (fillcolor="#B794F4")
+- Use shape=cylinder for data/storage (fillcolor="#93C5FD")
+- All nodes must have style=filled
+- Maximum 12 nodes
+- bgcolor="white"
+
+Topic: "${cleaned}"`;
+
+  // 3. استدعاء Gemini مع timeout 8s
+  let dotText;
+  try {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 8000);
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ role: 'user', parts: [{ text: prompt }] }],
+          generationConfig: { temperature: 0.3, maxOutputTokens: 800 }
+        }),
+        signal: ctrl.signal
+      }
+    );
+    clearTimeout(timer);
+    if (!res.ok) {
+      console.log('GraphViz: Gemini ' + res.status);
+      return null;
+    }
+    const data = await res.json();
+    dotText = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  } catch (err) {
+    console.log('GraphViz Gemini err:', err.message?.slice(0, 60));
+    return null;
+  }
+
+  if (!dotText) return null;
+
+  // 4. استخراج كود DOT
+  let dotCode = dotText;
+  const fence = dotCode.match(/```(?:dot)?\s*([\s\S]*?)```/);
+  if (fence) dotCode = fence[1].trim();
+  if (!/(?:digraph|graph)\s+\w*\s*\{/.test(dotCode)) {
+    console.log('GraphViz: invalid DOT');
+    return null;
+  }
+
+  // 5. إرسال إلى Kroki مع timeout 6s
+  try {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 6000);
+    const res = await fetch('https://kroki.io/graphviz/svg', {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: dotCode,
+      signal: ctrl.signal
+    });
+    clearTimeout(timer);
+    if (!res.ok) {
+      console.log('GraphViz: Kroki ' + res.status);
+      return null;
+    }
+    let svg = await res.text();
+    if (!svg || !svg.includes('<svg')) return null;
+    // تنسيق responsive
+    if (!svg.includes('style=')) {
+      svg = svg.replace('<svg ', '<svg style="max-width:100%;height:auto;display:block;background:white;" ');
+    }
+    return svg;
+  } catch (err) {
+    console.log('GraphViz Kroki err:', err.message?.slice(0, 60));
+    return null;
+  }
+}
+
 async function generateImage(env, prompt) {
   // المحاولة الأولى: Cloudflare flux-1-schnell (سريع، ~43 neurons)
   try {
@@ -1565,15 +1922,19 @@ async function fetchTimeout(url, opts, ms = 25000) {
 }
 
 async function callTextLLM(env, model, messages, options = {}) {
-  // ━━━━━━━━━━ الطبقة 1: Cloudflare Workers AI ━━━━━━━━━━
+  // ━━━━━━━━━━ الطبقة 1: Cloudflare Workers AI (timeout 6s صارم لمنع التعليق) ━━━━━━━━━━
+  // إذا الكوتا مستهلكة، يعلق إلى ما لا نهاية، لذا نُجبره على timeout
   try {
-    const resp = await env.AI.run(model, {
-      messages,
-      max_tokens: options.max_tokens || 800,
-      temperature: options.temperature ?? 0.2,
-      top_p: options.top_p || 0.9
-    });
-    const text = resp.response || resp.result?.response || '';
+    const cfRace = await Promise.race([
+      env.AI.run(model, {
+        messages,
+        max_tokens: options.max_tokens || 800,
+        temperature: options.temperature ?? 0.2,
+        top_p: options.top_p || 0.9
+      }),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('CF_TIMEOUT')), 6000))
+    ]);
+    const text = cfRace.response || cfRace.result?.response || '';
     if (text) return { source: 'cloudflare', text };
     throw new Error('empty');
   } catch (err) {
@@ -1793,7 +2154,21 @@ ${subject.content}
       }
     }
 
-    // 2) إذا لم يكن مخطط معروف، نلجأ لـ AI image generation
+    // 2) إذا غير معروف، نُولّد عبر GraphViz/Kroki (احترافي، يعمل لأي موضوع)
+    if (isDrawingRequest && !svgChart) {
+      try {
+        const dynamicSvg = await generateGraphvizSVG(env, userMessage);
+        if (dynamicSvg) {
+          svgChart = dynamicSvg;
+          imageSource = 'svg-graphviz';
+          labels = null;
+        }
+      } catch (err) {
+        console.log('GraphViz outer err:', err.message?.slice(0, 60));
+      }
+    }
+
+    // 3) آخر حل: AI image generation
     if (isDrawingRequest && !svgChart) {
       const artifacts = await prepareDrawingArtifacts(env, userMessage, history, subject.name, subject.content);
 
@@ -1840,8 +2215,13 @@ ${subject.content}
       answer = `**الصورة المطلوبة معروضة أعلاه** (تم توليدها عبر مزود احتياطي مجاني).\n\n*ملاحظة: المساعد النصي مؤقتاً غير متاح بسبب نفاد الحصة المجانية اليومية لـ Cloudflare AI. الحصة تتجدد عند 3 صباحاً بتوقيت السعودية.*`;
     }
 
-    // فشل كامل: لا نص ولا صورة
-    if (!answer && !(imgResult && imgResult.image)) {
+    // إذا فشل النص ولكن لدينا svgChart (مخطط احترافي)، نضيف رسالة قصيرة
+    if (!answer && svgChart) {
+      answer = `**الرسم المطلوب معروض أعلاه** ✨\n\nيمكنك سؤالي لاحقاً للحصول على شرح تفصيلي للرسم.`;
+    }
+
+    // فشل كامل: لا نص ولا صورة ولا SVG
+    if (!answer && !(imgResult && imgResult.image) && !svgChart) {
       const reason = aiResponse.error === 'no_groq_key'
         ? 'تم استنفاد الحصة المجانية لـ Cloudflare AI اليوم. الحصة تتجدد عند 3 صباحاً بتوقيت السعودية. لاستخدام مستمر دون انقطاع، يمكن إضافة مفتاح GROQ مجاني (راجع المالك).'
         : 'تعذّر توليد الإجابة من جميع المزودين. حاول مرة أخرى بعد قليل.';

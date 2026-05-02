@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1200" font-family="'Noto Sans Arabic','Segoe UI','Tahoma',sans-serif" style="background:white;max-width:100%;height:auto;display:block;">
+    
+    <text x="1010" y="80" text-anchor="end" direction="rtl" font-size="40" font-weight="700" fill="#1F2937">المخطط الدائري</text>
+    <line x1="540" y1="48" x2="540" y2="92" stroke="#6B7280" stroke-width="2"/>
+    <text x="70" y="80" text-anchor="start" font-size="36" font-weight="700" fill="#1F2937">Pie Chart</text>
+    <line x1="60" y1="115" x2="1020" y2="115" stroke="#E5E7EB" stroke-width="1.5"/>
+  
+
+    <!-- ظل خفيف -->
+    <ellipse cx="380" cy="710" rx="187" ry="14" fill="rgba(0,0,0,0.08)"/>
+
+    <path d="M 380 470 L 380 250 A 220 220 0 0 1 557.9837387624884 599.3127555043441 Z" fill="#6B46C1" stroke="white" stroke-width="3" opacity="0.9"/><path d="M 380 470 L 557.9837387624884 599.3127555043441 A 220 220 0 0 1 250.68724449565593 647.9837387624884 Z" fill="#9F7AEA" stroke="white" stroke-width="3" opacity="0.9"/><path d="M 380 470 L 250.68724449565593 647.9837387624884 A 220 220 0 0 1 170.7675664150662 402.01626123751157 Z" fill="#B794F4" stroke="white" stroke-width="3" opacity="0.9"/><path d="M 380 470 L 170.7675664150662 402.01626123751157 A 220 220 0 0 1 274.01419169762266 277.21253039035 Z" fill="#93C5FD" stroke="white" stroke-width="3" opacity="0.9"/><path d="M 380 470 L 274.01419169762266 277.21253039035 A 220 220 0 0 1 379.99999999999994 250 Z" fill="#D6BCFA" stroke="white" stroke-width="3" opacity="0.9"/>
+    <text x="507.4139329589366" y="411.07935853724484" text-anchor="middle" font-size="20" font-weight="700" fill="white" style="paint-order:stroke;stroke:rgba(0,0,0,0.3);stroke-width:2;">35%</text><text x="402.370128500753" y="617.2394327051047" text-anchor="middle" font-size="20" font-weight="700" fill="white" style="paint-order:stroke;stroke:rgba(0,0,0,0.3);stroke-width:2;">25%</text><text x="243.99891816979306" y="520.1894301956174" text-anchor="middle" font-size="20" font-weight="700" fill="white" style="paint-order:stroke;stroke:rgba(0,0,0,0.3);stroke-width:2;">20%</text><text x="269.81660628306213" y="384.84836946593737" text-anchor="middle" font-size="20" font-weight="700" fill="white" style="paint-order:stroke;stroke:rgba(0,0,0,0.3);stroke-width:2;">12%</text><text x="344.4373461354258" y="337.49260795860573" text-anchor="middle" font-size="20" font-weight="700" fill="white" style="paint-order:stroke;stroke:rgba(0,0,0,0.3);stroke-width:2;">8%</text>
+
+    <!-- المفتاح -->
+    <rect x="700" y="240" width="320" height="280" rx="10" fill="#EFF6FF" stroke="#DBEAFE" stroke-width="2"/>
+    <text x="985" y="270" text-anchor="end" direction="rtl" font-size="18" font-weight="700" fill="#6B46C1">المفتاح / Legend</text>
+    
+      <rect x="720" y="280" width="30" height="30" fill="#6B46C1" stroke="#6B46C1" stroke-width="1.5" rx="4"/>
+      <text x="985" y="294" text-anchor="end" direction="rtl" font-size="17" fill="#1F2937" font-weight="600">القسم أ</text>
+      <text x="985" y="312" text-anchor="end" font-size="14" fill="#6B7280">Section A — 35%</text>
+    
+      <rect x="720" y="330" width="30" height="30" fill="#9F7AEA" stroke="#6B46C1" stroke-width="1.5" rx="4"/>
+      <text x="985" y="344" text-anchor="end" direction="rtl" font-size="17" fill="#1F2937" font-weight="600">القسم ب</text>
+      <text x="985" y="362" text-anchor="end" font-size="14" fill="#6B7280">Section B — 25%</text>
+    
+      <rect x="720" y="380" width="30" height="30" fill="#B794F4" stroke="#6B46C1" stroke-width="1.5" rx="4"/>
+      <text x="985" y="394" text-anchor="end" direction="rtl" font-size="17" fill="#1F2937" font-weight="600">القسم ج</text>
+      <text x="985" y="412" text-anchor="end" font-size="14" fill="#6B7280">Section C — 20%</text>
+    
+      <rect x="720" y="430" width="30" height="30" fill="#93C5FD" stroke="#6B46C1" stroke-width="1.5" rx="4"/>
+      <text x="985" y="444" text-anchor="end" direction="rtl" font-size="17" fill="#1F2937" font-weight="600">القسم د</text>
+      <text x="985" y="462" text-anchor="end" font-size="14" fill="#6B7280">Section D — 12%</text>
+    
+      <rect x="720" y="480" width="30" height="30" fill="#D6BCFA" stroke="#6B46C1" stroke-width="1.5" rx="4"/>
+      <text x="985" y="494" text-anchor="end" direction="rtl" font-size="17" fill="#1F2937" font-weight="600">أخرى</text>
+      <text x="985" y="512" text-anchor="end" font-size="14" fill="#6B7280">Others — 8%</text>
+    
+
+    
+    <rect x="50" y="950" width="980" height="220" rx="14" fill="#EFF6FF" stroke="#DBEAFE" stroke-width="2"/>
+    <text x="600" y="980" text-anchor="end" direction="rtl" font-size="22" font-weight="700" fill="#6B46C1">خصائص</text>
+    <text x="610" y="980" text-anchor="start" font-size="22" font-weight="700" fill="#6B46C1">| Key Features</text>
+    <line x1="70" y1="998" x2="1010" y2="998" stroke="#DBEAFE" stroke-width="1.5"/>
+  
+      <circle cx="1000" cy="1028.25" r="5" fill="#6B46C1"/>
+      <text x="980" y="1034.25" text-anchor="end" direction="rtl" font-size="19" fill="#1F2937">يُظهر النسب من الكل (المجموع 100%)</text>
+    
+      <circle cx="80" cy="1028.25" r="5" fill="#6B46C1"/>
+      <text x="100" y="1034.25" text-anchor="start" font-size="17" fill="#1F2937">Shows proportions of a whole (sums to 100%)</text>
+    <line x1="70" y1="1048.5" x2="1010" y2="1048.5" stroke="#E5E7EB" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <circle cx="1000" cy="1068.75" r="5" fill="#6B46C1"/>
+      <text x="980" y="1074.75" text-anchor="end" direction="rtl" font-size="19" fill="#1F2937">مثالي لـ 3-7 فئات (تجنّب أكثر)</text>
+    
+      <circle cx="80" cy="1068.75" r="5" fill="#6B46C1"/>
+      <text x="100" y="1074.75" text-anchor="start" font-size="17" fill="#1F2937">Best for 3-7 categories</text>
+    <line x1="70" y1="1089" x2="1010" y2="1089" stroke="#E5E7EB" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <circle cx="1000" cy="1109.25" r="5" fill="#6B46C1"/>
+      <text x="980" y="1115.25" text-anchor="end" direction="rtl" font-size="19" fill="#1F2937">كل قطعة تمثل نسبة مئوية</text>
+    
+      <circle cx="80" cy="1109.25" r="5" fill="#6B46C1"/>
+      <text x="100" y="1115.25" text-anchor="start" font-size="17" fill="#1F2937">Each slice represents a percentage</text>
+    <line x1="70" y1="1129.5" x2="1010" y2="1129.5" stroke="#E5E7EB" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <circle cx="1000" cy="1149.75" r="5" fill="#6B46C1"/>
+      <text x="980" y="1155.75" text-anchor="end" direction="rtl" font-size="19" fill="#1F2937">لا يصلح للمقارنات الدقيقة</text>
+    
+      <circle cx="80" cy="1149.75" r="5" fill="#6B46C1"/>
+      <text x="100" y="1155.75" text-anchor="start" font-size="17" fill="#1F2937">Not for precise comparisons</text>
+    <line x1="540" y1="1006" x2="540" y2="1160" stroke="#DBEAFE" stroke-width="1" stroke-dasharray="3,3"/>
+  </svg>
