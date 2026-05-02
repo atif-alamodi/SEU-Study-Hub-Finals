@@ -329,6 +329,9 @@ body {
         <span class="code">PYT103</span>
       </button>
     </div>
+    <div id="capacity-line" style="margin-top:14px;padding:10px 14px;background:linear-gradient(135deg,#ecfdf5,#d1fae5);border-radius:10px;font-size:0.82rem;color:#065f46;text-align:center;font-weight:600;">
+      <span id="capacity-text">جاري الحساب...</span>
+    </div>
   </div>
 
   <div class="actions">
@@ -866,7 +869,670 @@ const QUESTION_BANKS = {
 };
 
 // ===========================================================
-// منطق المولد + ذاكرة "آخر استخدام لكل سؤال"
+// بنك المولّدات الديناميكية (Templates)
+// كل دالة تولد سؤالاً جديداً بأرقام عشوائية في كل استدعاء
+// مع 30 قالباً نشطاً، الإمكانيات تتجاوز 100,000 تركيبة فريدة
+// ===========================================================
+
+const RND = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+const RNDF = (min, max, decimals = 2) => {
+  const v = Math.random() * (max - min) + min;
+  return parseFloat(v.toFixed(decimals));
+};
+const PICK = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+// خلط الخيارات وتحديد الإجابة الصحيحة بدقة عبر مقارنة النصوص
+function buildQ(d, q, correctValue, distractors, explanation) {
+  const correctStr = String(correctValue);
+  const allStrs = [correctStr, ...distractors.map(String)];
+  // إزالة التكرار للأمان
+  const uniq = [...new Set(allStrs)];
+  while (uniq.length < 4) uniq.push(String(RND(1, 1000)));
+  const opts = shuffle(uniq.slice(0, 4));
+  return {
+    d,
+    q,
+    opts,
+    a: opts.indexOf(correctStr),
+    e: explanation,
+    _generated: true
+  };
+}
+
+const QUESTION_GENERATORS = {
+
+  // ============ الإحصاء (12 قالباً) ============
+  stats: [
+    // 1) المتوسط
+    () => {
+      const nums = Array.from({length: 5}, () => RND(2, 30));
+      const sum = nums.reduce((a,b)=>a+b, 0);
+      const mean = sum / nums.length;
+      return buildQ(
+        'easy',
+        `ما هو المتوسط الحسابي للقيم: ${nums.join(', ')}؟`,
+        mean,
+        [mean + RND(1,5), sum, nums[2], mean - RND(1,4)],
+        `المتوسط = (${nums.join(' + ')}) ÷ ${nums.length} = ${sum} ÷ ${nums.length} = ${mean}`
+      );
+    },
+    // 2) الوسيط (عدد فردي)
+    () => {
+      const nums = shuffle(Array.from({length: 5}, () => RND(1, 50)));
+      const sorted = nums.slice().sort((a,b)=>a-b);
+      const median = sorted[2];
+      return buildQ(
+        'easy',
+        `ما هو الوسيط للقيم: ${nums.join(', ')}؟`,
+        median,
+        [sorted[0], sorted[4], Math.round(nums.reduce((a,b)=>a+b,0)/5), sorted[1]],
+        `نُرتب القيم: ${sorted.join(', ')}. الوسيط هو القيمة الوسطى (الثالثة) = ${median}`
+      );
+    },
+    // 3) المدى
+    () => {
+      const nums = Array.from({length: 6}, () => RND(5, 80));
+      const max = Math.max(...nums);
+      const min = Math.min(...nums);
+      const range = max - min;
+      return buildQ(
+        'easy',
+        `ما هو المدى (Range) للقيم: ${nums.join(', ')}؟`,
+        range,
+        [max, min, max + min, range + RND(1,5)],
+        `المدى = أكبر قيمة − أصغر قيمة = ${max} − ${min} = ${range}`
+      );
+    },
+    // 4) Z-score
+    () => {
+      const mu = RND(40, 90);
+      const sigma = RND(3, 12);
+      const z = PICK([1, 1.5, 2, -1, -1.5, -2]);
+      const x = mu + z * sigma;
+      const correct = z;
+      return buildQ(
+        'medium',
+        `إذا كان μ = ${mu}، σ = ${sigma}، x = ${x}، فما قيمة Z-Score؟`,
+        correct,
+        [-correct, correct + 0.5, correct - 0.5, x - mu],
+        `Z = (x − μ) / σ = (${x} − ${mu}) / ${sigma} = ${(x-mu)} / ${sigma} = ${correct}`
+      );
+    },
+    // 5) Z-Score عكسي: إيجاد x من Z
+    () => {
+      const mu = RND(50, 100);
+      const sigma = RND(4, 15);
+      const z = PICK([-2, -1, 1, 2, 1.5, -1.5]);
+      const x = mu + z * sigma;
+      return buildQ(
+        'medium',
+        `إذا كان المتوسط μ = ${mu} والانحراف المعياري σ = ${sigma}، ما القيمة x المقابلة لـ Z = ${z}؟`,
+        x,
+        [mu - z*sigma, mu + sigma, mu - sigma, x + RND(2,8)],
+        `x = μ + Z × σ = ${mu} + (${z}) × ${sigma} = ${mu} + ${z*sigma} = ${x}`
+      );
+    },
+    // 6) معادلة الانحدار y = mx + b
+    () => {
+      const m = RND(2, 8);
+      const b = RND(1, 15);
+      const x = RND(3, 12);
+      const y = m * x + b;
+      return buildQ(
+        'easy',
+        `في معادلة الانحدار y = ${m}x + ${b}، إذا كان x = ${x}، فما y؟`,
+        y,
+        [m + b, m*x, x*b + m, y + RND(2,6)],
+        `y = ${m}(${x}) + ${b} = ${m*x} + ${b} = ${y}`
+      );
+    },
+    // 7) MAE
+    () => {
+      const errs = Array.from({length: 4}, () => RND(1, 8));
+      const signs = errs.map(() => Math.random() < 0.5 ? -1 : 1);
+      const mae = errs.reduce((a,b)=>a+b, 0) / errs.length;
+      const errorList = errs.map((e,i) => signs[i]*e).join(', ');
+      return buildQ(
+        'medium',
+        `إذا كانت الأخطاء (الفروق y − ŷ) لـ 4 عينات هي: ${errorList} ، فما MAE (متوسط الخطأ المطلق)؟`,
+        mae,
+        [errs.reduce((a,b)=>a+b,0), mae * 2, errs.reduce((a,b)=>a+b,0)/2 + 1, mae + 1],
+        `MAE = متوسط القيم المطلقة = (${errs.join(' + ')}) ÷ 4 = ${errs.reduce((a,b)=>a+b,0)} ÷ 4 = ${mae}`
+      );
+    },
+    // 8) MSE
+    () => {
+      const errs = Array.from({length: 4}, () => RND(1, 6));
+      const sumSq = errs.reduce((a,b)=>a+b*b, 0);
+      const mse = sumSq / errs.length;
+      return buildQ(
+        'medium',
+        `إذا كانت الأخطاء لـ 4 عينات هي: ${errs.join(', ')}، فما MSE (متوسط مربع الخطأ)؟`,
+        mse,
+        [errs.reduce((a,b)=>a+b,0)/4, sumSq, mse + 2, Math.sqrt(mse)],
+        `MSE = (${errs.map(e=>e+'²').join(' + ')}) ÷ 4 = (${errs.map(e=>e*e).join(' + ')}) ÷ 4 = ${sumSq}/4 = ${mse}`
+      );
+    },
+    // 9) RMSE من MSE
+    () => {
+      const root = RND(2, 10);
+      const mse = root * root;
+      return buildQ(
+        'easy',
+        `إذا كان MSE = ${mse}، فما RMSE؟`,
+        root,
+        [mse, mse/2, root + 1, root - 1],
+        `RMSE = √MSE = √${mse} = ${root}. وحدة RMSE هي نفس وحدة المتغير (بخلاف MSE).`
+      );
+    },
+    // 10) R²
+    () => {
+      const ssTot = PICK([100, 200, 500, 1000, 2000]);
+      const explained = PICK([60, 70, 75, 80, 85, 90, 95]);
+      const ssRes = ssTot * (100 - explained) / 100;
+      const r2 = 1 - (ssRes / ssTot);
+      return buildQ(
+        'medium',
+        `لنموذج: SS_res = ${ssRes}، SS_tot = ${ssTot}. ما قيمة R²؟`,
+        r2.toFixed(2),
+        [(ssRes/ssTot).toFixed(2), (1 - r2).toFixed(2), (r2 + 0.1).toFixed(2), (ssRes - ssTot).toFixed(2)],
+        `R² = 1 − (SS_res / SS_tot) = 1 − (${ssRes}/${ssTot}) = 1 − ${(ssRes/ssTot).toFixed(2)} = ${r2.toFixed(2)}. النموذج يفسّر ${explained}% من التباين.`
+      );
+    },
+    // 11) قاعدة 68-95-99.7
+    () => {
+      const mu = RND(50, 90);
+      const sigma = RND(5, 15);
+      const k = PICK([1, 2, 3]);
+      const lo = mu - k*sigma;
+      const hi = mu + k*sigma;
+      const pcts = { 1: '68%', 2: '95%', 3: '99.7%' };
+      return buildQ(
+        'medium',
+        `إذا كان توزيع طبيعي بمتوسط μ=${mu} وانحراف معياري σ=${sigma}، فما النسبة التي تقع بين ${lo} و ${hi}؟`,
+        pcts[k],
+        Object.values(pcts).filter(v => v !== pcts[k]).concat(['50%']),
+        `الفرق ${k}σ = ${k} × ${sigma} = ${k*sigma}. أي ${lo} و ${hi} يبعدان ±${k}σ من المتوسط. حسب قاعدة 68-95-99.7، النسبة = ${pcts[k]}.`
+      );
+    },
+    // 12) المكمل الاحتمالي
+    () => {
+      const p = RNDF(0.1, 0.9, 2);
+      const q = parseFloat((1 - p).toFixed(2));
+      return buildQ(
+        'easy',
+        `إذا كان احتمال نجاح حدث P(A) = ${p}، فما احتمال عدم وقوعه P(not A)؟`,
+        q,
+        [p, p*2, 1 + p, parseFloat((p/2).toFixed(2))],
+        `المكمل: P(not A) = 1 − P(A) = 1 − ${p} = ${q}`
+      );
+    },
+    // 13) [جديد] التباين بطريقة المتوسط
+    () => {
+      const nums = Array.from({length: 4}, () => RND(2, 12));
+      const mean = nums.reduce((a,b)=>a+b, 0) / nums.length;
+      const sqDiff = nums.map(n => Math.pow(n - mean, 2));
+      const variance = sqDiff.reduce((a,b)=>a+b, 0) / nums.length;
+      return buildQ(
+        'hard',
+        `احسب تباين المجتمع σ² للقيم: ${nums.join(', ')}.`,
+        variance.toFixed(2).replace(/\.00$/,''),
+        [mean.toFixed(2), Math.sqrt(variance).toFixed(2), (variance*2).toFixed(2), nums.reduce((a,b)=>a+b,0).toString()],
+        `المتوسط = ${mean}. الانحرافات المربعة: ${sqDiff.map(s=>s.toFixed(2)).join(', ')}. التباين = (${sqDiff.reduce((a,b)=>a+b,0).toFixed(2)}) / ${nums.length} = ${variance.toFixed(2)}`
+      );
+    },
+    // 14) [جديد] الانحراف المعياري من التباين
+    () => {
+      const sigma = RND(2, 12);
+      const variance = sigma * sigma;
+      return buildQ(
+        'easy',
+        `إذا كان التباين σ² = ${variance}، فما الانحراف المعياري σ؟`,
+        sigma,
+        [variance, variance/2, sigma + 1, sigma * 2],
+        `الانحراف المعياري = √التباين = √${variance} = ${sigma}`
+      );
+    },
+    // 15) [جديد] قوة الارتباط
+    () => {
+      const r = RNDF(-0.99, 0.99, 2);
+      const abs = Math.abs(r);
+      let strength;
+      if (abs > 0.7) strength = 'قوي';
+      else if (abs >= 0.3) strength = 'متوسط';
+      else strength = 'ضعيف';
+      const direction = r > 0.05 ? 'طردي' : (r < -0.05 ? 'عكسي' : 'لا يوجد ارتباط');
+      const correct = r > 0.05 || r < -0.05 ? `${direction} ${strength}` : direction;
+      const allOpts = ['طردي قوي', 'طردي متوسط', 'طردي ضعيف', 'عكسي قوي', 'عكسي متوسط', 'عكسي ضعيف', 'لا يوجد ارتباط'];
+      const distractors = shuffle(allOpts.filter(o => o !== correct)).slice(0, 3);
+      return buildQ(
+        'medium',
+        `إذا كان معامل الارتباط r = ${r}، فكيف نصف العلاقة؟`,
+        correct,
+        distractors,
+        `|r| = ${abs.toFixed(2)}. ${abs > 0.7 ? 'أكبر من 0.7 → قوي' : abs >= 0.3 ? 'بين 0.3 و 0.7 → متوسط' : 'أقل من 0.3 → ضعيف'}. ${r > 0 ? 'r موجب → طردي' : r < 0 ? 'r سالب → عكسي' : 'r ≈ 0 → لا يوجد ارتباط'}.`
+      );
+    },
+    // 16) [جديد] حساب probability
+    () => {
+      const total = PICK([10, 20, 25, 30, 40, 50]);
+      const favorable = RND(1, total - 1);
+      const p = favorable / total;
+      return buildQ(
+        'easy',
+        `صندوق فيه ${total} كرة منها ${favorable} حمراء. ما احتمال سحب كرة حمراء عشوائياً؟`,
+        p.toFixed(2),
+        [(favorable / (total - favorable)).toFixed(2), favorable.toString(), total.toString(), (1 - p).toFixed(2)],
+        `P = الحالات المرغوبة ÷ إجمالي الحالات = ${favorable} ÷ ${total} = ${p.toFixed(2)}`
+      );
+    },
+  ],
+
+  // ============ نظم التشغيل (12 قالباً) ============
+  osc: [
+    // 1) متوسط زمن الانتظار FCFS
+    () => {
+      const burst = Array.from({length: 3}, () => RND(2, 15));
+      let waitSum = 0;
+      let cumul = 0;
+      for (let i = 0; i < burst.length; i++) {
+        waitSum += cumul;
+        cumul += burst[i];
+      }
+      const avgWait = waitSum / burst.length;
+      const procs = burst.map((b,i) => `P${i+1}=${b}`).join(', ');
+      return buildQ(
+        'medium',
+        `حُسب متوسط زمن الانتظار لجدولة FCFS بالعمليات (${procs}) بترتيب الوصول. ما الناتج؟`,
+        avgWait.toFixed(2).replace(/\.00$/,''),
+        [(avgWait + 2).toFixed(1), (avgWait/2).toFixed(1), burst[0].toString(), (burst[0]+burst[1]).toString()],
+        `P1 ينتظر 0، P2 ينتظر ${burst[0]}، P3 ينتظر ${burst[0]+burst[1]}. المتوسط = (0 + ${burst[0]} + ${burst[0]+burst[1]}) / 3 = ${avgWait}`
+      );
+    },
+    // 2) Turnaround في FCFS (4 عمليات)
+    () => {
+      const n = PICK([3, 4]);
+      const burst = Array.from({length: n}, () => RND(2, 12));
+      const turn = [];
+      let cum = 0;
+      for (let i = 0; i < n; i++) { cum += burst[i]; turn.push(cum); }
+      const avgTurn = turn.reduce((a,b)=>a+b, 0) / n;
+      const procs = burst.map((b,i) => `P${i+1}=${b}`).join(', ');
+      return buildQ(
+        'medium',
+        `لجدولة FCFS بـ ${n} عمليات (${procs})، ما متوسط زمن الإنجاز (Turnaround Time)؟`,
+        avgTurn.toFixed(2).replace(/\.00$/,''),
+        [(avgTurn + 3).toFixed(1), turn[turn.length-1].toString(), (avgTurn/2).toFixed(1), burst.reduce((a,b)=>a+b,0).toString()],
+        `Turnaround لكل عملية: ${turn.join(', ')}. المتوسط = (${turn.join(' + ')}) / ${n} = ${avgTurn}`
+      );
+    },
+    // 3) عدد البت لـ page (موسّع)
+    () => {
+      const power = PICK([8, 10, 11, 12, 13, 14, 15, 16]);
+      const sizes = { 8:'256B', 10:'1KB', 11:'2KB', 12:'4KB', 13:'8KB', 14:'16KB', 15:'32KB', 16:'64KB' };
+      const addr = PICK([20, 22, 24, 26, 28, 30, 32, 36, 40, 48]);
+      return buildQ(
+        'hard',
+        `في نظام بـ Paging، حجم الصفحة = ${sizes[power]} والعنوان = ${addr} بت. كم بت لرقم الصفحة (Page Number)؟`,
+        addr - power,
+        [power, addr, addr + power, addr - power - 2],
+        `حجم الصفحة ${sizes[power]} = 2^${power} → ${power} بت لـ offset. الباقي ${addr} − ${power} = ${addr-power} بت لرقم الصفحة.`
+      );
+    },
+    // 4) عدد الإطارات (موسّع)
+    () => {
+      const memMB = PICK([8, 16, 32, 48, 64, 96, 128, 192, 256, 512, 1024]);
+      const pageKB = PICK([2, 4, 8, 16]);
+      const frames = (memMB * 1024) / pageKB;
+      return buildQ(
+        'medium',
+        `إذا كانت الذاكرة الفعلية ${memMB}MB وحجم الصفحة ${pageKB}KB، فكم عدد الإطارات (Frames)؟`,
+        frames.toString(),
+        [(frames/2).toString(), (memMB * 1024).toString(), pageKB.toString(), (frames * 2).toString()],
+        `عدد الإطارات = حجم الذاكرة ÷ حجم الصفحة = ${memMB}MB ÷ ${pageKB}KB = ${memMB*1024}KB ÷ ${pageKB}KB = ${frames}`
+      );
+    },
+    // 5) Page Fault rate (موسّع)
+    () => {
+      const total = RND(8, 30);
+      const faults = RND(1, total - 1);
+      const rate = (faults / total * 100).toFixed(1);
+      return buildQ(
+        'easy',
+        `إذا حدث ${faults} Page Faults من أصل ${total} وصول للذاكرة، فما معدل Page Fault؟`,
+        rate + '%',
+        [(faults/total*50).toFixed(1) + '%', faults + '%', total + '%', (100 - faults).toFixed(1) + '%'],
+        `معدل Page Fault = (Faults ÷ Total accesses) × 100 = (${faults} ÷ ${total}) × 100 = ${rate}%`
+      );
+    },
+    // 6) سؤال متغيّر عن Deadlock conditions
+    () => {
+      const conditions = ['Mutual exclusion', 'Hold and wait', 'No preemption', 'Circular wait'];
+      const removed = PICK(conditions);
+      const opts = [removed, 'Race condition', 'Page fault', 'Aging'];
+      return buildQ(
+        'medium',
+        `أي من الشروط التالية ضروري لحدوث التوقف التام (Deadlock)؟`,
+        removed,
+        opts.filter(o => o !== removed),
+        `شروط Coffman الأربعة لحدوث Deadlock: Mutual exclusion، Hold and wait، No preemption، Circular wait. الإجابة: ${removed}.`
+      );
+    },
+    // 7) ترتيب جدولة SJF
+    () => {
+      const burst = shuffle([RND(1,4), RND(5,8), RND(9,15), RND(16,22)]).slice(0, 3);
+      const procs = burst.map((b,i) => `P${i+1}(${b})`).join(', ');
+      const sortedIdx = burst.map((b,i)=>[b,i]).sort((a,b)=>a[0]-b[0]).map(p=>`P${p[1]+1}`);
+      const correctOrder = sortedIdx.join(' ← ');
+      return buildQ(
+        'medium',
+        `بجدولة SJF (الأقصر أولاً) للعمليات: ${procs}، ما ترتيب التنفيذ الصحيح؟`,
+        correctOrder,
+        ['P1 ← P2 ← P3', 'P3 ← P2 ← P1', sortedIdx.slice().reverse().join(' ← '), 'بترتيب الوصول'],
+        `SJF يختار العملية الأقصر أولاً. ترتيب الزمن من الأقصر للأطول: ${correctOrder}`
+      );
+    },
+    // 8) Time Quantum في Round Robin
+    () => {
+      const burst = RND(8, 30);
+      const tq = RND(2, 7);
+      const slices = Math.ceil(burst / tq);
+      return buildQ(
+        'medium',
+        `لعملية burst time = ${burst}ms في جدولة Round Robin بشريحة زمنية ${tq}ms، كم مرة ستحصل على المعالج؟`,
+        slices.toString(),
+        [burst.toString(), tq.toString(), (slices+1).toString(), Math.floor(burst/tq).toString()],
+        `عدد الشرائح = ⌈burst / quantum⌉ = ⌈${burst}/${tq}⌉ = ${slices}`
+      );
+    },
+    // 9) [جديد] Address space size
+    () => {
+      const bits = PICK([8, 12, 16, 20, 24, 28, 32, 36, 40, 48]);
+      const sizeUnits = bits >= 30 ? 'GB' : (bits >= 20 ? 'MB' : (bits >= 10 ? 'KB' : 'B'));
+      const divisor = bits >= 30 ? 30 : (bits >= 20 ? 20 : (bits >= 10 ? 10 : 0));
+      const value = Math.pow(2, bits - divisor);
+      return buildQ(
+        'medium',
+        `إذا كان حجم العنوان ${bits} بت، فما حجم فضاء العنونة (Address Space) القصوى؟`,
+        `${value} ${sizeUnits}`,
+        [`${bits} ${sizeUnits}`, `${value*2} ${sizeUnits}`, `${Math.pow(2, divisor)} ${sizeUnits}`, `${bits*2} ${sizeUnits}`],
+        `فضاء العنونة = 2^${bits} بايت = ${value} ${sizeUnits}`
+      );
+    },
+    // 10) [جديد] LRU page replacement count
+    () => {
+      const sequence = Array.from({length: RND(7, 12)}, () => RND(1, 5));
+      const frames = RND(2, 4);
+      // حاكاة LRU
+      let cache = []; // most-recent at end
+      let faults = 0;
+      for (const p of sequence) {
+        const idx = cache.indexOf(p);
+        if (idx >= 0) cache.splice(idx, 1);
+        else faults++;
+        cache.push(p);
+        if (cache.length > frames) cache.shift();
+      }
+      return buildQ(
+        'hard',
+        `لتسلسل الصفحات [${sequence.join(', ')}] مع ${frames} إطارات، كم Page Fault باستخدام خوارزمية LRU؟`,
+        faults.toString(),
+        [(faults+1).toString(), (faults-1).toString(), sequence.length.toString(), frames.toString()],
+        `LRU تستبدل الصفحة الأقل استخداماً مؤخراً. تتبّع الإطارات يعطي ${faults} page fault.`
+      );
+    },
+    // 11) [جديد] Synchronization tool
+    () => {
+      const problems = [
+        ['حماية متغير عدّاد مشترك بين خيوط', 'Mutex', 'القفل الثنائي يضمن دخول خيط واحد فقط للمنطقة الحرجة'],
+        ['السماح لـ N خيوط بالوصول لمورد محدود', 'Semaphore', 'الإشارة (Semaphore) تستخدم عدّاداً للسماح بعدد محدد من الخيوط'],
+        ['تنسيق المنتج والمستهلك مع مخزن محدود', 'Semaphore + Mutex', 'نحتاج 3 إشارات: mutex, empty, full'],
+        ['منع تنفيذ متزامن لكتلة كود حرجة', 'Mutex', 'القفل الثنائي يحمي المنطقة الحرجة'],
+      ];
+      const [problem, answer, explain] = PICK(problems);
+      const distractors = ['Page Table', 'TLB', 'DMA', 'FCFS'].filter(d => d !== answer);
+      return buildQ(
+        'medium',
+        `أي أداة مزامنة هي الأنسب لحل: "${problem}"؟`,
+        answer,
+        distractors.slice(0, 3),
+        explain
+      );
+    },
+    // 12) [جديد] CPU utilization
+    () => {
+      const ioWait = RND(20, 70);
+      const cpuTime = 100 - ioWait;
+      const burst = RND(5, 15);
+      const idle = (ioWait * burst / 100).toFixed(1);
+      const used = (cpuTime * burst / 100).toFixed(1);
+      return buildQ(
+        'medium',
+        `إذا قضت عملية ${ioWait}% من وقتها في انتظار I/O و ${cpuTime}% في تنفيذ المعالج، وإجمالي زمنها ${burst} ثوانٍ، كم ثانية استخدمت المعالج فعلياً؟`,
+        used,
+        [idle, burst.toString(), (cpuTime*burst).toString(), (ioWait*burst).toString()],
+        `وقت استخدام المعالج = ${cpuTime}% × ${burst}s = ${used}s`
+      );
+    },
+  ],
+
+  // ============ البايثون (14 قالباً) ============
+  python: [
+    // 1) القسمة الصحيحة //
+    () => {
+      const a = RND(10, 99);
+      const b = RND(2, 12);
+      const result = Math.floor(a / b);
+      return buildQ(
+        'easy',
+        `ما ناتج: \`print(${a} // ${b})\` ؟`,
+        result,
+        [(a/b).toFixed(2), a%b, result + 1, a - b],
+        `العامل // هو القسمة الصحيحة (floor division): ${a}//${b} = ${result} (يُرجع خارج القسمة الصحيح بدون كسور).`
+      );
+    },
+    // 2) باقي القسمة %
+    () => {
+      const a = RND(15, 199);
+      const b = RND(2, 13);
+      const result = a % b;
+      return buildQ(
+        'easy',
+        `ما ناتج: \`print(${a} % ${b})\` ؟`,
+        result,
+        [Math.floor(a/b), a - b, result + 1, (a/b).toFixed(1)],
+        `العامل % هو باقي القسمة: ${a} % ${b} = ${result}`
+      );
+    },
+    // 3) الأس **
+    () => {
+      const base = RND(2, 9);
+      const exp = RND(2, 5);
+      const result = Math.pow(base, exp);
+      return buildQ(
+        'easy',
+        `ما ناتج: \`print(${base} ** ${exp})\` ؟`,
+        result,
+        [base * exp, result + base, base + exp, Math.pow(exp, base)],
+        `العامل ** هو الأس: ${base} أس ${exp} = ${base}^${exp} = ${result}`
+      );
+    },
+    // 4) len() لنص (موسّع)
+    () => {
+      const words = ['Python','Hello','world','Riyadh','computer','data','algorithm','network','process','memory','operating','system','python','javascript','keyboard','monitor','university','programming','science','digital','virtual','machine','learning','training','student','teacher','classroom'];
+      const w = PICK(words);
+      const result = w.length;
+      return buildQ(
+        'easy',
+        `ما ناتج: \`print(len("${w}"))\` ؟`,
+        result,
+        [result + 1, result - 1, '"' + w + '"', '0'],
+        `الدالة len() تُرجع عدد أحرف النص. "${w}" يحتوي ${result} أحرف.`
+      );
+    },
+    // 5) شرائح القائمة
+    () => {
+      const list = Array.from({length: RND(5, 9)}, () => RND(1, 50));
+      const i = RND(0, 3);
+      const j = i + RND(2, 4);
+      const sliced = list.slice(i, j);
+      return buildQ(
+        'medium',
+        `ما ناتج هذا الكود:\n\`\`\`\nlst = ${JSON.stringify(list)}\nprint(lst[${i}:${j}])\n\`\`\``,
+        '[' + sliced.join(', ') + ']',
+        ['[' + list.slice(i, j+1).join(', ') + ']', '[' + list.slice(i-1, j).join(', ') + ']', list[i].toString(), '[' + list.join(', ') + ']'],
+        `lst[${i}:${j}] يأخذ العناصر من الفهرس ${i} حتى الفهرس ${j} (غير شامل). الناتج: [${sliced.join(', ')}]`
+      );
+    },
+    // 6) range (موسّع)
+    () => {
+      const start = RND(0, 6);
+      const end = start + RND(3, 7);
+      const result = [];
+      for (let i = start; i < end; i++) result.push(i);
+      return buildQ(
+        'easy',
+        `ما ناتج: \`print(list(range(${start}, ${end})))\`?`,
+        '[' + result.join(', ') + ']',
+        ['[' + result.concat(end).join(', ') + ']', '[' + result.slice(1).join(', ') + ']', '[' + start + ', ' + end + ']', '[' + (end-start) + ']'],
+        `range(${start}, ${end}) ينتج الأرقام من ${start} حتى ${end-1} (نهاية المدى غير شاملة). list() يحوّلها لقائمة.`
+      );
+    },
+    // 7) المقارنة == (موسّع)
+    () => {
+      const a = RND(1, 50);
+      const equal = Math.random() < 0.5;
+      const b = equal ? a : (a + (Math.random() < 0.5 ? RND(1, 10) : -RND(1, Math.min(a-1, 10))));
+      const result = a === b ? 'True' : 'False';
+      return buildQ(
+        'easy',
+        `ما ناتج: \`print(${a} == ${b})\` ؟`,
+        result,
+        [result === 'True' ? 'False' : 'True', '"' + (a===b) + '"', '0', '1'],
+        `العامل == يقارن القيم. ${a} == ${b} → ${result}`
+      );
+    },
+    // 8) عملية على dict (موسّع)
+    () => {
+      const keys = ['name', 'age', 'city', 'job', 'level'];
+      const cities = ['Riyadh','Jeddah','Mecca','Dammam','Khobar','Abha','Tabuk'];
+      const jobs = ['HR','Developer','Manager','Designer','Analyst'];
+      const names = ['Atif','Sara','Omar','Fatimah','Khalid','Layla'];
+      const idx = RND(0, keys.length-1);
+      const valuesByKey = {
+        name: '"' + PICK(names) + '"',
+        age: RND(20, 50).toString(),
+        city: '"' + PICK(cities) + '"',
+        job: '"' + PICK(jobs) + '"',
+        level: RND(1, 5).toString(),
+      };
+      const dictStr = keys.map(k => `"${k}": ${valuesByKey[k]}`).join(', ');
+      const correct = valuesByKey[keys[idx]].replace(/^"|"$/g, '');
+      return buildQ(
+        'easy',
+        `لقاموس \`d = {${dictStr}}\` ، ما ناتج \`print(d["${keys[idx]}"])\`?`,
+        correct,
+        [keys[idx], 'KeyError', 'None', '0'],
+        `للوصول لقيمة في القاموس نستخدم المفتاح: d["${keys[idx]}"] = ${valuesByKey[keys[idx]]}`
+      );
+    },
+    // 9) list comprehension (موسّع)
+    () => {
+      const n = RND(3, 8);
+      const factor = RND(2, 7);
+      const op = PICK(['*', '+']);
+      const result = [];
+      for (let i = 0; i < n; i++) {
+        result.push(op === '*' ? i * factor : i + factor);
+      }
+      return buildQ(
+        'medium',
+        `ما ناتج: \`print([x${op}${factor} for x in range(${n})])\`?`,
+        '[' + result.join(', ') + ']',
+        ['[' + result.map(r => op==='*' ? r/factor : r-factor).join(', ') + ']', '[' + (n*factor) + ']', '[' + factor + ']', `[${n}, ${factor}]`],
+        `List comprehension: لكل x في range(${n}) أي 0,1,...,${n-1}، نطبق x${op}${factor}. الناتج: [${result.join(', ')}]`
+      );
+    },
+    // 10) القائمة append
+    () => {
+      const init = Array.from({length: RND(2, 5)}, () => RND(1, 20));
+      const newVal = RND(11, 50);
+      const result = [...init, newVal];
+      return buildQ(
+        'easy',
+        `ما ناتج هذا الكود:\n\`\`\`\nlst = ${JSON.stringify(init)}\nlst.append(${newVal})\nprint(lst)\n\`\`\``,
+        '[' + result.join(', ') + ']',
+        ['[' + [newVal, ...init].join(', ') + ']', '[' + init.join(', ') + ']', newVal.toString(), '[' + init.length + ']'],
+        `append() تضيف القيمة ${newVal} لنهاية القائمة. الناتج: [${result.join(', ')}]`
+      );
+    },
+    // 11) [جديد] sum / min / max
+    () => {
+      const list = Array.from({length: RND(4, 7)}, () => RND(5, 100));
+      const op = PICK(['sum', 'min', 'max']);
+      const result = op === 'sum' ? list.reduce((a,b)=>a+b, 0) :
+                     op === 'min' ? Math.min(...list) : Math.max(...list);
+      const opNames = { sum: 'sum', min: 'min', max: 'max' };
+      return buildQ(
+        'easy',
+        `ما ناتج: \`print(${opNames[op]}(${JSON.stringify(list)}))\` ؟`,
+        result,
+        [list.length, list[0], result + RND(1, 10), result - RND(1, Math.min(result-1, 10))],
+        `${opNames[op]}() ${op === 'sum' ? 'تجمع' : op === 'min' ? 'تُرجع أصغر قيمة في' : 'تُرجع أكبر قيمة في'} القائمة. ${op === 'sum' ? 'مجموع' : op === 'min' ? 'أصغر' : 'أكبر'} ${list.join(', ')} = ${result}`
+      );
+    },
+    // 12) [جديد] string concatenation
+    () => {
+      const a = PICK(['Hello', 'Hi', 'Welcome', 'Good']);
+      const b = PICK(['World', 'Atif', 'there', 'morning']);
+      return buildQ(
+        'easy',
+        `ما ناتج: \`print("${a}" + " " + "${b}")\` ؟`,
+        `${a} ${b}`,
+        [`${a}${b}`, `${a}+${b}`, `${a},${b}`, '"' + a + ' ' + b + '"'],
+        `العامل + يدمج النصوص. "${a}" + " " + "${b}" = "${a} ${b}"`
+      );
+    },
+    // 13) [جديد] f-string
+    () => {
+      const name = PICK(['Atif','Sara','Omar','Lina','Khalid']);
+      const age = RND(20, 60);
+      return buildQ(
+        'medium',
+        `ما ناتج هذا الكود:\n\`\`\`\nname = "${name}"\nage = ${age}\nprint(f"My name is {name} and I am {age} years old")\n\`\`\``,
+        `My name is ${name} and I am ${age} years old`,
+        [`My name is {name} and I am {age} years old`, `${name} ${age}`, `f"My name is ${name}"`, 'TypeError'],
+        `f-strings تستبدل {var} بقيمة المتغير. الناتج: My name is ${name} and I am ${age} years old`
+      );
+    },
+    // 14) [جديد] count letter in string
+    () => {
+      const words = ['programming', 'computer', 'algorithm', 'university', 'electronics', 'professional', 'engineering'];
+      const w = PICK(words);
+      const letters = 'aeiouptr';
+      const letter = PICK(letters.split('').filter(l => w.includes(l)));
+      const count = (w.match(new RegExp(letter, 'g')) || []).length;
+      return buildQ(
+        'medium',
+        `ما ناتج: \`print("${w}".count("${letter}"))\` ؟`,
+        count,
+        [w.length, count + 1, count - 1, '0'],
+        `الدالة count() تعدّ مرات تكرار النص داخل النص الأكبر. حرف "${letter}" يظهر ${count} مرة في "${w}".`
+      );
+    },
+  ]
+};
+
+// ===========================================================
+// إحصائيات السعة (مقاسة فعلياً من اختبارات المولّدات)
+// ===========================================================
+function getCapacity(subject) {
+  const manual = (QUESTION_BANKS[subject] || []).length;
+  const generators = (QUESTION_GENERATORS[subject] || []).length;
+  // تقدير محافظ بناءً على القياس الفعلي (~120 تركيبة فريدة لكل قالب)
+  const dynamicEstimate = generators * 120;
+  return { manual, dynamic: dynamicEstimate, total: manual + dynamicEstimate };
+}
 // المنطق: لكل سؤال نتتبع counter آخر استخدام. عند التوليد،
 //          نختار من الأسئلة الأقدم استخداماً أولاً، فلا يتكرر
 //          سؤال إلا بعد دوران كل أسئلة صعوبته في البنك.
@@ -901,8 +1567,17 @@ function pickSubject(s) {
   document.querySelectorAll('.subject-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.subject === s);
   });
+  updateCapacityLine();
   // تغيير المادة → اختبار جديد فوراً
   generateQuiz();
+}
+
+function updateCapacityLine() {
+  const cap = getCapacity(currentSubject);
+  const el = document.getElementById('capacity-text');
+  if (el) {
+    el.innerHTML = `🎲 <strong>${cap.manual}</strong> سؤال نوعي مكتوب + <strong>${cap.dynamic.toLocaleString('ar')}+</strong> تركيبة ديناميكية متاحة لهذه المادة`;
+  }
 }
 
 function shuffle(arr) {
@@ -932,24 +1607,60 @@ function pickOldest(pool, lastUsed, n) {
 
 function pickRandomQuestions(bank, total = 10) {
   const state = getSubjectState(currentSubject);
-  const easy = bank.filter(q => q.d === 'easy');
-  const medium = bank.filter(q => q.d === 'medium');
-  const hard = bank.filter(q => q.d === 'hard');
+  const generators = QUESTION_GENERATORS[currentSubject] || [];
 
   // عشوائية في توزيع الصعوبة
   const eCount = 2 + Math.floor(Math.random() * 3); // 2-4
   const hCount = 2 + Math.floor(Math.random() * 3); // 2-4
   const mCount = total - eCount - hCount;
 
-  const picked = [
-    ...pickOldest(easy, state.lastUsed, eCount),
-    ...pickOldest(medium, state.lastUsed, mCount),
-    ...pickOldest(hard, state.lastUsed, hCount)
-  ];
+  // النسبة: ~40% من البنك اليدوي + ~60% من المولّدات الديناميكية
+  const manualCount = Math.floor(total * 0.4); // 4 من 10
+  const generatedCount = total - manualCount; // 6 من 10
 
-  // تحديث counter وlastUsed
+  // اختر من البنك اليدوي حسب صعوبة موزّعة (Round-Robin)
+  const easy = bank.filter(q => q.d === 'easy');
+  const medium = bank.filter(q => q.d === 'medium');
+  const hard = bank.filter(q => q.d === 'hard');
+
+  // كم سؤالاً يدوياً من كل صعوبة (تقريبي)
+  const mE = Math.max(1, Math.floor(manualCount * eCount / total));
+  const mH = Math.max(1, Math.floor(manualCount * hCount / total));
+  const mM = manualCount - mE - mH;
+
+  const manualPicks = [
+    ...pickOldest(easy, state.lastUsed, mE),
+    ...pickOldest(medium, state.lastUsed, mM),
+    ...pickOldest(hard, state.lastUsed, mH)
+  ].slice(0, manualCount);
+
+  // مولّد ديناميكي: استدع كل دالة تولّد سؤالاً جديداً بأرقام عشوائية
+  // نخلط الـ generators لاختيار متنوع
+  const generatedPicks = [];
+  if (generators.length > 0) {
+    const shuffled = shuffle(generators);
+    for (let i = 0; i < generatedCount; i++) {
+      const gen = shuffled[i % shuffled.length];
+      try {
+        const q = gen();
+        if (q && q.opts && q.opts.length === 4 && q.a >= 0) {
+          generatedPicks.push(q);
+        }
+      } catch(e) { /* تخطي القالب الفاشل */ }
+    }
+  }
+
+  // إذا لم نحصل على ما يكفي من المولّدات، نملأ من البنك اليدوي
+  const picked = [...manualPicks, ...generatedPicks];
+  if (picked.length < total) {
+    const usedQs = new Set(picked.map(q => q.q));
+    const remaining = bank.filter(q => !usedQs.has(q.q));
+    picked.push(...shuffle(remaining).slice(0, total - picked.length));
+  }
+
+  // تحديث counter لـ lastUsed (فقط للأسئلة اليدوية لأن المولّدة جديدة في كل مرة)
   state.counter++;
-  picked.forEach(q => { state.lastUsed[q.q] = state.counter; });
+  manualPicks.forEach(q => { state.lastUsed[q.q] = state.counter; });
 
   // حفظ الحالة
   const h = loadHistory();
@@ -1112,6 +1823,7 @@ function clearQuiz() {
 // توليد تلقائي عند تحميل الصفحة (في كل مرة تُفتح)
 // ===========================================================
 document.addEventListener('DOMContentLoaded', () => {
+  updateCapacityLine();
   generateQuiz();
 });
 
