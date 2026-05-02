@@ -640,9 +640,11 @@ async function generateImage(env, prompt) {
 }
 
 // =============================================================
-// fallback لـ GROQ عند نفاد كوتا Cloudflare للنصوص
-// يتطلب env.GROQ_API_KEY (مجاني من https://console.groq.com)
+// Wrapper مع fallback متعدد المستويات للنصوص:
+//   1. Cloudflare Workers AI (env.AI.run) — الأسرع، يستهلك neurons
+//   2. zad-proxy عبر service binding — يحوي Pollinations + GROQ
 // =============================================================
+
 async function callTextLLM(env, model, messages, options = {}) {
   // المحاولة الأولى: Cloudflare Workers AI
   try {
@@ -657,48 +659,50 @@ async function callTextLLM(env, model, messages, options = {}) {
     throw new Error('empty response');
   } catch (err) {
     const msg = err.message || '';
-    // 4006 = quota exceeded; نسجل ونتحول للـ fallback
     console.log('Cloudflare text LLM failed:', msg.slice(0, 100));
   }
 
-  // Fallback: GROQ (مجاني، API key من groq.com)
-  if (!env.GROQ_API_KEY) {
-    return { source: 'failed', text: '', error: 'no_groq_key' };
+  // Fallback: zad-proxy عبر service binding (يحوي fallback chain: Pollinations + GROQ)
+  if (!env.ZAD_PROXY) {
+    return { source: 'failed', text: '', error: 'no_proxy_binding' };
   }
 
   try {
-    // GROQ يستخدم نماذج متشابهة لـ Llama
-    // نخريط Cloudflare model → GROQ model
-    const groqModel = model.includes('70b') || model.includes('70B')
-      ? 'llama-3.3-70b-versatile'
-      : 'llama-3.1-8b-instant';
+    // Pollinations.ai قد يفشل مع system prompts طويلة جداً
+    // نُقصّر system messages إلى 2500 حرف max قبل الإرسال
+    const trimmedMessages = messages.map(m => {
+      if (m.role === 'system' && m.content && m.content.length > 2500) {
+        return { ...m, content: m.content.slice(0, 2500) + '\n\n[المحتوى مختصر تلقائياً للـ fallback]' };
+      }
+      return m;
+    });
 
-    const resp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    const proxyReq = new Request('https://zad-proxy/ai', {
       method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${env.GROQ_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: groqModel,
-        messages,
-        max_tokens: options.max_tokens || 800,
-        temperature: options.temperature ?? 0.2,
-        top_p: options.top_p || 0.9
+        messages: trimmedMessages,
+        max_tokens: Math.min(options.max_tokens || 800, 1500)
       })
     });
 
+    const resp = await env.ZAD_PROXY.fetch(proxyReq);
+
     if (!resp.ok) {
-      const errText = await resp.text();
-      console.log('GROQ failed:', resp.status, errText.slice(0, 200));
-      return { source: 'failed', text: '', error: `groq_${resp.status}` };
+      console.log('zad-proxy failed:', resp.status);
+      return { source: 'failed', text: '', error: `proxy_${resp.status}` };
     }
 
     const data = await resp.json();
-    const text = data.choices?.[0]?.message?.content || '';
-    return { source: 'groq', text };
+    if (data.error) {
+      return { source: 'failed', text: '', error: data.error };
+    }
+
+    const text = data.content?.[0]?.text || '';
+    if (!text) return { source: 'failed', text: '', error: 'empty_proxy_response' };
+    return { source: data.source || 'zad-proxy', text };
   } catch (err) {
-    console.log('GROQ error:', err.message);
+    console.log('zad-proxy error:', err.message);
     return { source: 'failed', text: '', error: err.message };
   }
 }
