@@ -364,6 +364,18 @@ body { display: flex; min-height: 100vh; }
     <li class="topic-item" data-topic="7"><span class="topic-num">6</span><span>التوزيع الطبيعي والمعياري</span></li>
     <li class="topic-item" data-topic="8"><span class="topic-num">7</span><span>الاحتمالات الأساسية</span></li>
     <li class="topic-item" data-topic="9"><span class="topic-num">8</span><span>الرسوم البيانية</span></li>
+    <li class="topic-item" data-topic="chart-bar" style="background: linear-gradient(135deg, #dbeafe, #bfdbfe); border: 1px solid #3b82f6;"><span class="topic-num" style="background: #3b82f6; color: white;">📊</span><span style="font-weight: 700;">المخطط الشريطي</span></li>
+    <li class="topic-item" data-topic="chart-line" style="background: linear-gradient(135deg, #d1fae5, #a7f3d0); border: 1px solid #10b981;"><span class="topic-num" style="background: #10b981; color: white;">📈</span><span style="font-weight: 700;">المخطط الخطي</span></li>
+    <li class="topic-item" data-topic="chart-pie" style="background: linear-gradient(135deg, #ffedd5, #fed7aa); border: 1px solid #f97316;"><span class="topic-num" style="background: #f97316; color: white;">🥧</span><span style="font-weight: 700;">المخطط الدائري</span></li>
+    <li class="topic-item" data-topic="chart-scatter" style="background: linear-gradient(135deg, #ede9fe, #ddd6fe); border: 1px solid #8b5cf6;"><span class="topic-num" style="background: #8b5cf6; color: white;">📍</span><span style="font-weight: 700;">مخطط الانتشار</span></li>
+    <li class="topic-item" data-topic="chart-histogram" style="background: linear-gradient(135deg, #fce7f3, #fbcfe8); border: 1px solid #ec4899;"><span class="topic-num" style="background: #ec4899; color: white;">📊</span><span style="font-weight: 700;">الهيستوجرام</span></li>
+    <li class="topic-item" data-topic="chart-column" style="background: linear-gradient(135deg, #cffafe, #a5f3fc); border: 1px solid #06b6d4;"><span class="topic-num" style="background: #06b6d4; color: white;">📊</span><span style="font-weight: 700;">المخطط العمودي</span></li>
+    <li class="topic-item" data-topic="chart-area" style="background: linear-gradient(135deg, #fef9c3, #fde68a); border: 1px solid #eab308;"><span class="topic-num" style="background: #eab308; color: white;">🌊</span><span style="font-weight: 700;">الرسم المساحي</span></li>
+    <li class="topic-item" data-topic="chart-radar" style="background: linear-gradient(135deg, #fee2e2, #fecaca); border: 1px solid #ef4444;"><span class="topic-num" style="background: #ef4444; color: white;">🎯</span><span style="font-weight: 700;">الرسم الراداري</span></li>
+    <li class="topic-item" data-topic="chart-heatmap" style="background: linear-gradient(135deg, #fef2f2, #fed7aa); border: 1px solid #dc2626;"><span class="topic-num" style="background: #dc2626; color: white;">🔥</span><span style="font-weight: 700;">خريطة الحرارة</span></li>
+    <li class="topic-item" data-topic="chart-funnel" style="background: linear-gradient(135deg, #fae8ff, #f5d0fe); border: 1px solid #d946ef;"><span class="topic-num" style="background: #d946ef; color: white;">🌪️</span><span style="font-weight: 700;">الرسم القمعي</span></li>
+    <li class="topic-item" data-topic="chart-waterfall" style="background: linear-gradient(135deg, #ccfbf1, #99f6e4); border: 1px solid #14b8a6;"><span class="topic-num" style="background: #14b8a6; color: white;">💧</span><span style="font-weight: 700;">الرسم الشلالي</span></li>
+    <li class="topic-item" data-topic="chart-bubble" style="background: linear-gradient(135deg, #f3e8ff, #e9d5ff); border: 1px solid #c084fc;"><span class="topic-num" style="background: #c084fc; color: white;">🫧</span><span style="font-weight: 700;">الرسم الفقاعي</span></li>
     <li class="topic-item" data-topic="10"><span class="topic-num">9</span><span>الانحدار الخطي</span></li>
     <li class="topic-item" data-topic="ml" style="background: linear-gradient(135deg, #dcfce7, #bbf7d0); border: 1px solid #16a34a;"><span class="topic-num" style="background: #16a34a; color: white;">10</span><span style="font-weight: 700;">🆕 تعلم الآلة</span></li>
     <li class="topic-item" data-topic="eval" style="background: linear-gradient(135deg, #fee2e2, #fecaca); border: 1px solid #dc2626;"><span class="topic-num" style="background: #dc2626; color: white;">11</span><span style="font-weight: 700;">🆕 تقييم النموذج</span></li>
@@ -8731,7 +8743,1257 @@ TOPICS['quiz2'] = `
 `;
 
 
-const TOPIC_ORDER = ['1','2','3','dispersion','6','7','8','9','10','ml','eval','11','grouped','midtermExam','quiz1','quiz2','teacherQuiz','quiz'];
+// ============================================================================
+// 📊 1) المخطط الشريطي Bar Chart
+// ============================================================================
+TOPICS['chart-bar'] = `
+<section class="topic-section" id="topic-chart-bar">
+  <div class="topic-header" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
+    <div class="label">📊 الرسم 1 من 12 · من المنهج</div>
+    <h1>📊 المخطط الشريطي <span class="eng">Bar Chart</span></h1>
+    <p>مقارنة قيم عبر فئات منفصلة بأعمدة أفقية</p>
+  </div>
+
+  <div class="definition-box">
+    <span class="term">المخطط الشريطي (Bar Chart)</span> رسم بياني يستخدم أعمدة أفقية لمقارنة قيم بين فئات منفصلة. طول كل عمود يتناسب مع قيمته، مما يجعل المقارنة البصرية سريعة وسهلة.
+    <div class="logic">يُعد المخطط الشريطي من أكثر الرسوم استخداماً في الحياة العملية. تخيل تقريراً يقارن مبيعات 8 منتجات: لو رأيت قيماً مثل 45000، 32000، 67000، 21000... سيكون من الصعب فهم العلاقات. لكن لو حُوِّلَت إلى أعمدة بأطوال مختلفة، ستفهم في ثانية واحدة أيها الأكبر وأيها الأصغر، وكم الفرق بينهما تقريباً. القاعدة: عيناك تستخرج المعلومة من الصور أسرع 60,000 مرة من النص.</div>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>إتقان قراءة المخطط الشريطي وفهم محاوره</li>
+      <li>التمييز بين Bar Chart و Column Chart و Histogram</li>
+      <li>إنشاء مخطط شريطي احترافي في Excel</li>
+      <li>إنشاء مخطط شريطي في Python باستخدام matplotlib</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#3b82f6;">💡</span> متى نستخدم المخطط الشريطي؟</h2>
+    <ul>
+      <li>مقارنة <strong>قيم</strong> بين فئات (مبيعات حسب المنطقة، عدد الموظفين حسب القسم)</li>
+      <li>عرض <strong>الترتيب</strong> (الأعلى إلى الأدنى)</li>
+      <li>عند <strong>طول أسماء الفئات</strong> (الأفقي يوفر مساحة للأسماء العربية الطويلة)</li>
+      <li>مع <strong>10 فئات أو أقل</strong> (أكثر من ذلك يصبح مزدحماً)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#3b82f6;">📋</span> مثال محسوب — مبيعات المنتجات الإلكترونية</h2>
+    <table class="compare-table">
+      <tr><th>المنتج</th><th>المبيعات (ألف ريال)</th><th>تمثيل بصري</th></tr>
+      <tr><td>الجوال</td><td>87</td><td style="background:linear-gradient(90deg, #3b82f6 87%, transparent 87%); color:white;">▓▓▓▓▓▓▓▓▓</td></tr>
+      <tr><td>الحاسوب المحمول</td><td>72</td><td style="background:linear-gradient(90deg, #60a5fa 72%, transparent 72%); color:white;">▓▓▓▓▓▓▓</td></tr>
+      <tr><td>التابلت</td><td>54</td><td style="background:linear-gradient(90deg, #93c5fd 54%, transparent 54%); color:white;">▓▓▓▓▓</td></tr>
+      <tr><td>الساعة الذكية</td><td>38</td><td style="background:linear-gradient(90deg, #bfdbfe 38%, transparent 38%);">▓▓▓</td></tr>
+      <tr><td>السمّاعة</td><td>21</td><td style="background:linear-gradient(90deg, #dbeafe 21%, transparent 21%);">▓▓</td></tr>
+    </table>
+    <p><strong>القراءة:</strong> الجوال هو الأعلى مبيعاً (87)، والسمّاعة الأقل (21). الفارق بينهما 66 ألف ريال (تقريباً 4 أضعاف).</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#3b82f6;">🛠️</span> إنشاء المخطط الشريطي في Excel</h2>
+    <ol>
+      <li>أدخل البيانات في عمودين (الفئة في A، القيمة في B)</li>
+      <li>حدد البيانات (A1:B6 مثلاً)</li>
+      <li>من القائمة: <strong>Insert → Recommended Charts → Bar</strong></li>
+      <li>اختر <strong>Clustered Bar</strong> (الشريطي العنقودي)</li>
+      <li>أضف عنواناً: انقر على Chart Title واكتب "مبيعات المنتجات"</li>
+      <li>للترتيب من الأعلى للأدنى: انقر بزر الفأرة الأيمن على البيانات → Sort</li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#3b82f6;">🐍</span> في Python (matplotlib)</h2>
+    <pre style="background:#1e293b; color:#e2e8f0; padding:14px; border-radius:8px; direction:ltr; text-align:left; overflow-x:auto;">
+import matplotlib.pyplot as plt
+
+products = ['الجوال', 'الحاسوب', 'التابلت', 'الساعة', 'السمّاعة']
+sales = [87, 72, 54, 38, 21]
+
+plt.barh(products, sales, color='#3b82f6')
+plt.xlabel('المبيعات (ألف ريال)')
+plt.title('مبيعات المنتجات الإلكترونية')
+plt.gca().invert_yaxis()  # الأعلى في الأعلى
+plt.show()
+</pre>
+  </div>
+
+  <div class="warn-box">
+    <strong>⚠️ أخطاء شائعة:</strong>
+    <ul>
+      <li>الخلط بين Bar (أفقي) و Column (رأسي)</li>
+      <li>عدم ترتيب الأعمدة (يصعب المقارنة)</li>
+      <li>اقتطاع المحور الأفقي عند قيمة أكبر من الصفر (يضخم الفروقات)</li>
+    </ul>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon" style="background:#3b82f6;">📝</span> اختبر فهمك</h2>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س1:</strong> أفضل رسم لمقارنة 8 موظفين حسب الراتب (الأسماء طويلة):</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>Column Chart (عمودي)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>Bar Chart (شريطي أفقي)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>Pie Chart</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>Line Chart</span></button>
+      </div>
+      <div class="quiz-explain">الشريطي الأفقي يوفر مساحة لكتابة الأسماء العربية الطويلة بوضوح، بينما العمودي يضغطها أو يدوّرها.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س2:</strong> الفرق بين Bar Chart و Histogram:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>لا يوجد فرق</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>Bar للفئات المنفصلة وأعمدته متباعدة، Histogram للبيانات المستمرة وأعمدته متلاصقة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>Bar أفقي و Histogram عمودي دائماً</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>Bar للأرقام و Histogram للنصوص</span></button>
+      </div>
+      <div class="quiz-explain">Bar Chart للبيانات الفئوية (Categorical) - أعمدة متباعدة. Histogram للبيانات الكمية المستمرة (Continuous) - أعمدة متلاصقة لإظهار التواصل.</div>
+    </div>
+  </div>
+</section>
+`;
+
+// ============================================================================
+// 📈 2) المخطط الخطي Line Chart
+// ============================================================================
+TOPICS['chart-line'] = `
+<section class="topic-section" id="topic-chart-line">
+  <div class="topic-header" style="background: linear-gradient(135deg, #10b981, #047857);">
+    <div class="label">📈 الرسم 2 من 12 · من المنهج</div>
+    <h1>📈 المخطط الخطي <span class="eng">Line Chart</span></h1>
+    <p>تتبّع التغيّرات والاتجاهات عبر الزمن</p>
+  </div>
+
+  <div class="definition-box">
+    <span class="term">المخطط الخطي (Line Chart)</span> رسم بياني يربط نقاط البيانات بخط متصل، مثالي لإظهار <strong>كيف تتغيّر قيمة عبر الزمن</strong>. هو الرسم الأمثل للسلاسل الزمنية ولاكتشاف الاتجاهات (تصاعدي/تنازلي/متذبذب).
+    <div class="logic">عندما يقول مدير المالية "مبيعاتنا في تحسّن"، السؤال: هل يقصد زيادة من شهر لآخر؟ موسمياً؟ أم على مدى سنوات؟ المخطط الخطي يجيب فوراً. النقاط المتصلة بخط تكشف ثلاثة أشياء في لحظة واحدة: الاتجاه العام (Trend)، التقلبات الموسمية (Seasonality)، والقيم الشاذة (Anomalies). هذا ما يجعله الرسم الأكثر استخداماً في تقارير الأعمال والاقتصاد.</div>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>قراءة الاتجاه (Trend) من المخطط الخطي</li>
+      <li>التعرف على التذبذب الموسمي (Seasonality)</li>
+      <li>إنشاء مخطط خطي بسيط ومتعدد الخطوط</li>
+      <li>اختيار المخطط الخطي على غيره عند الحاجة</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#10b981;">💡</span> متى نستخدم المخطط الخطي؟</h2>
+    <ul>
+      <li><strong>السلاسل الزمنية:</strong> أسعار الأسهم، درجات الحرارة، عدد الزوار يومياً</li>
+      <li><strong>اكتشاف الاتجاهات:</strong> هل المبيعات تنمو أم تتراجع؟</li>
+      <li><strong>المقارنة بين سلاسل:</strong> مبيعات المنطقتين الشرقية والغربية معاً</li>
+      <li>عند وجود <strong>قراءات متعددة</strong> (شهور، أسابيع، أيام)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#10b981;">📋</span> مثال — نمو المبيعات خلال 6 أشهر</h2>
+    <table class="compare-table">
+      <tr><th>الشهر</th><th>المبيعات (ألف ريال)</th><th>الاتجاه</th></tr>
+      <tr><td>يناير</td><td>45</td><td>—</td></tr>
+      <tr><td>فبراير</td><td>52</td><td style="color:#10b981;">↗ +7</td></tr>
+      <tr><td>مارس</td><td>48</td><td style="color:#dc2626;">↘ −4</td></tr>
+      <tr><td>أبريل</td><td>61</td><td style="color:#10b981;">↗ +13</td></tr>
+      <tr><td>مايو</td><td>73</td><td style="color:#10b981;">↗ +12</td></tr>
+      <tr><td>يونيو</td><td>85</td><td style="color:#10b981;">↗ +12</td></tr>
+    </table>
+    <p><strong>التحليل:</strong> اتجاه عام تصاعدي قوي (45 → 85)، مع تراجع طفيف في مارس. النمو الفعلي يبدأ من أبريل بمعدل ثابت تقريباً.</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#10b981;">🛠️</span> إنشاء المخطط الخطي في Excel</h2>
+    <ol>
+      <li>أدخل التواريخ/الأشهر في العمود A والقيم في B</li>
+      <li>حدد البيانات (A1:B7)</li>
+      <li><strong>Insert → Line or Area Chart → Line with Markers</strong></li>
+      <li>أضف خطّ اتجاه (Trendline) للتنبؤ: انقر على الخط → Add Trendline</li>
+      <li>للتنبؤ بالأشهر القادمة: <code>=FORECAST(x, known_y, known_x)</code></li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#10b981;">🐍</span> في Python (matplotlib)</h2>
+    <pre style="background:#1e293b; color:#e2e8f0; padding:14px; border-radius:8px; direction:ltr; text-align:left; overflow-x:auto;">
+import matplotlib.pyplot as plt
+
+months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو']
+sales = [45, 52, 48, 61, 73, 85]
+
+plt.plot(months, sales, color='#10b981', marker='o', linewidth=2.5)
+plt.fill_between(months, sales, alpha=0.15, color='#10b981')
+plt.xlabel('الشهر')
+plt.ylabel('المبيعات (ألف ريال)')
+plt.title('نمو المبيعات خلال 6 أشهر')
+plt.grid(True, alpha=0.3)
+plt.show()
+</pre>
+  </div>
+
+  <div class="warn-box">
+    <strong>⚠️ أخطاء شائعة:</strong>
+    <ul>
+      <li>استخدامه للبيانات الفئوية (لا معنى لربط فئات بخطوط)</li>
+      <li>أكثر من 5 خطوط في رسم واحد (يصبح مزدحماً)</li>
+      <li>عدم وضع المحور الزمني بترتيب صحيح</li>
+    </ul>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon" style="background:#10b981;">📝</span> اختبر فهمك</h2>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س1:</strong> أفضل رسم لإظهار درجة الحرارة كل ساعة لمدة 24 ساعة:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>Bar Chart</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>Line Chart</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>Pie Chart</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>Histogram</span></button>
+      </div>
+      <div class="quiz-explain">المخطط الخطي مثالي للسلاسل الزمنية حيث القراءات متتالية وزمنية. يُظهر الذروة (الظهيرة) والقاع (الفجر) بوضوح.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س2:</strong> ما الذي يضيفه خط الاتجاه (Trendline)؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>تكبير الرسم بصرياً</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>إظهار الاتجاه العام والمساعدة في التنبؤ</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>تلوين الخط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>إضافة جدول بيانات</span></button>
+      </div>
+      <div class="quiz-explain">خط الاتجاه يُلخّص الاتجاه العام (تصاعدي/تنازلي/مستقر) ويُمكن استخدامه للتنبؤ بقيم مستقبلية عبر FORECAST.</div>
+    </div>
+  </div>
+</section>
+`;
+
+// ============================================================================
+// 🥧 3) المخطط الدائري Pie Chart
+// ============================================================================
+TOPICS['chart-pie'] = `
+<section class="topic-section" id="topic-chart-pie">
+  <div class="topic-header" style="background: linear-gradient(135deg, #f97316, #c2410c);">
+    <div class="label">🥧 الرسم 3 من 12 · من المنهج</div>
+    <h1>🥧 المخطط الدائري <span class="eng">Pie Chart</span></h1>
+    <p>عرض النسب والأجزاء من الكل</p>
+  </div>
+
+  <div class="definition-box">
+    <span class="term">المخطط الدائري (Pie Chart)</span> دائرة مقسّمة إلى شرائح، كل شريحة تمثّل نسبة فئة من المجموع الكلي. مجموع الشرائح دائماً = 100%، مما يجعله الرسم الأمثل لإظهار <strong>توزيع نسبي</strong>.
+    <div class="logic">حين يقول المدير "60% من ميزانيتنا تذهب للرواتب"، الرقم 60% له معنى لأنه نسبة من 100%. المخطط الدائري يجعل هذه النسبة بصرية وفورية. لكن انتبه: هو محدود! إذا كان لديك 15 فئة، الشرائح ستصبح صغيرة ومتشابهة، فيفقد قوته. لذلك القاعدة: استخدمه لـ 6 فئات أو أقل، وأبدأ بالأكبر للأصغر للوضوح.</div>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>متى نستخدم المخطط الدائري ومتى نتجنّبه</li>
+      <li>قراءة النسب من الشرائح</li>
+      <li>إنشاء مخطط دائري احترافي مع labels</li>
+      <li>التمييز بين Pie و Doughnut Chart</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#f97316;">💡</span> متى نستخدم المخطط الدائري؟</h2>
+    <ul>
+      <li>عرض <strong>نسب من الكل</strong> (توزيع الميزانية، حصص السوق)</li>
+      <li>عدد فئات <strong>قليل (3-6)</strong></li>
+      <li>الفروقات بين النسب <strong>واضحة</strong></li>
+      <li>عند الحاجة لتوصيل فكرة <strong>بسيطة سريعة</strong> لجمهور غير تقني</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#f97316;">📋</span> مثال — توزيع الميزانية حسب الأقسام</h2>
+    <table class="compare-table">
+      <tr><th>القسم</th><th>الميزانية (مليون)</th><th>النسبة</th><th>اللون</th></tr>
+      <tr><td>الرواتب</td><td>4.5</td><td>45%</td><td style="background:#f97316; color:white;">●</td></tr>
+      <tr><td>التشغيل</td><td>2.5</td><td>25%</td><td style="background:#fb923c; color:white;">●</td></tr>
+      <tr><td>التسويق</td><td>1.5</td><td>15%</td><td style="background:#fdba74;">●</td></tr>
+      <tr><td>التطوير</td><td>1.0</td><td>10%</td><td style="background:#fed7aa;">●</td></tr>
+      <tr><td>أخرى</td><td>0.5</td><td>5%</td><td style="background:#ffedd5;">●</td></tr>
+      <tr style="font-weight:bold;background:#fff7ed;"><td>الإجمالي</td><td>10.0</td><td>100%</td><td>—</td></tr>
+    </table>
+    <p><strong>القراءة:</strong> الرواتب أكبر بند (45% = 4.5 مليون)، يليها التشغيل (25%). التطوير وأخرى = 15% فقط.</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#f97316;">🛠️</span> في Excel</h2>
+    <ol>
+      <li>أدخل الأسماء والنسب أو القيم</li>
+      <li><strong>Insert → Pie or Doughnut Chart → Pie</strong></li>
+      <li>لإظهار النسب على الشرائح: انقر على الشريحة → Data Labels → Percentage</li>
+      <li>للتركيز على شريحة: اسحبها للخارج بـ "Explode"</li>
+      <li>Doughnut Chart: نسخة ذات حلقة في الوسط (مساحة للنص الإجمالي)</li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#f97316;">🐍</span> في Python</h2>
+    <pre style="background:#1e293b; color:#e2e8f0; padding:14px; border-radius:8px; direction:ltr; text-align:left; overflow-x:auto;">
+import matplotlib.pyplot as plt
+
+depts = ['الرواتب', 'التشغيل', 'التسويق', 'التطوير', 'أخرى']
+budget = [45, 25, 15, 10, 5]
+colors = ['#f97316', '#fb923c', '#fdba74', '#fed7aa', '#ffedd5']
+
+plt.pie(budget, labels=depts, colors=colors, autopct='%1.0f%%',
+        startangle=90, explode=(0.05, 0, 0, 0, 0))
+plt.title('توزيع الميزانية حسب الأقسام')
+plt.axis('equal')
+plt.show()
+</pre>
+  </div>
+
+  <div class="warn-box">
+    <strong>⚠️ متى تتجنّب المخطط الدائري:</strong>
+    <ul>
+      <li>أكثر من 6-7 فئات (شرائح صغيرة لا تُقرأ)</li>
+      <li>نسب متقاربة (يصعب التمييز بصرياً)</li>
+      <li>عند الحاجة للترتيب أو المقارنة الدقيقة (Bar أفضل)</li>
+      <li>المخطط الدائري ثلاثي الأبعاد (3D Pie) — يشوّه النسب البصرية</li>
+    </ul>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon" style="background:#f97316;">📝</span> اختبر فهمك</h2>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س1:</strong> لديك 15 منتجاً تريد عرض نسبة مبيعات كل منها. أفضل رسم:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>Pie Chart</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>Bar Chart مرتب تنازلياً</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>Line Chart</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>Scatter Plot</span></button>
+      </div>
+      <div class="quiz-explain">15 شريحة في Pie ستكون صغيرة جداً ومتشابهة. Bar Chart مرتب يُظهر الترتيب والمقارنة بوضوح.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س2:</strong> مجموع شرائح المخطط الدائري دائماً يساوي:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>50%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>100%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>360°/عدد الشرائح</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>يعتمد على البيانات</span></button>
+      </div>
+      <div class="quiz-explain">المخطط الدائري يمثل الكل (100%)، لذا مجموع كل الشرائح يساوي 100% بالضرورة. هذا ما يجعله مناسباً لعرض التوزيعات النسبية.</div>
+    </div>
+  </div>
+</section>
+`;
+
+// ============================================================================
+// 📍 4) مخطط الانتشار Scatter Plot
+// ============================================================================
+TOPICS['chart-scatter'] = `
+<section class="topic-section" id="topic-chart-scatter">
+  <div class="topic-header" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);">
+    <div class="label">📍 الرسم 4 من 12 · من المنهج</div>
+    <h1>📍 مخطط الانتشار <span class="eng">Scatter Plot</span></h1>
+    <p>اكتشاف العلاقات بين متغيرين كميين</p>
+  </div>
+
+  <div class="definition-box">
+    <span class="term">مخطط الانتشار (Scatter Plot)</span> رسم بياني يضع كل ملاحظة كنقطة على محورين (X و Y) تمثّلان متغيرين كميين. توزيع النقاط يكشف <strong>طبيعة العلاقة</strong> بين المتغيرين: طردية، عكسية، أم لا توجد علاقة.
+    <div class="logic">في علم البيانات، السؤال الأهم دائماً: "هل X يؤثر على Y؟" مثلاً: هل ساعات الدراسة تؤثر على الدرجات؟ هل سعر السهم يرتبط بحجم التداول؟ مخطط الانتشار يجيب فوراً. النقاط المنتشرة عشوائياً تعني لا علاقة. النقاط التي تشكّل خطاً صاعداً = علاقة طردية. خطاً هابطاً = علاقة عكسية. هو الرسم الأول الذي يستخدمه أي محلل بيانات قبل أن يجري تحليلاً معقداً.</div>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>قراءة العلاقة (طردية/عكسية/لا علاقة) من توزيع النقاط</li>
+      <li>اكتشاف القيم الشاذة (Outliers) بصرياً</li>
+      <li>إضافة خط الاتجاه (Trendline) لتقدير العلاقة</li>
+      <li>التمييز بين الارتباط القوي والضعيف</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#8b5cf6;">💡</span> متى نستخدم مخطط الانتشار؟</h2>
+    <ul>
+      <li>دراسة <strong>العلاقة بين متغيرين كميين</strong></li>
+      <li>اكتشاف <strong>الارتباطات</strong> قبل بناء نموذج انحدار</li>
+      <li>تحديد <strong>القيم الشاذة (Outliers)</strong></li>
+      <li>عرض <strong>التجمعات (Clusters)</strong> في البيانات</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#8b5cf6;">📊</span> أنواع العلاقات في مخطط الانتشار</h2>
+    <table class="compare-table">
+      <tr><th>نوع العلاقة</th><th>توزيع النقاط</th><th>معامل الارتباط r</th><th>مثال</th></tr>
+      <tr><td><strong>طردية قوية</strong></td><td>نقاط متجمّعة حول خط مستقيم صاعد</td><td>قريب من +1</td><td>الطول والوزن</td></tr>
+      <tr><td><strong>عكسية قوية</strong></td><td>نقاط متجمّعة حول خط مستقيم نازل</td><td>قريب من −1</td><td>السرعة والوقت لمسافة ثابتة</td></tr>
+      <tr><td><strong>طردية ضعيفة</strong></td><td>نقاط منتشرة لكن مع ميل صعودي</td><td>+0.3 إلى +0.6</td><td>الدخل والإنفاق</td></tr>
+      <tr><td><strong>لا علاقة</strong></td><td>نقاط عشوائية بدون نمط</td><td>قريب من 0</td><td>رقم الحذاء والذكاء</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#8b5cf6;">📋</span> مثال — العلاقة بين ساعات الدراسة والدرجات</h2>
+    <table class="compare-table">
+      <tr><th>الطالب</th><th>ساعات الدراسة (X)</th><th>الدرجة (Y)</th></tr>
+      <tr><td>أحمد</td><td>2</td><td>62</td></tr>
+      <tr><td>سارة</td><td>4</td><td>71</td></tr>
+      <tr><td>محمد</td><td>6</td><td>83</td></tr>
+      <tr><td>فاطمة</td><td>8</td><td>91</td></tr>
+      <tr><td>خالد</td><td>10</td><td>95</td></tr>
+      <tr><td>نورة</td><td>3</td><td>68</td></tr>
+      <tr><td>عبدالله</td><td>7</td><td>87</td></tr>
+    </table>
+    <p><strong>الاستنتاج:</strong> كلما زادت ساعات الدراسة، زادت الدرجة. علاقة طردية قوية (r ≈ +0.97). يمكن استخدام الانحدار الخطي لبناء معادلة: <strong>الدرجة = 4.2 × الساعات + 56</strong></p>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#8b5cf6;">🛠️</span> في Excel</h2>
+    <ol>
+      <li>أدخل البيانات: العمود A = X (ساعات)، العمود B = Y (درجة)</li>
+      <li>حدد البيانات</li>
+      <li><strong>Insert → Scatter Chart → Scatter (only markers)</strong></li>
+      <li>أضف خط الاتجاه: انقر بزر الأيمن على نقطة → Add Trendline → Linear</li>
+      <li>أظهر المعادلة: في Trendline Options فعّل "Display Equation" و "Display R-squared"</li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#8b5cf6;">🐍</span> في Python</h2>
+    <pre style="background:#1e293b; color:#e2e8f0; padding:14px; border-radius:8px; direction:ltr; text-align:left; overflow-x:auto;">
+import matplotlib.pyplot as plt
+import numpy as np
+
+hours = [2, 4, 6, 8, 10, 3, 7]
+grades = [62, 71, 83, 91, 95, 68, 87]
+
+plt.scatter(hours, grades, color='#8b5cf6', s=100, alpha=0.7, edgecolors='#6d28d9')
+
+# خط الاتجاه
+z = np.polyfit(hours, grades, 1)
+p = np.poly1d(z)
+plt.plot(hours, p(hours), color='#ef4444', linestyle='--', linewidth=2)
+
+plt.xlabel('ساعات الدراسة')
+plt.ylabel('الدرجة')
+plt.title('العلاقة بين الدراسة والدرجات')
+plt.grid(True, alpha=0.3)
+plt.show()
+</pre>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon" style="background:#8b5cf6;">📝</span> اختبر فهمك</h2>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س1:</strong> رأيت مخطط انتشار حيث النقاط تشكّل سحابة عشوائية بدون نمط. الاستنتاج:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>علاقة طردية قوية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>لا توجد علاقة بين المتغيرين</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>علاقة عكسية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>يجب جمع بيانات أكثر</span></button>
+      </div>
+      <div class="quiz-explain">عندما تكون النقاط منتشرة عشوائياً بدون اتجاه، يعني أن المتغير X لا يتنبأ بـ Y. معامل الارتباط سيكون قريباً من الصفر.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س2:</strong> ميزة Scatter Plot التي لا توفّرها أنواع أخرى:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>عرض الفئات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>اكتشاف العلاقة بين متغيرين كميين والقيم الشاذة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>عرض النسب</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>قياس الزمن</span></button>
+      </div>
+      <div class="quiz-explain">Scatter Plot الوحيد الذي يعرض كل ملاحظة كنقطة في فضاء (X,Y)، فيكشف العلاقات بين متغيرين كميين والقيم الشاذة بصرياً.</div>
+    </div>
+  </div>
+</section>
+`;
+
+// ============================================================================
+// 📊 5) الهيستوجرام Histogram
+// ============================================================================
+TOPICS['chart-histogram'] = `
+<section class="topic-section" id="topic-chart-histogram">
+  <div class="topic-header" style="background: linear-gradient(135deg, #ec4899, #be185d);">
+    <div class="label">📊 الرسم 5 من 12 · من المنهج</div>
+    <h1>📊 الهيستوجرام (المدرج التكراري) <span class="eng">Histogram</span></h1>
+    <p>توزيع البيانات الكمية المستمرة في فئات</p>
+  </div>
+
+  <div class="definition-box">
+    <span class="term">الهيستوجرام (Histogram)</span> رسم بياني يقسّم البيانات الكمية المستمرة إلى فئات (Bins) متجاورة، ويُظهر <strong>تكرار</strong> القيم في كل فئة كعمود. أعمدته <strong>متلاصقة</strong> (لأن البيانات متصلة)، عكس Bar Chart.
+    <div class="logic">عندك 200 طالب ودرجاتهم. كيف تفهم توزيعها؟ لا يمكنك قراءة 200 رقم. الهيستوجرام يقسّم الدرجات إلى فئات (60-69، 70-79، 80-89...) ويعرض كم طالباً في كل فئة. شكل الأعمدة يكشف فوراً: هل التوزيع طبيعي (شكل الجرس)؟ منحرف لليمين (معظمهم ضعفاء)؟ منحرف لليسار (معظمهم ممتازون)؟ هذا ما يجعله الأداة الأولى لفهم أي بيانات كمية قبل التحليل الإحصائي.</div>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>الفرق الجوهري بين Histogram و Bar Chart</li>
+      <li>اختيار عدد الفئات (Bins) المناسب</li>
+      <li>قراءة شكل التوزيع: طبيعي، منحرف، ثنائي القمة</li>
+      <li>إنشاء هيستوجرام في Excel و Python</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#ec4899;">⚖️</span> Histogram vs Bar Chart — الفرق الحاسم</h2>
+    <table class="compare-table">
+      <tr><th>الجانب</th><th>Histogram</th><th>Bar Chart</th></tr>
+      <tr><td>نوع البيانات</td><td>كمية مستمرة (الأطوال، الأوزان)</td><td>فئوية منفصلة (الأقسام، الألوان)</td></tr>
+      <tr><td>الأعمدة</td><td>متلاصقة (لا فجوة)</td><td>منفصلة (بفجوات)</td></tr>
+      <tr><td>المحور X</td><td>أرقام مرتبة (الفئات)</td><td>فئات نصية</td></tr>
+      <tr><td>الترتيب</td><td>ثابت (تصاعدي)</td><td>قابل للتغيير</td></tr>
+      <tr><td>الهدف</td><td>إظهار توزيع</td><td>مقارنة قيم</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#ec4899;">📋</span> مثال — توزيع أعمار الموظفين</h2>
+    <table class="compare-table">
+      <tr><th>الفئة العمرية</th><th>عدد الموظفين</th><th>تمثيل بصري</th></tr>
+      <tr><td>20–29</td><td>15</td><td style="background:linear-gradient(90deg, #ec4899 30%, transparent 30%); color:white;">▓▓▓</td></tr>
+      <tr><td>30–39</td><td>32</td><td style="background:linear-gradient(90deg, #ec4899 64%, transparent 64%); color:white;">▓▓▓▓▓▓▓</td></tr>
+      <tr><td>40–49</td><td>40</td><td style="background:linear-gradient(90deg, #ec4899 80%, transparent 80%); color:white;">▓▓▓▓▓▓▓▓</td></tr>
+      <tr><td>50–59</td><td>25</td><td style="background:linear-gradient(90deg, #ec4899 50%, transparent 50%); color:white;">▓▓▓▓▓</td></tr>
+      <tr><td>60+</td><td>8</td><td style="background:linear-gradient(90deg, #ec4899 16%, transparent 16%);">▓▓</td></tr>
+    </table>
+    <p><strong>القراءة:</strong> الفئة (40-49) هي الأكثر تكراراً (40 موظف). التوزيع <strong>تقريباً طبيعي</strong> (شكل الجرس) مع ذيل خفيف نحو اليمين.</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#ec4899;">📐</span> اختيار عدد الفئات (Bins)</h2>
+    <div class="formula-box">
+      <div class="formula-name">قاعدة Sturges</div>
+      <div class="formula">عدد الفئات = 1 + 3.322 × log(n)</div>
+      <div class="legend">n = عدد الملاحظات</div>
+    </div>
+    <ul>
+      <li>عند 100 ملاحظة: تقريباً 8 فئات</li>
+      <li>عند 1000 ملاحظة: تقريباً 11 فئة</li>
+      <li><strong>قاعدة عملية:</strong> Excel و Python يقترحان عدداً مناسباً تلقائياً</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#ec4899;">🛠️</span> في Excel</h2>
+    <ol>
+      <li>أدخل البيانات في عمود واحد</li>
+      <li>حدد العمود</li>
+      <li><strong>Insert → Statistical Charts → Histogram</strong></li>
+      <li>لتعديل الفئات: انقر على المحور الأفقي → Format Axis → Bins</li>
+      <li>اختر <strong>Number of bins</strong> أو <strong>Bin width</strong></li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#ec4899;">🐍</span> في Python</h2>
+    <pre style="background:#1e293b; color:#e2e8f0; padding:14px; border-radius:8px; direction:ltr; text-align:left; overflow-x:auto;">
+import matplotlib.pyplot as plt
+import numpy as np
+
+ages = np.random.normal(45, 10, 200)  # 200 موظف بمتوسط 45
+
+plt.hist(ages, bins=10, color='#ec4899', edgecolor='#831843', alpha=0.85)
+plt.xlabel('العمر')
+plt.ylabel('التكرار')
+plt.title('توزيع أعمار الموظفين')
+plt.axvline(np.mean(ages), color='red', linestyle='--', label=f'المتوسط = {np.mean(ages):.0f}')
+plt.legend()
+plt.show()
+</pre>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon" style="background:#ec4899;">📝</span> اختبر فهمك</h2>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س1:</strong> ما الذي يميز الهيستوجرام بصرياً؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>أعمدة بألوان مختلفة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>أعمدة متلاصقة بدون فجوات</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>دائرة في الوسط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>خطوط متعرّجة</span></button>
+      </div>
+      <div class="quiz-explain">الأعمدة المتلاصقة (بدون فجوات) هي ما يُميّز الهيستوجرام بصرياً. هذا يعكس أن البيانات الكمية متصلة (continuous)، فالفئات المتجاورة تشترك في الحدود.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س2:</strong> هيستوجرام يبدو كـ "تل واحد متماثل حول المنتصف" يعني التوزيع:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>منحرف لليمين</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>طبيعي (Normal)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>منحرف لليسار</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>ثنائي القمة</span></button>
+      </div>
+      <div class="quiz-explain">الشكل المتماثل حول المنتصف (شكل الجرس) هو علامة التوزيع الطبيعي حيث المتوسط = الوسيط = المنوال.</div>
+    </div>
+  </div>
+</section>
+`;
+
+// ============================================================================
+// 📊 6) المخطط العمودي Column Chart
+// ============================================================================
+TOPICS['chart-column'] = `
+<section class="topic-section" id="topic-chart-column">
+  <div class="topic-header" style="background: linear-gradient(135deg, #06b6d4, #0e7490);">
+    <div class="label">📊 الرسم 6 من 12 · من المنهج</div>
+    <h1>📊 المخطط العمودي <span class="eng">Column Chart</span></h1>
+    <p>مقارنة قيم بأعمدة رأسية</p>
+  </div>
+
+  <div class="definition-box">
+    <span class="term">المخطط العمودي (Column Chart)</span> يشبه المخطط الشريطي تماماً لكن أعمدته <strong>رأسية</strong> بدل أفقية. يستخدم لمقارنة قيم بين فئات منفصلة، خاصة عندما تكون أسماء الفئات قصيرة وتسمح بالعرض الرأسي.
+    <div class="logic">المخطط العمودي والشريطي يقدمان نفس المعلومة لكن باتجاه مختلف. تختار العمودي عندما تكون أسماء الفئات قصيرة (مثل: شهور السنة، أرقام السنوات، اختصارات). وتختار الشريطي عندما تكون الأسماء طويلة (مثل: أسماء موظفين كاملة، عناوين منتجات). الميزة الإضافية للعمودي: عند مقارنة فترات زمنية، الترتيب الطبيعي من اليسار لليمين يعكس تدفق الزمن بشكل بديهي.</div>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>الاختيار بين Column و Bar حسب طبيعة البيانات</li>
+      <li>إنشاء مخطط عمودي بسيط ومتعدد السلاسل (Clustered)</li>
+      <li>إنشاء مخطط عمودي تراكمي (Stacked Column)</li>
+      <li>قراءة المقارنات الزمنية بسرعة</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#06b6d4;">💡</span> متى نختار Column على Bar؟</h2>
+    <ul>
+      <li>الأسماء قصيرة (شهور، أرقام، اختصارات)</li>
+      <li>مقارنة فترات زمنية (السنوات، الأشهر، الأرباع)</li>
+      <li>الجمهور معتاد على الترتيب الزمني من اليسار لليمين</li>
+      <li>عند مقارنة سلاسل متعددة (Clustered Column)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#06b6d4;">📋</span> مثال — مبيعات المنتجات الإلكترونية حسب الربع</h2>
+    <table class="compare-table">
+      <tr><th>الربع</th><th>الجوال</th><th>الحاسوب</th><th>التابلت</th></tr>
+      <tr><td>Q1 2025</td><td>87</td><td>72</td><td>54</td></tr>
+      <tr><td>Q2 2025</td><td>92</td><td>78</td><td>58</td></tr>
+      <tr><td>Q3 2025</td><td>105</td><td>85</td><td>62</td></tr>
+      <tr><td>Q4 2025</td><td>118</td><td>89</td><td>67</td></tr>
+    </table>
+    <p><strong>الرسم الأنسب:</strong> Clustered Column - 3 أعمدة لكل ربع، بألوان مختلفة لكل منتج. يُظهر النمو الزمني والمقارنة بين المنتجات معاً.</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#06b6d4;">🎨</span> أنواع المخطط العمودي</h2>
+    <ul>
+      <li><strong>Clustered Column:</strong> أعمدة متجاورة لكل فئة (مقارنة عبر سلاسل متعددة)</li>
+      <li><strong>Stacked Column:</strong> الأعمدة فوق بعضها (إجمالي + توزيع داخلي)</li>
+      <li><strong>100% Stacked Column:</strong> كل عمود = 100% (إظهار النسب)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#06b6d4;">🛠️</span> في Excel</h2>
+    <ol>
+      <li>أدخل البيانات في جدول (الفئات + قيم لكل سلسلة)</li>
+      <li><strong>Insert → Column or Bar Chart → Clustered Column</strong></li>
+      <li>للتراكمي: اختر <strong>Stacked Column</strong></li>
+      <li>للنسب المئوية: اختر <strong>100% Stacked Column</strong></li>
+      <li>تنسيق سريع: انقر على الرسم → Chart Design → Quick Layout</li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#06b6d4;">🐍</span> في Python</h2>
+    <pre style="background:#1e293b; color:#e2e8f0; padding:14px; border-radius:8px; direction:ltr; text-align:left; overflow-x:auto;">
+import matplotlib.pyplot as plt
+import numpy as np
+
+quarters = ['Q1', 'Q2', 'Q3', 'Q4']
+mobile = [87, 92, 105, 118]
+laptop = [72, 78, 85, 89]
+tablet = [54, 58, 62, 67]
+
+x = np.arange(len(quarters))
+width = 0.25
+
+plt.bar(x - width, mobile, width, label='الجوال', color='#06b6d4')
+plt.bar(x, laptop, width, label='الحاسوب', color='#0891b2')
+plt.bar(x + width, tablet, width, label='التابلت', color='#0e7490')
+
+plt.xticks(x, quarters)
+plt.ylabel('المبيعات (ألف ريال)')
+plt.title('مبيعات المنتجات حسب الربع')
+plt.legend()
+plt.show()
+</pre>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon" style="background:#06b6d4;">📝</span> اختبر فهمك</h2>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س1:</strong> تريد عرض إجمالي المبيعات لـ 12 شهراً + توزيعها على 3 فئات منتجات. الأنسب:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>Clustered Column</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>Stacked Column</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>Pie Chart</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>Line Chart</span></button>
+      </div>
+      <div class="quiz-explain">Stacked Column يُظهر الإجمالي (ارتفاع العمود الكامل) + التوزيع الداخلي (الأجزاء الملوّنة) في رسم واحد، وهو ما يحقق المطلوب بدقة.</div>
+    </div>
+  </div>
+</section>
+`;
+
+// ============================================================================
+// 🌊 7) الرسم المساحي Area Chart
+// ============================================================================
+TOPICS['chart-area'] = `
+<section class="topic-section" id="topic-chart-area">
+  <div class="topic-header" style="background: linear-gradient(135deg, #eab308, #a16207);">
+    <div class="label">🌊 الرسم 7 من 12 · من المنهج</div>
+    <h1>🌊 الرسم المساحي <span class="eng">Area Chart</span></h1>
+    <p>إبراز الحجم والمساهمة عبر الزمن</p>
+  </div>
+
+  <div class="definition-box">
+    <span class="term">الرسم المساحي (Area Chart)</span> هو امتداد للمخطط الخطي، حيث تُظلَّل المنطقة <strong>تحت الخط</strong> بلون. يُبرز <strong>الحجم الإجمالي</strong> عبر الزمن، وهو فعّال جداً عند مقارنة عدة سلاسل مع التركيز على المساهمة الكلية.
+    <div class="logic">الفرق بين Line و Area دقيق لكنه مهم. Line يركّز على الاتجاه (هل القيمة تصعد أم تنزل؟). Area يركّز على الحجم (كم كانت القيمة كبيرة؟). تخيّل تقريراً عن استهلاك الكهرباء: Line يقول "الاستهلاك زاد"، لكن Area يُريك بصرياً ضخامة الاستهلاك في الصيف مقارنة بالشتاء. والأهم: Stacked Area يُظهر كيف ساهمت كل منطقة في الاستهلاك الكلي عبر الزمن.</div>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>متى نختار Area على Line</li>
+      <li>الفرق بين Stacked Area و 100% Stacked Area</li>
+      <li>قراءة المساهمة النسبية لكل سلسلة</li>
+      <li>تجنّب الإرباك البصري في Area Chart</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#eab308;">💡</span> متى نستخدم الرسم المساحي؟</h2>
+    <ul>
+      <li>إبراز <strong>الحجم</strong> (وليس فقط الاتجاه)</li>
+      <li>عرض <strong>مساهمة عناصر</strong> في الإجمالي عبر الزمن</li>
+      <li>بيانات <strong>تراكمية</strong> (إيرادات تراكمية، عدد المستخدمين الكلي)</li>
+      <li>عند الحاجة لإثارة انطباع بصري قوي</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#eab308;">📋</span> مثال — مساهمة المنتجات في المبيعات الإجمالية</h2>
+    <table class="compare-table">
+      <tr><th>السنة</th><th>الجوال</th><th>الحاسوب</th><th>التابلت</th><th>الإجمالي</th></tr>
+      <tr><td>2021</td><td>120</td><td>180</td><td>90</td><td>390</td></tr>
+      <tr><td>2022</td><td>180</td><td>200</td><td>110</td><td>490</td></tr>
+      <tr><td>2023</td><td>250</td><td>220</td><td>130</td><td>600</td></tr>
+      <tr><td>2024</td><td>340</td><td>240</td><td>140</td><td>720</td></tr>
+      <tr><td>2025</td><td>450</td><td>260</td><td>150</td><td>860</td></tr>
+    </table>
+    <p><strong>الرسم الأنسب:</strong> Stacked Area - يُظهر النمو الإجمالي (الذروة عند 860 في 2025) + كيف زادت مساهمة الجوال (من 120 إلى 450) مقارنة بالحاسوب.</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#eab308;">🎨</span> أنواع الرسم المساحي</h2>
+    <ul>
+      <li><strong>Area Chart بسيط:</strong> سلسلة واحدة، المنطقة تحتها مظللة</li>
+      <li><strong>Stacked Area:</strong> سلاسل متعددة فوق بعضها (يُظهر الإجمالي + التوزيع)</li>
+      <li><strong>100% Stacked Area:</strong> كل نقطة زمنية = 100% (يُظهر تغيّر النسب)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#eab308;">🛠️</span> في Excel</h2>
+    <ol>
+      <li>أدخل البيانات (الفترات الزمنية + القيم)</li>
+      <li><strong>Insert → Line or Area Chart → Area</strong></li>
+      <li>للنوع التراكمي: اختر <strong>Stacked Area</strong></li>
+      <li>قلّل الشفافية (Transparency) عند تداخل المناطق لتحسين الرؤية</li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#eab308;">🐍</span> في Python</h2>
+    <pre style="background:#1e293b; color:#e2e8f0; padding:14px; border-radius:8px; direction:ltr; text-align:left; overflow-x:auto;">
+import matplotlib.pyplot as plt
+
+years = [2021, 2022, 2023, 2024, 2025]
+mobile = [120, 180, 250, 340, 450]
+laptop = [180, 200, 220, 240, 260]
+tablet = [90, 110, 130, 140, 150]
+
+plt.stackplot(years, mobile, laptop, tablet,
+              labels=['الجوال', 'الحاسوب', 'التابلت'],
+              colors=['#eab308', '#ca8a04', '#a16207'], alpha=0.85)
+plt.legend(loc='upper left')
+plt.xlabel('السنة')
+plt.ylabel('المبيعات (ألف ريال)')
+plt.title('مساهمة المنتجات في المبيعات الإجمالية')
+plt.show()
+</pre>
+  </div>
+
+  <div class="warn-box">
+    <strong>⚠️ تحذير:</strong> Area Chart بسلسلتين متداخلتين قد يُخفي إحداهما الأخرى. للسلاسل المستقلة، Line Chart غالباً أوضح. استخدم Area عندما تكون السلاسل تتراكم أو تشكّل أجزاءً من كل.
+  </div>
+</section>
+`;
+
+// ============================================================================
+// 🎯 8) الرسم الراداري Radar Chart
+// ============================================================================
+TOPICS['chart-radar'] = `
+<section class="topic-section" id="topic-chart-radar">
+  <div class="topic-header" style="background: linear-gradient(135deg, #ef4444, #b91c1c);">
+    <div class="label">🎯 الرسم 8 من 12 · من المنهج</div>
+    <h1>🎯 الرسم الراداري <span class="eng">Radar Chart</span></h1>
+    <p>مقارنة عدة عناصر عبر عدة معايير في رسم واحد</p>
+  </div>
+
+  <div class="definition-box">
+    <span class="term">الرسم الراداري (Radar Chart)</span> رسم متعدد الأضلاع يُسمى أيضاً Spider Chart. كل ضلع يمثّل معياراً، والقيمة تُرسم على المحور المقابل. يربط النقاط لتشكّل مضلعاً يكشف <strong>نقاط القوة والضعف</strong> بصرياً.
+    <div class="logic">عندك 5 موظفين تريد تقييمهم في 5 مهارات (إنتاجية، تعاون، التزام، ابتكار، جودة). كيف تعرض هذا في رسم واحد؟ Bar Chart سيحتاج 25 عموداً. Radar Chart يحلّ المشكلة: كل موظف = مضلع ملوّن. كلما كبرت مساحة المضلع، كان الأداء أفضل. شكل المضلع يكشف الأنماط: مستطيل مائل = قوي في معايير ضعيف في أخرى. قريب من دائرة كاملة = أداء متوازن ممتاز. هذا ما يجعله الأداة الأولى في تقييم الموظفين والمنتجات والفرق الرياضية.</div>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>قراءة المضلع الراداري وفهم نقاط القوة/الضعف</li>
+      <li>إنشاء رسم راداري لمقارنة عدة عناصر</li>
+      <li>اختيار المعايير المناسبة (3-8 معايير)</li>
+      <li>تجنّب الأخطاء في القياس والتفسير</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#ef4444;">💡</span> متى نستخدم الرسم الراداري؟</h2>
+    <ul>
+      <li>تقييم <strong>أداء فردي</strong> عبر عدة معايير</li>
+      <li>مقارنة <strong>منتجات/خدمات</strong> في عدة جوانب</li>
+      <li>تحليل <strong>المهارات</strong> في الموارد البشرية</li>
+      <li>عند الحاجة لرؤية <strong>التوازن</strong> بصرياً</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#ef4444;">📋</span> مثال — مقارنة أداء 3 موظفين</h2>
+    <table class="compare-table">
+      <tr><th>المعيار (من 10)</th><th>أحمد</th><th>سارة</th><th>محمد</th></tr>
+      <tr><td>الإنتاجية</td><td>9</td><td>7</td><td>8</td></tr>
+      <tr><td>التعاون</td><td>6</td><td>9</td><td>7</td></tr>
+      <tr><td>الالتزام</td><td>8</td><td>8</td><td>9</td></tr>
+      <tr><td>الابتكار</td><td>7</td><td>8</td><td>5</td></tr>
+      <tr><td>الجودة</td><td>9</td><td>7</td><td>8</td></tr>
+    </table>
+    <p><strong>التحليل البصري:</strong> أحمد ممتاز في الإنتاجية والجودة لكن ضعيف في التعاون. سارة الأكثر توازناً (مضلع شبه منتظم). محمد قوي في الالتزام لكن ضعيف في الابتكار.</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#ef4444;">🛠️</span> في Excel</h2>
+    <ol>
+      <li>أدخل المعايير في العمود A والقيم في الأعمدة B,C,D...</li>
+      <li>حدد البيانات بالكامل</li>
+      <li><strong>Insert → Other Charts → Radar</strong></li>
+      <li>اختر <strong>Radar with Markers</strong> أو <strong>Filled Radar</strong></li>
+      <li>للوضوح: اجعل التعبئة شفافة (Fill Transparency = 50%)</li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#ef4444;">🐍</span> في Python</h2>
+    <pre style="background:#1e293b; color:#e2e8f0; padding:14px; border-radius:8px; direction:ltr; text-align:left; overflow-x:auto;">
+import numpy as np
+import matplotlib.pyplot as plt
+
+categories = ['الإنتاجية', 'التعاون', 'الالتزام', 'الابتكار', 'الجودة']
+ahmad = [9, 6, 8, 7, 9]
+sara  = [7, 9, 8, 8, 7]
+
+angles = np.linspace(0, 2*np.pi, len(categories), endpoint=False).tolist()
+ahmad += ahmad[:1]; sara += sara[:1]; angles += angles[:1]
+
+fig, ax = plt.subplots(subplot_kw=dict(polar=True))
+ax.fill(angles, ahmad, color='#ef4444', alpha=0.4, label='أحمد')
+ax.fill(angles, sara, color='#3b82f6', alpha=0.4, label='سارة')
+ax.set_xticks(angles[:-1])
+ax.set_xticklabels(categories)
+plt.legend(loc='upper right')
+plt.show()
+</pre>
+  </div>
+
+  <div class="warn-box">
+    <strong>⚠️ أخطاء شائعة:</strong>
+    <ul>
+      <li>أكثر من 4 عناصر = صعوبة قراءة (المضلعات تتداخل)</li>
+      <li>أكثر من 8 معايير = صغر زوايا</li>
+      <li>وحدات قياس مختلفة بين المعايير = تضليل بصري (يجب التطبيع لنفس النطاق)</li>
+    </ul>
+  </div>
+</section>
+`;
+
+// ============================================================================
+// 🔥 9) خريطة الحرارة Heat Map
+// ============================================================================
+TOPICS['chart-heatmap'] = `
+<section class="topic-section" id="topic-chart-heatmap">
+  <div class="topic-header" style="background: linear-gradient(135deg, #dc2626, #f59e0b);">
+    <div class="label">🔥 الرسم 9 من 12 · من المنهج</div>
+    <h1>🔥 خريطة الحرارة <span class="eng">Heat Map</span></h1>
+    <p>كشف الأنماط في كميات بيانات كبيرة عبر الألوان</p>
+  </div>
+
+  <div class="definition-box">
+    <span class="term">خريطة الحرارة (Heat Map)</span> جدول ثنائي الأبعاد حيث كل خلية ملوّنة حسب قيمتها. الألوان الدافئة (أحمر/برتقالي) تعني قيماً عالية، والباردة (أزرق/أخضر) تعني قيماً منخفضة. تكشف <strong>الأنماط والكثافات</strong> فوراً في كميات بيانات لا يمكن قراءتها رقمياً.
+    <div class="logic">عندك جدول 7 أيام × 24 ساعة لزوار موقع. هذا 168 رقماً. لا أحد يقدر على تحليلها بالنظر. خريطة الحرارة تحوّل الجدول إلى لوحة ألوان: الأحمر القاتم في الزاوية اليمنى = ساعات الذروة. الأزرق في الفجر = أقل نشاط. في ثانيتين تكتشف ساعات الذروة، الأيام الأكثر نشاطاً، والأنماط الموسمية. هذا ما يجعل Heat Map الأداة الأولى في تحليل البيانات الكبيرة، تحليل المواقع، الجينوميات، والذكاء الاصطناعي.</div>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>قراءة خريطة الحرارة بسرعة وفهم مدلولات الألوان</li>
+      <li>اختيار مقياس ألوان مناسب (Sequential / Diverging)</li>
+      <li>إنشاء Heat Map في Excel و Python</li>
+      <li>التعرف على تطبيقاتها في تحليل البيانات</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#dc2626;">💡</span> متى نستخدم خريطة الحرارة؟</h2>
+    <ul>
+      <li>بيانات <strong>جدولية كبيرة</strong> (10+ صفوف × 10+ أعمدة)</li>
+      <li>كشف <strong>الأنماط الزمنية</strong> (ساعات الذروة، الأيام النشطة)</li>
+      <li>تحليل <strong>الارتباطات</strong> بين متغيرات (Correlation Matrix)</li>
+      <li>تحليل <strong>الجينات</strong>، <strong>المبيعات الجغرافية</strong>، <strong>سلوك المستخدمين</strong></li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#dc2626;">📋</span> مثال — زوار الموقع (يوم × ساعة)</h2>
+    <table class="compare-table">
+      <tr><th>الساعة</th><th>الأحد</th><th>الإثنين</th><th>الثلاثاء</th><th>الأربعاء</th><th>الخميس</th><th>الجمعة</th><th>السبت</th></tr>
+      <tr><td>06–09</td><td style="background:#fef3c7;">120</td><td style="background:#fde68a;">180</td><td style="background:#fde68a;">175</td><td style="background:#fde68a;">170</td><td style="background:#fcd34d;">200</td><td style="background:#fef3c7;">90</td><td style="background:#fef3c7;">100</td></tr>
+      <tr><td>09–12</td><td style="background:#fcd34d;">220</td><td style="background:#fb923c;">320</td><td style="background:#fb923c;">340</td><td style="background:#fb923c;">335</td><td style="background:#f97316;">380</td><td style="background:#fde68a;">150</td><td style="background:#fde68a;">170</td></tr>
+      <tr><td>12–15</td><td style="background:#f97316; color:white;">410</td><td style="background:#ef4444; color:white;">520</td><td style="background:#ef4444; color:white;">540</td><td style="background:#ef4444; color:white;">560</td><td style="background:#dc2626; color:white;">600</td><td style="background:#fb923c; color:white;">280</td><td style="background:#fb923c; color:white;">310</td></tr>
+      <tr><td>15–18</td><td style="background:#fb923c; color:white;">340</td><td style="background:#f97316; color:white;">450</td><td style="background:#f97316; color:white;">470</td><td style="background:#f97316; color:white;">480</td><td style="background:#ef4444; color:white;">510</td><td style="background:#fcd34d;">230</td><td style="background:#fcd34d;">250</td></tr>
+      <tr><td>18–21</td><td style="background:#fcd34d;">230</td><td style="background:#fb923c; color:white;">300</td><td style="background:#fb923c; color:white;">320</td><td style="background:#fb923c; color:white;">310</td><td style="background:#f97316; color:white;">390</td><td style="background:#fde68a;">160</td><td style="background:#fde68a;">180</td></tr>
+    </table>
+    <p><strong>القراءة الفورية:</strong> أحمر داكن = ذروة الزوار. الخميس بين 12-15 هو الأنشط (600 زائر). الجمعة والسبت أهدأ. الفترة الصباحية أقل نشاطاً.</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#dc2626;">🎨</span> اختيار مقياس الألوان</h2>
+    <ul>
+      <li><strong>Sequential (تدرّج لون واحد):</strong> للقيم من المنخفض للعالي (مثل: زوار، مبيعات)</li>
+      <li><strong>Diverging (لونان متعاكسان):</strong> للقيم حول قيمة محورية (مثل: ربح/خسارة)</li>
+      <li><strong>Categorical:</strong> للفئات منفصلة (نادر)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#dc2626;">🛠️</span> في Excel</h2>
+    <ol>
+      <li>أدخل البيانات في جدول</li>
+      <li>حدد الجدول بالكامل</li>
+      <li><strong>Home → Conditional Formatting → Color Scales</strong></li>
+      <li>اختر التدرّج المناسب (أخضر-أصفر-أحمر شائع)</li>
+      <li>للجداول المحورية: PivotTable + Conditional Formatting</li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#dc2626;">🐍</span> في Python (seaborn)</h2>
+    <pre style="background:#1e293b; color:#e2e8f0; padding:14px; border-radius:8px; direction:ltr; text-align:left; overflow-x:auto;">
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+
+# بيانات: 5 فترات × 7 أيام
+data = np.array([
+    [120, 180, 175, 170, 200, 90, 100],
+    [220, 320, 340, 335, 380, 150, 170],
+    [410, 520, 540, 560, 600, 280, 310],
+    [340, 450, 470, 480, 510, 230, 250],
+    [230, 300, 320, 310, 390, 160, 180]
+])
+days = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت']
+hours = ['06-09','09-12','12-15','15-18','18-21']
+
+sns.heatmap(data, xticklabels=days, yticklabels=hours,
+            annot=True, fmt='d', cmap='YlOrRd', cbar_kws={'label': 'عدد الزوار'})
+plt.title('زوار الموقع حسب اليوم والساعة')
+plt.show()
+</pre>
+  </div>
+</section>
+`;
+
+// ============================================================================
+// 🌪️ 10) الرسم القمعي Funnel Chart
+// ============================================================================
+TOPICS['chart-funnel'] = `
+<section class="topic-section" id="topic-chart-funnel">
+  <div class="topic-header" style="background: linear-gradient(135deg, #d946ef, #a21caf);">
+    <div class="label">🌪️ الرسم 10 من 12 · من المنهج</div>
+    <h1>🌪️ الرسم القمعي <span class="eng">Funnel Chart</span></h1>
+    <p>تتبّع تناقص الأعداد عبر مراحل متتابعة</p>
+  </div>
+
+  <div class="definition-box">
+    <span class="term">الرسم القمعي (Funnel Chart)</span> رسم على شكل قمع، يبدأ واسعاً من الأعلى ويضيق نحو الأسفل. كل مرحلة = شريط أفقي بعرض يتناسب مع قيمتها. يُستخدم لتتبّع <strong>عملية متسلسلة</strong> حيث تنخفض الأعداد في كل مرحلة (مثل رحلة العميل من الزيارة إلى الشراء).
+    <div class="logic">في التسويق الرقمي، السؤال الذهبي: "في أي مرحلة نخسر العملاء؟" قمع المبيعات يُجيب فوراً. تخيّل: 10000 زائر → 3000 مهتم → 800 طلب عرض → 300 تفاوض → 150 صفقة. الرسم القمعي يكشف نسب التحويل (Conversion Rates) بين كل مرحلة. الفجوة الكبيرة بين 10000 و 3000 (نسبة تحويل 30%) تُخبرك أن صفحة الموقع الأولى تحتاج تحسيناً. هذا ما جعله الأداة الأولى في تحليلات Google Analytics و CRM.</div>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>قراءة قمع المبيعات وفهم نسب التحويل</li>
+      <li>تحديد المرحلة الأضعف في العملية</li>
+      <li>إنشاء قمع في Excel و Python</li>
+      <li>تطبيقات في التسويق والتوظيف والمبيعات</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#d946ef;">💡</span> متى نستخدم الرسم القمعي؟</h2>
+    <ul>
+      <li><strong>قمع المبيعات</strong> (Sales Funnel)</li>
+      <li><strong>قمع التوظيف</strong> (المتقدمون → المرشحون → المقابلات → التوظيف)</li>
+      <li><strong>سلوك المستخدم</strong> (الزيارة → التسجيل → الشراء)</li>
+      <li><strong>أي عملية متسلسلة</strong> فيها فقد تدريجي</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#d946ef;">📋</span> مثال — قمع المبيعات</h2>
+    <table class="compare-table">
+      <tr><th>المرحلة</th><th>العدد</th><th>نسبة التحويل</th><th>تمثيل بصري</th></tr>
+      <tr><td>1. زوار الموقع</td><td>10,000</td><td>—</td><td style="background:#d946ef; color:white; text-align:center;">▓▓▓▓▓▓▓▓▓▓ 100%</td></tr>
+      <tr><td>2. المهتمون (شاهدوا منتج)</td><td>3,000</td><td>30%</td><td style="background:linear-gradient(90deg, #d946ef 30%, transparent 30%); color:white;">▓▓▓ 30%</td></tr>
+      <tr><td>3. طلب عرض السعر</td><td>800</td><td>26.7%</td><td style="background:linear-gradient(90deg, #d946ef 8%, transparent 8%);">▓ 8%</td></tr>
+      <tr><td>4. تفاوض</td><td>300</td><td>37.5%</td><td style="background:linear-gradient(90deg, #d946ef 3%, transparent 3%);">3%</td></tr>
+      <tr><td>5. إتمام الصفقة</td><td>150</td><td>50%</td><td style="background:linear-gradient(90deg, #d946ef 1.5%, transparent 1.5%);">1.5%</td></tr>
+    </table>
+    <p><strong>التحليل:</strong> أكبر فقد بين الزوار والمهتمين (70% غادروا). نسبة التحويل النهائية = 1.5% فقط (150 من 10000). أفضل تحويل مرحلي بين التفاوض والصفقة (50%).</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#d946ef;">🛠️</span> في Excel (2019+)</h2>
+    <ol>
+      <li>أدخل المراحل في عمود A والأعداد في B</li>
+      <li>حدد البيانات</li>
+      <li><strong>Insert → Funnel Chart</strong></li>
+      <li>للإصدارات الأقدم: استخدم Bar Chart مرتب تنازلياً</li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#d946ef;">🐍</span> في Python (plotly)</h2>
+    <pre style="background:#1e293b; color:#e2e8f0; padding:14px; border-radius:8px; direction:ltr; text-align:left; overflow-x:auto;">
+import plotly.graph_objects as go
+
+stages = ['زوار الموقع', 'المهتمون', 'طلب عرض', 'تفاوض', 'إتمام الصفقة']
+values = [10000, 3000, 800, 300, 150]
+
+fig = go.Figure(go.Funnel(
+    y=stages, x=values,
+    marker={'color': ['#d946ef','#c026d3','#a21caf','#86198f','#701a75']},
+    textinfo='value+percent previous'
+))
+fig.update_layout(title='قمع المبيعات')
+fig.show()
+</pre>
+  </div>
+</section>
+`;
+
+// ============================================================================
+// 💧 11) الرسم الشلالي Waterfall Chart
+// ============================================================================
+TOPICS['chart-waterfall'] = `
+<section class="topic-section" id="topic-chart-waterfall">
+  <div class="topic-header" style="background: linear-gradient(135deg, #14b8a6, #0f766e);">
+    <div class="label">💧 الرسم 11 من 12 · من المنهج</div>
+    <h1>💧 الرسم الشلالي <span class="eng">Waterfall Chart</span></h1>
+    <p>تتبّع تأثير الإضافات والطرحات على الإجمالي</p>
+  </div>
+
+  <div class="definition-box">
+    <span class="term">الرسم الشلالي (Waterfall Chart)</span> رسم يُظهر كيف تؤثر القيم الإيجابية والسلبية على إجمالي تراكمي. الأعمدة الخضراء = إضافات، الحمراء = طرحات، والزرقاء = نقاط البداية والنهاية. يُسمى "شلالي" لأن الأعمدة تبدو متدفقة كالشلال.
+    <div class="logic">في التحليل المالي، السؤال الكلاسيكي: "كيف وصلنا من 100 مليون إيرادات إلى 30 مليون صافي؟" الـ Waterfall يجيب بصرياً. كل عمود يكشف بنداً مالياً (تكاليف، رواتب، ضرائب). الأعمدة الحمراء النازلة = ما خصمناه. النتيجة: من نظرة واحدة تفهم رحلة الأرقام كاملة. هذا ما يجعله الرسم المفضّل في التقارير المالية، تحليل الميزانية، ومقارنة فترتين.</div>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>قراءة الرسم الشلالي وتمييز الإضافات/الطرحات</li>
+      <li>إنشاء تحليل ربح وخسارة بـ Waterfall</li>
+      <li>إنشاء الرسم في Excel و Python</li>
+      <li>تطبيقات في التحليل المالي</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#14b8a6;">💡</span> متى نستخدم الرسم الشلالي؟</h2>
+    <ul>
+      <li><strong>تحليل الربح والخسارة</strong> (P&L Statement)</li>
+      <li><strong>تحليل الميزانية</strong> (من المخصص للفعلي)</li>
+      <li><strong>مقارنة فترتين</strong> (من Q1 إلى Q2)</li>
+      <li><strong>تحليل الانحرافات</strong> (Variance Analysis)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#14b8a6;">📋</span> مثال — تحليل الربح والخسارة</h2>
+    <table class="compare-table">
+      <tr><th>البند</th><th>القيمة</th><th>النوع</th><th>التراكمي</th></tr>
+      <tr style="background:#cffafe;"><td><strong>الإيرادات الإجمالية</strong></td><td>100</td><td style="background:#14b8a6; color:white;">بداية</td><td>100</td></tr>
+      <tr><td>تكلفة المنتجات</td><td>−40</td><td style="background:#dc2626; color:white;">طرح</td><td>60</td></tr>
+      <tr><td>الرواتب</td><td>−15</td><td style="background:#dc2626; color:white;">طرح</td><td>45</td></tr>
+      <tr><td>إيرادات إضافية</td><td>+5</td><td style="background:#10b981; color:white;">إضافة</td><td>50</td></tr>
+      <tr><td>التسويق</td><td>−8</td><td style="background:#dc2626; color:white;">طرح</td><td>42</td></tr>
+      <tr><td>الضرائب</td><td>−12</td><td style="background:#dc2626; color:white;">طرح</td><td>30</td></tr>
+      <tr style="background:#cffafe;"><td><strong>الربح الصافي</strong></td><td>30</td><td style="background:#14b8a6; color:white;">نهاية</td><td>30</td></tr>
+    </table>
+    <p><strong>القراءة:</strong> من 100 مليون إيرادات إلى 30 مليون صافي. أكبر طرح: تكلفة المنتجات (40 مليون). الإيرادات الإضافية رفعت 5 مليون. الضرائب 12 مليون.</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#14b8a6;">🎨</span> ألوان قياسية في Waterfall</h2>
+    <ul>
+      <li><strong>الأخضر:</strong> القيم الإيجابية (إيرادات، أرباح، إضافات)</li>
+      <li><strong>الأحمر:</strong> القيم السلبية (تكاليف، خسائر، طرحات)</li>
+      <li><strong>الأزرق/الرمادي:</strong> نقاط الإجمالي (البداية، النهاية، إجماليات فرعية)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#14b8a6;">🛠️</span> في Excel (2016+)</h2>
+    <ol>
+      <li>أدخل البنود والقيم</li>
+      <li>حدد القيم</li>
+      <li><strong>Insert → Waterfall Chart</strong></li>
+      <li>لتحديد إجماليات: انقر مرتين على عمود → Set as Total</li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#14b8a6;">🐍</span> في Python (plotly)</h2>
+    <pre style="background:#1e293b; color:#e2e8f0; padding:14px; border-radius:8px; direction:ltr; text-align:left; overflow-x:auto;">
+import plotly.graph_objects as go
+
+fig = go.Figure(go.Waterfall(
+    name='P&L', orientation='v',
+    measure=['absolute','relative','relative','relative','relative','relative','total'],
+    x=['الإيرادات','تكلفة المنتجات','الرواتب','إيرادات إضافية','التسويق','الضرائب','الربح الصافي'],
+    y=[100, -40, -15, 5, -8, -12, 0],
+    increasing={'marker':{'color':'#10b981'}},
+    decreasing={'marker':{'color':'#dc2626'}},
+    totals={'marker':{'color':'#14b8a6'}}
+))
+fig.update_layout(title='تحليل الربح والخسارة', showlegend=False)
+fig.show()
+</pre>
+  </div>
+</section>
+`;
+
+// ============================================================================
+// 🫧 12) الرسم الفقاعي Bubble Chart
+// ============================================================================
+TOPICS['chart-bubble'] = `
+<section class="topic-section" id="topic-chart-bubble">
+  <div class="topic-header" style="background: linear-gradient(135deg, #c084fc, #7c3aed);">
+    <div class="label">🫧 الرسم 12 من 12 · من المنهج</div>
+    <h1>🫧 الرسم الفقاعي <span class="eng">Bubble Chart</span></h1>
+    <p>3 متغيرات في رسم واحد: X و Y وحجم الفقاعة</p>
+  </div>
+
+  <div class="definition-box">
+    <span class="term">الرسم الفقاعي (Bubble Chart)</span> امتداد لمخطط الانتشار (Scatter Plot)، حيث تُضاف <strong>قيمة ثالثة</strong> عبر حجم الفقاعة. كل فقاعة = ملاحظة بثلاث خصائص: (X, Y, Size). يُتيح عرض ثلاثة أبعاد من البيانات في رسم واحد بصري.
+    <div class="logic">عندك 50 منتجاً وثلاث خصائص لكل واحد: السعر، التقييم، حجم المبيعات. عرضها في 3 رسوم منفصلة يُفقد العلاقة بينها. الرسم الفقاعي يحلّ هذا: محور X = السعر، محور Y = التقييم، حجم الفقاعة = المبيعات. في رسم واحد ترى: المنتجات ذات السعر المنخفض والتقييم العالي وحجم البيع الكبير = "نجوم" المتجر (الزاوية المثالية). المنتجات بسعر عال وتقييم منخفض ومبيعات قليلة = الأسوأ. هذا ما يُتيحه Bubble Chart: تحليل بُعد ثالث بدون تعقيد.</div>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>قراءة الأبعاد الثلاثة (X, Y, حجم) معاً</li>
+      <li>تحديد التجمعات والمنتجات النجوم</li>
+      <li>إنشاء Bubble Chart في Excel و Python</li>
+      <li>تجنّب الإرباك البصري عند كثرة الفقاعات</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#c084fc;">💡</span> متى نستخدم الرسم الفقاعي؟</h2>
+    <ul>
+      <li>تحليل <strong>3 متغيرات كمية</strong> معاً</li>
+      <li><strong>محفظة المنتجات</strong> (سعر × تقييم × مبيعات)</li>
+      <li><strong>تحليل الدول</strong> (دخل × عمر × عدد سكان)</li>
+      <li><strong>تحليل المخاطر</strong> (احتمال × أثر × تكلفة)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#c084fc;">📋</span> مثال — تحليل المنتجات (السعر × التقييم × المبيعات)</h2>
+    <table class="compare-table">
+      <tr><th>المنتج</th><th>السعر (X)</th><th>التقييم (Y)</th><th>المبيعات (حجم)</th><th>التصنيف</th></tr>
+      <tr><td>منتج أ</td><td>50</td><td>4.8</td><td>5000</td><td style="background:#10b981; color:white;">⭐ نجم</td></tr>
+      <tr><td>منتج ب</td><td>200</td><td>4.5</td><td>1500</td><td style="background:#3b82f6; color:white;">جيد</td></tr>
+      <tr><td>منتج ج</td><td>80</td><td>3.2</td><td>800</td><td style="background:#f59e0b;">متوسط</td></tr>
+      <tr><td>منتج د</td><td>300</td><td>2.1</td><td>200</td><td style="background:#dc2626; color:white;">ضعيف</td></tr>
+      <tr><td>منتج هـ</td><td>120</td><td>4.2</td><td>3000</td><td style="background:#10b981; color:white;">⭐ نجم</td></tr>
+    </table>
+    <p><strong>التحليل:</strong> منتج (أ) هو الأفضل: سعر منخفض + تقييم عالي + مبيعات ضخمة (فقاعة كبيرة في الزاوية المثالية). منتج (د) يجب إعادة تقييمه: سعر عال + تقييم منخفض + مبيعات ضعيفة.</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#c084fc;">🛠️</span> في Excel</h2>
+    <ol>
+      <li>رتّب البيانات في 3 أعمدة: X, Y, Size</li>
+      <li>حدد البيانات (لا تشمل عمود الأسماء)</li>
+      <li><strong>Insert → Scatter or Bubble Chart → Bubble</strong></li>
+      <li>لإضافة الأسماء: انقر بزر الأيمن على فقاعة → Add Data Labels → Value From Cells</li>
+      <li>عدّل الشفافية (Fill Transparency = 50%) إذا تداخلت الفقاعات</li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#c084fc;">🐍</span> في Python</h2>
+    <pre style="background:#1e293b; color:#e2e8f0; padding:14px; border-radius:8px; direction:ltr; text-align:left; overflow-x:auto;">
+import matplotlib.pyplot as plt
+
+products = ['أ', 'ب', 'ج', 'د', 'هـ']
+prices   = [50, 200, 80, 300, 120]
+ratings  = [4.8, 4.5, 3.2, 2.1, 4.2]
+sales    = [5000, 1500, 800, 200, 3000]
+
+plt.scatter(prices, ratings, s=sales, alpha=0.6,
+            c=range(len(products)), cmap='viridis', edgecolors='black')
+
+for i, p in enumerate(products):
+    plt.annotate(p, (prices[i], ratings[i]), ha='center', fontsize=14)
+
+plt.xlabel('السعر (ريال)')
+plt.ylabel('التقييم (من 5)')
+plt.title('تحليل المنتجات: السعر × التقييم × المبيعات (حجم الفقاعة)')
+plt.grid(alpha=0.3)
+plt.show()
+</pre>
+  </div>
+
+  <div class="warn-box">
+    <strong>⚠️ تحذير:</strong> أكثر من 30 فقاعة = إرباك. للأعداد الكبيرة، استخدم Scatter Plot عادي مع لون يدل على البُعد الثالث، أو قسّم البيانات لمجموعات.
+  </div>
+</section>
+`;
+
+
+const TOPIC_ORDER = ['1','2','3','dispersion','6','7','8','9','chart-bar','chart-line','chart-pie','chart-scatter','chart-histogram','chart-column','chart-area','chart-radar','chart-heatmap','chart-funnel','chart-waterfall','chart-bubble','10','ml','eval','11','grouped','midtermExam','quiz1','quiz2','teacherQuiz','quiz'];
 const container = document.getElementById('topicsContainer');
 TOPIC_ORDER.forEach(id => {
   if (TOPICS[id]) {
