@@ -2756,6 +2756,82 @@ hits = <span class="number">0</span>
   </div>
 
   <div class="section">
+    <h2><span class="icon">✖️</span> قاعدة الضرب والأحداث المستقلة</h2>
+    <p>قاعدة الضرب تستخدم لحساب احتمال حدوث <strong>أحداث متعددة معاً</strong>. القاعدة تختلف حسب العلاقة بين الأحداث:</p>
+
+    <h3>1. الأحداث المستقلة <span class="eng">Independent Events</span></h3>
+    <p><strong>التعريف:</strong> حدثان مستقلان إذا كان وقوع أحدهما <strong>لا يؤثر</strong> على احتمال وقوع الآخر.</p>
+
+    <div class="formula-box">
+      <div class="formula-name">قاعدة الضرب للأحداث المستقلة</div>
+      <div class="formula">P(A ∩ B) = P(A) × P(B)</div>
+      <div class="legend">احتمال وقوع A و B معاً = احتمال A مضروباً في احتمال B</div>
+    </div>
+
+    <ul>
+      <li><strong>مثال 1:</strong> رمي عملة مرتين. احتمال صورة في الرمية الأولى وصورة في الرمية الثانية:<br>
+      P(صورة₁ ∩ صورة₂) = ½ × ½ = ¼ = 0.25</li>
+      <li><strong>مثال 2:</strong> سحب كرة من صندوق ثم إعادتها (مع الإرجاع)، ثم سحب أخرى. السحبتان مستقلتان لأن الصندوق رجع لحالته الأصلية.</li>
+      <li><strong>مثال 3:</strong> نتيجة طالب في امتحان الإحصاء ونتيجة طالب آخر في امتحان البرمجة — مستقلان (لا يؤثر أحدهما في الآخر).</li>
+    </ul>
+
+    <div class="story-box">
+      <strong>قاعدة الاكتشاف:</strong> اسأل نفسك "هل وقوع A يغيّر احتمال B؟" إذا كانت الإجابة <strong>لا</strong>، فهما مستقلان. مثلاً: المطر اليوم يؤثر على احتمال المطر غداً (غير مستقلان)، لكن المطر اليوم لا يؤثر على نتيجة رمي العملة (مستقلان).
+    </div>
+
+    <h3>2. الأحداث المعتمدة <span class="eng">Dependent Events</span></h3>
+    <p><strong>التعريف:</strong> حدثان معتمدان إذا كان وقوع أحدهما <strong>يغيّر</strong> احتمال وقوع الآخر.</p>
+
+    <div class="formula-box">
+      <div class="formula-name">قاعدة الضرب للأحداث المعتمدة</div>
+      <div class="formula">P(A ∩ B) = P(A) × P(B|A)</div>
+      <div class="legend">P(B|A) = احتمال B بشرط حدوث A</div>
+    </div>
+
+    <ul>
+      <li><strong>مثال:</strong> سحب ورقتين من مجموعة 52 ورقة <strong>بدون إرجاع</strong>:
+        <ul>
+          <li>P(آس في السحبة الأولى) = 4/52</li>
+          <li>P(آس في السحبة الثانية | آس أولى) = 3/51 (انخفض لأن الآس الأول خرج)</li>
+          <li>P(آسان متتاليان) = (4/52) × (3/51) = 12/2652 ≈ 0.0045</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>الفرق المهم: مع الإرجاع vs بدون إرجاع</h3>
+    <table class="compare-table">
+      <tr><th>السيناريو</th><th>نوع الأحداث</th><th>الصيغة</th></tr>
+      <tr><td>سحب كرة وإعادتها قبل السحبة الثانية</td><td>مستقلة</td><td>P(A) × P(B)</td></tr>
+      <tr><td>سحب كرة بدون إعادة قبل السحبة الثانية</td><td>معتمدة</td><td>P(A) × P(B|A)</td></tr>
+    </table>
+
+    <h3>تطبيق في إكسل</h3>
+    <div class="formula-box">
+      <div class="formula-name">حساب احتمالات مركبة</div>
+      <div class="formula">=P_A * P_B  ←  للأحداث المستقلة</div>
+      <div class="formula">=P_A * P_B_given_A  ←  للأحداث المعتمدة</div>
+    </div>
+
+    <ul>
+      <li>إذا P(A) في B2 و P(B) في B3 (مستقلان): <code>=B2*B3</code></li>
+      <li>الناتج ≤ كل من القيمتين الأصليتين (لأن الضرب في عدد &lt; 1)</li>
+    </ul>
+
+    <h3>تطبيق في Python</h3>
+    <pre style="background:#1e293b; color:#e2e8f0; padding:14px; border-radius:8px; direction:ltr; text-align:left; overflow-x:auto;">
+# مثال: احتمال 3 صور متتالية في رمي عملة
+P_صورة = 0.5
+P_ثلاث_صور = P_صورة ** 3   # = 0.125
+
+# مثال: احتمال آسين متتاليين (بدون إرجاع)
+P_آس_أول = 4/52
+P_آس_ثاني_بشرط_الأول = 3/51
+P_آسان = P_آس_أول * P_آس_ثاني_بشرط_الأول
+print(f"P(آسان) = {P_آسان:.4f}")  # 0.0045
+</pre>
+  </div>
+
+  <div class="section">
     <h2><span class="icon">🎯</span> الاحتمال الشرطي</h2>
     <p>احتمال حدوث A بشرط أن B قد حدث.</p>
 
@@ -2930,6 +3006,62 @@ TOPICS['9'] = `
       <li><strong>الاستخدام:</strong> إظهار النسب من الكل</li>
       <li>مجموع الشرائح = 100%</li>
       <li><strong>قاعدة:</strong> لا تستخدمه إذا كان عدد الفئات أكثر من 6 أو إذا تشابهت النسب (يصعب التمييز)</li>
+    </ul>
+
+    <h3>6. المخطط العمودي <span class="eng">Column Chart</span></h3>
+    <ul>
+      <li><strong>الاستخدام:</strong> مقارنة قيم عبر فئات منفصلة (يشبه الشريطي لكن أعمدة رأسية)</li>
+      <li>مناسب عندما تكون أسماء الفئات قصيرة</li>
+      <li><strong>الفرق عن Bar:</strong> العمودي رأسي، الشريطي أفقي. نختار الأفقي إذا كانت الأسماء طويلة</li>
+      <li><strong>مثال:</strong> "مبيعات المنتجات الإلكترونية" حسب النوع</li>
+    </ul>
+
+    <h3>7. الرسم المساحي <span class="eng">Area Chart</span></h3>
+    <ul>
+      <li><strong>الاستخدام:</strong> يشبه الخطي لكن مع تظليل المنطقة تحت الخط</li>
+      <li>يُبرز الحجم الإجمالي عبر الزمن</li>
+      <li>المساحي المتراكم (Stacked) يعرض مساهمة كل عنصر للإجمالي</li>
+      <li><strong>مثال:</strong> "مساهمة المنتجات في المبيعات الإجمالية" عبر السنين</li>
+    </ul>
+
+    <h3>8. الرسم الراداري <span class="eng">Radar Chart</span></h3>
+    <ul>
+      <li><strong>الاستخدام:</strong> مقارنة عدة عناصر عبر عدة معايير في وقت واحد</li>
+      <li>الشكل: متعدد الأضلاع، كل ضلع = معيار</li>
+      <li>كلما كبرت المساحة المُغطاة، كان الأداء أعلى</li>
+      <li><strong>مثال:</strong> "مقارنة أداء الموظفين" في 5 مهارات (الإنتاجية، التعاون، الالتزام، الابتكار، الجودة)</li>
+    </ul>
+
+    <h3>9. خريطة الحرارة <span class="eng">Heat Map</span></h3>
+    <ul>
+      <li><strong>الاستخدام:</strong> عرض كثافة قيم في جدول ثنائي الأبعاد بالألوان</li>
+      <li>كل خلية ملوّنة حسب قيمتها (أحمر = عالي، أزرق = منخفض)</li>
+      <li>يكشف الأنماط بسرعة في كميات بيانات كبيرة</li>
+      <li><strong>مثال:</strong> "ساعات الذروة في الموقع" — الأيام في الأعمدة والساعات في الصفوف</li>
+    </ul>
+
+    <h3>10. الرسم القمعي <span class="eng">Funnel Chart</span></h3>
+    <ul>
+      <li><strong>الاستخدام:</strong> عرض تناقص الأعداد عبر مراحل متتابعة</li>
+      <li>الشكل: قمع (واسع من الأعلى، ضيق من الأسفل)</li>
+      <li>شائع في التسويق والمبيعات لتتبع رحلة العميل</li>
+      <li><strong>مثال:</strong> 10000 زائر → 3000 مهتم → 800 طلب عرض → 300 تفاوض → 150 إتمام صفقة</li>
+    </ul>
+
+    <h3>11. الرسم الشلالي <span class="eng">Waterfall Chart</span></h3>
+    <ul>
+      <li><strong>الاستخدام:</strong> توضيح كيف تؤثر القيم الإيجابية والسلبية على إجمالي تراكمي</li>
+      <li>الأعمدة الخضراء = إضافات، الحمراء = طرحات</li>
+      <li>مفيد جداً في التحليل المالي والربح والخسارة</li>
+      <li><strong>مثال:</strong> "تحليل الربح والخسارة" — البداية → الإيرادات → التكاليف → الضرائب → الصافي</li>
+    </ul>
+
+    <h3>12. الرسم الفقاعي <span class="eng">Bubble Chart</span></h3>
+    <ul>
+      <li><strong>الاستخدام:</strong> امتداد لمخطط الانتشار، يضيف بُعداً ثالثاً عبر حجم الفقاعة</li>
+      <li>كل فقاعة تمثل (X, Y, Size) — ثلاثة متغيرات في رسم واحد</li>
+      <li>مفيد لتحليل المنتجات بعدة أبعاد</li>
+      <li><strong>مثال:</strong> "تحليل المنتجات" — السعر (X) × التقييم (Y) × المبيعات (حجم الفقاعة)</li>
     </ul>
 
     <div class="warn-box">
@@ -6172,6 +6304,108 @@ TOPICS['ml'] = `
       <li><strong>SVM:</strong> آلات المتجهات الداعمة، فعّالة في الأبعاد العالية</li>
       <li><strong>الشبكات العصبية:</strong> أساس التعلم العميق</li>
     </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🛠️</span> الميزات وهندسة الميزات <span class="eng">Features and Feature Engineering</span></h2>
+    <p>قبل بناء أي نموذج تعلم آلة، يجب فهم ما هي <strong>الميزات (Features)</strong> وكيف نُحسِّنها لتعطي النموذج بيانات قوية يتعلم منها.</p>
+
+    <h3>ما هي الميزة (Feature)؟</h3>
+    <ul>
+      <li>الميزة هي <strong>متغير مستقل</strong> أو خاصية يستخدمها النموذج للتنبؤ</li>
+      <li>تُسمى أيضاً: متغير، عمود، سمة (Attribute)، خاصية (Predictor)</li>
+      <li>كل صف في البيانات = ملاحظة، وكل عمود (عدا الهدف) = ميزة</li>
+    </ul>
+
+    <div class="example-box">
+      <strong>مثال — التنبؤ بسعر منزل:</strong>
+      <table class="compare-table" style="margin-top: 8px;">
+        <tr><th>المساحة (م²)</th><th>عدد الغرف</th><th>عمر المبنى</th><th>الحي</th><th>السعر (الهدف)</th></tr>
+        <tr><td>200</td><td>4</td><td>5</td><td>الروضة</td><td>1,200,000</td></tr>
+        <tr><td>150</td><td>3</td><td>10</td><td>السلامة</td><td>800,000</td></tr>
+      </table>
+      المساحة، عدد الغرف، عمر المبنى، والحي كلها <strong>ميزات</strong>. السعر هو <strong>الهدف (Target)</strong>.
+    </div>
+
+    <h3>ما هي هندسة الميزات (Feature Engineering)؟</h3>
+    <p>هندسة الميزات هي <strong>عملية تحويل البيانات الخام إلى ميزات</strong> أكثر فائدة للنموذج. هي إحدى أهم خطوات بناء النموذج وقد تكون الفرق بين نموذج ضعيف ونموذج ممتاز.</p>
+
+    <div class="tip-box">
+      <strong>قاعدة ذهبية في تعلم الآلة:</strong> "Garbage In, Garbage Out" — جودة النموذج تعتمد على جودة الميزات أكثر من تعقيد الخوارزمية. خوارزمية بسيطة مع ميزات ذكية أفضل من خوارزمية معقدة مع ميزات ضعيفة.
+    </div>
+
+    <h3>أهم تقنيات هندسة الميزات</h3>
+
+    <h4>1. التطبيع (Normalization) والتقييس (Standardization)</h4>
+    <ul>
+      <li><strong>التطبيع Min-Max:</strong> تحويل القيم إلى نطاق [0, 1]<br>
+      x' = (x − min) / (max − min)</li>
+      <li><strong>التقييس Z-score:</strong> تحويل القيم إلى متوسط 0 وانحراف 1<br>
+      x' = (x − μ) / σ</li>
+      <li><strong>متى نحتاجها:</strong> عندما تختلف الميزات في مقاييسها (مثل: العمر 1-100 vs الراتب 1000-50000)</li>
+    </ul>
+
+    <h4>2. ترميز الميزات الفئوية (Encoding)</h4>
+    <ul>
+      <li><strong>One-Hot Encoding:</strong> تحويل الفئة إلى أعمدة ثنائية (0/1) — مناسب للفئات بدون ترتيب<br>
+      مثال: حي [الروضة، السلامة، الزهراء] → 3 أعمدة</li>
+      <li><strong>Label Encoding:</strong> تعيين رقم لكل فئة — مناسب للترتيبية<br>
+      مثال: التعليم [ابتدائي=1، متوسط=2، ثانوي=3، جامعي=4]</li>
+    </ul>
+
+    <h4>3. التعامل مع القيم المفقودة (Missing Values)</h4>
+    <ul>
+      <li><strong>الحذف:</strong> إزالة الصفوف ذات القيم المفقودة (إذا قليلة)</li>
+      <li><strong>التعويض بالمتوسط:</strong> لقيم رقمية</li>
+      <li><strong>التعويض بالمنوال:</strong> لقيم فئوية</li>
+      <li><strong>التعويض الذكي:</strong> استخدام نموذج للتنبؤ بالقيمة المفقودة</li>
+    </ul>
+
+    <h4>4. إنشاء ميزات جديدة (Feature Creation)</h4>
+    <ul>
+      <li><strong>دمج ميزات:</strong> "السعر للمتر" = السعر / المساحة</li>
+      <li><strong>استخراج من تاريخ:</strong> من تاريخ → يوم الأسبوع، شهر، فصل، عطلة (نعم/لا)</li>
+      <li><strong>تحويلات رياضية:</strong> log(x), √x, x² لإصلاح التوزيعات المنحرفة</li>
+      <li><strong>التفاعلات:</strong> ميزة جديدة = ميزة₁ × ميزة₂</li>
+    </ul>
+
+    <h4>5. اختيار الميزات (Feature Selection)</h4>
+    <ul>
+      <li><strong>إزالة الميزات الزائدة:</strong> لو عمودان مرتبطان جداً، نحذف أحدهما</li>
+      <li><strong>إزالة الميزات قليلة الفائدة:</strong> ميزة لا تتغير كثيراً = لا تحمل معلومات</li>
+      <li><strong>أهمية الميزة (Feature Importance):</strong> الخوارزميات (مثل Random Forest) تُرتّب الميزات حسب أهميتها</li>
+    </ul>
+
+    <h3>تطبيق في Python</h3>
+    <pre style="background:#1e293b; color:#e2e8f0; padding:14px; border-radius:8px; direction:ltr; text-align:left; overflow-x:auto;">
+import pandas as pd
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
+
+df = pd.read_csv('houses.csv')
+
+# 1. ميزة جديدة: السعر للمتر
+df['price_per_m2'] = df['price'] / df['area']
+
+# 2. استخراج من التاريخ
+df['date'] = pd.to_datetime(df['sale_date'])
+df['year'] = df['date'].dt.year
+df['month'] = df['date'].dt.month
+df['day_of_week'] = df['date'].dt.dayofweek
+
+# 3. ترميز One-Hot للحي
+df = pd.get_dummies(df, columns=['neighborhood'])
+
+# 4. تقييس الميزات الرقمية
+scaler = StandardScaler()
+df[['area', 'age']] = scaler.fit_transform(df[['area', 'age']])
+
+# 5. تعويض القيم المفقودة
+df['rooms'].fillna(df['rooms'].median(), inplace=True)
+</pre>
+
+    <div class="story-box">
+      <strong>قصة من الواقع:</strong> في مسابقة Kaggle شهيرة، فاز فريق ليس بسبب خوارزمية متقدمة، بل لأنهم أنشأوا ميزة ذكية: "نسبة عدد المستخدمين النشطين إلى إجمالي المستخدمين خلال آخر 7 أيام". هذه الميزة وحدها رفعت دقة النموذج من 78% إلى 92%. <strong>هندسة الميزات تصنع الفرق</strong>.
+    </div>
   </div>
 
   <div class="section">
