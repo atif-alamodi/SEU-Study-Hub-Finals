@@ -513,49 +513,52 @@ async function buildImagePrompt(env, userMessage, subjectName) {
       messages: [
         {
           role: 'system',
-          content: `You are an expert image-prompt engineer specializing in scientifically and academically accurate educational illustrations.
+          content: `You are an expert image-prompt engineer specializing in scientifically accurate educational illustrations.
 
 Given an Arabic educational request, output a single English image prompt (max 250 words). Output ONLY the prompt, no preamble, no quotes, no explanation.
 
-CRITICAL RULES:
-1. NO TEXT WORDS, NO LABELS WITH WORDS, NO CAPTIONS, NO LETTERS, NO SENTENCES in the image. Words get garbled by image models.
-2. ONLY allowed text: simple single digit or two-digit NUMBERS (1, 2, 3, ..., up to 10) inside small white circles with thin black borders, placed precisely at each anatomical part. Numbers are simple and image models render them clearly.
-3. Each numbered circle has a thin black leader line connecting it to the corresponding part.
-4. Demand scientific accuracy: "anatomically accurate", "scientifically accurate", "factually correct proportions"
-5. Clean educational illustration: white background, professional textbook style, sharp clean lines
-6. Specify exact organ positions, correct shapes, accurate biological/scientific structure
-7. Numbers must be in sequential order from top to bottom or left to right
-8. ALWAYS end with: "small numbered circles 1 2 3 4 5 6 7 8 9 10 with thin black leader lines pointing to each part, no text words anywhere, only digit numbers in circles, clean scientific diagram"
+THE MOST IMPORTANT RULES (failure to follow these produces garbled output):
+
+1. ZERO TEXT WORDS in the image. No labels with words, no titles, no captions.
+2. ZERO AXIS LABELS with words like "Probability" or "Frequency" or "X" or "Y" — image models always misspell these as "Pgexnurtitan" or "Paqjasn".
+3. Axes (if shown) MUST have NO English words. Only thin lines and optional small single-digit tick numbers (0, 1, 2, 3).
+4. ONLY allowed text in the image: small white circles each containing ONE single digit (1, 2, 3, 4, 5, 6, 7, 8, 9, 10) with thin black leader lines pointing to each labeled part. Single digits do not get garbled.
+5. Demand scientific accuracy: "anatomically accurate", "scientifically accurate", "factually correct"
+6. Clean educational illustration: white background, sharp clean lines, professional textbook style
+7. ALWAYS end with this exact safety phrase: "absolutely no axis labels with words, no titles, no captions, no English words anywhere in the image, axes are clean lines with at most single digit tick numbers, only allowed text are the numbered marker circles 1 through 10"
 
 Subject context: ${subjectName}.
 
 Examples:
-Request: "ارسم تشريح ضفدع"
-Prompt: "Anatomically accurate scientific illustration of frog internal anatomy, dorsal view with skin removed showing organs in correct positions: brain at top of head, heart in upper chest, lungs flanking heart, liver below heart on right covering stomach, small green gallbladder, coiled small intestine, large intestine, kidneys at back near spine, urinary bladder. Each organ in distinct biologically correct color: red heart, pink lungs, dark red-brown liver, green gallbladder, pink coiled intestines, dark red kidneys. Each labeled part has a small white circle with a single digit number (1, 2, 3, 4, 5, 6, 7, 8, 9, 10) and a thin black leader line connecting circle to the part. Numbers ordered top to bottom. Clean white background, professional biology textbook illustration, sharp lines, small numbered circles 1 2 3 4 5 6 7 8 9 10 with thin black leader lines pointing to each part, no text words anywhere, only digit numbers in circles, clean scientific diagram"
 
-Request: "ارسم خلية حيوانية"
-Prompt: "Scientifically accurate cross-section of an animal cell with correctly positioned organelles: large central nucleus with nucleolus, mitochondria scattered around, rough endoplasmic reticulum network, smooth ER, Golgi apparatus, ribosomes as small dots, lysosomes as round vesicles, cell membrane outer boundary. Each organelle in distinct realistic color. Each organelle marked with a small white circle containing a single digit number (1, 2, 3, 4, 5, 6, 7, 8, 9, 10), thin black leader line connecting number to organelle. Clean educational textbook illustration, white background, small numbered circles 1 2 3 4 5 6 7 8 9 10 with thin black leader lines pointing to each part, no text words anywhere, only digit numbers in circles, clean scientific diagram"
+Request: "ارسم تشريح ضفدع"
+Prompt: "Anatomically accurate scientific illustration of frog internal anatomy, dorsal view with skin removed showing organs in correct positions: brain at top of head, heart in upper chest, lungs flanking heart, liver below heart on right covering stomach, small green gallbladder, coiled small intestine, large intestine, kidneys at back near spine, urinary bladder. Each organ in distinct biologically correct color: red heart, pink lungs, dark red-brown liver, green gallbladder, pink coiled intestines, dark red kidneys. Each labeled part has a small white circle with a single digit number (1, 2, 3, 4, 5, 6, 7, 8, 9, 10) and a thin black leader line connecting circle to the part. Numbers ordered top to bottom. Clean white background, professional biology textbook illustration, sharp lines, absolutely no axis labels with words, no titles, no captions, no English words anywhere in the image, only allowed text are the numbered marker circles 1 through 10"
 
 Request: "ارسم التوزيع الطبيعي"
-Prompt: "Clean professional educational illustration of a normal distribution bell curve, smooth symmetric blue curve filled with light blue gradient, clear horizontal and vertical axis lines in dark gray, three pairs of vertical dashed lines marking 1, 2, 3 standard deviation positions on both sides of the center. White background, mathematical textbook style, no text words anywhere, no labels, clean wordless illustration"`
+Prompt: "Clean professional educational illustration of a normal distribution bell curve, smooth symmetric blue curve filled with light blue gradient, clean horizontal and vertical axis lines in dark gray with NO text labels on axes, three pairs of vertical dashed lines marking standard deviation positions on both sides of the center peak. Small white circle with digit 1 on the peak, digit 2 on the curve at one standard deviation, digit 3 at the inflection point, digit 4 marking the area, digit 5 on the horizontal axis center, with thin black leader lines. White background, mathematical textbook style, absolutely no axis labels with words, no titles, no captions, no English words anywhere in the image, axes are clean lines with at most single digit tick numbers, only allowed text are the numbered marker circles 1 through 10"
+
+Request: "ارسم خلية حيوانية"
+Prompt: "Scientifically accurate cross-section of an animal cell with correctly positioned organelles: large central nucleus with nucleolus, mitochondria scattered around, rough endoplasmic reticulum network, smooth ER, Golgi apparatus, ribosomes as small dots, lysosomes as round vesicles, cell membrane outer boundary. Each organelle in distinct realistic color. Each organelle marked with a small white circle containing a single digit number (1, 2, 3, 4, 5, 6, 7, 8, 9, 10), thin black leader line connecting number to organelle. Clean educational textbook illustration, white background, absolutely no axis labels with words, no titles, no captions, no English words anywhere in the image, only allowed text are the numbered marker circles 1 through 10"`
         },
         { role: 'user', content: userMessage }
       ],
-      max_tokens: 450,
+      max_tokens: 500,
       temperature: 0.2
     });
     let prompt = (resp.response || resp.result?.response || '').trim();
-    prompt = prompt.replace(/^["'`]|["'`]$/g, '').replace(/\n+/g, ' ').slice(0, 1800);
-    // ضمان وجود "no text words" حتى لو النموذج نسيها
-    if (!/no text|no label|wordless/i.test(prompt)) {
-      prompt += ', no text words anywhere, only digit numbers in circles';
+    prompt = prompt.replace(/^["'`]|["'`]$/g, '').replace(/\n+/g, ' ').slice(0, 2000);
+
+    // safety net: نضمن وجود التحذير حتى لو نسيه LLM
+    const safety = ', absolutely no axis labels with words, no titles, no captions, no English words anywhere in the image, only allowed text are the numbered marker circles 1 through 10';
+    if (!/no axis labels with words|no English words anywhere/i.test(prompt)) {
+      prompt += safety;
     }
     if (!prompt) {
-      prompt = `Scientifically accurate educational illustration related to ${subjectName}, professional textbook style, white background, no text words anywhere, only digit numbers in circles, clean scientific diagram`;
+      prompt = `Scientifically accurate educational illustration related to ${subjectName}, professional textbook style, white background${safety}`;
     }
     return prompt;
   } catch (err) {
-    return `Scientifically accurate educational illustration related to ${subjectName}, professional textbook style, white background, no text words anywhere, only digit numbers in circles, clean scientific diagram`;
+    return `Scientifically accurate educational illustration related to ${subjectName}, professional textbook style, white background, absolutely no axis labels with words, no titles, no captions, no English words anywhere in the image, only allowed text are the numbered marker circles 1 through 10`;
   }
 }
 
@@ -745,7 +748,7 @@ ${subject.content}
 
     // إذا الطلب رسم وحصلنا على labels، نضيفها للجواب لتحلّ محل النصوص داخل الصورة
     if (isDrawingRequest && labels && labels.length > 30) {
-      answer = `${answer}\n\n**🏷️ الأجزاء الموسومة بالأرقام في الرسم:**\n\n${labels}\n\n*الأرقام (1-10) داخل الدوائر البيضاء على الصورة تطابق الترقيم أعلاه.*`;
+      answer = `${answer}\n\n**🏷️ الأجزاء الموسومة بالأرقام في الرسم:**\n\n${labels}\n\n*ملاحظة: الأرقام (1-10) داخل الدوائر البيضاء على الصورة تطابق الترقيم أعلاه. التسميات معروضة هنا نصياً لضمان دقتها العلمية الكاملة، لأن نماذج توليد الصور قد تنتج كتابة مشوّهة لو حاولت كتابة الأسماء داخل الصورة.*`;
     }
 
     if (!answer && !(imgResult && imgResult.image)) {
