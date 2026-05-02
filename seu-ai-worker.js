@@ -552,16 +552,13 @@ ${curriculumSnippet ? `المنهج المرجعي للدقة التقنية:\n$
 {"topic":"التوزيع الطبيعي","imagePrompt":"Clean educational illustration of a normal distribution bell curve, smooth symmetric blue curve filled with light blue gradient, three pairs of vertical dashed lines marking standard deviation positions, white background, mathematical textbook style, small white circles each containing one digit 1 through 10 with thin black leader lines pointing to peak inflection points and standard deviation marks, absolutely no axis labels with words, no titles, no English words anywhere, only allowed text are small white circles each containing one digit 1 to 10 with thin black leader lines","labels":"1. منحنى الجرس (Bell Curve): الشكل المتماثل للتوزيع.\\n2. المتوسط (Mean μ): قيمة الذروة.\\n3. الانحراف المعياري (Standard Deviation σ): مقياس التشتت.\\n4. الانحراف الأول (1σ): يحتوي 68% من البيانات.\\n5. الانحراف الثاني (2σ): يحتوي 95% من البيانات.\\n6. الانحراف الثالث (3σ): يحتوي 99.7% من البيانات.\\n7. التماثل (Symmetry): توزيع متناظر حول المتوسط.\\n8. الذيول (Tails): النهايتان الممتدتان للمنحنى.\\n9. التباين (Variance σ²): مربع الانحراف المعياري.\\n10. الالتواء (Skewness): يساوي صفر للتوزيع الطبيعي."}`;
 
   try {
-    const resp = await env.AI.run(HELPER_MODEL, {
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: `المادة: ${subjectName}\n\nالسياق:\n${ctx || '(لا يوجد سياق سابق)'}\n\nالطلب الحالي: ${userMessage}\n\nأعد JSON فقط:` }
-      ],
-      max_tokens: 900,
-      temperature: 0.1
-    });
+    const llmResult = await callTextLLM(env, HELPER_MODEL, [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: `المادة: ${subjectName}\n\nالسياق:\n${ctx || '(لا يوجد سياق سابق)'}\n\nالطلب الحالي: ${userMessage}\n\nأعد JSON فقط:` }
+    ], { max_tokens: 900, temperature: 0.1 });
 
-    let raw = (resp.response || resp.result?.response || '').trim();
+    let raw = (llmResult.text || '').trim();
+    if (!raw) return { error: 'empty_response' };
     // استخراج JSON من النص (قد يحوي preamble رغم التعليمات)
     const jsonMatch = raw.match(/\{[\s\S]*\}/);
     if (!jsonMatch) return { error: 'no_json' };
@@ -600,21 +597,115 @@ ${curriculumSnippet ? `المنهج المرجعي للدقة التقنية:\n$
 }
 
 async function generateImage(env, prompt) {
-  // نستخدم flux-1-schnell (~43 neurons) بدلاً من flux-2-klein-4b (~104 neurons)
-  // الجودة كافية للرسومات التعليمية وأرخص بنسبة 60%
+  // المحاولة الأولى: Cloudflare flux-1-schnell (سريع، ~43 neurons)
   try {
     const resp = await env.AI.run('@cf/black-forest-labs/flux-1-schnell', {
       prompt: prompt.slice(0, 2048),
       steps: 4,
       seed: Math.floor(Math.random() * 1000000)
     });
-    return resp.image || null;
+    if (resp.image) return { source: 'cloudflare', image: resp.image };
   } catch (err) {
-    return null;
+    // إذا فشل (مثل تجاوز الكوتا 4006)، نتحول للـ fallback
+    console.log('Cloudflare image failed, falling back:', err.message);
+  }
+
+  // Fallback: Pollinations.ai (مجاني تماماً، بدون مفتاح، بدون حدود)
+  try {
+    const cleanPrompt = encodeURIComponent(prompt.slice(0, 1500));
+    const seed = Math.floor(Math.random() * 1000000);
+    const url = `https://image.pollinations.ai/prompt/${cleanPrompt}?width=1024&height=1024&model=flux&nologo=true&seed=${seed}`;
+
+    const resp = await fetch(url, {
+      headers: { 'Accept': 'image/jpeg' }
+    });
+
+    if (!resp.ok) {
+      console.log('Pollinations failed:', resp.status);
+      return { source: 'failed', image: null };
+    }
+
+    const arrayBuf = await resp.arrayBuffer();
+    const bytes = new Uint8Array(arrayBuf);
+    let binary = '';
+    const chunkSize = 8192;
+    for (let i = 0; i < bytes.length; i += chunkSize) {
+      binary += String.fromCharCode.apply(null, bytes.subarray(i, Math.min(i + chunkSize, bytes.length)));
+    }
+    return { source: 'pollinations', image: btoa(binary) };
+  } catch (err) {
+    console.log('Pollinations error:', err.message);
+    return { source: 'failed', image: null };
   }
 }
 
-// حل مرجع الضمير من السياق: "ارسمه" → "ارسم التوزيع الطبيعي" (مثلاً)
+// =============================================================
+// fallback لـ GROQ عند نفاد كوتا Cloudflare للنصوص
+// يتطلب env.GROQ_API_KEY (مجاني من https://console.groq.com)
+// =============================================================
+async function callTextLLM(env, model, messages, options = {}) {
+  // المحاولة الأولى: Cloudflare Workers AI
+  try {
+    const resp = await env.AI.run(model, {
+      messages,
+      max_tokens: options.max_tokens || 800,
+      temperature: options.temperature ?? 0.2,
+      top_p: options.top_p || 0.9
+    });
+    const text = resp.response || resp.result?.response || '';
+    if (text) return { source: 'cloudflare', text };
+    throw new Error('empty response');
+  } catch (err) {
+    const msg = err.message || '';
+    // 4006 = quota exceeded; نسجل ونتحول للـ fallback
+    console.log('Cloudflare text LLM failed:', msg.slice(0, 100));
+  }
+
+  // Fallback: GROQ (مجاني، API key من groq.com)
+  if (!env.GROQ_API_KEY) {
+    return { source: 'failed', text: '', error: 'no_groq_key' };
+  }
+
+  try {
+    // GROQ يستخدم نماذج متشابهة لـ Llama
+    // نخريط Cloudflare model → GROQ model
+    const groqModel = model.includes('70b') || model.includes('70B')
+      ? 'llama-3.3-70b-versatile'
+      : 'llama-3.1-8b-instant';
+
+    const resp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${env.GROQ_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: groqModel,
+        messages,
+        max_tokens: options.max_tokens || 800,
+        temperature: options.temperature ?? 0.2,
+        top_p: options.top_p || 0.9
+      })
+    });
+
+    if (!resp.ok) {
+      const errText = await resp.text();
+      console.log('GROQ failed:', resp.status, errText.slice(0, 200));
+      return { source: 'failed', text: '', error: `groq_${resp.status}` };
+    }
+
+    const data = await resp.json();
+    const text = data.choices?.[0]?.message?.content || '';
+    return { source: 'groq', text };
+  } catch (err) {
+    console.log('GROQ error:', err.message);
+    return { source: 'failed', text: '', error: err.message };
+  }
+}
+
+// =============================================================
+// Worker Entry
+// =============================================================
 export default {
   async fetch(request, env) {
     if (request.method === 'OPTIONS') return handleCORS(request);
@@ -683,9 +774,8 @@ ${subject.content}
 
     const MODEL = '@cf/meta/llama-3.3-70b-instruct-fp8-fast';
 
-    // تشغيل توليد النص + بناء image prompt بالتوازي
-    const textPromise = env.AI.run(MODEL, {
-      messages,
+    // تشغيل توليد النص الرئيسي + المساعدات بالتوازي عبر callTextLLM (مع fallback لـ GROQ)
+    const textPromise = callTextLLM(env, MODEL, messages, {
       max_tokens: 800,
       temperature: 0.2,
       top_p: 0.9
@@ -693,13 +783,13 @@ ${subject.content}
 
     let imgResult = null;
     let labels = null;
+    let imageSource = null;
 
     // 1) استدعاء واحد موحّد للمساعدات (resolve + image prompt + labels)
     if (isDrawingRequest) {
       const artifacts = await prepareDrawingArtifacts(env, userMessage, history, subject.name, subject.content);
 
       if (artifacts.ambiguous) {
-        // المرجع غامض - نطلب توضيحاً
         return jsonResponse({
           answer: 'لم أفهم بدقة ما تريد رسمه. هل يمكنك تحديد الموضوع؟ مثلاً: "ارسم لي التوزيع الطبيعي" أو "ارسم لي تشريح القلب".',
           subject: subjectKey,
@@ -709,42 +799,62 @@ ${subject.content}
         }, request);
       }
 
+      // إذا نجح الـ helper نستخدم prompt الذكي + labels؛ وإلا نستخدم fallback بسيط
+      let imgPromptToUse;
       if (artifacts.error) {
-        // خطأ في المساعد، نُكمل بدون صورة
-        console.log('artifacts error:', artifacts.error);
+        console.log('artifacts error, using direct prompt fallback:', artifacts.error);
+        // نبني prompt إنجليزي بسيط من رسالة المستخدم (شكل عام)
+        const cleaned = userMessage.replace(/^(ارسم لي|ارسم|اعرض|أرني|draw|show me)\s+/i, '').trim();
+        imgPromptToUse = `Scientifically accurate educational illustration of "${cleaned}", professional textbook style, white background, clean clear lines, with small white circles each containing one digit 1 through 10 with thin black leader lines pointing to key parts, absolutely no axis labels with words, no titles, no English words anywhere, only allowed text are small white circles each containing one digit 1 to 10`;
+        labels = null;
       } else {
-        // 2) توليد الصورة
-        const imageBase64 = await generateImage(env, artifacts.imagePrompt);
-        imgResult = { prompt: artifacts.imagePrompt, image: imageBase64, topic: artifacts.topic };
+        imgPromptToUse = artifacts.imagePrompt;
         labels = artifacts.labels;
       }
+
+      // 2) توليد الصورة (Cloudflare → Pollinations.ai كـ fallback)
+      const imgGen = await generateImage(env, imgPromptToUse);
+      imgResult = { prompt: imgPromptToUse, image: imgGen.image, topic: artifacts.topic || userMessage };
+      imageSource = imgGen.source;
     }
 
-    // 3) الجواب النصي الرئيسي (الوحيد على Llama 70B - حيث الجودة مهمة)
+    // 3) الجواب النصي الرئيسي (Cloudflare 70B → GROQ كـ fallback)
     const aiResponse = await textPromise;
 
-    let answer = (aiResponse.response || aiResponse.result?.response || '').trim();
+    let answer = (aiResponse.text || '').trim();
     answer = filterForeignScripts(answer);
     answer = stripAsciiArt(answer);
 
-    // إذا الطلب رسم وحصلنا على labels، نضيفها للجواب لتحلّ محل النصوص داخل الصورة
+    // إذا الطلب رسم وحصلنا على labels، نضيفها للجواب
     if (isDrawingRequest && labels && labels.length > 30) {
-      answer = `${answer}\n\n**🏷️ الأجزاء الموسومة بالأرقام في الرسم:**\n\n${labels}\n\n*ملاحظة: الأرقام (1-10) داخل الدوائر البيضاء على الصورة تطابق الترقيم أعلاه. التسميات معروضة هنا نصياً لضمان دقتها العلمية الكاملة، لأن نماذج توليد الصور قد تنتج كتابة مشوّهة لو حاولت كتابة الأسماء داخل الصورة.*`;
+      answer = `${answer || ''}\n\n**🏷️ الأجزاء الموسومة بالأرقام في الرسم:**\n\n${labels}\n\n*ملاحظة: الأرقام (1-10) داخل الدوائر البيضاء على الصورة تطابق الترقيم أعلاه. التسميات معروضة هنا نصياً لضمان دقتها العلمية الكاملة.*`.trim();
     }
 
+    // إذا فشل النص ولكن الصورة جاءت من Pollinations، نضيف رسالة بسيطة
+    if (!answer && imgResult && imgResult.image) {
+      answer = `**الصورة المطلوبة معروضة أعلاه** (تم توليدها عبر مزود احتياطي مجاني).\n\n*ملاحظة: المساعد النصي مؤقتاً غير متاح بسبب نفاد الحصة المجانية اليومية لـ Cloudflare AI. الحصة تتجدد عند 3 صباحاً بتوقيت السعودية.*`;
+    }
+
+    // فشل كامل: لا نص ولا صورة
     if (!answer && !(imgResult && imgResult.image)) {
+      const reason = aiResponse.error === 'no_groq_key'
+        ? 'تم استنفاد الحصة المجانية لـ Cloudflare AI اليوم. الحصة تتجدد عند 3 صباحاً بتوقيت السعودية. لاستخدام مستمر دون انقطاع، يمكن إضافة مفتاح GROQ مجاني (راجع المالك).'
+        : 'تعذّر توليد الإجابة من جميع المزودين. حاول مرة أخرى بعد قليل.';
       return jsonResponse({
-        error: 'empty_response',
-        message: 'لم أتمكن من توليد إجابة. حاول إعادة صياغة السؤال.'
-      }, request, 500);
+        error: 'all_providers_failed',
+        message: reason,
+        cf_error: aiResponse.error
+      }, request, 503);
     }
 
     return jsonResponse({
       answer,
       subject: subjectKey,
       model: MODEL,
+      text_source: aiResponse.source,
       image: imgResult ? imgResult.image : null,
       image_prompt: imgResult ? imgResult.prompt : null,
+      image_source: imageSource,
       image_svg: null
     }, request);
 
