@@ -118,9 +118,6 @@ html, body { font-family: 'Noto Sans Arabic', 'Cairo', sans-serif; background: v
 .tab-btn.ai-tab:not(.active) { background: linear-gradient(135deg, #ede9fe, #fce7f3); color: #6d28d9; border: 1.5px solid #c084fc; box-shadow: 0 2px 8px rgba(124, 58, 237, 0.15); }
 .tab-btn.ai-tab:not(.active):hover { background: linear-gradient(135deg, #ddd6fe, #fbcfe8); color: #5b21b6; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25); }
 .tab-btn.ai-tab.active { background: linear-gradient(135deg, #7c3aed, #ec4899); color: white; border: 1.5px solid transparent; box-shadow: 0 4px 14px rgba(124, 58, 237, 0.4); }
-.tab-btn.ai-tab .ai-badge { background: linear-gradient(135deg, #f59e0b, #ef4444); color: white; font-weight: 800; animation: aiPulse 2s ease-in-out infinite; }
-.tab-btn.ai-tab.active .ai-badge { background: rgba(255,255,255,0.3); color: white; }
-@keyframes aiPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
 </style>
 </head>
 <body>
@@ -148,7 +145,7 @@ html, body { font-family: 'Noto Sans Arabic', 'Cairo', sans-serif; background: v
   <button class="tab-btn" data-tab="xllab" onclick="switchTab('xllab')"><span class="tab-icon">📊</span><span class="tab-name">محاكي إكسل</span></button>
   <div class="tab-divider"></div>
   <button class="tab-btn" data-tab="pdfs" onclick="switchTab('pdfs')"><span class="tab-icon">📚</span><span class="tab-name">ملفات المقررات</span><span class="tab-code">PDF</span></button>
-  <button class="tab-btn ai-tab" data-tab="aitutor" onclick="switchTab('aitutor')"><span class="tab-icon">🤖</span><span class="tab-name">المساعد الذكي</span><span class="tab-code ai-badge">جديد</span></button>
+  <button class="tab-btn ai-tab" data-tab="aitutor" onclick="switchTab('aitutor')"><span class="tab-icon">🤖</span><span class="tab-name">المساعد الذكي</span></button>
 </nav>
 
 <main class="content-area">
@@ -229,7 +226,7 @@ html, body { font-family: 'Noto Sans Arabic', 'Cairo', sans-serif; background: v
 
         <div class="cards-grid" style="grid-template-columns: 1fr;">
           <div class="subject-card tool-card" onclick="switchTab('aitutor')" style="--card-color: #7c3aed; --card-bg: linear-gradient(135deg, #ede9fe, #fce7f3); border: 3px solid #7c3aed;">
-            <div class="card-header"><div class="card-icon">🤖</div><div class="card-title"><h3>المساعد الذكي · جديد</h3><span class="card-code">AI TUTOR</span></div></div>
+            <div class="card-header"><div class="card-icon">🤖</div><div class="card-title"><h3>المساعد الذكي</h3><span class="card-code">AI TUTOR</span></div></div>
             <p class="card-desc">اسأل أي سؤال عن المنهج واحصل على شرح فوري بالعربية. مدعوم بـ Llama 3.3 70B.</p>
             <div class="card-features"><span class="card-feature">3 مواد</span><span class="card-feature">شرح فوري</span><span class="card-feature">أمثلة محسوبة</span><span class="card-feature">30 سؤال/يوم</span></div>
             <div class="card-cta"><span class="card-cta-text">ابدأ السؤال</span><div class="card-cta-arrow">←</div></div>
