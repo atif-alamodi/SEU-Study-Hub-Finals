@@ -502,55 +502,143 @@ function wantsDrawing(question) {
 }
 
 // =============================================================
-// محرك توليد الصور عبر Cloudflare Workers AI (flux-1-schnell)
+// محرك توليد الصور عبر Cloudflare Workers AI (FLUX.2 klein 4B)
+// النموذج الأحدث والأدق - أفضل بكثير في الدقة العلمية والنصوص
 // =============================================================
 
 async function buildImagePrompt(env, userMessage, subjectName) {
-  // نطلب من LLM بناء prompt إنجليزي محسّن لصورة تعليمية
+  // نطلب من LLM بناء prompt إنجليزي محسّن لصورة تعليمية دقيقة
   try {
     const resp = await env.AI.run('@cf/meta/llama-3.3-70b-instruct-fp8-fast', {
       messages: [
         {
           role: 'system',
-          content: `You are an image-prompt expert. Given an Arabic educational request, output a single English prompt (max 150 words) describing a clean educational diagram or illustration. Output ONLY the prompt, no preamble, no quotes, no explanation.
+          content: `You are an expert image-prompt engineer specializing in scientifically and academically accurate educational illustrations.
 
-Style requirements: clean white or light background, professional educational illustration, clearly labeled in English, scientific accuracy, no people, no text logos.
+Given an Arabic educational request, output a single English image prompt (max 200 words). Output ONLY the prompt, no preamble, no quotes, no explanation.
+
+CRITICAL RULES (these prevent garbled output):
+1. ABSOLUTELY NO TEXT, NO LABELS, NO CAPTIONS, NO WORDS, NO LETTERS in the image. The labels will be added separately in the chat below the image.
+2. Demand scientific accuracy: "anatomically accurate", "scientifically accurate", "factually correct proportions"
+3. Use clean educational illustration style: white or light neutral background, professional textbook look
+4. Specify exact organ positions, correct shapes, accurate biological/scientific structure when relevant
+5. For diagrams: clean vector-style, sharp lines, distinct colors per part
+6. ALWAYS end with: "no text, no labels, no letters, no words anywhere in the image, clean wordless illustration"
 
 Subject context: ${subjectName}.
 
 Examples:
-- Request: "ارسم لي التوزيع الطبيعي" → "Clean educational illustration of a normal distribution bell curve, blue gradient fill, x-axis labeled with mu and standard deviation marks (-3 to +3 sigma), y-axis labeled f(x), 68-95-99.7 percentages annotated, white background, professional textbook style, mathematical notation"
-- Request: "ارسم المدرج التكراري" → "Clean educational histogram chart, vertical bars showing frequency distribution, x-axis showing data bins, y-axis showing frequency count, blue bars on white background, professional textbook style, English labels, clear gridlines"
-- Request: "ارسم Gantt chart للجدولة" → "Clean Gantt chart diagram for CPU scheduling, horizontal colored bars showing process P1 P2 P3 P4 with time intervals, time axis at bottom in English, white background, professional textbook style"`
+Request: "ارسم تشريح ضفدع" 
+Prompt: "Anatomically accurate scientific illustration of frog internal anatomy, dorsal view with skin removed showing organs in correct anatomical positions: heart in upper chest, lungs flanking heart, liver below heart on right side covering stomach, small green gallbladder, coiled small intestine, large intestine, kidneys at back near spine, urinary bladder, brain in skull cavity. Each organ in distinct biologically correct color: red heart, pink lungs, dark red-brown liver, green gallbladder, pink coiled intestines, dark red kidneys. Clean white background, professional biology textbook illustration style, sharp clean lines, no text, no labels, no letters, no words anywhere in the image, clean wordless illustration"
+
+Request: "ارسم التوزيع الطبيعي"
+Prompt: "Clean professional educational illustration of a normal distribution bell curve, smooth symmetric blue curve filled with light blue gradient, clear x-axis and y-axis lines in dark gray, three vertical dashed lines marking standard deviation positions, white background, mathematical textbook style, no text, no labels, no letters, no numbers, no words anywhere in the image, clean wordless illustration"
+
+Request: "ارسم خلية حيوانية"
+Prompt: "Scientifically accurate cross-section of an animal cell, biologically correct organelles in proper positions: large nucleus with nucleolus in center, mitochondria scattered, endoplasmic reticulum network, Golgi apparatus, ribosomes, lysosomes, cell membrane outer boundary. Each organelle in distinct realistic color, clean educational textbook illustration, white background, no text, no labels, no letters, no words anywhere in the image, clean wordless illustration"`
         },
         { role: 'user', content: userMessage }
       ],
-      max_tokens: 200,
-      temperature: 0.3
+      max_tokens: 350,
+      temperature: 0.2
     });
     let prompt = (resp.response || resp.result?.response || '').trim();
-    // تنظيف: إزالة علامات اقتباس وأسطر زائدة
-    prompt = prompt.replace(/^["'`]|["'`]$/g, '').replace(/\n+/g, ' ').slice(0, 800);
+    prompt = prompt.replace(/^["'`]|["'`]$/g, '').replace(/\n+/g, ' ').slice(0, 1500);
+    // ضمان وجود "no text" حتى لو النموذج نسيها
+    if (!/no text|no label|wordless/i.test(prompt)) {
+      prompt += ', no text, no labels, no letters, no words anywhere in the image';
+    }
     if (!prompt) {
-      prompt = `Clean educational illustration related to ${subjectName}, professional textbook style, English labels, white background`;
+      prompt = `Scientifically accurate educational illustration related to ${subjectName}, professional textbook style, white background, no text, no labels, clean wordless illustration`;
     }
     return prompt;
   } catch (err) {
-    return `Clean educational illustration related to ${subjectName}, professional textbook style, white background`;
+    return `Scientifically accurate educational illustration related to ${subjectName}, professional textbook style, white background, no text, no labels, clean wordless illustration`;
+  }
+}
+
+// توليد قائمة الـ labels نصياً (تحل محل النصوص داخل الصورة)
+async function buildLabelList(env, userMessage, subjectName) {
+  try {
+    const resp = await env.AI.run('@cf/meta/llama-3.3-70b-instruct-fp8-fast', {
+      messages: [
+        {
+          role: 'system',
+          content: `أنت خبير علمي. الطالب طلب رسماً تعليمياً، والصورة تُنتج بدون تسميات نصية (لتجنب التشويه). مهمتك إنشاء قائمة بالأجزاء/المكونات/المفاهيم الرئيسية المرتبطة بطلبه، بترقيم وبصيغة "اسم عربي (English term): شرح مختصر".
+
+قواعد:
+- 5 إلى 12 عنصراً فقط (الأهم)
+- دقة علمية تامة
+- صياغة موجزة (سطر واحد لكل عنصر)
+- لا مقدمة ولا خاتمة، فقط القائمة المرقّمة
+- إذا الطلب رياضي/إحصائي/برمجي، اذكر العناصر الأساسية في المخطط (مثلاً: المحور الأفقي x، منحنى الجرس، نقطة μ، إلخ)
+
+مثال للطلب "ارسم تشريح ضفدع":
+1. القلب (Heart): يقع في الجزء العلوي من الصدر، ثلاثي الحجرات
+2. الرئتان (Lungs): على جانبي القلب، صغيرتان وكيسيتا الشكل
+3. الكبد (Liver): أسفل القلب، بني داكن، يغطي المعدة
+4. الحوصلة الصفراوية (Gallbladder): خضراء صغيرة ملاصقة للكبد
+... وهكذا`
+        },
+        { role: 'user', content: `الطلب: "${userMessage}"\nالمادة: ${subjectName}` }
+      ],
+      max_tokens: 500,
+      temperature: 0.2
+    });
+    let labels = (resp.response || resp.result?.response || '').trim();
+    labels = filterForeignScripts(labels);
+    return labels || null;
+  } catch (err) {
+    return null;
   }
 }
 
 async function generateImage(env, prompt) {
   try {
-    const resp = await env.AI.run('@cf/black-forest-labs/flux-1-schnell', {
-      prompt: prompt,
-      steps: 4,
-      seed: Math.floor(Math.random() * 1000000)
+    // FLUX.2 klein 4B يستخدم multipart form data
+    const form = new FormData();
+    form.append('prompt', prompt);
+    form.append('width', '1024');
+    form.append('height', '1024');
+
+    // نُحوّل FormData لـ Request لاستخراج الـ body والـ content-type مع الـ boundary
+    const formResponse = new Response(form);
+    const formStream = formResponse.body;
+    const formContentType = formResponse.headers.get('content-type');
+
+    const resp = await env.AI.run('@cf/black-forest-labs/flux-2-klein-4b', {
+      multipart: {
+        body: formStream,
+        contentType: formContentType
+      }
     });
-    // resp.image يأتي base64 jpeg
-    return resp.image || null;
-  } catch (err) {
+
+    // الناتج إما base64 string أو Uint8Array
+    if (typeof resp === 'string') return resp;
+    if (resp.image) return resp.image;
+    // إذا كان stream/binary، نحوّله لـ base64
+    if (resp instanceof ReadableStream || resp instanceof ArrayBuffer || resp.body) {
+      const arrayBuf = resp.body
+        ? await new Response(resp.body).arrayBuffer()
+        : (resp instanceof ArrayBuffer ? resp : await new Response(resp).arrayBuffer());
+      const bytes = new Uint8Array(arrayBuf);
+      let binary = '';
+      for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+      return btoa(binary);
+    }
     return null;
+  } catch (err) {
+    // fallback إلى flux-1-schnell إذا فشل klein
+    try {
+      const fallback = await env.AI.run('@cf/black-forest-labs/flux-1-schnell', {
+        prompt: prompt,
+        steps: 4,
+        seed: Math.floor(Math.random() * 1000000)
+      });
+      return fallback.image || null;
+    } catch (e2) {
+      return null;
+    }
   }
 }
 
@@ -631,19 +719,26 @@ ${subject.content}
     });
 
     let imagePromise = Promise.resolve(null);
+    let labelsPromise = Promise.resolve(null);
     if (isDrawingRequest) {
       imagePromise = (async () => {
         const imgPrompt = await buildImagePrompt(env, userMessage, subject.name);
         const img = await generateImage(env, imgPrompt);
         return { prompt: imgPrompt, image: img };
       })();
+      labelsPromise = buildLabelList(env, userMessage, subject.name);
     }
 
-    const [aiResponse, imgResult] = await Promise.all([textPromise, imagePromise]);
+    const [aiResponse, imgResult, labels] = await Promise.all([textPromise, imagePromise, labelsPromise]);
 
     let answer = (aiResponse.response || aiResponse.result?.response || '').trim();
     answer = filterForeignScripts(answer);
     answer = stripAsciiArt(answer);
+
+    // إذا الطلب رسم وحصلنا على labels، نضيفها للجواب لتحلّ محل النصوص داخل الصورة
+    if (isDrawingRequest && labels && labels.length > 30) {
+      answer = `${answer}\n\n**🏷️ الأجزاء/المكونات الرئيسية:**\n\n${labels}\n\n*ملاحظة: التسميات معروضة هنا نصياً لضمان دقتها العلمية، لأن نماذج توليد الصور قد تنتج كتابة مشوّهة داخل الصور.*`;
+    }
 
     if (!answer && !(imgResult && imgResult.image)) {
       return jsonResponse({
