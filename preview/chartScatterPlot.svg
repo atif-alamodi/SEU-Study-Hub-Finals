@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1200" font-family="'Noto Sans Arabic','Segoe UI','Tahoma',sans-serif" style="background:white;max-width:100%;height:auto;display:block;">
+    
+    <text x="1010" y="80" text-anchor="end" direction="rtl" font-size="40" font-weight="700" fill="#1F2937">مخطط الانتشار</text>
+    <line x1="540" y1="48" x2="540" y2="92" stroke="#6B7280" stroke-width="2"/>
+    <text x="70" y="80" text-anchor="start" font-size="36" font-weight="700" fill="#1F2937">Scatter Plot</text>
+    <line x1="60" y1="115" x2="1020" y2="115" stroke="#E5E7EB" stroke-width="1.5"/>
+  
+    
+      <line x1="130" y1="720" x2="930" y2="720" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4,4"/>
+      <text x="115" y="726" text-anchor="end" font-size="18" fill="#1F2937">0</text>
+    
+      <line x1="130" y1="612" x2="930" y2="612" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4,4"/>
+      <text x="115" y="618" text-anchor="end" font-size="18" fill="#1F2937">20</text>
+    
+      <line x1="130" y1="504" x2="930" y2="504" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4,4"/>
+      <text x="115" y="510" text-anchor="end" font-size="18" fill="#1F2937">40</text>
+    
+      <line x1="130" y1="396" x2="930" y2="396" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4,4"/>
+      <text x="115" y="402" text-anchor="end" font-size="18" fill="#1F2937">60</text>
+    
+      <line x1="130" y1="288" x2="930" y2="288" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4,4"/>
+      <text x="115" y="294" text-anchor="end" font-size="18" fill="#1F2937">80</text>
+    
+      <line x1="130" y1="180" x2="930" y2="180" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4,4"/>
+      <text x="115" y="186" text-anchor="end" font-size="18" fill="#1F2937">100</text>
+    <text x="130" y="750" text-anchor="middle" font-size="18" fill="#1F2937">0</text><text x="290" y="750" text-anchor="middle" font-size="18" fill="#1F2937">20</text><text x="450" y="750" text-anchor="middle" font-size="18" fill="#1F2937">40</text><text x="610" y="750" text-anchor="middle" font-size="18" fill="#1F2937">60</text><text x="770" y="750" text-anchor="middle" font-size="18" fill="#1F2937">80</text><text x="930" y="750" text-anchor="middle" font-size="18" fill="#1F2937">100</text>
+    <line x1="130" y1="180" x2="130" y2="720" stroke="#1F2937" stroke-width="2"/>
+    <line x1="130" y1="720" x2="930" y2="720" stroke="#1F2937" stroke-width="2"/>
+    <line x1="170" y1="639" x2="890" y2="207" stroke="#6B46C1" stroke-width="3" stroke-dasharray="8,4"/>
+    <circle cx="210" cy="531" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="262.9461306154182" cy="575.9028802975606" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="302.95762756112816" cy="630.2504283342041" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="323.46622554144227" cy="536.4857142845943" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="327.5028981989814" cy="451.6982357152245" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="326.2060265534873" cy="531.7686648191776" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="333.3391380833747" cy="609.7175257269964" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="358.5165605562878" cy="514.2602991947342" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="402.4712932498569" cy="401.13264107704146" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="456.6942280121123" cy="442.2559047799799" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="507.62229392898223" cy="492.02563747642347" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="543.3141396765626" cy="390.95470806353273" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="559.3276128029316" cy="295.31806549038185" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="560.906167136713" cy="370.48063262943975" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="560.3980584537164" cy="456.32587922403997" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="571.1785886585006" cy="373.57774449869765" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="601.0668424919934" cy="267.2328737714052" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="648.4771692758096" cy="309.93945258816484" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="703.1996330269512" cy="359.8333638993318" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="751.425296915236" cy="253.34107202664376" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="782.5429197109457" cy="207" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="794.3617608753316" cy="210.03850767858512" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="794.1898531764243" cy="298.28820931453123" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="795.2370219102386" cy="225.19588126751353" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="810.1130684490369" cy="207" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="844.621282859545" cy="207" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="890" cy="230.15542923101788" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="890" cy="207" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="890" cy="207" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/><circle cx="890" cy="207" r="7" fill="#9F7AEA" opacity="0.7" stroke="#6B46C1" stroke-width="1.5"/>
+
+    <text x="55" y="450" text-anchor="middle" direction="rtl" font-size="20" fill="#1F2937" transform="rotate(-90 55 450)">المتغير y / y variable</text>
+    <text x="530" y="790" text-anchor="middle" direction="rtl" font-size="20" fill="#1F2937">المتغير x / x variable</text>
+
+    <!-- شرح خط الانحدار -->
+    <rect x="950" y="180" width="240" height="80" rx="8" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+    <text x="1180" y="208" text-anchor="end" direction="rtl" font-size="15" fill="#1F2937" font-weight="600">خط الانحدار</text>
+    <text x="960" y="232" text-anchor="start" font-size="12" fill="#6B7280">Best-Fit Line</text>
+    <text x="1180" y="252" text-anchor="end" font-size="14" fill="#6B46C1" font-weight="600">y = mx + b</text>
+    <line x1="950" y1="225" x2="690" y2="396" stroke="#7C3AED" stroke-width="2"/>
+
+    <!-- شرح نقطة بيانات -->
+    <rect x="60" y="600" width="220" height="80" rx="8" fill="#FFFFFF" stroke="#2563EB" stroke-width="2"/>
+    <text x="270" y="628" text-anchor="end" direction="rtl" font-size="15" fill="#1F2937" font-weight="600">نقطة بيانات</text>
+    <text x="70" y="652" text-anchor="start" font-size="12" fill="#6B7280">Data Point (xᵢ, yᵢ)</text>
+    <text x="270" y="672" text-anchor="end" direction="rtl" font-size="12" fill="#6B7280">ارتباط طردي قوي</text>
+    <line x1="280" y1="635" x2="370" y2="558" stroke="#2563EB" stroke-width="2"/>
+
+    
+    <rect x="50" y="950" width="980" height="220" rx="14" fill="#EFF6FF" stroke="#DBEAFE" stroke-width="2"/>
+    <text x="600" y="980" text-anchor="end" direction="rtl" font-size="22" font-weight="700" fill="#6B46C1">خصائص</text>
+    <text x="610" y="980" text-anchor="start" font-size="22" font-weight="700" fill="#6B46C1">| Key Features</text>
+    <line x1="70" y1="998" x2="1010" y2="998" stroke="#DBEAFE" stroke-width="1.5"/>
+  
+      <circle cx="1000" cy="1028.25" r="5" fill="#6B46C1"/>
+      <text x="980" y="1034.25" text-anchor="end" direction="rtl" font-size="19" fill="#1F2937">يُظهر العلاقة بين متغيرين كميين</text>
+    
+      <circle cx="80" cy="1028.25" r="5" fill="#6B46C1"/>
+      <text x="100" y="1034.25" text-anchor="start" font-size="17" fill="#1F2937">Shows relationship between two variables</text>
+    <line x1="70" y1="1048.5" x2="1010" y2="1048.5" stroke="#E5E7EB" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <circle cx="1000" cy="1068.75" r="5" fill="#6B46C1"/>
+      <text x="980" y="1074.75" text-anchor="end" direction="rtl" font-size="19" fill="#1F2937">كل نقطة = ملاحظة واحدة</text>
+    
+      <circle cx="80" cy="1068.75" r="5" fill="#6B46C1"/>
+      <text x="100" y="1074.75" text-anchor="start" font-size="17" fill="#1F2937">Each point = one observation</text>
+    <line x1="70" y1="1089" x2="1010" y2="1089" stroke="#E5E7EB" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <circle cx="1000" cy="1109.25" r="5" fill="#6B46C1"/>
+      <text x="980" y="1115.25" text-anchor="end" direction="rtl" font-size="19" fill="#1F2937">يكشف نمط الارتباط (طردي/عكسي)</text>
+    
+      <circle cx="80" cy="1109.25" r="5" fill="#6B46C1"/>
+      <text x="100" y="1115.25" text-anchor="start" font-size="17" fill="#1F2937">Reveals correlation pattern</text>
+    <line x1="70" y1="1129.5" x2="1010" y2="1129.5" stroke="#E5E7EB" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <circle cx="1000" cy="1149.75" r="5" fill="#6B46C1"/>
+      <text x="980" y="1155.75" text-anchor="end" direction="rtl" font-size="19" fill="#1F2937">يساعد في تحديد القيم الشاذة</text>
+    
+      <circle cx="80" cy="1149.75" r="5" fill="#6B46C1"/>
+      <text x="100" y="1155.75" text-anchor="start" font-size="17" fill="#1F2937">Helps identify outliers</text>
+    <line x1="540" y1="1006" x2="540" y2="1160" stroke="#DBEAFE" stroke-width="1" stroke-dasharray="3,3"/>
+  </svg>

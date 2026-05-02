@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1200" font-family="'Noto Sans Arabic','Segoe UI','Tahoma',sans-serif" style="background:white;max-width:100%;height:auto;display:block;">
+    
+    <text x="1010" y="80" text-anchor="end" direction="rtl" font-size="40" font-weight="700" fill="#1F2937">جدولة Round Robin</text>
+    <line x1="540" y1="48" x2="540" y2="92" stroke="#6B7280" stroke-width="2"/>
+    <text x="70" y="80" text-anchor="start" font-size="36" font-weight="700" fill="#1F2937">Round Robin Scheduling</text>
+    <line x1="60" y1="115" x2="1020" y2="115" stroke="#E5E7EB" stroke-width="1.5"/>
+  
+    <rect x="90" y="280" width="138.46153846153845" height="100" fill="#6B46C1" stroke="#6B46C1" stroke-width="2" opacity="0.9"/><rect x="228.46153846153845" y="280" width="138.46153846153845" height="100" fill="#9F7AEA" stroke="#6B46C1" stroke-width="2" opacity="0.9"/><rect x="366.9230769230769" y="280" width="138.46153846153845" height="100" fill="#93C5FD" stroke="#6B46C1" stroke-width="2" opacity="0.9"/><rect x="505.38461538461536" y="280" width="138.46153846153845" height="100" fill="#B794F4" stroke="#6B46C1" stroke-width="2" opacity="0.9"/><rect x="643.8461538461538" y="280" width="138.46153846153845" height="100" fill="#6B46C1" stroke="#6B46C1" stroke-width="2" opacity="0.9"/><rect x="782.3076923076923" y="280" width="138.46153846153845" height="100" fill="#93C5FD" stroke="#6B46C1" stroke-width="2" opacity="0.9"/><rect x="920.7692307692307" y="280" width="34.61538461538461" height="100" fill="#B794F4" stroke="#6B46C1" stroke-width="2" opacity="0.9"/><rect x="955.3846153846154" y="280" width="34.61538461538461" height="100" fill="#93C5FD" stroke="#6B46C1" stroke-width="2" opacity="0.9"/>
+    <text x="159.23076923076923" y="338" text-anchor="middle" font-size="22" font-weight="700" fill="white">P1</text><text x="297.6923076923077" y="338" text-anchor="middle" font-size="22" font-weight="700" fill="white">P2</text><text x="436.15384615384613" y="338" text-anchor="middle" font-size="22" font-weight="700" fill="white">P3</text><text x="574.6153846153845" y="338" text-anchor="middle" font-size="22" font-weight="700" fill="white">P4</text><text x="713.0769230769231" y="338" text-anchor="middle" font-size="22" font-weight="700" fill="white">P1</text><text x="851.5384615384614" y="338" text-anchor="middle" font-size="22" font-weight="700" fill="white">P3</text><text x="938.076923076923" y="338" text-anchor="middle" font-size="22" font-weight="700" fill="white">P4</text><text x="972.6923076923076" y="338" text-anchor="middle" font-size="22" font-weight="700" fill="white">P3</text>
+    <text x="90" y="408" text-anchor="middle" font-size="16" fill="#1F2937" font-weight="600">0</text><text x="228.46153846153845" y="408" text-anchor="middle" font-size="16" fill="#1F2937" font-weight="600">4</text><text x="366.9230769230769" y="408" text-anchor="middle" font-size="16" fill="#1F2937" font-weight="600">8</text><text x="505.38461538461536" y="408" text-anchor="middle" font-size="16" fill="#1F2937" font-weight="600">12</text><text x="643.8461538461538" y="408" text-anchor="middle" font-size="16" fill="#1F2937" font-weight="600">16</text><text x="782.3076923076923" y="408" text-anchor="middle" font-size="16" fill="#1F2937" font-weight="600">20</text><text x="920.7692307692307" y="408" text-anchor="middle" font-size="16" fill="#1F2937" font-weight="600">24</text><text x="955.3846153846154" y="408" text-anchor="middle" font-size="16" fill="#1F2937" font-weight="600">25</text><text x="990" y="408" text-anchor="middle" font-size="16" fill="#1F2937" font-weight="600">26</text>
+    <line x1="90" y1="380" x2="990" y2="380" stroke="#1F2937" stroke-width="2"/>
+    <text x="540" y="440" text-anchor="middle" direction="rtl" font-size="18" fill="#1F2937">المحور الزمني / Time Axis</text>
+    
+    <rect x="60" y="450" width="430" height="200" rx="10" fill="#EFF6FF" stroke="#DBEAFE" stroke-width="2"/>
+    <text x="275" y="478" text-anchor="middle" direction="rtl" font-size="17" font-weight="700" fill="#6B46C1">جدول العمليات / Process Table</text>
+    <line x1="80" y1="495" x2="470" y2="495" stroke="#DBEAFE" stroke-width="1"/>
+    <text x="120" y="520" text-anchor="middle" font-size="15" font-weight="600" fill="#1F2937">Process</text>
+    <text x="280" y="520" text-anchor="middle" font-size="15" font-weight="600" fill="#1F2937">Burst Time</text>
+    <text x="430" y="520" text-anchor="middle" font-size="15" font-weight="600" fill="#1F2937">Color</text>
+  
+      <text x="120" y="552" text-anchor="middle" font-size="15" fill="#1F2937" font-weight="600">P1</text>
+      <text x="280" y="552" text-anchor="middle" font-size="15" fill="#1F2937">8</text>
+      <rect x="410" y="539" width="40" height="16" fill="#6B46C1" stroke="#6B46C1" stroke-width="1"/>
+    
+      <text x="120" y="575" text-anchor="middle" font-size="15" fill="#1F2937" font-weight="600">P2</text>
+      <text x="280" y="575" text-anchor="middle" font-size="15" fill="#1F2937">4</text>
+      <rect x="410" y="562" width="40" height="16" fill="#9F7AEA" stroke="#6B46C1" stroke-width="1"/>
+    
+      <text x="120" y="598" text-anchor="middle" font-size="15" fill="#1F2937" font-weight="600">P3</text>
+      <text x="280" y="598" text-anchor="middle" font-size="15" fill="#1F2937">9</text>
+      <rect x="410" y="585" width="40" height="16" fill="#93C5FD" stroke="#6B46C1" stroke-width="1"/>
+    
+      <text x="120" y="621" text-anchor="middle" font-size="15" fill="#1F2937" font-weight="600">P4</text>
+      <text x="280" y="621" text-anchor="middle" font-size="15" fill="#1F2937">5</text>
+      <rect x="410" y="608" width="40" height="16" fill="#B794F4" stroke="#6B46C1" stroke-width="1"/>
+    
+    
+    <rect x="540" y="450" width="450" height="200" rx="10" fill="#EFF6FF" stroke="#DBEAFE" stroke-width="2"/>
+    <text x="765" y="478" text-anchor="middle" direction="rtl" font-size="17" font-weight="700" fill="#6B46C1">معلومات الجدولة / Schedule Info</text>
+    <line x1="560" y1="495" x2="970" y2="495" stroke="#DBEAFE" stroke-width="1"/>
+    <text x="960" y="525" text-anchor="end" direction="rtl" font-size="16" fill="#1F2937" font-weight="500">Quantum: 4 وحدات</text>
+    <text x="960" y="555" text-anchor="end" direction="rtl" font-size="16" fill="#1F2937" font-weight="500">إجمالي الوقت: 26 وحدة</text>
+    <text x="960" y="585" text-anchor="end" direction="rtl" font-size="16" fill="#1F2937" font-weight="500">عدد العمليات: 4</text>
+    <text x="960" y="615" text-anchor="end" direction="rtl" font-size="16" fill="#1F2937" font-weight="500">النوع: استباقي (Preemptive)</text>
+  
+    
+    <rect x="50" y="950" width="980" height="220" rx="14" fill="#EFF6FF" stroke="#DBEAFE" stroke-width="2"/>
+    <text x="600" y="980" text-anchor="end" direction="rtl" font-size="22" font-weight="700" fill="#6B46C1">خصائص</text>
+    <text x="610" y="980" text-anchor="start" font-size="22" font-weight="700" fill="#6B46C1">| Key Features</text>
+    <line x1="70" y1="998" x2="1010" y2="998" stroke="#DBEAFE" stroke-width="1.5"/>
+  
+      <circle cx="1000" cy="1028.25" r="5" fill="#6B46C1"/>
+      <text x="980" y="1034.25" text-anchor="end" direction="rtl" font-size="19" fill="#1F2937">كل عملية تأخذ شريحة زمنية ثابتة</text>
+    
+      <circle cx="80" cy="1028.25" r="5" fill="#6B46C1"/>
+      <text x="100" y="1034.25" text-anchor="start" font-size="17" fill="#1F2937">Each process gets fixed time quantum</text>
+    <line x1="70" y1="1048.5" x2="1010" y2="1048.5" stroke="#E5E7EB" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <circle cx="1000" cy="1068.75" r="5" fill="#6B46C1"/>
+      <text x="980" y="1074.75" text-anchor="end" direction="rtl" font-size="19" fill="#1F2937">العمليات تتداول في طابور FIFO</text>
+    
+      <circle cx="80" cy="1068.75" r="5" fill="#6B46C1"/>
+      <text x="100" y="1074.75" text-anchor="start" font-size="17" fill="#1F2937">Processes rotate in FIFO queue</text>
+    <line x1="70" y1="1089" x2="1010" y2="1089" stroke="#E5E7EB" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <circle cx="1000" cy="1109.25" r="5" fill="#6B46C1"/>
+      <text x="980" y="1115.25" text-anchor="end" direction="rtl" font-size="19" fill="#1F2937">استباقي: قابل للمقاطعة</text>
+    
+      <circle cx="80" cy="1109.25" r="5" fill="#6B46C1"/>
+      <text x="100" y="1115.25" text-anchor="start" font-size="17" fill="#1F2937">Preemptive scheduling</text>
+    <line x1="70" y1="1129.5" x2="1010" y2="1129.5" stroke="#E5E7EB" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <circle cx="1000" cy="1149.75" r="5" fill="#6B46C1"/>
+      <text x="980" y="1155.75" text-anchor="end" direction="rtl" font-size="19" fill="#1F2937">مثالي للأنظمة التفاعلية</text>
+    
+      <circle cx="80" cy="1149.75" r="5" fill="#6B46C1"/>
+      <text x="100" y="1155.75" text-anchor="start" font-size="17" fill="#1F2937">Ideal for interactive systems</text>
+    <line x1="540" y1="1006" x2="540" y2="1160" stroke="#DBEAFE" stroke-width="1" stroke-dasharray="3,3"/>
+  </svg>

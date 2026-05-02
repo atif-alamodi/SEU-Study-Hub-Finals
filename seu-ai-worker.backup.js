@@ -275,16 +275,18 @@ const SUBJECT_MAP = {
 // محرك توليد الرسومات (SVG حقيقية، ليس ASCII)
 // =============================================================
 
+
 // =============================================================
-// مكتبة SVG v2 - رسومات تعليمية احترافية (text-only، بدون foreignObject)
+// مكتبة SVG للرسومات التعليمية الاحترافية
 // =============================================================
 
 // =============================================================
-// مكتبة SVG v2 - رسومات تعليمية احترافية
-// تستخدم <text> SVG عادي فقط (لا foreignObject)
-// مضمونة العمل في كل متصفح (Chrome Android, Safari iOS, Firefox, Edge)
+// مكتبة توليد رسومات SVG تعليمية احترافية
+// تستخدم نفس design language: تدرج بنفسجي + Key Features box
+// + شروحات ثنائية اللغة + محاور دقيقة
 // =============================================================
 
+// ألوان الـ design system
 const PALETTE = {
   bgPurpleDeep: '#6B46C1',
   bgPurple: '#9F7AEA',
@@ -302,76 +304,129 @@ const PALETTE = {
   annotBlue: '#2563EB',
 };
 
-// إطار SVG
+// إطار SVG عام بحجم احترافي
 function svgWrap(inner, w = 1080, h = 1200) {
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" font-family="'Noto Sans Arabic','Segoe UI','Tahoma',sans-serif" style="background:white;max-width:100%;height:auto;display:block;">${inner}</svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" font-family="'Noto Sans Arabic', 'Segoe UI', system-ui, sans-serif" style="background:white;max-width:100%;height:auto;display:block;">${inner}</svg>`;
 }
 
-// رأس المخطط: عربي يمين | إنجليزي يسار + خط تحت
-function svgHeader(arTitle, enTitle) {
-  return `
-    <text x="1010" y="80" text-anchor="end" direction="rtl" font-size="40" font-weight="700" fill="${PALETTE.text}">${arTitle}</text>
-    <line x1="540" y1="48" x2="540" y2="92" stroke="${PALETTE.textMuted}" stroke-width="2"/>
-    <text x="70" y="80" text-anchor="start" font-size="36" font-weight="700" fill="${PALETTE.text}">${enTitle}</text>
-    <line x1="60" y1="115" x2="1020" y2="115" stroke="${PALETTE.gridLine}" stroke-width="1.5"/>
-  `;
+// نص عربي عبر foreignObject (يضمن العرض الصحيح RTL في كل المتصفحات)
+function arText(x, y, w, text, opts = {}) {
+  const fs = opts.fs || 18;
+  const weight = opts.weight || '500';
+  const color = opts.color || '#1F2937';
+  const align = opts.align || 'right';
+  const h = opts.h || (fs * 2);
+  return `<foreignObject x="${x}" y="${y}" width="${w}" height="${h}"><div xmlns="http://www.w3.org/1999/xhtml" style="font:${weight} ${fs}px 'Noto Sans Arabic',system-ui;color:${color};direction:rtl;text-align:${align};line-height:1.3;">${text}</div></foreignObject>`;
 }
 
-// صندوق Key Features: 4 صفوف، عربي يمين + إنجليزي يسار
+// نص إنجليزي عادي عبر foreignObject (لتنسيق متّسق)
+function enText(x, y, w, text, opts = {}) {
+  const fs = opts.fs || 16;
+  const weight = opts.weight || '400';
+  const color = opts.color || '#6B7280';
+  const align = opts.align || 'left';
+  const h = opts.h || (fs * 2);
+  return `<foreignObject x="${x}" y="${y}" width="${w}" height="${h}"><div xmlns="http://www.w3.org/1999/xhtml" style="font:${weight} ${fs}px 'Segoe UI',system-ui;color:${color};direction:ltr;text-align:${align};line-height:1.3;">${text}</div></foreignObject>`;
+}
+
+// رأس المخطط: عنوان عربي + إنجليزي
+function svgHeader(arTitle, enTitle, y = 30) {
+  // نضع كل شيء في foreignObject واحد ليكون التنسيق مثالياً
+  return `<foreignObject x="40" y="${y}" width="1000" height="80">
+    <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:'Noto Sans Arabic',system-ui;text-align:center;line-height:1.2;">
+      <span style="font-size:42px;font-weight:700;color:#1F2937;direction:rtl;">${arTitle}</span>
+      <span style="font-size:34px;color:#6B7280;margin:0 14px;">|</span>
+      <span style="font-size:38px;font-weight:600;color:#1F2937;font-family:'Segoe UI',system-ui;">${enTitle}</span>
+    </div>
+  </foreignObject>`;
+}
+
+// صندوق Key Features في الأسفل: عمودين منفصلين (إنجليزي يسار | عربي يمين)
 function svgKeyFeatures(features, yStart = 950) {
   const boxW = 980, boxH = 220;
   const boxX = (1080 - boxW) / 2;
-  const titleH = 48;
-  const rows = features.slice(0, 4);
-  const rowH = (boxH - titleH - 10) / rows.length;
+  const titleH = 50;
+  const rowH = (boxH - titleH - 20) / Math.max(features.length, 4);
+  const midX = boxX + boxW / 2;
 
-  let svg = `
-    <rect x="${boxX}" y="${yStart}" width="${boxW}" height="${boxH}" rx="14" fill="${PALETTE.boxBg}" stroke="${PALETTE.boxBorder}" stroke-width="2"/>
-    <text x="600" y="${yStart + 30}" text-anchor="end" direction="rtl" font-size="22" font-weight="700" fill="${PALETTE.bgPurpleDeep}">خصائص</text>
-    <text x="610" y="${yStart + 30}" text-anchor="start" font-size="22" font-weight="700" fill="${PALETTE.bgPurpleDeep}">| Key Features</text>
-    <line x1="${boxX + 20}" y1="${yStart + titleH}" x2="${boxX + boxW - 20}" y2="${yStart + titleH}" stroke="${PALETTE.boxBorder}" stroke-width="1.5"/>
-  `;
+  let rows = '';
+  features.slice(0, 4).forEach((f, i) => {
+    const y = yStart + titleH + 10 + i * rowH;
 
-  rows.forEach((f, i) => {
-    const cy = yStart + titleH + 10 + i * rowH + rowH / 2;
+    rows += `
+      <!-- ============= الصف ${i + 1} ============= -->
 
-    // العمود الأيمن (عربي): النص ثم نقطة
-    svg += `
-      <circle cx="${boxX + boxW - 30}" cy="${cy}" r="5" fill="${PALETTE.bgPurpleDeep}"/>
-      <text x="${boxX + boxW - 50}" y="${cy + 6}" text-anchor="end" direction="rtl" font-size="19" fill="${PALETTE.text}">${f.ar}</text>
+      <!-- العمود الأيسر: أيقونة زرقاء + نقطة + نص إنجليزي -->
+      <circle cx="${boxX + 30}" cy="${y + rowH/2 - 5}" r="14" fill="${PALETTE.bgBlueVeryLite}"/>
+      <text x="${boxX + 30}" y="${y + rowH/2}" text-anchor="middle" font-size="14" fill="${PALETTE.annotBlue}" font-weight="700">${f.icon || '•'}</text>
+      <circle cx="${boxX + 60}" cy="${y + rowH/2 - 5}" r="3" fill="${PALETTE.bgPurpleDeep}"/>
+      <foreignObject x="${boxX + 75}" y="${y + 5}" width="${midX - boxX - 90}" height="${rowH}">
+        <div xmlns="http://www.w3.org/1999/xhtml" style="font:500 18px 'Segoe UI',system-ui;color:#1F2937;display:flex;align-items:center;height:100%;">${f.en}</div>
+      </foreignObject>
+
+      <!-- العمود الأيمن: نص عربي + نقطة + أيقونة بنفسجية -->
+      <foreignObject x="${midX + 15}" y="${y + 5}" width="${boxX + boxW - midX - 90}" height="${rowH}">
+        <div xmlns="http://www.w3.org/1999/xhtml" style="font:500 19px 'Noto Sans Arabic',system-ui;color:#1F2937;direction:rtl;text-align:right;display:flex;align-items:center;justify-content:flex-end;height:100%;">${f.ar}</div>
+      </foreignObject>
+      <circle cx="${boxX + boxW - 60}" cy="${y + rowH/2 - 5}" r="3" fill="${PALETTE.bgPurpleDeep}"/>
+      <circle cx="${boxX + boxW - 30}" cy="${y + rowH/2 - 5}" r="14" fill="${PALETTE.bgPurpleVeryLite}"/>
+      <text x="${boxX + boxW - 30}" y="${y + rowH/2}" text-anchor="middle" font-size="14" fill="${PALETTE.bgPurpleDeep}" font-weight="700">${f.icon || '•'}</text>
+
+      ${i < features.length - 1 ? `<line x1="${boxX + 20}" y1="${y + rowH - 2}" x2="${boxX + boxW - 20}" y2="${y + rowH - 2}" stroke="${PALETTE.gridLine}" stroke-width="1" stroke-dasharray="2,3"/>` : ''}
     `;
-
-    // العمود الأيسر (إنجليزي): نقطة ثم النص
-    svg += `
-      <circle cx="${boxX + 30}" cy="${cy}" r="5" fill="${PALETTE.bgPurpleDeep}"/>
-      <text x="${boxX + 50}" y="${cy + 6}" text-anchor="start" font-size="17" fill="${PALETTE.text}">${f.en}</text>
-    `;
-
-    // فاصل أفقي
-    if (i < rows.length - 1) {
-      svg += `<line x1="${boxX + 20}" y1="${cy + rowH/2}" x2="${boxX + boxW - 20}" y2="${cy + rowH/2}" stroke="${PALETTE.gridLine}" stroke-width="0.8" stroke-dasharray="3,3"/>`;
-    }
   });
 
-  // فاصل عمودي وسط
-  svg += `<line x1="540" y1="${yStart + titleH + 8}" x2="540" y2="${yStart + boxH - 10}" stroke="${PALETTE.boxBorder}" stroke-width="1" stroke-dasharray="3,3"/>`;
+  return `
+    <rect x="${boxX}" y="${yStart}" width="${boxW}" height="${boxH}" rx="14" fill="${PALETTE.boxBg}" stroke="${PALETTE.boxBorder}" stroke-width="2"/>
 
-  return svg;
+    <!-- العنوان عبر foreignObject -->
+    <foreignObject x="${boxX + 20}" y="${yStart + 8}" width="${boxW - 40}" height="${titleH}">
+      <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:'Noto Sans Arabic',system-ui;text-align:center;font-weight:700;color:#6B46C1;line-height:1.2;font-size:22px;padding-top:6px;">
+        <span style="direction:rtl;">خصائص</span>
+        <span style="margin:0 10px;">|</span>
+        <span style="font-family:'Segoe UI',system-ui;">Key Features</span>
+      </div>
+    </foreignObject>
+
+    <line x1="${midX}" y1="${yStart + titleH}" x2="${midX}" y2="${yStart + boxH - 10}" stroke="${PALETTE.boxBorder}" stroke-width="1" stroke-dasharray="3,3"/>
+
+    ${rows}
+  `;
+}
+
+// شرح بصندوق ملوّن مع سهم يشير لنقطة
+function svgAnnotation(boxX, boxY, boxW, boxH, arText, enText, arrowX1, arrowY1, arrowX2, arrowY2, color = PALETTE.annotPurple) {
+  return `
+    <!-- صندوق الشرح -->
+    <rect x="${boxX}" y="${boxY}" width="${boxW}" height="${boxH}" rx="8" fill="${PALETTE.white}" stroke="${color}" stroke-width="2"/>
+    <text x="${boxX + boxW - 12}" y="${boxY + 25}" text-anchor="end" font-size="16" fill="${PALETTE.text}" font-weight="600" direction="rtl">${arText}</text>
+    <text x="${boxX + 12}" y="${boxY + 50}" text-anchor="start" font-size="14" fill="${PALETTE.textMuted}" font-family="'Segoe UI', system-ui" direction="ltr">${enText}</text>
+
+    <!-- سهم -->
+    <defs>
+      <marker id="arrow-${Math.random().toString(36).substr(2,5)}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="${color}"/>
+      </marker>
+    </defs>
+    <line x1="${arrowX1}" y1="${arrowY1}" x2="${arrowX2}" y2="${arrowY2}" stroke="${color}" stroke-width="2" stroke-linecap="round"/>
+    <polygon points="${arrowX2},${arrowY2} ${arrowX2 - 8 * Math.cos(Math.atan2(arrowY2-arrowY1, arrowX2-arrowX1) - 0.4)},${arrowY2 - 8 * Math.sin(Math.atan2(arrowY2-arrowY1, arrowX2-arrowX1) - 0.4)} ${arrowX2 - 8 * Math.cos(Math.atan2(arrowY2-arrowY1, arrowX2-arrowX1) + 0.4)},${arrowY2 - 8 * Math.sin(Math.atan2(arrowY2-arrowY1, arrowX2-arrowX1) + 0.4)}" fill="${color}"/>
+  `;
 }
 
 // =============================================================
 // 1) المدرج التكراري Histogram
 // =============================================================
 function chartHistogram() {
+  // بيانات افتراضية تشبه الصورة المرفقة
   const data = [
-    { label: '0 – 10',  value: 3, color: PALETTE.bgBlueLite },
+    { label: '0 – 10', value: 3, color: PALETTE.bgBlueLite },
     { label: '10 – 20', value: 7, color: PALETTE.bgPurpleVeryLite },
     { label: '20 – 30', value: 5, color: PALETTE.bgPurple },
     { label: '30 – 40', value: 8, color: PALETTE.bgPurpleDeep },
     { label: '40 – 50', value: 4, color: PALETTE.bgPurpleVeryLite },
   ];
   const maxVal = 10;
-  const plotX = 130, plotY = 200, plotW = 700, plotH = 480;
+  const plotX = 130, plotY = 180, plotW = 700, plotH = 500;
   const barW = plotW / data.length;
 
   let bars = '';
@@ -382,16 +437,18 @@ function chartHistogram() {
     bars += `<rect x="${x}" y="${y}" width="${barW - 2}" height="${bh}" fill="${d.color}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="1.5" opacity="0.85"/>`;
   });
 
+  // محور y: أرقام 0-10
   let yAxis = '';
   for (let i = 0; i <= 5; i++) {
     const v = i * 2;
     const y = plotY + plotH - (v / maxVal) * plotH;
     yAxis += `
       <line x1="${plotX}" y1="${y}" x2="${plotX + plotW}" y2="${y}" stroke="${PALETTE.gridLine}" stroke-width="1" stroke-dasharray="4,4"/>
-      <text x="${plotX - 15}" y="${y + 6}" text-anchor="end" font-size="20" fill="${PALETTE.text}">${v}</text>
+      <text x="${plotX - 15}" y="${y + 5}" text-anchor="end" font-size="20" fill="${PALETTE.text}">${v}</text>
     `;
   }
 
+  // محور x: تسميات الفئات
   let xAxis = '';
   data.forEach((d, i) => {
     const x = plotX + i * barW + barW / 2;
@@ -400,82 +457,88 @@ function chartHistogram() {
 
   // أسهم المحاور
   const axes = `
-    <line x1="${plotX}" y1="${plotY - 15}" x2="${plotX}" y2="${plotY + plotH + 5}" stroke="${PALETTE.text}" stroke-width="2"/>
-    <polygon points="${plotX},${plotY - 22} ${plotX - 6},${plotY - 10} ${plotX + 6},${plotY - 10}" fill="${PALETTE.text}"/>
+    <!-- محور y -->
+    <line x1="${plotX}" y1="${plotY - 20}" x2="${plotX}" y2="${plotY + plotH + 5}" stroke="${PALETTE.text}" stroke-width="2"/>
+    <polygon points="${plotX},${plotY - 25} ${plotX - 6},${plotY - 13} ${plotX + 6},${plotY - 13}" fill="${PALETTE.text}"/>
+    <!-- محور x -->
     <line x1="${plotX - 5}" y1="${plotY + plotH}" x2="${plotX + plotW + 20}" y2="${plotY + plotH}" stroke="${PALETTE.text}" stroke-width="2"/>
     <polygon points="${plotX + plotW + 25},${plotY + plotH} ${plotX + plotW + 13},${plotY + plotH - 6} ${plotX + plotW + 13},${plotY + plotH + 6}" fill="${PALETTE.text}"/>
   `;
 
-  // عناوين المحاور (عمودي + أفقي)
-  const yLabel = `<text x="55" y="${plotY + plotH/2}" text-anchor="middle" direction="rtl" font-size="20" fill="${PALETTE.text}" transform="rotate(-90 55 ${plotY + plotH/2})">التكرارات / Frequencies</text>`;
-  const xLabel = `<text x="${plotX + plotW/2}" y="${plotY + plotH + 75}" text-anchor="middle" direction="rtl" font-size="20" fill="${PALETTE.text}">الفئات (المجالات) / Class Intervals</text>`;
+  // عناوين المحاور
+  const axisLabels = `
+    <text x="55" y="${plotY + plotH/2}" text-anchor="middle" font-size="20" fill="${PALETTE.text}" transform="rotate(-90 55 ${plotY + plotH/2})" direction="rtl">التكرارات / Frequencies</text>
+    <text x="${plotX + plotW/2}" y="${plotY + plotH + 80}" text-anchor="middle" font-size="20" fill="${PALETTE.text}" direction="rtl">الفئات (المجالات) / Class Intervals</text>
+  `;
 
   // شرح ارتفاع العمود
   const annot1Bar = data[3];
   const annot1X = plotX + 3 * barW + barW / 2;
   const annot1Y = plotY + plotH - (annot1Bar.value / maxVal) * plotH;
   const annotation1 = `
-    <rect x="855" y="220" width="210" height="80" rx="8" fill="${PALETTE.white}" stroke="${PALETTE.annotPurple}" stroke-width="2"/>
-    <text x="1055" y="248" text-anchor="end" direction="rtl" font-size="15" fill="${PALETTE.text}" font-weight="600">ارتفاع العمود = تكرار الفئة</text>
-    <text x="865" y="278" text-anchor="start" font-size="13" fill="${PALETTE.textMuted}">Bar Height = Frequency</text>
-    <path d="M 855 260 Q 800 290 ${annot1X + 30} ${annot1Y + 30}" stroke="${PALETTE.annotPurple}" stroke-width="2" fill="none"/>
+    <rect x="850" y="190" width="220" height="80" rx="8" fill="${PALETTE.white}" stroke="${PALETTE.annotPurple}" stroke-width="2"/>
+    ${arText(860, 200, 200, 'ارتفاع العمود = تكرار الفئة', { fs: 16, weight: '600', color: PALETTE.text })}
+    ${enText(860, 232, 200, 'Bar Height = Frequency', { fs: 14, color: PALETTE.textMuted })}
+    <path d="M 850 230 Q 800 260 ${annot1X + 30} ${annot1Y + 30}" stroke="${PALETTE.annotPurple}" stroke-width="2" fill="none"/>
     <polygon points="${annot1X + 30},${annot1Y + 30} ${annot1X + 42},${annot1Y + 22} ${annot1X + 38},${annot1Y + 38}" fill="${PALETTE.annotPurple}"/>
     <line x1="${annot1X}" y1="${annot1Y + 5}" x2="${annot1X}" y2="${plotY + plotH - 5}" stroke="${PALETTE.annotPurple}" stroke-width="1.5" stroke-dasharray="3,3"/>
   `;
 
-  // شرح عرض العمود
   const annot2 = `
-    <rect x="855" y="470" width="210" height="80" rx="8" fill="${PALETTE.white}" stroke="${PALETTE.annotBlue}" stroke-width="2"/>
-    <text x="1055" y="498" text-anchor="end" direction="rtl" font-size="15" fill="${PALETTE.text}" font-weight="600">عرض العمود = طول الفئة</text>
-    <text x="865" y="528" text-anchor="start" font-size="13" fill="${PALETTE.textMuted}">Bar Width = Class Width</text>
-    <path d="M 855 510 Q 760 555 ${plotX + 3 * barW + 30} 605" stroke="${PALETTE.annotBlue}" stroke-width="2" fill="none"/>
-    <line x1="${plotX + 3 * barW + 10}" y1="615" x2="${plotX + 4 * barW - 10}" y2="615" stroke="${PALETTE.annotBlue}" stroke-width="2"/>
-    <polygon points="${plotX + 3 * barW + 10},615 ${plotX + 3 * barW + 20},610 ${plotX + 3 * barW + 20},620" fill="${PALETTE.annotBlue}"/>
-    <polygon points="${plotX + 4 * barW - 10},615 ${plotX + 4 * barW - 20},610 ${plotX + 4 * barW - 20},620" fill="${PALETTE.annotBlue}"/>
+    <rect x="850" y="450" width="220" height="80" rx="8" fill="${PALETTE.white}" stroke="${PALETTE.annotBlue}" stroke-width="2"/>
+    ${arText(860, 460, 200, 'عرض العمود = طول الفئة', { fs: 16, weight: '600', color: PALETTE.text })}
+    ${enText(860, 492, 200, 'Bar Width = Class Width', { fs: 14, color: PALETTE.textMuted })}
+    <path d="M 850 490 Q 760 540 ${plotX + 3 * barW + 30} 600" stroke="${PALETTE.annotBlue}" stroke-width="2" fill="none"/>
+    <line x1="${plotX + 3 * barW + 10}" y1="610" x2="${plotX + 4 * barW - 10}" y2="610" stroke="${PALETTE.annotBlue}" stroke-width="2"/>
+    <polygon points="${plotX + 3 * barW + 10},610 ${plotX + 3 * barW + 20},605 ${plotX + 3 * barW + 20},615" fill="${PALETTE.annotBlue}"/>
+    <polygon points="${plotX + 4 * barW - 10},610 ${plotX + 4 * barW - 20},605 ${plotX + 4 * barW - 20},615" fill="${PALETTE.annotBlue}"/>
   `;
 
-  return svgWrap(`
+  const inner = `
     ${svgHeader('المدرج التكراري', 'Histogram')}
     ${yAxis}
     ${bars}
     ${axes}
     ${xAxis}
-    ${yLabel}
-    ${xLabel}
+    ${axisLabels}
     ${annotation1}
     ${annot2}
     ${svgKeyFeatures([
-      { ar: 'الأعمدة متلاصقة', en: 'No gaps between bars' },
-      { ar: 'للبيانات الكمية المستمرة', en: 'For continuous data' },
-      { ar: 'يوضح شكل التوزيع', en: 'Shows distribution shape' },
-      { ar: 'يساعد في تحديد القيم المتطرفة', en: 'Identifies outliers' },
+      { ar: 'الأعمدة متلاصقة', en: 'No gaps between bars', icon: '◫' },
+      { ar: 'للبيانات الكمية المستمرة', en: 'For continuous data', icon: '∿' },
+      { ar: 'يوضح شكل التوزيع', en: 'Shows distribution shape', icon: '▲' },
+      { ar: 'يساعد في تحديد القيم المتطرفة', en: 'Identifies outliers', icon: '⊙' },
     ])}
-  `);
+  `;
+  return svgWrap(inner);
 }
 
 // =============================================================
-// 2) التوزيع الطبيعي Normal Distribution
+// 2) التوزيع الطبيعي Normal Distribution / Bell Curve
 // =============================================================
 function chartNormalDistribution() {
-  const plotX = 90, plotY = 200, plotW = 900, plotH = 500;
+  const plotX = 90, plotY = 180, plotW = 900, plotH = 540;
   const cx = plotX + plotW / 2;
   const baseY = plotY + plotH;
   const peakY = plotY + 60;
-  const sigmaW = 120;
+  const sigmaW = 120; // كل انحراف معياري
 
-  let curvePath = `M ${plotX} ${baseY}`;
+  // منحنى الجرس باستخدام دالة طبيعية
+  let path = `M ${plotX} ${baseY}`;
   for (let x = 0; x <= plotW; x += 4) {
-    const xVal = (x - plotW / 2) / sigmaW;
+    const xVal = (x - plotW / 2) / sigmaW; // z-score
     const y = Math.exp(-0.5 * xVal * xVal);
-    curvePath += ` L ${plotX + x} ${baseY - y * (baseY - peakY)}`;
+    const screenY = baseY - y * (baseY - peakY);
+    path += ` L ${plotX + x} ${screenY}`;
   }
-  curvePath += ` L ${plotX + plotW} ${baseY} Z`;
+  path += ` L ${plotX + plotW} ${baseY} Z`;
 
   // مناطق ملوّنة لكل ±σ
-  const regions = [];
+  const regionPaths = [];
   for (let s = -3; s < 3; s++) {
     const x1 = cx + s * sigmaW;
     const x2 = cx + (s + 1) * sigmaW;
+    const opacity = 0.85 - Math.abs(s + 0.5) * 0.18;
     const color = Math.abs(s + 0.5) < 1 ? PALETTE.bgPurpleDeep
                 : Math.abs(s + 0.5) < 2 ? PALETTE.bgPurple
                 : PALETTE.bgPurpleVeryLite;
@@ -486,55 +549,70 @@ function chartNormalDistribution() {
       regPath += ` L ${x} ${baseY - y * (baseY - peakY)}`;
     }
     regPath += ` L ${x2} ${baseY} Z`;
-    regions.push(`<path d="${regPath}" fill="${color}" opacity="0.85"/>`);
+    regionPaths.push(`<path d="${regPath}" fill="${color}" opacity="${opacity}"/>`);
   }
 
+  // محور x: -3σ إلى +3σ والمتوسط μ
   let xAxis = '';
   for (let s = -3; s <= 3; s++) {
     const x = cx + s * sigmaW;
     const label = s === 0 ? 'μ' : (s > 0 ? `+${s}σ` : `${s}σ`);
     xAxis += `
-      <line x1="${x}" y1="${baseY}" x2="${x}" y2="${baseY + 10}" stroke="${PALETTE.text}" stroke-width="2"/>
-      <text x="${x}" y="${baseY + 38}" text-anchor="middle" font-size="22" fill="${PALETTE.text}" font-weight="${s === 0 ? '700' : '500'}">${label}</text>
+      <line x1="${x}" y1="${baseY}" x2="${x}" y2="${baseY + 8}" stroke="${PALETTE.text}" stroke-width="2"/>
+      <text x="${x}" y="${baseY + 35}" text-anchor="middle" font-size="22" fill="${PALETTE.text}" font-weight="${s === 0 ? '700' : '500'}">${label}</text>
     `;
   }
 
-  return svgWrap(`
-    ${svgHeader('التوزيع الطبيعي', 'Normal Distribution')}
-    ${regions.join('')}
-    <path d="${curvePath}" fill="none" stroke="${PALETTE.bgPurpleDeep}" stroke-width="3"/>
-    <line x1="${cx}" y1="${peakY}" x2="${cx}" y2="${baseY}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5" stroke-dasharray="6,4"/>
-    <line x1="${plotX}" y1="${baseY}" x2="${plotX + plotW}" y2="${baseY}" stroke="${PALETTE.text}" stroke-width="2"/>
-    ${xAxis}
+  // خط عمودي عند المتوسط
+  const meanLine = `<line x1="${cx}" y1="${peakY}" x2="${cx}" y2="${baseY}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5" stroke-dasharray="6,4"/>`;
 
-    <!-- نسب 68/95/99.7 -->
-    <text x="${cx}" y="${peakY - 30}" text-anchor="middle" font-size="26" font-weight="700" fill="${PALETTE.bgPurpleDeep}">68%</text>
-    <text x="${cx - sigmaW * 1.5}" y="${peakY + 110}" text-anchor="middle" font-size="22" font-weight="600" fill="${PALETTE.text}">95%</text>
-    <text x="${cx + sigmaW * 1.5}" y="${peakY + 110}" text-anchor="middle" font-size="22" font-weight="600" fill="${PALETTE.text}">95%</text>
+  // محور y المخفي + خط الأرض
+  const xLine = `<line x1="${plotX}" y1="${baseY}" x2="${plotX + plotW}" y2="${baseY}" stroke="${PALETTE.text}" stroke-width="2"/>`;
+
+  // نسب 68-95-99.7
+  const pcts = `
+    <text x="${cx}" y="${peakY - 25}" text-anchor="middle" font-size="22" font-weight="700" fill="${PALETTE.bgPurpleDeep}">68%</text>
+    <text x="${cx - sigmaW * 1.5}" y="${peakY + 110}" text-anchor="middle" font-size="20" font-weight="600" fill="${PALETTE.text}">95%</text>
+    <text x="${cx + sigmaW * 1.5}" y="${peakY + 110}" text-anchor="middle" font-size="20" font-weight="600" fill="${PALETTE.text}">95%</text>
     <text x="${cx - sigmaW * 2.5}" y="${peakY + 350}" text-anchor="middle" font-size="18" font-weight="600" fill="${PALETTE.textMuted}">99.7%</text>
     <text x="${cx + sigmaW * 2.5}" y="${peakY + 350}" text-anchor="middle" font-size="18" font-weight="600" fill="${PALETTE.textMuted}">99.7%</text>
+  `;
 
-    <!-- شرح 1: المتوسط -->
+  // شرح: المتوسط
+  const annot1 = `
     <rect x="780" y="200" width="240" height="70" rx="8" fill="${PALETTE.white}" stroke="${PALETTE.annotPurple}" stroke-width="2"/>
-    <text x="1010" y="227" text-anchor="end" direction="rtl" font-size="15" fill="${PALETTE.text}" font-weight="600">القمة = المتوسط (μ)</text>
-    <text x="790" y="253" text-anchor="start" font-size="13" fill="${PALETTE.textMuted}">Peak = Mean (μ)</text>
-    <line x1="780" y1="240" x2="${cx + 20}" y2="${peakY + 30}" stroke="${PALETTE.annotPurple}" stroke-width="2"/>
+    <text x="1010" y="225" text-anchor="end" font-size="16" fill="${PALETTE.text}" font-weight="600" direction="rtl">القمة = المتوسط (μ)</text>
+    <text x="790" y="250" text-anchor="start" font-size="14" fill="${PALETTE.textMuted}" font-family="'Segoe UI', system-ui">Peak = Mean (μ)</text>
+    <line x1="780" y1="235" x2="${cx + 30}" y2="${peakY + 40}" stroke="${PALETTE.annotPurple}" stroke-width="2"/>
+  `;
 
-    <!-- شرح 2: الانحراف المعياري -->
+  // شرح: الانحراف المعياري
+  const annot2 = `
     <rect x="60" y="200" width="240" height="70" rx="8" fill="${PALETTE.white}" stroke="${PALETTE.annotBlue}" stroke-width="2"/>
-    <text x="290" y="227" text-anchor="end" direction="rtl" font-size="15" fill="${PALETTE.text}" font-weight="600">الانحراف المعياري σ</text>
-    <text x="70" y="253" text-anchor="start" font-size="13" fill="${PALETTE.textMuted}">Standard Deviation</text>
-    <line x1="300" y1="240" x2="${cx - sigmaW - 20}" y2="${peakY + 200}" stroke="${PALETTE.annotBlue}" stroke-width="2"/>
+    <text x="290" y="225" text-anchor="end" font-size="16" fill="${PALETTE.text}" font-weight="600" direction="rtl">الانحراف المعياري σ</text>
+    <text x="70" y="250" text-anchor="start" font-size="14" fill="${PALETTE.textMuted}" font-family="'Segoe UI', system-ui">Standard Deviation (σ)</text>
+    <line x1="300" y1="235" x2="${cx - sigmaW - 20}" y2="${peakY + 200}" stroke="${PALETTE.annotBlue}" stroke-width="2"/>
+  `;
 
-    <text x="540" y="${baseY + 75}" text-anchor="middle" direction="rtl" font-size="18" fill="${PALETTE.text}">قاعدة 68-95-99.7 / Empirical Rule</text>
-
+  const inner = `
+    ${svgHeader('التوزيع الطبيعي', 'Normal Distribution')}
+    ${regionPaths.join('')}
+    <path d="${path}" fill="none" stroke="${PALETTE.bgPurpleDeep}" stroke-width="3"/>
+    ${meanLine}
+    ${xLine}
+    ${xAxis}
+    ${pcts}
+    ${annot1}
+    ${annot2}
+    <text x="540" y="${baseY + 80}" text-anchor="middle" font-size="20" fill="${PALETTE.text}" direction="rtl">قاعدة 68-95-99.7 / Empirical Rule</text>
     ${svgKeyFeatures([
-      { ar: 'متماثل حول المتوسط', en: 'Symmetric around the mean' },
-      { ar: 'شكل منحنى الجرس', en: 'Bell-shaped curve' },
-      { ar: 'المتوسط = الوسيط = المنوال', en: 'Mean = Median = Mode' },
-      { ar: 'يطبّق قاعدة 68-95-99.7', en: 'Follows 68-95-99.7 rule' },
+      { ar: 'متماثل حول المتوسط', en: 'Symmetric around the mean', icon: '⟷' },
+      { ar: 'شكل منحنى الجرس', en: 'Bell-shaped curve', icon: '◠' },
+      { ar: 'المتوسط = الوسيط = المنوال', en: 'Mean = Median = Mode', icon: '=' },
+      { ar: 'قاعدة 68-95-99.7', en: '68-95-99.7 Empirical Rule', icon: '%' },
     ])}
-  `);
+  `;
+  return svgWrap(inner);
 }
 
 // =============================================================
@@ -543,6 +621,7 @@ function chartNormalDistribution() {
 function chartScatterPlot() {
   const plotX = 130, plotY = 180, plotW = 800, plotH = 540;
 
+  // نقاط بيانات تُظهر ارتباطاً طردياً
   const points = [];
   for (let i = 0; i < 30; i++) {
     const x = 0.1 + (i / 30) + (Math.sin(i * 7) * 0.05);
@@ -557,6 +636,12 @@ function chartScatterPlot() {
     pts += `<circle cx="${cx}" cy="${cy}" r="7" fill="${PALETTE.bgPurple}" opacity="0.7" stroke="${PALETTE.bgPurpleDeep}" stroke-width="1.5"/>`;
   });
 
+  // خط الانحدار
+  const x1 = plotX + 0.05 * plotW, y1 = plotY + plotH - 0.15 * plotH;
+  const x2 = plotX + 0.95 * plotW, y2 = plotY + plotH - 0.95 * plotH;
+  const regLine = `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="3" stroke-dasharray="8,4"/>`;
+
+  // محاور
   let yAxis = '';
   for (let i = 0; i <= 5; i++) {
     const y = plotY + plotH - (i / 5) * plotH;
@@ -571,50 +656,63 @@ function chartScatterPlot() {
     xAxis += `<text x="${x}" y="${plotY + plotH + 30}" text-anchor="middle" font-size="18" fill="${PALETTE.text}">${(i * 20)}</text>`;
   }
 
-  return svgWrap(`
-    ${svgHeader('مخطط الانتشار', 'Scatter Plot')}
-    ${yAxis}${xAxis}
+  const axes = `
     <line x1="${plotX}" y1="${plotY}" x2="${plotX}" y2="${plotY + plotH}" stroke="${PALETTE.text}" stroke-width="2"/>
     <line x1="${plotX}" y1="${plotY + plotH}" x2="${plotX + plotW}" y2="${plotY + plotH}" stroke="${PALETTE.text}" stroke-width="2"/>
-    <line x1="${plotX + 0.05 * plotW}" y1="${plotY + plotH - 0.15 * plotH}" x2="${plotX + 0.95 * plotW}" y2="${plotY + plotH - 0.95 * plotH}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="3" stroke-dasharray="8,4"/>
-    ${pts}
+  `;
+  const axisLabels = `
+    <text x="55" y="${plotY + plotH/2}" text-anchor="middle" font-size="20" fill="${PALETTE.text}" transform="rotate(-90 55 ${plotY + plotH/2})" direction="rtl">المتغير y / y variable</text>
+    <text x="${plotX + plotW/2}" y="${plotY + plotH + 70}" text-anchor="middle" font-size="20" fill="${PALETTE.text}" direction="rtl">المتغير x / x variable</text>
+  `;
 
-    <text x="55" y="${plotY + plotH/2}" text-anchor="middle" direction="rtl" font-size="20" fill="${PALETTE.text}" transform="rotate(-90 55 ${plotY + plotH/2})">المتغير y / y variable</text>
-    <text x="${plotX + plotW/2}" y="${plotY + plotH + 70}" text-anchor="middle" direction="rtl" font-size="20" fill="${PALETTE.text}">المتغير x / x variable</text>
+  // شروحات
+  const annot1 = `
+    <rect x="${plotX + plotW + 20}" y="200" width="250" height="80" rx="8" fill="${PALETTE.white}" stroke="${PALETTE.annotPurple}" stroke-width="2"/>
+    <text x="${plotX + plotW + 260}" y="225" text-anchor="end" font-size="16" fill="${PALETTE.text}" font-weight="600" direction="rtl">خط الانحدار</text>
+    <text x="${plotX + plotW + 30}" y="250" text-anchor="start" font-size="13" fill="${PALETTE.textMuted}" font-family="'Segoe UI', system-ui">Best-Fit Regression Line</text>
+    <text x="${plotX + plotW + 260}" y="270" text-anchor="end" font-size="14" fill="${PALETTE.bgPurpleDeep}" font-weight="600">y = mx + b</text>
+    <line x1="${plotX + plotW + 20}" y1="245" x2="${plotX + plotW * 0.7}" y2="${plotY + plotH * 0.4}" stroke="${PALETTE.annotPurple}" stroke-width="2"/>
+  `;
 
-    <!-- شرح خط الانحدار -->
-    <rect x="${plotX + plotW + 20}" y="180" width="240" height="80" rx="8" fill="${PALETTE.white}" stroke="${PALETTE.annotPurple}" stroke-width="2"/>
-    <text x="${plotX + plotW + 250}" y="208" text-anchor="end" direction="rtl" font-size="15" fill="${PALETTE.text}" font-weight="600">خط الانحدار</text>
-    <text x="${plotX + plotW + 30}" y="232" text-anchor="start" font-size="12" fill="${PALETTE.textMuted}">Best-Fit Line</text>
-    <text x="${plotX + plotW + 250}" y="252" text-anchor="end" font-size="14" fill="${PALETTE.bgPurpleDeep}" font-weight="600">y = mx + b</text>
-    <line x1="${plotX + plotW + 20}" y1="225" x2="${plotX + plotW * 0.7}" y2="${plotY + plotH * 0.4}" stroke="${PALETTE.annotPurple}" stroke-width="2"/>
-
-    <!-- شرح نقطة بيانات -->
+  const annot2 = `
     <rect x="60" y="600" width="220" height="80" rx="8" fill="${PALETTE.white}" stroke="${PALETTE.annotBlue}" stroke-width="2"/>
-    <text x="270" y="628" text-anchor="end" direction="rtl" font-size="15" fill="${PALETTE.text}" font-weight="600">نقطة بيانات</text>
-    <text x="70" y="652" text-anchor="start" font-size="12" fill="${PALETTE.textMuted}">Data Point (xᵢ, yᵢ)</text>
-    <text x="270" y="672" text-anchor="end" direction="rtl" font-size="12" fill="${PALETTE.textMuted}">ارتباط طردي قوي</text>
+    <text x="270" y="625" text-anchor="end" font-size="16" fill="${PALETTE.text}" font-weight="600" direction="rtl">نقطة بيانات</text>
+    <text x="70" y="650" text-anchor="start" font-size="13" fill="${PALETTE.textMuted}" font-family="'Segoe UI', system-ui">Data Point (xᵢ, yᵢ)</text>
+    <text x="270" y="670" text-anchor="end" font-size="13" fill="${PALETTE.textMuted}" direction="rtl">ارتباط طردي قوي</text>
     <line x1="280" y1="635" x2="${plotX + 0.3 * plotW}" y2="${plotY + plotH - 0.3 * plotH}" stroke="${PALETTE.annotBlue}" stroke-width="2"/>
+  `;
 
+  const inner = `
+    ${svgHeader('مخطط الانتشار', 'Scatter Plot')}
+    ${yAxis}
+    ${xAxis}
+    ${axes}
+    ${regLine}
+    ${pts}
+    ${axisLabels}
+    ${annot1}
+    ${annot2}
     ${svgKeyFeatures([
-      { ar: 'يُظهر العلاقة بين متغيرين كميين', en: 'Shows relationship between two variables' },
-      { ar: 'كل نقطة = ملاحظة واحدة', en: 'Each point = one observation' },
-      { ar: 'يكشف نمط الارتباط (طردي/عكسي)', en: 'Reveals correlation pattern' },
-      { ar: 'يساعد في تحديد القيم الشاذة', en: 'Helps identify outliers' },
+      { ar: 'يُظهر العلاقة بين متغيرين كميين', en: 'Shows relationship between two variables', icon: '⤢' },
+      { ar: 'كل نقطة = ملاحظة واحدة', en: 'Each point = one observation', icon: '•' },
+      { ar: 'يكشف نمط الارتباط (طردي/عكسي)', en: 'Reveals correlation pattern', icon: '↗' },
+      { ar: 'يساعد في تحديد القيم الشاذة', en: 'Helps identify outliers', icon: '⊙' },
     ])}
-  `);
+  `;
+  return svgWrap(inner);
 }
 
 // =============================================================
-// 4) Z-Score
+// 4) Z-Score على منحنى التوزيع الطبيعي
 // =============================================================
 function chartZScore(zVal = 1.5) {
-  const plotX = 90, plotY = 220, plotW = 900, plotH = 460;
+  const plotX = 90, plotY = 200, plotW = 900, plotH = 460;
   const cx = plotX + plotW / 2;
   const baseY = plotY + plotH;
   const peakY = plotY + 40;
   const sigmaW = 120;
 
+  // منحنى كامل
   let curvePath = `M ${plotX} ${baseY}`;
   for (let x = 0; x <= plotW; x += 3) {
     const xVal = (x - plotW / 2) / sigmaW;
@@ -623,6 +721,7 @@ function chartZScore(zVal = 1.5) {
   }
   curvePath += ` L ${plotX + plotW} ${baseY} Z`;
 
+  // المنطقة المظللة (z إلى ما لانهاية)
   const zX = cx + zVal * sigmaW;
   let shadedPath = `M ${zX} ${baseY}`;
   for (let x = zX - plotX; x <= plotW; x += 2) {
@@ -632,6 +731,7 @@ function chartZScore(zVal = 1.5) {
   }
   shadedPath += ` L ${plotX + plotW} ${baseY} Z`;
 
+  // محور x
   let xAxis = '';
   for (let s = -3; s <= 3; s++) {
     const x = cx + s * sigmaW;
@@ -641,38 +741,51 @@ function chartZScore(zVal = 1.5) {
     `;
   }
 
-  return svgWrap(`
+  // خط عمودي عند Z
+  const zLine = `<line x1="${zX}" y1="${peakY - 20}" x2="${zX}" y2="${baseY}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>`;
+  const zMark = `
+    <circle cx="${zX}" cy="${baseY}" r="6" fill="${PALETTE.bgPurpleDeep}"/>
+    <text x="${zX}" y="${peakY - 30}" text-anchor="middle" font-size="22" font-weight="700" fill="${PALETTE.bgPurpleDeep}">Z = ${zVal}</text>
+  `;
+
+  const xLine = `<line x1="${plotX}" y1="${baseY}" x2="${plotX + plotW}" y2="${baseY}" stroke="${PALETTE.text}" stroke-width="2"/>`;
+
+  // شرح الصيغة
+  const formula = `
+    <rect x="120" y="220" width="280" height="100" rx="10" fill="${PALETTE.boxBg}" stroke="${PALETTE.boxBorder}" stroke-width="2"/>
+    <text x="380" y="250" text-anchor="end" font-size="18" fill="${PALETTE.text}" font-weight="600" direction="rtl">صيغة الدرجة المعيارية</text>
+    <text x="130" y="275" text-anchor="start" font-size="14" fill="${PALETTE.textMuted}" font-family="'Segoe UI', system-ui">Z-Score Formula</text>
+    <text x="260" y="310" text-anchor="middle" font-size="28" fill="${PALETTE.bgPurpleDeep}" font-weight="700">Z = (x − μ) / σ</text>
+  `;
+
+  // شرح المنطقة المظلّلة
+  const annot = `
+    <rect x="700" y="220" width="280" height="80" rx="8" fill="${PALETTE.white}" stroke="${PALETTE.annotPurple}" stroke-width="2"/>
+    <text x="970" y="245" text-anchor="end" font-size="16" fill="${PALETTE.text}" font-weight="600" direction="rtl">المساحة = الاحتمال</text>
+    <text x="710" y="270" text-anchor="start" font-size="13" fill="${PALETTE.textMuted}" font-family="'Segoe UI', system-ui">P(Z &gt; ${zVal}) ≈ ${zVal === 1.5 ? '0.067' : '?'}</text>
+    <text x="970" y="290" text-anchor="end" font-size="13" fill="${PALETTE.textMuted}" direction="rtl">احتمال الذيل اليميني</text>
+    <line x1="700" y1="265" x2="${zX + 80}" y2="${baseY - 50}" stroke="${PALETTE.annotPurple}" stroke-width="2"/>
+  `;
+
+  const inner = `
     ${svgHeader('الدرجة المعيارية', 'Z-Score')}
     <path d="${curvePath}" fill="${PALETTE.bgPurpleVeryLite}" opacity="0.4" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
     <path d="${shadedPath}" fill="${PALETTE.bgPurpleDeep}" opacity="0.7"/>
-    <line x1="${zX}" y1="${peakY - 20}" x2="${zX}" y2="${baseY}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
-    <circle cx="${zX}" cy="${baseY}" r="6" fill="${PALETTE.bgPurpleDeep}"/>
-    <text x="${zX}" y="${peakY - 30}" text-anchor="middle" font-size="22" font-weight="700" fill="${PALETTE.bgPurpleDeep}">Z = ${zVal}</text>
-    <line x1="${plotX}" y1="${baseY}" x2="${plotX + plotW}" y2="${baseY}" stroke="${PALETTE.text}" stroke-width="2"/>
+    ${zLine}
+    ${zMark}
+    ${xLine}
     ${xAxis}
-
-    <!-- صندوق الصيغة -->
-    <rect x="120" y="240" width="280" height="100" rx="10" fill="${PALETTE.boxBg}" stroke="${PALETTE.boxBorder}" stroke-width="2"/>
-    <text x="380" y="270" text-anchor="end" direction="rtl" font-size="17" fill="${PALETTE.text}" font-weight="600">صيغة الدرجة المعيارية</text>
-    <text x="130" y="295" text-anchor="start" font-size="13" fill="${PALETTE.textMuted}">Z-Score Formula</text>
-    <text x="260" y="328" text-anchor="middle" font-size="28" fill="${PALETTE.bgPurpleDeep}" font-weight="700">Z = (x − μ) / σ</text>
-
-    <!-- شرح المنطقة المظللة -->
-    <rect x="700" y="240" width="280" height="80" rx="8" fill="${PALETTE.white}" stroke="${PALETTE.annotPurple}" stroke-width="2"/>
-    <text x="970" y="265" text-anchor="end" direction="rtl" font-size="15" fill="${PALETTE.text}" font-weight="600">المساحة = الاحتمال</text>
-    <text x="710" y="290" text-anchor="start" font-size="13" fill="${PALETTE.textMuted}">P(Z &gt; ${zVal}) ≈ 0.067</text>
-    <text x="970" y="310" text-anchor="end" direction="rtl" font-size="13" fill="${PALETTE.textMuted}">احتمال الذيل اليميني</text>
-    <line x1="700" y1="280" x2="${zX + 60}" y2="${baseY - 60}" stroke="${PALETTE.annotPurple}" stroke-width="2"/>
-
-    <text x="540" y="${baseY + 75}" text-anchor="middle" direction="rtl" font-size="18" fill="${PALETTE.text}">المحور الأفقي = الانحرافات المعيارية عن المتوسط</text>
-
+    ${formula}
+    ${annot}
+    <text x="540" y="${baseY + 80}" text-anchor="middle" font-size="20" fill="${PALETTE.text}" direction="rtl">المحور الأفقي = الانحرافات المعيارية عن المتوسط</text>
     ${svgKeyFeatures([
-      { ar: 'يقيس بُعد القيمة عن المتوسط بالـ σ', en: 'Measures deviation in σ units' },
-      { ar: 'Z موجبة: القيمة فوق المتوسط', en: 'Z &gt; 0: above mean' },
-      { ar: 'Z سالبة: القيمة تحت المتوسط', en: 'Z &lt; 0: below mean' },
-      { ar: 'يُستخدم لمقارنة قيم بتوزيعات مختلفة', en: 'Compare values across distributions' },
+      { ar: 'يقيس بُعد القيمة عن المتوسط بالانحرافات المعيارية', en: 'Measures deviation from mean in σ units', icon: 'σ' },
+      { ar: 'Z موجبة: القيمة فوق المتوسط', en: 'Z &gt; 0: value above mean', icon: '↑' },
+      { ar: 'Z سالبة: القيمة تحت المتوسط', en: 'Z &lt; 0: value below mean', icon: '↓' },
+      { ar: 'يُستخدم لمقارنة القيم عبر توزيعات مختلفة', en: 'Compare values across distributions', icon: '⇄' },
     ])}
-  `);
+  `;
+  return svgWrap(inner);
 }
 
 // =============================================================
@@ -680,6 +793,8 @@ function chartZScore(zVal = 1.5) {
 // =============================================================
 function chartLinearRegression() {
   const plotX = 130, plotY = 180, plotW = 800, plotH = 540;
+
+  // نقاط حول خط y = 0.8x + 0.1
   const points = [];
   for (let i = 0; i < 20; i++) {
     const x = (i + 1) / 22;
@@ -688,7 +803,8 @@ function chartLinearRegression() {
     points.push({ x, y: yTrue + noise, yTrue });
   }
 
-  let pts = '', residuals = '';
+  let pts = '';
+  let residuals = '';
   points.forEach(p => {
     const cx = plotX + p.x * plotW;
     const cy = plotY + plotH - p.y * plotH;
@@ -697,8 +813,16 @@ function chartLinearRegression() {
     pts += `<circle cx="${cx}" cy="${cy}" r="7" fill="${PALETTE.bgPurple}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="1.5"/>`;
   });
 
-  const x1 = plotX, y1 = plotY + plotH - 0.05 * plotH;
-  const x2 = plotX + plotW, y2 = plotY + plotH - 0.9 * plotH;
+  // خط الانحدار
+  const x1 = plotX, y1 = plotY + plotH - (0.85 * 0 + 0.05) * plotH;
+  const x2 = plotX + plotW, y2 = plotY + plotH - (0.85 * 1 + 0.05) * plotH;
+  const regLine = `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="3"/>`;
+
+  // محاور
+  const axes = `
+    <line x1="${plotX}" y1="${plotY}" x2="${plotX}" y2="${plotY + plotH}" stroke="${PALETTE.text}" stroke-width="2"/>
+    <line x1="${plotX}" y1="${plotY + plotH}" x2="${plotX + plotW}" y2="${plotY + plotH}" stroke="${PALETTE.text}" stroke-width="2"/>
+  `;
 
   let grid = '';
   for (let i = 1; i <= 5; i++) {
@@ -706,52 +830,57 @@ function chartLinearRegression() {
     grid += `<line x1="${plotX}" y1="${y}" x2="${plotX + plotW}" y2="${y}" stroke="${PALETTE.gridLine}" stroke-width="1" stroke-dasharray="3,3"/>`;
   }
 
-  return svgWrap(`
+  // معادلة الخط
+  const eqBox = `
+    <rect x="${plotX + plotW + 20}" y="200" width="270" height="160" rx="10" fill="${PALETTE.boxBg}" stroke="${PALETTE.boxBorder}" stroke-width="2"/>
+    <text x="${plotX + plotW + 280}" y="230" text-anchor="end" font-size="18" fill="${PALETTE.text}" font-weight="600" direction="rtl">معادلة الانحدار</text>
+    <text x="${plotX + plotW + 30}" y="255" text-anchor="start" font-size="14" fill="${PALETTE.textMuted}" font-family="'Segoe UI', system-ui">Regression Equation</text>
+    <text x="${plotX + plotW + 155}" y="295" text-anchor="middle" font-size="26" font-weight="700" fill="${PALETTE.bgPurpleDeep}">y = mx + b</text>
+    <text x="${plotX + plotW + 280}" y="325" text-anchor="end" font-size="13" fill="${PALETTE.text}" direction="rtl">m = الميل (Slope)</text>
+    <text x="${plotX + plotW + 280}" y="345" text-anchor="end" font-size="13" fill="${PALETTE.text}" direction="rtl">b = نقطة التقاطع (Intercept)</text>
+  `;
+
+  // شرح البواقي
+  const residAnnot = `
+    <rect x="60" y="600" width="240" height="80" rx="8" fill="${PALETTE.white}" stroke="${PALETTE.annotBlue}" stroke-width="2"/>
+    <text x="290" y="625" text-anchor="end" font-size="16" fill="${PALETTE.text}" font-weight="600" direction="rtl">البواقي (Residuals)</text>
+    <text x="70" y="650" text-anchor="start" font-size="13" fill="${PALETTE.textMuted}" font-family="'Segoe UI', system-ui">eᵢ = yᵢ − ŷᵢ</text>
+    <text x="290" y="670" text-anchor="end" font-size="12" fill="${PALETTE.textMuted}" direction="rtl">الفرق بين القيمة الفعلية والمتوقعة</text>
+  `;
+
+  const inner = `
     ${svgHeader('الانحدار الخطي البسيط', 'Simple Linear Regression')}
     ${grid}
-    <line x1="${plotX}" y1="${plotY}" x2="${plotX}" y2="${plotY + plotH}" stroke="${PALETTE.text}" stroke-width="2"/>
-    <line x1="${plotX}" y1="${plotY + plotH}" x2="${plotX + plotW}" y2="${plotY + plotH}" stroke="${PALETTE.text}" stroke-width="2"/>
+    ${axes}
     ${residuals}
-    <line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="3"/>
+    ${regLine}
     ${pts}
-
-    <!-- صندوق المعادلة -->
-    <rect x="${plotX + plotW + 20}" y="200" width="270" height="160" rx="10" fill="${PALETTE.boxBg}" stroke="${PALETTE.boxBorder}" stroke-width="2"/>
-    <text x="${plotX + plotW + 280}" y="232" text-anchor="end" direction="rtl" font-size="17" fill="${PALETTE.text}" font-weight="600">معادلة الانحدار</text>
-    <text x="${plotX + plotW + 30}" y="258" text-anchor="start" font-size="13" fill="${PALETTE.textMuted}">Regression Equation</text>
-    <text x="${plotX + plotW + 155}" y="298" text-anchor="middle" font-size="26" font-weight="700" fill="${PALETTE.bgPurpleDeep}">y = mx + b</text>
-    <text x="${plotX + plotW + 280}" y="328" text-anchor="end" direction="rtl" font-size="13" fill="${PALETTE.text}">m = الميل (Slope)</text>
-    <text x="${plotX + plotW + 280}" y="348" text-anchor="end" direction="rtl" font-size="13" fill="${PALETTE.text}">b = نقطة التقاطع</text>
-
-    <!-- شرح البواقي -->
-    <rect x="60" y="610" width="240" height="80" rx="8" fill="${PALETTE.white}" stroke="${PALETTE.annotBlue}" stroke-width="2"/>
-    <text x="290" y="638" text-anchor="end" direction="rtl" font-size="15" fill="${PALETTE.text}" font-weight="600">البواقي (Residuals)</text>
-    <text x="70" y="660" text-anchor="start" font-size="13" fill="${PALETTE.textMuted}">eᵢ = yᵢ − ŷᵢ</text>
-    <text x="290" y="680" text-anchor="end" direction="rtl" font-size="11" fill="${PALETTE.textMuted}">الفرق بين الفعلي والمتوقع</text>
-
-    <text x="55" y="${plotY + plotH/2}" text-anchor="middle" direction="rtl" font-size="20" fill="${PALETTE.text}" transform="rotate(-90 55 ${plotY + plotH/2})">المتغير التابع y</text>
-    <text x="${plotX + plotW/2}" y="${plotY + plotH + 70}" text-anchor="middle" direction="rtl" font-size="20" fill="${PALETTE.text}">المتغير المستقل x</text>
-
+    ${eqBox}
+    ${residAnnot}
+    <text x="55" y="${plotY + plotH/2}" text-anchor="middle" font-size="20" fill="${PALETTE.text}" transform="rotate(-90 55 ${plotY + plotH/2})" direction="rtl">المتغير التابع y</text>
+    <text x="${plotX + plotW/2}" y="${plotY + plotH + 70}" text-anchor="middle" font-size="20" fill="${PALETTE.text}" direction="rtl">المتغير المستقل x</text>
     ${svgKeyFeatures([
-      { ar: 'يُنمذج العلاقة الخطية بين متغيرين', en: 'Models linear relationship' },
-      { ar: 'يُستخدم للتنبؤ بقيم y من x', en: 'Used to predict y from x' },
-      { ar: 'الميل m يقيس قوة العلاقة', en: 'Slope m measures relationship' },
-      { ar: 'R² يقيس جودة الملاءمة (0–1)', en: 'R² measures fit quality (0–1)' },
+      { ar: 'يُنمذج العلاقة الخطية بين متغيرين', en: 'Models linear relationship', icon: '/' },
+      { ar: 'يُستخدم للتنبؤ بقيم y من x', en: 'Used to predict y from x', icon: '→' },
+      { ar: 'الميل m يقيس قوة العلاقة', en: 'Slope m measures relationship', icon: 'm' },
+      { ar: 'R² يقيس جودة الملاءمة (0–1)', en: 'R² measures fit quality (0–1)', icon: 'R²' },
     ])}
-  `);
+  `;
+  return svgWrap(inner);
 }
 
 // =============================================================
 // 6) مخطط الصندوق Box Plot
 // =============================================================
 function chartBoxPlot() {
-  const plotX = 130, plotY = 280, plotW = 800;
+  const plotX = 130, plotY = 240, plotW = 800, plotH = 380;
   const boxY = plotY + 50, boxH = 200;
   const boxX1 = plotX + 220, boxX2 = plotX + 520;
   const medianX = plotX + 340;
   const minX = plotX + 80, maxX = plotX + 700;
   const outX = plotX + 760;
 
+  // محور أفقي
   let xTicks = '';
   for (let i = 0; i <= 10; i++) {
     const x = plotX + (i / 10) * plotW;
@@ -761,63 +890,91 @@ function chartBoxPlot() {
     `;
   }
 
-  return svgWrap(`
+  const inner = `
     ${svgHeader('مخطط الصندوق', 'Box Plot')}
 
+    <!-- خط أفقي رئيسي -->
     <line x1="${plotX}" y1="${boxY + boxH + 15}" x2="${plotX + plotW}" y2="${boxY + boxH + 15}" stroke="${PALETTE.text}" stroke-width="2"/>
     ${xTicks}
 
+    <!-- whisker يسار (Min إلى Q1) -->
     <line x1="${minX}" y1="${boxY + boxH/2}" x2="${boxX1}" y2="${boxY + boxH/2}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
     <line x1="${minX}" y1="${boxY + 30}" x2="${minX}" y2="${boxY + boxH - 30}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
+
+    <!-- whisker يمين (Q3 إلى Max) -->
     <line x1="${boxX2}" y1="${boxY + boxH/2}" x2="${maxX}" y2="${boxY + boxH/2}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
     <line x1="${maxX}" y1="${boxY + 30}" x2="${maxX}" y2="${boxY + boxH - 30}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
+
+    <!-- الصندوق (Q1-Q3) -->
     <rect x="${boxX1}" y="${boxY}" width="${boxX2 - boxX1}" height="${boxH}" fill="${PALETTE.bgPurpleVeryLite}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
+
+    <!-- خط الوسيط -->
     <line x1="${medianX}" y1="${boxY}" x2="${medianX}" y2="${boxY + boxH}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="4"/>
+
+    <!-- نقطة شاذة -->
     <circle cx="${outX}" cy="${boxY + boxH/2}" r="7" fill="${PALETTE.annotPurple}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2"/>
 
-    <text x="${minX}" y="${boxY - 18}" text-anchor="middle" font-size="16" fill="${PALETTE.text}" font-weight="600">Min</text>
-    <text x="${boxX1}" y="${boxY - 18}" text-anchor="middle" font-size="16" fill="${PALETTE.text}" font-weight="600">Q1</text>
-    <text x="${medianX}" y="${boxY - 18}" text-anchor="middle" font-size="16" fill="${PALETTE.bgPurpleDeep}" font-weight="700">Median (Q2)</text>
-    <text x="${boxX2}" y="${boxY - 18}" text-anchor="middle" font-size="16" fill="${PALETTE.text}" font-weight="600">Q3</text>
-    <text x="${maxX}" y="${boxY - 18}" text-anchor="middle" font-size="16" fill="${PALETTE.text}" font-weight="600">Max</text>
+    <!-- تسميات تحت كل عنصر -->
+    <text x="${minX}" y="${boxY - 15}" text-anchor="middle" font-size="16" fill="${PALETTE.text}" font-weight="600">Min</text>
+    <text x="${boxX1}" y="${boxY - 15}" text-anchor="middle" font-size="16" fill="${PALETTE.text}" font-weight="600">Q1</text>
+    <text x="${medianX}" y="${boxY - 15}" text-anchor="middle" font-size="16" fill="${PALETTE.bgPurpleDeep}" font-weight="700">Median (Q2)</text>
+    <text x="${boxX2}" y="${boxY - 15}" text-anchor="middle" font-size="16" fill="${PALETTE.text}" font-weight="600">Q3</text>
+    <text x="${maxX}" y="${boxY - 15}" text-anchor="middle" font-size="16" fill="${PALETTE.text}" font-weight="600">Max</text>
 
+    <!-- شرح IQR -->
     <line x1="${boxX1}" y1="${boxY + boxH + 80}" x2="${boxX2}" y2="${boxY + boxH + 80}" stroke="${PALETTE.annotBlue}" stroke-width="2"/>
     <line x1="${boxX1}" y1="${boxY + boxH + 75}" x2="${boxX1}" y2="${boxY + boxH + 85}" stroke="${PALETTE.annotBlue}" stroke-width="2"/>
     <line x1="${boxX2}" y1="${boxY + boxH + 75}" x2="${boxX2}" y2="${boxY + boxH + 85}" stroke="${PALETTE.annotBlue}" stroke-width="2"/>
     <text x="${(boxX1+boxX2)/2}" y="${boxY + boxH + 110}" text-anchor="middle" font-size="18" fill="${PALETTE.annotBlue}" font-weight="700">IQR = Q3 − Q1</text>
 
-    <text x="${outX}" y="${boxY + boxH/2 - 22}" text-anchor="middle" direction="rtl" font-size="13" fill="${PALETTE.annotPurple}" font-weight="600">قيمة شاذة</text>
-    <text x="${outX}" y="${boxY + boxH/2 + 32}" text-anchor="middle" font-size="12" fill="${PALETTE.annotPurple}">Outlier</text>
+    <!-- شرح القيمة الشاذة -->
+    <text x="${outX}" y="${boxY + boxH/2 - 25}" text-anchor="middle" font-size="14" fill="${PALETTE.annotPurple}" font-weight="600" direction="rtl">قيمة شاذة</text>
+    <text x="${outX}" y="${boxY + boxH/2 + 35}" text-anchor="middle" font-size="13" fill="${PALETTE.annotPurple}" font-family="'Segoe UI', system-ui">Outlier</text>
 
     ${svgKeyFeatures([
-      { ar: 'يعرض 5 مقاييس: Min, Q1, Median, Q3, Max', en: 'Shows 5 summary statistics' },
-      { ar: 'الصندوق يحتوي 50% من البيانات (IQR)', en: 'Box contains middle 50% (IQR)' },
-      { ar: 'يكشف القيم الشاذة بسهولة', en: 'Easily identifies outliers' },
-      { ar: 'مناسب لمقارنة عدة مجموعات', en: 'Compares multiple groups' },
+      { ar: 'يعرض 5 مقاييس: Min, Q1, Median, Q3, Max', en: 'Shows 5 summary statistics', icon: '5' },
+      { ar: 'الصندوق يحتوي 50% من البيانات (IQR)', en: 'Box contains middle 50% (IQR)', icon: '▭' },
+      { ar: 'يكشف القيم الشاذة بسهولة', en: 'Easily identifies outliers', icon: '◌' },
+      { ar: 'مناسب لمقارنة عدة مجموعات', en: 'Compares multiple groups', icon: '⫶' },
     ])}
-  `);
+  `;
+  return svgWrap(inner);
 }
 
 // =============================================================
-// 7) حالات العملية Process States
+// مخططات نظم التشغيل (Operating Systems)
 // =============================================================
+
+// 7) حالات العملية Process States
 function chartProcessStates() {
   const states = [
-    { id: 'new',        ar: 'جديدة',     en: 'New',        cx: 200, cy: 400, color: PALETTE.bgBlueLite },
-    { id: 'ready',      ar: 'جاهزة',      en: 'Ready',      cx: 460, cy: 280, color: PALETTE.bgPurpleLite },
-    { id: 'running',    ar: 'قيد التنفيذ', en: 'Running',    cx: 720, cy: 400, color: PALETTE.bgPurpleDeep },
-    { id: 'waiting',    ar: 'في الانتظار', en: 'Waiting',    cx: 460, cy: 620, color: PALETTE.bgPurple },
-    { id: 'terminated', ar: 'منتهية',     en: 'Terminated', cx: 940, cy: 400, color: PALETTE.textMuted },
+    { id: 'new',        ar: 'جديدة',     en: 'New',        cx: 200, cy: 380, color: PALETTE.bgBlueLite },
+    { id: 'ready',      ar: 'جاهزة',      en: 'Ready',      cx: 440, cy: 280, color: PALETTE.bgPurpleLite },
+    { id: 'running',    ar: 'قيد التنفيذ', en: 'Running',    cx: 700, cy: 380, color: PALETTE.bgPurpleDeep },
+    { id: 'waiting',    ar: 'في الانتظار', en: 'Waiting',    cx: 440, cy: 600, color: PALETTE.bgPurple },
+    { id: 'terminated', ar: 'منتهية',     en: 'Terminated', cx: 940, cy: 380, color: PALETTE.textMuted },
   ];
 
   let circles = '';
   states.forEach(s => {
     circles += `
-      <circle cx="${s.cx}" cy="${s.cy}" r="65" fill="${s.color}" opacity="0.9" stroke="${PALETTE.bgPurpleDeep}" stroke-width="3"/>
-      <text x="${s.cx}" y="${s.cy - 4}" text-anchor="middle" direction="rtl" font-size="18" font-weight="700" fill="white">${s.ar}</text>
-      <text x="${s.cx}" y="${s.cy + 18}" text-anchor="middle" font-size="14" font-weight="600" fill="white">${s.en}</text>
+      <circle cx="${s.cx}" cy="${s.cy}" r="65" fill="${s.color}" opacity="0.85" stroke="${PALETTE.bgPurpleDeep}" stroke-width="3"/>
+      <foreignObject x="${s.cx - 60}" y="${s.cy - 30}" width="120" height="60">
+        <div xmlns="http://www.w3.org/1999/xhtml" style="font:700 18px 'Noto Sans Arabic',system-ui;color:white;text-align:center;direction:rtl;line-height:1.2;text-shadow:0 1px 2px rgba(0,0,0,0.3);">${s.ar}</div>
+        <div xmlns="http://www.w3.org/1999/xhtml" style="font:600 13px 'Segoe UI',system-ui;color:white;text-align:center;text-shadow:0 1px 2px rgba(0,0,0,0.3);">${s.en}</div>
+      </foreignObject>
     `;
   });
+
+  // الانتقالات (سهام مع تسميات)
+  const transitions = [
+    { from: 'new',     to: 'ready',      labelAr: 'قبول',         labelEn: 'admitted' },
+    { from: 'ready',   to: 'running',    labelAr: 'جدولة',        labelEn: 'dispatch' },
+    { from: 'running', to: 'ready',      labelAr: 'مقاطعة',       labelEn: 'interrupt', curve: true },
+    { from: 'running', to: 'waiting',    labelAr: 'انتظار I/O',   labelEn: 'I/O wait' },
+    { from: 'waiting', to: 'ready',      labelAr: 'اكتمال I/O',   labelEn: 'I/O complete' },
+    { from: 'running', to: 'terminated', labelAr: 'خروج',         labelEn: 'exit' },
+  ];
 
   function findState(id) { return states.find(s => s.id === id); }
   function edgePoint(from, to, isStart) {
@@ -828,17 +985,8 @@ function chartProcessStates() {
     return { x: from.cx + dx * ratio, y: from.cy + dy * ratio };
   }
 
-  const transitions = [
-    { from: 'new',     to: 'ready',      labelAr: 'قبول',       labelEn: 'admit' },
-    { from: 'ready',   to: 'running',    labelAr: 'جدولة',      labelEn: 'dispatch' },
-    { from: 'running', to: 'ready',      labelAr: 'مقاطعة',     labelEn: 'interrupt', curve: true },
-    { from: 'running', to: 'waiting',    labelAr: 'انتظار',     labelEn: 'I/O wait' },
-    { from: 'waiting', to: 'ready',      labelAr: 'اكتمال',     labelEn: 'complete' },
-    { from: 'running', to: 'terminated', labelAr: 'خروج',       labelEn: 'exit' },
-  ];
-
   let arrows = '';
-  transitions.forEach(t => {
+  transitions.forEach((t, i) => {
     const from = findState(t.from), to = findState(t.to);
     const start = edgePoint(from, to, true);
     const end = edgePoint(from, to, false);
@@ -846,47 +994,43 @@ function chartProcessStates() {
     const midY = (start.y + end.y) / 2;
 
     if (t.curve) {
+      // خط منحني للعودة من Running إلى Ready
+      const cpX = (start.x + end.x) / 2;
       const cpY = start.y - 90;
-      arrows += `<path d="M ${start.x} ${start.y} Q ${midX} ${cpY} ${end.x} ${end.y}" stroke="${PALETTE.annotPurple}" stroke-width="2.5" fill="none"/>`;
-      arrows += `<polygon points="${end.x},${end.y} ${end.x + 10},${end.y - 14} ${end.x - 6},${end.y - 16}" fill="${PALETTE.annotPurple}"/>`;
-      arrows += `
-        <rect x="${midX - 60}" y="${cpY - 18}" width="120" height="40" rx="6" fill="${PALETTE.white}" stroke="${PALETTE.annotPurple}" stroke-width="1.5"/>
-        <text x="${midX}" y="${cpY - 2}" text-anchor="middle" direction="rtl" font-size="13" font-weight="600" fill="${PALETTE.text}">${t.labelAr}</text>
-        <text x="${midX}" y="${cpY + 14}" text-anchor="middle" font-size="11" fill="${PALETTE.textMuted}">${t.labelEn}</text>
-      `;
+      arrows += `<path d="M ${start.x} ${start.y} Q ${cpX} ${cpY} ${end.x} ${end.y}" stroke="${PALETTE.annotPurple}" stroke-width="2.5" fill="none"/>`;
+      arrows += `<polygon points="${end.x},${end.y} ${end.x + 8},${end.y - 12} ${end.x - 4},${end.y - 14}" fill="${PALETTE.annotPurple}"/>`;
+      arrows += `<foreignObject x="${cpX - 65}" y="${cpY - 25}" width="130" height="50"><div xmlns="http://www.w3.org/1999/xhtml" style="background:white;border:1.5px solid ${PALETTE.annotPurple};border-radius:6px;padding:3px 6px;text-align:center;font:600 12px 'Noto Sans Arabic',system-ui;color:${PALETTE.text};direction:rtl;">${t.labelAr}<br/><span style="font-family:'Segoe UI',system-ui;font-weight:400;color:${PALETTE.textMuted};font-size:11px;">${t.labelEn}</span></div></foreignObject>`;
     } else {
       arrows += `<line x1="${start.x}" y1="${start.y}" x2="${end.x}" y2="${end.y}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>`;
+      // رأس السهم
       const angle = Math.atan2(end.y - start.y, end.x - start.x);
       const a1x = end.x - 12 * Math.cos(angle - 0.4);
       const a1y = end.y - 12 * Math.sin(angle - 0.4);
       const a2x = end.x - 12 * Math.cos(angle + 0.4);
       const a2y = end.y - 12 * Math.sin(angle + 0.4);
       arrows += `<polygon points="${end.x},${end.y} ${a1x},${a1y} ${a2x},${a2y}" fill="${PALETTE.bgPurpleDeep}"/>`;
-      arrows += `
-        <rect x="${midX - 50}" y="${midY - 20}" width="100" height="38" rx="6" fill="${PALETTE.white}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="1.5"/>
-        <text x="${midX}" y="${midY - 4}" text-anchor="middle" direction="rtl" font-size="13" font-weight="600" fill="${PALETTE.text}">${t.labelAr}</text>
-        <text x="${midX}" y="${midY + 12}" text-anchor="middle" font-size="11" fill="${PALETTE.textMuted}">${t.labelEn}</text>
-      `;
+      // التسمية
+      arrows += `<foreignObject x="${midX - 60}" y="${midY - 22}" width="120" height="44"><div xmlns="http://www.w3.org/1999/xhtml" style="background:white;border:1.5px solid ${PALETTE.bgPurpleDeep};border-radius:6px;padding:2px 6px;text-align:center;font:600 12px 'Noto Sans Arabic',system-ui;color:${PALETTE.text};direction:rtl;">${t.labelAr}<br/><span style="font-family:'Segoe UI',system-ui;font-weight:400;color:${PALETTE.textMuted};font-size:11px;">${t.labelEn}</span></div></foreignObject>`;
     }
   });
 
-  return svgWrap(`
+  const inner = `
     ${svgHeader('حالات العملية', 'Process States')}
     ${arrows}
     ${circles}
     ${svgKeyFeatures([
-      { ar: 'العملية الجديدة تنتقل إلى Ready عند القبول', en: 'New → Ready when admitted' },
-      { ar: 'الـ scheduler يُحرّك العملية للـ Running', en: 'Scheduler dispatches Ready → Running' },
-      { ar: 'العملية تنتظر I/O ثم تعود للـ Ready', en: 'Wait for I/O then return to Ready' },
-      { ar: 'Terminated: انتهاء التنفيذ بشكل نهائي', en: 'Terminated: execution complete' },
+      { ar: 'العملية الجديدة تنتقل إلى Ready عند القبول', en: 'New → Ready when admitted', icon: '→' },
+      { ar: 'الـ scheduler ينقل العملية من Ready إلى Running', en: 'Scheduler dispatches Ready → Running', icon: '⚙' },
+      { ar: 'العملية تنتظر I/O ثم تعود للـ Ready', en: 'Wait for I/O then return to Ready', icon: '⌛' },
+      { ar: 'Terminated: انتهاء التنفيذ بشكل نهائي', en: 'Terminated: execution complete', icon: '⊘' },
     ])}
-  `);
+  `;
+  return svgWrap(inner);
 }
 
-// =============================================================
-// 8) Round Robin Gantt
-// =============================================================
+// 8) جدولة Round Robin (مخطط جانت)
 function chartGanttRoundRobin() {
+  // 4 عمليات مع quantum=4
   const processes = [
     { name: 'P1', burst: 8, color: PALETTE.bgPurpleDeep },
     { name: 'P2', burst: 4, color: PALETTE.bgPurple },
@@ -894,6 +1038,7 @@ function chartGanttRoundRobin() {
     { name: 'P4', burst: 5, color: PALETTE.bgPurpleLite },
   ];
   const quantum = 4;
+  // محاكاة Round Robin
   const queue = processes.map(p => ({ ...p, remaining: p.burst }));
   const timeline = [];
   let time = 0;
@@ -904,34 +1049,37 @@ function chartGanttRoundRobin() {
     timeline.push({ name: p.name, start: time, end: time + exec, color: p.color });
     time += exec;
     p.remaining -= exec;
-    queue.push(p);
+    if (p.remaining > 0) queue.push(p);
+    else queue.push(p);
   }
 
   const totalTime = timeline[timeline.length - 1].end;
   const plotX = 90, plotY = 280, plotW = 900, plotH = 100;
   const unitW = plotW / totalTime;
 
-  let blocks = '', labels = '', times = '';
+  let blocks = '';
+  let labels = '';
+  let times = '';
   timeline.forEach((t, i) => {
     const x = plotX + t.start * unitW;
     const w = (t.end - t.start) * unitW;
-    blocks += `<rect x="${x}" y="${plotY}" width="${w}" height="${plotH}" fill="${t.color}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2" opacity="0.9"/>`;
+    blocks += `<rect x="${x}" y="${plotY}" width="${w}" height="${plotH}" fill="${t.color}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2" opacity="0.85"/>`;
     labels += `<text x="${x + w/2}" y="${plotY + plotH/2 + 8}" text-anchor="middle" font-size="22" font-weight="700" fill="white">${t.name}</text>`;
     if (i === 0) times += `<text x="${plotX}" y="${plotY + plotH + 28}" text-anchor="middle" font-size="16" fill="${PALETTE.text}" font-weight="600">${t.start}</text>`;
     times += `<text x="${x + w}" y="${plotY + plotH + 28}" text-anchor="middle" font-size="16" fill="${PALETTE.text}" font-weight="600">${t.end}</text>`;
   });
 
-  // جدول العمليات
+  // جدول العمليات (يسار)
   let table = `
     <rect x="60" y="450" width="430" height="200" rx="10" fill="${PALETTE.boxBg}" stroke="${PALETTE.boxBorder}" stroke-width="2"/>
-    <text x="275" y="478" text-anchor="middle" direction="rtl" font-size="17" font-weight="700" fill="${PALETTE.bgPurpleDeep}">جدول العمليات / Process Table</text>
-    <line x1="80" y1="495" x2="470" y2="495" stroke="${PALETTE.boxBorder}" stroke-width="1"/>
-    <text x="120" y="520" text-anchor="middle" font-size="15" font-weight="600" fill="${PALETTE.text}">Process</text>
-    <text x="280" y="520" text-anchor="middle" font-size="15" font-weight="600" fill="${PALETTE.text}">Burst Time</text>
-    <text x="430" y="520" text-anchor="middle" font-size="15" font-weight="600" fill="${PALETTE.text}">Color</text>
+    <foreignObject x="70" y="460" width="410" height="40"><div xmlns="http://www.w3.org/1999/xhtml" style="font:700 18px 'Noto Sans Arabic',system-ui;color:${PALETTE.bgPurpleDeep};text-align:center;direction:rtl;">جدول العمليات / Process Table</div></foreignObject>
+    <line x1="80" y1="500" x2="470" y2="500" stroke="${PALETTE.boxBorder}" stroke-width="1"/>
+    <text x="120" y="525" text-anchor="middle" font-size="15" font-weight="600" fill="${PALETTE.text}">Process</text>
+    <text x="280" y="525" text-anchor="middle" font-size="15" font-weight="600" fill="${PALETTE.text}">Burst Time</text>
+    <text x="430" y="525" text-anchor="middle" font-size="15" font-weight="600" fill="${PALETTE.text}">Color</text>
   `;
   processes.forEach((p, i) => {
-    const y = 552 + i * 23;
+    const y = 555 + i * 23;
     table += `
       <text x="120" y="${y}" text-anchor="middle" font-size="15" fill="${PALETTE.text}" font-weight="600">${p.name}</text>
       <text x="280" y="${y}" text-anchor="middle" font-size="15" fill="${PALETTE.text}">${p.burst}</text>
@@ -939,387 +1087,433 @@ function chartGanttRoundRobin() {
     `;
   });
 
-  // معلومات الجدولة
-  const infoBox = `
+  // معلومات Quantum
+  const quantumBox = `
     <rect x="540" y="450" width="450" height="200" rx="10" fill="${PALETTE.boxBg}" stroke="${PALETTE.boxBorder}" stroke-width="2"/>
-    <text x="765" y="478" text-anchor="middle" direction="rtl" font-size="17" font-weight="700" fill="${PALETTE.bgPurpleDeep}">معلومات الجدولة / Schedule Info</text>
-    <line x1="560" y1="495" x2="970" y2="495" stroke="${PALETTE.boxBorder}" stroke-width="1"/>
-    <text x="960" y="525" text-anchor="end" direction="rtl" font-size="16" fill="${PALETTE.text}" font-weight="500">Quantum: ${quantum} وحدات</text>
-    <text x="960" y="555" text-anchor="end" direction="rtl" font-size="16" fill="${PALETTE.text}" font-weight="500">إجمالي الوقت: ${totalTime} وحدة</text>
-    <text x="960" y="585" text-anchor="end" direction="rtl" font-size="16" fill="${PALETTE.text}" font-weight="500">عدد العمليات: ${processes.length}</text>
-    <text x="960" y="615" text-anchor="end" direction="rtl" font-size="16" fill="${PALETTE.text}" font-weight="500">النوع: استباقي (Preemptive)</text>
+    <foreignObject x="550" y="460" width="430" height="40"><div xmlns="http://www.w3.org/1999/xhtml" style="font:700 18px 'Noto Sans Arabic',system-ui;color:${PALETTE.bgPurpleDeep};text-align:center;direction:rtl;">معلومات الجدولة / Schedule Info</div></foreignObject>
+    <line x1="560" y1="500" x2="970" y2="500" stroke="${PALETTE.boxBorder}" stroke-width="1"/>
+    <foreignObject x="560" y="510" width="410" height="35"><div xmlns="http://www.w3.org/1999/xhtml" style="font:600 16px 'Noto Sans Arabic',system-ui;color:${PALETTE.text};direction:rtl;text-align:right;">Quantum (الشريحة الزمنية): <b style="color:${PALETTE.bgPurpleDeep};">${quantum}</b> وحدات</div></foreignObject>
+    <foreignObject x="560" y="545" width="410" height="35"><div xmlns="http://www.w3.org/1999/xhtml" style="font:600 16px 'Noto Sans Arabic',system-ui;color:${PALETTE.text};direction:rtl;text-align:right;">إجمالي الوقت: <b style="color:${PALETTE.bgPurpleDeep};">${totalTime}</b> وحدة</div></foreignObject>
+    <foreignObject x="560" y="580" width="410" height="35"><div xmlns="http://www.w3.org/1999/xhtml" style="font:600 16px 'Noto Sans Arabic',system-ui;color:${PALETTE.text};direction:rtl;text-align:right;">عدد العمليات: <b style="color:${PALETTE.bgPurpleDeep};">${processes.length}</b></div></foreignObject>
+    <foreignObject x="560" y="615" width="410" height="35"><div xmlns="http://www.w3.org/1999/xhtml" style="font:500 14px 'Segoe UI',system-ui;color:${PALETTE.textMuted};direction:ltr;text-align:left;">Quantum = ${quantum}, Total Time = ${totalTime}, Processes = ${processes.length}</div></foreignObject>
   `;
 
-  return svgWrap(`
+  // محور زمني سفلي
+  const timeAxis = `
+    <line x1="${plotX}" y1="${plotY + plotH}" x2="${plotX + plotW}" y2="${plotY + plotH}" stroke="${PALETTE.text}" stroke-width="2"/>
+    <text x="${plotX + plotW/2}" y="${plotY + plotH + 60}" text-anchor="middle" font-size="18" fill="${PALETTE.text}" direction="rtl">المحور الزمني / Time Axis</text>
+  `;
+
+  const inner = `
     ${svgHeader('جدولة Round Robin', 'Round Robin Scheduling')}
     ${blocks}
     ${labels}
     ${times}
-    <line x1="${plotX}" y1="${plotY + plotH}" x2="${plotX + plotW}" y2="${plotY + plotH}" stroke="${PALETTE.text}" stroke-width="2"/>
-    <text x="${plotX + plotW/2}" y="${plotY + plotH + 60}" text-anchor="middle" direction="rtl" font-size="18" fill="${PALETTE.text}">المحور الزمني / Time Axis</text>
+    ${timeAxis}
     ${table}
-    ${infoBox}
+    ${quantumBox}
     ${svgKeyFeatures([
-      { ar: 'كل عملية تأخذ شريحة زمنية ثابتة', en: 'Each process gets fixed time quantum' },
-      { ar: 'العمليات تتداول في طابور FIFO', en: 'Processes rotate in FIFO queue' },
-      { ar: 'استباقي: قابل للمقاطعة', en: 'Preemptive scheduling' },
-      { ar: 'مثالي للأنظمة التفاعلية', en: 'Ideal for interactive systems' },
+      { ar: 'كل عملية تأخذ شريحة زمنية ثابتة', en: 'Each process gets fixed time quantum', icon: '◷' },
+      { ar: 'العمليات تتداول في طابور FIFO', en: 'Processes rotate in FIFO queue', icon: '⟳' },
+      { ar: 'preemptive: قابلة للاستباق', en: 'Preemptive scheduling', icon: '⏸' },
+      { ar: 'مثالية للأنظمة التفاعلية', en: 'Ideal for interactive systems', icon: '⌨' },
     ])}
-  `);
+  `;
+  return svgWrap(inner);
 }
 
-// =============================================================
 // 9) تخطيط الذاكرة Memory Layout
-// =============================================================
 function chartMemoryLayout() {
   const segments = [
-    { ar: 'المكدس',  en: 'Stack',      desc: 'متغيرات محلية', descEn: 'Local vars',    color: PALETTE.bgPurpleDeep, h: 130, arrow: 'down' },
-    { ar: 'فجوة',     en: 'Free Space', desc: '',              descEn: '',              color: '#F3F4F6',           h: 110, arrow: null },
-    { ar: 'الكومة',   en: 'Heap',       desc: 'تخصيص ديناميكي', descEn: 'malloc/new',   color: PALETTE.bgPurple,    h: 130, arrow: 'up' },
-    { ar: 'البيانات', en: 'BSS / Data', desc: 'متغيرات عامة',   descEn: 'Global vars',   color: PALETTE.bgPurpleLite, h: 110, arrow: null },
-    { ar: 'الكود',    en: 'Text',       desc: 'تعليمات البرنامج', descEn: 'Code (RO)',   color: PALETTE.bgBlueLite,  h: 110, arrow: null },
+    { ar: 'المكدس',        en: 'Stack',      desc: 'متغيرات محلية، استدعاءات الدوال', descEn: 'Local vars, function calls', color: PALETTE.bgPurpleDeep, h: 130, arrow: 'down' },
+    { ar: 'فجوة',           en: 'Free Space', desc: 'مساحة غير مستخدمة',                descEn: 'Unused memory',           color: '#F3F4F6',           h: 110, arrow: null },
+    { ar: 'الكومة',         en: 'Heap',       desc: 'تخصيص ديناميكي (malloc/new)',     descEn: 'Dynamic allocation',      color: PALETTE.bgPurple,    h: 130, arrow: 'up' },
+    { ar: 'البيانات',       en: 'BSS / Data', desc: 'متغيرات عامة وثابتة',             descEn: 'Global &amp; static vars',    color: PALETTE.bgPurpleLite, h: 110, arrow: null },
+    { ar: 'الكود',          en: 'Text',       desc: 'تعليمات البرنامج (للقراءة فقط)',  descEn: 'Program instructions (RO)', color: PALETTE.bgBlueLite,  h: 110, arrow: null },
   ];
 
-  const boxX = 350, boxW = 320;
+  const boxX = 220, boxW = 320;
   let y = 170;
-  let segSvg = '';
 
-  segments.forEach(seg => {
+  let segmentsSvg = '';
+  segments.forEach((seg, i) => {
     const isFree = seg.color === '#F3F4F6';
-    const textColor = isFree ? PALETTE.textMuted : 'white';
-    segSvg += `
-      <rect x="${boxX}" y="${y}" width="${boxW}" height="${seg.h}" fill="${seg.color}" opacity="${isFree ? '1' : '0.9'}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2" stroke-dasharray="${isFree ? '6,4' : '0'}"/>
-      <text x="${boxX + boxW/2}" y="${y + seg.h/2 - 12}" text-anchor="middle" direction="rtl" font-size="22" font-weight="700" fill="${textColor}">${seg.ar}</text>
-      <text x="${boxX + boxW/2}" y="${y + seg.h/2 + 14}" text-anchor="middle" font-size="18" font-weight="600" fill="${textColor}">${seg.en}</text>
-      ${!isFree && seg.desc ? `<text x="${boxX + boxW/2}" y="${y + seg.h - 14}" text-anchor="middle" direction="rtl" font-size="13" fill="${textColor}" opacity="0.95">${seg.desc} / ${seg.descEn}</text>` : ''}
-    `;
+    segmentsSvg += `
+      <rect x="${boxX}" y="${y}" width="${boxW}" height="${seg.h}" fill="${seg.color}" opacity="${isFree ? '1' : '0.85'}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2" stroke-dasharray="${isFree ? '6,4' : '0'}"/>
 
-    // سهم نمو يسار
-    if (seg.arrow === 'down') {
-      segSvg += `
+      <!-- نص داخل القسم -->
+      <foreignObject x="${boxX + 10}" y="${y + 10}" width="${boxW - 20}" height="${seg.h - 20}">
+        <div xmlns="http://www.w3.org/1999/xhtml" style="height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;color:${isFree ? PALETTE.textMuted : 'white'};text-shadow:0 1px 2px rgba(0,0,0,0.25);text-align:center;">
+          <div style="font:700 22px 'Noto Sans Arabic',system-ui;direction:rtl;">${seg.ar}</div>
+          <div style="font:600 18px 'Segoe UI',system-ui;margin:4px 0;">${seg.en}</div>
+          ${!isFree ? `<div style="font:500 12px 'Noto Sans Arabic',system-ui;direction:rtl;opacity:0.95;">${seg.desc}</div>` : ''}
+        </div>
+      </foreignObject>
+
+      <!-- شرح يمين -->
+      ${!isFree ? `<foreignObject x="${boxX + boxW + 30}" y="${y + 20}" width="380" height="${seg.h - 40}"><div xmlns="http://www.w3.org/1999/xhtml" style="font:500 16px 'Noto Sans Arabic',system-ui;color:${PALETTE.text};direction:rtl;text-align:right;line-height:1.5;">${seg.desc}<br/><span style="font-family:'Segoe UI',system-ui;color:${PALETTE.textMuted};font-size:14px;">${seg.descEn}</span></div></foreignObject>` : ''}
+
+      <!-- سهم يسار -->
+      ${seg.arrow === 'down' ? `
         <line x1="${boxX - 50}" y1="${y + 20}" x2="${boxX - 50}" y2="${y + seg.h - 20}" stroke="${PALETTE.annotPurple}" stroke-width="3"/>
         <polygon points="${boxX - 50},${y + seg.h - 15} ${boxX - 58},${y + seg.h - 28} ${boxX - 42},${y + seg.h - 28}" fill="${PALETTE.annotPurple}"/>
-        <text x="${boxX - 75}" y="${y + 50}" text-anchor="end" direction="rtl" font-size="14" fill="${PALETTE.annotPurple}" font-weight="600">ينمو للأسفل</text>
-        <text x="${boxX - 75}" y="${y + 70}" text-anchor="end" font-size="12" fill="${PALETTE.annotPurple}">grows down</text>
-      `;
-    } else if (seg.arrow === 'up') {
-      segSvg += `
+        <foreignObject x="${boxX - 200}" y="${y + 30}" width="140" height="50"><div xmlns="http://www.w3.org/1999/xhtml" style="font:600 14px 'Noto Sans Arabic',system-ui;color:${PALETTE.annotPurple};direction:rtl;text-align:left;">ينمو للأسفل<br/><span style="font-family:'Segoe UI',system-ui;font-weight:400;font-size:12px;">grows down</span></div></foreignObject>
+      ` : ''}
+      ${seg.arrow === 'up' ? `
         <line x1="${boxX - 50}" y1="${y + seg.h - 20}" x2="${boxX - 50}" y2="${y + 20}" stroke="${PALETTE.annotBlue}" stroke-width="3"/>
         <polygon points="${boxX - 50},${y + 15} ${boxX - 58},${y + 28} ${boxX - 42},${y + 28}" fill="${PALETTE.annotBlue}"/>
-        <text x="${boxX - 75}" y="${y + 50}" text-anchor="end" direction="rtl" font-size="14" fill="${PALETTE.annotBlue}" font-weight="600">ينمو للأعلى</text>
-        <text x="${boxX - 75}" y="${y + 70}" text-anchor="end" font-size="12" fill="${PALETTE.annotBlue}">grows up</text>
-      `;
-    }
-
+        <foreignObject x="${boxX - 200}" y="${y + 30}" width="140" height="50"><div xmlns="http://www.w3.org/1999/xhtml" style="font:600 14px 'Noto Sans Arabic',system-ui;color:${PALETTE.annotBlue};direction:rtl;text-align:left;">ينمو للأعلى<br/><span style="font-family:'Segoe UI',system-ui;font-weight:400;font-size:12px;">grows up</span></div></foreignObject>
+      ` : ''}
+    `;
     y += seg.h;
   });
 
-  return svgWrap(`
+  // عناوين العناوين
+  const addrLabels = `
+    <text x="${boxX - 8}" y="180" text-anchor="end" font-size="14" fill="${PALETTE.text}" font-weight="600" font-family="monospace">High Address</text>
+    <text x="${boxX - 8}" y="${y - 5}" text-anchor="end" font-size="14" fill="${PALETTE.text}" font-weight="600" font-family="monospace">0x00000000</text>
+  `;
+
+  const inner = `
     ${svgHeader('تخطيط الذاكرة', 'Memory Layout')}
-    ${segSvg}
-    <text x="${boxX - 8}" y="180" text-anchor="end" font-size="14" fill="${PALETTE.text}" font-weight="600">High Address</text>
-    <text x="${boxX - 8}" y="${y - 5}" text-anchor="end" font-size="14" fill="${PALETTE.text}" font-weight="600">0x00000000</text>
+    ${segmentsSvg}
+    ${addrLabels}
     ${svgKeyFeatures([
-      { ar: 'Stack ينمو من العنوان الأعلى للأسفل', en: 'Stack grows downward' },
-      { ar: 'Heap ينمو من الأسفل للأعلى', en: 'Heap grows upward' },
-      { ar: 'Text segment للقراءة فقط (read-only)', en: 'Text segment is read-only' },
-      { ar: 'Stack overflow عند تصادمهما', en: 'Stack overflow when they meet' },
+      { ar: 'Stack ينمو من العنوان الأعلى للأسفل', en: 'Stack grows downward from high address', icon: '↓' },
+      { ar: 'Heap ينمو من الأسفل للأعلى', en: 'Heap grows upward', icon: '↑' },
+      { ar: 'Text segment للقراءة فقط (read-only)', en: 'Text segment is read-only', icon: '🔒' },
+      { ar: 'Stack overflow عند تصادم Stack مع Heap', en: 'Stack overflow when stack meets heap', icon: '⚠' },
     ])}
-  `);
+  `;
+  return svgWrap(inner);
 }
 
-// =============================================================
 // 10) جدول الصفحات Page Table
-// =============================================================
 function chartPageTable() {
-  const rows = [
-    { vpn: '0000', frame: '0101' },
-    { vpn: '0001', frame: '1011' },
-    { vpn: '0010', frame: '0001' },
-    { vpn: '0011', frame: '0111', highlight: true },
-    { vpn: '0100', frame: '1100' },
-    { vpn: '0101', frame: '0010' },
-  ];
-
-  let tableRows = '';
-  rows.forEach((row, i) => {
-    const ry = 460 + i * 30;
-    if (row.highlight) {
-      tableRows += `<rect x="200" y="${ry - 18}" width="380" height="28" fill="${PALETTE.bgPurpleVeryLite}"/>`;
-    }
-    const wt = row.highlight ? '700' : '500';
-    const color = row.highlight ? PALETTE.bgPurpleDeep : PALETTE.text;
-    tableRows += `
-      <text x="295" y="${ry}" text-anchor="middle" font-size="15" font-weight="${wt}" fill="${color}" font-family="monospace">${row.vpn}</text>
-      <text x="485" y="${ry}" text-anchor="middle" font-size="15" font-weight="${wt}" fill="${color}" font-family="monospace">${row.frame}</text>
-    `;
-  });
-
-  return svgWrap(`
+  // العنوان الافتراضي: 16-bit (4-bit page number + 12-bit offset)
+  const inner = `
     ${svgHeader('جدول الصفحات', 'Page Table')}
 
     <!-- العنوان الافتراضي -->
-    <text x="540" y="180" text-anchor="middle" direction="rtl" font-size="20" font-weight="700" fill="${PALETTE.bgPurpleDeep}">العنوان الافتراضي / Virtual Address (16-bit)</text>
+    <foreignObject x="80" y="180" width="900" height="40"><div xmlns="http://www.w3.org/1999/xhtml" style="font:700 20px 'Noto Sans Arabic',system-ui;color:${PALETTE.bgPurpleDeep};text-align:center;direction:rtl;">العنوان الافتراضي / Virtual Address (16-bit)</div></foreignObject>
 
-    <!-- VPN -->
-    <rect x="200" y="220" width="220" height="70" fill="${PALETTE.bgPurpleVeryLite}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
-    <text x="310" y="245" text-anchor="middle" direction="rtl" font-size="16" font-weight="700" fill="${PALETTE.text}">رقم الصفحة</text>
-    <text x="310" y="263" text-anchor="middle" font-size="13" fill="${PALETTE.textMuted}">VPN (4 bits)</text>
-    <text x="310" y="285" text-anchor="middle" font-size="20" font-weight="700" fill="${PALETTE.bgPurpleDeep}" font-family="monospace">0011</text>
+    <rect x="200" y="240" width="220" height="60" fill="${PALETTE.bgPurpleVeryLite}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
+    <foreignObject x="200" y="240" width="220" height="60"><div xmlns="http://www.w3.org/1999/xhtml" style="height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;color:${PALETTE.text};">
+      <div style="font:700 18px 'Noto Sans Arabic',system-ui;direction:rtl;">رقم الصفحة</div>
+      <div style="font:600 14px 'Segoe UI',system-ui;">VPN (4 bits)</div>
+      <div style="font:700 22px monospace;color:${PALETTE.bgPurpleDeep};margin-top:2px;">0011</div>
+    </div></foreignObject>
 
-    <!-- Offset -->
-    <rect x="420" y="220" width="320" height="70" fill="${PALETTE.bgBlueVeryLite}" stroke="${PALETTE.annotBlue}" stroke-width="2.5"/>
-    <text x="580" y="245" text-anchor="middle" direction="rtl" font-size="16" font-weight="700" fill="${PALETTE.text}">الإزاحة</text>
-    <text x="580" y="263" text-anchor="middle" font-size="13" fill="${PALETTE.textMuted}">Offset (12 bits)</text>
-    <text x="580" y="285" text-anchor="middle" font-size="18" font-weight="700" fill="${PALETTE.annotBlue}" font-family="monospace">000010101100</text>
+    <rect x="420" y="240" width="320" height="60" fill="${PALETTE.bgBlueVeryLite}" stroke="${PALETTE.annotBlue}" stroke-width="2.5"/>
+    <foreignObject x="420" y="240" width="320" height="60"><div xmlns="http://www.w3.org/1999/xhtml" style="height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;color:${PALETTE.text};">
+      <div style="font:700 18px 'Noto Sans Arabic',system-ui;direction:rtl;">الإزاحة</div>
+      <div style="font:600 14px 'Segoe UI',system-ui;">Offset (12 bits)</div>
+      <div style="font:700 18px monospace;color:${PALETTE.annotBlue};margin-top:2px;">000010101100</div>
+    </div></foreignObject>
 
-    <line x1="310" y1="290" x2="310" y2="345" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
-    <polygon points="310,350 302,338 318,338" fill="${PALETTE.bgPurpleDeep}"/>
+    <!-- سهم نزولاً إلى Page Table -->
+    <line x1="310" y1="310" x2="310" y2="360" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
+    <polygon points="310,365 302,353 318,353" fill="${PALETTE.bgPurpleDeep}"/>
 
     <!-- جدول الصفحات -->
-    <rect x="200" y="360" width="380" height="290" fill="white" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
-    <text x="390" y="390" text-anchor="middle" direction="rtl" font-size="17" font-weight="700" fill="${PALETTE.bgPurpleDeep}">جدول الصفحات / Page Table</text>
-    <line x1="200" y1="410" x2="580" y2="410" stroke="${PALETTE.bgPurpleDeep}" stroke-width="1.5"/>
-    <line x1="390" y1="410" x2="390" y2="650" stroke="${PALETTE.bgPurpleDeep}" stroke-width="1"/>
+    <rect x="200" y="370" width="380" height="280" fill="white" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
+    <foreignObject x="200" y="375" width="380" height="40"><div xmlns="http://www.w3.org/1999/xhtml" style="font:700 18px 'Noto Sans Arabic',system-ui;color:${PALETTE.bgPurpleDeep};text-align:center;direction:rtl;">جدول الصفحات / Page Table</div></foreignObject>
+    <line x1="200" y1="415" x2="580" y2="415" stroke="${PALETTE.bgPurpleDeep}" stroke-width="1.5"/>
+    <line x1="390" y1="415" x2="390" y2="650" stroke="${PALETTE.bgPurpleDeep}" stroke-width="1"/>
+
+    <!-- رؤوس الأعمدة -->
     <text x="295" y="438" text-anchor="middle" font-size="14" font-weight="700" fill="${PALETTE.bgPurpleDeep}">VPN</text>
     <text x="485" y="438" text-anchor="middle" font-size="14" font-weight="700" fill="${PALETTE.bgPurpleDeep}">Frame #</text>
-    ${tableRows}
 
-    <!-- سهم إلى Physical Address -->
+    <!-- صفوف الجدول -->
+    ${[
+      { vpn: '0000', frame: '0101' },
+      { vpn: '0001', frame: '1011' },
+      { vpn: '0010', frame: '0001' },
+      { vpn: '0011', frame: '0111', highlight: true },
+      { vpn: '0100', frame: '1100' },
+      { vpn: '0101', frame: '0010' },
+    ].map((row, i) => {
+      const y = 460 + i * 30;
+      const bg = row.highlight ? `<rect x="200" y="${y - 18}" width="380" height="28" fill="${PALETTE.bgPurpleVeryLite}"/>` : '';
+      const wt = row.highlight ? '700' : '500';
+      const color = row.highlight ? PALETTE.bgPurpleDeep : PALETTE.text;
+      return `${bg}<text x="295" y="${y}" text-anchor="middle" font-size="15" font-weight="${wt}" fill="${color}" font-family="monospace">${row.vpn}</text><text x="485" y="${y}" text-anchor="middle" font-size="15" font-weight="${wt}" fill="${color}" font-family="monospace">${row.frame}</text>`;
+    }).join('')}
+
+    <!-- سهم من الجدول إلى Physical Address -->
     <line x1="580" y1="490" x2="700" y2="490" stroke="${PALETTE.annotPurple}" stroke-width="2.5"/>
     <polygon points="705,490 693,484 693,496" fill="${PALETTE.annotPurple}"/>
 
     <!-- العنوان الفيزيائي -->
-    <rect x="700" y="430" width="280" height="120" rx="8" fill="${PALETTE.boxBg}" stroke="${PALETTE.annotPurple}" stroke-width="2.5"/>
-    <text x="840" y="458" text-anchor="middle" direction="rtl" font-size="15" font-weight="700" fill="${PALETTE.text}">العنوان الفيزيائي</text>
-    <text x="840" y="478" text-anchor="middle" font-size="13" fill="${PALETTE.textMuted}">Physical Address</text>
-    <text x="840" y="510" text-anchor="middle" font-size="16" font-weight="700" fill="${PALETTE.annotPurple}" font-family="monospace">0111 | 000010101100</text>
-    <text x="840" y="535" text-anchor="middle" font-size="11" fill="${PALETTE.textMuted}">Frame # | Offset</text>
+    <rect x="700" y="430" width="280" height="120" fill="${PALETTE.boxBg}" stroke="${PALETTE.annotPurple}" stroke-width="2.5" rx="8"/>
+    <foreignObject x="700" y="440" width="280" height="100"><div xmlns="http://www.w3.org/1999/xhtml" style="height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;color:${PALETTE.text};">
+      <div style="font:700 16px 'Noto Sans Arabic',system-ui;direction:rtl;">العنوان الفيزيائي</div>
+      <div style="font:600 14px 'Segoe UI',system-ui;color:${PALETTE.textMuted};">Physical Address</div>
+      <div style="font:700 16px monospace;color:${PALETTE.annotPurple};margin-top:8px;">0111 | 000010101100</div>
+      <div style="font:500 12px 'Segoe UI',system-ui;color:${PALETTE.textMuted};margin-top:4px;">Frame # | Offset</div>
+    </div></foreignObject>
 
     ${svgKeyFeatures([
-      { ar: 'العنوان الافتراضي = VPN + Offset', en: 'Virtual Address = VPN + Offset' },
-      { ar: 'جدول الصفحات يربط VPN بـ Frame #', en: 'Page table maps VPN to Frame #' },
-      { ar: 'الـ Offset لا يتغير في الترجمة', en: 'Offset stays unchanged' },
-      { ar: 'يُمكّن الذاكرة الافتراضية والحماية', en: 'Enables virtual memory & protection' },
+      { ar: 'العنوان الافتراضي = VPN + Offset', en: 'Virtual Address = VPN + Offset', icon: '⚄' },
+      { ar: 'جدول الصفحات يربط VPN بـ Frame #', en: 'Page table maps VPN to Frame #', icon: '⇄' },
+      { ar: 'الـ Offset لا يتغير في الترجمة', en: 'Offset stays unchanged in translation', icon: '=' },
+      { ar: 'يُمكّن الذاكرة الافتراضية والحماية', en: 'Enables virtual memory and protection', icon: '🔐' },
     ])}
-  `);
+  `;
+  return svgWrap(inner);
 }
 
 // =============================================================
-// 11) قائمة بايثون Python List
+// مخططات بايثون (Python)
 // =============================================================
+
+// 11) قائمة بايثون Python List
 function chartPythonList() {
   const items = ['"apple"', '"banana"', '42', '3.14', '"hello"', 'True'];
-  const startX = 140, y = 350, cellW = 130, cellH = 80;
-  const colors = [PALETTE.bgBlueLite, PALETTE.bgPurpleVeryLite, PALETTE.bgPurpleLite, PALETTE.bgPurple, PALETTE.bgPurpleDeep, PALETTE.bgBlueLite];
+  const startX = 140, y = 320, cellW = 130, cellH = 80;
 
-  let cells = '', indices = '', negIndices = '';
+  let cells = '';
+  let indices = '';
+  let negIndices = '';
   items.forEach((item, i) => {
     const x = startX + i * cellW;
+    const colors = [PALETTE.bgBlueLite, PALETTE.bgPurpleVeryLite, PALETTE.bgPurpleLite, PALETTE.bgPurple, PALETTE.bgPurpleDeep, PALETTE.bgBlueLite];
     cells += `
-      <rect x="${x}" y="${y}" width="${cellW}" height="${cellH}" fill="${colors[i % colors.length]}" opacity="0.9" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2"/>
-      <text x="${x + cellW/2}" y="${y + cellH/2 + 7}" text-anchor="middle" font-size="20" font-weight="700" fill="white" font-family="monospace">${item}</text>
+      <rect x="${x}" y="${y}" width="${cellW}" height="${cellH}" fill="${colors[i % colors.length]}" opacity="0.85" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2"/>
+      <text x="${x + cellW/2}" y="${y + cellH/2 + 7}" text-anchor="middle" font-size="20" font-weight="700" fill="white" font-family="monospace" style="text-shadow:0 1px 2px rgba(0,0,0,0.3);">${item}</text>
     `;
-    indices += `<text x="${x + cellW/2}" y="${y - 15}" text-anchor="middle" font-size="22" font-weight="700" fill="${PALETTE.bgPurpleDeep}">${i}</text>`;
-    negIndices += `<text x="${x + cellW/2}" y="${y + cellH + 35}" text-anchor="middle" font-size="22" font-weight="700" fill="${PALETTE.annotPurple}">${-(items.length - i)}</text>`;
+    // Index موجب فوق
+    indices += `<text x="${x + cellW/2}" y="${y - 15}" text-anchor="middle" font-size="20" font-weight="700" fill="${PALETTE.bgPurpleDeep}">${i}</text>`;
+    // Index سالب تحت
+    const neg = -(items.length - i);
+    negIndices += `<text x="${x + cellW/2}" y="${y + cellH + 35}" text-anchor="middle" font-size="20" font-weight="700" fill="${PALETTE.annotPurple}">${neg}</text>`;
   });
 
-  // كود
-  const code = `
-    <rect x="100" y="180" width="880" height="80" rx="10" fill="#1F2937" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2"/>
-    <text x="120" y="225" font-size="20" fill="#E5E7EB" font-family="monospace">my_list = ["apple", "banana", 42, 3.14, "hello", True]</text>
+  // التسميات
+  const labels = `
+    <text x="${startX - 80}" y="${y - 15}" text-anchor="end" font-size="16" fill="${PALETTE.bgPurpleDeep}" font-weight="600" direction="rtl">Index موجب</text>
+    <text x="${startX - 80}" y="${y + cellH + 35}" text-anchor="end" font-size="16" fill="${PALETTE.annotPurple}" font-weight="600" direction="rtl">Index سالب</text>
   `;
 
-  // أمثلة استخدام
+  // أمثلة على الوصول
   const examples = `
     <rect x="100" y="500" width="880" height="130" rx="10" fill="${PALETTE.boxBg}" stroke="${PALETTE.boxBorder}" stroke-width="2"/>
-    <text x="540" y="528" text-anchor="middle" direction="rtl" font-size="18" font-weight="700" fill="${PALETTE.bgPurpleDeep}">أمثلة على الوصول / Access Examples</text>
-    <line x1="120" y1="548" x2="960" y2="548" stroke="${PALETTE.boxBorder}" stroke-width="1"/>
-    <text x="180" y="582" text-anchor="middle" font-size="15" font-weight="700" fill="${PALETTE.bgPurpleDeep}" font-family="monospace">my_list[0]</text>
-    <text x="180" y="608" text-anchor="middle" font-size="14" fill="${PALETTE.text}" font-family="monospace">→ "apple"</text>
-    <text x="400" y="582" text-anchor="middle" font-size="15" font-weight="700" fill="${PALETTE.bgPurpleDeep}" font-family="monospace">my_list[-1]</text>
-    <text x="400" y="608" text-anchor="middle" font-size="14" fill="${PALETTE.text}" font-family="monospace">→ True</text>
-    <text x="620" y="582" text-anchor="middle" font-size="15" font-weight="700" fill="${PALETTE.bgPurpleDeep}" font-family="monospace">my_list[2]</text>
-    <text x="620" y="608" text-anchor="middle" font-size="14" fill="${PALETTE.text}" font-family="monospace">→ 42</text>
-    <text x="840" y="582" text-anchor="middle" font-size="15" font-weight="700" fill="${PALETTE.bgPurpleDeep}" font-family="monospace">len(my_list)</text>
-    <text x="840" y="608" text-anchor="middle" font-size="14" fill="${PALETTE.text}" font-family="monospace">→ 6</text>
+    <foreignObject x="110" y="510" width="860" height="40"><div xmlns="http://www.w3.org/1999/xhtml" style="font:700 18px 'Noto Sans Arabic',system-ui;color:${PALETTE.bgPurpleDeep};text-align:center;direction:rtl;">أمثلة على الوصول / Access Examples</div></foreignObject>
+    <line x1="120" y1="550" x2="960" y2="550" stroke="${PALETTE.boxBorder}" stroke-width="1"/>
+    ${[
+      { code: 'list[0]',  result: '"apple"',   ar: 'العنصر الأول' },
+      { code: 'list[-1]', result: 'True',      ar: 'العنصر الأخير' },
+      { code: 'list[2]',  result: '42',        ar: 'الفهرس الثاني' },
+      { code: 'len(list)', result: '6',        ar: 'طول القائمة' },
+    ].map((ex, i) => {
+      const x = 130 + (i % 4) * 220;
+      return `
+        <text x="${x}" y="585" font-size="15" font-weight="700" fill="${PALETTE.bgPurpleDeep}" font-family="monospace">${ex.code}</text>
+        <text x="${x}" y="608" font-size="14" fill="${PALETTE.text}" font-family="monospace">→ ${ex.result}</text>
+      `;
+    }).join('')}
   `;
 
-  // تسميات Index
-  const idxLabels = `
-    <text x="${startX - 30}" y="${y - 10}" text-anchor="end" direction="rtl" font-size="15" fill="${PALETTE.bgPurpleDeep}" font-weight="600">موجب</text>
-    <text x="${startX - 30}" y="${y + cellH + 30}" text-anchor="end" direction="rtl" font-size="15" fill="${PALETTE.annotPurple}" font-weight="600">سالب</text>
+  const code = `
+    <rect x="100" y="180" width="880" height="80" rx="10" fill="#1F2937" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2"/>
+    <foreignObject x="110" y="195" width="860" height="60"><div xmlns="http://www.w3.org/1999/xhtml" style="font:600 18px monospace;color:#E5E7EB;direction:ltr;text-align:left;line-height:1.4;">my_list = <span style="color:#FCD34D;">[</span><span style="color:#86EFAC;">"apple", "banana"</span>, <span style="color:#FBBF24;">42, 3.14</span>, <span style="color:#86EFAC;">"hello"</span>, <span style="color:#F472B6;">True</span><span style="color:#FCD34D;">]</span></div></foreignObject>
   `;
 
-  return svgWrap(`
+  const inner = `
     ${svgHeader('قائمة بايثون', 'Python List')}
     ${code}
     ${cells}
     ${indices}
     ${negIndices}
-    ${idxLabels}
+    ${labels}
     ${examples}
     ${svgKeyFeatures([
-      { ar: 'مجموعة مرتبة قابلة للتعديل', en: 'Ordered, mutable collection' },
-      { ar: 'تستوعب أنواع بيانات مختلفة', en: 'Holds heterogeneous types' },
-      { ar: 'فهرسة موجبة (0, 1) أو سالبة (-1)', en: 'Positive or negative indexing' },
-      { ar: 'قابلة للقص (slicing): list[1:4]', en: 'Slicing: list[start:end]' },
+      { ar: 'مجموعة مرتبة قابلة للتعديل', en: 'Ordered, mutable collection', icon: '[]' },
+      { ar: 'تستوعب أنواع بيانات مختلفة', en: 'Holds heterogeneous types', icon: '⚏' },
+      { ar: 'الفهرسة موجبة (0, 1, ...) أو سالبة (-1)', en: 'Positive (0,1...) or negative (-1) indexing', icon: '#' },
+      { ar: 'قابلة للقص (slicing): list[1:4]', en: 'Slicing: list[start:end]', icon: '⋮' },
     ])}
-  `);
+  `;
+  return svgWrap(inner);
 }
 
-// =============================================================
 // 12) قاموس بايثون Python Dictionary
-// =============================================================
 function chartPythonDict() {
   const pairs = [
-    { key: '"name"',   value: '"Atif"',       color: PALETTE.bgPurpleDeep },
-    { key: '"age"',    value: '35',           color: PALETTE.bgPurple },
-    { key: '"job"',    value: '"HR Manager"', color: PALETTE.bgPurpleLite },
-    { key: '"city"',   value: '"Jeddah"',     color: PALETTE.bgBlueLite },
-    { key: '"active"', value: 'True',         color: PALETTE.annotPurple },
+    { key: '"name"',    value: '"Atif"',          color: PALETTE.bgPurpleDeep },
+    { key: '"age"',     value: '35',              color: PALETTE.bgPurple },
+    { key: '"job"',     value: '"HR Manager"',    color: PALETTE.bgPurpleLite },
+    { key: '"city"',    value: '"Jeddah"',        color: PALETTE.bgBlueLite },
+    { key: '"active"',  value: 'True',            color: PALETTE.annotPurple },
   ];
 
-  const startY = 290, rowH = 70;
-  let rowsSvg = '';
+  const startY = 280, rowH = 70;
 
+  let rows = '';
   pairs.forEach((p, i) => {
-    const ry = startY + i * rowH;
-    rowsSvg += `
-      <rect x="200" y="${ry}" width="220" height="${rowH - 12}" rx="6" fill="${p.color}" opacity="0.9" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2"/>
-      <text x="310" y="${ry + (rowH - 12)/2 + 7}" text-anchor="middle" font-size="18" font-weight="700" fill="white" font-family="monospace">${p.key}</text>
+    const y = startY + i * rowH;
+    rows += `
+      <!-- Key -->
+      <rect x="200" y="${y}" width="220" height="${rowH - 10}" rx="6" fill="${p.color}" opacity="0.85" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2"/>
+      <text x="310" y="${y + (rowH - 10)/2 + 7}" text-anchor="middle" font-size="18" font-weight="700" fill="white" font-family="monospace" style="text-shadow:0 1px 2px rgba(0,0,0,0.3);">${p.key}</text>
 
-      <line x1="425" y1="${ry + (rowH - 12)/2}" x2="555" y2="${ry + (rowH - 12)/2}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
-      <polygon points="560,${ry + (rowH - 12)/2} 548,${ry + (rowH - 12)/2 - 6} 548,${ry + (rowH - 12)/2 + 6}" fill="${PALETTE.bgPurpleDeep}"/>
+      <!-- سهم → -->
+      <line x1="425" y1="${y + (rowH - 10)/2}" x2="555" y2="${y + (rowH - 10)/2}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
+      <polygon points="560,${y + (rowH - 10)/2} 548,${y + (rowH - 10)/2 - 6} 548,${y + (rowH - 10)/2 + 6}" fill="${PALETTE.bgPurpleDeep}"/>
 
-      <rect x="565" y="${ry}" width="280" height="${rowH - 12}" rx="6" fill="white" stroke="${p.color}" stroke-width="2.5"/>
-      <text x="705" y="${ry + (rowH - 12)/2 + 7}" text-anchor="middle" font-size="18" font-weight="700" fill="${p.color}" font-family="monospace">${p.value}</text>
+      <!-- Value -->
+      <rect x="565" y="${y}" width="280" height="${rowH - 10}" rx="6" fill="white" stroke="${p.color}" stroke-width="2.5"/>
+      <text x="705" y="${y + (rowH - 10)/2 + 7}" text-anchor="middle" font-size="18" font-weight="700" fill="${p.color}" font-family="monospace">${p.value}</text>
+
+      <!-- نوع القيمة -->
+      <text x="870" y="${y + (rowH - 10)/2 + 5}" text-anchor="start" font-size="13" fill="${PALETTE.textMuted}" font-family="monospace">(${typeof JSON.parse(p.value.replace(/^"|"$/g, '"').replace(/True/g, 'true').replace(/False/g, 'false'))})</text>
     `;
   });
 
-  // كود
-  const code = `
-    <rect x="100" y="180" width="880" height="60" rx="10" fill="#1F2937" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2"/>
-    <text x="120" y="218" font-size="18" fill="#E5E7EB" font-family="monospace">person = {"name": "Atif", "age": 35, "job": "HR Manager", ...}</text>
+  // تسميات الأعمدة
+  const headers = `
+    <text x="310" y="265" text-anchor="middle" font-size="20" font-weight="700" fill="${PALETTE.bgPurpleDeep}">Key</text>
+    <text x="705" y="265" text-anchor="middle" font-size="20" font-weight="700" fill="${PALETTE.bgPurpleDeep}">Value</text>
+    <foreignObject x="240" y="240" width="140" height="22"><div xmlns="http://www.w3.org/1999/xhtml" style="font:600 14px 'Noto Sans Arabic',system-ui;color:${PALETTE.textMuted};text-align:center;direction:rtl;">المفتاح</div></foreignObject>
+    <foreignObject x="635" y="240" width="140" height="22"><div xmlns="http://www.w3.org/1999/xhtml" style="font:600 14px 'Noto Sans Arabic',system-ui;color:${PALETTE.textMuted};text-align:center;direction:rtl;">القيمة</div></foreignObject>
   `;
 
-  return svgWrap(`
+  const code = `
+    <rect x="100" y="180" width="880" height="50" rx="10" fill="#1F2937" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2"/>
+    <foreignObject x="110" y="190" width="860" height="35"><div xmlns="http://www.w3.org/1999/xhtml" style="font:600 16px monospace;color:#E5E7EB;direction:ltr;text-align:left;">person = <span style="color:#FCD34D;">{</span><span style="color:#86EFAC;">"name"</span>: <span style="color:#86EFAC;">"Atif"</span>, <span style="color:#86EFAC;">"age"</span>: <span style="color:#FBBF24;">35</span>, <span style="color:#86EFAC;">"job"</span>: <span style="color:#86EFAC;">"HR Manager"</span><span style="color:#FCD34D;">}</span></div></foreignObject>
+  `;
+
+  const inner = `
     ${svgHeader('قاموس بايثون', 'Python Dictionary')}
     ${code}
-    <text x="310" y="278" text-anchor="middle" font-size="20" font-weight="700" fill="${PALETTE.bgPurpleDeep}">Key (المفتاح)</text>
-    <text x="705" y="278" text-anchor="middle" font-size="20" font-weight="700" fill="${PALETTE.bgPurpleDeep}">Value (القيمة)</text>
-    ${rowsSvg}
+    ${headers}
+    ${rows}
     ${svgKeyFeatures([
-      { ar: 'مجموعة من أزواج (مفتاح: قيمة)', en: 'Collection of (key: value) pairs' },
-      { ar: 'الوصول عبر المفتاح: dict[key]', en: 'Access by key: dict[key]' },
-      { ar: 'المفاتيح فريدة وغير قابلة للتغيير', en: 'Keys are unique and immutable' },
-      { ar: 'سرعة O(1) في البحث والإدراج', en: 'O(1) lookup and insertion' },
+      { ar: 'مجموعة من أزواج (مفتاح: قيمة)', en: 'Collection of (key: value) pairs', icon: '⚏' },
+      { ar: 'الوصول عبر المفتاح: dict[key]', en: 'Access by key: dict[key]', icon: '🔑' },
+      { ar: 'المفاتيح فريدة وغير قابلة للتغيير', en: 'Keys are unique and immutable', icon: '#' },
+      { ar: 'سرعة O(1) في البحث والإدراج', en: 'O(1) lookup and insertion', icon: '⚡' },
     ])}
-  `);
+  `;
+  return svgWrap(inner);
 }
 
-// =============================================================
 // 13) تدفق الدالة Function Flow
-// =============================================================
 function chartFunctionFlow() {
-  return svgWrap(`
+  const inner = `
     ${svgHeader('تدفق الدالة', 'Function Flow')}
 
     <!-- Input -->
-    <rect x="80" y="280" width="200" height="120" rx="60" fill="${PALETTE.bgBlueLite}" opacity="0.9" stroke="${PALETTE.annotBlue}" stroke-width="3"/>
-    <text x="180" y="328" text-anchor="middle" direction="rtl" font-size="22" font-weight="700" fill="${PALETTE.text}">المدخلات</text>
-    <text x="180" y="352" text-anchor="middle" font-size="18" font-weight="600" fill="${PALETTE.text}">Input</text>
-    <text x="180" y="378" text-anchor="middle" font-size="16" font-weight="700" fill="${PALETTE.annotBlue}" font-family="monospace">x, y</text>
+    <rect x="80" y="280" width="200" height="120" rx="60" fill="${PALETTE.bgBlueLite}" stroke="${PALETTE.annotBlue}" stroke-width="3"/>
+    <foreignObject x="80" y="280" width="200" height="120"><div xmlns="http://www.w3.org/1999/xhtml" style="height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;color:${PALETTE.text};">
+      <div style="font:700 22px 'Noto Sans Arabic',system-ui;direction:rtl;">المدخلات</div>
+      <div style="font:600 18px 'Segoe UI',system-ui;color:${PALETTE.text};">Input</div>
+      <div style="font:600 14px monospace;color:${PALETTE.annotBlue};margin-top:8px;">x, y</div>
+    </div></foreignObject>
 
-    <line x1="280" y1="340" x2="395" y2="340" stroke="${PALETTE.bgPurpleDeep}" stroke-width="3"/>
-    <polygon points="400,340 388,333 388,347" fill="${PALETTE.bgPurpleDeep}"/>
+    <!-- سهم -->
+    <line x1="280" y1="340" x2="400" y2="340" stroke="${PALETTE.bgPurpleDeep}" stroke-width="3"/>
+    <polygon points="405,340 393,333 393,347" fill="${PALETTE.bgPurpleDeep}"/>
 
-    <!-- Function -->
-    <rect x="400" y="240" width="280" height="200" rx="14" fill="${PALETTE.bgPurple}" opacity="0.95" stroke="${PALETTE.bgPurpleDeep}" stroke-width="3"/>
-    <text x="540" y="290" text-anchor="middle" direction="rtl" font-size="24" font-weight="700" fill="white">الدالة</text>
-    <text x="540" y="318" text-anchor="middle" font-size="22" font-weight="700" fill="white">Function</text>
-    <rect x="430" y="345" width="220" height="32" rx="6" fill="rgba(0,0,0,0.3)"/>
-    <text x="540" y="367" text-anchor="middle" font-size="17" font-weight="600" fill="white" font-family="monospace">def add(x, y):</text>
-    <rect x="430" y="385" width="220" height="32" rx="6" fill="rgba(0,0,0,0.3)"/>
-    <text x="540" y="407" text-anchor="middle" font-size="17" font-weight="600" fill="white" font-family="monospace">return x + y</text>
+    <!-- Function box -->
+    <rect x="400" y="240" width="280" height="200" rx="14" fill="${PALETTE.bgPurple}" opacity="0.9" stroke="${PALETTE.bgPurpleDeep}" stroke-width="3"/>
+    <foreignObject x="400" y="240" width="280" height="200"><div xmlns="http://www.w3.org/1999/xhtml" style="height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;color:white;text-shadow:0 1px 3px rgba(0,0,0,0.4);">
+      <div style="font:700 24px 'Noto Sans Arabic',system-ui;direction:rtl;">الدالة</div>
+      <div style="font:700 22px 'Segoe UI',system-ui;">Function</div>
+      <div style="font:600 16px monospace;margin-top:14px;background:rgba(0,0,0,0.25);padding:6px 14px;border-radius:6px;">def add(x, y):</div>
+      <div style="font:600 16px monospace;margin-top:6px;background:rgba(0,0,0,0.25);padding:6px 14px;border-radius:6px;">return x + y</div>
+    </div></foreignObject>
 
-    <line x1="680" y1="340" x2="795" y2="340" stroke="${PALETTE.bgPurpleDeep}" stroke-width="3"/>
-    <polygon points="800,340 788,333 788,347" fill="${PALETTE.bgPurpleDeep}"/>
+    <!-- سهم -->
+    <line x1="680" y1="340" x2="800" y2="340" stroke="${PALETTE.bgPurpleDeep}" stroke-width="3"/>
+    <polygon points="805,340 793,333 793,347" fill="${PALETTE.bgPurpleDeep}"/>
 
     <!-- Output -->
-    <rect x="800" y="280" width="200" height="120" rx="60" fill="${PALETTE.bgPurpleLite}" opacity="0.9" stroke="${PALETTE.annotPurple}" stroke-width="3"/>
-    <text x="900" y="328" text-anchor="middle" direction="rtl" font-size="22" font-weight="700" fill="${PALETTE.text}">المخرجات</text>
-    <text x="900" y="352" text-anchor="middle" font-size="18" font-weight="600" fill="${PALETTE.text}">Output</text>
-    <text x="900" y="378" text-anchor="middle" font-size="16" font-weight="700" fill="${PALETTE.annotPurple}" font-family="monospace">x + y</text>
+    <rect x="800" y="280" width="200" height="120" rx="60" fill="${PALETTE.bgPurpleLite}" stroke="${PALETTE.annotPurple}" stroke-width="3"/>
+    <foreignObject x="800" y="280" width="200" height="120"><div xmlns="http://www.w3.org/1999/xhtml" style="height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;color:${PALETTE.text};">
+      <div style="font:700 22px 'Noto Sans Arabic',system-ui;direction:rtl;">المخرجات</div>
+      <div style="font:600 18px 'Segoe UI',system-ui;">Output</div>
+      <div style="font:600 14px monospace;color:${PALETTE.annotPurple};margin-top:8px;">x + y</div>
+    </div></foreignObject>
 
     <!-- مثال -->
-    <rect x="100" y="500" width="880" height="160" rx="14" fill="${PALETTE.boxBg}" stroke="${PALETTE.boxBorder}" stroke-width="2"/>
-    <text x="540" y="528" text-anchor="middle" direction="rtl" font-size="18" font-weight="700" fill="${PALETTE.bgPurpleDeep}">مثال على الاستخدام / Usage Example</text>
-    <line x1="120" y1="548" x2="960" y2="548" stroke="${PALETTE.boxBorder}" stroke-width="1"/>
+    <rect x="80" y="500" width="920" height="160" rx="14" fill="${PALETTE.boxBg}" stroke="${PALETTE.boxBorder}" stroke-width="2"/>
+    <foreignObject x="90" y="510" width="900" height="40"><div xmlns="http://www.w3.org/1999/xhtml" style="font:700 18px 'Noto Sans Arabic',system-ui;color:${PALETTE.bgPurpleDeep};text-align:center;direction:rtl;">مثال على الاستخدام / Usage Example</div></foreignObject>
+    <line x1="100" y1="550" x2="980" y2="550" stroke="${PALETTE.boxBorder}" stroke-width="1"/>
 
-    <rect x="120" y="565" width="400" height="85" rx="8" fill="#1F2937"/>
-    <text x="135" y="592" font-size="15" fill="#A78BFA" font-family="monospace">def add(x, y):</text>
-    <text x="155" y="612" font-size="15" fill="#E5E7EB" font-family="monospace">return x + y</text>
-    <text x="135" y="635" font-size="15" fill="#FBBF24" font-family="monospace">add(3, 5)  # → 8</text>
+    <foreignObject x="110" y="560" width="430" height="100"><div xmlns="http://www.w3.org/1999/xhtml" style="font:600 16px monospace;color:${PALETTE.text};direction:ltr;text-align:left;line-height:1.7;background:#1F2937;color:#E5E7EB;padding:14px;border-radius:8px;">
+      <div><span style="color:#A78BFA;">def</span> <span style="color:#FBBF24;">add</span>(<span style="color:#86EFAC;">x</span>, <span style="color:#86EFAC;">y</span>):</div>
+      <div>&#160;&#160;&#160;&#160;<span style="color:#A78BFA;">return</span> x + y</div>
+      <div style="margin-top:6px;">result = <span style="color:#FBBF24;">add</span>(<span style="color:#FBBF24;">3</span>, <span style="color:#FBBF24;">5</span>)</div>
+      <div><span style="color:#FCA5A5;">print</span>(result)  <span style="color:#94A3B8;"># 8</span></div>
+    </div></foreignObject>
 
-    <text x="950" y="592" text-anchor="end" direction="rtl" font-size="14" fill="${PALETTE.text}">1. تستقبل الدالة معاملين</text>
-    <text x="950" y="612" text-anchor="end" direction="rtl" font-size="14" fill="${PALETTE.text}">2. تُجري عملية الجمع</text>
-    <text x="950" y="632" text-anchor="end" direction="rtl" font-size="14" fill="${PALETTE.text}">3. تُرجع النتيجة عبر return</text>
+    <foreignObject x="560" y="560" width="430" height="100"><div xmlns="http://www.w3.org/1999/xhtml" style="font:500 16px 'Noto Sans Arabic',system-ui;color:${PALETTE.text};direction:rtl;text-align:right;line-height:1.7;padding:6px;">
+      <div>1. تستقبل الدالة معاملين (<span style="color:${PALETTE.bgPurpleDeep};font-weight:700;">x, y</span>)</div>
+      <div>2. تُجري عملية الجمع داخلياً</div>
+      <div>3. تُرجع نتيجة الجمع عبر <span style="color:${PALETTE.annotPurple};font-weight:700;font-family:monospace;">return</span></div>
+      <div>4. النتيجة تُسند إلى المتغير <span style="color:${PALETTE.bgPurpleDeep};font-weight:700;font-family:monospace;">result</span></div>
+    </div></foreignObject>
 
     ${svgKeyFeatures([
-      { ar: 'الدالة كتلة كود قابلة لإعادة الاستخدام', en: 'Reusable block of code' },
-      { ar: 'تستقبل معاملات وتُرجع قيمة', en: 'Takes parameters, returns value' },
-      { ar: 'تُعرَّف بـ def وتُنفَّذ بـ call', en: 'Defined with def, executed via call' },
-      { ar: 'تجعل الكود أنظف وأسهل للصيانة', en: 'Makes code cleaner and maintainable' },
+      { ar: 'الدالة كتلة من الكود قابلة لإعادة الاستخدام', en: 'Reusable block of code', icon: 'fn' },
+      { ar: 'تستقبل معاملات (parameters) وتُرجع قيمة', en: 'Takes parameters, returns value', icon: '⤳' },
+      { ar: 'تُعرَّف بـ def وتُنفَّذ بـ call', en: 'Defined with def, executed via call', icon: '()' },
+      { ar: 'تجعل الكود أنظف وأسهل في الصيانة', en: 'Makes code cleaner and maintainable', icon: '✓' },
     ])}
-  `);
+  `;
+  return svgWrap(inner);
 }
 
-// =============================================================
-// 14) مخطط Flowchart للشرط If-Else
-// =============================================================
+// 14) مخطط الشرط If-Else
 function chartIfElseFlow() {
-  return svgWrap(`
+  const inner = `
     ${svgHeader('مخطط الشرط', 'If-Else Flowchart')}
 
     <!-- Start -->
-    <ellipse cx="540" cy="200" rx="90" ry="35" fill="${PALETTE.bgPurpleDeep}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2"/>
-    <text x="540" y="207" text-anchor="middle" direction="rtl" font-size="18" font-weight="700" fill="white">بداية / Start</text>
+    <ellipse cx="540" cy="200" rx="80" ry="35" fill="${PALETTE.bgPurpleDeep}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2"/>
+    <text x="540" y="207" text-anchor="middle" font-size="20" font-weight="700" fill="white">Start / بداية</text>
 
+    <!-- خط -->
     <line x1="540" y1="235" x2="540" y2="280" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
     <polygon points="540,285 533,273 547,273" fill="${PALETTE.bgPurpleDeep}"/>
 
-    <!-- Decision -->
+    <!-- Decision diamond -->
     <polygon points="540,290 700,395 540,500 380,395" fill="${PALETTE.bgPurpleVeryLite}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="3"/>
-    <text x="540" y="380" text-anchor="middle" direction="rtl" font-size="17" font-weight="700" fill="${PALETTE.text}">هل الشرط صحيح؟</text>
-    <text x="540" y="402" text-anchor="middle" font-size="14" fill="${PALETTE.textMuted}">Is condition true?</text>
-    <text x="540" y="425" text-anchor="middle" font-size="14" font-weight="700" fill="${PALETTE.bgPurpleDeep}" font-family="monospace">if x &gt; 10:</text>
+    <foreignObject x="380" y="350" width="320" height="90"><div xmlns="http://www.w3.org/1999/xhtml" style="height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;color:${PALETTE.text};">
+      <div style="font:700 18px 'Noto Sans Arabic',system-ui;direction:rtl;">هل الشرط صحيح؟</div>
+      <div style="font:600 16px 'Segoe UI',system-ui;color:${PALETTE.textMuted};">Is condition true?</div>
+      <div style="font:700 14px monospace;color:${PALETTE.bgPurpleDeep};margin-top:4px;">if x &gt; 10:</div>
+    </div></foreignObject>
 
-    <!-- True path -->
+    <!-- True path يسار -->
     <line x1="380" y1="395" x2="220" y2="395" stroke="${PALETTE.bgPurple}" stroke-width="2.5"/>
     <polygon points="215,395 227,388 227,402" fill="${PALETTE.bgPurple}"/>
     <text x="300" y="385" text-anchor="middle" font-size="16" font-weight="700" fill="${PALETTE.bgPurple}">True ✓</text>
-    <text x="300" y="412" text-anchor="middle" direction="rtl" font-size="13" font-weight="600" fill="${PALETTE.bgPurple}">صحيح</text>
+    <foreignObject x="260" y="402" width="100" height="22"><div xmlns="http://www.w3.org/1999/xhtml" style="font:600 13px 'Noto Sans Arabic',system-ui;color:${PALETTE.bgPurple};text-align:center;direction:rtl;">صحيح</div></foreignObject>
 
-    <!-- False path -->
+    <!-- False path يمين -->
     <line x1="700" y1="395" x2="860" y2="395" stroke="${PALETTE.annotPurple}" stroke-width="2.5"/>
     <polygon points="865,395 853,388 853,402" fill="${PALETTE.annotPurple}"/>
     <text x="780" y="385" text-anchor="middle" font-size="16" font-weight="700" fill="${PALETTE.annotPurple}">False ✗</text>
-    <text x="780" y="412" text-anchor="middle" direction="rtl" font-size="13" font-weight="600" fill="${PALETTE.annotPurple}">خطأ</text>
+    <foreignObject x="730" y="402" width="100" height="22"><div xmlns="http://www.w3.org/1999/xhtml" style="font:600 13px 'Noto Sans Arabic',system-ui;color:${PALETTE.annotPurple};text-align:center;direction:rtl;">خطأ</div></foreignObject>
 
-    <!-- if block -->
-    <rect x="80" y="445" width="260" height="100" rx="10" fill="${PALETTE.bgPurple}" opacity="0.9" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
-    <text x="210" y="478" text-anchor="middle" direction="rtl" font-size="20" font-weight="700" fill="white">نفّذ كتلة if</text>
-    <rect x="100" y="495" width="220" height="32" rx="6" fill="rgba(0,0,0,0.3)"/>
-    <text x="210" y="517" text-anchor="middle" font-size="15" font-weight="600" fill="white" font-family="monospace">print("Big")</text>
+    <!-- صندوق if (يسار) -->
+    <rect x="80" y="445" width="260" height="100" rx="10" fill="${PALETTE.bgPurple}" opacity="0.85" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
+    <foreignObject x="80" y="445" width="260" height="100"><div xmlns="http://www.w3.org/1999/xhtml" style="height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;color:white;text-shadow:0 1px 2px rgba(0,0,0,0.3);">
+      <div style="font:700 20px 'Noto Sans Arabic',system-ui;direction:rtl;">نفّذ كتلة if</div>
+      <div style="font:600 14px monospace;margin-top:6px;background:rgba(0,0,0,0.25);padding:4px 10px;border-radius:4px;">print("Big")</div>
+    </div></foreignObject>
 
-    <!-- else block -->
-    <rect x="740" y="445" width="260" height="100" rx="10" fill="${PALETTE.annotPurple}" opacity="0.9" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
-    <text x="870" y="478" text-anchor="middle" direction="rtl" font-size="20" font-weight="700" fill="white">نفّذ كتلة else</text>
-    <rect x="760" y="495" width="220" height="32" rx="6" fill="rgba(0,0,0,0.3)"/>
-    <text x="870" y="517" text-anchor="middle" font-size="15" font-weight="600" fill="white" font-family="monospace">print("Small")</text>
+    <!-- صندوق else (يمين) -->
+    <rect x="740" y="445" width="260" height="100" rx="10" fill="${PALETTE.annotPurple}" opacity="0.85" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
+    <foreignObject x="740" y="445" width="260" height="100"><div xmlns="http://www.w3.org/1999/xhtml" style="height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;color:white;text-shadow:0 1px 2px rgba(0,0,0,0.3);">
+      <div style="font:700 20px 'Noto Sans Arabic',system-ui;direction:rtl;">نفّذ كتلة else</div>
+      <div style="font:600 14px monospace;margin-top:6px;background:rgba(0,0,0,0.25);padding:4px 10px;border-radius:4px;">print("Small")</div>
+    </div></foreignObject>
 
-    <!-- Join -->
+    <!-- خطوط للـ end -->
     <line x1="210" y1="545" x2="210" y2="640" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
     <line x1="210" y1="640" x2="540" y2="640" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
     <line x1="870" y1="545" x2="870" y2="640" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
@@ -1328,34 +1522,41 @@ function chartIfElseFlow() {
     <polygon points="540,695 533,683 547,683" fill="${PALETTE.bgPurpleDeep}"/>
 
     <!-- End -->
-    <ellipse cx="540" cy="730" rx="90" ry="35" fill="${PALETTE.bgPurpleDeep}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2"/>
-    <text x="540" y="737" text-anchor="middle" direction="rtl" font-size="18" font-weight="700" fill="white">نهاية / End</text>
+    <ellipse cx="540" cy="730" rx="80" ry="35" fill="${PALETTE.bgPurpleDeep}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2"/>
+    <text x="540" y="737" text-anchor="middle" font-size="20" font-weight="700" fill="white">End / نهاية</text>
 
     ${svgKeyFeatures([
-      { ar: 'يفحص شرطاً ويختار مساراً واحداً', en: 'Checks condition, picks one branch' },
-      { ar: 'if: ينفّذ إذا كان الشرط صحيحاً', en: 'if: executes when True' },
-      { ar: 'else: ينفّذ إذا كان الشرط خاطئاً', en: 'else: executes when False' },
-      { ar: 'يمكن استخدام elif لشروط متعددة', en: 'Use elif for multiple conditions' },
+      { ar: 'يفحص شرطاً ويختار مساراً واحداً', en: 'Checks condition, picks one branch', icon: '?' },
+      { ar: 'if: ينفّذ إذا كان الشرط صحيحاً', en: 'if: executes when condition is True', icon: '✓' },
+      { ar: 'else: ينفّذ إذا كان الشرط خاطئاً', en: 'else: executes when condition is False', icon: '✗' },
+      { ar: 'يمكن استخدام elif لشروط متعددة', en: 'Use elif for multiple conditions', icon: '⋮' },
     ])}
-  `);
+  `;
+  return svgWrap(inner);
 }
 
+
 // =============================================================
-// كشف نوع المخطط
+// نظام الكشف عن نوع المخطط من رسالة المستخدم
 // =============================================================
 function detectChartType(query) {
   const q = (query || '').toLowerCase();
   const tests = [
+    // الإحصاء
     { type: 'histogram',           keywords: ['مدرج تكراري', 'مدرج التكراري', 'هيستوغرام', 'histogram', 'مدرّج'] },
     { type: 'normal_distribution', keywords: ['توزيع طبيعي', 'التوزيع الطبيعي', 'منحنى الجرس', 'منحنى جرس', 'bell curve', 'normal distribution', 'جرسي'] },
     { type: 'scatter_plot',        keywords: ['مخطط الانتشار', 'مخطط انتشار', 'scatter', 'plot الانتشار', 'انتشار'] },
     { type: 'z_score',             keywords: ['z-score', 'z score', 'الدرجة المعيارية', 'z value', 'درجة معيارية'] },
     { type: 'linear_regression',   keywords: ['الانحدار الخطي', 'انحدار خطي', 'linear regression', 'خط الانحدار'] },
     { type: 'box_plot',            keywords: ['مخطط الصندوق', 'box plot', 'boxplot', 'الصندوق والشعيرات', 'box-and-whisker', 'صندوقي'] },
+
+    // نظم التشغيل
     { type: 'process_states',      keywords: ['حالات العملية', 'حالات المعالجة', 'process states', 'process state', 'دورة حياة العملية', 'process diagram'] },
     { type: 'round_robin',         keywords: ['round robin', 'rr', 'دائرية', 'دوائري', 'gantt', 'مخطط جانت', 'جدولة دائرية', 'round-robin', 'gantt chart', 'الجدولة الدوائرية'] },
     { type: 'memory_layout',       keywords: ['تخطيط الذاكرة', 'بنية الذاكرة', 'memory layout', 'stack heap', 'مخطط الذاكرة', 'memory segments', 'stack and heap', 'الكومة والمكدس'] },
     { type: 'page_table',          keywords: ['جدول الصفحات', 'page table', 'ترجمة العناوين', 'address translation', 'الذاكرة الافتراضية', 'virtual memory', 'paging'] },
+
+    // بايثون
     { type: 'python_list',         keywords: ['python list', 'قائمة بايثون', 'list في بايثون', 'ارسم list', 'ارسم القائمة', 'الفهرسة في بايثون', 'list indexing'] },
     { type: 'python_dict',         keywords: ['python dict', 'قاموس بايثون', 'dictionary بايثون', 'ارسم dict', 'ارسم القاموس', 'key value', 'مفتاح قيمة'] },
     { type: 'function_flow',       keywords: ['تدفق الدالة', 'دالة بايثون', 'function flow', 'ارسم دالة', 'function diagram', 'كيف تعمل الدالة', 'parameters return'] },
@@ -1369,16 +1570,19 @@ function detectChartType(query) {
 
 function buildSVGForType(type) {
   switch (type) {
+    // إحصاء
     case 'histogram':           return chartHistogram();
     case 'normal_distribution': return chartNormalDistribution();
     case 'scatter_plot':        return chartScatterPlot();
     case 'z_score':             return chartZScore(1.5);
     case 'linear_regression':   return chartLinearRegression();
     case 'box_plot':            return chartBoxPlot();
+    // نظم التشغيل
     case 'process_states':      return chartProcessStates();
     case 'round_robin':         return chartGanttRoundRobin();
     case 'memory_layout':       return chartMemoryLayout();
     case 'page_table':          return chartPageTable();
+    // بايثون
     case 'python_list':         return chartPythonList();
     case 'python_dict':         return chartPythonDict();
     case 'function_flow':       return chartFunctionFlow();
@@ -1386,7 +1590,6 @@ function buildSVGForType(type) {
     default: return null;
   }
 }
-
 
 function wantsDrawing(question) {
   const q = question || '';

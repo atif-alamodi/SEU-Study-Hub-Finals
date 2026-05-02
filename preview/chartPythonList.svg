@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1200" font-family="'Noto Sans Arabic','Segoe UI','Tahoma',sans-serif" style="background:white;max-width:100%;height:auto;display:block;">
+    
+    <text x="1010" y="80" text-anchor="end" direction="rtl" font-size="40" font-weight="700" fill="#1F2937">قائمة بايثون</text>
+    <line x1="540" y1="48" x2="540" y2="92" stroke="#6B7280" stroke-width="2"/>
+    <text x="70" y="80" text-anchor="start" font-size="36" font-weight="700" fill="#1F2937">Python List</text>
+    <line x1="60" y1="115" x2="1020" y2="115" stroke="#E5E7EB" stroke-width="1.5"/>
+  
+    
+    <rect x="100" y="180" width="880" height="80" rx="10" fill="#1F2937" stroke="#6B46C1" stroke-width="2"/>
+    <text x="120" y="225" font-size="20" fill="#E5E7EB" font-family="monospace">my_list = ["apple", "banana", 42, 3.14, "hello", True]</text>
+  
+    
+      <rect x="140" y="350" width="130" height="80" fill="#93C5FD" opacity="0.9" stroke="#6B46C1" stroke-width="2"/>
+      <text x="205" y="397" text-anchor="middle" font-size="20" font-weight="700" fill="white" font-family="monospace">"apple"</text>
+    
+      <rect x="270" y="350" width="130" height="80" fill="#D6BCFA" opacity="0.9" stroke="#6B46C1" stroke-width="2"/>
+      <text x="335" y="397" text-anchor="middle" font-size="20" font-weight="700" fill="white" font-family="monospace">"banana"</text>
+    
+      <rect x="400" y="350" width="130" height="80" fill="#B794F4" opacity="0.9" stroke="#6B46C1" stroke-width="2"/>
+      <text x="465" y="397" text-anchor="middle" font-size="20" font-weight="700" fill="white" font-family="monospace">42</text>
+    
+      <rect x="530" y="350" width="130" height="80" fill="#9F7AEA" opacity="0.9" stroke="#6B46C1" stroke-width="2"/>
+      <text x="595" y="397" text-anchor="middle" font-size="20" font-weight="700" fill="white" font-family="monospace">3.14</text>
+    
+      <rect x="660" y="350" width="130" height="80" fill="#6B46C1" opacity="0.9" stroke="#6B46C1" stroke-width="2"/>
+      <text x="725" y="397" text-anchor="middle" font-size="20" font-weight="700" fill="white" font-family="monospace">"hello"</text>
+    
+      <rect x="790" y="350" width="130" height="80" fill="#93C5FD" opacity="0.9" stroke="#6B46C1" stroke-width="2"/>
+      <text x="855" y="397" text-anchor="middle" font-size="20" font-weight="700" fill="white" font-family="monospace">True</text>
+    
+    <text x="205" y="335" text-anchor="middle" font-size="22" font-weight="700" fill="#6B46C1">0</text><text x="335" y="335" text-anchor="middle" font-size="22" font-weight="700" fill="#6B46C1">1</text><text x="465" y="335" text-anchor="middle" font-size="22" font-weight="700" fill="#6B46C1">2</text><text x="595" y="335" text-anchor="middle" font-size="22" font-weight="700" fill="#6B46C1">3</text><text x="725" y="335" text-anchor="middle" font-size="22" font-weight="700" fill="#6B46C1">4</text><text x="855" y="335" text-anchor="middle" font-size="22" font-weight="700" fill="#6B46C1">5</text>
+    <text x="205" y="465" text-anchor="middle" font-size="22" font-weight="700" fill="#7C3AED">-6</text><text x="335" y="465" text-anchor="middle" font-size="22" font-weight="700" fill="#7C3AED">-5</text><text x="465" y="465" text-anchor="middle" font-size="22" font-weight="700" fill="#7C3AED">-4</text><text x="595" y="465" text-anchor="middle" font-size="22" font-weight="700" fill="#7C3AED">-3</text><text x="725" y="465" text-anchor="middle" font-size="22" font-weight="700" fill="#7C3AED">-2</text><text x="855" y="465" text-anchor="middle" font-size="22" font-weight="700" fill="#7C3AED">-1</text>
+    
+    <text x="110" y="340" text-anchor="end" direction="rtl" font-size="15" fill="#6B46C1" font-weight="600">موجب</text>
+    <text x="110" y="460" text-anchor="end" direction="rtl" font-size="15" fill="#7C3AED" font-weight="600">سالب</text>
+  
+    
+    <rect x="100" y="500" width="880" height="130" rx="10" fill="#EFF6FF" stroke="#DBEAFE" stroke-width="2"/>
+    <text x="540" y="528" text-anchor="middle" direction="rtl" font-size="18" font-weight="700" fill="#6B46C1">أمثلة على الوصول / Access Examples</text>
+    <line x1="120" y1="548" x2="960" y2="548" stroke="#DBEAFE" stroke-width="1"/>
+    <text x="180" y="582" text-anchor="middle" font-size="15" font-weight="700" fill="#6B46C1" font-family="monospace">my_list[0]</text>
+    <text x="180" y="608" text-anchor="middle" font-size="14" fill="#1F2937" font-family="monospace">→ "apple"</text>
+    <text x="400" y="582" text-anchor="middle" font-size="15" font-weight="700" fill="#6B46C1" font-family="monospace">my_list[-1]</text>
+    <text x="400" y="608" text-anchor="middle" font-size="14" fill="#1F2937" font-family="monospace">→ True</text>
+    <text x="620" y="582" text-anchor="middle" font-size="15" font-weight="700" fill="#6B46C1" font-family="monospace">my_list[2]</text>
+    <text x="620" y="608" text-anchor="middle" font-size="14" fill="#1F2937" font-family="monospace">→ 42</text>
+    <text x="840" y="582" text-anchor="middle" font-size="15" font-weight="700" fill="#6B46C1" font-family="monospace">len(my_list)</text>
+    <text x="840" y="608" text-anchor="middle" font-size="14" fill="#1F2937" font-family="monospace">→ 6</text>
+  
+    
+    <rect x="50" y="950" width="980" height="220" rx="14" fill="#EFF6FF" stroke="#DBEAFE" stroke-width="2"/>
+    <text x="600" y="980" text-anchor="end" direction="rtl" font-size="22" font-weight="700" fill="#6B46C1">خصائص</text>
+    <text x="610" y="980" text-anchor="start" font-size="22" font-weight="700" fill="#6B46C1">| Key Features</text>
+    <line x1="70" y1="998" x2="1010" y2="998" stroke="#DBEAFE" stroke-width="1.5"/>
+  
+      <circle cx="1000" cy="1028.25" r="5" fill="#6B46C1"/>
+      <text x="980" y="1034.25" text-anchor="end" direction="rtl" font-size="19" fill="#1F2937">مجموعة مرتبة قابلة للتعديل</text>
+    
+      <circle cx="80" cy="1028.25" r="5" fill="#6B46C1"/>
+      <text x="100" y="1034.25" text-anchor="start" font-size="17" fill="#1F2937">Ordered, mutable collection</text>
+    <line x1="70" y1="1048.5" x2="1010" y2="1048.5" stroke="#E5E7EB" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <circle cx="1000" cy="1068.75" r="5" fill="#6B46C1"/>
+      <text x="980" y="1074.75" text-anchor="end" direction="rtl" font-size="19" fill="#1F2937">تستوعب أنواع بيانات مختلفة</text>
+    
+      <circle cx="80" cy="1068.75" r="5" fill="#6B46C1"/>
+      <text x="100" y="1074.75" text-anchor="start" font-size="17" fill="#1F2937">Holds heterogeneous types</text>
+    <line x1="70" y1="1089" x2="1010" y2="1089" stroke="#E5E7EB" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <circle cx="1000" cy="1109.25" r="5" fill="#6B46C1"/>
+      <text x="980" y="1115.25" text-anchor="end" direction="rtl" font-size="19" fill="#1F2937">فهرسة موجبة (0, 1) أو سالبة (-1)</text>
+    
+      <circle cx="80" cy="1109.25" r="5" fill="#6B46C1"/>
+      <text x="100" y="1115.25" text-anchor="start" font-size="17" fill="#1F2937">Positive or negative indexing</text>
+    <line x1="70" y1="1129.5" x2="1010" y2="1129.5" stroke="#E5E7EB" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <circle cx="1000" cy="1149.75" r="5" fill="#6B46C1"/>
+      <text x="980" y="1155.75" text-anchor="end" direction="rtl" font-size="19" fill="#1F2937">قابلة للقص (slicing): list[1:4]</text>
+    
+      <circle cx="80" cy="1149.75" r="5" fill="#6B46C1"/>
+      <text x="100" y="1155.75" text-anchor="start" font-size="17" fill="#1F2937">Slicing: list[start:end]</text>
+    <line x1="540" y1="1006" x2="540" y2="1160" stroke="#DBEAFE" stroke-width="1" stroke-dasharray="3,3"/>
+  </svg>

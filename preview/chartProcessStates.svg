@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1200" font-family="'Noto Sans Arabic','Segoe UI','Tahoma',sans-serif" style="background:white;max-width:100%;height:auto;display:block;">
+    
+    <text x="1010" y="80" text-anchor="end" direction="rtl" font-size="40" font-weight="700" fill="#1F2937">حالات العملية</text>
+    <line x1="540" y1="48" x2="540" y2="92" stroke="#6B7280" stroke-width="2"/>
+    <text x="70" y="80" text-anchor="start" font-size="36" font-weight="700" fill="#1F2937">Process States</text>
+    <line x1="60" y1="115" x2="1020" y2="115" stroke="#E5E7EB" stroke-width="1.5"/>
+  
+    <line x1="260.83327876153027" y1="371.9231021100629" x2="399.16672123846973" y2="308.0768978899371" stroke="#6B46C1" stroke-width="2.5"/><polygon points="399.16672123846973,308.0768978899371 391.0895568496194,316.9515480484215 387.1730222704665,308.46572312692354" fill="#6B46C1"/>
+        <rect x="280" y="320" width="100" height="38" rx="6" fill="#FFFFFF" stroke="#6B46C1" stroke-width="1.5"/>
+        <text x="330" y="336" text-anchor="middle" direction="rtl" font-size="13" font-weight="600" fill="#1F2937">قبول</text>
+        <text x="330" y="352" text-anchor="middle" font-size="11" fill="#6B7280">admit</text>
+      <line x1="520.8332787615302" y1="308.0768978899371" x2="659.1667212384698" y2="371.9231021100629" stroke="#6B46C1" stroke-width="2.5"/><polygon points="659.1667212384698,371.9231021100629 647.1730222704665,371.53427687307646 651.0895568496194,363.0484519515785" fill="#6B46C1"/>
+        <rect x="540" y="320" width="100" height="38" rx="6" fill="#FFFFFF" stroke="#6B46C1" stroke-width="1.5"/>
+        <text x="590" y="336" text-anchor="middle" direction="rtl" font-size="13" font-weight="600" fill="#1F2937">جدولة</text>
+        <text x="590" y="352" text-anchor="middle" font-size="11" fill="#6B7280">dispatch</text>
+      <path d="M 659.1667212384698 371.9231021100629 Q 590 281.9231021100629 520.8332787615302 308.0768978899371" stroke="#7C3AED" stroke-width="2.5" fill="none"/><polygon points="520.8332787615302,308.0768978899371 530.8332787615302,294.0768978899371 514.8332787615302,292.0768978899371" fill="#7C3AED"/>
+        <rect x="530" y="263.9231021100629" width="120" height="40" rx="6" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+        <text x="590" y="279.9231021100629" text-anchor="middle" direction="rtl" font-size="13" font-weight="600" fill="#1F2937">مقاطعة</text>
+        <text x="590" y="295.9231021100629" text-anchor="middle" font-size="11" fill="#6B7280">interrupt</text>
+      <line x1="668.8531188802693" y1="443.27813017823365" x2="511.14688111973066" y2="576.7218698217664" stroke="#6B46C1" stroke-width="2.5"/><polygon points="511.14688111973066,576.7218698217664 516.5658840066669,566.0151239243718 522.6028861722403,573.1497628473221" fill="#6B46C1"/>
+        <rect x="540" y="490" width="100" height="38" rx="6" fill="#FFFFFF" stroke="#6B46C1" stroke-width="1.5"/>
+        <text x="590" y="506" text-anchor="middle" direction="rtl" font-size="13" font-weight="600" fill="#1F2937">انتظار</text>
+        <text x="590" y="522" text-anchor="middle" font-size="11" fill="#6B7280">I/O wait</text>
+      <line x1="460" y1="553" x2="460" y2="347" stroke="#6B46C1" stroke-width="2.5"/><polygon points="460,347 464.6730201077038,358.05273192803463 455.3269798922962,358.05273192803463" fill="#6B46C1"/>
+        <rect x="410" y="430" width="100" height="38" rx="6" fill="#FFFFFF" stroke="#6B46C1" stroke-width="1.5"/>
+        <text x="460" y="446" text-anchor="middle" direction="rtl" font-size="13" font-weight="600" fill="#1F2937">اكتمال</text>
+        <text x="460" y="462" text-anchor="middle" font-size="11" fill="#6B7280">complete</text>
+      <line x1="787" y1="400" x2="873" y2="400" stroke="#6B46C1" stroke-width="2.5"/><polygon points="873,400 861.9472680719654,404.6730201077038 861.9472680719654,395.3269798922962" fill="#6B46C1"/>
+        <rect x="780" y="380" width="100" height="38" rx="6" fill="#FFFFFF" stroke="#6B46C1" stroke-width="1.5"/>
+        <text x="830" y="396" text-anchor="middle" direction="rtl" font-size="13" font-weight="600" fill="#1F2937">خروج</text>
+        <text x="830" y="412" text-anchor="middle" font-size="11" fill="#6B7280">exit</text>
+      
+    
+      <circle cx="200" cy="400" r="65" fill="#93C5FD" opacity="0.9" stroke="#6B46C1" stroke-width="3"/>
+      <text x="200" y="396" text-anchor="middle" direction="rtl" font-size="18" font-weight="700" fill="white">جديدة</text>
+      <text x="200" y="418" text-anchor="middle" font-size="14" font-weight="600" fill="white">New</text>
+    
+      <circle cx="460" cy="280" r="65" fill="#B794F4" opacity="0.9" stroke="#6B46C1" stroke-width="3"/>
+      <text x="460" y="276" text-anchor="middle" direction="rtl" font-size="18" font-weight="700" fill="white">جاهزة</text>
+      <text x="460" y="298" text-anchor="middle" font-size="14" font-weight="600" fill="white">Ready</text>
+    
+      <circle cx="720" cy="400" r="65" fill="#6B46C1" opacity="0.9" stroke="#6B46C1" stroke-width="3"/>
+      <text x="720" y="396" text-anchor="middle" direction="rtl" font-size="18" font-weight="700" fill="white">قيد التنفيذ</text>
+      <text x="720" y="418" text-anchor="middle" font-size="14" font-weight="600" fill="white">Running</text>
+    
+      <circle cx="460" cy="620" r="65" fill="#9F7AEA" opacity="0.9" stroke="#6B46C1" stroke-width="3"/>
+      <text x="460" y="616" text-anchor="middle" direction="rtl" font-size="18" font-weight="700" fill="white">في الانتظار</text>
+      <text x="460" y="638" text-anchor="middle" font-size="14" font-weight="600" fill="white">Waiting</text>
+    
+      <circle cx="940" cy="400" r="65" fill="#6B7280" opacity="0.9" stroke="#6B46C1" stroke-width="3"/>
+      <text x="940" y="396" text-anchor="middle" direction="rtl" font-size="18" font-weight="700" fill="white">منتهية</text>
+      <text x="940" y="418" text-anchor="middle" font-size="14" font-weight="600" fill="white">Terminated</text>
+    
+    
+    <rect x="50" y="950" width="980" height="220" rx="14" fill="#EFF6FF" stroke="#DBEAFE" stroke-width="2"/>
+    <text x="600" y="980" text-anchor="end" direction="rtl" font-size="22" font-weight="700" fill="#6B46C1">خصائص</text>
+    <text x="610" y="980" text-anchor="start" font-size="22" font-weight="700" fill="#6B46C1">| Key Features</text>
+    <line x1="70" y1="998" x2="1010" y2="998" stroke="#DBEAFE" stroke-width="1.5"/>
+  
+      <circle cx="1000" cy="1028.25" r="5" fill="#6B46C1"/>
+      <text x="980" y="1034.25" text-anchor="end" direction="rtl" font-size="19" fill="#1F2937">العملية الجديدة تنتقل إلى Ready عند القبول</text>
+    
+      <circle cx="80" cy="1028.25" r="5" fill="#6B46C1"/>
+      <text x="100" y="1034.25" text-anchor="start" font-size="17" fill="#1F2937">New → Ready when admitted</text>
+    <line x1="70" y1="1048.5" x2="1010" y2="1048.5" stroke="#E5E7EB" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <circle cx="1000" cy="1068.75" r="5" fill="#6B46C1"/>
+      <text x="980" y="1074.75" text-anchor="end" direction="rtl" font-size="19" fill="#1F2937">الـ scheduler يُحرّك العملية للـ Running</text>
+    
+      <circle cx="80" cy="1068.75" r="5" fill="#6B46C1"/>
+      <text x="100" y="1074.75" text-anchor="start" font-size="17" fill="#1F2937">Scheduler dispatches Ready → Running</text>
+    <line x1="70" y1="1089" x2="1010" y2="1089" stroke="#E5E7EB" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <circle cx="1000" cy="1109.25" r="5" fill="#6B46C1"/>
+      <text x="980" y="1115.25" text-anchor="end" direction="rtl" font-size="19" fill="#1F2937">العملية تنتظر I/O ثم تعود للـ Ready</text>
+    
+      <circle cx="80" cy="1109.25" r="5" fill="#6B46C1"/>
+      <text x="100" y="1115.25" text-anchor="start" font-size="17" fill="#1F2937">Wait for I/O then return to Ready</text>
+    <line x1="70" y1="1129.5" x2="1010" y2="1129.5" stroke="#E5E7EB" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <circle cx="1000" cy="1149.75" r="5" fill="#6B46C1"/>
+      <text x="980" y="1155.75" text-anchor="end" direction="rtl" font-size="19" fill="#1F2937">Terminated: انتهاء التنفيذ بشكل نهائي</text>
+    
+      <circle cx="80" cy="1149.75" r="5" fill="#6B46C1"/>
+      <text x="100" y="1155.75" text-anchor="start" font-size="17" fill="#1F2937">Terminated: execution complete</text>
+    <line x1="540" y1="1006" x2="540" y2="1160" stroke="#DBEAFE" stroke-width="1" stroke-dasharray="3,3"/>
+  </svg>

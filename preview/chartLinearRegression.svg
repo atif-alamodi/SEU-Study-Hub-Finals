@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1200" font-family="'Noto Sans Arabic','Segoe UI','Tahoma',sans-serif" style="background:white;max-width:100%;height:auto;display:block;">
+    
+    <text x="1010" y="80" text-anchor="end" direction="rtl" font-size="40" font-weight="700" fill="#1F2937">الانحدار الخطي البسيط</text>
+    <line x1="540" y1="48" x2="540" y2="92" stroke="#6B7280" stroke-width="2"/>
+    <text x="70" y="80" text-anchor="start" font-size="36" font-weight="700" fill="#1F2937">Simple Linear Regression</text>
+    <line x1="60" y1="115" x2="1020" y2="115" stroke="#E5E7EB" stroke-width="1.5"/>
+  
+    <line x1="130" y1="612" x2="930" y2="612" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="3,3"/><line x1="130" y1="504" x2="930" y2="504" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="3,3"/><line x1="130" y1="396" x2="930" y2="396" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="3,3"/><line x1="130" y1="288" x2="930" y2="288" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="3,3"/><line x1="130" y1="180" x2="930" y2="180" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="3,3"/>
+    <line x1="130" y1="180" x2="130" y2="720" stroke="#1F2937" stroke-width="2"/>
+    <line x1="130" y1="720" x2="930" y2="720" stroke="#1F2937" stroke-width="2"/>
+    <line x1="166.36363636363637" y1="672.1363636363636" x2="166.36363636363637" y2="672.1363636363636" stroke="#2563EB" stroke-width="1.5" opacity="0.5"/><line x1="202.72727272727275" y1="633.1215112818164" x2="202.72727272727275" y2="651.2727272727273" stroke="#2563EB" stroke-width="1.5" opacity="0.5"/><line x1="239.09090909090907" y1="597.466565848372" x2="239.09090909090907" y2="630.4090909090909" stroke="#2563EB" stroke-width="1.5" opacity="0.5"/><line x1="275.4545454545455" y1="567.9094938579819" x2="275.4545454545455" y2="609.5454545454545" stroke="#2563EB" stroke-width="1.5" opacity="0.5"/><line x1="311.8181818181818" y1="546.0595062056692" x2="311.8181818181818" y2="588.6818181818182" stroke="#2563EB" stroke-width="1.5" opacity="0.5"/><line x1="348.18181818181813" y1="532.0991828642093" x2="348.18181818181813" y2="567.8181818181819" stroke="#2563EB" stroke-width="1.5" opacity="0.5"/><line x1="384.5454545454545" y1="524.750676155884" x2="384.5454545454545" y2="546.9545454545455" stroke="#2563EB" stroke-width="1.5" opacity="0.5"/><line x1="420.90909090909093" y1="521.5122485832592" x2="420.90909090909093" y2="526.0909090909091" stroke="#2563EB" stroke-width="1.5" opacity="0.5"/><line x1="457.2727272727273" y1="519.1213605438941" x2="457.2727272727273" y2="505.22727272727275" stroke="#2563EB" stroke-width="1.5" opacity="0.5"/><line x1="493.6363636363636" y1="514.1585874120451" x2="493.6363636363636" y2="484.3636363636364" stroke="#2563EB" stroke-width="1.5" opacity="0.5"/><line x1="530" y1="503.68057704806813" x2="530" y2="463.5" stroke="#2563EB" stroke-width="1.5" opacity="0.5"/><line x1="566.3636363636363" y1="485.7648832261169" x2="566.3636363636363" y2="442.6363636363637" stroke="#2563EB" stroke-width="1.5" opacity="0.5"/><line x1="602.7272727272727" y1="459.86582280552574" x2="602.7272727272727" y2="421.77272727272725" stroke="#2563EB" stroke-width="1.5" opacity="0.5"/><line x1="639.090909090909" y1="426.9154851927634" x2="639.090909090909" y2="400.9090909090909" stroke="#2563EB" stroke-width="1.5" opacity="0.5"/><line x1="675.4545454545454" y1="389.1511965923428" x2="675.4545454545454" y2="380.04545454545456" stroke="#2563EB" stroke-width="1.5" opacity="0.5"/><line x1="711.8181818181819" y1="349.7013765244746" x2="711.8181818181819" y2="359.1818181818182" stroke="#2563EB" stroke-width="1.5" opacity="0.5"/><line x1="748.1818181818181" y1="312.006447233928" x2="748.1818181818181" y2="338.3181818181818" stroke="#2563EB" stroke-width="1.5" opacity="0.5"/><line x1="784.5454545454546" y1="279.1819893861831" x2="784.5454545454546" y2="317.45454545454544" stroke="#2563EB" stroke-width="1.5" opacity="0.5"/><line x1="820.9090909090909" y1="253.4420280309477" x2="820.9090909090909" y2="296.59090909090907" stroke="#2563EB" stroke-width="1.5" opacity="0.5"/><line x1="857.2727272727273" y1="235.68920231355656" x2="857.2727272727273" y2="275.7272727272727" stroke="#2563EB" stroke-width="1.5" opacity="0.5"/>
+    <line x1="130" y1="693" x2="930" y2="234" stroke="#6B46C1" stroke-width="3"/>
+    <circle cx="166.36363636363637" cy="672.1363636363636" r="7" fill="#9F7AEA" stroke="#6B46C1" stroke-width="1.5"/><circle cx="202.72727272727275" cy="633.1215112818164" r="7" fill="#9F7AEA" stroke="#6B46C1" stroke-width="1.5"/><circle cx="239.09090909090907" cy="597.466565848372" r="7" fill="#9F7AEA" stroke="#6B46C1" stroke-width="1.5"/><circle cx="275.4545454545455" cy="567.9094938579819" r="7" fill="#9F7AEA" stroke="#6B46C1" stroke-width="1.5"/><circle cx="311.8181818181818" cy="546.0595062056692" r="7" fill="#9F7AEA" stroke="#6B46C1" stroke-width="1.5"/><circle cx="348.18181818181813" cy="532.0991828642093" r="7" fill="#9F7AEA" stroke="#6B46C1" stroke-width="1.5"/><circle cx="384.5454545454545" cy="524.750676155884" r="7" fill="#9F7AEA" stroke="#6B46C1" stroke-width="1.5"/><circle cx="420.90909090909093" cy="521.5122485832592" r="7" fill="#9F7AEA" stroke="#6B46C1" stroke-width="1.5"/><circle cx="457.2727272727273" cy="519.1213605438941" r="7" fill="#9F7AEA" stroke="#6B46C1" stroke-width="1.5"/><circle cx="493.6363636363636" cy="514.1585874120451" r="7" fill="#9F7AEA" stroke="#6B46C1" stroke-width="1.5"/><circle cx="530" cy="503.68057704806813" r="7" fill="#9F7AEA" stroke="#6B46C1" stroke-width="1.5"/><circle cx="566.3636363636363" cy="485.7648832261169" r="7" fill="#9F7AEA" stroke="#6B46C1" stroke-width="1.5"/><circle cx="602.7272727272727" cy="459.86582280552574" r="7" fill="#9F7AEA" stroke="#6B46C1" stroke-width="1.5"/><circle cx="639.090909090909" cy="426.9154851927634" r="7" fill="#9F7AEA" stroke="#6B46C1" stroke-width="1.5"/><circle cx="675.4545454545454" cy="389.1511965923428" r="7" fill="#9F7AEA" stroke="#6B46C1" stroke-width="1.5"/><circle cx="711.8181818181819" cy="349.7013765244746" r="7" fill="#9F7AEA" stroke="#6B46C1" stroke-width="1.5"/><circle cx="748.1818181818181" cy="312.006447233928" r="7" fill="#9F7AEA" stroke="#6B46C1" stroke-width="1.5"/><circle cx="784.5454545454546" cy="279.1819893861831" r="7" fill="#9F7AEA" stroke="#6B46C1" stroke-width="1.5"/><circle cx="820.9090909090909" cy="253.4420280309477" r="7" fill="#9F7AEA" stroke="#6B46C1" stroke-width="1.5"/><circle cx="857.2727272727273" cy="235.68920231355656" r="7" fill="#9F7AEA" stroke="#6B46C1" stroke-width="1.5"/>
+
+    <!-- صندوق المعادلة -->
+    <rect x="950" y="200" width="270" height="160" rx="10" fill="#EFF6FF" stroke="#DBEAFE" stroke-width="2"/>
+    <text x="1210" y="232" text-anchor="end" direction="rtl" font-size="17" fill="#1F2937" font-weight="600">معادلة الانحدار</text>
+    <text x="960" y="258" text-anchor="start" font-size="13" fill="#6B7280">Regression Equation</text>
+    <text x="1085" y="298" text-anchor="middle" font-size="26" font-weight="700" fill="#6B46C1">y = mx + b</text>
+    <text x="1210" y="328" text-anchor="end" direction="rtl" font-size="13" fill="#1F2937">m = الميل (Slope)</text>
+    <text x="1210" y="348" text-anchor="end" direction="rtl" font-size="13" fill="#1F2937">b = نقطة التقاطع</text>
+
+    <!-- شرح البواقي -->
+    <rect x="60" y="610" width="240" height="80" rx="8" fill="#FFFFFF" stroke="#2563EB" stroke-width="2"/>
+    <text x="290" y="638" text-anchor="end" direction="rtl" font-size="15" fill="#1F2937" font-weight="600">البواقي (Residuals)</text>
+    <text x="70" y="660" text-anchor="start" font-size="13" fill="#6B7280">eᵢ = yᵢ − ŷᵢ</text>
+    <text x="290" y="680" text-anchor="end" direction="rtl" font-size="11" fill="#6B7280">الفرق بين الفعلي والمتوقع</text>
+
+    <text x="55" y="450" text-anchor="middle" direction="rtl" font-size="20" fill="#1F2937" transform="rotate(-90 55 450)">المتغير التابع y</text>
+    <text x="530" y="790" text-anchor="middle" direction="rtl" font-size="20" fill="#1F2937">المتغير المستقل x</text>
+
+    
+    <rect x="50" y="950" width="980" height="220" rx="14" fill="#EFF6FF" stroke="#DBEAFE" stroke-width="2"/>
+    <text x="600" y="980" text-anchor="end" direction="rtl" font-size="22" font-weight="700" fill="#6B46C1">خصائص</text>
+    <text x="610" y="980" text-anchor="start" font-size="22" font-weight="700" fill="#6B46C1">| Key Features</text>
+    <line x1="70" y1="998" x2="1010" y2="998" stroke="#DBEAFE" stroke-width="1.5"/>
+  
+      <circle cx="1000" cy="1028.25" r="5" fill="#6B46C1"/>
+      <text x="980" y="1034.25" text-anchor="end" direction="rtl" font-size="19" fill="#1F2937">يُنمذج العلاقة الخطية بين متغيرين</text>
+    
+      <circle cx="80" cy="1028.25" r="5" fill="#6B46C1"/>
+      <text x="100" y="1034.25" text-anchor="start" font-size="17" fill="#1F2937">Models linear relationship</text>
+    <line x1="70" y1="1048.5" x2="1010" y2="1048.5" stroke="#E5E7EB" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <circle cx="1000" cy="1068.75" r="5" fill="#6B46C1"/>
+      <text x="980" y="1074.75" text-anchor="end" direction="rtl" font-size="19" fill="#1F2937">يُستخدم للتنبؤ بقيم y من x</text>
+    
+      <circle cx="80" cy="1068.75" r="5" fill="#6B46C1"/>
+      <text x="100" y="1074.75" text-anchor="start" font-size="17" fill="#1F2937">Used to predict y from x</text>
+    <line x1="70" y1="1089" x2="1010" y2="1089" stroke="#E5E7EB" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <circle cx="1000" cy="1109.25" r="5" fill="#6B46C1"/>
+      <text x="980" y="1115.25" text-anchor="end" direction="rtl" font-size="19" fill="#1F2937">الميل m يقيس قوة العلاقة</text>
+    
+      <circle cx="80" cy="1109.25" r="5" fill="#6B46C1"/>
+      <text x="100" y="1115.25" text-anchor="start" font-size="17" fill="#1F2937">Slope m measures relationship</text>
+    <line x1="70" y1="1129.5" x2="1010" y2="1129.5" stroke="#E5E7EB" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <circle cx="1000" cy="1149.75" r="5" fill="#6B46C1"/>
+      <text x="980" y="1155.75" text-anchor="end" direction="rtl" font-size="19" fill="#1F2937">R² يقيس جودة الملاءمة (0–1)</text>
+    
+      <circle cx="80" cy="1149.75" r="5" fill="#6B46C1"/>
+      <text x="100" y="1155.75" text-anchor="start" font-size="17" fill="#1F2937">R² measures fit quality (0–1)</text>
+    <line x1="540" y1="1006" x2="540" y2="1160" stroke="#DBEAFE" stroke-width="1" stroke-dasharray="3,3"/>
+  </svg>
