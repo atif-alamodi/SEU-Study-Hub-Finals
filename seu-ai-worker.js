@@ -493,57 +493,64 @@ function svgGanttChart(processes) {
   `, w, h);
 }
 
-// كاشف نية الرسم وتحديد نوع الرسم المناسب
-function detectChartIntent(question) {
+// =============================================================
+// كاشف نية الرسم
+// =============================================================
+function wantsDrawing(question) {
   const q = question || '';
-  // كلمات تدل على طلب الرسم (\b لا يعمل مع العربية في Unicode، نستخدم regex بسيط)
-  const wantsImage = /ارسم|صورة|رسم بياني|مخطط|أرني|أظهر|رسماً|رسم|draw|plot|chart|graph|visualize|تخيل/i.test(q);
-  if (!wantsImage) return null;
-
-  // التوزيع الطبيعي
-  if (/توزيع.{0,5}طبيع|منحنى.{0,5}جرس|normal.{0,5}distrib|bell.{0,5}curve|68.{0,5}95/i.test(q)) {
-    if (/z[\s-]*score|درجة.{0,5}معياري|standard.{0,5}score/i.test(q)) {
-      return { type: 'zscore', zVal: 1.5, dir: 'right' };
-    }
-    return { type: 'normal' };
-  }
-  // Z-score
-  if (/z[\s-]*score|درجة.{0,5}معياري|الدرجة.{0,5}المعياري/i.test(q)) {
-    return { type: 'zscore', zVal: 1.5, dir: 'right' };
-  }
-  // الانحدار
-  if (/انحدار|regression|scatter|تشتت|خط.{0,5}ميل|y\s*=\s*mx/i.test(q)) {
-    return { type: 'scatter' };
-  }
-  // الارتباط
-  if (/ارتباط|correlation|pearson|بيرسون|طردي|عكسي/i.test(q)) {
-    return { type: 'correlation' };
-  }
-  // الجدولة
-  if (/جدولة|gantt|round.{0,5}robin|fcfs|sjf|cpu.{0,5}schedul/i.test(q)) {
-    return {
-      type: 'gantt',
-      processes: [
-        { name: 'P1', duration: 5 },
-        { name: 'P2', duration: 3 },
-        { name: 'P3', duration: 6 },
-        { name: 'P1', duration: 2 }
-      ]
-    };
-  }
-  // إذا طلب رسماً ولم نحدد النوع، نفترض التوزيع الطبيعي للإحصاء
-  return { type: 'normal' };
+  return /ارسم|صورة|رسم بياني|مخطط|أرني|أظهر|رسماً|رسم|اعرض|draw|plot|chart|graph|visualize|تخيل|اعطني صورة|أعطني صورة|paint|illustrate|sketch|diagram/i.test(q);
 }
 
-function generateChartSVG(intent) {
-  if (!intent) return null;
-  switch (intent.type) {
-    case 'normal': return svgNormalDistribution();
-    case 'zscore': return svgZScoreCurve(intent.zVal, intent.dir);
-    case 'scatter': return svgScatterRegression();
-    case 'correlation': return svgCorrelationTypes();
-    case 'gantt': return svgGanttChart(intent.processes);
-    default: return null;
+// =============================================================
+// محرك توليد الصور عبر Cloudflare Workers AI (flux-1-schnell)
+// =============================================================
+
+async function buildImagePrompt(env, userMessage, subjectName) {
+  // نطلب من LLM بناء prompt إنجليزي محسّن لصورة تعليمية
+  try {
+    const resp = await env.AI.run('@cf/meta/llama-3.3-70b-instruct-fp8-fast', {
+      messages: [
+        {
+          role: 'system',
+          content: `You are an image-prompt expert. Given an Arabic educational request, output a single English prompt (max 150 words) describing a clean educational diagram or illustration. Output ONLY the prompt, no preamble, no quotes, no explanation.
+
+Style requirements: clean white or light background, professional educational illustration, clearly labeled in English, scientific accuracy, no people, no text logos.
+
+Subject context: ${subjectName}.
+
+Examples:
+- Request: "ارسم لي التوزيع الطبيعي" → "Clean educational illustration of a normal distribution bell curve, blue gradient fill, x-axis labeled with mu and standard deviation marks (-3 to +3 sigma), y-axis labeled f(x), 68-95-99.7 percentages annotated, white background, professional textbook style, mathematical notation"
+- Request: "ارسم المدرج التكراري" → "Clean educational histogram chart, vertical bars showing frequency distribution, x-axis showing data bins, y-axis showing frequency count, blue bars on white background, professional textbook style, English labels, clear gridlines"
+- Request: "ارسم Gantt chart للجدولة" → "Clean Gantt chart diagram for CPU scheduling, horizontal colored bars showing process P1 P2 P3 P4 with time intervals, time axis at bottom in English, white background, professional textbook style"`
+        },
+        { role: 'user', content: userMessage }
+      ],
+      max_tokens: 200,
+      temperature: 0.3
+    });
+    let prompt = (resp.response || resp.result?.response || '').trim();
+    // تنظيف: إزالة علامات اقتباس وأسطر زائدة
+    prompt = prompt.replace(/^["'`]|["'`]$/g, '').replace(/\n+/g, ' ').slice(0, 800);
+    if (!prompt) {
+      prompt = `Clean educational illustration related to ${subjectName}, professional textbook style, English labels, white background`;
+    }
+    return prompt;
+  } catch (err) {
+    return `Clean educational illustration related to ${subjectName}, professional textbook style, white background`;
+  }
+}
+
+async function generateImage(env, prompt) {
+  try {
+    const resp = await env.AI.run('@cf/black-forest-labs/flux-1-schnell', {
+      prompt: prompt,
+      steps: 4,
+      seed: Math.floor(Math.random() * 1000000)
+    });
+    // resp.image يأتي base64 jpeg
+    return resp.image || null;
+  } catch (err) {
+    return null;
   }
 }
 
@@ -583,18 +590,17 @@ async function handleAsk(request, env) {
     }
 
     const subject = SUBJECT_MAP[subjectKey] || SUBJECT_MAP.general;
-    const chartIntent = detectChartIntent(userMessage);
-    const chartSVG = generateChartSVG(chartIntent);
+    const isDrawingRequest = wantsDrawing(userMessage);
 
     let drawingInstruction = '';
-    if (chartSVG) {
+    if (isDrawingRequest) {
       drawingInstruction = `
 
-**ملاحظة مهمة جداً**: الطالب طلب رسماً، وقد أرفقنا له الرسم الصحيح كصورة SVG منفصلة في الواجهة. لا تحاول رسم أي شيء بالأحرف (ASCII art) لأنه سيكون مشوّهاً. اكتفِ بشرح المفهوم نصياً، وأشر إلى أن الرسم معروض أعلاه.`;
+**ملاحظة مهمة جداً**: الطالب طلب رسماً، وتم توليد الصورة المطلوبة منفصلة وستُعرض له في الواجهة. لا تحاول رسم أي شيء بالأحرف (ASCII art) لأنه سيكون مشوّهاً. اكتفِ بشرح المفهوم نصياً بإيجاز (3-5 أسطر)، وأشر إلى أن الرسم معروض أعلاه.`;
     } else {
       drawingInstruction = `
 
-**ملاحظة**: ممنوع منعاً باتاً رسم أي شيء بالأحرف أو الرموز (ASCII art)، لأنه يظهر مشوّهاً. إذا طلب الطالب رسماً واضحاً، اشرح بالكلمات وأخبره أن أداة الرسم تدعم: التوزيع الطبيعي، الانحدار الخطي، أنواع الارتباط، Z-score، ومخطط Gantt للجدولة.`;
+**ملاحظة**: ممنوع منعاً باتاً رسم أي شيء بالأحرف أو الرموز (ASCII art)، لأنه يظهر مشوّهاً. إذا طلب الطالب رسماً، فسيتولى النظام توليده تلقائياً.`;
     }
 
     const systemPrompt = `${CORE_RULES}
@@ -616,18 +622,30 @@ ${subject.content}
 
     const MODEL = '@cf/meta/llama-3.3-70b-instruct-fp8-fast';
 
-    const aiResponse = await env.AI.run(MODEL, {
+    // تشغيل توليد النص + بناء image prompt بالتوازي
+    const textPromise = env.AI.run(MODEL, {
       messages,
       max_tokens: 800,
       temperature: 0.2,
       top_p: 0.9
     });
 
+    let imagePromise = Promise.resolve(null);
+    if (isDrawingRequest) {
+      imagePromise = (async () => {
+        const imgPrompt = await buildImagePrompt(env, userMessage, subject.name);
+        const img = await generateImage(env, imgPrompt);
+        return { prompt: imgPrompt, image: img };
+      })();
+    }
+
+    const [aiResponse, imgResult] = await Promise.all([textPromise, imagePromise]);
+
     let answer = (aiResponse.response || aiResponse.result?.response || '').trim();
     answer = filterForeignScripts(answer);
     answer = stripAsciiArt(answer);
 
-    if (!answer && !chartSVG) {
+    if (!answer && !(imgResult && imgResult.image)) {
       return jsonResponse({
         error: 'empty_response',
         message: 'لم أتمكن من توليد إجابة. حاول إعادة صياغة السؤال.'
@@ -638,7 +656,9 @@ ${subject.content}
       answer,
       subject: subjectKey,
       model: MODEL,
-      image_svg: chartSVG || null
+      image: imgResult ? imgResult.image : null,
+      image_prompt: imgResult ? imgResult.prompt : null,
+      image_svg: null
     }, request);
 
   } catch (err) {
