@@ -275,227 +275,706 @@ const SUBJECT_MAP = {
 // محرك توليد الرسومات (SVG حقيقية، ليس ASCII)
 // =============================================================
 
-function svgWrap(inner, w = 600, h = 360) {
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" font-family="'Noto Sans Arabic', system-ui, sans-serif" style="background:white;border-radius:12px;max-width:100%;height:auto;">${inner}</svg>`;
+
+// =============================================================
+// مكتبة SVG للرسومات التعليمية الاحترافية
+// =============================================================
+
+// =============================================================
+// مكتبة توليد رسومات SVG تعليمية احترافية
+// تستخدم نفس design language: تدرج بنفسجي + Key Features box
+// + شروحات ثنائية اللغة + محاور دقيقة
+// =============================================================
+
+// ألوان الـ design system
+const PALETTE = {
+  bgPurpleDeep: '#6B46C1',
+  bgPurple: '#9F7AEA',
+  bgPurpleLite: '#B794F4',
+  bgPurpleVeryLite: '#D6BCFA',
+  bgBlueLite: '#93C5FD',
+  bgBlueVeryLite: '#BFDBFE',
+  text: '#1F2937',
+  textMuted: '#6B7280',
+  gridLine: '#E5E7EB',
+  white: '#FFFFFF',
+  boxBg: '#EFF6FF',
+  boxBorder: '#DBEAFE',
+  annotPurple: '#7C3AED',
+  annotBlue: '#2563EB',
+};
+
+// إطار SVG عام بحجم احترافي
+function svgWrap(inner, w = 1080, h = 1200) {
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" font-family="'Noto Sans Arabic', 'Segoe UI', system-ui, sans-serif" style="background:white;max-width:100%;height:auto;display:block;">${inner}</svg>`;
 }
 
-// منحنى التوزيع الطبيعي (الجرس) مع المتوسط μ والانحرافات المعيارية
-function svgNormalDistribution(opts = {}) {
-  const w = 600, h = 360;
-  const padX = 60, padY = 50;
-  const plotW = w - padX * 2, plotH = h - padY * 2;
-  const cx = w / 2;
-  const baseY = h - padY;
-  const peakY = padY + 20;
-
-  // نقاط منحنى الجرس
-  const points = [];
-  const N = 80;
-  for (let i = 0; i <= N; i++) {
-    const t = i / N; // 0..1
-    const xPos = padX + plotW * t;
-    const z = (t - 0.5) * 6; // -3 إلى +3
-    const y = Math.exp(-(z * z) / 2);
-    const yPos = baseY - y * (baseY - peakY);
-    points.push(`${xPos.toFixed(1)},${yPos.toFixed(1)}`);
-  }
-  const pathD = `M ${padX},${baseY} L ${points.join(' L ')} L ${w - padX},${baseY} Z`;
-
-  // مواقع σ
-  const sigmaX = (zMul) => cx + (zMul / 6) * plotW;
-
-  return svgWrap(`
-    <defs>
-      <linearGradient id="bell" x1="0" x2="0" y1="0" y2="1">
-        <stop offset="0" stop-color="#3b82f6" stop-opacity="0.55"/>
-        <stop offset="1" stop-color="#3b82f6" stop-opacity="0.05"/>
-      </linearGradient>
-    </defs>
-    <text x="${cx}" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#0f172a">منحنى التوزيع الطبيعي</text>
-    <line x1="${padX}" y1="${baseY}" x2="${w - padX}" y2="${baseY}" stroke="#94a3b8" stroke-width="1.5"/>
-    <line x1="${cx}" y1="${baseY}" x2="${cx}" y2="${peakY - 10}" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3,3"/>
-    <path d="${pathD}" fill="url(#bell)" stroke="#1d4ed8" stroke-width="2.2"/>
-    <!-- علامات σ -->
-    ${[-3, -2, -1, 0, 1, 2, 3].map(z => `
-      <line x1="${sigmaX(z)}" y1="${baseY}" x2="${sigmaX(z)}" y2="${baseY + 6}" stroke="#475569" stroke-width="1"/>
-      <text x="${sigmaX(z)}" y="${baseY + 22}" text-anchor="middle" font-size="12" fill="#334155" direction="ltr">${z === 0 ? 'μ' : (z > 0 ? '+' : '') + z + 'σ'}</text>
-    `).join('')}
-    <!-- نسب 68-95-99.7 -->
-    <text x="${cx}" y="${baseY - 100}" text-anchor="middle" font-size="13" fill="#1e40af" font-weight="700">68%</text>
-    <text x="${cx}" y="${baseY - 60}" text-anchor="middle" font-size="11" fill="#475569">±1σ</text>
-    <text x="${sigmaX(-2)}" y="${baseY - 30}" text-anchor="middle" font-size="11" fill="#0f766e">±2σ → 95%</text>
-    <text x="${sigmaX(2)}" y="${baseY - 30}" text-anchor="middle" font-size="11" fill="#0f766e">±3σ → 99.7%</text>
-    <!-- تسميات المحاور -->
-    <text x="${w - padX + 12}" y="${baseY + 4}" font-size="12" fill="#475569">x</text>
-    <text x="${padX - 12}" y="${peakY + 5}" font-size="12" fill="#475569" text-anchor="end">f(x)</text>
-  `, w, h);
+// نص عربي عبر foreignObject (يضمن العرض الصحيح RTL في كل المتصفحات)
+function arText(x, y, w, text, opts = {}) {
+  const fs = opts.fs || 18;
+  const weight = opts.weight || '500';
+  const color = opts.color || '#1F2937';
+  const align = opts.align || 'right';
+  const h = opts.h || (fs * 2);
+  return `<foreignObject x="${x}" y="${y}" width="${w}" height="${h}"><div xmlns="http://www.w3.org/1999/xhtml" style="font:${weight} ${fs}px 'Noto Sans Arabic',system-ui;color:${color};direction:rtl;text-align:${align};line-height:1.3;">${text}</div></foreignObject>`;
 }
 
-// مخطط تشتت مع خط انحدار خطي
-function svgScatterRegression() {
-  const w = 600, h = 360;
-  const padX = 60, padY = 50;
-  const plotW = w - padX * 2, plotH = h - padY * 2;
-  const baseY = h - padY;
-
-  // نقاط شبه عشوائية لكنها ثابتة (deterministic)
-  const data = [
-    [0.10, 0.20], [0.18, 0.30], [0.25, 0.28], [0.30, 0.40],
-    [0.38, 0.45], [0.45, 0.50], [0.50, 0.58], [0.58, 0.62],
-    [0.65, 0.70], [0.72, 0.75], [0.80, 0.82], [0.88, 0.88],
-    [0.42, 0.38], [0.55, 0.65], [0.68, 0.60]
-  ];
-  const toX = t => padX + t * plotW;
-  const toY = t => baseY - t * plotH;
-
-  const dots = data.map(([x, y]) =>
-    `<circle cx="${toX(x).toFixed(1)}" cy="${toY(y).toFixed(1)}" r="5" fill="#3b82f6" stroke="white" stroke-width="1.5"/>`
-  ).join('');
-
-  // خط انحدار y = 0.85x + 0.10
-  const x1 = 0.05, y1 = 0.85 * 0.05 + 0.10;
-  const x2 = 0.95, y2 = 0.85 * 0.95 + 0.10;
-
-  return svgWrap(`
-    <text x="${w/2}" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#0f172a">الانحدار الخطي البسيط · y = mx + b</text>
-    <!-- شبكة -->
-    ${[0.25, 0.5, 0.75].map(t => `
-      <line x1="${toX(t)}" y1="${padY}" x2="${toX(t)}" y2="${baseY}" stroke="#e2e8f0" stroke-dasharray="2,3"/>
-      <line x1="${padX}" y1="${toY(t)}" x2="${w-padX}" y2="${toY(t)}" stroke="#e2e8f0" stroke-dasharray="2,3"/>
-    `).join('')}
-    <!-- محاور -->
-    <line x1="${padX}" y1="${baseY}" x2="${w-padX}" y2="${baseY}" stroke="#475569" stroke-width="1.5"/>
-    <line x1="${padX}" y1="${padY}" x2="${padX}" y2="${baseY}" stroke="#475569" stroke-width="1.5"/>
-    <!-- النقاط -->
-    ${dots}
-    <!-- خط الانحدار -->
-    <line x1="${toX(x1).toFixed(1)}" y1="${toY(y1).toFixed(1)}" x2="${toX(x2).toFixed(1)}" y2="${toY(y2).toFixed(1)}" stroke="#dc2626" stroke-width="2.5"/>
-    <!-- تسمية الخط -->
-    <text x="${toX(0.78)}" y="${toY(0.88)}" font-size="13" fill="#dc2626" font-weight="700" direction="ltr">y = mx + b</text>
-    <!-- تسميات المحاور -->
-    <text x="${w - padX + 12}" y="${baseY + 4}" font-size="13" fill="#475569" direction="ltr">x</text>
-    <text x="${padX - 12}" y="${padY - 4}" font-size="13" fill="#475569" direction="ltr">y</text>
-    <text x="${w/2}" y="${h - 12}" text-anchor="middle" font-size="11" fill="#64748b">المتغير المستقل (x)</text>
-  `, w, h);
+// نص إنجليزي عادي عبر foreignObject (لتنسيق متّسق)
+function enText(x, y, w, text, opts = {}) {
+  const fs = opts.fs || 16;
+  const weight = opts.weight || '400';
+  const color = opts.color || '#6B7280';
+  const align = opts.align || 'left';
+  const h = opts.h || (fs * 2);
+  return `<foreignObject x="${x}" y="${y}" width="${w}" height="${h}"><div xmlns="http://www.w3.org/1999/xhtml" style="font:${weight} ${fs}px 'Segoe UI',system-ui;color:${color};direction:ltr;text-align:${align};line-height:1.3;">${text}</div></foreignObject>`;
 }
 
-// أنواع الارتباط الثلاثة: طردي، عكسي، معدوم
-function svgCorrelationTypes() {
-  const w = 600, h = 280;
-  const cellW = (w - 40) / 3;
-  const padTop = 50, plotH = h - padTop - 40;
-
-  function plot(idx, title, gen, lineFrom, lineTo, color) {
-    const ox = 20 + idx * cellW + 15;
-    const inW = cellW - 30;
-    const baseY = h - 40;
-    const top = padTop + 10;
-    const toX = t => ox + t * inW;
-    const toY = t => baseY - t * (baseY - top);
-    const pts = [];
-    for (let i = 0; i < 12; i++) {
-      const t = i / 11;
-      pts.push([t, gen(t, i)]);
-    }
-    return `
-      <g>
-        <text x="${ox + inW/2}" y="${padTop - 10}" text-anchor="middle" font-size="13" font-weight="700" fill="${color}">${title}</text>
-        <line x1="${ox}" y1="${baseY}" x2="${ox+inW}" y2="${baseY}" stroke="#475569" stroke-width="1.2"/>
-        <line x1="${ox}" y1="${top}" x2="${ox}" y2="${baseY}" stroke="#475569" stroke-width="1.2"/>
-        ${pts.map(([x,y]) => `<circle cx="${toX(x).toFixed(1)}" cy="${toY(y).toFixed(1)}" r="3.5" fill="${color}" opacity="0.8"/>`).join('')}
-        ${lineFrom ? `<line x1="${toX(lineFrom[0]).toFixed(1)}" y1="${toY(lineFrom[1]).toFixed(1)}" x2="${toX(lineTo[0]).toFixed(1)}" y2="${toY(lineTo[1]).toFixed(1)}" stroke="${color}" stroke-width="2" opacity="0.6"/>` : ''}
-      </g>`;
-  }
-
-  const noise = (i) => ((i * 9301 + 49297) % 233280) / 233280 * 0.15 - 0.075;
-
-  return svgWrap(`
-    <text x="${w/2}" y="24" text-anchor="middle" font-size="16" font-weight="700" fill="#0f172a">أنواع الارتباط (Correlation)</text>
-    ${plot(0, 'طردي قوي · r ≈ +0.9', (t,i) => t * 0.9 + noise(i) + 0.05, [0.05, 0.1], [0.95, 0.95], '#16a34a')}
-    ${plot(1, 'عكسي قوي · r ≈ -0.9', (t,i) => (1-t) * 0.9 + noise(i) + 0.05, [0.05, 0.95], [0.95, 0.1], '#dc2626')}
-    ${plot(2, 'لا ارتباط · r ≈ 0', (t,i) => 0.5 + noise(i*3)*4, null, null, '#6366f1')}
-  `, w, h);
+// رأس المخطط: عنوان عربي + إنجليزي
+function svgHeader(arTitle, enTitle, y = 30) {
+  // نضع كل شيء في foreignObject واحد ليكون التنسيق مثالياً
+  return `<foreignObject x="40" y="${y}" width="1000" height="80">
+    <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:'Noto Sans Arabic',system-ui;text-align:center;line-height:1.2;">
+      <span style="font-size:42px;font-weight:700;color:#1F2937;direction:rtl;">${arTitle}</span>
+      <span style="font-size:34px;color:#6B7280;margin:0 14px;">|</span>
+      <span style="font-size:38px;font-weight:600;color:#1F2937;font-family:'Segoe UI',system-ui;">${enTitle}</span>
+    </div>
+  </foreignObject>`;
 }
 
-// منحنى التوزيع الطبيعي مع منطقة مظللة (مثلاً Z > 1.5)
-function svgZScoreCurve(zVal = 1.5, dir = 'right') {
-  const w = 600, h = 340;
-  const padX = 60, padY = 60;
-  const plotW = w - padX * 2;
-  const baseY = h - padY;
-  const peakY = padY + 20;
-  const cx = w / 2;
+// صندوق Key Features في الأسفل: عمودين منفصلين (إنجليزي يسار | عربي يمين)
+function svgKeyFeatures(features, yStart = 950) {
+  const boxW = 980, boxH = 220;
+  const boxX = (1080 - boxW) / 2;
+  const titleH = 50;
+  const rowH = (boxH - titleH - 20) / Math.max(features.length, 4);
+  const midX = boxX + boxW / 2;
 
-  const points = [];
-  const fillPoints = [];
-  const N = 100;
-  for (let i = 0; i <= N; i++) {
-    const t = i / N;
-    const xPos = padX + plotW * t;
-    const z = (t - 0.5) * 6;
-    const y = Math.exp(-(z * z) / 2);
-    const yPos = baseY - y * (baseY - peakY);
-    points.push(`${xPos.toFixed(1)},${yPos.toFixed(1)}`);
-    if ((dir === 'right' && z >= zVal) || (dir === 'left' && z <= -zVal)) {
-      fillPoints.push(`${xPos.toFixed(1)},${yPos.toFixed(1)}`);
-    }
-  }
-  const pathD = `M ${padX},${baseY} L ${points.join(' L ')} L ${w - padX},${baseY} Z`;
-  const zMarkX = padX + plotW * (0.5 + (dir === 'right' ? zVal : -zVal) / 6);
+  let rows = '';
+  features.slice(0, 4).forEach((f, i) => {
+    const y = yStart + titleH + 10 + i * rowH;
 
-  let shadedPath = '';
-  if (fillPoints.length > 0) {
-    const startX = dir === 'right' ? zMarkX : padX;
-    const endX = dir === 'right' ? (w - padX) : zMarkX;
-    shadedPath = `<path d="M ${startX},${baseY} L ${fillPoints.join(' L ')} L ${endX},${baseY} Z" fill="#dc2626" opacity="0.5"/>`;
-  }
+    rows += `
+      <!-- ============= الصف ${i + 1} ============= -->
 
-  return svgWrap(`
-    <text x="${cx}" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#0f172a">الدرجة المعيارية Z-Score · المنطقة المظللة عند Z = ${dir === 'right' ? '+' : '-'}${zVal}</text>
-    <line x1="${padX}" y1="${baseY}" x2="${w-padX}" y2="${baseY}" stroke="#94a3b8" stroke-width="1.5"/>
-    <path d="${pathD}" fill="#3b82f6" fill-opacity="0.18" stroke="#1d4ed8" stroke-width="2"/>
-    ${shadedPath}
-    <line x1="${zMarkX}" y1="${baseY}" x2="${zMarkX}" y2="${peakY - 10}" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4,3"/>
-    <text x="${zMarkX}" y="${baseY + 22}" text-anchor="middle" font-size="13" fill="#dc2626" font-weight="700" direction="ltr">Z = ${dir === 'right' ? '+' : '-'}${zVal}</text>
-    <text x="${cx}" y="${baseY + 22}" text-anchor="middle" font-size="13" fill="#334155" direction="ltr">μ</text>
-    <text x="${w - padX + 12}" y="${baseY + 4}" font-size="12" fill="#475569">x</text>
-  `, w, h);
-}
+      <!-- العمود الأيسر: أيقونة زرقاء + نقطة + نص إنجليزي -->
+      <circle cx="${boxX + 30}" cy="${y + rowH/2 - 5}" r="14" fill="${PALETTE.bgBlueVeryLite}"/>
+      <text x="${boxX + 30}" y="${y + rowH/2}" text-anchor="middle" font-size="14" fill="${PALETTE.annotBlue}" font-weight="700">${f.icon || '•'}</text>
+      <circle cx="${boxX + 60}" cy="${y + rowH/2 - 5}" r="3" fill="${PALETTE.bgPurpleDeep}"/>
+      <foreignObject x="${boxX + 75}" y="${y + 5}" width="${midX - boxX - 90}" height="${rowH}">
+        <div xmlns="http://www.w3.org/1999/xhtml" style="font:500 18px 'Segoe UI',system-ui;color:#1F2937;display:flex;align-items:center;height:100%;">${f.en}</div>
+      </foreignObject>
 
-// مخطط Gantt لجدولة المعالج (مثلاً Round Robin)
-function svgGanttChart(processes) {
-  const w = 600, h = 240;
-  const padX = 50, padY = 70;
-  const plotW = w - padX * 2;
-  const barH = 40;
-  const total = processes.reduce((s, p) => s + p.duration, 0);
-  const colors = ['#3b82f6', '#16a34a', '#d97706', '#dc2626', '#7c3aed', '#0891b2'];
+      <!-- العمود الأيمن: نص عربي + نقطة + أيقونة بنفسجية -->
+      <foreignObject x="${midX + 15}" y="${y + 5}" width="${boxX + boxW - midX - 90}" height="${rowH}">
+        <div xmlns="http://www.w3.org/1999/xhtml" style="font:500 19px 'Noto Sans Arabic',system-ui;color:#1F2937;direction:rtl;text-align:right;display:flex;align-items:center;justify-content:flex-end;height:100%;">${f.ar}</div>
+      </foreignObject>
+      <circle cx="${boxX + boxW - 60}" cy="${y + rowH/2 - 5}" r="3" fill="${PALETTE.bgPurpleDeep}"/>
+      <circle cx="${boxX + boxW - 30}" cy="${y + rowH/2 - 5}" r="14" fill="${PALETTE.bgPurpleVeryLite}"/>
+      <text x="${boxX + boxW - 30}" y="${y + rowH/2}" text-anchor="middle" font-size="14" fill="${PALETTE.bgPurpleDeep}" font-weight="700">${f.icon || '•'}</text>
 
-  let cursor = 0;
-  const bars = processes.map((p, i) => {
-    const x1 = padX + (cursor / total) * plotW;
-    const x2 = padX + ((cursor + p.duration) / total) * plotW;
-    const color = colors[i % colors.length];
-    cursor += p.duration;
-    return `
-      <rect x="${x1.toFixed(1)}" y="${padY}" width="${(x2-x1).toFixed(1)}" height="${barH}" fill="${color}" stroke="white" stroke-width="2"/>
-      <text x="${((x1+x2)/2).toFixed(1)}" y="${padY + barH/2 + 5}" text-anchor="middle" font-size="13" fill="white" font-weight="700">${p.name}</text>
-      <text x="${x1.toFixed(1)}" y="${padY + barH + 18}" text-anchor="middle" font-size="11" fill="#475569" direction="ltr">${cursor - p.duration}</text>
+      ${i < features.length - 1 ? `<line x1="${boxX + 20}" y1="${y + rowH - 2}" x2="${boxX + boxW - 20}" y2="${y + rowH - 2}" stroke="${PALETTE.gridLine}" stroke-width="1" stroke-dasharray="2,3"/>` : ''}
     `;
-  }).join('');
+  });
 
-  return svgWrap(`
-    <text x="${w/2}" y="32" text-anchor="middle" font-size="16" font-weight="700" fill="#0f172a">مخطط Gantt لجدولة المعالج</text>
-    <text x="${w/2}" y="52" text-anchor="middle" font-size="12" fill="#64748b">المحور الأفقي يمثل الوقت</text>
-    ${bars}
-    <text x="${padX + plotW}" y="${padY + barH + 18}" text-anchor="middle" font-size="11" fill="#475569" direction="ltr">${total}</text>
-    <line x1="${padX}" y1="${padY + barH + 4}" x2="${padX + plotW}" y2="${padY + barH + 4}" stroke="#475569" stroke-width="1.2"/>
-  `, w, h);
+  return `
+    <rect x="${boxX}" y="${yStart}" width="${boxW}" height="${boxH}" rx="14" fill="${PALETTE.boxBg}" stroke="${PALETTE.boxBorder}" stroke-width="2"/>
+
+    <!-- العنوان عبر foreignObject -->
+    <foreignObject x="${boxX + 20}" y="${yStart + 8}" width="${boxW - 40}" height="${titleH}">
+      <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:'Noto Sans Arabic',system-ui;text-align:center;font-weight:700;color:#6B46C1;line-height:1.2;font-size:22px;padding-top:6px;">
+        <span style="direction:rtl;">خصائص</span>
+        <span style="margin:0 10px;">|</span>
+        <span style="font-family:'Segoe UI',system-ui;">Key Features</span>
+      </div>
+    </foreignObject>
+
+    <line x1="${midX}" y1="${yStart + titleH}" x2="${midX}" y2="${yStart + boxH - 10}" stroke="${PALETTE.boxBorder}" stroke-width="1" stroke-dasharray="3,3"/>
+
+    ${rows}
+  `;
+}
+
+// شرح بصندوق ملوّن مع سهم يشير لنقطة
+function svgAnnotation(boxX, boxY, boxW, boxH, arText, enText, arrowX1, arrowY1, arrowX2, arrowY2, color = PALETTE.annotPurple) {
+  return `
+    <!-- صندوق الشرح -->
+    <rect x="${boxX}" y="${boxY}" width="${boxW}" height="${boxH}" rx="8" fill="${PALETTE.white}" stroke="${color}" stroke-width="2"/>
+    <text x="${boxX + boxW - 12}" y="${boxY + 25}" text-anchor="end" font-size="16" fill="${PALETTE.text}" font-weight="600" direction="rtl">${arText}</text>
+    <text x="${boxX + 12}" y="${boxY + 50}" text-anchor="start" font-size="14" fill="${PALETTE.textMuted}" font-family="'Segoe UI', system-ui" direction="ltr">${enText}</text>
+
+    <!-- سهم -->
+    <defs>
+      <marker id="arrow-${Math.random().toString(36).substr(2,5)}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="${color}"/>
+      </marker>
+    </defs>
+    <line x1="${arrowX1}" y1="${arrowY1}" x2="${arrowX2}" y2="${arrowY2}" stroke="${color}" stroke-width="2" stroke-linecap="round"/>
+    <polygon points="${arrowX2},${arrowY2} ${arrowX2 - 8 * Math.cos(Math.atan2(arrowY2-arrowY1, arrowX2-arrowX1) - 0.4)},${arrowY2 - 8 * Math.sin(Math.atan2(arrowY2-arrowY1, arrowX2-arrowX1) - 0.4)} ${arrowX2 - 8 * Math.cos(Math.atan2(arrowY2-arrowY1, arrowX2-arrowX1) + 0.4)},${arrowY2 - 8 * Math.sin(Math.atan2(arrowY2-arrowY1, arrowX2-arrowX1) + 0.4)}" fill="${color}"/>
+  `;
 }
 
 // =============================================================
-// كاشف نية الرسم
+// 1) المدرج التكراري Histogram
 // =============================================================
+function chartHistogram() {
+  // بيانات افتراضية تشبه الصورة المرفقة
+  const data = [
+    { label: '0 – 10', value: 3, color: PALETTE.bgBlueLite },
+    { label: '10 – 20', value: 7, color: PALETTE.bgPurpleVeryLite },
+    { label: '20 – 30', value: 5, color: PALETTE.bgPurple },
+    { label: '30 – 40', value: 8, color: PALETTE.bgPurpleDeep },
+    { label: '40 – 50', value: 4, color: PALETTE.bgPurpleVeryLite },
+  ];
+  const maxVal = 10;
+  const plotX = 130, plotY = 180, plotW = 700, plotH = 500;
+  const barW = plotW / data.length;
+
+  let bars = '';
+  data.forEach((d, i) => {
+    const bh = (d.value / maxVal) * plotH;
+    const x = plotX + i * barW;
+    const y = plotY + plotH - bh;
+    bars += `<rect x="${x}" y="${y}" width="${barW - 2}" height="${bh}" fill="${d.color}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="1.5" opacity="0.85"/>`;
+  });
+
+  // محور y: أرقام 0-10
+  let yAxis = '';
+  for (let i = 0; i <= 5; i++) {
+    const v = i * 2;
+    const y = plotY + plotH - (v / maxVal) * plotH;
+    yAxis += `
+      <line x1="${plotX}" y1="${y}" x2="${plotX + plotW}" y2="${y}" stroke="${PALETTE.gridLine}" stroke-width="1" stroke-dasharray="4,4"/>
+      <text x="${plotX - 15}" y="${y + 5}" text-anchor="end" font-size="20" fill="${PALETTE.text}">${v}</text>
+    `;
+  }
+
+  // محور x: تسميات الفئات
+  let xAxis = '';
+  data.forEach((d, i) => {
+    const x = plotX + i * barW + barW / 2;
+    xAxis += `<text x="${x}" y="${plotY + plotH + 30}" text-anchor="middle" font-size="18" fill="${PALETTE.text}">${d.label}</text>`;
+  });
+
+  // أسهم المحاور
+  const axes = `
+    <!-- محور y -->
+    <line x1="${plotX}" y1="${plotY - 20}" x2="${plotX}" y2="${plotY + plotH + 5}" stroke="${PALETTE.text}" stroke-width="2"/>
+    <polygon points="${plotX},${plotY - 25} ${plotX - 6},${plotY - 13} ${plotX + 6},${plotY - 13}" fill="${PALETTE.text}"/>
+    <!-- محور x -->
+    <line x1="${plotX - 5}" y1="${plotY + plotH}" x2="${plotX + plotW + 20}" y2="${plotY + plotH}" stroke="${PALETTE.text}" stroke-width="2"/>
+    <polygon points="${plotX + plotW + 25},${plotY + plotH} ${plotX + plotW + 13},${plotY + plotH - 6} ${plotX + plotW + 13},${plotY + plotH + 6}" fill="${PALETTE.text}"/>
+  `;
+
+  // عناوين المحاور
+  const axisLabels = `
+    <text x="55" y="${plotY + plotH/2}" text-anchor="middle" font-size="20" fill="${PALETTE.text}" transform="rotate(-90 55 ${plotY + plotH/2})" direction="rtl">التكرارات / Frequencies</text>
+    <text x="${plotX + plotW/2}" y="${plotY + plotH + 80}" text-anchor="middle" font-size="20" fill="${PALETTE.text}" direction="rtl">الفئات (المجالات) / Class Intervals</text>
+  `;
+
+  // شرح ارتفاع العمود
+  const annot1Bar = data[3];
+  const annot1X = plotX + 3 * barW + barW / 2;
+  const annot1Y = plotY + plotH - (annot1Bar.value / maxVal) * plotH;
+  const annotation1 = `
+    <rect x="850" y="190" width="220" height="80" rx="8" fill="${PALETTE.white}" stroke="${PALETTE.annotPurple}" stroke-width="2"/>
+    ${arText(860, 200, 200, 'ارتفاع العمود = تكرار الفئة', { fs: 16, weight: '600', color: PALETTE.text })}
+    ${enText(860, 232, 200, 'Bar Height = Frequency', { fs: 14, color: PALETTE.textMuted })}
+    <path d="M 850 230 Q 800 260 ${annot1X + 30} ${annot1Y + 30}" stroke="${PALETTE.annotPurple}" stroke-width="2" fill="none"/>
+    <polygon points="${annot1X + 30},${annot1Y + 30} ${annot1X + 42},${annot1Y + 22} ${annot1X + 38},${annot1Y + 38}" fill="${PALETTE.annotPurple}"/>
+    <line x1="${annot1X}" y1="${annot1Y + 5}" x2="${annot1X}" y2="${plotY + plotH - 5}" stroke="${PALETTE.annotPurple}" stroke-width="1.5" stroke-dasharray="3,3"/>
+  `;
+
+  const annot2 = `
+    <rect x="850" y="450" width="220" height="80" rx="8" fill="${PALETTE.white}" stroke="${PALETTE.annotBlue}" stroke-width="2"/>
+    ${arText(860, 460, 200, 'عرض العمود = طول الفئة', { fs: 16, weight: '600', color: PALETTE.text })}
+    ${enText(860, 492, 200, 'Bar Width = Class Width', { fs: 14, color: PALETTE.textMuted })}
+    <path d="M 850 490 Q 760 540 ${plotX + 3 * barW + 30} 600" stroke="${PALETTE.annotBlue}" stroke-width="2" fill="none"/>
+    <line x1="${plotX + 3 * barW + 10}" y1="610" x2="${plotX + 4 * barW - 10}" y2="610" stroke="${PALETTE.annotBlue}" stroke-width="2"/>
+    <polygon points="${plotX + 3 * barW + 10},610 ${plotX + 3 * barW + 20},605 ${plotX + 3 * barW + 20},615" fill="${PALETTE.annotBlue}"/>
+    <polygon points="${plotX + 4 * barW - 10},610 ${plotX + 4 * barW - 20},605 ${plotX + 4 * barW - 20},615" fill="${PALETTE.annotBlue}"/>
+  `;
+
+  const inner = `
+    ${svgHeader('المدرج التكراري', 'Histogram')}
+    ${yAxis}
+    ${bars}
+    ${axes}
+    ${xAxis}
+    ${axisLabels}
+    ${annotation1}
+    ${annot2}
+    ${svgKeyFeatures([
+      { ar: 'الأعمدة متلاصقة', en: 'No gaps between bars', icon: '◫' },
+      { ar: 'للبيانات الكمية المستمرة', en: 'For continuous data', icon: '∿' },
+      { ar: 'يوضح شكل التوزيع', en: 'Shows distribution shape', icon: '▲' },
+      { ar: 'يساعد في تحديد القيم المتطرفة', en: 'Identifies outliers', icon: '⊙' },
+    ])}
+  `;
+  return svgWrap(inner);
+}
+
+// =============================================================
+// 2) التوزيع الطبيعي Normal Distribution / Bell Curve
+// =============================================================
+function chartNormalDistribution() {
+  const plotX = 90, plotY = 180, plotW = 900, plotH = 540;
+  const cx = plotX + plotW / 2;
+  const baseY = plotY + plotH;
+  const peakY = plotY + 60;
+  const sigmaW = 120; // كل انحراف معياري
+
+  // منحنى الجرس باستخدام دالة طبيعية
+  let path = `M ${plotX} ${baseY}`;
+  for (let x = 0; x <= plotW; x += 4) {
+    const xVal = (x - plotW / 2) / sigmaW; // z-score
+    const y = Math.exp(-0.5 * xVal * xVal);
+    const screenY = baseY - y * (baseY - peakY);
+    path += ` L ${plotX + x} ${screenY}`;
+  }
+  path += ` L ${plotX + plotW} ${baseY} Z`;
+
+  // مناطق ملوّنة لكل ±σ
+  const regionPaths = [];
+  for (let s = -3; s < 3; s++) {
+    const x1 = cx + s * sigmaW;
+    const x2 = cx + (s + 1) * sigmaW;
+    const opacity = 0.85 - Math.abs(s + 0.5) * 0.18;
+    const color = Math.abs(s + 0.5) < 1 ? PALETTE.bgPurpleDeep
+                : Math.abs(s + 0.5) < 2 ? PALETTE.bgPurple
+                : PALETTE.bgPurpleVeryLite;
+    let regPath = `M ${x1} ${baseY}`;
+    for (let x = x1; x <= x2; x += 2) {
+      const xVal = (x - cx) / sigmaW;
+      const y = Math.exp(-0.5 * xVal * xVal);
+      regPath += ` L ${x} ${baseY - y * (baseY - peakY)}`;
+    }
+    regPath += ` L ${x2} ${baseY} Z`;
+    regionPaths.push(`<path d="${regPath}" fill="${color}" opacity="${opacity}"/>`);
+  }
+
+  // محور x: -3σ إلى +3σ والمتوسط μ
+  let xAxis = '';
+  for (let s = -3; s <= 3; s++) {
+    const x = cx + s * sigmaW;
+    const label = s === 0 ? 'μ' : (s > 0 ? `+${s}σ` : `${s}σ`);
+    xAxis += `
+      <line x1="${x}" y1="${baseY}" x2="${x}" y2="${baseY + 8}" stroke="${PALETTE.text}" stroke-width="2"/>
+      <text x="${x}" y="${baseY + 35}" text-anchor="middle" font-size="22" fill="${PALETTE.text}" font-weight="${s === 0 ? '700' : '500'}">${label}</text>
+    `;
+  }
+
+  // خط عمودي عند المتوسط
+  const meanLine = `<line x1="${cx}" y1="${peakY}" x2="${cx}" y2="${baseY}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5" stroke-dasharray="6,4"/>`;
+
+  // محور y المخفي + خط الأرض
+  const xLine = `<line x1="${plotX}" y1="${baseY}" x2="${plotX + plotW}" y2="${baseY}" stroke="${PALETTE.text}" stroke-width="2"/>`;
+
+  // نسب 68-95-99.7
+  const pcts = `
+    <text x="${cx}" y="${peakY - 25}" text-anchor="middle" font-size="22" font-weight="700" fill="${PALETTE.bgPurpleDeep}">68%</text>
+    <text x="${cx - sigmaW * 1.5}" y="${peakY + 110}" text-anchor="middle" font-size="20" font-weight="600" fill="${PALETTE.text}">95%</text>
+    <text x="${cx + sigmaW * 1.5}" y="${peakY + 110}" text-anchor="middle" font-size="20" font-weight="600" fill="${PALETTE.text}">95%</text>
+    <text x="${cx - sigmaW * 2.5}" y="${peakY + 350}" text-anchor="middle" font-size="18" font-weight="600" fill="${PALETTE.textMuted}">99.7%</text>
+    <text x="${cx + sigmaW * 2.5}" y="${peakY + 350}" text-anchor="middle" font-size="18" font-weight="600" fill="${PALETTE.textMuted}">99.7%</text>
+  `;
+
+  // شرح: المتوسط
+  const annot1 = `
+    <rect x="780" y="200" width="240" height="70" rx="8" fill="${PALETTE.white}" stroke="${PALETTE.annotPurple}" stroke-width="2"/>
+    <text x="1010" y="225" text-anchor="end" font-size="16" fill="${PALETTE.text}" font-weight="600" direction="rtl">القمة = المتوسط (μ)</text>
+    <text x="790" y="250" text-anchor="start" font-size="14" fill="${PALETTE.textMuted}" font-family="'Segoe UI', system-ui">Peak = Mean (μ)</text>
+    <line x1="780" y1="235" x2="${cx + 30}" y2="${peakY + 40}" stroke="${PALETTE.annotPurple}" stroke-width="2"/>
+  `;
+
+  // شرح: الانحراف المعياري
+  const annot2 = `
+    <rect x="60" y="200" width="240" height="70" rx="8" fill="${PALETTE.white}" stroke="${PALETTE.annotBlue}" stroke-width="2"/>
+    <text x="290" y="225" text-anchor="end" font-size="16" fill="${PALETTE.text}" font-weight="600" direction="rtl">الانحراف المعياري σ</text>
+    <text x="70" y="250" text-anchor="start" font-size="14" fill="${PALETTE.textMuted}" font-family="'Segoe UI', system-ui">Standard Deviation (σ)</text>
+    <line x1="300" y1="235" x2="${cx - sigmaW - 20}" y2="${peakY + 200}" stroke="${PALETTE.annotBlue}" stroke-width="2"/>
+  `;
+
+  const inner = `
+    ${svgHeader('التوزيع الطبيعي', 'Normal Distribution')}
+    ${regionPaths.join('')}
+    <path d="${path}" fill="none" stroke="${PALETTE.bgPurpleDeep}" stroke-width="3"/>
+    ${meanLine}
+    ${xLine}
+    ${xAxis}
+    ${pcts}
+    ${annot1}
+    ${annot2}
+    <text x="540" y="${baseY + 80}" text-anchor="middle" font-size="20" fill="${PALETTE.text}" direction="rtl">قاعدة 68-95-99.7 / Empirical Rule</text>
+    ${svgKeyFeatures([
+      { ar: 'متماثل حول المتوسط', en: 'Symmetric around the mean', icon: '⟷' },
+      { ar: 'شكل منحنى الجرس', en: 'Bell-shaped curve', icon: '◠' },
+      { ar: 'المتوسط = الوسيط = المنوال', en: 'Mean = Median = Mode', icon: '=' },
+      { ar: 'قاعدة 68-95-99.7', en: '68-95-99.7 Empirical Rule', icon: '%' },
+    ])}
+  `;
+  return svgWrap(inner);
+}
+
+// =============================================================
+// 3) مخطط الانتشار Scatter Plot
+// =============================================================
+function chartScatterPlot() {
+  const plotX = 130, plotY = 180, plotW = 800, plotH = 540;
+
+  // نقاط بيانات تُظهر ارتباطاً طردياً
+  const points = [];
+  for (let i = 0; i < 30; i++) {
+    const x = 0.1 + (i / 30) + (Math.sin(i * 7) * 0.05);
+    const y = x + 0.1 + (Math.cos(i * 11) * 0.15);
+    points.push({ x: Math.min(0.95, Math.max(0.05, x)), y: Math.min(0.95, Math.max(0.05, y)) });
+  }
+
+  let pts = '';
+  points.forEach(p => {
+    const cx = plotX + p.x * plotW;
+    const cy = plotY + plotH - p.y * plotH;
+    pts += `<circle cx="${cx}" cy="${cy}" r="7" fill="${PALETTE.bgPurple}" opacity="0.7" stroke="${PALETTE.bgPurpleDeep}" stroke-width="1.5"/>`;
+  });
+
+  // خط الانحدار
+  const x1 = plotX + 0.05 * plotW, y1 = plotY + plotH - 0.15 * plotH;
+  const x2 = plotX + 0.95 * plotW, y2 = plotY + plotH - 0.95 * plotH;
+  const regLine = `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="3" stroke-dasharray="8,4"/>`;
+
+  // محاور
+  let yAxis = '';
+  for (let i = 0; i <= 5; i++) {
+    const y = plotY + plotH - (i / 5) * plotH;
+    yAxis += `
+      <line x1="${plotX}" y1="${y}" x2="${plotX + plotW}" y2="${y}" stroke="${PALETTE.gridLine}" stroke-width="1" stroke-dasharray="4,4"/>
+      <text x="${plotX - 15}" y="${y + 6}" text-anchor="end" font-size="18" fill="${PALETTE.text}">${(i * 20)}</text>
+    `;
+  }
+  let xAxis = '';
+  for (let i = 0; i <= 5; i++) {
+    const x = plotX + (i / 5) * plotW;
+    xAxis += `<text x="${x}" y="${plotY + plotH + 30}" text-anchor="middle" font-size="18" fill="${PALETTE.text}">${(i * 20)}</text>`;
+  }
+
+  const axes = `
+    <line x1="${plotX}" y1="${plotY}" x2="${plotX}" y2="${plotY + plotH}" stroke="${PALETTE.text}" stroke-width="2"/>
+    <line x1="${plotX}" y1="${plotY + plotH}" x2="${plotX + plotW}" y2="${plotY + plotH}" stroke="${PALETTE.text}" stroke-width="2"/>
+  `;
+  const axisLabels = `
+    <text x="55" y="${plotY + plotH/2}" text-anchor="middle" font-size="20" fill="${PALETTE.text}" transform="rotate(-90 55 ${plotY + plotH/2})" direction="rtl">المتغير y / y variable</text>
+    <text x="${plotX + plotW/2}" y="${plotY + plotH + 70}" text-anchor="middle" font-size="20" fill="${PALETTE.text}" direction="rtl">المتغير x / x variable</text>
+  `;
+
+  // شروحات
+  const annot1 = `
+    <rect x="${plotX + plotW + 20}" y="200" width="250" height="80" rx="8" fill="${PALETTE.white}" stroke="${PALETTE.annotPurple}" stroke-width="2"/>
+    <text x="${plotX + plotW + 260}" y="225" text-anchor="end" font-size="16" fill="${PALETTE.text}" font-weight="600" direction="rtl">خط الانحدار</text>
+    <text x="${plotX + plotW + 30}" y="250" text-anchor="start" font-size="13" fill="${PALETTE.textMuted}" font-family="'Segoe UI', system-ui">Best-Fit Regression Line</text>
+    <text x="${plotX + plotW + 260}" y="270" text-anchor="end" font-size="14" fill="${PALETTE.bgPurpleDeep}" font-weight="600">y = mx + b</text>
+    <line x1="${plotX + plotW + 20}" y1="245" x2="${plotX + plotW * 0.7}" y2="${plotY + plotH * 0.4}" stroke="${PALETTE.annotPurple}" stroke-width="2"/>
+  `;
+
+  const annot2 = `
+    <rect x="60" y="600" width="220" height="80" rx="8" fill="${PALETTE.white}" stroke="${PALETTE.annotBlue}" stroke-width="2"/>
+    <text x="270" y="625" text-anchor="end" font-size="16" fill="${PALETTE.text}" font-weight="600" direction="rtl">نقطة بيانات</text>
+    <text x="70" y="650" text-anchor="start" font-size="13" fill="${PALETTE.textMuted}" font-family="'Segoe UI', system-ui">Data Point (xᵢ, yᵢ)</text>
+    <text x="270" y="670" text-anchor="end" font-size="13" fill="${PALETTE.textMuted}" direction="rtl">ارتباط طردي قوي</text>
+    <line x1="280" y1="635" x2="${plotX + 0.3 * plotW}" y2="${plotY + plotH - 0.3 * plotH}" stroke="${PALETTE.annotBlue}" stroke-width="2"/>
+  `;
+
+  const inner = `
+    ${svgHeader('مخطط الانتشار', 'Scatter Plot')}
+    ${yAxis}
+    ${xAxis}
+    ${axes}
+    ${regLine}
+    ${pts}
+    ${axisLabels}
+    ${annot1}
+    ${annot2}
+    ${svgKeyFeatures([
+      { ar: 'يُظهر العلاقة بين متغيرين كميين', en: 'Shows relationship between two variables', icon: '⤢' },
+      { ar: 'كل نقطة = ملاحظة واحدة', en: 'Each point = one observation', icon: '•' },
+      { ar: 'يكشف نمط الارتباط (طردي/عكسي)', en: 'Reveals correlation pattern', icon: '↗' },
+      { ar: 'يساعد في تحديد القيم الشاذة', en: 'Helps identify outliers', icon: '⊙' },
+    ])}
+  `;
+  return svgWrap(inner);
+}
+
+// =============================================================
+// 4) Z-Score على منحنى التوزيع الطبيعي
+// =============================================================
+function chartZScore(zVal = 1.5) {
+  const plotX = 90, plotY = 200, plotW = 900, plotH = 460;
+  const cx = plotX + plotW / 2;
+  const baseY = plotY + plotH;
+  const peakY = plotY + 40;
+  const sigmaW = 120;
+
+  // منحنى كامل
+  let curvePath = `M ${plotX} ${baseY}`;
+  for (let x = 0; x <= plotW; x += 3) {
+    const xVal = (x - plotW / 2) / sigmaW;
+    const y = Math.exp(-0.5 * xVal * xVal);
+    curvePath += ` L ${plotX + x} ${baseY - y * (baseY - peakY)}`;
+  }
+  curvePath += ` L ${plotX + plotW} ${baseY} Z`;
+
+  // المنطقة المظللة (z إلى ما لانهاية)
+  const zX = cx + zVal * sigmaW;
+  let shadedPath = `M ${zX} ${baseY}`;
+  for (let x = zX - plotX; x <= plotW; x += 2) {
+    const xVal = (x - plotW / 2) / sigmaW;
+    const y = Math.exp(-0.5 * xVal * xVal);
+    shadedPath += ` L ${plotX + x} ${baseY - y * (baseY - peakY)}`;
+  }
+  shadedPath += ` L ${plotX + plotW} ${baseY} Z`;
+
+  // محور x
+  let xAxis = '';
+  for (let s = -3; s <= 3; s++) {
+    const x = cx + s * sigmaW;
+    xAxis += `
+      <line x1="${x}" y1="${baseY}" x2="${x}" y2="${baseY + 8}" stroke="${PALETTE.text}" stroke-width="2"/>
+      <text x="${x}" y="${baseY + 35}" text-anchor="middle" font-size="20" fill="${PALETTE.text}" font-weight="${s === 0 ? '700' : '500'}">${s === 0 ? '0 (μ)' : (s > 0 ? `+${s}` : `${s}`)}</text>
+    `;
+  }
+
+  // خط عمودي عند Z
+  const zLine = `<line x1="${zX}" y1="${peakY - 20}" x2="${zX}" y2="${baseY}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>`;
+  const zMark = `
+    <circle cx="${zX}" cy="${baseY}" r="6" fill="${PALETTE.bgPurpleDeep}"/>
+    <text x="${zX}" y="${peakY - 30}" text-anchor="middle" font-size="22" font-weight="700" fill="${PALETTE.bgPurpleDeep}">Z = ${zVal}</text>
+  `;
+
+  const xLine = `<line x1="${plotX}" y1="${baseY}" x2="${plotX + plotW}" y2="${baseY}" stroke="${PALETTE.text}" stroke-width="2"/>`;
+
+  // شرح الصيغة
+  const formula = `
+    <rect x="120" y="220" width="280" height="100" rx="10" fill="${PALETTE.boxBg}" stroke="${PALETTE.boxBorder}" stroke-width="2"/>
+    <text x="380" y="250" text-anchor="end" font-size="18" fill="${PALETTE.text}" font-weight="600" direction="rtl">صيغة الدرجة المعيارية</text>
+    <text x="130" y="275" text-anchor="start" font-size="14" fill="${PALETTE.textMuted}" font-family="'Segoe UI', system-ui">Z-Score Formula</text>
+    <text x="260" y="310" text-anchor="middle" font-size="28" fill="${PALETTE.bgPurpleDeep}" font-weight="700">Z = (x − μ) / σ</text>
+  `;
+
+  // شرح المنطقة المظلّلة
+  const annot = `
+    <rect x="700" y="220" width="280" height="80" rx="8" fill="${PALETTE.white}" stroke="${PALETTE.annotPurple}" stroke-width="2"/>
+    <text x="970" y="245" text-anchor="end" font-size="16" fill="${PALETTE.text}" font-weight="600" direction="rtl">المساحة = الاحتمال</text>
+    <text x="710" y="270" text-anchor="start" font-size="13" fill="${PALETTE.textMuted}" font-family="'Segoe UI', system-ui">P(Z &gt; ${zVal}) ≈ ${zVal === 1.5 ? '0.067' : '?'}</text>
+    <text x="970" y="290" text-anchor="end" font-size="13" fill="${PALETTE.textMuted}" direction="rtl">احتمال الذيل اليميني</text>
+    <line x1="700" y1="265" x2="${zX + 80}" y2="${baseY - 50}" stroke="${PALETTE.annotPurple}" stroke-width="2"/>
+  `;
+
+  const inner = `
+    ${svgHeader('الدرجة المعيارية', 'Z-Score')}
+    <path d="${curvePath}" fill="${PALETTE.bgPurpleVeryLite}" opacity="0.4" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
+    <path d="${shadedPath}" fill="${PALETTE.bgPurpleDeep}" opacity="0.7"/>
+    ${zLine}
+    ${zMark}
+    ${xLine}
+    ${xAxis}
+    ${formula}
+    ${annot}
+    <text x="540" y="${baseY + 80}" text-anchor="middle" font-size="20" fill="${PALETTE.text}" direction="rtl">المحور الأفقي = الانحرافات المعيارية عن المتوسط</text>
+    ${svgKeyFeatures([
+      { ar: 'يقيس بُعد القيمة عن المتوسط بالانحرافات المعيارية', en: 'Measures deviation from mean in σ units', icon: 'σ' },
+      { ar: 'Z موجبة: القيمة فوق المتوسط', en: 'Z &gt; 0: value above mean', icon: '↑' },
+      { ar: 'Z سالبة: القيمة تحت المتوسط', en: 'Z &lt; 0: value below mean', icon: '↓' },
+      { ar: 'يُستخدم لمقارنة القيم عبر توزيعات مختلفة', en: 'Compare values across distributions', icon: '⇄' },
+    ])}
+  `;
+  return svgWrap(inner);
+}
+
+// =============================================================
+// 5) الانحدار الخطي Linear Regression
+// =============================================================
+function chartLinearRegression() {
+  const plotX = 130, plotY = 180, plotW = 800, plotH = 540;
+
+  // نقاط حول خط y = 0.8x + 0.1
+  const points = [];
+  for (let i = 0; i < 20; i++) {
+    const x = (i + 1) / 22;
+    const yTrue = 0.85 * x + 0.05;
+    const noise = (Math.sin(i * 13) * 0.08);
+    points.push({ x, y: yTrue + noise, yTrue });
+  }
+
+  let pts = '';
+  let residuals = '';
+  points.forEach(p => {
+    const cx = plotX + p.x * plotW;
+    const cy = plotY + plotH - p.y * plotH;
+    const cyTrue = plotY + plotH - p.yTrue * plotH;
+    residuals += `<line x1="${cx}" y1="${cy}" x2="${cx}" y2="${cyTrue}" stroke="${PALETTE.annotBlue}" stroke-width="1.5" opacity="0.5"/>`;
+    pts += `<circle cx="${cx}" cy="${cy}" r="7" fill="${PALETTE.bgPurple}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="1.5"/>`;
+  });
+
+  // خط الانحدار
+  const x1 = plotX, y1 = plotY + plotH - (0.85 * 0 + 0.05) * plotH;
+  const x2 = plotX + plotW, y2 = plotY + plotH - (0.85 * 1 + 0.05) * plotH;
+  const regLine = `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="3"/>`;
+
+  // محاور
+  const axes = `
+    <line x1="${plotX}" y1="${plotY}" x2="${plotX}" y2="${plotY + plotH}" stroke="${PALETTE.text}" stroke-width="2"/>
+    <line x1="${plotX}" y1="${plotY + plotH}" x2="${plotX + plotW}" y2="${plotY + plotH}" stroke="${PALETTE.text}" stroke-width="2"/>
+  `;
+
+  let grid = '';
+  for (let i = 1; i <= 5; i++) {
+    const y = plotY + plotH - (i / 5) * plotH;
+    grid += `<line x1="${plotX}" y1="${y}" x2="${plotX + plotW}" y2="${y}" stroke="${PALETTE.gridLine}" stroke-width="1" stroke-dasharray="3,3"/>`;
+  }
+
+  // معادلة الخط
+  const eqBox = `
+    <rect x="${plotX + plotW + 20}" y="200" width="270" height="160" rx="10" fill="${PALETTE.boxBg}" stroke="${PALETTE.boxBorder}" stroke-width="2"/>
+    <text x="${plotX + plotW + 280}" y="230" text-anchor="end" font-size="18" fill="${PALETTE.text}" font-weight="600" direction="rtl">معادلة الانحدار</text>
+    <text x="${plotX + plotW + 30}" y="255" text-anchor="start" font-size="14" fill="${PALETTE.textMuted}" font-family="'Segoe UI', system-ui">Regression Equation</text>
+    <text x="${plotX + plotW + 155}" y="295" text-anchor="middle" font-size="26" font-weight="700" fill="${PALETTE.bgPurpleDeep}">y = mx + b</text>
+    <text x="${plotX + plotW + 280}" y="325" text-anchor="end" font-size="13" fill="${PALETTE.text}" direction="rtl">m = الميل (Slope)</text>
+    <text x="${plotX + plotW + 280}" y="345" text-anchor="end" font-size="13" fill="${PALETTE.text}" direction="rtl">b = نقطة التقاطع (Intercept)</text>
+  `;
+
+  // شرح البواقي
+  const residAnnot = `
+    <rect x="60" y="600" width="240" height="80" rx="8" fill="${PALETTE.white}" stroke="${PALETTE.annotBlue}" stroke-width="2"/>
+    <text x="290" y="625" text-anchor="end" font-size="16" fill="${PALETTE.text}" font-weight="600" direction="rtl">البواقي (Residuals)</text>
+    <text x="70" y="650" text-anchor="start" font-size="13" fill="${PALETTE.textMuted}" font-family="'Segoe UI', system-ui">eᵢ = yᵢ − ŷᵢ</text>
+    <text x="290" y="670" text-anchor="end" font-size="12" fill="${PALETTE.textMuted}" direction="rtl">الفرق بين القيمة الفعلية والمتوقعة</text>
+  `;
+
+  const inner = `
+    ${svgHeader('الانحدار الخطي البسيط', 'Simple Linear Regression')}
+    ${grid}
+    ${axes}
+    ${residuals}
+    ${regLine}
+    ${pts}
+    ${eqBox}
+    ${residAnnot}
+    <text x="55" y="${plotY + plotH/2}" text-anchor="middle" font-size="20" fill="${PALETTE.text}" transform="rotate(-90 55 ${plotY + plotH/2})" direction="rtl">المتغير التابع y</text>
+    <text x="${plotX + plotW/2}" y="${plotY + plotH + 70}" text-anchor="middle" font-size="20" fill="${PALETTE.text}" direction="rtl">المتغير المستقل x</text>
+    ${svgKeyFeatures([
+      { ar: 'يُنمذج العلاقة الخطية بين متغيرين', en: 'Models linear relationship', icon: '/' },
+      { ar: 'يُستخدم للتنبؤ بقيم y من x', en: 'Used to predict y from x', icon: '→' },
+      { ar: 'الميل m يقيس قوة العلاقة', en: 'Slope m measures relationship', icon: 'm' },
+      { ar: 'R² يقيس جودة الملاءمة (0–1)', en: 'R² measures fit quality (0–1)', icon: 'R²' },
+    ])}
+  `;
+  return svgWrap(inner);
+}
+
+// =============================================================
+// 6) مخطط الصندوق Box Plot
+// =============================================================
+function chartBoxPlot() {
+  const plotX = 130, plotY = 240, plotW = 800, plotH = 380;
+  const boxY = plotY + 50, boxH = 200;
+  const boxX1 = plotX + 220, boxX2 = plotX + 520;
+  const medianX = plotX + 340;
+  const minX = plotX + 80, maxX = plotX + 700;
+  const outX = plotX + 760;
+
+  // محور أفقي
+  let xTicks = '';
+  for (let i = 0; i <= 10; i++) {
+    const x = plotX + (i / 10) * plotW;
+    xTicks += `
+      <line x1="${x}" y1="${boxY + boxH + 15}" x2="${x}" y2="${boxY + boxH + 25}" stroke="${PALETTE.text}" stroke-width="1.5"/>
+      <text x="${x}" y="${boxY + boxH + 50}" text-anchor="middle" font-size="16" fill="${PALETTE.text}">${i * 10}</text>
+    `;
+  }
+
+  const inner = `
+    ${svgHeader('مخطط الصندوق', 'Box Plot')}
+
+    <!-- خط أفقي رئيسي -->
+    <line x1="${plotX}" y1="${boxY + boxH + 15}" x2="${plotX + plotW}" y2="${boxY + boxH + 15}" stroke="${PALETTE.text}" stroke-width="2"/>
+    ${xTicks}
+
+    <!-- whisker يسار (Min إلى Q1) -->
+    <line x1="${minX}" y1="${boxY + boxH/2}" x2="${boxX1}" y2="${boxY + boxH/2}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
+    <line x1="${minX}" y1="${boxY + 30}" x2="${minX}" y2="${boxY + boxH - 30}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
+
+    <!-- whisker يمين (Q3 إلى Max) -->
+    <line x1="${boxX2}" y1="${boxY + boxH/2}" x2="${maxX}" y2="${boxY + boxH/2}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
+    <line x1="${maxX}" y1="${boxY + 30}" x2="${maxX}" y2="${boxY + boxH - 30}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
+
+    <!-- الصندوق (Q1-Q3) -->
+    <rect x="${boxX1}" y="${boxY}" width="${boxX2 - boxX1}" height="${boxH}" fill="${PALETTE.bgPurpleVeryLite}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
+
+    <!-- خط الوسيط -->
+    <line x1="${medianX}" y1="${boxY}" x2="${medianX}" y2="${boxY + boxH}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="4"/>
+
+    <!-- نقطة شاذة -->
+    <circle cx="${outX}" cy="${boxY + boxH/2}" r="7" fill="${PALETTE.annotPurple}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2"/>
+
+    <!-- تسميات تحت كل عنصر -->
+    <text x="${minX}" y="${boxY - 15}" text-anchor="middle" font-size="16" fill="${PALETTE.text}" font-weight="600">Min</text>
+    <text x="${boxX1}" y="${boxY - 15}" text-anchor="middle" font-size="16" fill="${PALETTE.text}" font-weight="600">Q1</text>
+    <text x="${medianX}" y="${boxY - 15}" text-anchor="middle" font-size="16" fill="${PALETTE.bgPurpleDeep}" font-weight="700">Median (Q2)</text>
+    <text x="${boxX2}" y="${boxY - 15}" text-anchor="middle" font-size="16" fill="${PALETTE.text}" font-weight="600">Q3</text>
+    <text x="${maxX}" y="${boxY - 15}" text-anchor="middle" font-size="16" fill="${PALETTE.text}" font-weight="600">Max</text>
+
+    <!-- شرح IQR -->
+    <line x1="${boxX1}" y1="${boxY + boxH + 80}" x2="${boxX2}" y2="${boxY + boxH + 80}" stroke="${PALETTE.annotBlue}" stroke-width="2"/>
+    <line x1="${boxX1}" y1="${boxY + boxH + 75}" x2="${boxX1}" y2="${boxY + boxH + 85}" stroke="${PALETTE.annotBlue}" stroke-width="2"/>
+    <line x1="${boxX2}" y1="${boxY + boxH + 75}" x2="${boxX2}" y2="${boxY + boxH + 85}" stroke="${PALETTE.annotBlue}" stroke-width="2"/>
+    <text x="${(boxX1+boxX2)/2}" y="${boxY + boxH + 110}" text-anchor="middle" font-size="18" fill="${PALETTE.annotBlue}" font-weight="700">IQR = Q3 − Q1</text>
+
+    <!-- شرح القيمة الشاذة -->
+    <text x="${outX}" y="${boxY + boxH/2 - 25}" text-anchor="middle" font-size="14" fill="${PALETTE.annotPurple}" font-weight="600" direction="rtl">قيمة شاذة</text>
+    <text x="${outX}" y="${boxY + boxH/2 + 35}" text-anchor="middle" font-size="13" fill="${PALETTE.annotPurple}" font-family="'Segoe UI', system-ui">Outlier</text>
+
+    ${svgKeyFeatures([
+      { ar: 'يعرض 5 مقاييس: Min, Q1, Median, Q3, Max', en: 'Shows 5 summary statistics', icon: '5' },
+      { ar: 'الصندوق يحتوي 50% من البيانات (IQR)', en: 'Box contains middle 50% (IQR)', icon: '▭' },
+      { ar: 'يكشف القيم الشاذة بسهولة', en: 'Easily identifies outliers', icon: '◌' },
+      { ar: 'مناسب لمقارنة عدة مجموعات', en: 'Compares multiple groups', icon: '⫶' },
+    ])}
+  `;
+  return svgWrap(inner);
+}
+
+// =============================================================
+// نظام الكشف عن نوع المخطط من رسالة المستخدم
+// =============================================================
+function detectChartType(query) {
+  const q = (query || '').toLowerCase();
+  const tests = [
+    { type: 'histogram', keywords: ['مدرج تكراري', 'مدرج التكراري', 'هيستوغرام', 'histogram', 'مدرّج'] },
+    { type: 'normal_distribution', keywords: ['توزيع طبيعي', 'التوزيع الطبيعي', 'منحنى الجرس', 'منحنى جرس', 'bell curve', 'normal distribution', 'جرسي'] },
+    { type: 'scatter_plot', keywords: ['مخطط الانتشار', 'مخطط انتشار', 'scatter', 'plot الانتشار', 'انتشار'] },
+    { type: 'z_score', keywords: ['z-score', 'z score', 'الدرجة المعيارية', 'z value', 'درجة معيارية'] },
+    { type: 'linear_regression', keywords: ['الانحدار الخطي', 'انحدار خطي', 'linear regression', 'خط الانحدار'] },
+    { type: 'box_plot', keywords: ['مخطط الصندوق', 'box plot', 'boxplot', 'الصندوق والشعيرات', 'box-and-whisker', 'صندوقي'] },
+  ];
+  for (const t of tests) {
+    if (t.keywords.some(k => q.includes(k))) return t.type;
+  }
+  return null;
+}
+
+function buildSVGForType(type) {
+  switch (type) {
+    case 'histogram': return chartHistogram();
+    case 'normal_distribution': return chartNormalDistribution();
+    case 'scatter_plot': return chartScatterPlot();
+    case 'z_score': return chartZScore(1.5);
+    case 'linear_regression': return chartLinearRegression();
+    case 'box_plot': return chartBoxPlot();
+    default: return null;
+  }
+}
+
+// تصدير للنشر مع seu-ai-worker.js
+
+
 function wantsDrawing(question) {
   const q = question || '';
   return /ارسم|صورة|رسم بياني|مخطط|أرني|أظهر|رسماً|رسم|اعرض|draw|plot|chart|graph|visualize|تخيل|اعطني صورة|أعطني صورة|paint|illustrate|sketch|diagram/i.test(q);
@@ -881,9 +1360,28 @@ ${subject.content}
     let imgResult = null;
     let labels = null;
     let imageSource = null;
+    let svgChart = null;
 
-    // 1) استدعاء واحد موحّد للمساعدات (resolve + image prompt + labels)
+    // 1) فحص: هل الموضوع له SVG جاهز؟ (الإحصاء + المخططات الشائعة)
     if (isDrawingRequest) {
+      const chartType = detectChartType(userMessage);
+
+      if (chartType) {
+        // ✅ مخطط معروف - نولّد SVG احترافي بدلاً من AI image
+        try {
+          svgChart = buildSVGForType(chartType);
+          imageSource = 'svg-builtin';
+          // labels تُولَّد ضمن الـ SVG نفسه، لا حاجة لها
+          labels = null;
+        } catch (err) {
+          console.log('SVG build failed:', err.message);
+          svgChart = null;
+        }
+      }
+    }
+
+    // 2) إذا لم يكن مخطط معروف، نلجأ لـ AI image generation
+    if (isDrawingRequest && !svgChart) {
       const artifacts = await prepareDrawingArtifacts(env, userMessage, history, subject.name, subject.content);
 
       if (artifacts.ambiguous) {
@@ -896,11 +1394,9 @@ ${subject.content}
         }, request);
       }
 
-      // إذا نجح الـ helper نستخدم prompt الذكي + labels؛ وإلا نستخدم fallback بسيط
       let imgPromptToUse;
       if (artifacts.error) {
         console.log('artifacts error, using direct prompt fallback:', artifacts.error);
-        // نبني prompt إنجليزي بسيط من رسالة المستخدم (شكل عام)
         const cleaned = userMessage.replace(/^(ارسم لي|ارسم|اعرض|أرني|draw|show me)\s+/i, '').trim();
         imgPromptToUse = `Scientifically accurate educational illustration of "${cleaned}", professional textbook style, white background, clean clear lines, with small white circles each containing one digit 1 through 10 with thin black leader lines pointing to key parts, absolutely no axis labels with words, no titles, no English words anywhere, only allowed text are small white circles each containing one digit 1 to 10`;
         labels = null;
@@ -909,7 +1405,6 @@ ${subject.content}
         labels = artifacts.labels;
       }
 
-      // 2) توليد الصورة (Cloudflare → Pollinations.ai كـ fallback)
       const imgGen = await generateImage(env, imgPromptToUse);
       imgResult = { prompt: imgPromptToUse, image: imgGen.image, topic: artifacts.topic || userMessage };
       imageSource = imgGen.source;
@@ -952,7 +1447,7 @@ ${subject.content}
       image: imgResult ? imgResult.image : null,
       image_prompt: imgResult ? imgResult.prompt : null,
       image_source: imageSource,
-      image_svg: null
+      image_svg: svgChart
     }, request);
 
   } catch (err) {
