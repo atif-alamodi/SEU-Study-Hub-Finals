@@ -239,6 +239,10 @@ html, body {
   .welcome { padding: 20px 14px; }
   .welcome h2 { font-size: 18px; }
 }
+
+.ai-image-wrap { margin-top: 10px; }
+.ai-image { max-width: 100%; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: transform 0.2s; }
+.ai-image:hover { transform: scale(1.02); }
 </style>
 </head>
 <body>
@@ -278,7 +282,7 @@ html, body {
           <span class="ico">🐍</span>كيف أستخدم الحلقة for في بايثون؟
         </button>
         <button class="suggestion" onclick="sendSuggestion(this.textContent.trim())">
-          <span class="ico">📐</span>الفرق بين MAE و MSE
+          <span class="ico">🎨</span>ارسم لي مخطط شجرة قرارات
         </button>
       </div>
     </div>
@@ -288,7 +292,7 @@ html, body {
   <div class="input-area">
     <textarea
       id="input"
-      placeholder="اكتب سؤالك هنا..."
+      placeholder="اكتب سؤالك هنا... (لرسم صورة ابدأ بـ ارسم لي)"
       rows="1"
       onkeydown="handleKey(event)"
       oninput="autoResize(this)"
@@ -385,13 +389,17 @@ function formatBubble(text) {
   return html;
 }
 
-function renderMessage(role, content) {
+function renderMessage(role, content, imageBase64) {
   const messages = document.getElementById('messages');
   const div = document.createElement('div');
   div.className = `message ${role}`;
+  let bubbleContent = formatBubble(content);
+  if (imageBase64) {
+    bubbleContent += `<div class="ai-image-wrap"><img src="data:image/jpeg;base64,${imageBase64}" alt="generated image" class="ai-image" onclick="window.open(this.src, '_blank')"></div>`;
+  }
   div.innerHTML = `
     <div class="avatar">${role === 'user' ? '👤' : '🤖'}</div>
-    <div class="bubble">${formatBubble(content)}</div>
+    <div class="bubble">${bubbleContent}</div>
   `;
   messages.appendChild(div);
   messages.scrollTop = messages.scrollHeight;
@@ -469,7 +477,7 @@ async function sendMessage() {
       }
       conversationHistory.pop();
     } else if (data.answer) {
-      renderMessage('ai', data.answer);
+      renderMessage('ai', data.answer, data.image);
       conversationHistory.push({ role: 'assistant', content: data.answer });
       saveChat();
     } else {
