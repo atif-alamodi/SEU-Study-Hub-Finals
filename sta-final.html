@@ -360,8 +360,11 @@ body { display: flex; min-height: 100vh; }
     <li class="topic-item" data-topic="2"><span class="topic-num">2</span><span>الارتباط وخط الاتجاه</span></li>
     <li class="topic-item" data-topic="3" style="background: linear-gradient(135deg, #cffafe, #a5f3fc); border: 1px solid #06b6d4;"><span class="topic-num" style="background: #0891b2; color: white;">3</span><span style="font-weight: 700;">⭐ التصوير البياني</span></li>
     <li class="topic-item" data-topic="dispersion" style="background: linear-gradient(135deg, #cffafe, #a5f3fc); border: 1px solid #0891b2;"><span class="topic-num" style="background: #0891b2; color: white;">4</span><span style="font-weight: 700;">🆕 مقاييس التشتت</span></li>
+    <li class="topic-item" data-topic="sampling" style="background: linear-gradient(135deg, #ede9fe, #ddd6fe); border: 1px solid #7c3aed;"><span class="topic-num" style="background: #7c3aed; color: white;">🆕</span><span style="font-weight: 700;">أنواع العينات والمعاينة</span></li>
     <li class="topic-item" data-topic="6"><span class="topic-num">5</span><span>تحليل البيانات بإكسل</span></li>
     <li class="topic-item" data-topic="7"><span class="topic-num">6</span><span>التوزيع الطبيعي والمعياري</span></li>
+    <li class="topic-item" data-topic="hypothesis" style="background: linear-gradient(135deg, #fee2e2, #fecaca); border: 1px solid #dc2626;"><span class="topic-num" style="background: #dc2626; color: white;">🆕</span><span style="font-weight: 700;">اختبار الفرضيات</span></li>
+    <li class="topic-item" data-topic="confidence" style="background: linear-gradient(135deg, #d1fae5, #a7f3d0); border: 1px solid #059669;"><span class="topic-num" style="background: #059669; color: white;">🆕</span><span style="font-weight: 700;">فترات الثقة</span></li>
     <li class="topic-item" data-topic="8"><span class="topic-num">7</span><span>الاحتمالات الأساسية</span></li>
     <li class="topic-item" data-topic="9"><span class="topic-num">8</span><span>الرسوم البيانية</span></li>
     <li class="topic-item" data-topic="10"><span class="topic-num">9</span><span>الانحدار الخطي</span></li>
@@ -8497,7 +8500,813 @@ TOPICS['quiz2'] = `
 `;
 
 
-const TOPIC_ORDER = ['1','2','3','dispersion','6','7','8','9','10','ml','eval','11','grouped','midtermExam','quiz1','quiz2','teacherQuiz','quiz'];
+// ============================================================================
+// 🆕 أنواع العينات وطرق المعاينة
+// ============================================================================
+TOPICS['sampling'] = `
+<section class="topic-section" id="topic-sampling">
+  <div class="topic-header" style="background: linear-gradient(135deg, #7c3aed, #6d28d9);">
+    <div class="label">🆕 موضوع جديد · مهم جداً</div>
+    <h1>أنواع العينات وطرق المعاينة</h1>
+    <p>كيف نختار عينة تمثل المجتمع تمثيلاً صحيحاً؟ أنواع العينات والتجارب</p>
+  </div>
+
+  <div class="definition-box">
+    <span class="term">المعاينة (Sampling)</span> هي عملية اختيار جزء (عينة) من المجتمع الإحصائي للدراسة، بحيث تكون العينة <strong>ممثلة</strong> للمجتمع قدر الإمكان. اختيار طريقة المعاينة الصحيحة يحدد دقة النتائج وقابلية تعميمها على المجتمع كله.
+    <div class="logic">تخيل أنك تريد معرفة رأي طلاب SEU في جودة المنصة (350,000 طالب). من المستحيل سؤالهم جميعاً، فتأخذ عينة من 1000 طالب. لكن هل اخترت 1000 طالب من كلية تقنية المعلومات فقط؟ نتيجتك ستكون <strong>متحيّزة</strong>! طريقة اختيار العينة هي ما يحدد إذا كانت تمثل المجتمع فعلاً أم لا. هذا الدرس يعلمك كيف تختار بذكاء.</div>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>التمييز بين العينات الاحتمالية وغير الاحتمالية</li>
+      <li>إتقان طرق المعاينة الاحتمالية الأربع الرئيسية</li>
+      <li>فهم متى نستخدم العينات غير الاحتمالية</li>
+      <li>التمييز بين الدراسات التجريبية والرصدية (التحكم)</li>
+      <li>اكتشاف مصادر التحيّز وكيفية تجنبها</li>
+      <li>حساب حجم العينة المناسب</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🌳</span> تصنيف العينات الرئيسي</h2>
+    <p>العينات تنقسم إلى نوعين رئيسيين بحسب طريقة الاختيار:</p>
+
+    <table class="compare-table">
+      <tr><th>المعيار</th><th>عينات احتمالية <span class="eng">Probability</span></th><th>عينات غير احتمالية <span class="eng">Non-probability</span></th></tr>
+      <tr><td><strong>طريقة الاختيار</strong></td><td>عشوائية، كل فرد له فرصة معروفة</td><td>غير عشوائية، حسب تقدير الباحث</td></tr>
+      <tr><td><strong>التمثيل للمجتمع</strong></td><td>عالي ومُمَثِّل</td><td>قد يكون متحيّزاً</td></tr>
+      <tr><td><strong>التعميم</strong></td><td>يمكن تعميم النتائج</td><td>صعب التعميم</td></tr>
+      <tr><td><strong>التكلفة والوقت</strong></td><td>أعلى تكلفة وأطول وقت</td><td>أقل تكلفة وأسرع</td></tr>
+      <tr><td><strong>متى نستخدمها</strong></td><td>الأبحاث العلمية الصارمة</td><td>الدراسات الاستطلاعية والاستكشافية</td></tr>
+    </table>
+
+    <div class="tip-box">
+      <strong>القاعدة الذهبية:</strong> إذا كنت تريد تعميم نتائجك على المجتمع كله، استخدم عينة احتمالية. إذا كانت دراستك استكشافية أو موارد محدودة، فالعينة غير الاحتمالية مقبولة لكن مع التحفّظ في التعميم.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🎯</span> 1️⃣ العينات الاحتمالية (Probability Sampling)</h2>
+    <p>أربعة أنواع رئيسية:</p>
+
+    <h3>أ. العينة العشوائية البسيطة <span class="eng">Simple Random Sampling — SRS</span></h3>
+    <div class="formula-box">
+      <div class="formula-name">المبدأ</div>
+      <div class="formula">كل فرد في المجتمع له <strong>نفس فرصة</strong> الاختيار = n/N</div>
+      <div class="legend">n = حجم العينة، N = حجم المجتمع</div>
+    </div>
+    <ul>
+      <li><strong>كيف:</strong> ترقيم كل أفراد المجتمع، ثم سحب عشوائي (قرعة، أرقام عشوائية، Excel: <code>=RAND()</code>)</li>
+      <li><strong>الميزة:</strong> الأبسط نظرياً، لا تحيّز</li>
+      <li><strong>العيب:</strong> صعب عملياً مع المجتمعات الكبيرة (يحتاج إطار معاينة كامل)</li>
+      <li><strong>مثال:</strong> اختيار 100 طالب عشوائياً من قائمة 5000 طالب</li>
+    </ul>
+
+    <h3>ب. العينة الطبقية <span class="eng">Stratified Sampling</span></h3>
+    <div class="formula-box">
+      <div class="formula-name">المبدأ</div>
+      <div class="formula">قسّم المجتمع إلى <strong>طبقات متجانسة</strong> ثم اسحب عشوائياً من كل طبقة بنسبتها</div>
+    </div>
+    <ul>
+      <li><strong>متى:</strong> عندما تكون هناك مجموعات فرعية متمايزة (ذكور/إناث، كليات، فئات عمرية)</li>
+      <li><strong>الميزة:</strong> تضمن تمثيل كل الفئات بنفس نسبها في المجتمع</li>
+      <li><strong>مثال:</strong> SEU فيها 60% ذكور و40% إناث. لعينة 100 طالب: 60 ذكر + 40 أنثى عشوائياً</li>
+    </ul>
+    <div class="story-box">
+      <strong>لماذا "طبقية"؟</strong> تخيّل المجتمع كقالب بسكويت متعدد الطبقات. المعاينة الطبقية = شريحة من كل طبقة، فتذوق كل النكهات. SRS = لقطة عشوائية قد تأخذ من طبقة واحدة فقط لو سيئ الحظ!
+    </div>
+
+    <h3>ج. العينة العنقودية <span class="eng">Cluster Sampling</span></h3>
+    <div class="formula-box">
+      <div class="formula-name">المبدأ</div>
+      <div class="formula">قسّم المجتمع إلى <strong>عناقيد طبيعية</strong> (مدن، مدارس)، ثم اختر عناقيد كاملة عشوائياً</div>
+    </div>
+    <ul>
+      <li><strong>متى:</strong> عندما يكون المجتمع موزعاً جغرافياً ويصعب الوصول إليه كاملاً</li>
+      <li><strong>الفرق عن الطبقية:</strong> في الطبقية نأخذ من كل طبقة. في العنقودية نأخذ عناقيد كاملة فقط.</li>
+      <li><strong>الميزة:</strong> أرخص وأسرع</li>
+      <li><strong>العيب:</strong> دقة أقل من الطبقية</li>
+      <li><strong>مثال:</strong> دراسة طلاب المدارس في السعودية → اختيار 20 مدرسة عشوائياً وأخذ كل طلابها</li>
+    </ul>
+
+    <h3>د. العينة المنتظمة <span class="eng">Systematic Sampling</span></h3>
+    <div class="formula-box">
+      <div class="formula-name">طريقة الاختيار</div>
+      <div class="formula">k = N / n  ←  اختر كل عنصر k-ـي بعد بداية عشوائية</div>
+      <div class="legend">k = الفاصل (sampling interval)، N = المجتمع، n = العينة</div>
+    </div>
+    <ul>
+      <li><strong>الخطوات:</strong> رتّب المجتمع، احسب k، اختر بداية عشوائية بين 1 و k، ثم خذ كل العنصر k-ـي</li>
+      <li><strong>الميزة:</strong> سهلة وسريعة</li>
+      <li><strong>تحذير:</strong> خطر إذا كانت البيانات مرتبة بنمط دوري يطابق k</li>
+      <li><strong>مثال:</strong> 1000 طالب، عينة 50 → k = 1000/50 = 20. ابدأ من رقم 7 عشوائي، ثم 27, 47, 67, ...</li>
+    </ul>
+
+    <table class="compare-table">
+      <tr><th>الطريقة</th><th>الدقة</th><th>التكلفة</th><th>التطبيق</th></tr>
+      <tr><td>عشوائية بسيطة</td><td>عالية</td><td>عالية</td><td>سهل عند صغر المجتمع</td></tr>
+      <tr><td>طبقية</td><td>الأعلى</td><td>عالية</td><td>متوسط</td></tr>
+      <tr><td>عنقودية</td><td>متوسطة</td><td>منخفضة</td><td>سهل (للمجتمعات المنتشرة)</td></tr>
+      <tr><td>منتظمة</td><td>عالية</td><td>منخفضة</td><td>الأسهل عملياً</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">⚠️</span> 2️⃣ العينات غير الاحتمالية (Non-Probability Sampling)</h2>
+    <p>تعتمد على تقدير الباحث، ليست عشوائية، تستخدم في الدراسات الاستكشافية:</p>
+
+    <h3>أ. العينة الميسّرة <span class="eng">Convenience Sampling</span></h3>
+    <ul>
+      <li><strong>المبدأ:</strong> اختيار من هو متاح بسهولة (الأقرب، الأسهل وصولاً)</li>
+      <li><strong>المثال:</strong> سؤال من في الكافيتيريا الآن</li>
+      <li><strong>التحيّز:</strong> عالي جداً</li>
+    </ul>
+
+    <h3>ب. العينة القصدية (الحكمية) <span class="eng">Purposive / Judgmental</span></h3>
+    <ul>
+      <li><strong>المبدأ:</strong> الباحث يختار حسب خبرته من يراه ممثلاً للظاهرة</li>
+      <li><strong>المثال:</strong> اختيار 10 خبراء في الذكاء الاصطناعي للمقابلة</li>
+      <li><strong>متى:</strong> الدراسات النوعية والمتخصصة</li>
+    </ul>
+
+    <h3>ج. عينة كرة الثلج <span class="eng">Snowball Sampling</span></h3>
+    <ul>
+      <li><strong>المبدأ:</strong> يبدأ بفرد قليل، ثم يطلب منهم ترشيح آخرين، وهكذا تكبر العينة</li>
+      <li><strong>المثال:</strong> دراسة فئات يصعب الوصول إليها (مرضى نادرين، مهن سرية)</li>
+      <li><strong>العيب:</strong> العينة محصورة في شبكة معارف</li>
+    </ul>
+
+    <h3>د. عينة الحصص <span class="eng">Quota Sampling</span></h3>
+    <ul>
+      <li><strong>المبدأ:</strong> تشبه الطبقية لكن الاختيار من كل طبقة <strong>غير عشوائي</strong></li>
+      <li><strong>المثال:</strong> اطلب من المسؤول إيجاد 30 ذكر + 20 أنثى لمقابلتهم (دون عشوائية)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🔬</span> 3️⃣ الدراسات من حيث التحكم</h2>
+    <p>هذه أهم تصنيف يتعلّق بسؤال "هل الباحث يتحكم في المتغيرات أم يلاحظها فقط؟":</p>
+
+    <table class="compare-table">
+      <tr><th>المعيار</th><th>الدراسة التجريبية <span class="eng">Experimental</span></th><th>الدراسة الرصدية <span class="eng">Observational</span></th></tr>
+      <tr><td><strong>تحكّم الباحث</strong></td><td>✅ يتحكّم بالعوامل ويغيّرها</td><td>❌ يراقب فقط بدون تدخّل</td></tr>
+      <tr><td><strong>توزيع الأفراد</strong></td><td>عشوائي على مجموعات (تجريبية / ضابطة)</td><td>كما هي طبيعياً</td></tr>
+      <tr><td><strong>إثبات السببية</strong></td><td>✅ تستطيع إثباتها</td><td>❌ ارتباط فقط</td></tr>
+      <tr><td><strong>الأخلاقيات</strong></td><td>قد تكون محدودة</td><td>أوسع تطبيقاً</td></tr>
+      <tr><td><strong>مثال طبي</strong></td><td>دواء جديد: نصف المرضى يأخذونه ونصف placebo</td><td>متابعة المدخنين والمقارنة بغير المدخنين</td></tr>
+    </table>
+
+    <h3>المجموعات الضابطة والتجريبية</h3>
+    <ul>
+      <li><strong>المجموعة التجريبية <span class="eng">Experimental Group</span>:</strong> تتلقى المعاملة (الدواء، البرنامج، التدريب)</li>
+      <li><strong>المجموعة الضابطة <span class="eng">Control Group</span>:</strong> لا تتلقى المعاملة (placebo أو الوضع العادي)</li>
+      <li><strong>الفرق بينهما = أثر المعاملة</strong></li>
+    </ul>
+
+    <div class="story-box">
+      <strong>لماذا نحتاج مجموعة ضابطة؟</strong> لو أعطينا 100 شخص دواءً وتحسّن 70 منهم، هل يعني الدواء فعّال؟ ربما كانوا سيتحسنون بدونه! المجموعة الضابطة تخبرنا: لو 60 من غير المعالجين تحسنوا أيضاً، فالأثر الحقيقي للدواء = 70 − 60 = 10% فقط.
+    </div>
+
+    <h3>مفاهيم متقدمة في التجربة</h3>
+    <ul>
+      <li><strong>التعمية المفردة <span class="eng">Single-Blind</span>:</strong> المشارك لا يعرف هل في المجموعة التجريبية أم الضابطة</li>
+      <li><strong>التعمية المزدوجة <span class="eng">Double-Blind</span>:</strong> لا المشارك ولا الباحث يعرفان (الأقوى علمياً)</li>
+      <li><strong>placebo:</strong> دواء وهمي لمقارنته بالحقيقي</li>
+      <li><strong>التعشية <span class="eng">Randomization</span>:</strong> توزيع عشوائي للأفراد على المجموعات لمنع التحيّز</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🚨</span> 4️⃣ مصادر التحيّز (Bias)</h2>
+    <p>التحيّز = خطأ منهجي يجعل العينة غير ممثلة للمجتمع. أهم أنواعه:</p>
+
+    <table class="compare-table">
+      <tr><th>نوع التحيّز</th><th>الوصف</th><th>مثال</th></tr>
+      <tr><td><strong>تحيّز الاختيار <span class="eng">Selection Bias</span></strong></td><td>اختيار غير ممثل للمجتمع</td><td>سؤال زبائن متجر فقط عن جودة منتج</td></tr>
+      <tr><td><strong>تحيّز عدم الاستجابة <span class="eng">Non-response Bias</span></strong></td><td>من رفضوا المشاركة قد يختلفون عن المشاركين</td><td>استبيان طويل: فقط المتحمسون يكملونه</td></tr>
+      <tr><td><strong>تحيّز التذكّر <span class="eng">Recall Bias</span></strong></td><td>المشاركون يتذكرون بعضاً ويغفلون</td><td>سؤال عن وجبات الأسبوع الماضي</td></tr>
+      <tr><td><strong>تحيّز الاستجابة <span class="eng">Response Bias</span></strong></td><td>إجابة كاذبة أو مُجاملة</td><td>سؤال عن دخل أو سلوك خاص</td></tr>
+      <tr><td><strong>تحيّز البقاء <span class="eng">Survivorship Bias</span></strong></td><td>دراسة من نجح فقط دون من فشل</td><td>قصص نجاح رواد الأعمال</td></tr>
+    </table>
+
+    <div class="tip-box">
+      <strong>كيف نقلل التحيّز؟</strong> (1) استخدم معاينة احتمالية، (2) صياغة أسئلة محايدة، (3) ضمان السرية للمشاركين، (4) حجم عينة كافٍ، (5) متابعة من رفضوا المشاركة قدر الإمكان.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📐</span> 5️⃣ حجم العينة المناسب</h2>
+    <p>حجم العينة يعتمد على عدة عوامل. صيغة تقريبية للنسب:</p>
+
+    <div class="formula-box">
+      <div class="formula-name">حجم العينة لتقدير نسبة (Cochran's formula)</div>
+      <div class="formula">n = (Z² × p × (1−p)) / E²</div>
+      <div class="legend">Z = قيمة معيارية للثقة (1.96 لـ 95%)، p = النسبة المتوقعة (0.5 إن كانت غير معروفة)، E = هامش الخطأ</div>
+    </div>
+
+    <h3>جدول حجم العينة الموصى به (لمستوى ثقة 95%)</h3>
+    <table class="compare-table">
+      <tr><th>حجم المجتمع</th><th>هامش خطأ ±5%</th><th>هامش خطأ ±3%</th></tr>
+      <tr><td>100</td><td>80</td><td>92</td></tr>
+      <tr><td>500</td><td>217</td><td>341</td></tr>
+      <tr><td>1,000</td><td>278</td><td>517</td></tr>
+      <tr><td>10,000</td><td>370</td><td>965</td></tr>
+      <tr><td>100,000+</td><td>384</td><td>1,067</td></tr>
+    </table>
+
+    <div class="story-box">
+      <strong>ملاحظة مهمة:</strong> بعد حجم معين (~400) تصبح زيادة العينة قليلة الفائدة. لذلك معظم الاستطلاعات الوطنية الكبرى تستخدم 1,000-1,500 شخص فقط لتمثيل ملايين السكان بدقة!
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">💻</span> 6️⃣ المعاينة في إكسل وبايثون</h2>
+
+    <h3>في Excel</h3>
+    <ul>
+      <li><code>=RAND()</code> توليد رقم عشوائي بين 0 و 1</li>
+      <li><code>=RANDBETWEEN(1, 1000)</code> رقم صحيح عشوائي بين 1 و 1000</li>
+      <li><strong>عينة عشوائية بسيطة:</strong> أضف عمود <code>=RAND()</code> ثم رتّب تنازلياً، خذ أول n صف</li>
+      <li><strong>أداة Data Analysis ToolPak:</strong> Data → Sampling لاختيار عينة منتظمة أو عشوائية</li>
+    </ul>
+
+    <h3>في Python</h3>
+    <p>نستخدم مكتبة <code>random</code> أو <code>pandas</code>:</p>
+    <pre style="background:#1e293b; color:#e2e8f0; padding:14px; border-radius:8px; direction:ltr; text-align:left; overflow-x:auto;">
+import random
+import pandas as pd
+
+# عينة عشوائية بسيطة من قائمة
+population = list(range(1, 1001))  # 1000 عنصر
+sample = random.sample(population, 50)  # 50 عشوائياً
+
+# عينة من DataFrame
+df = pd.read_csv('students.csv')
+simple_sample = df.sample(n=100)              # عشوائية بسيطة
+stratified = df.groupby('gender', group_keys=False).apply(
+    lambda x: x.sample(frac=0.1)              # 10% من كل جنس
+)
+
+# عينة منتظمة كل k-ـي
+k = len(df) // 50
+systematic = df.iloc[::k]
+</pre>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📝</span> أسئلة تطبيقية</h2>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س1:</strong> أي طريقة معاينة تضمن تمثيل كل فئات المجتمع بنسبها الأصلية؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>العينة العشوائية البسيطة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>العينة الطبقية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>العينة العنقودية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>عينة كرة الثلج</span></button>
+      </div>
+      <div class="quiz-explain">العينة الطبقية تقسم المجتمع لطبقات (ذكور/إناث، فئات عمرية...) وتأخذ من كل طبقة عينة عشوائية بنسبة الطبقة في المجتمع، مما يضمن تمثيل دقيق لكل الفئات.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س2:</strong> الفرق الجوهري بين الدراسة التجريبية والرصدية:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>الرصدية أدق علمياً</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>الباحث يتحكم في المتغيرات في التجريبية فقط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>التجريبية لا تستخدم العشوائية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>الرصدية تثبت السببية</span></button>
+      </div>
+      <div class="quiz-explain">في التجريبية، الباحث يتدخل ويغيّر المتغير المستقل (مثل إعطاء دواء)، بينما في الرصدية يلاحظ فقط دون تدخّل. لذا التجريبية وحدها تستطيع إثبات السببية، أما الرصدية فتُظهر الارتباط فقط.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س3:</strong> مجتمع 5,000 موظف، تريد عينة 100. باستخدام المعاينة المنتظمة، ما قيمة k؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>10</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>20</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>50</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>100</span></button>
+      </div>
+      <div class="quiz-explain">k = N / n = 5000 / 100 = 50. أي تختار بداية عشوائية بين 1 و 50، ثم تأخذ كل خمسين عنصراً.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س4:</strong> دراسة سألت زبائن متجر "هل تحبون منتجاتنا؟" وحصلت على رضا 85%. ما نوع التحيّز الأبرز؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>تحيّز الاختيار (selection bias)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>تحيّز التذكّر</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>تحيّز عدم الاستجابة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>لا يوجد تحيّز</span></button>
+      </div>
+      <div class="quiz-explain">الذين يدخلون المتجر هم أصلاً مهتمون بالمنتج، فمن الطبيعي أن يحبوه. الذين لا يحبون المنتج لم يدخلوا أصلاً! هذا تحيّز اختيار (selection bias) كلاسيكي.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س5:</strong> عند دراسة طلاب 50 مدرسة في الرياض، اختار الباحث 5 مدارس عشوائياً ودرس كل طلابها. ما نوع المعاينة؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>عشوائية بسيطة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>طبقية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>عنقودية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>منتظمة</span></button>
+      </div>
+      <div class="quiz-explain">العينة العنقودية: نقسم المجتمع إلى عناقيد (مدارس) ونختار عناقيد كاملة عشوائياً. الفرق عن الطبقية: في العنقودية نأخذ كل أفراد العنقود المختار، بينما الطبقية تأخذ عينة من كل طبقة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س6:</strong> ما هو دور المجموعة الضابطة (Control Group) في الدراسة التجريبية؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>زيادة حجم العينة فقط</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>توفير مرجع للمقارنة لقياس الأثر الحقيقي للمعاملة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>تلقي معاملة أقوى من التجريبية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>اختيار الأفراد بشكل أكثر دقة</span></button>
+      </div>
+      <div class="quiz-explain">المجموعة الضابطة لا تتلقى المعاملة (أو تتلقى placebo) لتكون مرجعاً نقارن به المجموعة التجريبية. الفرق في النتائج بين المجموعتين = الأثر الحقيقي للمعاملة (مع استبعاد العوامل الأخرى).</div>
+    </div>
+  </div>
+
+  <div class="tip-box" style="background: linear-gradient(135deg, #fef3c7, #fde68a); border-color: #ca8a04;">
+    <strong>📌 خلاصة الدرس:</strong>
+    <ul style="margin-top: 8px;">
+      <li><strong>عينات احتمالية</strong> (4 أنواع): عشوائية بسيطة، طبقية، عنقودية، منتظمة</li>
+      <li><strong>عينات غير احتمالية</strong> (4 أنواع): ميسّرة، قصدية، كرة الثلج، حصص</li>
+      <li><strong>تجريبية vs رصدية:</strong> الفرق في تحكم الباحث (تدخّل أم ملاحظة)</li>
+      <li><strong>التحيّز</strong> أعظم خطر يفسد الدراسة، نتجنبه بالعشوائية</li>
+      <li><strong>حجم العينة المناسب</strong> ~384 لمجتمع كبير بثقة 95% وهامش خطأ 5%</li>
+    </ul>
+  </div>
+</section>
+`;
+
+// ============================================================================
+// 🆕 اختبار الفرضيات الإحصائية
+// ============================================================================
+TOPICS['hypothesis'] = `
+<section class="topic-section" id="topic-hypothesis">
+  <div class="topic-header" style="background: linear-gradient(135deg, #dc2626, #b91c1c);">
+    <div class="label">🆕 موضوع جديد · جوهر الإحصاء الاستدلالي</div>
+    <h1>اختبار الفرضيات الإحصائية</h1>
+    <p>كيف نتخذ قرارات علمية من البيانات؟ H₀, H₁, p-value, مستوى الدلالة α</p>
+  </div>
+
+  <div class="definition-box">
+    <span class="term">اختبار الفرضيات (Hypothesis Testing)</span> إجراء إحصائي نستخدمه لاتخاذ قرار بشأن ادعاء معيّن عن مجتمع، بناءً على بيانات عينة. هو الجسر بين البيانات والاستنتاج العلمي.
+    <div class="logic">حين تقول شركة "بطاريتنا تدوم 10 ساعات"، كيف نتأكد؟ نأخذ عينة 30 بطارية ونقيس متوسطها. لو حصلنا 9.5 ساعة، هل هذا يكذّب ادعاءهم أم أنه فرق طبيعي؟ اختبار الفرضيات يعطينا منهجاً علمياً للإجابة. هو الأساس الرياضي خلف معظم القرارات في الطب، التسويق، الاقتصاد، والذكاء الاصطناعي.</div>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>صياغة فرضية العدم (H₀) والفرضية البديلة (H₁)</li>
+      <li>فهم مستوى الدلالة α وقيمة p-value</li>
+      <li>التمييز بين خطأ النوع الأول والنوع الثاني</li>
+      <li>إجراء اختبار z واختبار t لمتوسط</li>
+      <li>تفسير نتائج الاختبارات في السياق العملي</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🎯</span> 1️⃣ مفاهيم أساسية</h2>
+
+    <h3>أ. فرضية العدم H₀ والفرضية البديلة H₁</h3>
+    <table class="compare-table">
+      <tr><th>الفرضية</th><th>الرمز</th><th>المعنى</th><th>مثال</th></tr>
+      <tr><td><strong>فرضية العدم</strong> <span class="eng">Null</span></td><td>H₀</td><td>الادعاء الافتراضي / لا يوجد فرق</td><td>μ = 10 ساعات</td></tr>
+      <tr><td><strong>الفرضية البديلة</strong> <span class="eng">Alternative</span></td><td>H₁ أو H<sub>a</sub></td><td>عكس H₀ / يوجد فرق</td><td>μ ≠ 10 (أو μ &lt; 10، أو μ &gt; 10)</td></tr>
+    </table>
+
+    <div class="story-box">
+      <strong>قاعدة مهمة:</strong> H₀ دائماً تحتوي إشارة المساواة (=)، بينما H₁ تحتوي ≠ أو &lt; أو &gt;. نبدأ بافتراض H₀ صحيحة، ثم نسأل: هل البيانات تكذّبها بقوة كافية لرفضها؟
+    </div>
+
+    <h3>ب. أنواع اختبار الفرضيات</h3>
+    <ul>
+      <li><strong>اختبار ذو طرفين (Two-tailed):</strong> H₁: μ ≠ القيمة (نهتم بأي فرق)</li>
+      <li><strong>اختبار طرف يميني (Right-tailed):</strong> H₁: μ &gt; القيمة (نهتم بالزيادة فقط)</li>
+      <li><strong>اختبار طرف يساري (Left-tailed):</strong> H₁: μ &lt; القيمة (نهتم بالنقصان فقط)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📊</span> 2️⃣ مستوى الدلالة α و p-value</h2>
+
+    <div class="formula-box">
+      <div class="formula-name">قاعدة القرار</div>
+      <div class="formula">إذا كان p-value &lt; α  ←  نرفض H₀</div>
+      <div class="formula">إذا كان p-value ≥ α  ←  نقبل H₀ (نفشل في رفضها)</div>
+    </div>
+
+    <h3>α (مستوى الدلالة)</h3>
+    <ul>
+      <li>هو <strong>الحد الأعلى</strong> الذي نقبله لاحتمال الخطأ في رفض H₀ صحيحة</li>
+      <li>القيم الشائعة: <strong>α = 0.05</strong> (الأكثر استخداماً)، 0.01 (للأبحاث الصارمة)، 0.10</li>
+      <li>α = 0.05 تعني: نقبل احتمال خطأ 5% في الرفض</li>
+    </ul>
+
+    <h3>p-value (القيمة الاحتمالية)</h3>
+    <ul>
+      <li>احتمال الحصول على نتيجة <strong>متطرفة كنتيجتنا أو أكثر</strong> لو كانت H₀ صحيحة فعلاً</li>
+      <li>كلما كانت p-value أصغر، كانت دليلاً أقوى ضد H₀</li>
+      <li><strong>p &lt; 0.001:</strong> دليل قوي جداً ضد H₀</li>
+      <li><strong>p &lt; 0.01:</strong> دليل قوي</li>
+      <li><strong>p &lt; 0.05:</strong> دليل معتدل</li>
+      <li><strong>p &gt; 0.05:</strong> لا دليل كافٍ</li>
+    </ul>
+
+    <div class="tip-box">
+      <strong>تحذير شائع:</strong> p-value <strong>ليس</strong> "احتمال أن H₀ صحيحة"! هو "احتمال البيانات لو H₀ صحيحة". الفرق دقيق لكن مهم. مثال: p = 0.03 لا تعني "هناك 3% احتمال صحة H₀"، بل "لو H₀ صحيحة، احتمال رؤية بياناتنا 3%".
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">⚖️</span> 3️⃣ الأخطاء: النوع الأول والنوع الثاني</h2>
+
+    <table class="compare-table">
+      <tr><th colspan="2" rowspan="2"></th><th colspan="2">الواقع الحقيقي</th></tr>
+      <tr><th>H₀ صحيحة</th><th>H₀ خاطئة</th></tr>
+      <tr><th rowspan="2">قرارنا</th><th>قبول H₀</th><td>✅ قرار صحيح<br>(1−α)</td><td>❌ خطأ النوع II<br>(β)</td></tr>
+      <tr><th>رفض H₀</th><td>❌ خطأ النوع I<br>(α)</td><td>✅ قرار صحيح<br>قوة الاختبار (1−β)</td></tr>
+    </table>
+
+    <ul>
+      <li><strong>خطأ النوع الأول (Type I Error):</strong> رفض H₀ صحيحة. احتماله = α</li>
+      <li><strong>خطأ النوع الثاني (Type II Error):</strong> قبول H₀ خاطئة. احتماله = β</li>
+      <li><strong>قوة الاختبار (Power):</strong> 1−β، احتمال اكتشاف فرق حقيقي</li>
+    </ul>
+
+    <div class="story-box">
+      <strong>تشبيه قانوني:</strong> H₀ = "المتهم بريء". خطأ النوع الأول = إدانة بريء (الأسوأ). خطأ النوع الثاني = تبرئة مجرم. لذا α صغيرة (5%) لتقليل إدانة الأبرياء، حتى لو على حساب تبرئة بعض المجرمين (β أكبر).
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🧮</span> 4️⃣ خطوات اختبار الفرضيات (5 خطوات)</h2>
+
+    <ol>
+      <li><strong>صياغة الفرضيات:</strong> حدد H₀ و H₁ بوضوح</li>
+      <li><strong>تحديد α:</strong> غالباً 0.05</li>
+      <li><strong>اختيار الاختبار المناسب:</strong> z أو t أو chi-square...</li>
+      <li><strong>حساب الإحصاءة والـ p-value:</strong> من بيانات العينة</li>
+      <li><strong>اتخاذ القرار وكتابة الاستنتاج:</strong> رفض/قبول H₀ بسياق المسألة</li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🔬</span> 5️⃣ اختبار z لمتوسط (σ معروف، n ≥ 30)</h2>
+
+    <div class="formula-box">
+      <div class="formula-name">إحصاءة الاختبار</div>
+      <div class="formula">z = (x̄ − μ₀) / (σ / √n)</div>
+      <div class="legend">x̄ = متوسط العينة، μ₀ = قيمة H₀، σ = انحراف المجتمع، n = حجم العينة</div>
+    </div>
+
+    <h3>القيم الحرجة الشائعة</h3>
+    <table class="compare-table">
+      <tr><th>α</th><th>طرف واحد</th><th>طرفان</th></tr>
+      <tr><td>0.10</td><td>±1.282</td><td>±1.645</td></tr>
+      <tr><td>0.05</td><td>±1.645</td><td>±1.960</td></tr>
+      <tr><td>0.01</td><td>±2.326</td><td>±2.576</td></tr>
+    </table>
+
+    <h3>مثال محسوب</h3>
+    <div class="story-box">
+      <strong>الادعاء:</strong> شركة بطاريات تقول إن متوسط عمر بطارياتها 10 ساعات (σ = 0.5).<br>
+      أخذنا عينة 36 بطارية، متوسطها 9.7 ساعات. هل ادعاء الشركة صحيح؟ (α = 0.05)
+      <br><br>
+      <strong>1) الفرضيات:</strong><br>
+      H₀: μ = 10 (الادعاء صحيح)<br>
+      H₁: μ ≠ 10 (اختبار طرفين)<br><br>
+      <strong>2) إحصاءة z:</strong><br>
+      z = (9.7 − 10) / (0.5 / √36) = −0.3 / 0.0833 = −3.6<br><br>
+      <strong>3) المقارنة:</strong> |z| = 3.6 &gt; 1.96 (القيمة الحرجة لـ α=0.05)<br>
+      <strong>4) p-value &lt; 0.001</strong><br><br>
+      <strong>القرار:</strong> نرفض H₀. ادعاء الشركة <strong>خاطئ</strong>. متوسط العمر الحقيقي أقل من 10 ساعات بدلالة إحصائية قوية.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📈</span> 6️⃣ اختبار t لمتوسط (σ غير معروف، n &lt; 30)</h2>
+
+    <div class="formula-box">
+      <div class="formula-name">إحصاءة t</div>
+      <div class="formula">t = (x̄ − μ₀) / (s / √n)</div>
+      <div class="legend">s = انحراف العينة (بدلاً من σ)، درجات الحرية df = n − 1</div>
+    </div>
+
+    <ul>
+      <li><strong>متى نستخدم t:</strong> العينة صغيرة (n &lt; 30) أو σ المجتمع غير معروف</li>
+      <li><strong>توزيع t:</strong> يشبه التوزيع الطبيعي لكن أوسع، ويقترب منه كلما زاد n</li>
+      <li><strong>مع زيادة df ←</strong> t يقترب من z</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">💻</span> 7️⃣ اختبار الفرضيات في إكسل وبايثون</h2>
+
+    <h3>في Excel</h3>
+    <ul>
+      <li><code>=Z.TEST(array, μ₀, σ)</code> p-value لاختبار z (طرف واحد)</li>
+      <li><code>=T.TEST(array1, array2, tails, type)</code> اختبار t</li>
+      <li><code>=NORM.S.INV(α)</code> القيمة الحرجة لـ z</li>
+    </ul>
+
+    <h3>في Python</h3>
+    <pre style="background:#1e293b; color:#e2e8f0; padding:14px; border-radius:8px; direction:ltr; text-align:left; overflow-x:auto;">
+from scipy import stats
+import numpy as np
+
+# اختبار z (σ معروف)
+sample = np.array([9.5, 9.8, 10.1, 9.7, ...])
+mu_0 = 10
+sigma = 0.5
+n = len(sample)
+z = (sample.mean() - mu_0) / (sigma / np.sqrt(n))
+p_value = 2 * (1 - stats.norm.cdf(abs(z)))  # طرفان
+
+# اختبار t
+t_stat, p_value = stats.ttest_1samp(sample, popmean=mu_0)
+print(f"t = {t_stat:.3f}, p = {p_value:.4f}")
+
+# اختبار t لعينتين مستقلتين
+t_stat, p = stats.ttest_ind(group1, group2)
+
+# قرار
+alpha = 0.05
+if p_value < alpha:
+    print("نرفض H₀ — يوجد فرق ذو دلالة")
+else:
+    print("نقبل H₀ — لا يوجد دليل كافٍ")
+</pre>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📝</span> أسئلة تطبيقية</h2>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س1:</strong> أي مما يلي يجب أن يحتوي على إشارة مساواة (=)؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>فرضية العدم H₀</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>الفرضية البديلة H₁</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>كلاهما</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>لا أحدهما</span></button>
+      </div>
+      <div class="quiz-explain">H₀ دائماً تحتوي = أو ≤ أو ≥ (الادعاء الذي نحاول رفضه). H₁ تحتوي ≠ أو &gt; أو &lt; فقط (دون مساواة).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س2:</strong> إذا كانت p-value = 0.02 و α = 0.05، فالقرار:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>قبول H₀</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>رفض H₀</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>زيادة حجم العينة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>تغيير α</span></button>
+      </div>
+      <div class="quiz-explain">قاعدة القرار: إذا p-value (0.02) &lt; α (0.05)، نرفض H₀. هناك دلالة إحصائية ضد فرضية العدم.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س3:</strong> ما هو خطأ النوع الأول؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>قبول H₀ خاطئة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>رفض H₀ صحيحة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>اختيار اختبار خاطئ</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>عينة صغيرة</span></button>
+      </div>
+      <div class="quiz-explain">خطأ النوع I = رفض H₀ صحيحة (احتماله α). تشبيه: إدانة بريء. خطأ النوع II = قبول H₀ خاطئة (تبرئة مجرم).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س4:</strong> متى نستخدم اختبار t بدلاً من z؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>عند العينات الكبيرة جداً</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>عندما σ معروف</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>عندما σ غير معروف أو n &lt; 30</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>للبيانات الفئوية</span></button>
+      </div>
+      <div class="quiz-explain">اختبار t نستخدمه عندما σ المجتمع غير معروف (نستخدم s بدلاً منه)، أو حجم العينة صغير (n &lt; 30). z يستخدم عند معرفة σ مع n كبير.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س5:</strong> p-value &lt; 0.001 تعني:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>H₀ صحيحة بنسبة 99.9%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>دليل قوي جداً ضد H₀</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>الاختبار غير صحيح</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>يجب رفض النتائج</span></button>
+      </div>
+      <div class="quiz-explain">p &lt; 0.001 تعني أن احتمال رؤية بياناتنا (أو أكثر تطرفاً) لو H₀ صحيحة أقل من 0.1%. هذا دليل قوي جداً ضد H₀ ويبرر رفضها بثقة عالية.</div>
+    </div>
+  </div>
+
+  <div class="tip-box" style="background: linear-gradient(135deg, #fee2e2, #fecaca); border-color: #dc2626;">
+    <strong>📌 خلاصة الدرس:</strong>
+    <ul style="margin-top: 8px;">
+      <li><strong>5 خطوات:</strong> فرضيات → α → اختبار → حساب → قرار</li>
+      <li><strong>قاعدة القرار:</strong> p &lt; α نرفض H₀</li>
+      <li><strong>α صغيرة</strong> = حذرون من رفض H₀ صحيحة</li>
+      <li><strong>z vs t:</strong> z عند σ معروف وعينة كبيرة، t عكس ذلك</li>
+      <li><strong>الأخطاء:</strong> النوع I (إدانة بريء) ≠ النوع II (تبرئة مجرم)</li>
+    </ul>
+  </div>
+</section>
+`;
+
+// ============================================================================
+// 🆕 فترات الثقة (Confidence Intervals)
+// ============================================================================
+TOPICS['confidence'] = `
+<section class="topic-section" id="topic-confidence">
+  <div class="topic-header" style="background: linear-gradient(135deg, #059669, #047857);">
+    <div class="label">🆕 موضوع جديد · مكمّل للاختبارات</div>
+    <h1>فترات الثقة (Confidence Intervals)</h1>
+    <p>كيف نقدّر معلمة المجتمع بمدى وليس بقيمة واحدة؟</p>
+  </div>
+
+  <div class="definition-box">
+    <span class="term">فترة الثقة (Confidence Interval — CI)</span> مدى من القيم نتوقع أن المعلمة الحقيقية للمجتمع تقع داخله، بمستوى ثقة محدد (95% غالباً). هي تقدير "بفترة" بدلاً من تقدير "بنقطة" واحدة.
+    <div class="logic">عندما نقول "متوسط عمر البطارية = 9.7 ساعة" (تقدير نقطي)، فهذا تقدير من العينة وقد يختلف عن المتوسط الحقيقي للمجتمع. لكن عندما نقول "نحن واثقون بنسبة 95% أن متوسط العمر الحقيقي بين 9.5 و 9.9 ساعة"، فهذه فترة ثقة تعطينا فكرة عن دقة تقديرنا. كلما ضاقت الفترة، كان التقدير أدق.</div>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>فهم مفهوم فترة الثقة وعلاقتها بالعينة</li>
+      <li>حساب فترة ثقة لمتوسط (z و t)</li>
+      <li>حساب فترة ثقة لنسبة</li>
+      <li>تفسير فترة الثقة بشكل صحيح</li>
+      <li>العلاقة بين فترة الثقة واختبار الفرضيات</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📐</span> 1️⃣ صيغة فترة الثقة لمتوسط</h2>
+
+    <div class="formula-box">
+      <div class="formula-name">عند معرفة σ (z-interval)</div>
+      <div class="formula">CI = x̄ ± z<sub>α/2</sub> × (σ / √n)</div>
+      <div class="legend">x̄ = متوسط العينة، z<sub>α/2</sub> = القيمة الحرجة، σ = انحراف المجتمع، n = حجم العينة</div>
+    </div>
+
+    <div class="formula-box">
+      <div class="formula-name">عند عدم معرفة σ (t-interval)</div>
+      <div class="formula">CI = x̄ ± t<sub>α/2, df</sub> × (s / √n)</div>
+      <div class="legend">s = انحراف العينة، df = n − 1</div>
+    </div>
+
+    <h3>القيم الحرجة z<sub>α/2</sub> الشائعة</h3>
+    <table class="compare-table">
+      <tr><th>مستوى الثقة</th><th>α</th><th>z<sub>α/2</sub></th></tr>
+      <tr><td>90%</td><td>0.10</td><td>1.645</td></tr>
+      <tr><td>95%</td><td>0.05</td><td>1.960</td></tr>
+      <tr><td>99%</td><td>0.01</td><td>2.576</td></tr>
+    </table>
+
+    <div class="tip-box">
+      <strong>هامش الخطأ (Margin of Error — E):</strong> هو الجزء بعد ± في الصيغة:<br>
+      E = z<sub>α/2</sub> × (σ / √n)<br>
+      كلما زاد n قلّ E (فترة أضيق وأدق)، وكلما زادت الثقة (95% → 99%) كبرت z وبالتالي E (فترة أوسع).
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🧮</span> 2️⃣ مثال محسوب</h2>
+
+    <div class="story-box">
+      <strong>السؤال:</strong> أخذنا عينة 64 طالب من SEU، متوسط معدلهم 3.4 وانحراف المجتمع σ = 0.6.<br>
+      <strong>أوجد فترة ثقة 95% للمتوسط الحقيقي.</strong>
+      <br><br>
+      <strong>الحل:</strong><br>
+      • x̄ = 3.4، σ = 0.6، n = 64<br>
+      • z<sub>0.025</sub> = 1.96 (لـ 95%)<br>
+      • هامش الخطأ E = 1.96 × (0.6 / √64) = 1.96 × 0.075 = 0.147<br>
+      • CI = 3.4 ± 0.147 = (3.253, 3.547)<br><br>
+      <strong>التفسير:</strong> نحن واثقون بنسبة 95% أن المتوسط الحقيقي لمعدل طلاب SEU بين <strong>3.25 و 3.55</strong>.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📊</span> 3️⃣ فترة ثقة لنسبة</h2>
+
+    <div class="formula-box">
+      <div class="formula-name">للنسب (Proportions)</div>
+      <div class="formula">CI = p̂ ± z<sub>α/2</sub> × √(p̂(1−p̂)/n)</div>
+      <div class="legend">p̂ = نسبة العينة، n = حجم العينة</div>
+    </div>
+
+    <h3>مثال:</h3>
+    <p>استطلاع 400 ناخب أظهر أن 240 يفضّلون مرشح أ.</p>
+    <ul>
+      <li>p̂ = 240/400 = 0.60</li>
+      <li>هامش الخطأ = 1.96 × √(0.6 × 0.4 / 400) = 1.96 × 0.0245 = 0.048</li>
+      <li>CI 95% = 0.60 ± 0.048 = (0.552, 0.648)</li>
+      <li><strong>الاستنتاج:</strong> نسبة المؤيدين الحقيقية بين 55.2% و 64.8% بثقة 95%</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">⚠️</span> 4️⃣ التفسير الصحيح والخاطئ</h2>
+
+    <table class="compare-table">
+      <tr><th>تفسير صحيح ✅</th><th>تفسير خاطئ ❌</th></tr>
+      <tr><td>"95% من فترات الثقة المسحوبة بنفس الطريقة ستحتوي المعلمة الحقيقية"</td><td>"هناك 95% احتمال أن المعلمة في هذه الفترة بالذات"</td></tr>
+      <tr><td>"الفترة (3.25, 3.55) واحدة من الفترات الموثوقة"</td><td>"المعلمة الحقيقية تقع في الفترة بنسبة 95%"</td></tr>
+    </table>
+
+    <div class="story-box">
+      <strong>الفرق دقيق لكنه مهم:</strong> المعلمة الحقيقية ثابتة (نحن لا نعرفها فقط). الفترة هي التي تتغيّر مع كل عينة. القول "95% احتمال أن المعلمة في الفترة" يخلط بين الاحتمالين.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">🔗</span> 5️⃣ العلاقة بين فترة الثقة واختبار الفرضيات</h2>
+
+    <ul>
+      <li><strong>قاعدة:</strong> إذا كانت قيمة H₀ خارج فترة الثقة، نرفض H₀ (وبالعكس)</li>
+      <li><strong>مثال:</strong> H₀: μ = 3.0. الفترة (3.25, 3.55). 3.0 خارج الفترة ← <strong>نرفض H₀</strong></li>
+      <li>فترة ثقة 95% ↔ اختبار طرفين بـ α = 0.05</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">💻</span> 6️⃣ الحساب في إكسل وبايثون</h2>
+
+    <h3>في Excel</h3>
+    <ul>
+      <li><code>=CONFIDENCE.NORM(α, σ, n)</code> هامش الخطأ E (بـ z)</li>
+      <li><code>=CONFIDENCE.T(α, s, n)</code> هامش الخطأ E (بـ t)</li>
+      <li>الفترة = AVERAGE(data) ± النتيجة</li>
+    </ul>
+
+    <h3>في Python</h3>
+    <pre style="background:#1e293b; color:#e2e8f0; padding:14px; border-radius:8px; direction:ltr; text-align:left; overflow-x:auto;">
+from scipy import stats
+import numpy as np
+
+data = np.array([3.2, 3.5, 3.4, ...])
+n = len(data)
+mean = data.mean()
+sem = stats.sem(data)  # standard error
+
+# فترة ثقة 95% باستخدام t
+ci = stats.t.interval(0.95, df=n-1, loc=mean, scale=sem)
+print(f"95% CI: ({ci[0]:.3f}, {ci[1]:.3f})")
+
+# فترة ثقة 99%
+ci_99 = stats.t.interval(0.99, df=n-1, loc=mean, scale=sem)
+</pre>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📝</span> أسئلة تطبيقية</h2>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س1:</strong> فترة ثقة 95% أوسع من فترة ثقة 90%، لماذا؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>عينة أكبر</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>عينة أصغر</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>قيمة z أكبر (1.96 مقابل 1.645)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>σ أصغر</span></button>
+      </div>
+      <div class="quiz-explain">كلما زادت الثقة المطلوبة، احتجنا فترة أوسع لتكون أكثر يقيناً من احتوائها للمعلمة. القيمة الحرجة z تكبر (1.645 لـ 90%، 1.96 لـ 95%، 2.576 لـ 99%) فيكبر هامش الخطأ.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س2:</strong> عينة 100 منتج، متوسط الوزن 50 جم، σ = 4 جم. فترة ثقة 95% للمتوسط:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>(48.0, 52.0)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>(49.22, 50.78)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>(46.0, 54.0)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>(50.0, 52.0)</span></button>
+      </div>
+      <div class="quiz-explain">E = 1.96 × (4/√100) = 1.96 × 0.4 = 0.784. الفترة = 50 ± 0.784 = (49.22, 50.78).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س3:</strong> أي تفسير صحيح لفترة الثقة 95%؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>المعلمة في الفترة بنسبة 95%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>95% من الفترات المسحوبة بنفس الطريقة ستحتوي المعلمة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>العينة تمثل 95% من المجتمع</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>الخطأ 5%</span></button>
+      </div>
+      <div class="quiz-explain">التفسير الصحيح: لو كررنا أخذ العينات وحساب الفترة 100 مرة، 95 منها ستحتوي المعلمة الحقيقية. المعلمة ثابتة، الفترات هي التي تتغير.</div>
+    </div>
+  </div>
+
+  <div class="tip-box" style="background: linear-gradient(135deg, #d1fae5, #a7f3d0); border-color: #059669;">
+    <strong>📌 خلاصة الدرس:</strong>
+    <ul style="margin-top: 8px;">
+      <li><strong>CI = تقدير ± هامش خطأ</strong></li>
+      <li><strong>هامش الخطأ E:</strong> z × (σ / √n) أو t × (s / √n)</li>
+      <li><strong>زيادة n:</strong> فترة أضيق (أدق)</li>
+      <li><strong>زيادة الثقة:</strong> فترة أوسع</li>
+      <li><strong>إذا قيمة H₀ خارج CI</strong> ← نرفض H₀</li>
+    </ul>
+  </div>
+</section>
+`;
+
+
+const TOPIC_ORDER = ['1','2','3','dispersion','sampling','6','7','hypothesis','confidence','8','9','10','ml','eval','11','grouped','midtermExam','quiz1','quiz2','teacherQuiz','quiz'];
 const container = document.getElementById('topicsContainer');
 TOPIC_ORDER.forEach(id => {
   if (TOPICS[id]) {
