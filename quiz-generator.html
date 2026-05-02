@@ -723,148 +723,321 @@ const QUESTION_BANKS = {
   // ============ البايثون ============
   python: [
     // ---- سهل ----
-    { d: 'easy', q: 'أي نوع البيانات في بايثون يحتفظ بقيم True أو False فقط؟', opts: [
+    { d: 'easy', category: 'theory', q: 'أي نوع البيانات في بايثون يحتفظ بقيم True أو False فقط؟', opts: [
       'int', 'str', 'bool', 'float'
     ], a: 2, e: 'النوع bool في بايثون يحفظ قيمتين فقط: True و False.' },
 
-    { d: 'easy', q: 'ما ناتج: print(7 // 2) ؟', opts: [
+    { d: 'easy', category: 'code', q: 'ما ناتج: print(7 // 2) ؟', opts: [
       '3.5', '3', '4', '0.5'
     ], a: 1, e: 'العامل // هو القسمة الصحيحة (floor division)، يعطي خارج القسمة بدون كسور: 7//2 = 3.' },
 
-    { d: 'easy', q: 'ما ناتج: print(2 ** 3) ؟', opts: [
+    { d: 'easy', category: 'code', q: 'ما ناتج: print(2 ** 3) ؟', opts: [
       '6', '8', '5', '23'
     ], a: 1, e: 'العامل ** هو الأس (power): 2 أس 3 = 8.' },
 
-    { d: 'easy', q: 'كيف نُعرّف قائمة فارغة؟', opts: [
+    { d: 'easy', category: 'theory', q: 'كيف نُعرّف قائمة فارغة؟', opts: [
       'list = ()', 'list = []', 'list = {}', 'list = ""'
     ], a: 1, e: '[] للقائمة الفارغة، () للـ tuple، {} للقاموس أو set، "" للنص.' },
 
-    { d: 'easy', q: 'ما الذي يميز الـ tuple عن القائمة (list)؟', opts: [
+    { d: 'easy', category: 'theory', q: 'ما الذي يميز الـ tuple عن القائمة (list)؟', opts: [
       'الـ tuple أسرع في القراءة فقط',
       'الـ tuple غير قابلة للتعديل (immutable)',
       'الـ tuple لا تقبل أرقاماً',
       'لا يوجد فرق'
     ], a: 1, e: 'الـ tuple غير قابل للتعديل (immutable) (لا يمكن تعديلها بعد الإنشاء)، بينما list قابل للتعديل (mutable).' },
 
-    { d: 'easy', q: 'في القاموس d = {"name": "Atif", "age": 30}، كيف نصل لقيمة "Atif"؟', opts: [
+    { d: 'easy', category: 'theory', q: 'في القاموس d = {"name": "Atif", "age": 30}، كيف نصل لقيمة "Atif"؟', opts: [
       'd[0]', 'd["name"]', 'd.name', 'd(name)'
     ], a: 1, e: 'في القواميس نصل بالمفتاح: d["name"] يعطي "Atif". لا يوجد فهرس رقمي للقواميس.' },
 
-    { d: 'easy', q: 'ما ناتج: print(len("Hello"))?', opts: [
+    { d: 'easy', category: 'code', q: 'ما ناتج: print(len("Hello"))?', opts: [
       '4', '5', '6', '"Hello"'
     ], a: 1, e: 'الدالة len() تُرجع طول النص. "Hello" يحتوي 5 أحرف.' },
 
-    { d: 'easy', q: 'كيف نضيف عنصراً لنهاية قائمة؟', opts: [
+    { d: 'easy', category: 'theory', q: 'كيف نضيف عنصراً لنهاية قائمة؟', opts: [
       'list.add(x)', 'list.append(x)', 'list.insert(x)', 'list += x'
     ], a: 1, e: 'append() تضيف عنصراً واحداً لنهاية القائمة. insert() لإضافة في موضع محدد، extend() لإضافة عدة عناصر.' },
 
-    { d: 'easy', q: 'ما ناتج: print(list(range(3)))?', opts: [
+    { d: 'easy', category: 'code', q: 'ما ناتج: print(list(range(3)))?', opts: [
       '[1, 2, 3]', '[0, 1, 2]', '[0, 1, 2, 3]', '[3]'
     ], a: 1, e: 'range(3) ينتج 0, 1, 2 (تبدأ من 0 وتنتهي قبل 3). list() يحوّلها إلى قائمة.' },
 
-    { d: 'easy', q: 'كيف نكتب تعليق على سطر واحد في بايثون؟', opts: [
+    { d: 'easy', category: 'theory', q: 'كيف نكتب تعليق على سطر واحد في بايثون؟', opts: [
       '// تعليق', '/* تعليق */', '# تعليق', '<!-- تعليق -->'
     ], a: 2, e: 'في بايثون، التعليق على سطر واحد يبدأ بعلامة #.' },
 
     // ---- متوسط ----
-    { d: 'medium', q: 'ما ناتج هذا الكود:\n```\nx = [1, 2, 3]\ny = x\ny.append(4)\nprint(x)\n```', opts: [
+    { d: 'medium', category: 'code', q: 'ما ناتج هذا الكود:\n```\nx = [1, 2, 3]\ny = x\ny.append(4)\nprint(x)\n```', opts: [
       '[1, 2, 3]', '[1, 2, 3, 4]', '[4]', 'خطأ'
     ], a: 1, e: 'في بايثون، y = x لا تنسخ القائمة بل تعطي مرجعاً لنفس القائمة. تعديل y يعدل x. للنسخة المستقلة استخدم x.copy() أو list(x).' },
 
-    { d: 'medium', q: 'ما ناتج: print("hello".upper())?', opts: [
+    { d: 'medium', category: 'code', q: 'ما ناتج: print("hello".upper())?', opts: [
       '"hello"', '"HELLO"', '"Hello"', 'خطأ'
     ], a: 1, e: 'الدالة upper() تحوّل النص لأحرف كبيرة. النص الأصلي لا يتغير لأن النصوص غير قابل للتعديل (immutable).' },
 
-    { d: 'medium', q: 'ما ناتج هذا الكود:\n```\nfor i in range(1, 5):\n    if i == 3:\n        continue\n    print(i, end=" ")\n```', opts: [
+    { d: 'medium', category: 'code', q: 'ما ناتج هذا الكود:\n```\nfor i in range(1, 5):\n    if i == 3:\n        continue\n    print(i, end=" ")\n```', opts: [
       '1 2 3 4', '1 2 4', '1 2', '3 4'
     ], a: 1, e: 'continue يتخطى الإصدار الحالي من الحلقة. عند i=3 يُتخطى، فيُطبع 1 2 4.' },
 
-    { d: 'medium', q: 'ما الفرق بين == و is في بايثون؟', opts: [
+    { d: 'medium', category: 'theory', q: 'ما الفرق بين == و is في بايثون؟', opts: [
       'لا فرق',
       '== يقارن القيم، is يقارن المراجع (هل هما نفس الكائن في الذاكرة)',
       '== أسرع، is أبطأ',
       'is للأرقام، == للنصوص'
     ], a: 1, e: '== تقارن قيم المتغيرين. is تتحقق إن كانا يشيران لنفس الكائن في الذاكرة. مثال: [1,2] == [1,2] صحيح، لكن [1,2] is [1,2] خطأ.' },
 
-    { d: 'medium', q: 'في الكلاس، ماذا يمثل self؟', opts: [
+    { d: 'medium', category: 'theory', q: 'في الكلاس، ماذا يمثل self؟', opts: [
       'مرجع للكائن نفسه (instance)',
       'مرجع للكلاس',
       'متغير خاص للسرعة',
       'أمر لإنهاء الدالة'
     ], a: 0, e: 'self هو المعامل الأول في كل method، ويشير إلى الكائن (instance) الحالي الذي تُستدعى عليه الدالة.' },
 
-    { d: 'medium', q: 'كيف نتعامل مع استثناءات في بايثون؟', opts: [
+    { d: 'medium', category: 'theory', q: 'كيف نتعامل مع استثناءات في بايثون؟', opts: [
       'if/else', 'try/except', 'switch/case', 'do/while'
     ], a: 1, e: 'بنية try/except: نضع الكود الذي قد يفشل في try، والمعالجة في except. يمكن إضافة finally للتنفيذ في كل الحالات.' },
 
-    { d: 'medium', q: 'ما ناتج هذا الكود:\n```\nd = {"a": 1, "b": 2}\nprint(d.get("c", 0))\n```', opts: [
+    { d: 'medium', category: 'code', q: 'ما ناتج هذا الكود:\n```\nd = {"a": 1, "b": 2}\nprint(d.get("c", 0))\n```', opts: [
       'خطأ المفتاح (KeyError)', 'None', '0', 'undefined'
     ], a: 2, e: 'd.get("c", 0) تبحث عن المفتاح "c"، وإن لم تجده تُرجع القيمة الافتراضية 0 بدلاً من رفع استثناء.' },
 
-    { d: 'medium', q: 'كيف نقرأ ملفاً نصياً بأمان؟', opts: [
+    { d: 'medium', category: 'theory', q: 'كيف نقرأ ملفاً نصياً بأمان؟', opts: [
       'open("f.txt").read()',
       'with open("f.txt", "r") as f: f.read()',
       'read_file("f.txt")',
       'load("f.txt")'
     ], a: 1, e: 'استخدام with يضمن إغلاق الملف تلقائياً حتى لو حدث خطأ. هذه أفضل ممارسة.' },
 
-    { d: 'medium', q: 'ما ناتج: print([x*2 for x in range(4)])?', opts: [
+    { d: 'medium', category: 'code', q: 'ما ناتج: print([x*2 for x in range(4)])?', opts: [
       '[0, 1, 2, 3]', '[0, 2, 4, 6]', '[2, 4, 6, 8]', 'خطأ'
     ], a: 1, e: 'List comprehension: [x*2 for x in range(4)] = [0, 2, 4, 6] (نضرب كل عنصر من 0,1,2,3 في 2).' },
 
-    { d: 'medium', q: 'كيف نعكس نصاً s = "Hello"؟', opts: [
+    { d: 'medium', category: 'theory', q: 'كيف نعكس نصاً s = "Hello"؟', opts: [
       's.reverse()', 's[::-1]', 'reverse(s)', 's.flip()'
     ], a: 1, e: 'النصوص لا تملك .reverse(). الطريقة الـ pythonic هي استخدام شريحة [::-1].' },
 
     // ---- صعب ----
-    { d: 'hard', q: 'ما ناتج:\n```\ndef f(lst=[]):\n    lst.append(1)\n    return lst\nprint(f())\nprint(f())\n```', opts: [
+    { d: 'hard', category: 'code', q: 'ما ناتج:\n```\ndef f(lst=[]):\n    lst.append(1)\n    return lst\nprint(f())\nprint(f())\n```', opts: [
       '[1] [1]', '[1] [1, 1]', '[1, 1] [1, 1]', 'خطأ'
     ], a: 1, e: 'مشكلة شائعة: المعامل الافتراضي [] يُنشأ مرة واحدة عند تعريف الدالة، فيُحفظ بين الاستدعاءات. الحل: استخدام None كقيمة افتراضية.' },
 
-    { d: 'hard', q: 'ما ناتج هذا الكود:\n```\nclass A:\n    def __init__(self, x): self.x = x\n    def __str__(self): return f"A({self.x})"\nprint(A(5))\n```', opts: [
+    { d: 'hard', category: 'code', q: 'ما ناتج هذا الكود:\n```\nclass A:\n    def __init__(self, x): self.x = x\n    def __str__(self): return f"A({self.x})"\nprint(A(5))\n```', opts: [
       '<A object>', 'A(5)', '5', 'خطأ'
     ], a: 1, e: '__str__ تُستدعى عند استخدام print() على الكائن، فتُرجع النص المخصص "A(5)".' },
 
-    { d: 'hard', q: 'في الكود:\n```\ntry:\n    x = int("abc")\nexcept ValueError:\n    print("V")\nexcept Exception:\n    print("E")\n```\nماذا يُطبع؟', opts: [
+    { d: 'hard', category: 'code', q: 'في الكود:\n```\ntry:\n    x = int("abc")\nexcept ValueError:\n    print("V")\nexcept Exception:\n    print("E")\n```\nماذا يُطبع؟', opts: [
       'V', 'E', 'V ثم E', 'لا شيء'
     ], a: 0, e: 'int("abc") يرفع خطأ القيمة (ValueError). يُطبق المعالج الأول المطابق، فيُطبع V فقط (ليس كليهما).' },
 
-    { d: 'hard', q: 'ما الفرق بين *args و **kwargs؟', opts: [
+    { d: 'hard', category: 'theory', q: 'ما الفرق بين *args و **kwargs؟', opts: [
       'لا فرق',
       '*args لمعاملات موضعية متغيرة (tuple)، **kwargs لمعاملات مفتاحية متغيرة (dict)',
       '*args للأرقام، **kwargs للنصوص',
       '*args ثابت، **kwargs متغير'
     ], a: 1, e: '*args يجمع المعاملات الموضعية الزائدة في tuple، و**kwargs يجمع المعاملات بصيغة key=value في dict.' },
 
-    { d: 'hard', q: 'ما ناتج: print(sorted("python"))?', opts: [
+    { d: 'hard', category: 'code', q: 'ما ناتج: print(sorted("python"))?', opts: [
       '"python"', '"hnopty"', "['h', 'n', 'o', 'p', 't', 'y']", 'خطأ'
     ], a: 2, e: 'sorted() يعمل على القابل للتكرار (iterable) ويُرجع قائمة (وليس نصاً). لذا تُفكك "python" لأحرف ثم تُرتب أبجدياً وتُرجع كقائمة.' },
 
-    { d: 'hard', q: 'ما ناتج هذا الكود:\n```\nnums = [1, 2, 3, 4]\nresult = list(filter(lambda x: x % 2 == 0, nums))\nprint(result)\n```', opts: [
+    { d: 'hard', category: 'code', q: 'ما ناتج هذا الكود:\n```\nnums = [1, 2, 3, 4]\nresult = list(filter(lambda x: x % 2 == 0, nums))\nprint(result)\n```', opts: [
       '[1, 3]', '[2, 4]', '[1, 2, 3, 4]', '[]'
     ], a: 1, e: 'filter() يحتفظ بالعناصر التي تحقق الشرط. lambda يفحص الزوجي (x%2==0)، فيُحتفظ بـ 2 و4.' },
 
-    { d: 'hard', q: 'ما ناتج: print({1, 2, 3} & {2, 3, 4})?', opts: [
+    { d: 'hard', category: 'code', q: 'ما ناتج: print({1, 2, 3} & {2, 3, 4})?', opts: [
       '{1, 2, 3, 4}', '{2, 3}', '{1, 4}', '{}'
     ], a: 1, e: 'العامل & على المجموعات (sets) يعطي التقاطع (intersection): العناصر المشتركة فقط = {2, 3}.' },
 
-    { d: 'hard', q: 'ما ناتج هذا الكود:\n```\nx = [1, 2, 3]\ny = x.copy()\ny.append(4)\nprint(x, y)\n```', opts: [
+    { d: 'hard', category: 'code', q: 'ما ناتج هذا الكود:\n```\nx = [1, 2, 3]\ny = x.copy()\ny.append(4)\nprint(x, y)\n```', opts: [
       '[1, 2, 3, 4] [1, 2, 3, 4]',
       '[1, 2, 3] [1, 2, 3, 4]',
       '[1, 2, 3] [1, 2, 3]',
       'خطأ'
     ], a: 1, e: 'copy() ينشئ نسخة مستقلة (shallow copy)، فتعديل y لا يؤثر على x. هذا مختلف عن y = x الذي يشاركان نفس القائمة.' },
 
-    { d: 'hard', q: 'ما ناتج: print(list(zip([1, 2, 3], ["a", "b", "c"])))?', opts: [
+    { d: 'hard', category: 'code', q: 'ما ناتج: print(list(zip([1, 2, 3], ["a", "b", "c"])))?', opts: [
       '[(1, "a"), (2, "b"), (3, "c")]',
       '[1, 2, 3, "a", "b", "c"]',
       '[[1, "a"], [2, "b"], [3, "c"]]',
       'خطأ'
     ], a: 0, e: 'zip() يدمج تكرارين عنصراً بعنصر منتجاً tuples. list() يحوّل الناتج إلى قائمة من الـ tuples.' },
 
-    { d: 'hard', q: 'في الكود التالي:\n```\nclass A:\n    x = 10\nclass B(A):\n    pass\nprint(B.x)\n```\nماذا يُطبع؟', opts: [
+    { d: 'hard', category: 'code', q: 'في الكود التالي:\n```\nclass A:\n    x = 10\nclass B(A):\n    pass\nprint(B.x)\n```\nماذا يُطبع؟', opts: [
       '0', '10', 'خطأ السمة (AttributeError)', 'None'
     ], a: 1, e: 'B ترث من A، فالخاصية x مع قيمتها 10 تُورّث. B.x = 10 بدون الحاجة لإعادة تعريفها.' },
+
+    // ===== أسئلة نظرية إضافية لبايثون =====
+    { d: 'easy', category: 'theory', q: 'ما الفرق الجوهري بين القائمة (list) والقاموس (dict)؟', opts: [
+      'لا يوجد فرق',
+      'القائمة مرتبة بفهرس رقمي، أما القاموس فيخزن أزواج مفتاح-قيمة',
+      'القاموس أسرع دائماً',
+      'القائمة فقط للأرقام'
+    ], a: 1, e: 'القائمة (list) مجموعة عناصر مرتبة يُوصل لها بالفهرس الرقمي، أما القاموس (dict) فهو خريطة من مفاتيح إلى قيم.' },
+
+    { d: 'easy', category: 'theory', q: 'أي من الأنواع التالية غير قابل للتعديل (immutable) في بايثون؟', opts: [
+      'list', 'dict', 'tuple', 'set'
+    ], a: 2, e: 'الـ tuple غير قابل للتعديل بعد إنشائه. أما list و dict و set فجميعها قابلة للتعديل (mutable).' },
+
+    { d: 'easy', category: 'theory', q: 'متى يجب استخدام تعليمة elif بدل عدة if منفصلة؟', opts: [
+      'دائماً، لا فرق',
+      'عندما تكون الشروط متبادلة الإقصاء (يجب اختيار واحد فقط)',
+      'عند العمل بالأرقام فقط',
+      'عند الحاجة لكتابة كود طويل'
+    ], a: 1, e: 'elif تستخدم عندما تريد التأكد من تنفيذ كتلة واحدة فقط من بين عدة شروط. أما if منفصلة فيُفحص كلٌ منها مستقلاً.' },
+
+    { d: 'easy', category: 'theory', q: 'ما الذي يُحدد كتلة الكود (block) في بايثون؟', opts: [
+      'الأقواس المعقوفة { }',
+      'المسافة البادئة (Indentation)',
+      'الفواصل المنقوطة',
+      'الكلمة المفتاحية BEGIN'
+    ], a: 1, e: 'بايثون تستخدم المسافة البادئة (Indentation) لتحديد كتل الكود، وهذا يجعل الكود أكثر قابلية للقراءة لكنه يلزم بالاتساق.' },
+
+    { d: 'easy', category: 'theory', q: 'ما وظيفة الكلمة المفتاحية return في الدالة؟', opts: [
+      'تطبع قيمة على الشاشة',
+      'تُعيد قيمة من الدالة وتنهي تنفيذها',
+      'تعيد تشغيل الدالة',
+      'تستدعي دالة أخرى'
+    ], a: 1, e: 'return تُعيد قيمة من الدالة إلى المستدعي، وتنهي تنفيذ الدالة فوراً. الدالة التي ليس لها return تُعيد None ضمنياً.' },
+
+    { d: 'easy', category: 'theory', q: 'ما الفرق بين print() و input()؟', opts: [
+      'لا يوجد فرق',
+      'print تعرض على الشاشة، input تستقبل من المستخدم',
+      'كلاهما يعرض على الشاشة',
+      'input أسرع من print'
+    ], a: 1, e: 'print() تعرض قيمة على الشاشة (إخراج)، input() تطلب من المستخدم إدخال نص وتعيده كسلسلة (إدخال).' },
+
+    { d: 'easy', category: 'theory', q: 'ماذا تعيد دالة input() دائماً؟', opts: [
+      'عدد صحيح (int)',
+      'عدد عشري (float)',
+      'سلسلة نصية (str)',
+      'قيمة بوليانية (bool)'
+    ], a: 2, e: 'input() تعيد دائماً نوع str. إذا أردت رقماً، يجب التحويل بـ int() أو float().' },
+
+    { d: 'medium', category: 'theory', q: 'ما الفرق بين الدالة والميثود (method)؟', opts: [
+      'لا يوجد فرق',
+      'الدالة مستقلة، أما الميثود فهي دالة مرتبطة بكائن أو كلاس',
+      'الميثود أسرع دائماً',
+      'الدالة لا يمكن أن ترجع قيمة'
+    ], a: 1, e: 'الدالة (function) مستقلة وتُستدعى باسمها مباشرة. الميثود (method) دالة معرّفة داخل كلاس وتُستدعى عبر الكائن (object.method()).' },
+
+    { d: 'medium', category: 'theory', q: 'ما المقصود بـ "Duck Typing" في بايثون؟', opts: [
+      'نوع خاص من الكائنات للطيور',
+      'إذا كان الكائن يتصرف كنوع معين (يدعم نفس العمليات)، فيُعامل كذلك بغض النظر عن نوعه الفعلي',
+      'تحويل البيانات إلى نوع dict',
+      'فحص النوع قبل الاستخدام'
+    ], a: 1, e: 'Duck Typing مبدأ في بايثون: "إذا مشى كبطة وأصدر صوت بطة، فهو بطة". أي يهم سلوك الكائن، لا نوعه.' },
+
+    { d: 'medium', category: 'theory', q: 'متى تُستخدم بنية try/except؟', opts: [
+      'لجعل الكود أسرع',
+      'للتعامل مع الأخطاء التي قد تحدث أثناء التنفيذ ومنع توقف البرنامج',
+      'لإنشاء كائنات جديدة',
+      'لتحديد نوع المتغير'
+    ], a: 1, e: 'try/except تستخدم لمعالجة الاستثناءات (exceptions). نضع الكود الذي قد يُولّد خطأ في try، وفي except نتعامل معه دون توقف البرنامج.' },
+
+    { d: 'medium', category: 'theory', q: 'ما الفائدة من f-strings مقارنة بطرق التنسيق الأخرى؟', opts: [
+      'لا فائدة، كلها متشابهة',
+      'تسمح بإدراج المتغيرات والتعابير مباشرة داخل النص بصيغة قصيرة وقابلة للقراءة',
+      'تجعل الكود أبطأ',
+      'تعمل فقط مع الأرقام'
+    ], a: 1, e: 'f-strings (مثل f"Hello {name}") أسرع وأكثر وضوحاً من str.format() أو % formatting. أُضيفت في Python 3.6.' },
+
+    { d: 'medium', category: 'theory', q: 'ما المقصود بـ "Indentation Error" في بايثون؟', opts: [
+      'خطأ في كتابة اسم متغير',
+      'خطأ في المسافة البادئة (تنسيق الكود)',
+      'خطأ في تحويل الأنواع',
+      'خطأ في الاتصال بالشبكة'
+    ], a: 1, e: 'IndentationError يحدث عندما تكون المسافة البادئة غير صحيحة أو غير متسقة. هذا شائع لأن بايثون تعتمد على المسافات لتحديد الكتل.' },
+
+    { d: 'medium', category: 'theory', q: 'ما الفرق بين == و != في بايثون؟', opts: [
+      'لا يوجد فرق',
+      '== للمساواة، != لعدم المساواة',
+      '== للأرقام، != للنصوص',
+      '!= هو خطأ في الكتابة'
+    ], a: 1, e: '== يُرجع True إذا كانت القيمتان متساويتين. != يُرجع True إذا كانتا غير متساويتين.' },
+
+    { d: 'medium', category: 'theory', q: 'لماذا تُعتبر بايثون لغة "مفسَّرة" (Interpreted)؟', opts: [
+      'لأنها بطيئة',
+      'لأن الكود يُنفّذ سطراً سطراً عبر مفسر، دون الحاجة لتجميعه إلى ملف تنفيذي مسبقاً',
+      'لأنها تستخدم حروفاً عربية',
+      'لأنها مجانية'
+    ], a: 1, e: 'بايثون لغة مفسَّرة: المفسر يقرأ الكود وينفذه مباشرة، بخلاف اللغات المُجمَّعة (Compiled) مثل C التي تحتاج لمرحلة ترجمة سابقة.' },
+
+    { d: 'medium', category: 'theory', q: 'ما المقصود بمصطلح "Variable Scope" (نطاق المتغير)؟', opts: [
+      'حجم المتغير في الذاكرة',
+      'المنطقة في الكود التي يكون فيها المتغير معروفاً ومتاحاً',
+      'نوع البيانات المسموح به',
+      'سرعة المتغير'
+    ], a: 1, e: 'النطاق (scope) يحدد أين يمكن الوصول للمتغير. الأنواع: محلي (Local) داخل دالة، عالمي (Global) في الملف، Built-in في بايثون.' },
+
+    { d: 'medium', category: 'theory', q: 'ما هي الـ Boolean Logic في بايثون؟', opts: [
+      'عمليات حسابية على الأرقام',
+      'عمليات منطقية على القيم True/False باستخدام and, or, not',
+      'تحويل الأنواع',
+      'كتابة التعليقات'
+    ], a: 1, e: 'Boolean Logic تتعامل مع قيمتي True و False باستخدام and (و)، or (أو)، not (ليس) لإنشاء شروط مركبة.' },
+
+    { d: 'easy', category: 'theory', q: 'ما الذي يحدث عند قسمة عدد على صفر في بايثون: 5 / 0؟', opts: [
+      'يُرجع 0',
+      'يُرجع None',
+      'يرفع ZeroDivisionError',
+      'يُرجع infinity'
+    ], a: 2, e: 'القسمة على صفر ترفع استثناء ZeroDivisionError. هذا مختلف عن بعض اللغات الأخرى التي قد تُرجع infinity.' },
+
+    { d: 'medium', category: 'theory', q: 'متى تستخدم list comprehension بدلاً من حلقة for التقليدية؟', opts: [
+      'دائماً، فهي الأفضل',
+      'عند الحاجة لإنشاء قائمة جديدة من تحويل بسيط على قائمة موجودة',
+      'عندما يكون الكود معقداً جداً',
+      'لا يجب استخدامها أبداً'
+    ], a: 1, e: 'list comprehension مثل [x*2 for x in lst] أكثر إيجازاً وأسرع لإنشاء قوائم من تحويلات بسيطة. للمنطق المعقد، حلقة for التقليدية أوضح.' },
+
+    { d: 'medium', category: 'theory', q: 'ما الفرق بين append() و extend() على قائمة؟', opts: [
+      'لا فرق',
+      'append تضيف عنصراً واحداً، extend تضيف عناصر متعددة من iterable',
+      'append أبطأ',
+      'extend تضيف في البداية'
+    ], a: 1, e: 'lst.append(x) تضيف x كعنصر واحد. lst.extend([1,2,3]) تُضيف كل عناصر القائمة المُمررة. مثال: [1].append([2,3]) → [1,[2,3]] لكن [1].extend([2,3]) → [1,2,3].' },
+
+    { d: 'medium', category: 'theory', q: 'ما هي وظيفة الكلمة المفتاحية pass في بايثون؟', opts: [
+      'تنهي البرنامج',
+      'placeholder، لا تفعل شيئاً، تستخدم عندما يحتاج التركيب لجملة لكن لا نريد تنفيذ شيء',
+      'تتخطى التكرار الحالي في الحلقة',
+      'تطبع رسالة'
+    ], a: 1, e: 'pass جملة فارغة لا تفعل شيئاً، لكنها مفيدة في تركيب يستلزم وجود جملة (مثل دالة أو كلاس فارغين قيد التطوير).' },
+
+    { d: 'hard', category: 'theory', q: 'ما الفرق بين Shallow Copy و Deep Copy في بايثون؟', opts: [
+      'لا فرق',
+      'Shallow Copy ينسخ المرجع للعناصر المتداخلة، Deep Copy ينسخ كل المستويات',
+      'Deep Copy أسرع',
+      'Shallow Copy للأرقام فقط'
+    ], a: 1, e: 'Shallow Copy (مثل lst.copy()) ينسخ القائمة الرئيسية لكن العناصر المتداخلة (مثل قوائم داخلها) تظل مشتركة. Deep Copy (copy.deepcopy()) ينسخ كل المستويات مستقلة.' },
+
+    { d: 'hard', category: 'theory', q: 'ما هي الـ Generator في بايثون؟', opts: [
+      'دالة عادية',
+      'دالة تُنتج قيماً واحدة تلو الأخرى بكفاءة في الذاكرة باستخدام yield',
+      'نوع من الكلاسات',
+      'مكتبة لتوليد الأرقام العشوائية'
+    ], a: 1, e: 'Generator دالة تستخدم yield بدلاً من return، وتُنتج قيماً عند الطلب فقط. مفيدة للسلاسل الكبيرة دون استهلاك ذاكرة كبيرة.' },
+
+    { d: 'hard', category: 'theory', q: 'ما الفرق بين @staticmethod و @classmethod؟', opts: [
+      'لا فرق',
+      '@staticmethod لا يستقبل self ولا cls، @classmethod يستقبل cls (مرجع للكلاس)',
+      '@staticmethod أسرع',
+      '@classmethod للكائنات فقط'
+    ], a: 1, e: '@staticmethod ميثود مستقلة لا تحتاج للكائن أو الكلاس. @classmethod تستقبل cls كأول معامل وتعمل على الكلاس نفسه.' },
+
+    { d: 'hard', category: 'theory', q: 'ما المقصود بـ "Polymorphism" في البرمجة الكائنية؟', opts: [
+      'وراثة الكلاسات',
+      'تعدد الأشكال: قدرة كائنات مختلفة على الاستجابة لنفس الواجهة بطرق مختلفة',
+      'إنشاء عدة كائنات',
+      'حذف الكائنات'
+    ], a: 1, e: 'Polymorphism (تعدد الأشكال) يسمح بمعاملة كائنات من كلاسات مختلفة بنفس الطريقة. مثلاً: len() تعمل على str و list و dict رغم اختلاف تنفيذها.' },
+
+    { d: 'hard', category: 'theory', q: 'ما الفرق بين الـ Decorator والدالة العادية؟', opts: [
+      'لا فرق',
+      'Decorator دالة تأخذ دالة أخرى وتعدّل/تُغلّف سلوكها دون تعديل كودها',
+      'Decorator أسرع',
+      'Decorator فقط للكلاسات'
+    ], a: 1, e: 'Decorator تستخدم بصيغة @decorator_name. تأخذ دالة كمدخل وترجع دالة معدلة. مفيدة لإضافة وظائف مشتركة (logging، timing، authentication) دون تكرار الكود.' },
   ]
 };
 
@@ -882,7 +1055,7 @@ const RNDF = (min, max, decimals = 2) => {
 const PICK = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
 // خلط الخيارات وتحديد الإجابة الصحيحة بدقة عبر مقارنة النصوص
-function buildQ(d, q, correctValue, distractors, explanation) {
+function buildQ(d, q, correctValue, distractors, explanation, category) {
   const correctStr = String(correctValue);
   const allStrs = [correctStr, ...distractors.map(String)];
   // إزالة التكرار للأمان
@@ -895,6 +1068,7 @@ function buildQ(d, q, correctValue, distractors, explanation) {
     opts,
     a: opts.indexOf(correctStr),
     e: explanation,
+    category: category || 'code', // 'code' أو 'theory'
     _generated: true
   };
 }
@@ -1520,6 +1694,221 @@ const QUESTION_GENERATORS = {
         `الدالة count() تعدّ مرات تكرار النص داخل النص الأكبر. حرف "${letter}" يظهر ${count} مرة في "${w}".`
       );
     },
+
+    // ===== قوالب نظرية ديناميكية =====
+
+    // 15) [نظري] ما اسم النوع المناسب لقيمة معينة
+    () => {
+      const samples = [
+        { val: '"Hello"', type: 'str', why: 'النص بين علامتي اقتباس نوعه str' },
+        { val: '42', type: 'int', why: 'العدد الصحيح بدون فاصلة عشرية نوعه int' },
+        { val: '3.14', type: 'float', why: 'العدد بفاصلة عشرية نوعه float' },
+        { val: 'True', type: 'bool', why: 'القيم True/False نوعها bool' },
+        { val: '[1, 2, 3]', type: 'list', why: 'بين قوسين [] نوعها list' },
+        { val: '(1, 2, 3)', type: 'tuple', why: 'بين قوسين () نوعها tuple' },
+        { val: '{"a": 1}', type: 'dict', why: 'بين {} مع مفتاح:قيمة نوعها dict' },
+        { val: '{1, 2, 3}', type: 'set', why: 'بين {} بدون مفاتيح نوعها set' },
+        { val: 'None', type: 'NoneType', why: 'القيمة None نوعها NoneType' },
+      ];
+      const s = PICK(samples);
+      const distractors = ['str','int','float','bool','list','tuple','dict','set','NoneType'].filter(t => t !== s.type);
+      return buildQ(
+        'easy',
+        `ما نوع البيانات (data type) للقيمة \`${s.val}\` في بايثون؟`,
+        s.type,
+        shuffle(distractors).slice(0, 3),
+        s.why,
+        'theory'
+      );
+    },
+
+    // 16) [نظري] أي دالة مدمجة تقوم بـ X
+    () => {
+      const tasks = [
+        { task: 'إيجاد طول قائمة أو نص', fn: 'len()' },
+        { task: 'أكبر قيمة في قائمة', fn: 'max()' },
+        { task: 'أصغر قيمة في قائمة', fn: 'min()' },
+        { task: 'مجموع عناصر قائمة أرقام', fn: 'sum()' },
+        { task: 'تحويل قيمة إلى عدد صحيح', fn: 'int()' },
+        { task: 'تحويل قيمة إلى نص', fn: 'str()' },
+        { task: 'تحويل قيمة إلى عدد عشري', fn: 'float()' },
+        { task: 'طباعة قيمة على الشاشة', fn: 'print()' },
+        { task: 'ترتيب قائمة وإعادة قائمة جديدة', fn: 'sorted()' },
+        { task: 'استقبال إدخال من المستخدم', fn: 'input()' },
+        { task: 'توليد تسلسل من الأرقام', fn: 'range()' },
+        { task: 'معرفة نوع متغير', fn: 'type()' },
+      ];
+      const t = PICK(tasks);
+      const allFns = ['len()','max()','min()','sum()','int()','str()','float()','print()','sorted()','input()','range()','type()','open()','abs()'];
+      const distractors = allFns.filter(f => f !== t.fn);
+      return buildQ(
+        'easy',
+        `أي دالة مدمجة (built-in) في بايثون تستخدم لـ "${t.task}"؟`,
+        t.fn,
+        shuffle(distractors).slice(0, 3),
+        `الدالة ${t.fn} هي الأنسب لمهمة: ${t.task}.`,
+        'theory'
+      );
+    },
+
+    // 17) [نظري] الكلمة المفتاحية المناسبة
+    () => {
+      const cases = [
+        { case: 'إنهاء حلقة فوراً', kw: 'break', explain: 'break توقف الحلقة وتخرج منها كلياً.' },
+        { case: 'تخطي التكرار الحالي والانتقال للتالي', kw: 'continue', explain: 'continue تتخطى بقية الكود في التكرار الحالي.' },
+        { case: 'تعريف دالة', kw: 'def', explain: 'def هي الكلمة المستخدمة لتعريف دالة.' },
+        { case: 'تعريف كلاس', kw: 'class', explain: 'class هي الكلمة المستخدمة لتعريف كلاس.' },
+        { case: 'إعادة قيمة من دالة', kw: 'return', explain: 'return تُعيد قيمة من الدالة.' },
+        { case: 'استيراد مكتبة', kw: 'import', explain: 'import تُستخدم لاستيراد المكتبات.' },
+        { case: 'placeholder لجملة فارغة', kw: 'pass', explain: 'pass جملة لا تفعل شيئاً، تُستخدم كـ placeholder.' },
+        { case: 'تنفيذ كود قد يولّد خطأ', kw: 'try', explain: 'try تُحيط الكود الذي قد يرفع استثناءً.' },
+        { case: 'معالجة استثناء معين', kw: 'except', explain: 'except تلتقط الاستثناءات وتعالجها.' },
+      ];
+      const cs = PICK(cases);
+      const allKws = ['break','continue','def','class','return','import','pass','try','except','finally','if','for','while'];
+      const distractors = allKws.filter(k => k !== cs.kw);
+      return buildQ(
+        'easy',
+        `أي كلمة مفتاحية (keyword) تستخدم لـ "${cs.case}" في بايثون؟`,
+        cs.kw,
+        shuffle(distractors).slice(0, 3),
+        cs.explain,
+        'theory'
+      );
+    },
+
+    // 18) [نظري] أي عملية على قائمة
+    () => {
+      const ops = [
+        { task: 'إضافة عنصر لنهاية القائمة', method: 'append()' },
+        { task: 'حذف وإرجاع آخر عنصر', method: 'pop()' },
+        { task: 'إضافة عناصر متعددة من iterable', method: 'extend()' },
+        { task: 'إدراج عنصر في موضع محدد', method: 'insert()' },
+        { task: 'حذف أول ظهور لقيمة معينة', method: 'remove()' },
+        { task: 'ترتيب القائمة في مكانها', method: 'sort()' },
+        { task: 'عكس ترتيب القائمة في مكانها', method: 'reverse()' },
+        { task: 'عدّ مرات تكرار قيمة', method: 'count()' },
+        { task: 'إيجاد فهرس أول ظهور لقيمة', method: 'index()' },
+        { task: 'إفراغ القائمة كلياً', method: 'clear()' },
+      ];
+      const op = PICK(ops);
+      const allOps = ['append()','pop()','extend()','insert()','remove()','sort()','reverse()','count()','index()','clear()','copy()','split()'];
+      const distractors = allOps.filter(o => o !== op.method);
+      return buildQ(
+        'medium',
+        `أي ميثود على القائمة (list) تستخدم لـ "${op.task}"؟`,
+        op.method,
+        shuffle(distractors).slice(0, 3),
+        `${op.method} هي الميثود المناسبة لـ ${op.task}.`,
+        'theory'
+      );
+    },
+
+    // 19) [نظري] خاصية النوع
+    () => {
+      const properties = [
+        { type: 'list', prop: 'mutable (قابل للتعديل) ومرتب' },
+        { type: 'tuple', prop: 'immutable (غير قابل للتعديل) ومرتب' },
+        { type: 'set', prop: 'mutable لكن غير مرتب وبدون تكرار' },
+        { type: 'dict', prop: 'mutable يخزن أزواج مفتاح-قيمة' },
+        { type: 'str', prop: 'immutable ومرتب (تسلسل من الأحرف)' },
+        { type: 'int', prop: 'عدد صحيح، immutable' },
+        { type: 'frozenset', prop: 'immutable، لا يمكن تعديله بعد الإنشاء' },
+      ];
+      const p = PICK(properties);
+      const distractors = properties.filter(x => x.type !== p.type).map(x => x.prop);
+      return buildQ(
+        'medium',
+        `ما الخاصية الصحيحة للنوع \`${p.type}\` في بايثون؟`,
+        p.prop,
+        shuffle(distractors).slice(0, 3),
+        `النوع ${p.type} هو ${p.prop}.`,
+        'theory'
+      );
+    },
+
+    // 20) [نظري] رفع الاستثناء المناسب
+    () => {
+      const errors = [
+        { situation: 'الوصول لمفتاح غير موجود في قاموس', err: 'KeyError' },
+        { situation: 'تحويل نص غير رقمي إلى int', err: 'ValueError' },
+        { situation: 'الوصول لفهرس خارج نطاق القائمة', err: 'IndexError' },
+        { situation: 'القسمة على صفر', err: 'ZeroDivisionError' },
+        { situation: 'استخدام متغير غير معرف', err: 'NameError' },
+        { situation: 'استدعاء سمة غير موجودة على كائن', err: 'AttributeError' },
+        { situation: 'فتح ملف غير موجود', err: 'FileNotFoundError' },
+        { situation: 'كتابة كود بصياغة غير صحيحة', err: 'SyntaxError' },
+        { situation: 'مسافة بادئة غير متسقة', err: 'IndentationError' },
+      ];
+      const e = PICK(errors);
+      const allErrs = errors.map(x => x.err).concat(['TypeError','RuntimeError','OverflowError']);
+      const distractors = [...new Set(allErrs)].filter(x => x !== e.err);
+      return buildQ(
+        'medium',
+        `أي استثناء (Exception) يُرفع عند: "${e.situation}"؟`,
+        e.err,
+        shuffle(distractors).slice(0, 3),
+        `الاستثناء ${e.err} يُرفع عند ${e.situation}.`,
+        'theory'
+      );
+    },
+
+    // 21) [نظري] العامل الصحيح
+    () => {
+      const ops = [
+        { task: 'الجمع', op: '+' },
+        { task: 'الطرح', op: '−' },
+        { task: 'الضرب', op: '*' },
+        { task: 'القسمة العادية', op: '/' },
+        { task: 'القسمة الصحيحة (floor division)', op: '//' },
+        { task: 'باقي القسمة', op: '%' },
+        { task: 'الأس (power)', op: '**' },
+        { task: 'المساواة', op: '==' },
+        { task: 'عدم المساواة', op: '!=' },
+        { task: 'الإسناد', op: '=' },
+        { task: 'العطف المنطقي (و)', op: 'and' },
+        { task: 'الفصل المنطقي (أو)', op: 'or' },
+        { task: 'النفي المنطقي', op: 'not' },
+      ];
+      const o = PICK(ops);
+      const allOps = ops.map(x => x.op);
+      const distractors = [...new Set(allOps)].filter(x => x !== o.op);
+      return buildQ(
+        'easy',
+        `أي عامل (operator) في بايثون يستخدم لـ "${o.task}"؟`,
+        o.op,
+        shuffle(distractors).slice(0, 3),
+        `العامل ${o.op} يستخدم لـ ${o.task}.`,
+        'theory'
+      );
+    },
+
+    // 22) [نظري] الميثود على النصوص
+    () => {
+      const methods = [
+        { task: 'تحويل النص لأحرف كبيرة', m: 'upper()' },
+        { task: 'تحويل النص لأحرف صغيرة', m: 'lower()' },
+        { task: 'إزالة المسافات من بداية ونهاية النص', m: 'strip()' },
+        { task: 'تقسيم النص إلى قائمة كلمات', m: 'split()' },
+        { task: 'دمج عناصر قائمة بفاصل', m: 'join()' },
+        { task: 'استبدال نص بآخر', m: 'replace()' },
+        { task: 'فحص بداية النص', m: 'startswith()' },
+        { task: 'فحص نهاية النص', m: 'endswith()' },
+        { task: 'إيجاد فهرس أول ظهور لنص فرعي', m: 'find()' },
+        { task: 'تنسيق النص بإدراج قيم', m: 'format()' },
+      ];
+      const x = PICK(methods);
+      const allMethods = methods.map(m => m.m).concat(['append()', 'pop()', 'sort()']);
+      const distractors = [...new Set(allMethods)].filter(d => d !== x.m);
+      return buildQ(
+        'medium',
+        `أي ميثود على السلسلة النصية (str) تستخدم لـ "${x.task}"؟`,
+        x.m,
+        shuffle(distractors).slice(0, 3),
+        `الميثود ${x.m} على النص تقوم بـ ${x.task}.`,
+        'theory'
+      );
+    },
   ]
 };
 
@@ -1614,16 +2003,20 @@ function pickRandomQuestions(bank, total = 10) {
   const hCount = 2 + Math.floor(Math.random() * 3); // 2-4
   const mCount = total - eCount - hCount;
 
-  // النسبة: ~40% من البنك اليدوي + ~60% من المولّدات الديناميكية
+  // النسبة العامة: ~40% بنك يدوي + ~60% مولّدات
   const manualCount = Math.floor(total * 0.4); // 4 من 10
   const generatedCount = total - manualCount; // 6 من 10
+
+  // === منطق خاص بالبايثون: 30% كود + 70% نظري ===
+  if (currentSubject === 'python') {
+    return pickPythonQuestions(bank, generators, total, state);
+  }
 
   // اختر من البنك اليدوي حسب صعوبة موزّعة (Round-Robin)
   const easy = bank.filter(q => q.d === 'easy');
   const medium = bank.filter(q => q.d === 'medium');
   const hard = bank.filter(q => q.d === 'hard');
 
-  // كم سؤالاً يدوياً من كل صعوبة (تقريبي)
   const mE = Math.max(1, Math.floor(manualCount * eCount / total));
   const mH = Math.max(1, Math.floor(manualCount * hCount / total));
   const mM = manualCount - mE - mH;
@@ -1634,8 +2027,6 @@ function pickRandomQuestions(bank, total = 10) {
     ...pickOldest(hard, state.lastUsed, mH)
   ].slice(0, manualCount);
 
-  // مولّد ديناميكي: استدع كل دالة تولّد سؤالاً جديداً بأرقام عشوائية
-  // نخلط الـ generators لاختيار متنوع
   const generatedPicks = [];
   if (generators.length > 0) {
     const shuffled = shuffle(generators);
@@ -1646,11 +2037,10 @@ function pickRandomQuestions(bank, total = 10) {
         if (q && q.opts && q.opts.length === 4 && q.a >= 0) {
           generatedPicks.push(q);
         }
-      } catch(e) { /* تخطي القالب الفاشل */ }
+      } catch(e) {}
     }
   }
 
-  // إذا لم نحصل على ما يكفي من المولّدات، نملأ من البنك اليدوي
   const picked = [...manualPicks, ...generatedPicks];
   if (picked.length < total) {
     const usedQs = new Set(picked.map(q => q.q));
@@ -1658,11 +2048,85 @@ function pickRandomQuestions(bank, total = 10) {
     picked.push(...shuffle(remaining).slice(0, total - picked.length));
   }
 
-  // تحديث counter لـ lastUsed (فقط للأسئلة اليدوية لأن المولّدة جديدة في كل مرة)
   state.counter++;
   manualPicks.forEach(q => { state.lastUsed[q.q] = state.counter; });
 
-  // حفظ الحالة
+  const h = loadHistory();
+  h[currentSubject] = state;
+  saveHistory(h);
+
+  return shuffle(picked).slice(0, total);
+}
+
+// منطق خاص بالبايثون: 30% كود + 70% نظري
+// من 10 أسئلة: 3 كود + 7 نظري
+function pickPythonQuestions(bank, generators, total, state) {
+  const codeCount = 3;
+  const theoryCount = total - codeCount; // 7
+
+  // فصل البنك اليدوي حسب category
+  const manualCode = bank.filter(q => q.category === 'code');
+  const manualTheory = bank.filter(q => q.category === 'theory');
+
+  // فصل المولّدات: نولّد عيّنة من كل قالب لمعرفة category
+  // لكن استدعاء كل قالب مرة لتصنيفه ثم استدعاؤه مرة أخرى مكلف
+  // الحل: نُولّد عينة، ونصنف، ثم نختار
+  const codeGens = [];
+  const theoryGens = [];
+  for (const gen of generators) {
+    try {
+      const sample = gen();
+      if (sample.category === 'theory') theoryGens.push(gen);
+      else codeGens.push(gen);
+    } catch(e) {}
+  }
+
+  // نسبة البنك اليدوي:المولّدات داخل كل category: 50/50 (لإعطاء أهمية متساوية للجودة والتنوع)
+  const manualCodeCount = Math.min(Math.ceil(codeCount * 0.5), manualCode.length);
+  const genCodeCount = codeCount - manualCodeCount;
+  const manualTheoryCount = Math.min(Math.ceil(theoryCount * 0.5), manualTheory.length);
+  const genTheoryCount = theoryCount - manualTheoryCount;
+
+  // اختيار من البنك اليدوي
+  const manualPicks = [
+    ...pickOldest(manualCode, state.lastUsed, manualCodeCount),
+    ...pickOldest(manualTheory, state.lastUsed, manualTheoryCount)
+  ];
+
+  // توليد ديناميكي
+  const generatedPicks = [];
+  if (codeGens.length > 0) {
+    const shuf = shuffle(codeGens);
+    for (let i = 0; i < genCodeCount; i++) {
+      try {
+        const q = shuf[i % shuf.length]();
+        if (q && q.opts && q.opts.length === 4 && q.a >= 0) generatedPicks.push(q);
+      } catch(e) {}
+    }
+  }
+  if (theoryGens.length > 0) {
+    const shuf = shuffle(theoryGens);
+    for (let i = 0; i < genTheoryCount; i++) {
+      try {
+        const q = shuf[i % shuf.length]();
+        if (q && q.opts && q.opts.length === 4 && q.a >= 0) generatedPicks.push(q);
+      } catch(e) {}
+    }
+  }
+
+  // تجميع
+  let picked = [...manualPicks, ...generatedPicks];
+
+  // ملء الفجوات
+  if (picked.length < total) {
+    const usedQs = new Set(picked.map(q => q.q));
+    const remaining = bank.filter(q => !usedQs.has(q.q));
+    picked.push(...shuffle(remaining).slice(0, total - picked.length));
+  }
+
+  // تحديث lastUsed
+  state.counter++;
+  manualPicks.forEach(q => { state.lastUsed[q.q] = state.counter; });
   const h = loadHistory();
   h[currentSubject] = state;
   saveHistory(h);

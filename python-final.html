@@ -6309,6 +6309,508 @@ TOPICS['quiz'] = `
     </div>
   </div>
 
+  
+  <div class="section quiz-section" style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border: 2px solid #3b82f6;">
+    <h2 style="margin-top: 24px; padding: 12px 16px; background: linear-gradient(135deg, #dbeafe, #bfdbfe); border-radius: 10px; color: #1e40af; font-size: 17px;">💻 قسم الأكواد التطبيقية — 35 سؤال عملي</h2>
+    <p style="padding: 0 12px; color: #475569; font-size: 14px; margin-bottom: 16px;">أسئلة تطبيقية لقراءة وفهم الكود وتوقع نواتجه. تشمل العمليات الحسابية، الشرائح، الدوال، الكلاسات، والاستثناءات.</p>
+
+    <div class="quiz-q">
+      <div class="q-text">س1: ما ناتج <code>print(15 % 4)</code>؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>1</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>3</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>4</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>15</span></button>
+      </div>
+      <div class="quiz-explain">% هو باقي القسمة. 15 ÷ 4 = 3 والباقي 3.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س2: ما ناتج <code>print(2 ** 5)</code>؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>10</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>25</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>32</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>7</span></button>
+      </div>
+      <div class="quiz-explain">** هو الأس. 2 أس 5 = 32.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س3: ما ناتج <code>print(20 // 3)</code>؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>6.67</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>6</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>7</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>2</span></button>
+      </div>
+      <div class="quiz-explain">// هي القسمة الصحيحة (floor division). 20 ÷ 3 = 6.67، الـ floor = 6.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س4: ما ناتج <code>print(len("Python"))</code>؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>5</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>6</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>7</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>"Python"</span></button>
+      </div>
+      <div class="quiz-explain">"Python" يحتوي 6 أحرف.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س5: ما ناتج <code>print("Hello"[1])</code>؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>e</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>H</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>l</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>"e"</span></button>
+      </div>
+      <div class="quiz-explain">الفهرس يبدأ من 0. "Hello"[1] = الحرف الثاني = 'e'.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س6: ما ناتج <code>print("Python"[-1])</code>؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>P</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>n</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>o</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>خطأ</span></button>
+      </div>
+      <div class="quiz-explain">الفهرس السالب يعد من النهاية. -1 = آخر حرف = 'n'.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س7: ما ناتج <code>print("AI"[0:1])</code>؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>A</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>AI</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>I</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>""</span></button>
+      </div>
+      <div class="quiz-explain">الشريحة [0:1] تأخذ الفهرس 0 فقط. النتيجة "A".</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س8: ما ناتج هذا الكود؟<br><code>x = [1, 2, 3]</code><br><code>x.append(4)</code><br><code>print(x)</code></div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>[1, 2, 3, 4]</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>[4, 1, 2, 3]</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>[1, 2, 3]</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>4</span></button>
+      </div>
+      <div class="quiz-explain">append() تضيف العنصر لنهاية القائمة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س9: ما ناتج <code>print([1,2,3,4][1:3])</code>؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>[1, 2, 3]</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>[2, 3]</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>[2, 3, 4]</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>[1, 2]</span></button>
+      </div>
+      <div class="quiz-explain">[1:3] تأخذ من الفهرس 1 حتى 3 (غير شامل). أي [2, 3].</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س10: ما ناتج هذا الكود؟<br><code>for i in range(3):</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print(i, end=" ")</code></div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>1 2 3</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>0 1 2</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>0 1 2 3</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>3</span></button>
+      </div>
+      <div class="quiz-explain">range(3) ينتج 0, 1, 2 (تبدأ من 0 وتنتهي قبل 3).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س11: ما ناتج <code>print(list(range(2, 8, 2)))</code>؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>[2, 4, 6]</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>[2, 4, 6, 8]</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>[2, 3, 4, 5, 6, 7]</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>[2, 8]</span></button>
+      </div>
+      <div class="quiz-explain">range(2, 8, 2) من 2 حتى 8 (غير شامل) بخطوة 2. النتيجة [2, 4, 6].</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س12: ما ناتج هذا الكود؟<br><code>x = 5</code><br><code>if x > 3:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("A")</code><br><code>elif x > 2:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("B")</code></div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>A</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>B</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>A و B</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>لا شيء</span></button>
+      </div>
+      <div class="quiz-explain">x = 5 > 3 صحيح، يطبع A وينهي السلسلة (elif لا تُنفذ).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س13: ما ناتج هذا الكود؟<br><code>def f(x, y=10):</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;return x + y</code><br><code>print(f(5))</code></div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>5</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>15</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>10</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>خطأ</span></button>
+      </div>
+      <div class="quiz-explain">y=10 معامل افتراضي. f(5) = 5 + 10 = 15.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س14: ما ناتج <code>print({"a": 1, "b": 2}["a"])</code>؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>a</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>1</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>"a": 1</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>KeyError</span></button>
+      </div>
+      <div class="quiz-explain">d["a"] يصل لقيمة المفتاح "a" = 1.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س15: ما ناتج <code>print("Hello".upper())</code>؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>hello</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>HELLO</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>Hello</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>Hello.upper</span></button>
+      </div>
+      <div class="quiz-explain">upper() تحول النص لأحرف كبيرة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س16: ما ناتج <code>print("apple,banana".split(","))</code>؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>"apple,banana"</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>['apple', 'banana']</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>('apple', 'banana')</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>apple banana</span></button>
+      </div>
+      <div class="quiz-explain">split(",") تفصل النص إلى قائمة بناءً على الفاصل ",".</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س17: ما ناتج هذا الكود؟<br><code>x = [1, 2, 3]</code><br><code>x.pop()</code><br><code>print(x)</code></div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>[1, 2, 3]</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>[1, 2]</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>[2, 3]</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>3</span></button>
+      </div>
+      <div class="quiz-explain">pop() بدون معامل تحذف وتُرجع آخر عنصر.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س18: ما ناتج هذا الكود؟<br><code>nums = [3, 1, 4, 1, 5]</code><br><code>print(sum(nums))</code></div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>5</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>14</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>15</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>11</span></button>
+      </div>
+      <div class="quiz-explain">3+1+4+1+5 = 14.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س19: ما ناتج <code>print(max([5, 2, 8, 1, 9]))</code>؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>5</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>9</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>1</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>25</span></button>
+      </div>
+      <div class="quiz-explain">max() تُرجع أكبر قيمة في القائمة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س20: ما ناتج <code>print(sorted([3, 1, 2]))</code>؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>[3, 2, 1]</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>[1, 2, 3]</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>[3, 1, 2]</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>6</span></button>
+      </div>
+      <div class="quiz-explain">sorted() تُرجع قائمة جديدة مرتبة تصاعدياً.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س21: ما ناتج هذا الكود؟<br><code>x = 10</code><br><code>x += 5</code><br><code>print(x)</code></div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>5</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>10</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>15</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>50</span></button>
+      </div>
+      <div class="quiz-explain">x += 5 يساوي x = x + 5، فتصبح x = 15.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س22: ما ناتج <code>print(int("12") + 3)</code>؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>"123"</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>15</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>"12" + 3</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>خطأ</span></button>
+      </div>
+      <div class="quiz-explain">int("12") = 12، ثم 12 + 3 = 15.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س23: ما ناتج هذا الكود؟<br><code>nums = [1, 2, 3, 4, 5]</code><br><code>print([n*2 for n in nums])</code></div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>[1, 2, 3, 4, 5]</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>[2, 4, 6, 8, 10]</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>30</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>[1, 4, 9, 16, 25]</span></button>
+      </div>
+      <div class="quiz-explain">List comprehension: نضرب كل عنصر في 2.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س24: ما ناتج هذا الكود؟<br><code>name = "Atif"</code><br><code>age = 30</code><br><code>print(f"{name} is {age}")</code></div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>{name} is {age}</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>Atif is 30</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>name is age</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>خطأ</span></button>
+      </div>
+      <div class="quiz-explain">f-string تستبدل {var} بقيمة المتغير.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س25: ما ناتج هذا الكود؟<br><code>x = 10</code><br><code>y = 3</code><br><code>print(x / y)</code></div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>3</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>3.3333333333333335</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>3.33</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>3.5</span></button>
+      </div>
+      <div class="quiz-explain">العامل / يعطي قسمة عشرية. 10/3 ≈ 3.3333... (تمثيل float).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س26: ما ناتج هذا الكود؟<br><code>try:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;x = int("abc")</code><br><code>except ValueError:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print("error")</code></div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>abc</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>error</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>0</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>None</span></button>
+      </div>
+      <div class="quiz-explain">int("abc") يرفع ValueError، فينفذ except ويطبع "error".</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س27: ما ناتج هذا الكود؟<br><code>x = "3"</code><br><code>y = 2</code><br><code>print(x * y)</code></div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>6</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>33</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>"3" * 2</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>خطأ</span></button>
+      </div>
+      <div class="quiz-explain">ضرب نص بعدد صحيح يكرّره. "3" * 2 = "33".</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س28: ما ناتج <code>print(bool(0))</code>؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>True</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>False</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>0</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>None</span></button>
+      </div>
+      <div class="quiz-explain">bool(0) = False. أي قيمة "زائفة" مثل 0 و "" و None و [] تُحول لـ False.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س29: ما ناتج هذا الكود؟<br><code>i = 0</code><br><code>while i &lt; 3:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;i += 1</code><br><code>print(i)</code></div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>2</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>3</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>0</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>حلقة لا نهائية</span></button>
+      </div>
+      <div class="quiz-explain">i تزيد حتى تصل 3، ثم يتوقف الشرط (3 &lt; 3 خطأ).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س30: ما ناتج هذا الكود؟<br><code>def square(x):</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;return x ** 2</code><br><code>print(square(7))</code></div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>14</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>7</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>49</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>None</span></button>
+      </div>
+      <div class="quiz-explain">7 ** 2 = 49 (مربع 7).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س31: ما ناتج <code>print(5 == "5")</code>؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>True</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>False</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>خطأ</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>5</span></button>
+      </div>
+      <div class="quiz-explain">5 (int) و "5" (str) من نوعين مختلفين. == بينهما False.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س32: ما ناتج هذا الكود؟<br><code>d = {"x": 1}</code><br><code>d["y"] = 2</code><br><code>print(len(d))</code></div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>1</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>2</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>3</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>"x", "y"</span></button>
+      </div>
+      <div class="quiz-explain">القاموس فيه مفتاحان "x" و "y". len() يعد المفاتيح = 2.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س33: ما ناتج <code>print("a" in "banana")</code>؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>True</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>False</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>3</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>"a"</span></button>
+      </div>
+      <div class="quiz-explain">العامل in يفحص الاحتواء. "a" موجود في "banana" → True.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س34: ما ناتج هذا الكود؟<br><code>def greet(name):</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;print(f"Hello {name}")</code><br><code>x = greet("Sara")</code><br><code>print(x)</code></div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>Hello Sara</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>Sara</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>Hello Sara<br>None</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>None</span></button>
+      </div>
+      <div class="quiz-explain">greet تطبع "Hello Sara"، لكنها لا ترجع شيئاً (لا return)، فـ x = None، يطبع None.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س35: ما ناتج هذا الكود؟<br><code>class Dog:</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;def __init__(self, name):</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.name = name</code><br><code>d = Dog("Rex")</code><br><code>print(d.name)</code></div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>Dog</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>Rex</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>name</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>self</span></button>
+      </div>
+      <div class="quiz-explain">__init__ تُسند self.name = "Rex"، فـ d.name = "Rex".</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س36: ما ناتج <code>print(abs(-7))</code>؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>-7</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>7</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>0</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>None</span></button>
+      </div>
+      <div class="quiz-explain">abs() تُرجع القيمة المطلقة. abs(-7) = 7.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س37: ما ناتج <code>print("Hi" + " " + "Atif")</code>؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>Hi+Atif</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>Hi Atif</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>HiAtif</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>"Hi Atif"</span></button>
+      </div>
+      <div class="quiz-explain">+ بين النصوص يدمجها. "Hi" + " " + "Atif" = "Hi Atif".</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س38: ما ناتج هذا الكود؟<br><code>x = 5</code><br><code>print(x &gt; 3 and x &lt; 10)</code></div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>True</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>False</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>5</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>خطأ</span></button>
+      </div>
+      <div class="quiz-explain">5 > 3 = True و 5 < 10 = True. True and True = True.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س39: ما ناتج هذا الكود؟<br><code>nums = [10, 20, 30]</code><br><code>print(nums[-2])</code></div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>10</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>20</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>30</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>خطأ</span></button>
+      </div>
+      <div class="quiz-explain">الفهرس -2 = العنصر قبل الأخير = 20.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س40: ما ناتج <code>print(round(3.7))</code>؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>3</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>4</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>3.7</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>3.5</span></button>
+      </div>
+      <div class="quiz-explain">round() تقرب لأقرب عدد صحيح. 3.7 → 4.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س41: ما ناتج هذا الكود؟<br><code>s = "AI"</code><br><code>print(s * 3)</code></div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>AI3</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>AIAIAI</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>3AI</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>خطأ</span></button>
+      </div>
+      <div class="quiz-explain">ضرب نص بعدد يكرّره. "AI" * 3 = "AIAIAI".</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س42: ما ناتج <code>print(type(3.14).__name__)</code>؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>int</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>float</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>str</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>3.14</span></button>
+      </div>
+      <div class="quiz-explain">3.14 رقم عشري، نوعه float.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س43: ما ناتج هذا الكود؟<br><code>nums = [1, 2, 3]</code><br><code>nums.reverse()</code><br><code>print(nums)</code></div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>[1, 2, 3]</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>[3, 2, 1]</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>None</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>3</span></button>
+      </div>
+      <div class="quiz-explain">reverse() تعكس القائمة في مكانها. [1,2,3] تصبح [3,2,1].</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س44: ما ناتج هذا الكود؟<br><code>a = (1, 2)</code><br><code>x, y = a</code><br><code>print(x + y)</code></div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">أ</span><span>3</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">ب</span><span>(1, 2)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">ج</span><span>12</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 0)"><span class="letter">د</span><span>خطأ</span></button>
+      </div>
+      <div class="quiz-explain">Tuple unpacking: x = 1, y = 2. x + y = 3.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text">س45: ما ناتج <code>print({1, 2, 2, 3, 3, 3})</code>؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>{1, 2, 2, 3, 3, 3}</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>{1, 2, 3}</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>[1, 2, 3]</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>6</span></button>
+      </div>
+      <div class="quiz-explain">set لا يقبل تكراراً، يحتفظ بقيم فريدة فقط: {1, 2, 3}.</div>
+    </div>
+  </div>
+
+
   <div class="section" style="text-align: center; padding: 30px; background: linear-gradient(135deg, #ede9fe, #fef3c7); border: 2px dashed var(--purple);">
     <h2 style="border: none; color: var(--purple);">🎓 أنت جاهز للنهائي!</h2>
     <p style="font-size: 16px; margin: 14px 0;">
