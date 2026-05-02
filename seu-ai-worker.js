@@ -640,13 +640,26 @@ async function generateImage(env, prompt) {
 }
 
 // =============================================================
-// Wrapper مع fallback متعدد المستويات للنصوص:
-//   1. Cloudflare Workers AI (env.AI.run) — الأسرع، يستهلك neurons
-//   2. zad-proxy عبر service binding — يحوي Pollinations + GROQ
+// Wrapper مع 4 طبقات fallback للنصوص (مرتبة بالأكثر استقراراً):
+//   1. Cloudflare Workers AI — الأسرع (يفشل عند نفاد الكوتا)
+//   2. Pollinations.ai مباشر — مجاني، بدون مفتاح، الأكثر استقراراً
+//   3. zad-proxy — chain خاص به (احتياط)
+//   4. Google Gemini API — مجاني 1500/يوم (إذا env.GEMINI_API_KEY)
 // =============================================================
 
+// fetch مع timeout للحؤول دون تعليق طويل
+async function fetchTimeout(url, opts, ms = 25000) {
+  const ctrl = new AbortController();
+  const tid = setTimeout(() => ctrl.abort(), ms);
+  try {
+    return await fetch(url, { ...opts, signal: ctrl.signal });
+  } finally {
+    clearTimeout(tid);
+  }
+}
+
 async function callTextLLM(env, model, messages, options = {}) {
-  // المحاولة الأولى: Cloudflare Workers AI
+  // ━━━━━━━━━━ الطبقة 1: Cloudflare Workers AI ━━━━━━━━━━
   try {
     const resp = await env.AI.run(model, {
       messages,
@@ -656,55 +669,120 @@ async function callTextLLM(env, model, messages, options = {}) {
     });
     const text = resp.response || resp.result?.response || '';
     if (text) return { source: 'cloudflare', text };
-    throw new Error('empty response');
+    throw new Error('empty');
   } catch (err) {
-    const msg = err.message || '';
-    console.log('Cloudflare text LLM failed:', msg.slice(0, 100));
+    console.log('CF text:', (err.message || '').slice(0, 60));
   }
 
-  // Fallback: zad-proxy عبر service binding (يحوي fallback chain: Pollinations + GROQ)
-  if (!env.ZAD_PROXY) {
-    return { source: 'failed', text: '', error: 'no_proxy_binding' };
-  }
+  // نُقصّر system prompts الطويلة لتناسب الـ fallbacks
+  const trimmedMessages = messages.map(m => {
+    if (m.role === 'system' && m.content && m.content.length > 2500) {
+      return { ...m, content: m.content.slice(0, 2500) + '\n[مختصر]' };
+    }
+    return m;
+  });
+  const maxTokens = Math.min(options.max_tokens || 800, 1500);
 
+  // ━━━━━━━━━━ الطبقة 2: Pollinations.ai مباشر ━━━━━━━━━━
+  // الأكثر استقراراً وسرعة
   try {
-    // Pollinations.ai قد يفشل مع system prompts طويلة جداً
-    // نُقصّر system messages إلى 2500 حرف max قبل الإرسال
-    const trimmedMessages = messages.map(m => {
-      if (m.role === 'system' && m.content && m.content.length > 2500) {
-        return { ...m, content: m.content.slice(0, 2500) + '\n\n[المحتوى مختصر تلقائياً للـ fallback]' };
-      }
-      return m;
-    });
-
-    const proxyReq = new Request('https://zad-proxy/ai', {
+    const resp = await fetchTimeout('https://text.pollinations.ai/', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'User-Agent': 'Mozilla/5.0',
+        'Origin': 'https://atif-alamodi.github.io'
+      },
       body: JSON.stringify({
         messages: trimmedMessages,
-        max_tokens: Math.min(options.max_tokens || 800, 1500)
+        model: 'openai',
+        seed: Math.floor(Math.random() * 99999)
       })
-    });
-
-    const resp = await env.ZAD_PROXY.fetch(proxyReq);
-
-    if (!resp.ok) {
-      console.log('zad-proxy failed:', resp.status);
-      return { source: 'failed', text: '', error: `proxy_${resp.status}` };
+    }, 20000);
+    if (resp.ok) {
+      const text = (await resp.text() || '').trim();
+      if (text && text.length > 5) {
+        if (text.startsWith('{')) {
+          try {
+            const j = JSON.parse(text);
+            const t = j.choices?.[0]?.message?.content || j.content?.[0]?.text || '';
+            if (t) return { source: 'pollinations', text: t };
+          } catch (e) {}
+        } else {
+          return { source: 'pollinations', text };
+        }
+      }
     }
-
-    const data = await resp.json();
-    if (data.error) {
-      return { source: 'failed', text: '', error: data.error };
-    }
-
-    const text = data.content?.[0]?.text || '';
-    if (!text) return { source: 'failed', text: '', error: 'empty_proxy_response' };
-    return { source: data.source || 'zad-proxy', text };
   } catch (err) {
-    console.log('zad-proxy error:', err.message);
-    return { source: 'failed', text: '', error: err.message };
+    console.log('Pollinations:', (err.message || '').slice(0, 60));
   }
+
+  // ━━━━━━━━━━ الطبقة 3: zad-proxy (احتياط) ━━━━━━━━━━
+  if (env.ZAD_PROXY) {
+    try {
+      const proxyReq = new Request('https://zad-proxy/ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: trimmedMessages, max_tokens: maxTokens })
+      });
+      const resp = await env.ZAD_PROXY.fetch(proxyReq);
+      if (resp.ok) {
+        const data = await resp.json();
+        const text = data.content?.[0]?.text || '';
+        if (text) return { source: data.source || 'zad-proxy', text };
+      }
+    } catch (err) {
+      console.log('proxy:', (err.message || '').slice(0, 60));
+    }
+  }
+
+  // ━━━━━━━━━━ الطبقة 4: Google Gemini ━━━━━━━━━━
+  let geminiKey = env.GEMINI_API_KEY;
+  if (!geminiKey && env.ZAD_KV) {
+    try { geminiKey = await env.ZAD_KV.get('admin_gemini_key'); } catch (e) {}
+  }
+  if (geminiKey && geminiKey.length > 20) {
+    try {
+      const systemMsg = trimmedMessages.find(m => m.role === 'system');
+      const conversationMsgs = trimmedMessages.filter(m => m.role !== 'system');
+      const geminiContents = conversationMsgs.map(m => ({
+        role: m.role === 'assistant' ? 'model' : 'user',
+        parts: [{ text: m.content }]
+      }));
+
+      const body = {
+        contents: geminiContents,
+        generationConfig: {
+          temperature: options.temperature ?? 0.2,
+          maxOutputTokens: maxTokens,
+          topP: options.top_p || 0.9
+        }
+      };
+      if (systemMsg) {
+        body.systemInstruction = { parts: [{ text: systemMsg.content }] };
+      }
+
+      const resp = await fetchTimeout(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        },
+        20000
+      );
+
+      if (resp.ok) {
+        const data = await resp.json();
+        const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+        if (text) return { source: 'gemini', text };
+      }
+    } catch (err) {
+      console.log('Gemini:', (err.message || '').slice(0, 60));
+    }
+  }
+
+  return { source: 'failed', text: '', error: 'all_fallbacks_failed' };
 }
 
 // =============================================================
