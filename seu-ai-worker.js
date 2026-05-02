@@ -942,17 +942,625 @@ function chartBoxPlot() {
 }
 
 // =============================================================
+// مخططات نظم التشغيل (Operating Systems)
+// =============================================================
+
+// 7) حالات العملية Process States
+function chartProcessStates() {
+  const states = [
+    { id: 'new',        ar: 'جديدة',     en: 'New',        cx: 200, cy: 380, color: PALETTE.bgBlueLite },
+    { id: 'ready',      ar: 'جاهزة',      en: 'Ready',      cx: 440, cy: 280, color: PALETTE.bgPurpleLite },
+    { id: 'running',    ar: 'قيد التنفيذ', en: 'Running',    cx: 700, cy: 380, color: PALETTE.bgPurpleDeep },
+    { id: 'waiting',    ar: 'في الانتظار', en: 'Waiting',    cx: 440, cy: 600, color: PALETTE.bgPurple },
+    { id: 'terminated', ar: 'منتهية',     en: 'Terminated', cx: 940, cy: 380, color: PALETTE.textMuted },
+  ];
+
+  let circles = '';
+  states.forEach(s => {
+    circles += `
+      <circle cx="${s.cx}" cy="${s.cy}" r="65" fill="${s.color}" opacity="0.85" stroke="${PALETTE.bgPurpleDeep}" stroke-width="3"/>
+      <foreignObject x="${s.cx - 60}" y="${s.cy - 30}" width="120" height="60">
+        <div xmlns="http://www.w3.org/1999/xhtml" style="font:700 18px 'Noto Sans Arabic',system-ui;color:white;text-align:center;direction:rtl;line-height:1.2;text-shadow:0 1px 2px rgba(0,0,0,0.3);">${s.ar}</div>
+        <div xmlns="http://www.w3.org/1999/xhtml" style="font:600 13px 'Segoe UI',system-ui;color:white;text-align:center;text-shadow:0 1px 2px rgba(0,0,0,0.3);">${s.en}</div>
+      </foreignObject>
+    `;
+  });
+
+  // الانتقالات (سهام مع تسميات)
+  const transitions = [
+    { from: 'new',     to: 'ready',      labelAr: 'قبول',         labelEn: 'admitted' },
+    { from: 'ready',   to: 'running',    labelAr: 'جدولة',        labelEn: 'dispatch' },
+    { from: 'running', to: 'ready',      labelAr: 'مقاطعة',       labelEn: 'interrupt', curve: true },
+    { from: 'running', to: 'waiting',    labelAr: 'انتظار I/O',   labelEn: 'I/O wait' },
+    { from: 'waiting', to: 'ready',      labelAr: 'اكتمال I/O',   labelEn: 'I/O complete' },
+    { from: 'running', to: 'terminated', labelAr: 'خروج',         labelEn: 'exit' },
+  ];
+
+  function findState(id) { return states.find(s => s.id === id); }
+  function edgePoint(from, to, isStart) {
+    const dx = to.cx - from.cx, dy = to.cy - from.cy;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    const r = 67;
+    const ratio = isStart ? r / dist : (dist - r) / dist;
+    return { x: from.cx + dx * ratio, y: from.cy + dy * ratio };
+  }
+
+  let arrows = '';
+  transitions.forEach((t, i) => {
+    const from = findState(t.from), to = findState(t.to);
+    const start = edgePoint(from, to, true);
+    const end = edgePoint(from, to, false);
+    const midX = (start.x + end.x) / 2;
+    const midY = (start.y + end.y) / 2;
+
+    if (t.curve) {
+      // خط منحني للعودة من Running إلى Ready
+      const cpX = (start.x + end.x) / 2;
+      const cpY = start.y - 90;
+      arrows += `<path d="M ${start.x} ${start.y} Q ${cpX} ${cpY} ${end.x} ${end.y}" stroke="${PALETTE.annotPurple}" stroke-width="2.5" fill="none"/>`;
+      arrows += `<polygon points="${end.x},${end.y} ${end.x + 8},${end.y - 12} ${end.x - 4},${end.y - 14}" fill="${PALETTE.annotPurple}"/>`;
+      arrows += `<foreignObject x="${cpX - 65}" y="${cpY - 25}" width="130" height="50"><div xmlns="http://www.w3.org/1999/xhtml" style="background:white;border:1.5px solid ${PALETTE.annotPurple};border-radius:6px;padding:3px 6px;text-align:center;font:600 12px 'Noto Sans Arabic',system-ui;color:${PALETTE.text};direction:rtl;">${t.labelAr}<br/><span style="font-family:'Segoe UI',system-ui;font-weight:400;color:${PALETTE.textMuted};font-size:11px;">${t.labelEn}</span></div></foreignObject>`;
+    } else {
+      arrows += `<line x1="${start.x}" y1="${start.y}" x2="${end.x}" y2="${end.y}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>`;
+      // رأس السهم
+      const angle = Math.atan2(end.y - start.y, end.x - start.x);
+      const a1x = end.x - 12 * Math.cos(angle - 0.4);
+      const a1y = end.y - 12 * Math.sin(angle - 0.4);
+      const a2x = end.x - 12 * Math.cos(angle + 0.4);
+      const a2y = end.y - 12 * Math.sin(angle + 0.4);
+      arrows += `<polygon points="${end.x},${end.y} ${a1x},${a1y} ${a2x},${a2y}" fill="${PALETTE.bgPurpleDeep}"/>`;
+      // التسمية
+      arrows += `<foreignObject x="${midX - 60}" y="${midY - 22}" width="120" height="44"><div xmlns="http://www.w3.org/1999/xhtml" style="background:white;border:1.5px solid ${PALETTE.bgPurpleDeep};border-radius:6px;padding:2px 6px;text-align:center;font:600 12px 'Noto Sans Arabic',system-ui;color:${PALETTE.text};direction:rtl;">${t.labelAr}<br/><span style="font-family:'Segoe UI',system-ui;font-weight:400;color:${PALETTE.textMuted};font-size:11px;">${t.labelEn}</span></div></foreignObject>`;
+    }
+  });
+
+  const inner = `
+    ${svgHeader('حالات العملية', 'Process States')}
+    ${arrows}
+    ${circles}
+    ${svgKeyFeatures([
+      { ar: 'العملية الجديدة تنتقل إلى Ready عند القبول', en: 'New → Ready when admitted', icon: '→' },
+      { ar: 'الـ scheduler ينقل العملية من Ready إلى Running', en: 'Scheduler dispatches Ready → Running', icon: '⚙' },
+      { ar: 'العملية تنتظر I/O ثم تعود للـ Ready', en: 'Wait for I/O then return to Ready', icon: '⌛' },
+      { ar: 'Terminated: انتهاء التنفيذ بشكل نهائي', en: 'Terminated: execution complete', icon: '⊘' },
+    ])}
+  `;
+  return svgWrap(inner);
+}
+
+// 8) جدولة Round Robin (مخطط جانت)
+function chartGanttRoundRobin() {
+  // 4 عمليات مع quantum=4
+  const processes = [
+    { name: 'P1', burst: 8, color: PALETTE.bgPurpleDeep },
+    { name: 'P2', burst: 4, color: PALETTE.bgPurple },
+    { name: 'P3', burst: 9, color: PALETTE.bgBlueLite },
+    { name: 'P4', burst: 5, color: PALETTE.bgPurpleLite },
+  ];
+  const quantum = 4;
+  // محاكاة Round Robin
+  const queue = processes.map(p => ({ ...p, remaining: p.burst }));
+  const timeline = [];
+  let time = 0;
+  while (queue.some(p => p.remaining > 0)) {
+    const p = queue.shift();
+    if (p.remaining === 0) continue;
+    const exec = Math.min(quantum, p.remaining);
+    timeline.push({ name: p.name, start: time, end: time + exec, color: p.color });
+    time += exec;
+    p.remaining -= exec;
+    if (p.remaining > 0) queue.push(p);
+    else queue.push(p);
+  }
+
+  const totalTime = timeline[timeline.length - 1].end;
+  const plotX = 90, plotY = 280, plotW = 900, plotH = 100;
+  const unitW = plotW / totalTime;
+
+  let blocks = '';
+  let labels = '';
+  let times = '';
+  timeline.forEach((t, i) => {
+    const x = plotX + t.start * unitW;
+    const w = (t.end - t.start) * unitW;
+    blocks += `<rect x="${x}" y="${plotY}" width="${w}" height="${plotH}" fill="${t.color}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2" opacity="0.85"/>`;
+    labels += `<text x="${x + w/2}" y="${plotY + plotH/2 + 8}" text-anchor="middle" font-size="22" font-weight="700" fill="white">${t.name}</text>`;
+    if (i === 0) times += `<text x="${plotX}" y="${plotY + plotH + 28}" text-anchor="middle" font-size="16" fill="${PALETTE.text}" font-weight="600">${t.start}</text>`;
+    times += `<text x="${x + w}" y="${plotY + plotH + 28}" text-anchor="middle" font-size="16" fill="${PALETTE.text}" font-weight="600">${t.end}</text>`;
+  });
+
+  // جدول العمليات (يسار)
+  let table = `
+    <rect x="60" y="450" width="430" height="200" rx="10" fill="${PALETTE.boxBg}" stroke="${PALETTE.boxBorder}" stroke-width="2"/>
+    <foreignObject x="70" y="460" width="410" height="40"><div xmlns="http://www.w3.org/1999/xhtml" style="font:700 18px 'Noto Sans Arabic',system-ui;color:${PALETTE.bgPurpleDeep};text-align:center;direction:rtl;">جدول العمليات / Process Table</div></foreignObject>
+    <line x1="80" y1="500" x2="470" y2="500" stroke="${PALETTE.boxBorder}" stroke-width="1"/>
+    <text x="120" y="525" text-anchor="middle" font-size="15" font-weight="600" fill="${PALETTE.text}">Process</text>
+    <text x="280" y="525" text-anchor="middle" font-size="15" font-weight="600" fill="${PALETTE.text}">Burst Time</text>
+    <text x="430" y="525" text-anchor="middle" font-size="15" font-weight="600" fill="${PALETTE.text}">Color</text>
+  `;
+  processes.forEach((p, i) => {
+    const y = 555 + i * 23;
+    table += `
+      <text x="120" y="${y}" text-anchor="middle" font-size="15" fill="${PALETTE.text}" font-weight="600">${p.name}</text>
+      <text x="280" y="${y}" text-anchor="middle" font-size="15" fill="${PALETTE.text}">${p.burst}</text>
+      <rect x="410" y="${y - 13}" width="40" height="16" fill="${p.color}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="1"/>
+    `;
+  });
+
+  // معلومات Quantum
+  const quantumBox = `
+    <rect x="540" y="450" width="450" height="200" rx="10" fill="${PALETTE.boxBg}" stroke="${PALETTE.boxBorder}" stroke-width="2"/>
+    <foreignObject x="550" y="460" width="430" height="40"><div xmlns="http://www.w3.org/1999/xhtml" style="font:700 18px 'Noto Sans Arabic',system-ui;color:${PALETTE.bgPurpleDeep};text-align:center;direction:rtl;">معلومات الجدولة / Schedule Info</div></foreignObject>
+    <line x1="560" y1="500" x2="970" y2="500" stroke="${PALETTE.boxBorder}" stroke-width="1"/>
+    <foreignObject x="560" y="510" width="410" height="35"><div xmlns="http://www.w3.org/1999/xhtml" style="font:600 16px 'Noto Sans Arabic',system-ui;color:${PALETTE.text};direction:rtl;text-align:right;">Quantum (الشريحة الزمنية): <b style="color:${PALETTE.bgPurpleDeep};">${quantum}</b> وحدات</div></foreignObject>
+    <foreignObject x="560" y="545" width="410" height="35"><div xmlns="http://www.w3.org/1999/xhtml" style="font:600 16px 'Noto Sans Arabic',system-ui;color:${PALETTE.text};direction:rtl;text-align:right;">إجمالي الوقت: <b style="color:${PALETTE.bgPurpleDeep};">${totalTime}</b> وحدة</div></foreignObject>
+    <foreignObject x="560" y="580" width="410" height="35"><div xmlns="http://www.w3.org/1999/xhtml" style="font:600 16px 'Noto Sans Arabic',system-ui;color:${PALETTE.text};direction:rtl;text-align:right;">عدد العمليات: <b style="color:${PALETTE.bgPurpleDeep};">${processes.length}</b></div></foreignObject>
+    <foreignObject x="560" y="615" width="410" height="35"><div xmlns="http://www.w3.org/1999/xhtml" style="font:500 14px 'Segoe UI',system-ui;color:${PALETTE.textMuted};direction:ltr;text-align:left;">Quantum = ${quantum}, Total Time = ${totalTime}, Processes = ${processes.length}</div></foreignObject>
+  `;
+
+  // محور زمني سفلي
+  const timeAxis = `
+    <line x1="${plotX}" y1="${plotY + plotH}" x2="${plotX + plotW}" y2="${plotY + plotH}" stroke="${PALETTE.text}" stroke-width="2"/>
+    <text x="${plotX + plotW/2}" y="${plotY + plotH + 60}" text-anchor="middle" font-size="18" fill="${PALETTE.text}" direction="rtl">المحور الزمني / Time Axis</text>
+  `;
+
+  const inner = `
+    ${svgHeader('جدولة Round Robin', 'Round Robin Scheduling')}
+    ${blocks}
+    ${labels}
+    ${times}
+    ${timeAxis}
+    ${table}
+    ${quantumBox}
+    ${svgKeyFeatures([
+      { ar: 'كل عملية تأخذ شريحة زمنية ثابتة', en: 'Each process gets fixed time quantum', icon: '◷' },
+      { ar: 'العمليات تتداول في طابور FIFO', en: 'Processes rotate in FIFO queue', icon: '⟳' },
+      { ar: 'preemptive: قابلة للاستباق', en: 'Preemptive scheduling', icon: '⏸' },
+      { ar: 'مثالية للأنظمة التفاعلية', en: 'Ideal for interactive systems', icon: '⌨' },
+    ])}
+  `;
+  return svgWrap(inner);
+}
+
+// 9) تخطيط الذاكرة Memory Layout
+function chartMemoryLayout() {
+  const segments = [
+    { ar: 'المكدس',        en: 'Stack',      desc: 'متغيرات محلية، استدعاءات الدوال', descEn: 'Local vars, function calls', color: PALETTE.bgPurpleDeep, h: 130, arrow: 'down' },
+    { ar: 'فجوة',           en: 'Free Space', desc: 'مساحة غير مستخدمة',                descEn: 'Unused memory',           color: '#F3F4F6',           h: 110, arrow: null },
+    { ar: 'الكومة',         en: 'Heap',       desc: 'تخصيص ديناميكي (malloc/new)',     descEn: 'Dynamic allocation',      color: PALETTE.bgPurple,    h: 130, arrow: 'up' },
+    { ar: 'البيانات',       en: 'BSS / Data', desc: 'متغيرات عامة وثابتة',             descEn: 'Global &amp; static vars',    color: PALETTE.bgPurpleLite, h: 110, arrow: null },
+    { ar: 'الكود',          en: 'Text',       desc: 'تعليمات البرنامج (للقراءة فقط)',  descEn: 'Program instructions (RO)', color: PALETTE.bgBlueLite,  h: 110, arrow: null },
+  ];
+
+  const boxX = 220, boxW = 320;
+  let y = 170;
+
+  let segmentsSvg = '';
+  segments.forEach((seg, i) => {
+    const isFree = seg.color === '#F3F4F6';
+    segmentsSvg += `
+      <rect x="${boxX}" y="${y}" width="${boxW}" height="${seg.h}" fill="${seg.color}" opacity="${isFree ? '1' : '0.85'}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2" stroke-dasharray="${isFree ? '6,4' : '0'}"/>
+
+      <!-- نص داخل القسم -->
+      <foreignObject x="${boxX + 10}" y="${y + 10}" width="${boxW - 20}" height="${seg.h - 20}">
+        <div xmlns="http://www.w3.org/1999/xhtml" style="height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;color:${isFree ? PALETTE.textMuted : 'white'};text-shadow:0 1px 2px rgba(0,0,0,0.25);text-align:center;">
+          <div style="font:700 22px 'Noto Sans Arabic',system-ui;direction:rtl;">${seg.ar}</div>
+          <div style="font:600 18px 'Segoe UI',system-ui;margin:4px 0;">${seg.en}</div>
+          ${!isFree ? `<div style="font:500 12px 'Noto Sans Arabic',system-ui;direction:rtl;opacity:0.95;">${seg.desc}</div>` : ''}
+        </div>
+      </foreignObject>
+
+      <!-- شرح يمين -->
+      ${!isFree ? `<foreignObject x="${boxX + boxW + 30}" y="${y + 20}" width="380" height="${seg.h - 40}"><div xmlns="http://www.w3.org/1999/xhtml" style="font:500 16px 'Noto Sans Arabic',system-ui;color:${PALETTE.text};direction:rtl;text-align:right;line-height:1.5;">${seg.desc}<br/><span style="font-family:'Segoe UI',system-ui;color:${PALETTE.textMuted};font-size:14px;">${seg.descEn}</span></div></foreignObject>` : ''}
+
+      <!-- سهم يسار -->
+      ${seg.arrow === 'down' ? `
+        <line x1="${boxX - 50}" y1="${y + 20}" x2="${boxX - 50}" y2="${y + seg.h - 20}" stroke="${PALETTE.annotPurple}" stroke-width="3"/>
+        <polygon points="${boxX - 50},${y + seg.h - 15} ${boxX - 58},${y + seg.h - 28} ${boxX - 42},${y + seg.h - 28}" fill="${PALETTE.annotPurple}"/>
+        <foreignObject x="${boxX - 200}" y="${y + 30}" width="140" height="50"><div xmlns="http://www.w3.org/1999/xhtml" style="font:600 14px 'Noto Sans Arabic',system-ui;color:${PALETTE.annotPurple};direction:rtl;text-align:left;">ينمو للأسفل<br/><span style="font-family:'Segoe UI',system-ui;font-weight:400;font-size:12px;">grows down</span></div></foreignObject>
+      ` : ''}
+      ${seg.arrow === 'up' ? `
+        <line x1="${boxX - 50}" y1="${y + seg.h - 20}" x2="${boxX - 50}" y2="${y + 20}" stroke="${PALETTE.annotBlue}" stroke-width="3"/>
+        <polygon points="${boxX - 50},${y + 15} ${boxX - 58},${y + 28} ${boxX - 42},${y + 28}" fill="${PALETTE.annotBlue}"/>
+        <foreignObject x="${boxX - 200}" y="${y + 30}" width="140" height="50"><div xmlns="http://www.w3.org/1999/xhtml" style="font:600 14px 'Noto Sans Arabic',system-ui;color:${PALETTE.annotBlue};direction:rtl;text-align:left;">ينمو للأعلى<br/><span style="font-family:'Segoe UI',system-ui;font-weight:400;font-size:12px;">grows up</span></div></foreignObject>
+      ` : ''}
+    `;
+    y += seg.h;
+  });
+
+  // عناوين العناوين
+  const addrLabels = `
+    <text x="${boxX - 8}" y="180" text-anchor="end" font-size="14" fill="${PALETTE.text}" font-weight="600" font-family="monospace">High Address</text>
+    <text x="${boxX - 8}" y="${y - 5}" text-anchor="end" font-size="14" fill="${PALETTE.text}" font-weight="600" font-family="monospace">0x00000000</text>
+  `;
+
+  const inner = `
+    ${svgHeader('تخطيط الذاكرة', 'Memory Layout')}
+    ${segmentsSvg}
+    ${addrLabels}
+    ${svgKeyFeatures([
+      { ar: 'Stack ينمو من العنوان الأعلى للأسفل', en: 'Stack grows downward from high address', icon: '↓' },
+      { ar: 'Heap ينمو من الأسفل للأعلى', en: 'Heap grows upward', icon: '↑' },
+      { ar: 'Text segment للقراءة فقط (read-only)', en: 'Text segment is read-only', icon: '🔒' },
+      { ar: 'Stack overflow عند تصادم Stack مع Heap', en: 'Stack overflow when stack meets heap', icon: '⚠' },
+    ])}
+  `;
+  return svgWrap(inner);
+}
+
+// 10) جدول الصفحات Page Table
+function chartPageTable() {
+  // العنوان الافتراضي: 16-bit (4-bit page number + 12-bit offset)
+  const inner = `
+    ${svgHeader('جدول الصفحات', 'Page Table')}
+
+    <!-- العنوان الافتراضي -->
+    <foreignObject x="80" y="180" width="900" height="40"><div xmlns="http://www.w3.org/1999/xhtml" style="font:700 20px 'Noto Sans Arabic',system-ui;color:${PALETTE.bgPurpleDeep};text-align:center;direction:rtl;">العنوان الافتراضي / Virtual Address (16-bit)</div></foreignObject>
+
+    <rect x="200" y="240" width="220" height="60" fill="${PALETTE.bgPurpleVeryLite}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
+    <foreignObject x="200" y="240" width="220" height="60"><div xmlns="http://www.w3.org/1999/xhtml" style="height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;color:${PALETTE.text};">
+      <div style="font:700 18px 'Noto Sans Arabic',system-ui;direction:rtl;">رقم الصفحة</div>
+      <div style="font:600 14px 'Segoe UI',system-ui;">VPN (4 bits)</div>
+      <div style="font:700 22px monospace;color:${PALETTE.bgPurpleDeep};margin-top:2px;">0011</div>
+    </div></foreignObject>
+
+    <rect x="420" y="240" width="320" height="60" fill="${PALETTE.bgBlueVeryLite}" stroke="${PALETTE.annotBlue}" stroke-width="2.5"/>
+    <foreignObject x="420" y="240" width="320" height="60"><div xmlns="http://www.w3.org/1999/xhtml" style="height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;color:${PALETTE.text};">
+      <div style="font:700 18px 'Noto Sans Arabic',system-ui;direction:rtl;">الإزاحة</div>
+      <div style="font:600 14px 'Segoe UI',system-ui;">Offset (12 bits)</div>
+      <div style="font:700 18px monospace;color:${PALETTE.annotBlue};margin-top:2px;">000010101100</div>
+    </div></foreignObject>
+
+    <!-- سهم نزولاً إلى Page Table -->
+    <line x1="310" y1="310" x2="310" y2="360" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
+    <polygon points="310,365 302,353 318,353" fill="${PALETTE.bgPurpleDeep}"/>
+
+    <!-- جدول الصفحات -->
+    <rect x="200" y="370" width="380" height="280" fill="white" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
+    <foreignObject x="200" y="375" width="380" height="40"><div xmlns="http://www.w3.org/1999/xhtml" style="font:700 18px 'Noto Sans Arabic',system-ui;color:${PALETTE.bgPurpleDeep};text-align:center;direction:rtl;">جدول الصفحات / Page Table</div></foreignObject>
+    <line x1="200" y1="415" x2="580" y2="415" stroke="${PALETTE.bgPurpleDeep}" stroke-width="1.5"/>
+    <line x1="390" y1="415" x2="390" y2="650" stroke="${PALETTE.bgPurpleDeep}" stroke-width="1"/>
+
+    <!-- رؤوس الأعمدة -->
+    <text x="295" y="438" text-anchor="middle" font-size="14" font-weight="700" fill="${PALETTE.bgPurpleDeep}">VPN</text>
+    <text x="485" y="438" text-anchor="middle" font-size="14" font-weight="700" fill="${PALETTE.bgPurpleDeep}">Frame #</text>
+
+    <!-- صفوف الجدول -->
+    ${[
+      { vpn: '0000', frame: '0101' },
+      { vpn: '0001', frame: '1011' },
+      { vpn: '0010', frame: '0001' },
+      { vpn: '0011', frame: '0111', highlight: true },
+      { vpn: '0100', frame: '1100' },
+      { vpn: '0101', frame: '0010' },
+    ].map((row, i) => {
+      const y = 460 + i * 30;
+      const bg = row.highlight ? `<rect x="200" y="${y - 18}" width="380" height="28" fill="${PALETTE.bgPurpleVeryLite}"/>` : '';
+      const wt = row.highlight ? '700' : '500';
+      const color = row.highlight ? PALETTE.bgPurpleDeep : PALETTE.text;
+      return `${bg}<text x="295" y="${y}" text-anchor="middle" font-size="15" font-weight="${wt}" fill="${color}" font-family="monospace">${row.vpn}</text><text x="485" y="${y}" text-anchor="middle" font-size="15" font-weight="${wt}" fill="${color}" font-family="monospace">${row.frame}</text>`;
+    }).join('')}
+
+    <!-- سهم من الجدول إلى Physical Address -->
+    <line x1="580" y1="490" x2="700" y2="490" stroke="${PALETTE.annotPurple}" stroke-width="2.5"/>
+    <polygon points="705,490 693,484 693,496" fill="${PALETTE.annotPurple}"/>
+
+    <!-- العنوان الفيزيائي -->
+    <rect x="700" y="430" width="280" height="120" fill="${PALETTE.boxBg}" stroke="${PALETTE.annotPurple}" stroke-width="2.5" rx="8"/>
+    <foreignObject x="700" y="440" width="280" height="100"><div xmlns="http://www.w3.org/1999/xhtml" style="height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;color:${PALETTE.text};">
+      <div style="font:700 16px 'Noto Sans Arabic',system-ui;direction:rtl;">العنوان الفيزيائي</div>
+      <div style="font:600 14px 'Segoe UI',system-ui;color:${PALETTE.textMuted};">Physical Address</div>
+      <div style="font:700 16px monospace;color:${PALETTE.annotPurple};margin-top:8px;">0111 | 000010101100</div>
+      <div style="font:500 12px 'Segoe UI',system-ui;color:${PALETTE.textMuted};margin-top:4px;">Frame # | Offset</div>
+    </div></foreignObject>
+
+    ${svgKeyFeatures([
+      { ar: 'العنوان الافتراضي = VPN + Offset', en: 'Virtual Address = VPN + Offset', icon: '⚄' },
+      { ar: 'جدول الصفحات يربط VPN بـ Frame #', en: 'Page table maps VPN to Frame #', icon: '⇄' },
+      { ar: 'الـ Offset لا يتغير في الترجمة', en: 'Offset stays unchanged in translation', icon: '=' },
+      { ar: 'يُمكّن الذاكرة الافتراضية والحماية', en: 'Enables virtual memory and protection', icon: '🔐' },
+    ])}
+  `;
+  return svgWrap(inner);
+}
+
+// =============================================================
+// مخططات بايثون (Python)
+// =============================================================
+
+// 11) قائمة بايثون Python List
+function chartPythonList() {
+  const items = ['"apple"', '"banana"', '42', '3.14', '"hello"', 'True'];
+  const startX = 140, y = 320, cellW = 130, cellH = 80;
+
+  let cells = '';
+  let indices = '';
+  let negIndices = '';
+  items.forEach((item, i) => {
+    const x = startX + i * cellW;
+    const colors = [PALETTE.bgBlueLite, PALETTE.bgPurpleVeryLite, PALETTE.bgPurpleLite, PALETTE.bgPurple, PALETTE.bgPurpleDeep, PALETTE.bgBlueLite];
+    cells += `
+      <rect x="${x}" y="${y}" width="${cellW}" height="${cellH}" fill="${colors[i % colors.length]}" opacity="0.85" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2"/>
+      <text x="${x + cellW/2}" y="${y + cellH/2 + 7}" text-anchor="middle" font-size="20" font-weight="700" fill="white" font-family="monospace" style="text-shadow:0 1px 2px rgba(0,0,0,0.3);">${item}</text>
+    `;
+    // Index موجب فوق
+    indices += `<text x="${x + cellW/2}" y="${y - 15}" text-anchor="middle" font-size="20" font-weight="700" fill="${PALETTE.bgPurpleDeep}">${i}</text>`;
+    // Index سالب تحت
+    const neg = -(items.length - i);
+    negIndices += `<text x="${x + cellW/2}" y="${y + cellH + 35}" text-anchor="middle" font-size="20" font-weight="700" fill="${PALETTE.annotPurple}">${neg}</text>`;
+  });
+
+  // التسميات
+  const labels = `
+    <text x="${startX - 80}" y="${y - 15}" text-anchor="end" font-size="16" fill="${PALETTE.bgPurpleDeep}" font-weight="600" direction="rtl">Index موجب</text>
+    <text x="${startX - 80}" y="${y + cellH + 35}" text-anchor="end" font-size="16" fill="${PALETTE.annotPurple}" font-weight="600" direction="rtl">Index سالب</text>
+  `;
+
+  // أمثلة على الوصول
+  const examples = `
+    <rect x="100" y="500" width="880" height="130" rx="10" fill="${PALETTE.boxBg}" stroke="${PALETTE.boxBorder}" stroke-width="2"/>
+    <foreignObject x="110" y="510" width="860" height="40"><div xmlns="http://www.w3.org/1999/xhtml" style="font:700 18px 'Noto Sans Arabic',system-ui;color:${PALETTE.bgPurpleDeep};text-align:center;direction:rtl;">أمثلة على الوصول / Access Examples</div></foreignObject>
+    <line x1="120" y1="550" x2="960" y2="550" stroke="${PALETTE.boxBorder}" stroke-width="1"/>
+    ${[
+      { code: 'list[0]',  result: '"apple"',   ar: 'العنصر الأول' },
+      { code: 'list[-1]', result: 'True',      ar: 'العنصر الأخير' },
+      { code: 'list[2]',  result: '42',        ar: 'الفهرس الثاني' },
+      { code: 'len(list)', result: '6',        ar: 'طول القائمة' },
+    ].map((ex, i) => {
+      const x = 130 + (i % 4) * 220;
+      return `
+        <text x="${x}" y="585" font-size="15" font-weight="700" fill="${PALETTE.bgPurpleDeep}" font-family="monospace">${ex.code}</text>
+        <text x="${x}" y="608" font-size="14" fill="${PALETTE.text}" font-family="monospace">→ ${ex.result}</text>
+      `;
+    }).join('')}
+  `;
+
+  const code = `
+    <rect x="100" y="180" width="880" height="80" rx="10" fill="#1F2937" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2"/>
+    <foreignObject x="110" y="195" width="860" height="60"><div xmlns="http://www.w3.org/1999/xhtml" style="font:600 18px monospace;color:#E5E7EB;direction:ltr;text-align:left;line-height:1.4;">my_list = <span style="color:#FCD34D;">[</span><span style="color:#86EFAC;">"apple", "banana"</span>, <span style="color:#FBBF24;">42, 3.14</span>, <span style="color:#86EFAC;">"hello"</span>, <span style="color:#F472B6;">True</span><span style="color:#FCD34D;">]</span></div></foreignObject>
+  `;
+
+  const inner = `
+    ${svgHeader('قائمة بايثون', 'Python List')}
+    ${code}
+    ${cells}
+    ${indices}
+    ${negIndices}
+    ${labels}
+    ${examples}
+    ${svgKeyFeatures([
+      { ar: 'مجموعة مرتبة قابلة للتعديل', en: 'Ordered, mutable collection', icon: '[]' },
+      { ar: 'تستوعب أنواع بيانات مختلفة', en: 'Holds heterogeneous types', icon: '⚏' },
+      { ar: 'الفهرسة موجبة (0, 1, ...) أو سالبة (-1)', en: 'Positive (0,1...) or negative (-1) indexing', icon: '#' },
+      { ar: 'قابلة للقص (slicing): list[1:4]', en: 'Slicing: list[start:end]', icon: '⋮' },
+    ])}
+  `;
+  return svgWrap(inner);
+}
+
+// 12) قاموس بايثون Python Dictionary
+function chartPythonDict() {
+  const pairs = [
+    { key: '"name"',    value: '"Atif"',          color: PALETTE.bgPurpleDeep },
+    { key: '"age"',     value: '35',              color: PALETTE.bgPurple },
+    { key: '"job"',     value: '"HR Manager"',    color: PALETTE.bgPurpleLite },
+    { key: '"city"',    value: '"Jeddah"',        color: PALETTE.bgBlueLite },
+    { key: '"active"',  value: 'True',            color: PALETTE.annotPurple },
+  ];
+
+  const startY = 280, rowH = 70;
+
+  let rows = '';
+  pairs.forEach((p, i) => {
+    const y = startY + i * rowH;
+    rows += `
+      <!-- Key -->
+      <rect x="200" y="${y}" width="220" height="${rowH - 10}" rx="6" fill="${p.color}" opacity="0.85" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2"/>
+      <text x="310" y="${y + (rowH - 10)/2 + 7}" text-anchor="middle" font-size="18" font-weight="700" fill="white" font-family="monospace" style="text-shadow:0 1px 2px rgba(0,0,0,0.3);">${p.key}</text>
+
+      <!-- سهم → -->
+      <line x1="425" y1="${y + (rowH - 10)/2}" x2="555" y2="${y + (rowH - 10)/2}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
+      <polygon points="560,${y + (rowH - 10)/2} 548,${y + (rowH - 10)/2 - 6} 548,${y + (rowH - 10)/2 + 6}" fill="${PALETTE.bgPurpleDeep}"/>
+
+      <!-- Value -->
+      <rect x="565" y="${y}" width="280" height="${rowH - 10}" rx="6" fill="white" stroke="${p.color}" stroke-width="2.5"/>
+      <text x="705" y="${y + (rowH - 10)/2 + 7}" text-anchor="middle" font-size="18" font-weight="700" fill="${p.color}" font-family="monospace">${p.value}</text>
+
+      <!-- نوع القيمة -->
+      <text x="870" y="${y + (rowH - 10)/2 + 5}" text-anchor="start" font-size="13" fill="${PALETTE.textMuted}" font-family="monospace">(${typeof JSON.parse(p.value.replace(/^"|"$/g, '"').replace(/True/g, 'true').replace(/False/g, 'false'))})</text>
+    `;
+  });
+
+  // تسميات الأعمدة
+  const headers = `
+    <text x="310" y="265" text-anchor="middle" font-size="20" font-weight="700" fill="${PALETTE.bgPurpleDeep}">Key</text>
+    <text x="705" y="265" text-anchor="middle" font-size="20" font-weight="700" fill="${PALETTE.bgPurpleDeep}">Value</text>
+    <foreignObject x="240" y="240" width="140" height="22"><div xmlns="http://www.w3.org/1999/xhtml" style="font:600 14px 'Noto Sans Arabic',system-ui;color:${PALETTE.textMuted};text-align:center;direction:rtl;">المفتاح</div></foreignObject>
+    <foreignObject x="635" y="240" width="140" height="22"><div xmlns="http://www.w3.org/1999/xhtml" style="font:600 14px 'Noto Sans Arabic',system-ui;color:${PALETTE.textMuted};text-align:center;direction:rtl;">القيمة</div></foreignObject>
+  `;
+
+  const code = `
+    <rect x="100" y="180" width="880" height="50" rx="10" fill="#1F2937" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2"/>
+    <foreignObject x="110" y="190" width="860" height="35"><div xmlns="http://www.w3.org/1999/xhtml" style="font:600 16px monospace;color:#E5E7EB;direction:ltr;text-align:left;">person = <span style="color:#FCD34D;">{</span><span style="color:#86EFAC;">"name"</span>: <span style="color:#86EFAC;">"Atif"</span>, <span style="color:#86EFAC;">"age"</span>: <span style="color:#FBBF24;">35</span>, <span style="color:#86EFAC;">"job"</span>: <span style="color:#86EFAC;">"HR Manager"</span><span style="color:#FCD34D;">}</span></div></foreignObject>
+  `;
+
+  const inner = `
+    ${svgHeader('قاموس بايثون', 'Python Dictionary')}
+    ${code}
+    ${headers}
+    ${rows}
+    ${svgKeyFeatures([
+      { ar: 'مجموعة من أزواج (مفتاح: قيمة)', en: 'Collection of (key: value) pairs', icon: '⚏' },
+      { ar: 'الوصول عبر المفتاح: dict[key]', en: 'Access by key: dict[key]', icon: '🔑' },
+      { ar: 'المفاتيح فريدة وغير قابلة للتغيير', en: 'Keys are unique and immutable', icon: '#' },
+      { ar: 'سرعة O(1) في البحث والإدراج', en: 'O(1) lookup and insertion', icon: '⚡' },
+    ])}
+  `;
+  return svgWrap(inner);
+}
+
+// 13) تدفق الدالة Function Flow
+function chartFunctionFlow() {
+  const inner = `
+    ${svgHeader('تدفق الدالة', 'Function Flow')}
+
+    <!-- Input -->
+    <rect x="80" y="280" width="200" height="120" rx="60" fill="${PALETTE.bgBlueLite}" stroke="${PALETTE.annotBlue}" stroke-width="3"/>
+    <foreignObject x="80" y="280" width="200" height="120"><div xmlns="http://www.w3.org/1999/xhtml" style="height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;color:${PALETTE.text};">
+      <div style="font:700 22px 'Noto Sans Arabic',system-ui;direction:rtl;">المدخلات</div>
+      <div style="font:600 18px 'Segoe UI',system-ui;color:${PALETTE.text};">Input</div>
+      <div style="font:600 14px monospace;color:${PALETTE.annotBlue};margin-top:8px;">x, y</div>
+    </div></foreignObject>
+
+    <!-- سهم -->
+    <line x1="280" y1="340" x2="400" y2="340" stroke="${PALETTE.bgPurpleDeep}" stroke-width="3"/>
+    <polygon points="405,340 393,333 393,347" fill="${PALETTE.bgPurpleDeep}"/>
+
+    <!-- Function box -->
+    <rect x="400" y="240" width="280" height="200" rx="14" fill="${PALETTE.bgPurple}" opacity="0.9" stroke="${PALETTE.bgPurpleDeep}" stroke-width="3"/>
+    <foreignObject x="400" y="240" width="280" height="200"><div xmlns="http://www.w3.org/1999/xhtml" style="height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;color:white;text-shadow:0 1px 3px rgba(0,0,0,0.4);">
+      <div style="font:700 24px 'Noto Sans Arabic',system-ui;direction:rtl;">الدالة</div>
+      <div style="font:700 22px 'Segoe UI',system-ui;">Function</div>
+      <div style="font:600 16px monospace;margin-top:14px;background:rgba(0,0,0,0.25);padding:6px 14px;border-radius:6px;">def add(x, y):</div>
+      <div style="font:600 16px monospace;margin-top:6px;background:rgba(0,0,0,0.25);padding:6px 14px;border-radius:6px;">return x + y</div>
+    </div></foreignObject>
+
+    <!-- سهم -->
+    <line x1="680" y1="340" x2="800" y2="340" stroke="${PALETTE.bgPurpleDeep}" stroke-width="3"/>
+    <polygon points="805,340 793,333 793,347" fill="${PALETTE.bgPurpleDeep}"/>
+
+    <!-- Output -->
+    <rect x="800" y="280" width="200" height="120" rx="60" fill="${PALETTE.bgPurpleLite}" stroke="${PALETTE.annotPurple}" stroke-width="3"/>
+    <foreignObject x="800" y="280" width="200" height="120"><div xmlns="http://www.w3.org/1999/xhtml" style="height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;color:${PALETTE.text};">
+      <div style="font:700 22px 'Noto Sans Arabic',system-ui;direction:rtl;">المخرجات</div>
+      <div style="font:600 18px 'Segoe UI',system-ui;">Output</div>
+      <div style="font:600 14px monospace;color:${PALETTE.annotPurple};margin-top:8px;">x + y</div>
+    </div></foreignObject>
+
+    <!-- مثال -->
+    <rect x="80" y="500" width="920" height="160" rx="14" fill="${PALETTE.boxBg}" stroke="${PALETTE.boxBorder}" stroke-width="2"/>
+    <foreignObject x="90" y="510" width="900" height="40"><div xmlns="http://www.w3.org/1999/xhtml" style="font:700 18px 'Noto Sans Arabic',system-ui;color:${PALETTE.bgPurpleDeep};text-align:center;direction:rtl;">مثال على الاستخدام / Usage Example</div></foreignObject>
+    <line x1="100" y1="550" x2="980" y2="550" stroke="${PALETTE.boxBorder}" stroke-width="1"/>
+
+    <foreignObject x="110" y="560" width="430" height="100"><div xmlns="http://www.w3.org/1999/xhtml" style="font:600 16px monospace;color:${PALETTE.text};direction:ltr;text-align:left;line-height:1.7;background:#1F2937;color:#E5E7EB;padding:14px;border-radius:8px;">
+      <div><span style="color:#A78BFA;">def</span> <span style="color:#FBBF24;">add</span>(<span style="color:#86EFAC;">x</span>, <span style="color:#86EFAC;">y</span>):</div>
+      <div>&#160;&#160;&#160;&#160;<span style="color:#A78BFA;">return</span> x + y</div>
+      <div style="margin-top:6px;">result = <span style="color:#FBBF24;">add</span>(<span style="color:#FBBF24;">3</span>, <span style="color:#FBBF24;">5</span>)</div>
+      <div><span style="color:#FCA5A5;">print</span>(result)  <span style="color:#94A3B8;"># 8</span></div>
+    </div></foreignObject>
+
+    <foreignObject x="560" y="560" width="430" height="100"><div xmlns="http://www.w3.org/1999/xhtml" style="font:500 16px 'Noto Sans Arabic',system-ui;color:${PALETTE.text};direction:rtl;text-align:right;line-height:1.7;padding:6px;">
+      <div>1. تستقبل الدالة معاملين (<span style="color:${PALETTE.bgPurpleDeep};font-weight:700;">x, y</span>)</div>
+      <div>2. تُجري عملية الجمع داخلياً</div>
+      <div>3. تُرجع نتيجة الجمع عبر <span style="color:${PALETTE.annotPurple};font-weight:700;font-family:monospace;">return</span></div>
+      <div>4. النتيجة تُسند إلى المتغير <span style="color:${PALETTE.bgPurpleDeep};font-weight:700;font-family:monospace;">result</span></div>
+    </div></foreignObject>
+
+    ${svgKeyFeatures([
+      { ar: 'الدالة كتلة من الكود قابلة لإعادة الاستخدام', en: 'Reusable block of code', icon: 'fn' },
+      { ar: 'تستقبل معاملات (parameters) وتُرجع قيمة', en: 'Takes parameters, returns value', icon: '⤳' },
+      { ar: 'تُعرَّف بـ def وتُنفَّذ بـ call', en: 'Defined with def, executed via call', icon: '()' },
+      { ar: 'تجعل الكود أنظف وأسهل في الصيانة', en: 'Makes code cleaner and maintainable', icon: '✓' },
+    ])}
+  `;
+  return svgWrap(inner);
+}
+
+// 14) مخطط الشرط If-Else
+function chartIfElseFlow() {
+  const inner = `
+    ${svgHeader('مخطط الشرط', 'If-Else Flowchart')}
+
+    <!-- Start -->
+    <ellipse cx="540" cy="200" rx="80" ry="35" fill="${PALETTE.bgPurpleDeep}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2"/>
+    <text x="540" y="207" text-anchor="middle" font-size="20" font-weight="700" fill="white">Start / بداية</text>
+
+    <!-- خط -->
+    <line x1="540" y1="235" x2="540" y2="280" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
+    <polygon points="540,285 533,273 547,273" fill="${PALETTE.bgPurpleDeep}"/>
+
+    <!-- Decision diamond -->
+    <polygon points="540,290 700,395 540,500 380,395" fill="${PALETTE.bgPurpleVeryLite}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="3"/>
+    <foreignObject x="380" y="350" width="320" height="90"><div xmlns="http://www.w3.org/1999/xhtml" style="height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;color:${PALETTE.text};">
+      <div style="font:700 18px 'Noto Sans Arabic',system-ui;direction:rtl;">هل الشرط صحيح؟</div>
+      <div style="font:600 16px 'Segoe UI',system-ui;color:${PALETTE.textMuted};">Is condition true?</div>
+      <div style="font:700 14px monospace;color:${PALETTE.bgPurpleDeep};margin-top:4px;">if x &gt; 10:</div>
+    </div></foreignObject>
+
+    <!-- True path يسار -->
+    <line x1="380" y1="395" x2="220" y2="395" stroke="${PALETTE.bgPurple}" stroke-width="2.5"/>
+    <polygon points="215,395 227,388 227,402" fill="${PALETTE.bgPurple}"/>
+    <text x="300" y="385" text-anchor="middle" font-size="16" font-weight="700" fill="${PALETTE.bgPurple}">True ✓</text>
+    <foreignObject x="260" y="402" width="100" height="22"><div xmlns="http://www.w3.org/1999/xhtml" style="font:600 13px 'Noto Sans Arabic',system-ui;color:${PALETTE.bgPurple};text-align:center;direction:rtl;">صحيح</div></foreignObject>
+
+    <!-- False path يمين -->
+    <line x1="700" y1="395" x2="860" y2="395" stroke="${PALETTE.annotPurple}" stroke-width="2.5"/>
+    <polygon points="865,395 853,388 853,402" fill="${PALETTE.annotPurple}"/>
+    <text x="780" y="385" text-anchor="middle" font-size="16" font-weight="700" fill="${PALETTE.annotPurple}">False ✗</text>
+    <foreignObject x="730" y="402" width="100" height="22"><div xmlns="http://www.w3.org/1999/xhtml" style="font:600 13px 'Noto Sans Arabic',system-ui;color:${PALETTE.annotPurple};text-align:center;direction:rtl;">خطأ</div></foreignObject>
+
+    <!-- صندوق if (يسار) -->
+    <rect x="80" y="445" width="260" height="100" rx="10" fill="${PALETTE.bgPurple}" opacity="0.85" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
+    <foreignObject x="80" y="445" width="260" height="100"><div xmlns="http://www.w3.org/1999/xhtml" style="height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;color:white;text-shadow:0 1px 2px rgba(0,0,0,0.3);">
+      <div style="font:700 20px 'Noto Sans Arabic',system-ui;direction:rtl;">نفّذ كتلة if</div>
+      <div style="font:600 14px monospace;margin-top:6px;background:rgba(0,0,0,0.25);padding:4px 10px;border-radius:4px;">print("Big")</div>
+    </div></foreignObject>
+
+    <!-- صندوق else (يمين) -->
+    <rect x="740" y="445" width="260" height="100" rx="10" fill="${PALETTE.annotPurple}" opacity="0.85" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
+    <foreignObject x="740" y="445" width="260" height="100"><div xmlns="http://www.w3.org/1999/xhtml" style="height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;color:white;text-shadow:0 1px 2px rgba(0,0,0,0.3);">
+      <div style="font:700 20px 'Noto Sans Arabic',system-ui;direction:rtl;">نفّذ كتلة else</div>
+      <div style="font:600 14px monospace;margin-top:6px;background:rgba(0,0,0,0.25);padding:4px 10px;border-radius:4px;">print("Small")</div>
+    </div></foreignObject>
+
+    <!-- خطوط للـ end -->
+    <line x1="210" y1="545" x2="210" y2="640" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
+    <line x1="210" y1="640" x2="540" y2="640" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
+    <line x1="870" y1="545" x2="870" y2="640" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
+    <line x1="870" y1="640" x2="540" y2="640" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
+    <line x1="540" y1="640" x2="540" y2="690" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2.5"/>
+    <polygon points="540,695 533,683 547,683" fill="${PALETTE.bgPurpleDeep}"/>
+
+    <!-- End -->
+    <ellipse cx="540" cy="730" rx="80" ry="35" fill="${PALETTE.bgPurpleDeep}" stroke="${PALETTE.bgPurpleDeep}" stroke-width="2"/>
+    <text x="540" y="737" text-anchor="middle" font-size="20" font-weight="700" fill="white">End / نهاية</text>
+
+    ${svgKeyFeatures([
+      { ar: 'يفحص شرطاً ويختار مساراً واحداً', en: 'Checks condition, picks one branch', icon: '?' },
+      { ar: 'if: ينفّذ إذا كان الشرط صحيحاً', en: 'if: executes when condition is True', icon: '✓' },
+      { ar: 'else: ينفّذ إذا كان الشرط خاطئاً', en: 'else: executes when condition is False', icon: '✗' },
+      { ar: 'يمكن استخدام elif لشروط متعددة', en: 'Use elif for multiple conditions', icon: '⋮' },
+    ])}
+  `;
+  return svgWrap(inner);
+}
+
+
+// =============================================================
 // نظام الكشف عن نوع المخطط من رسالة المستخدم
 // =============================================================
 function detectChartType(query) {
   const q = (query || '').toLowerCase();
   const tests = [
-    { type: 'histogram', keywords: ['مدرج تكراري', 'مدرج التكراري', 'هيستوغرام', 'histogram', 'مدرّج'] },
+    // الإحصاء
+    { type: 'histogram',           keywords: ['مدرج تكراري', 'مدرج التكراري', 'هيستوغرام', 'histogram', 'مدرّج'] },
     { type: 'normal_distribution', keywords: ['توزيع طبيعي', 'التوزيع الطبيعي', 'منحنى الجرس', 'منحنى جرس', 'bell curve', 'normal distribution', 'جرسي'] },
-    { type: 'scatter_plot', keywords: ['مخطط الانتشار', 'مخطط انتشار', 'scatter', 'plot الانتشار', 'انتشار'] },
-    { type: 'z_score', keywords: ['z-score', 'z score', 'الدرجة المعيارية', 'z value', 'درجة معيارية'] },
-    { type: 'linear_regression', keywords: ['الانحدار الخطي', 'انحدار خطي', 'linear regression', 'خط الانحدار'] },
-    { type: 'box_plot', keywords: ['مخطط الصندوق', 'box plot', 'boxplot', 'الصندوق والشعيرات', 'box-and-whisker', 'صندوقي'] },
+    { type: 'scatter_plot',        keywords: ['مخطط الانتشار', 'مخطط انتشار', 'scatter', 'plot الانتشار', 'انتشار'] },
+    { type: 'z_score',             keywords: ['z-score', 'z score', 'الدرجة المعيارية', 'z value', 'درجة معيارية'] },
+    { type: 'linear_regression',   keywords: ['الانحدار الخطي', 'انحدار خطي', 'linear regression', 'خط الانحدار'] },
+    { type: 'box_plot',            keywords: ['مخطط الصندوق', 'box plot', 'boxplot', 'الصندوق والشعيرات', 'box-and-whisker', 'صندوقي'] },
+
+    // نظم التشغيل
+    { type: 'process_states',      keywords: ['حالات العملية', 'حالات المعالجة', 'process states', 'process state', 'دورة حياة العملية', 'process diagram'] },
+    { type: 'round_robin',         keywords: ['round robin', 'rr', 'دائرية', 'دوائري', 'gantt', 'مخطط جانت', 'جدولة دائرية', 'round-robin', 'gantt chart', 'الجدولة الدوائرية'] },
+    { type: 'memory_layout',       keywords: ['تخطيط الذاكرة', 'بنية الذاكرة', 'memory layout', 'stack heap', 'مخطط الذاكرة', 'memory segments', 'stack and heap', 'الكومة والمكدس'] },
+    { type: 'page_table',          keywords: ['جدول الصفحات', 'page table', 'ترجمة العناوين', 'address translation', 'الذاكرة الافتراضية', 'virtual memory', 'paging'] },
+
+    // بايثون
+    { type: 'python_list',         keywords: ['python list', 'قائمة بايثون', 'list في بايثون', 'ارسم list', 'ارسم القائمة', 'الفهرسة في بايثون', 'list indexing'] },
+    { type: 'python_dict',         keywords: ['python dict', 'قاموس بايثون', 'dictionary بايثون', 'ارسم dict', 'ارسم القاموس', 'key value', 'مفتاح قيمة'] },
+    { type: 'function_flow',       keywords: ['تدفق الدالة', 'دالة بايثون', 'function flow', 'ارسم دالة', 'function diagram', 'كيف تعمل الدالة', 'parameters return'] },
+    { type: 'if_else_flow',        keywords: ['if else', 'if-else', 'مخطط الشرط', 'flowchart', 'مخطط تدفق', 'ارسم if', 'ارسم شرط', 'الجملة الشرطية', 'conditional flow'] },
   ];
   for (const t of tests) {
     if (t.keywords.some(k => q.includes(k))) return t.type;
@@ -962,18 +1570,26 @@ function detectChartType(query) {
 
 function buildSVGForType(type) {
   switch (type) {
-    case 'histogram': return chartHistogram();
+    // إحصاء
+    case 'histogram':           return chartHistogram();
     case 'normal_distribution': return chartNormalDistribution();
-    case 'scatter_plot': return chartScatterPlot();
-    case 'z_score': return chartZScore(1.5);
-    case 'linear_regression': return chartLinearRegression();
-    case 'box_plot': return chartBoxPlot();
+    case 'scatter_plot':        return chartScatterPlot();
+    case 'z_score':             return chartZScore(1.5);
+    case 'linear_regression':   return chartLinearRegression();
+    case 'box_plot':            return chartBoxPlot();
+    // نظم التشغيل
+    case 'process_states':      return chartProcessStates();
+    case 'round_robin':         return chartGanttRoundRobin();
+    case 'memory_layout':       return chartMemoryLayout();
+    case 'page_table':          return chartPageTable();
+    // بايثون
+    case 'python_list':         return chartPythonList();
+    case 'python_dict':         return chartPythonDict();
+    case 'function_flow':       return chartFunctionFlow();
+    case 'if_else_flow':        return chartIfElseFlow();
     default: return null;
   }
 }
-
-// تصدير للنشر مع seu-ai-worker.js
-
 
 function wantsDrawing(question) {
   const q = question || '';
