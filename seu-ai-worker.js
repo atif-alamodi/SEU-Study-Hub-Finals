@@ -575,7 +575,21 @@ ${curriculumSnippet ? `المنهج المرجعي للدقة التقنية:\n$
       }
     }
 
-    if (!parsed.topic || parsed.topic === 'AMBIGUOUS') return { ambiguous: true };
+    if (!parsed.topic) return { error: 'no_topic_field' };
+    if (parsed.topic === 'AMBIGUOUS') {
+      // تحقق إضافي: إذا كانت الرسالة الأصلية فيها كلمة مفتاحية واضحة، تجاهل AMBIGUOUS
+      // (يحدث أحياناً أن LLM يخطئ في تصنيف الطلبات الواضحة)
+      const clearKeywords = /توزيع|مدرج|تشريح|خوارزمية|دالة|كود|عملية|نظام|خلية|قلب|دماغ|رئة|كبد|معدة/;
+      if (clearKeywords.test(userMessage)) {
+        // الطلب فيه كلمة محددة - استخدمها كـ topic
+        return {
+          topic: userMessage.replace(/^(ارسم لي|ارسم|اعرض|أرني)\s+/i, '').trim(),
+          imagePrompt: parsed.imagePrompt || null,
+          labels: filterForeignScripts(parsed.labels || '')
+        };
+      }
+      return { ambiguous: true };
+    }
 
     // safety net: نتأكد من وجود الجملة الواقية في الـ prompt
     let imgPrompt = parsed.imagePrompt || '';
@@ -674,10 +688,11 @@ async function callTextLLM(env, model, messages, options = {}) {
     console.log('CF text:', (err.message || '').slice(0, 60));
   }
 
-  // نُقصّر system prompts الطويلة لتناسب الـ fallbacks
+  // نُقصّر system prompts الطويلة جداً فقط (Pollinations يفشل عند ~7000 حرف)
+  // الحد 5000 يُبقي الأمثلة والتعليمات الكاملة سليمة
   const trimmedMessages = messages.map(m => {
-    if (m.role === 'system' && m.content && m.content.length > 2500) {
-      return { ...m, content: m.content.slice(0, 2500) + '\n[مختصر]' };
+    if (m.role === 'system' && m.content && m.content.length > 5000) {
+      return { ...m, content: m.content.slice(0, 5000) + '\n[مختصر]' };
     }
     return m;
   });
