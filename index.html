@@ -146,6 +146,7 @@ html, body { font-family: 'Noto Sans Arabic', 'Cairo', sans-serif; background: v
   <div class="tab-divider"></div>
   <button class="tab-btn" data-tab="pdfs" onclick="switchTab('pdfs')"><span class="tab-icon">📚</span><span class="tab-name">ملفات المقررات</span><span class="tab-code">PDF</span></button>
   <button class="tab-btn ai-tab" data-tab="aitutor" onclick="switchTab('aitutor')"><span class="tab-icon">🤖</span><span class="tab-name">المساعد الذكي</span></button>
+  <button class="tab-btn" data-tab="quiz" onclick="switchTab('quiz')" style="background:linear-gradient(135deg,#fef3c7,#fed7aa);color:#b45309;border:1.5px solid #fbbf24;font-weight:700;"><span class="tab-icon">🎯</span><span class="tab-name">مولد الاختبارات</span></button>
 </nav>
 
 <main class="content-area">
@@ -266,6 +267,7 @@ html, body { font-family: 'Noto Sans Arabic', 'Cairo', sans-serif; background: v
   <div class="tab-panel" id="panel-xllab"><div class="loading-overlay" id="loading-xllab"><div class="spinner"></div><div class="loading-text">جاري تحميل محاكي إكسل...</div></div></div>
   <div class="tab-panel" id="panel-pdfs"><div class="loading-overlay" id="loading-pdfs"><div class="spinner"></div><div class="loading-text">جاري تحميل ملفات المقررات...</div></div></div>
   <div class="tab-panel" id="panel-aitutor"><div class="loading-overlay" id="loading-aitutor"><div class="spinner"></div><div class="loading-text">جاري تحميل المساعد الذكي...</div></div></div>
+  <div class="tab-panel" id="panel-quiz"><div class="loading-overlay" id="loading-quiz"><div class="spinner"></div><div class="loading-text">جاري تحميل مولد الاختبارات...</div></div></div>
 </main>
 
 <script>
@@ -279,7 +281,8 @@ const PAGE_URLS = {
   pylab: 'python-sim.html',
   xllab: 'excel-sim.html',
   pdfs:  'curriculum-pdfs.html',
-  aitutor: 'ai-tutor.html'
+  aitutor: 'ai-tutor.html',
+  quiz:  'quiz-generator.html'
 };
 const loadedIframes = new Set();
 function loadIframe(key) {
