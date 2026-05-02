@@ -141,6 +141,7 @@ html, body { font-family: 'Noto Sans Arabic', 'Cairo', sans-serif; background: v
   <button class="tab-btn" data-tab="xllab" onclick="switchTab('xllab')"><span class="tab-icon">📊</span><span class="tab-name">محاكي إكسل</span></button>
   <div class="tab-divider"></div>
   <button class="tab-btn" data-tab="pdfs" onclick="switchTab('pdfs')"><span class="tab-icon">📚</span><span class="tab-name">ملفات المقررات</span><span class="tab-code">PDF</span></button>
+  <button class="tab-btn" data-tab="aitutor" onclick="switchTab('aitutor')" style="background: linear-gradient(135deg, #ede9fe, #fce7f3); border: 2px solid #c084fc;"><span class="tab-icon">🤖</span><span class="tab-name">المساعد الذكي</span><span class="tab-code">AI · جديد</span></button>
 </nav>
 
 <main class="content-area">
@@ -220,6 +221,12 @@ html, body { font-family: 'Noto Sans Arabic', 'Cairo', sans-serif; background: v
         <div class="section-divider"><span class="section-divider-text"><span>📚</span><span>ملفات المقررات الأصلية</span></span></div>
 
         <div class="cards-grid" style="grid-template-columns: 1fr;">
+          <div class="subject-card tool-card" onclick="switchTab('aitutor')" style="--card-color: #7c3aed; --card-bg: linear-gradient(135deg, #ede9fe, #fce7f3); border: 3px solid #7c3aed;">
+            <div class="card-header"><div class="card-icon">🤖</div><div class="card-title"><h3>المساعد الذكي · جديد</h3><span class="card-code">AI TUTOR</span></div></div>
+            <p class="card-desc">اسأل أي سؤال عن المنهج واحصل على شرح فوري بالعربية. مدعوم بـ Llama 3.3 70B.</p>
+            <div class="card-features"><span class="card-feature">3 مواد</span><span class="card-feature">شرح فوري</span><span class="card-feature">أمثلة محسوبة</span><span class="card-feature">30 سؤال/يوم</span></div>
+            <div class="card-cta"><span class="card-cta-text">ابدأ السؤال</span><div class="card-cta-arrow">←</div></div>
+          </div>
           <div class="subject-card tool-card" onclick="switchTab('pdfs')" style="--card-color: #dc2626; --card-bg: #fee2e2;">
             <div class="card-header"><div class="card-icon">📚</div><div class="card-title"><h3>ملفات المقررات الأصلية (PDF)</h3><span class="card-code">PDF</span></div></div>
             <p class="card-desc">حمّل المناهج الكاملة بصيغة PDF كما اعتمدتها الجامعة: نظم التشغيل (مع أسئلة الأستاذة)، الإحصاء، البايثون. الملفات الكبيرة مقسمة لأجزاء.</p>
@@ -254,6 +261,7 @@ html, body { font-family: 'Noto Sans Arabic', 'Cairo', sans-serif; background: v
   <div class="tab-panel" id="panel-pylab"><div class="loading-overlay" id="loading-pylab"><div class="spinner"></div><div class="loading-text">جاري تحميل محاكي بايثون...</div></div></div>
   <div class="tab-panel" id="panel-xllab"><div class="loading-overlay" id="loading-xllab"><div class="spinner"></div><div class="loading-text">جاري تحميل محاكي إكسل...</div></div></div>
   <div class="tab-panel" id="panel-pdfs"><div class="loading-overlay" id="loading-pdfs"><div class="spinner"></div><div class="loading-text">جاري تحميل ملفات المقررات...</div></div></div>
+  <div class="tab-panel" id="panel-aitutor"><div class="loading-overlay" id="loading-aitutor"><div class="spinner"></div><div class="loading-text">جاري تحميل المساعد الذكي...</div></div></div>
 </main>
 
 <script>
@@ -266,7 +274,8 @@ const PAGE_URLS = {
   games: 'games.html',
   pylab: 'python-sim.html',
   xllab: 'excel-sim.html',
-  pdfs:  'curriculum-pdfs.html'
+  pdfs:  'curriculum-pdfs.html',
+  aitutor: 'ai-tutor.html'
 };
 const loadedIframes = new Set();
 function loadIframe(key) {
