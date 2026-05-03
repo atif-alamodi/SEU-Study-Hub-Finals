@@ -357,6 +357,7 @@ body { display: flex; min-height: 100vh; }
   <div class="progress-summary" id="progressSummary">📈 تقدمك: 0 / 10</div>
   <ul class="topic-list" id="topicList">
     <li class="topic-item" data-topic="1"><span class="topic-num">1</span><span>الإحصاء، المجتمع، النزعة المركزية</span></li>
+    <li class="topic-item" data-topic="sampling-types" style="background: linear-gradient(135deg, #ede9fe, #ddd6fe); border: 1px solid #7c3aed;"><span class="topic-num" style="background: #7c3aed; color: white;">🎯</span><span style="font-weight: 700;">أنواع العينات والمعاينة</span></li>
     <li class="topic-item" data-topic="2"><span class="topic-num">2</span><span>الارتباط وخط الاتجاه</span></li>
     <li class="topic-item" data-topic="3" style="background: linear-gradient(135deg, #cffafe, #a5f3fc); border: 1px solid #06b6d4;"><span class="topic-num" style="background: #0891b2; color: white;">3</span><span style="font-weight: 700;">⭐ التصوير البياني</span></li>
     <li class="topic-item" data-topic="dispersion" style="background: linear-gradient(135deg, #cffafe, #a5f3fc); border: 1px solid #0891b2;"><span class="topic-num" style="background: #0891b2; color: white;">4</span><span style="font-weight: 700;">🆕 مقاييس التشتت</span></li>
@@ -10621,8 +10622,276 @@ plt.show()
 </section>
 `;
 
+// ============================================================================
+// 🎯 أنواع العينات والمعاينة (من المنهج part4)
+// ============================================================================
+TOPICS['sampling-types'] = `
+<section class="topic-section" id="topic-sampling-types">
+  <div class="topic-header" style="background: linear-gradient(135deg, #7c3aed, #5b21b6);">
+    <div class="label">🎯 من المنهج · part4</div>
+    <h1>🎯 أنواع العينات والمعاينة <span class="eng">Types of Samples</span></h1>
+    <p>الأنواع الأربعة الرئيسية للعينات + المتغيرات حسب التحكم</p>
+  </div>
 
-const TOPIC_ORDER = ['1','2','3','dispersion','6','7','8','9','chart-bar','chart-line','chart-pie','chart-scatter','chart-histogram','chart-column','chart-area','chart-radar','chart-heatmap','chart-funnel','chart-waterfall','chart-bubble','10','ml','eval','11','grouped','midtermExam','quiz1','quiz2','teacherQuiz','quiz'];
+  <div class="chart-example" style="margin: 24px auto; max-width: 100%; padding: 16px; background: white; border-radius: 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); border: 1px solid #e2e8f0;">
+    <div style="text-align: center; font-size: 13px; color: #64748b; margin-bottom: 10px; font-weight: 600;">📊 أنواع العينات الأربعة - رسم توضيحي</div>
+    <svg viewBox="0 0 700 480" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;background:#f9fafb;border-radius:12px;font-family:'Noto Sans Arabic',Arial,sans-serif;">
+      <text x="350" y="32" text-anchor="middle" font-size="20" font-weight="700" fill="#4c1d95">المجتمع → العينة (4 طرق للاختيار)</text>
+      <rect x="40" y="80" width="140" height="180" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+      <text x="110" y="105" text-anchor="middle" font-size="14" font-weight="700" fill="#4c1d95">المجتمع</text>
+      <text x="110" y="123" text-anchor="middle" font-size="11" fill="#6b7280">Population (N)</text>
+      <circle cx="60" cy="145" r="5" fill="#7c3aed"/><circle cx="80" cy="148" r="5" fill="#7c3aed"/><circle cx="100" cy="143" r="5" fill="#7c3aed"/><circle cx="120" cy="150" r="5" fill="#7c3aed"/><circle cx="140" cy="145" r="5" fill="#7c3aed"/><circle cx="160" cy="148" r="5" fill="#7c3aed"/>
+      <circle cx="65" cy="170" r="5" fill="#a78bfa"/><circle cx="85" cy="175" r="5" fill="#a78bfa"/><circle cx="105" cy="172" r="5" fill="#a78bfa"/><circle cx="125" cy="178" r="5" fill="#a78bfa"/><circle cx="145" cy="172" r="5" fill="#a78bfa"/><circle cx="165" cy="175" r="5" fill="#a78bfa"/>
+      <circle cx="55" cy="200" r="5" fill="#c084fc"/><circle cx="75" cy="195" r="5" fill="#c084fc"/><circle cx="95" cy="200" r="5" fill="#c084fc"/><circle cx="115" cy="205" r="5" fill="#c084fc"/><circle cx="135" cy="200" r="5" fill="#c084fc"/><circle cx="155" cy="205" r="5" fill="#c084fc"/>
+      <circle cx="70" cy="225" r="5" fill="#d8b4fe"/><circle cx="90" cy="230" r="5" fill="#d8b4fe"/><circle cx="110" cy="225" r="5" fill="#d8b4fe"/><circle cx="130" cy="232" r="5" fill="#d8b4fe"/><circle cx="150" cy="228" r="5" fill="#d8b4fe"/>
+      <line x1="180" y1="170" x2="220" y2="170" stroke="#4c1d95" stroke-width="2" marker-end="url(#arrow)"/>
+      <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0, 10 3, 0 6" fill="#4c1d95"/></marker></defs>
+      <rect x="240" y="80" width="200" height="80" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+      <text x="340" y="105" text-anchor="middle" font-size="13" font-weight="700" fill="#1e3a8a">1. عشوائية بسيطة</text>
+      <text x="340" y="125" text-anchor="middle" font-size="10" fill="#1e3a8a">Simple Random</text>
+      <circle cx="280" cy="145" r="4" fill="#2563eb"/><circle cx="305" cy="145" r="4" fill="#2563eb"/><circle cx="330" cy="145" r="4" fill="#2563eb"/><circle cx="355" cy="145" r="4" fill="#2563eb"/><circle cx="380" cy="145" r="4" fill="#2563eb"/><circle cx="405" cy="145" r="4" fill="#2563eb"/>
+      <rect x="460" y="80" width="200" height="80" rx="10" fill="#fce7f3" stroke="#db2777" stroke-width="2"/>
+      <text x="560" y="105" text-anchor="middle" font-size="13" font-weight="700" fill="#831843">2. الطبقية</text>
+      <text x="560" y="125" text-anchor="middle" font-size="10" fill="#831843">Stratified</text>
+      <circle cx="490" cy="145" r="4" fill="#db2777"/><circle cx="510" cy="145" r="4" fill="#ec4899"/><circle cx="530" cy="145" r="4" fill="#f472b6"/><circle cx="555" cy="145" r="4" fill="#db2777"/><circle cx="575" cy="145" r="4" fill="#ec4899"/><circle cx="600" cy="145" r="4" fill="#f472b6"/><circle cx="625" cy="145" r="4" fill="#db2777"/>
+      <rect x="240" y="180" width="200" height="80" rx="10" fill="#d1fae5" stroke="#059669" stroke-width="2"/>
+      <text x="340" y="205" text-anchor="middle" font-size="13" font-weight="700" fill="#064e3b">3. المنتظمة</text>
+      <text x="340" y="225" text-anchor="middle" font-size="10" fill="#064e3b">Systematic</text>
+      <circle cx="270" cy="245" r="4" fill="#059669"/><line x1="280" y1="245" x2="305" y2="245" stroke="#059669" stroke-dasharray="2,2"/>
+      <circle cx="315" cy="245" r="4" fill="#059669"/><line x1="325" y1="245" x2="350" y2="245" stroke="#059669" stroke-dasharray="2,2"/>
+      <circle cx="360" cy="245" r="4" fill="#059669"/><line x1="370" y1="245" x2="395" y2="245" stroke="#059669" stroke-dasharray="2,2"/>
+      <circle cx="405" cy="245" r="4" fill="#059669"/>
+      <text x="385" y="260" text-anchor="middle" font-size="9" fill="#064e3b">كل k عنصر</text>
+      <rect x="460" y="180" width="200" height="80" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+      <text x="560" y="205" text-anchor="middle" font-size="13" font-weight="700" fill="#78350f">4. العنقودية</text>
+      <text x="560" y="225" text-anchor="middle" font-size="10" fill="#78350f">Cluster</text>
+      <circle cx="490" cy="245" r="3" fill="#d97706"/><circle cx="500" cy="240" r="3" fill="#d97706"/><circle cx="495" cy="250" r="3" fill="#d97706"/>
+      <text x="510" y="248" font-size="9" fill="#78350f">عنقود</text>
+      <circle cx="555" cy="245" r="3" fill="#d97706"/><circle cx="565" cy="240" r="3" fill="#d97706"/><circle cx="560" cy="250" r="3" fill="#d97706"/>
+      <text x="575" y="248" font-size="9" fill="#78350f">عنقود</text>
+      <circle cx="620" cy="245" r="3" fill="#d97706"/><circle cx="630" cy="240" r="3" fill="#d97706"/><circle cx="625" cy="250" r="3" fill="#d97706"/>
+      <rect x="40" y="290" width="620" height="170" rx="10" fill="white" stroke="#cbd5e1" stroke-width="1.5"/>
+      <text x="350" y="315" text-anchor="middle" font-size="14" font-weight="700" fill="#1e293b">متى نستخدم كل نوع؟</text>
+      <line x1="60" y1="330" x2="640" y2="330" stroke="#e2e8f0"/>
+      <text x="80" y="350" font-size="12" fill="#1e3a8a" font-weight="700">1️⃣ البسيطة:</text>
+      <text x="180" y="350" font-size="12" fill="#475569">مجتمع متجانس وحجمه معروف (لا يقل عن 30 فرد)</text>
+      <text x="80" y="375" font-size="12" fill="#831843" font-weight="700">2️⃣ الطبقية:</text>
+      <text x="180" y="375" font-size="12" fill="#475569">المجتمع به طبقات متمايزة (مثل: الأثرياء/الوسط/الفقراء)</text>
+      <text x="80" y="400" font-size="12" fill="#064e3b" font-weight="700">3️⃣ المنتظمة:</text>
+      <text x="180" y="400" font-size="12" fill="#475569">إنتاج متواصل أو ترتيب زمني (كل ساعة من خط إنتاج)</text>
+      <text x="80" y="425" font-size="12" fill="#78350f" font-weight="700">4️⃣ العنقودية:</text>
+      <text x="180" y="425" font-size="12" fill="#475569">تنظيم هرمي إداري أو جغرافي (محافظة → مدينة → منطقة)</text>
+    </svg>
+  </div>
+
+  <div class="definition-box">
+    <span class="term">المعاينة (Sampling)</span> هي عملية اختيار جزء (عينة) من المجتمع الإحصائي للدراسة. وفقاً لمنهج STA104 (part4)، توجد <strong>أربعة أنواع رئيسية</strong> للعينات العشوائية، كل واحدة تُستخدم في حالة مختلفة حسب طبيعة المجتمع.
+    <div class="logic">السؤال الأهم في الإحصاء: كيف نختار عينة تُمثّل المجتمع؟ لو سألت 100 موظف من قسم تقنية المعلومات فقط عن رأيهم في المنصة، نتيجتك ستكون متحيّزة. الاختيار الصحيح يتطلب طريقة معاينة مناسبة لطبيعة المجتمع. المنهج يحدد 4 طرق احتمالية، كل طريقة لها سياقها العملي - من خط إنتاج معجون الأسنان إلى التنظيم الإداري للمحافظات السعودية.</div>
+  </div>
+
+  <div class="objectives">
+    <h3>🎯 أهداف الدرس</h3>
+    <ul>
+      <li>التمييز بين المجتمع والعينة</li>
+      <li>إتقان أنواع العينات الأربعة من المنهج</li>
+      <li>اختيار النوع المناسب حسب طبيعة المجتمع</li>
+      <li>التعرف على أنواع المتغيرات حسب إمكانية التحكم</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#7c3aed;">👥</span> 1️⃣ المجتمع والعينة</h2>
+
+    <table class="compare-table">
+      <tr><th>الجانب</th><th>المجتمع <span class="eng">Population</span></th><th>العينة <span class="eng">Sample</span></th></tr>
+      <tr><td>عدد الأفراد</td><td>غير معروف (N)</td><td>معروف (n)</td></tr>
+      <tr><td>المتوسط</td><td>تقديري μ (يُخمّن)</td><td>حسابي x̄ (يُحسب)</td></tr>
+      <tr><td>الحجم</td><td>كبير جداً عادة</td><td>جزء صغير من المجتمع</td></tr>
+      <tr><td>الاستخدام</td><td>الهدف النهائي للدراسة</td><td>أداة لاستنتاج المجتمع</td></tr>
+    </table>
+
+    <div class="story-box">
+      <strong>لماذا العينة؟</strong> دراسة 350,000 طالب SEU مستحيلة. نأخذ عينة 1000 طالب، نحسب متوسطهم، ثم <strong>نقدّر</strong> متوسط المجتمع كله. متوسط العينة x̄ معروف ومحسوب، أما متوسط المجتمع μ فيُخمَّن ضمن مجال يسمى "مجال الثقة".
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#2563eb;">1️⃣</span> العينة العشوائية البسيطة <span class="eng">Simple Random Sample</span></h2>
+    <ul>
+      <li>أصغر وأبسط أنواع العينات</li>
+      <li>تُؤخذ بطريقة عشوائية بحيث كل فرد له نفس فرصة الاختيار</li>
+      <li><strong>قاعدة أساسية من المنهج:</strong> يجب ألا يقل عدد أفرادها عن <strong>30 فرد أو عنصر</strong></li>
+    </ul>
+
+    <div class="formula-box">
+      <div class="formula-name">في Excel</div>
+      <div class="formula">=RANDBETWEEN(1, N)</div>
+      <div class="legend">N = حجم المجتمع. مثال: =RANDBETWEEN(1, 500) لاختيار من 500 عنصر</div>
+    </div>
+
+    <div class="story-box">
+      <strong>مثال:</strong> سحب 30 طالب عشوائياً من قائمة 500 طالب. كل طالب له نفس فرصة الاختيار (1/500). نُولّد 30 رقماً عشوائياً ونأخذ الطلاب المرتبطين بها.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#db2777;">2️⃣</span> العينة العشوائية الطبقية <span class="eng">Stratified Random Sample</span></h2>
+    <ul>
+      <li>تُؤخذ من المجتمع إذا كان على شكل <strong>طبقات</strong></li>
+      <li>أو إذا كان الهدف دراسة طبقات المجتمع</li>
+      <li>عند دراسة المجتمع: من كل طبقة نأخذ عينة <strong>حسب حجم الطبقة</strong></li>
+    </ul>
+
+    <div class="story-box">
+      <strong>مثال من المنهج:</strong> المجتمع العربي طبقات من ناحية الغنى:
+      <ul style="margin-top: 10px;">
+        <li>طبقة الأثرياء</li>
+        <li>طبقة الأغنياء</li>
+        <li>طبقة الوسط</li>
+        <li>طبقة الفقراء</li>
+        <li>طبقة المعدمين</li>
+      </ul>
+      نأخذ عينة من كل طبقة بنسبة حجمها في المجتمع، فتمثّل العينة كل الطبقات.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#059669;">3️⃣</span> العينة العشوائية المنتظمة <span class="eng">Systematic Random Sample</span></h2>
+    <ul>
+      <li>تُؤخذ بطريقة عشوائية ولكن في <strong>فترات منتظمة</strong> أو من <strong>أماكن منتظمة</strong></li>
+      <li>سهلة التطبيق وأقل تكلفة من البسيطة</li>
+    </ul>
+
+    <div class="story-box">
+      <strong>مثال من المنهج:</strong> شركة تنتج معجون أسنان وتريد اختبار المنتجات → أخذ العينات:
+      <ul style="margin-top: 10px;">
+        <li>كل ساعة من خط الإنتاج</li>
+        <li>أو كل يوم</li>
+        <li>أو كل أسبوع</li>
+      </ul>
+      الانتظام يضمن تغطية فترات مختلفة من الإنتاج.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#d97706;">4️⃣</span> العينة العشوائية العنقودية <span class="eng">Cluster Random Sample</span></h2>
+    <ul>
+      <li>تُؤخذ إذا كان المجتمع مرتب بطريقة <strong>عنقودية</strong></li>
+      <li>أو على شكل <strong>تنظيمات هرمية</strong></li>
+      <li>نختار عناقيد كاملة بدلاً من أفراد متفرقين</li>
+    </ul>
+
+    <div class="story-box">
+      <strong>مثالان من المنهج:</strong>
+      <ul style="margin-top: 10px;">
+        <li><strong>التنظيم الإداري للمحافظات في السعودية:</strong><br>
+        محافظة ← مدينة ← منطقة</li>
+        <li><strong>التنظيم في الجامعات:</strong><br>
+        الجامعة ← الكلية ← القسم ← الشُعب ← الفئات ← المجموعات</li>
+      </ul>
+      نختار عنقوداً كاملاً (مثل كلية كاملة) ونأخذ كل أفرادها.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#7c3aed;">📊</span> ملخص: أي نوع نختار؟</h2>
+    <table class="compare-table">
+      <tr><th>النوع</th><th>متى نستخدمها</th><th>مثال تطبيقي</th></tr>
+      <tr><td><strong style="color:#1e3a8a;">البسيطة</strong></td><td>مجتمع متجانس وحجمه معروف</td><td>30 طالب من 500</td></tr>
+      <tr><td><strong style="color:#831843;">الطبقية</strong></td><td>مجتمع به طبقات متمايزة</td><td>الأغنياء، الوسط، الفقراء</td></tr>
+      <tr><td><strong style="color:#064e3b;">المنتظمة</strong></td><td>إنتاج متواصل أو ترتيب زمني</td><td>كل ساعة من خط الإنتاج</td></tr>
+      <tr><td><strong style="color:#78350f;">العنقودية</strong></td><td>تنظيم هرمي (إداري/جغرافي)</td><td>المحافظات، الجامعات</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#7c3aed;">📐</span> أنواع المتغيرات حسب إمكانية التحكم</h2>
+    <p>المنهج (part4) يصنّف المتغيرات حسب إمكانية التحكم بها إلى نوعين:</p>
+
+    <table class="compare-table">
+      <tr><th>النوع</th><th>التعريف</th><th>أمثلة</th></tr>
+      <tr><td><strong>المتغيرات العشوائية</strong><br><span class="eng">Random Variables</span></td><td>المتغيرات التي <strong>لا يمكن</strong> التحكم بها</td><td>درجة الحرارة، نسبة الرطوبة، سرعة الرياح</td></tr>
+      <tr><td><strong>المتغيرات اللاعشوائية (النظامية)</strong><br><span class="eng">Controlled Variables</span></td><td>يمكن التحكم بها وتحديدها <strong>مسبقاً</strong></td><td>كمية السماد المضافة، جرعات الدواء، عدد الريات</td></tr>
+    </table>
+
+    <div class="tip-box">
+      <strong>أهمية التمييز:</strong> في التجارب العلمية، نتحكم في المتغيرات النظامية (المستقلة) ونلاحظ أثرها على المتغيرات العشوائية (التابعة). هذا أساس البحث التجريبي السليم.
+    </div>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon" style="background:#7c3aed;">📝</span> اختبر فهمك</h2>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س1:</strong> شركة معجون أسنان تأخذ عينة من المنتج كل ساعة من خط الإنتاج. ما نوع العينة؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>عشوائية بسيطة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>طبقية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>منتظمة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>عنقودية</span></button>
+      </div>
+      <div class="quiz-explain">المثال موجود حرفياً في المنهج: أخذ عينات في فترات منتظمة (كل ساعة) من خط إنتاج = عينة عشوائية منتظمة Systematic.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س2:</strong> دراسة طلاب الجامعات السعودية. اختار الباحث 5 جامعات عشوائياً وأخذ كل طلاب كلية واحدة من كل جامعة. ما النوع؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 3)"><span class="letter">أ</span><span>عشوائية بسيطة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 3)"><span class="letter">ب</span><span>طبقية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 3)"><span class="letter">ج</span><span>منتظمة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 3)"><span class="letter">د</span><span>عنقودية</span></button>
+      </div>
+      <div class="quiz-explain">المنهج يذكر التنظيم الجامعي كمثال للعنقودية: الجامعة ← الكلية ← القسم. اختيار عناقيد كاملة (كليات) = عنقودية.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س3:</strong> الحد الأدنى لأفراد العينة العشوائية البسيطة حسب المنهج:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>10</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>30</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>100</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>500</span></button>
+      </div>
+      <div class="quiz-explain">المنهج ينص بوضوح: "يجب ألا يقل عدد أفرادها عن 30 فرد أو عنصر".</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س4:</strong> دراسة أثر السماد على نمو النبات. السماد متغير:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>عشوائي (لا يمكن التحكم)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>كمي وعشوائي</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>لا عشوائي / نظامي / يمكن التحكم</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>نوعي</span></button>
+      </div>
+      <div class="quiz-explain">المنهج يذكر "كمية السماد المضافة" كمثال للمتغيرات النظامية Controlled Variables - يمكن للباحث تحديدها مسبقاً.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س5:</strong> إذا أردت دراسة دخل المجتمع السعودي بالنظر لطبقاته (الأثرياء، الوسط، الفقراء)، أفضل عينة:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>عشوائية بسيطة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>طبقية</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>منتظمة</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>عنقودية</span></button>
+      </div>
+      <div class="quiz-explain">المثال نفسه من المنهج: المجتمع العربي طبقات من ناحية الغنى. نأخذ من كل طبقة عينة بحجم الطبقة - عينة طبقية Stratified.</div>
+    </div>
+  </div>
+
+  <div class="tip-box" style="background: linear-gradient(135deg, #ede9fe, #ddd6fe); border-color: #7c3aed;">
+    <strong>📌 خلاصة الدرس (من منهج STA104 - part4):</strong>
+    <ul style="margin-top: 8px;">
+      <li><strong>4 أنواع للعينات:</strong> البسيطة، الطبقية، المنتظمة، العنقودية</li>
+      <li><strong>الحد الأدنى:</strong> 30 فرد للعينة البسيطة</li>
+      <li><strong>الأمثلة الرسمية في المنهج:</strong> طبقات الغنى، معجون الأسنان، المحافظات السعودية، التنظيم الجامعي</li>
+      <li><strong>المتغيرات حسب التحكم:</strong> عشوائية (لا يمكن التحكم) vs نظامية (يمكن التحكم)</li>
+    </ul>
+  </div>
+</section>
+`;
+
+
+const TOPIC_ORDER = ['1','sampling-types','2','3','dispersion','6','7','8','9','chart-bar','chart-line','chart-pie','chart-scatter','chart-histogram','chart-column','chart-area','chart-radar','chart-heatmap','chart-funnel','chart-waterfall','chart-bubble','10','ml','eval','11','grouped','midtermExam','quiz1','quiz2','teacherQuiz','quiz'];
 const container = document.getElementById('topicsContainer');
 TOPIC_ORDER.forEach(id => {
   if (TOPICS[id]) {
