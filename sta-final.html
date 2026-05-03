@@ -1710,6 +1710,230 @@ model = <span class="func">LinearRegression</span>().<span class="func">fit</spa
   </div>
 
   <div class="section">
+    <h2><span class="icon" style="background:#0891b2;">📊</span> تفسير قيم معامل الارتباط</h2>
+    <p>المنهج يحدد معايير دقيقة لتفسير قوة الارتباط بناءً على القيمة المطلقة |r|:</p>
+
+    <table class="compare-table">
+      <tr><th>قيمة |r|</th><th>قوة الارتباط</th><th>التفسير</th></tr>
+      <tr><td>0.0 - 0.2</td><td>ضعيف جداً</td><td>لا يكاد يوجد ارتباط</td></tr>
+      <tr><td>0.2 - 0.4</td><td>ضعيف</td><td>ارتباط محدود</td></tr>
+      <tr><td>0.4 - 0.6</td><td>متوسط</td><td>ارتباط ملحوظ</td></tr>
+      <tr><td>0.6 - 0.8</td><td>قوي</td><td>ارتباط واضح</td></tr>
+      <tr><td>0.8 - 1.0</td><td>قوي جداً</td><td>ارتباط شبه تام</td></tr>
+    </table>
+
+    <div class="tip-box">
+      <strong>📌 ملاحظة:</strong> القيمة الموجبة تعني علاقة طردية، والسالبة عكسية. القيمة المطلقة تحدد قوة العلاقة بغض النظر عن اتجاهها.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#16a34a;">🧮</span> مثال محسوب كامل: حساب معامل الارتباط في 7 خطوات</h2>
+    <p>هذا المثال من المنهج يوضح حساب معامل الارتباط لـ 5 طلاب يدوياً، خطوة بخطوة:</p>
+
+    <h3>البيانات</h3>
+    <table class="compare-table">
+      <tr><th>الطالب</th><th>ساعات الدراسة (X)</th><th>الدرجات (Y)</th></tr>
+      <tr><td>1</td><td>2</td><td>65</td></tr>
+      <tr><td>2</td><td>4</td><td>75</td></tr>
+      <tr><td>3</td><td>6</td><td>85</td></tr>
+      <tr><td>4</td><td>8</td><td>90</td></tr>
+      <tr><td>5</td><td>10</td><td>95</td></tr>
+    </table>
+
+    <h3>الخطوة 1: حساب المتوسطات</h3>
+    <div class="formula-box">
+      <div class="formula">x̄ = (2+4+6+8+10) ÷ 5 = 30 ÷ 5 = <strong>6</strong></div>
+      <div class="formula">ȳ = (65+75+85+90+95) ÷ 5 = 410 ÷ 5 = <strong>82</strong></div>
+    </div>
+
+    <h3>الخطوة 2: حساب الانحرافات عن المتوسط</h3>
+    <table class="compare-table">
+      <tr><th>i</th><th>X</th><th>Y</th><th>(xi - x̄)</th><th>(yi - ȳ)</th></tr>
+      <tr><td>1</td><td>2</td><td>65</td><td>2-6 = -4</td><td>65-82 = -17</td></tr>
+      <tr><td>2</td><td>4</td><td>75</td><td>4-6 = -2</td><td>75-82 = -7</td></tr>
+      <tr><td>3</td><td>6</td><td>85</td><td>6-6 = 0</td><td>85-82 = 3</td></tr>
+      <tr><td>4</td><td>8</td><td>90</td><td>8-6 = 2</td><td>90-82 = 8</td></tr>
+      <tr><td>5</td><td>10</td><td>95</td><td>10-6 = 4</td><td>95-82 = 13</td></tr>
+    </table>
+
+    <h3>الخطوة 3: حاصل ضرب الانحرافات</h3>
+    <table class="compare-table">
+      <tr><th>i</th><th>(xi-x̄)</th><th>(yi-ȳ)</th><th>الحاصل</th></tr>
+      <tr><td>1</td><td>-4</td><td>-17</td><td>(-4)×(-17) = 68</td></tr>
+      <tr><td>2</td><td>-2</td><td>-7</td><td>(-2)×(-7) = 14</td></tr>
+      <tr><td>3</td><td>0</td><td>3</td><td>0×3 = 0</td></tr>
+      <tr><td>4</td><td>2</td><td>8</td><td>2×8 = 16</td></tr>
+      <tr><td>5</td><td>4</td><td>13</td><td>4×13 = 52</td></tr>
+    </table>
+    <div class="formula-box">
+      <div class="formula">Σ[(xi - x̄)(yi - ȳ)] = 68 + 14 + 0 + 16 + 52 = <strong>150</strong></div>
+    </div>
+
+    <h3>الخطوة 4: مربع انحرافات X</h3>
+    <table class="compare-table">
+      <tr><th>(xi-x̄)</th><th>(xi-x̄)²</th></tr>
+      <tr><td>-4</td><td>16</td></tr>
+      <tr><td>-2</td><td>4</td></tr>
+      <tr><td>0</td><td>0</td></tr>
+      <tr><td>2</td><td>4</td></tr>
+      <tr><td>4</td><td>16</td></tr>
+    </table>
+    <div class="formula-box">
+      <div class="formula">Σ(xi - x̄)² = 16 + 4 + 0 + 4 + 16 = <strong>40</strong></div>
+    </div>
+
+    <h3>الخطوة 5: مربع انحرافات Y</h3>
+    <table class="compare-table">
+      <tr><th>(yi-ȳ)</th><th>(yi-ȳ)²</th></tr>
+      <tr><td>-17</td><td>289</td></tr>
+      <tr><td>-7</td><td>49</td></tr>
+      <tr><td>3</td><td>9</td></tr>
+      <tr><td>8</td><td>64</td></tr>
+      <tr><td>13</td><td>169</td></tr>
+    </table>
+    <div class="formula-box">
+      <div class="formula">Σ(yi - ȳ)² = 289 + 49 + 9 + 64 + 169 = <strong>580</strong></div>
+    </div>
+
+    <h3>الخطوة 6: تطبيق المعادلة</h3>
+    <div class="formula-box" style="background:#fef9c3;">
+      <div class="formula">r = 150 / √(40 × 580)</div>
+      <div class="formula">r = 150 / √23,200</div>
+      <div class="formula">r = 150 / 152.315</div>
+      <div class="formula" style="font-size:1.4em; color:#16a34a;"><strong>r = 0.985</strong></div>
+    </div>
+
+    <h3>الخطوة 7: تفسير النتيجة</h3>
+    <ul>
+      <li>القيمة <strong>0.985</strong> قريبة جداً من +1</li>
+      <li><strong>الاتجاه:</strong> إيجابي (علاقة طردية)</li>
+      <li><strong>القوة:</strong> قوية جداً (أكبر من 0.8)</li>
+      <li><strong>المعنى:</strong> توجد علاقة إيجابية قوية جداً بين ساعات الدراسة والدرجات</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#7c3aed;">📈</span> خط الانحدار الخطي (Line of Best Fit)</h2>
+    <p>بعد حساب الارتباط، نريد بناء معادلة تنبؤية. <strong>خط الانحدار الخطي</strong> هو أفضل خط يمر بالنقاط ويصف العلاقة:</p>
+
+    <div class="formula-box">
+      <div class="formula-name">معادلة خط الانحدار</div>
+      <div class="formula" style="font-size:1.3em;">y = a + bx</div>
+      <div class="legend">a = نقطة التقاطع (Intercept) — قيمة Y عندما X=0<br>b = الميل (Slope) — معدل التغير في Y لكل وحدة X</div>
+    </div>
+
+    <h3>صيغ حساب a و b</h3>
+    <div class="formula-box">
+      <div class="formula-name">الميل b</div>
+      <div class="formula">b = Σ(X - x̄)(Y - ȳ) / Σ(X - x̄)²</div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-name">نقطة التقاطع a</div>
+      <div class="formula">a = ȳ - b × x̄</div>
+    </div>
+
+    <h3>تطبيق على نفس بيانات الطلاب السابقة</h3>
+    <p>لدينا من الحسابات السابقة: Σ(X-x̄)(Y-ȳ) = 150، Σ(X-x̄)² = 40، x̄=6، ȳ=82</p>
+
+    <div class="formula-box">
+      <div class="formula">b = 150 / 40 = <strong>3.75</strong></div>
+      <div class="formula">a = 82 - 3.75 × 6 = 82 - 22.5 = <strong>59.5</strong></div>
+      <div class="formula" style="font-size:1.3em; color:#7c3aed;"><strong>Y = 59.5 + 3.75 X</strong></div>
+    </div>
+
+    <div class="tip-box">
+      <strong>تفسير النتيجة:</strong>
+      <ul style="margin-top:8px;">
+        <li><strong>الميل b = 3.75:</strong> كل ساعة دراسة إضافية تزيد الدرجة بـ 3.75 نقطة</li>
+        <li><strong>نقطة التقاطع a = 59.5:</strong> الدرجة المتوقعة لطالب لا يدرس (X=0) هي 59.5</li>
+      </ul>
+    </div>
+
+    <h3>التنبؤ بقيم جديدة</h3>
+    <p>إذا أراد طالب أن يدرس <strong>7 ساعات</strong>، ما الدرجة المتوقعة؟</p>
+    <div class="formula-box">
+      <div class="formula">Y(7) = 59.5 + 3.75 × 7 = 59.5 + 26.25 = <strong>85.75</strong></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#dc2626;">💼</span> مثال تطبيقي: تحليل المبيعات والإعلانات</h2>
+    <p>تطبيق عملي من المنهج: شركة تريد دراسة العلاقة بين ميزانية الإعلانات والمبيعات لاتخاذ قرارات تسويقية.</p>
+
+    <h3>الفرضية</h3>
+    <ul>
+      <li>المتغير المستقل (X): ميزانية الإعلانات (آلاف الريالات)</li>
+      <li>المتغير التابع (Y): المبيعات (آلاف الريالات)</li>
+      <li>السؤال: هل زيادة الإنفاق الإعلاني ترفع المبيعات فعلاً؟</li>
+    </ul>
+
+    <h3>كود Python كامل</h3>
+    <pre style="background:#1e293b; color:#e2e8f0; padding:14px; border-radius:8px; direction:ltr; text-align:left; overflow-x:auto;">
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+# إنشاء بيانات وهمية لمبيعات منتج
+np.random.seed(42)
+ads = np.random.uniform(1000, 10000, 50)
+sales = ads * 0.8 + 2000 + np.random.normal(0, 500, 50)
+
+sales_data = pd.DataFrame({
+    'ميزانية_الاعلانات': ads,
+    'المبيعات': sales
+})
+
+# 1. حساب الارتباط
+correlation = sales_data['ميزانية_الاعلانات'].corr(sales_data['المبيعات'])
+print(f"معامل الارتباط: {correlation:.3f}")
+
+# 2. بناء نموذج الانحدار
+X = sales_data[['ميزانية_الاعلانات']].values
+y = sales_data['المبيعات'].values
+model = LinearRegression()
+model.fit(X, y)
+
+print(f"المعادلة: y = {model.intercept_:.2f} + {model.coef_[0]:.2f} x")
+print(f"R² = {model.score(X, y):.3f}")
+
+# 3. التنبؤ بمبيعات لميزانية إعلانات 5000
+predicted = model.predict([[5000]])
+print(f"المبيعات المتوقعة لميزانية 5000: {predicted[0]:.2f}")
+</pre>
+
+    <div class="story-box">
+      <strong>القرار التسويقي:</strong> إذا اكتشفنا أن b=0.8 وارتباط 0.85 (قوي جداً)، فكل ريال إعلان يولّد 0.8 ريال مبيعات إضافية. إذا أردنا زيادة المبيعات بـ 8000 ريال، يجب زيادة الإعلانات بـ 10000 ريال تقريباً. هذا أساس قرارات الميزانية.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#0891b2;">🔮</span> مقدمة للتنبؤ الإحصائي</h2>
+    <p>التنبؤ هو الهدف النهائي من تحليل الارتباط والانحدار. المنهج يعرّفه:</p>
+
+    <div class="definition-box">
+      <span class="term">التنبؤ الإحصائي</span> هو عملية استخدام البيانات التاريخية والنماذج الإحصائية للتنبؤ بقيم مستقبلية.
+    </div>
+
+    <h3>أنواع التنبؤ حسب المدى الزمني</h3>
+    <table class="compare-table">
+      <tr><th>النوع</th><th>المدى الزمني</th><th>أمثلة</th></tr>
+      <tr><td><strong>قصير المدى</strong></td><td>أيام، أسابيع</td><td>التنبؤ بالطقس، حركة المرور</td></tr>
+      <tr><td><strong>متوسط المدى</strong></td><td>شهور</td><td>المبيعات الشهرية، الإيرادات الفصلية</td></tr>
+      <tr><td><strong>طويل المدى</strong></td><td>سنوات</td><td>التخطيط الاستراتيجي، توقعات الاقتصاد</td></tr>
+    </table>
+
+    <h3>أهمية التنبؤ في الأعمال</h3>
+    <ul>
+      <li><strong>التخطيط الاستراتيجي:</strong> رسم اتجاه الشركة بناءً على توقعات السوق</li>
+      <li><strong>إدارة المخزون:</strong> توفير المنتجات قبل الحاجة</li>
+      <li><strong>التنبؤ بالمبيعات:</strong> تخطيط الإنتاج والتوظيف</li>
+      <li><strong>التنبؤ بالأداء المالي:</strong> الميزانيات والأرباح المستقبلية</li>
+    </ul>
+  </div>
+
+  <div class="section">
     <h2><span class="icon">📊</span> دوال إكسل المهمة</h2>
     <table class="compare-table">
       <tr><th>الوظيفة</th><th>دالة إكسل</th><th>المثال</th></tr>
@@ -4063,6 +4287,62 @@ freq, _ = np.<span class="func">histogram</span>(scores, bins=bins)
         </button>
         <button class="step-btn reset" onclick="resetStepSolver('solver-3-1')">🔄 إعادة</button>
       </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#16a34a;">🎓</span> مثال محسوب من المنهج: أعمار 50 طالب</h2>
+    <p>هذا مثال كامل من المنهج (part3) يوضح بناء جدول تكراري ومدرج لبيانات حقيقية.</p>
+
+    <h3>البيانات الخام (50 طالب)</h3>
+    <div style="background:#f1f5f9; padding:14px; border-radius:8px; font-family:monospace; direction:ltr; text-align:left; font-size:13px; line-height:1.8;">
+18, 19, 17, 20, 21, 18, 19, 22, 17, 20,<br>
+19, 18, 21, 20, 19, 18, 17, 22, 21, 20,<br>
+23, 19, 18, 20, 21, 19, 17, 18, 20, 22,<br>
+19, 21, 18, 20, 19, 17, 21, 22, 20, 19,<br>
+18, 20, 21, 19, 17, 20, 18, 21, 19, 22
+    </div>
+
+    <h3>الخطوة 1: تحديد المدى</h3>
+    <ul>
+      <li>أصغر قيمة = 17</li>
+      <li>أكبر قيمة = 23</li>
+      <li><strong>المدى = 23 - 17 = 6</strong></li>
+    </ul>
+
+    <h3>الخطوة 2: تحديد عدد الفئات وطول الفئة</h3>
+    <ul>
+      <li>عدد الفئات المقترح = 4 فئات</li>
+      <li>طول الفئة = 6 ÷ 4 = 1.5 ≈ <strong>2</strong></li>
+    </ul>
+
+    <h3>الخطوة 3: تكوين الجدول التكراري</h3>
+    <table class="compare-table">
+      <tr><th>الفئة العمرية</th><th>التكرار</th><th>التكرار النسبي %</th></tr>
+      <tr><td>17 - 18</td><td>14</td><td>28%</td></tr>
+      <tr><td>19 - 20</td><td>24</td><td>48%</td></tr>
+      <tr><td>21 - 22</td><td>11</td><td>22%</td></tr>
+      <tr><td>23 - 24</td><td>1</td><td>2%</td></tr>
+      <tr style="background:#fef9c3; font-weight:bold;"><td>المجموع</td><td>50</td><td>100%</td></tr>
+    </table>
+
+    <div class="formula-box">
+      <div class="formula-name">صيغة التكرار النسبي</div>
+      <div class="formula">التكرار النسبي = (تكرار الفئة ÷ المجموع الكلي) × 100%</div>
+      <div class="legend">مثال: 14 ÷ 50 × 100 = 28%</div>
+    </div>
+
+    <h3>الخطوة 4: تفسير النتائج</h3>
+    <ul>
+      <li>أكثر الطلاب (<strong>48%</strong>) في الفئة العمرية 19-20 سنة</li>
+      <li>التوزيع يميل قليلاً نحو الأعمار الأصغر</li>
+      <li>المتوسط (19.4) أكبر من الوسيط (19) - <strong>التواء طفيف لليمين</strong></li>
+      <li>انحراف معياري منخفض (1.48) يدل على <strong>تجانس العينة</strong></li>
+      <li>76% من الطلاب أعمارهم 20 سنة أو أقل</li>
+    </ul>
+
+    <div class="tip-box">
+      <strong>قاعدة الإكسل:</strong> Insert → Charts → Histogram → اضبط عدد الفئات حسب الحاجة. في Python: <code>plt.hist(ages, bins=4)</code>
     </div>
   </div>
 
