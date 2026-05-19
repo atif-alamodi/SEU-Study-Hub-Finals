@@ -11,7 +11,7 @@
 :root {
   --primary: #2563eb; --accent: #7c3aed; --success: #16a34a;
   --bg: #f8fafc; --white: #ffffff; --text: #1e293b; --text-muted: #64748b;
-  --border: #e2e8f0; --osc: #2563eb; --sta: #f59e0b; --pyt: #16a34a;
+  --border: #e2e8f0; --osc: #2563eb; --sta: #f59e0b; --pyt: #16a34a; --elg: #dc2626;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body {
@@ -39,6 +39,7 @@ html, body {
 }
 .subject-card.sta { border-right-color: var(--sta); }
 .subject-card.pyt { border-right-color: var(--pyt); }
+.subject-card.elg { border-right-color: var(--elg); }
 
 .subject-header {
   display: flex; align-items: center; gap: 14px; margin-bottom: 16px;
@@ -244,6 +245,20 @@ html, body {
   </div>
 </div>
 
+  <!-- ELG201: اللغة الإنجليزية التطبيقية -->
+  <div class="subject-card elg">
+    <div class="subject-header">
+      <div class="subject-icon" style="background:linear-gradient(135deg,#fee2e2,#fca5a5);">🇬🇧</div>
+      <div>
+        <div class="subject-title">اللغة الإنجليزية التطبيقية (ELG 201)</div>
+        <div class="subject-meta">Applied English · 308 صفحة · 8 وحدات</div>
+      </div>
+    </div>
+    <div class="note-box">المقرر يشمل وحدات: Module 04, 06, 07, 08, 09, 10, 11, 12 — Grammar + Vocabulary + Reading</div>
+    <div class="parts-grid" id="elg-parts"></div>
+  </div>
+
+
 <script>
 const PARTS = {
   osc: [
@@ -300,6 +315,7 @@ renderParts('osc-parts', PARTS.osc, 'نظم التشغيل');
 renderParts('sta-parts', PARTS.sta, 'الإحصاء');
 renderParts('sta-lessons-parts', PARTS.staLessons, 'الإحصاء - الدروس الجديدة');
 renderParts('pyt-parts', PARTS.pyt, 'البايثون');
+renderParts('elg-parts', PARTS.elg, 'الإنجليزي');
 
 function openPdf(file, title) {
   const modal = document.getElementById('pdfModal');
