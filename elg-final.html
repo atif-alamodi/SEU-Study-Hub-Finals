@@ -374,6 +374,7 @@ body { display: flex; min-height: 100vh; }
 
 <main class="main">
 
+<section class="topic-section active" id="topic-1">
   <div class="section">
     <h2><span class="icon">📋</span> مقدمة المقرر — ELG 201 Applied English</h2>
     <p><strong>ELG 201 — Applied English</strong> مقرر مصمم لتطوير مهارات اللغة الإنجليزية الأساسية لطلاب دبلوم الذكاء الاصطناعي التوليدي، مع التركيز على القواعد، القراءة، المفردات، المحادثة، والكتابة. المواد الأساسية مستمدة من كتاب <em>Life Beginner</em>.</p>
@@ -474,6 +475,7 @@ body { display: flex; min-height: 100vh; }
     </div>
   </div>
 
+</section>
 <script>
 // ============================================================
 // ELG201 — Applied English | All Topics in JavaScript
@@ -1629,47 +1631,28 @@ function resetProgress() {
 // INITIALIZATION
 // ============================================================
 const TOPIC_ORDER = ['1','m07','m08','m09','m10','m11','m12','m06','m02-04','summary'];
+const mainEl = document.querySelector('.main');
 
-// إنشاء حاوي للمواضيع وإلحاق كل TOPICS HTML
-// ملاحظة: الموضوع 1 موجود بالفعل في HTML خام
-const container = document.querySelector('.main') || document.body;
-
+// إلحاق باقي المواضيع من TOPICS object إلى الـ main
 TOPIC_ORDER.forEach(id => {
-  if (id === '1') return; // الموضوع الأول HTML خام بالفعل
+  if (id === '1') return; // موجود بالفعل في HTML
   if (TOPICS[id]) {
     const wrapper = document.createElement('div');
     wrapper.innerHTML = TOPICS[id];
-    while (wrapper.firstChild) container.appendChild(wrapper.firstChild);
+    while (wrapper.firstChild) mainEl.appendChild(wrapper.firstChild);
   }
 });
 
-// نُضيف class "topic-section" و id لـ Topic 1 المكتوب يدوياً
-// لكنه ليس داخل <section> — نلفّه
-const firstSections = document.querySelectorAll('.section');
-const firstTopicSections = [];
-firstSections.forEach(s => {
-  // المقاطع قبل المواضيع الأخرى - هذه topic 1
-  if (!s.closest('.topic-section')) firstTopicSections.push(s);
-});
-if (firstTopicSections.length > 0) {
-  const wrapper = document.createElement('section');
-  wrapper.className = 'topic-section active';
-  wrapper.id = 'topic-1';
-  firstTopicSections[0].parentNode.insertBefore(wrapper, firstTopicSections[0]);
-  firstTopicSections.forEach(s => wrapper.appendChild(s));
-}
-
-// إضافة click handlers
+// click handlers
 document.querySelectorAll('.topic-item').forEach(item => {
   item.addEventListener('click', () => showTopic(item.dataset.topic));
 });
 
-// زر إعادة التعيين
-const resetBtn = document.querySelector('.sidebar-footer button');
-if (resetBtn) resetBtn.addEventListener('click', resetProgress);
-
 // عرض الموضوع الأول افتراضياً
-showTopic('1');
+const initial = (location.hash && location.hash.startsWith('#topic-'))
+  ? location.hash.replace('#topic-', '')
+  : '1';
+showTopic(initial);
 </script>
 </main>
 </body>
