@@ -328,6 +328,11 @@ body {
         <span>البايثون</span>
         <span class="code">PYT103</span>
       </button>
+      <button class="subject-btn" data-subject="elg" onclick="pickSubject('elg')">
+        <span class="ico">🇬🇧</span>
+        <span>الإنجليزي</span>
+        <span class="code">ELG201</span>
+      </button>
     </div>
     <div id="capacity-line" style="margin-top:14px;padding:10px 14px;background:linear-gradient(135deg,#ecfdf5,#d1fae5);border-radius:10px;font-size:0.82rem;color:#065f46;text-align:center;font-weight:600;">
       <span id="capacity-text">جاري الحساب...</span>
@@ -1180,6 +1185,70 @@ const QUESTION_BANKS = {
       'Decorator أسرع',
       'Decorator فقط للكلاسات'
     ], a: 1, e: 'Decorator تستخدم بصيغة @decorator_name. تأخذ دالة كمدخل وترجع دالة معدلة. مفيدة لإضافة وظائف مشتركة (logging، timing، authentication) دون تكرار الكود.' },
+  ],
+
+  // ============ اللغة الإنجليزية ELG201 ============
+  elg: [
+    { d:"easy", q:"Which sentence is correct?", opts:["He cans swim.","He can swim.","He can swims.","He can to swim."], a:1, e:"Can لا يأخذ s مع أي ضمير - He can swim صحيح" },
+    { d:"easy", q:"Ali can _______ the car.", opts:["driving","drives","drive","drove"], a:2, e:"بعد can يأتي base form: drive" },
+    { d:"easy", q:"I ______ speak French. (negative)", opts:["do not can","not can","cannot","no can"], a:2, e:"نفي can = cannot - لا نستخدم do مع can" },
+    { d:"easy", q:"______ you speak Japanese?", opts:["Do","Does","Can","Are"], a:2, e:"السؤال عن القدرة - Can you speak?" },
+    { d:"medium", q:"Sara can ________ spicy food.", opts:["ate","eats","eat","eating"], a:2, e:"بعد can يأتي base form: eat" },
+    { d:"medium", q:"They ________ go to the mall because it is raining.", opts:["can","cannot","not","are"], a:1, e:"المطر = سبب المنع - cannot" },
+    { d:"hard", q:"Which is the correct negative of can?", opts:["He do not can drive.","He cannot drive.","He does not can drive.","He not can drive."], a:1, e:"He cannot drive صحيح" },
+    { d:"easy", q:"Which adjective sentence is correct?", opts:["They are happys.","They is happy.","They are happy.","They are a happy."], a:2, e:"الصفات لا تتغير في الجمع" },
+    { d:"easy", q:"Correct adjective order:", opts:["a red new big car","a new big red car","a big red new car","a big new red car"], a:3, e:"Size(big) then Age(new) then Color(red) then Noun" },
+    { d:"easy", q:"My teacher is very _____. She always helps us.", opts:["lazy","kind","angry","shy"], a:1, e:"helps us يدل على اللطف - kind" },
+    { d:"medium", q:"Ali is _______. He never does his homework.", opts:["hardworking","kind","lazy","confident"], a:2, e:"never does homework = lazy" },
+    { d:"medium", q:"Professional means:", opts:["Having new ideas","Behaving seriously and correctly at work","Very confident","Easy to use"], a:1, e:"Professional = behaving in a serious and correct way at work" },
+    { d:"medium", q:"Confident means:", opts:["Lazy at work","Sure about yourself and your abilities","Very angry","Creative"], a:1, e:"Confident = sure about yourself and your abilities" },
+    { d:"medium", q:"Responsible means:", opts:["Having new ideas","Very shy","Able to take care of things and people","Behaving seriously"], a:2, e:"Responsible = able to take care of things and people; doing what is correct" },
+    { d:"hard", q:"Creative means:", opts:["Behaving seriously","Sure of yourself","Having new ideas and making original things","Taking care of others"], a:2, e:"Creative = having new ideas; good at making something original" },
+    { d:"easy", q:"Ahmad _____ pizza.", opts:["like","likes","dislike","is like"], a:1, e:"Ahmad = He - likes (+s)" },
+    { d:"easy", q:"I ______ salad.", opts:["likes","like","am like","is like"], a:1, e:"مع I يأتي like بدون s" },
+    { d:"easy", q:"She _____ coffee. (negative)", opts:["do not like","does not like","not like","is not like"], a:1, e:"مع She - does not like" },
+    { d:"medium", q:"_____ she like pasta?", opts:["Do","Does","Is","Are"], a:1, e:"مع She في السؤال - Does" },
+    { d:"medium", q:"Which is correct?", opts:["He does not likes milk.","He does not like milk.","He do not like milk.","He not likes milk."], a:1, e:"He does not like milk - base form بعد does not" },
+    { d:"medium", q:"Cafeteria means:", opts:["A bedroom","A car park","A place to buy and eat food at work","A meeting room"], a:2, e:"Cafeteria = مطعم المؤسسة" },
+    { d:"medium", q:"Team dinner means:", opts:["A solo meal","A meal where colleagues eat together","A type of food","A budget plan"], a:1, e:"Team dinner = وجبة يأكلها الزملاء معاً" },
+    { d:"easy", q:"I ____ at home yesterday.", opts:["were","was","am","be"], a:1, e:"مع I يأتي was" },
+    { d:"easy", q:"They ____ in the classroom.", opts:["was","were","be","is"], a:1, e:"مع They يأتي were" },
+    { d:"easy", q:"____ you at the hospital last night?", opts:["Was","Were","Did","Is"], a:1, e:"مع You يأتي Were دائماً" },
+    { d:"medium", q:"She ____ not happy.", opts:["were","was","is","be"], a:1, e:"مع She يأتي was" },
+    { d:"medium", q:"Which is correct?", opts:["He were at the party.","They was late.","She was busy.","We was tired."], a:2, e:"She + was صحيح" },
+    { d:"medium", q:"Discovery means:", opts:["A long journey","Finding something new or unknown","A type of tomb","A history book"], a:1, e:"Discovery = اكتشاف شيء جديد" },
+    { d:"medium", q:"Journey means:", opts:["A type of food","A historical event","Traveling from one place to another","A discovery"], a:2, e:"Journey = السفر من مكان إلى آخر" },
+    { d:"easy", q:"Ali ______ at the office yesterday. (work)", opts:["work","works","working","worked"], a:3, e:"ماضي مثبت - worked (+ed)" },
+    { d:"easy", q:"They ______ their grandparents. (not visit)", opts:["did not visited","did not visit","not visited","does not visit"], a:1, e:"بعد did not يأتي base form: visit" },
+    { d:"easy", q:"Did Omar ______ a report? (prepare)", opts:["prepared","prepare","preparing","prepares"], a:1, e:"بعد Did يأتي base form: prepare" },
+    { d:"medium", q:"What is month number 8?", opts:["July","August","September","October"], a:1, e:"August = أغسطس = الشهر الثامن" },
+    { d:"medium", q:"What is month number 11?", opts:["September","October","November","December"], a:2, e:"November = نوفمبر = الشهر الحادي عشر" },
+    { d:"medium", q:"What is month number 3?", opts:["February","March","April","May"], a:1, e:"March = مارس = الشهر الثالث" },
+    { d:"medium", q:"Invoice means:", opts:["A safety check","Tools for work","A paper showing payment details","A planned event"], a:2, e:"Invoice = فاتورة" },
+    { d:"medium", q:"Equipment means:", opts:["A planned event","Tools or machines for work","A payment document","A safety check"], a:1, e:"Equipment = أدوات أو آلات للعمل" },
+    { d:"hard", q:"Correct Past Simple negative:", opts:["She did not worked.","She did not work.","She not worked.","She did not works."], a:1, e:"بعد did not يأتي base form دائماً: work" },
+    { d:"easy", q:"Yesterday I ____ to school. (go)", opts:["go","goed","went","going"], a:2, e:"go فعل شاذ - went" },
+    { d:"easy", q:"She ____ pizza last night. (eat)", opts:["eated","eat","ate","eating"], a:2, e:"eat فعل شاذ - ate" },
+    { d:"easy", q:"The company ____ new computers. (buy)", opts:["buy","buyed","bought","buying"], a:2, e:"buy فعل شاذ - bought" },
+    { d:"medium", q:"The manager ____ to a meeting yesterday. (go)", opts:["goes","going","goed","went"], a:3, e:"go يصبح went في الماضي" },
+    { d:"medium", q:"Negative of go in past:", opts:["did not went","did not go","not went","did not goed"], a:1, e:"بعد did not يأتي base form: go" },
+    { d:"medium", q:"The team ____ coffee before the conference. (drink)", opts:["drinked","drink","drank","drinking"], a:2, e:"drink فعل شاذ - drank" },
+    { d:"hard", q:"Which verb past form is WRONG?", opts:["go - went","see - saw","eat - ate","run - runned"], a:3, e:"run يصبح ran وليس runned" },
+    { d:"hard", q:"The students ____ a business plan. (make)", opts:["maked","made","make","making"], a:1, e:"make فعل شاذ - made" },
+    { d:"easy", q:"______, install the application before restarting.", opts:["Finally","First","After that","Then"], a:1, e:"البداية = First" },
+    { d:"easy", q:"Enter password. ______, click login.", opts:["Finally","First","Next","Method"], a:2, e:"بعد خطوة سابقة - Next" },
+    { d:"easy", q:"Activate means:", opts:["Stop something","Make something start working","Delete something","Hide something"], a:1, e:"Activate = تفعيل" },
+    { d:"medium", q:"Data ____ in the cloud. (Passive Voice)", opts:["is store","are stored","is stored","store"], a:2, e:"Data + is + stored (past participle)" },
+    { d:"medium", q:"Procedure means:", opts:["A single action","An official way of doing something","A machine","A final result"], a:1, e:"Procedure = اجراء رسمي" },
+    { d:"medium", q:"Method means:", opts:["A result","A way of doing something","A problem","A beginning"], a:1, e:"Method = أسلوب" },
+    { d:"hard", q:"Passive of: The system processes the data.", opts:["The data is process","The data is processed by the system","The data are processed","Data processed"], a:1, e:"data + is + processed" },
+    { d:"easy", q:"Advantage means:", opts:["A problem","A benefit","A limitation","A mistake"], a:1, e:"advantage = ميزة = benefit" },
+    { d:"easy", q:"Device A is ______ Device B. (fast - comparative)", opts:["more fast than","faster than","the fastest","fastest than"], a:1, e:"fast قصيرة - faster than" },
+    { d:"medium", q:"Portable means:", opts:["Very large","Easy to carry","Difficult to move","Very powerful"], a:1, e:"Portable = محمول = easy to carry" },
+    { d:"medium", q:"The opposite of increase is:", opts:["average","percentage","decrease","difference"], a:2, e:"increase والمضاد decrease" },
+    { d:"medium", q:"Compatible with means:", opts:["Designed for one use","Able to work together with","Not available","Heavier than"], a:1, e:"Compatible with = متوافق مع" },
+    { d:"hard", q:"Skimming means:", opts:["Looking for specific info","Reading quickly for general idea","Memorizing text","Translating"], a:1, e:"Skimming = قراءة سريعة للفكرة العامة" },
+    { d:"hard", q:"Scanning means:", opts:["Reading for general idea","Looking for specific info like names or dates","Memorizing","Summarizing"], a:1, e:"Scanning = البحث عن معلومة محددة" }
   ]
 };
 
@@ -1214,76 +1283,6 @@ function buildQ(d, q, correctValue, distractors, explanation, category) {
     _generated: true
   };
 }
-
-
-  // ============ اللغة الإنجليزية ELG201 ============
-  elg: [
-    // ---- Can / Can't ----
-    { d:'easy', q:'Which sentence is correct?', opts:['He cans swim.','He can swim.','He can swims.','He can to swim.'], a:1, e:'Can لا يأخذ s أبداً مع أي ضمير. He can swim. ✅' },
-    { d:'easy', q:'Ali can _______ the car.', opts:['driving','drives','drive','drove'], a:2, e:'بعد can → base form: drive (بدون s ولا ing)' },
-    { d:'easy', q:'I ______ speak French. (negative)', opts:["don't can","not can","can't","no can"], a:2, e:'نفي can = can't أو cannot. لا نستخدم don't مع can.' },
-    { d:'easy', q:'______ you speak Japanese?', opts:['Do','Does','Can','Are'], a:2, e:'السؤال عن القدرة → Can you speak?' },
-    { d:'medium', q:'Sara can________ spicy food.', opts:['ate','eats','eat','eating'], a:2, e:'بعد can → base form: eat (بدون s)' },
-    { d:'medium', q:'They ________ go to the mall because it is raining.', opts:['can','can't','not','are'], a:1, e:'السبب (raining) يمنع الذهاب → can't' },
-
-    // ---- Adjectives ----
-    { d:'easy', q:'Which sentence is correct?', opts:['They are happys.','They is happy.','They are happy.','They are a happy.'], a:2, e:'الصفات لا تتغير في الجمع → happy (ثابتة)' },
-    { d:'easy', q:'Correct order: He bought a car ___ ___ ___.', opts:['red new big','new big red','big new red','big red new'], a:2, e:'الترتيب: Size(big) → Age(new) → Color(red) → Noun' },
-    { d:'easy', q:'My teacher is very _____. She always helps us.', opts:['lazy','kind','angry','shy'], a:1, e:'"helps us" = دليل على اللطف → kind' },
-    { d:'medium', q:'What does "Confident" mean?', opts:['Lazy at work','Sure about yourself','Very angry','Creative with ideas'], a:1, e:'Confident = sure about yourself and your abilities (واثق من نفسه)' },
-    { d:'medium', q:'What does "Responsible" mean?', opts:['Having new ideas','Very shy','Able to take care of things','Behaving seriously'], a:2, e:'Responsible = able to take care of things and people; doing what is correct' },
-    { d:'hard', q:'"Professional" means:', opts:['Having new ideas','Behaving in a serious and correct way at work','Very confident','Easy to use'], a:1, e:'Professional = behaving in a serious and correct way at work' },
-
-    // ---- Like / Likes ----
-    { d:'easy', q:'Ahmad _____ pizza.', opts:['like','likes','don't like','is like'], a:1, e:'Ahmad = He → likes (نضيف s مع He/She/It)' },
-    { d:'easy', q:'I ______ salad.', opts:['likes','like','am like','is like'], a:1, e:'مع I → like (بدون s)' },
-    { d:'easy', q:'She _____ coffee. (negative)', opts:['don't like','doesn't like','not like','isn't like'], a:1, e:'مع She → doesn't like' },
-    { d:'medium', q:'_____ she like pasta?', opts:['Do','Does','Is','Are'], a:1, e:'مع She في السؤال → Does' },
-    { d:'medium', q:'Which is correct?', opts:['He doesn't likes milk.','He doesn't like milk.','He don't like milk.','He not likes milk.'], a:1, e:'مع He → doesn't like (بعد doesn't = base form)' },
-    { d:'medium', q:'What does "Cafeteria" mean?', opts:['A bedroom','A car park','A place to buy and eat food','A meeting room'], a:2, e:'Cafeteria = مطعم المؤسسة / الكافتيريا' },
-
-    // ---- Past was/were ----
-    { d:'easy', q:'I ____ at home yesterday.', opts:['were','was','am','be'], a:1, e:'مع I → was' },
-    { d:'easy', q:'They ____ in the classroom.', opts:['was','were','be','is'], a:1, e:'مع They → were' },
-    { d:'easy', q:'____ you at the hospital last night?', opts:['Was','Were','Did','Is'], a:1, e:'مع You → Were دائماً' },
-    { d:'medium', q:'She ____ not happy. (correct form)', opts:['were','was','is','be'], a:1, e:'مع She → was' },
-    { d:'medium', q:'Which is correct?', opts:['He were at the party.','They was late.','She was busy.','We was tired.'], a:2, e:'She + was ✅ | He/They/We + were' },
-    { d:'medium', q:'What does "Discovery" mean?', opts:['A long journey','Finding something new or unknown','A type of tomb','A history book'], a:1, e:'Discovery = اكتشاف شيء جديد أو مجهول' },
-
-    // ---- Past Regular ----
-    { d:'easy', q:'Ali ______ (work) at the office yesterday.', opts:['work','works','working','worked'], a:3, e:'جملة مثبتة + yesterday = ماضي → worked (+ed)' },
-    { d:'easy', q:'They ______ (not visit) their grandparents.', opts:["didn't visited","didn't visit","not visited","doesn't visit"], a:1, e:'بعد didn't → base form: visit (بدون ed)' },
-    { d:'easy', q:'Did Omar ______ (prepare) a report?', opts:['prepared','prepare','preparing','prepares'], a:1, e:'بعد Did → base form: prepare' },
-    { d:'medium', q:'What is the 8th month?', opts:['July','August','September','October'], a:1, e:'August = أغسطس = الشهر الثامن' },
-    { d:'medium', q:'What is the 11th month?', opts:['September','October','November','December'], a:2, e:'November = نوفمبر = الشهر الحادي عشر' },
-    { d:'medium', q:'What does "Invoice" mean?', opts:['A safety check','A type of equipment','A paper showing payment details','A planned event'], a:2, e:'Invoice = فاتورة — a paper that shows payment details' },
-
-    // ---- Past Irregular ----
-    { d:'easy', q:'Yesterday I ____ (go) to school.', opts:['go','goed','went','going'], a:2, e:'go → went (فعل شاذ)' },
-    { d:'easy', q:'She ____ (eat) pizza last night.', opts:['eated','eat','ate','eating'], a:2, e:'eat → ate (فعل شاذ)' },
-    { d:'easy', q:'The company ____ new computers last week.', opts:['buy','buyed','bought','buying'], a:2, e:'buy → bought (فعل شاذ)' },
-    { d:'medium', q:'The manager ____ (go) to a meeting yesterday. (correct)', opts:['goes','going','goed','went'], a:3, e:'go → went | goed ❌' },
-    { d:'medium', q:'I ____ to the park. (negative)', opts:['did not went','did not go','not went','didn't goed'], a:1, e:'بعد did not → base form: go (وليس went)' },
-    { d:'medium', q:'The team ____ coffee before the conference.', opts:['drinked','drink','drank','drinking'], a:2, e:'drink → drank (فعل شاذ)' },
-    { d:'hard', q:'Which sentence uses the WRONG irregular past?', opts:['The officer saw a problem.','The trainer ran a workshop.','The director maked a plan.','The staff ate lunch together.'], a:2, e:'make → made (ليس maked). ❌ maked ✅ made' },
-    { d:'hard', q:'The students ____ a business plan in class.', opts:['maked','made','make','making'], a:1, e:'make → made (فعل شاذ)' },
-
-    // ---- Sequencing & Passive ----
-    { d:'easy', q:'______, install the application before restarting.', opts:['Finally','First','After that','Then'], a:1, e:'البداية = First' },
-    { d:'easy', q:'Enter password. ______, click login.', opts:['Finally','First','Next','Method'], a:2, e:'بعد خطوة سابقة → Next' },
-    { d:'easy', q:'What does "Activate" mean?', opts:['Stop something','Make something start working','Delete something','Hide something'], a:1, e:'Activate = تفعيل = Make something start working' },
-    { d:'medium', q:'Data ____ in the cloud. (Passive)', opts:['is store','are stored','is stored','store'], a:2, e:'Data (singular) + is + stored (past participle)' },
-    { d:'medium', q:'What does "Procedure" mean?', opts:['A single action','An official way of doing something','A machine','A final result'], a:1, e:'Procedure = إجراء رسمي = official way of doing something' },
-    { d:'hard', q:'Change to Passive: "The system processes the data."', opts:['The data is process','The data is processed by the system.','The data are processed by system','The data processed'], a:1, e:'data (singular in context) + is + processed (past participle of process)' },
-
-    // ---- Comparatives ----
-    { d:'easy', q:'"Advantage" means:', opts:['A problem','A benefit','A limitation','A mistake'], a:1, e:'advantage = ميزة = benefit' },
-    { d:'easy', q:'Device A is ______ Device B. (fast)', opts:['more fast than','faster than','the fastest','fastest'], a:1, e:'fast قصيرة → faster than' },
-    { d:'medium', q:'What does "Portable" mean?', opts:['Very large','Easy to carry','Difficult to move','Very powerful'], a:1, e:'Portable = محمول = easy to carry' },
-    { d:'medium', q:'The opposite of "increase" is:', opts:['average','percentage','decrease','difference'], a:2, e:'increase ↔ decrease' },
-    { d:'medium', q:'This is ______ device in the store. (expensive)', opts:['more expensive','expensiver','the most expensive','most expensive'], a:2, e:'expensive طويلة + تفضيل → the most expensive' },
-    { d:'hard', q:'What does "Compatible with" mean?', opts:['Designed for a purpose','Able to work together with','Not available for','Heavier than'], a:1, e:'Compatible with = متوافق مع = able to work together with' },
-  ],
 
 const QUESTION_GENERATORS = {
 
@@ -1432,9 +1431,7 @@ const QUESTION_GENERATORS = {
       const k = PICK([1, 2, 3]);
       const lo = mu - k*sigma;
       const hi = mu + k*sigma;
-      const pcts = { 1: '68%', 2: '95%', 3: '99.7%' 
-  elg: [],
-};
+      const pcts = { 1: '68%', 2: '95%', 3: '99.7%' };
       return buildQ(
         'medium',
         `إذا كان توزيع طبيعي بمتوسط μ=${mu} وانحراف معياري σ=${sigma}، فما النسبة التي تقع بين ${lo} و ${hi}؟`,
@@ -2259,6 +2256,22 @@ const QUESTION_GENERATORS = {
         'theory'
       );
     },
+  ],
+
+  elg: [
+    () => {
+      const verbs=[["go","went"],["see","saw"],["eat","ate"],["drink","drank"],["run","ran"],["have","had"],["take","took"],["buy","bought"],["meet","met"],["make","made"]];
+      const v=verbs[Math.floor(Math.random()*verbs.length)];
+      const opts=[v[0]+"ed",v[1],v[0]+"d",v[0]].sort(()=>Math.random()-0.5);
+      return {d:"medium",q:"Yesterday she _____ ("+v[0]+") to the office.",opts,a:opts.indexOf(v[1]),e:v[0]+" irregular past: "+v[1]};
+    },
+    () => {
+      const months=[["January",1],["February",2],["March",3],["April",4],["May",5],["June",6],["July",7],["August",8],["September",9],["October",10],["November",11],["December",12]];
+      const m=months[Math.floor(Math.random()*months.length)];
+      const others=months.filter(x=>x[0]!==m[0]).sort(()=>Math.random()-0.5).slice(0,3);
+      const opts=[m[0],...others.map(x=>x[0])].sort(()=>Math.random()-0.5);
+      return {d:"easy",q:"What is month number "+m[1]+"?",opts,a:opts.indexOf(m[0]),e:"Month "+m[1]+" = "+m[0]};
+    }
   ]
 };
 
