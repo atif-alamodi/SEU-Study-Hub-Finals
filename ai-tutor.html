@@ -365,6 +365,61 @@ document.addEventListener('keydown', (e) => {
 // Configuration — UPDATE THIS URL after deploying the worker!
 const AI_ENDPOINT = 'https://seu-ai.atif-alamodi.workers.dev/ask';
 
+// ELG201 Content - يُرسل للـ Worker عند اختيار مادة الإنجليزي
+const ELG_CONTEXT = `
+## مقرر اللغة الإنجليزية التطبيقية (ELG 201 - Applied English):
+
+=== MODULE 07: Can / Can't ===
+Can = modal verb للقدرة والإمكانية. لا يتغير مع الضمائر.
+Affirmative: Subject + can + base verb | Negative: can't/cannot + base verb | Question: Can + Subject + base verb?
+خطأ شائع: He cans swim (خطأ) | الصحيح: He can swim
+Hobbies vocab: Climbing, Painting, Cooking, Reading, Walking, Shopping
+Diploma vocab: Data (بيانات), Training (تدريب), Model (نموذج)
+
+=== MODULE 08: Adjectives (الصفات) ===
+ترتيب: Opinion + Size + Age + Color + Noun
+الصفات لا تتغير للجمع (happys خطأ - happy صحيح)
+Appearance: Tall/Short, Young/Old | Personality: Happy, Angry, Lazy, Shy
+Professional = يتصرف بجدية في العمل | Confident = واثق من نفسه
+Responsible = يتحمل المسؤولية | Creative = مبدع ولديه أفكار جديدة
+
+=== MODULE 09: Like / Likes ===
+I/You/We/They + like | He/She/It + likes
+Negative: don't like / doesn't like (بعد doesn't base form دائماً)
+Food: Delicious soup, Healthy salad, Tasty pasta, Spicy chicken
+Workplace: Team dinner, Menu options, Online orders, Cafeteria, Budget for meals
+
+=== MODULE 10: Past Simple was/were ===
+I/He/She/It + was | You/We/They + were
+Negative: wasn't / weren't | Question: Was/Were + subject?
+History vocab: History, Discovery, Journey, Tomb, Invention, Explorer, Ancient, Event
+Diploma vocab: Audience, Investigation, Training, Policy
+
+=== MODULE 11: Past Simple Regular Verbs ===
+Affirmative: verb+ed (worked, visited, played)
+Negative: didn't + base verb (didn't work صح - didn't worked خطأ)
+Months: January(1), February(2), March(3), April(4), May(5), June(6), July(7), August(8), September(9), October(10), November(11), December(12)
+Vocab: Equipment (أدوات), Invoice (فاتورة), Inspection (تفتيش), Event (فعالية)
+
+=== MODULE 12: Past Simple Irregular Verbs ===
+go->went, see->saw, eat->ate, drink->drank, run->ran
+have->had, take->took, buy->bought, meet->met, make->made
+في النفي/السؤال: did + base form (didn't go صح - didn't went خطأ)
+
+=== MODULE 06: Sequencing and Passive Voice ===
+Sequencing: First, Next, Then, After that, Finally
+Passive: Object + is/are + past participle
+The file is uploaded. The system is activated. The task is completed.
+
+=== MODULE 04: Comparisons and Data ===
+Short adj: faster than / the fastest | Long adj: more expensive than / the most expensive
+good->better->best | bad->worse->worst
+Vocab: advantage, disadvantage, benefit, limitation, increase, decrease, percentage, average
+Skimming = قراءة سريعة للفكرة العامة | Scanning = البحث عن معلومة محددة
+`;
+
+
+
 let currentSubject = 'general';
 let conversationHistory = [];
 let isLoading = false;
@@ -515,7 +570,7 @@ async function sendMessage() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        question: text,
+        question: currentSubject === 'elg' ? text + '\n\n[معلومات المنهج المرجعية]:\n' + ELG_CONTEXT : text,
         subject: currentSubject,
         history: conversationHistory.slice(-6, -1)
       })

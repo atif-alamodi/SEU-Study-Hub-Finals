@@ -1,288 +1,3 @@
-const ELG_CONTENT = `
-## مقرر اللغة الإنجليزية التطبيقية (ELG 201 - Applied English):
-مرجع كامل من المنهج الرسمي للوحدات 04، 06، 07، 08، 09، 10، 11، 12
-
-=== MODULE 07: Can / Can't ===
-القاعدة الكاملة:
-- Can = modal verb للقدرة والإمكانية
-- Can نفسه مع كل الضمائر — لا s مع He/She/It أبداً
-- الفعل بعد can دائماً base form بدون to
-
-المثبت: Subject + can + base verb
-- I can speak Spanish. / He can swim well. / They can play the guitar.
-
-المنفي: Subject + cannot/can't + base verb
-- I cannot play football. / She cannot speak French. / He can't drive a car.
-
-السؤال: Can + Subject + base verb?
-- Where can I buy an ice-cream? / Can you speak Japanese? / Can I sit here please? Yes, you can.
-
-أخطاء شائعة:
-- ❌ He cans swim → ✅ He can swim
-- ❌ She don't can drive → ✅ She can't drive
-- ❌ I can to go → ✅ I can go
-- ❌ doesn't can → ✅ can't
-
-مفردات الهوايات (Hobbies):
-- Climbing = تسلق الجبال (exciting, enjoy nature)
-- Painting = الرسم (creative, express feelings)
-- Cooking = الطبخ (new recipes, delicious meals)
-- Reading = القراءة (relaxing and educational)
-- Walking = المشي (simple, healthy, good for the mind)
-- Shopping = التسوق (visit stores, buy clothes)
-
-مفردات الدبلوم:
-- Data = Information that a computer uses to learn. بيانات. "AI needs data to work."
-- Training = The process of teaching an AI using data. تدريب. "The model is training on thousands of examples."
-- Model = A system or program that learns from data and makes decisions. نموذج. "The AI model can recognize images."
-
-محادثة الاستماع (Listening):
-A: Can you cook? B: I can make pasta and French cuisine.
-A: I can't cook. I can only make an omelette.
-إجابات: 1-b (pasta and French cuisine) 2-c (omelette)
-
-نصوص القراءة:
-Reading 1 "Different Hobbies": Climbing is exciting. Painting helps creativity. Cooking = new recipes. Reading = relaxing. Walking = healthy. Shopping = visit malls.
-Reading 2 "How AI Works": AI uses data to learn. The model is the brain of AI. During training, the model studies data. After training, AI can predict.
-إجابات: Reading1: 1-c, 2-a, 3-a. Reading2: 1-B, 2-C, 3-B.
-
-=== MODULE 08: Adjectives ===
-القاعدة:
-- Adjective = كلمة تصف اسماً (noun)
-- تأتي قبل الاسم: He is a kind man
-- أو بعد to be: She is smart
-- الصفات لا تتغير للجمع: ❌ happys → ✅ happy
-
-ترتيب الصفات: Opinion + Size + Age + Color + Noun
-- مثال: A beautiful big new red car ✅
-
-مفردات المظهر (Appearance): Tall/Short, Young/Old, New
-مفردات الشخصية (Personality): Happy, Angry, Lazy, Shy, Kind, Hardworking, Confident, Responsible
-مفردات تقنية: Intelligent, Smart, Fast, Powerful, User-friendly, Complex, Simple
-
-مفردات الدبلوم (Vocabulary 2) — التعريفات الكاملة:
-1. Professional = behaving in a serious and correct way at work. يتصرف بجدية وصحة في العمل.
-   مثال: "Fahad is always professional and confident."
-2. Confident = sure about yourself and your abilities. واثق من نفسه وقدراته.
-   مثال: "She is very confident when she speaks in meetings."
-3. Responsible = able to take care of things and people; doing what is correct. قادر على تحمل المسؤولية.
-   مثال: "He finishes reports on time because he is responsible."
-4. Creative = having new ideas; good at making something original. لديه أفكار جديدة ومبتكر.
-   مثال: "She has many creative ideas and helps the team."
-
-نصوص القراءة:
-Reading 1 "A Kind and Hardworking Student" (Mona): tall, slim, long brown hair, green eyes, kind, polite, hardworking, sometimes shy, responsible and organized.
-Reading 2 "Professional and Responsible Workers" (Fahad): strong, fit, short black hair, professional, confident, creative, responsible. (Ahmed: brave, alert, checks safety)
-محادثة: Nora وMaha يصفان زميلة جديدة: tall, young, beautiful, long black hair, kind, polite, hardworking, confident, professional, creative.
-
-إجابات: Practice 1A: 1-a (happy) 2-a (black). Practice 2: 1-a (kind) 2-b (lazy) 3-b (confident).
-Reading1: 1-b, 2-c, 3-c. Reading2: 1-a, 2-b, 3-c.
-
-=== MODULE 09: Like / Don't Like ===
-القاعدة:
-- I/You/We/They + like
-- He/She/It + likes (+s)
-- نفي: don't like / doesn't like (بعد doesn't → base form بدون s)
-- سؤال: Do...like? / Does...like?
-- ❌ He doesn't likes → ✅ He doesn't like
-- ❌ She don't like → ✅ She doesn't like
-- ❌ She doesn't likes bananas → ✅ She doesn't like bananas
-
-مفردات الطعام والمشروبات (Vocabulary 1):
-Delicious soup, Healthy salad, Tasty pasta, Sweet fruit, Spicy chicken
-Cold juice, Hot tea, Warm water, Iced coffee
-
-مفردات بيئة العمل (Vocabulary 2) — التعريفات الكاملة:
-1. Team dinner = A meal where colleagues eat together as a group. وجبة يأكلها الزملاء معاً كمجموعة.
-2. Menu options = Different kinds of food and drinks you can choose from. أنواع الطعام المتاحة للاختيار.
-3. Online orders = Buying food or drinks using an app or the internet. طلب الطعام عبر تطبيق أو الإنترنت.
-4. Cost of drinks = The amount of money you pay for drinks. مقدار المال المدفوع للمشروبات.
-5. Budget for meals = The money planned to spend on food. الميزانية المخصصة للطعام.
-6. Cafeteria = A place in a school, college, or company where people can buy and eat food. مطعم داخل مؤسسة.
-
-نص القراءة 2 "At the Cafeteria": The company organized a team dinner. Manager showed menu options. Some made online orders. Accountant checked cost of drinks and budget for meals.
-محادثة الاستماع: B likes tea and fruit (mangoes). A and B both like ice cream.
-إجابات Practice 2: 1-team dinner, 2-menu options, 3-online orders, 4-cost of drinks, 5-cafeteria.
-إجابات Listening: 1-b, 2-b, 3-a, 4-b.
-
-=== MODULE 10: Past Simple (was/were) ===
-القاعدة:
-- I/He/She/It → was
-- You/We/They → were
-- نفي: wasn't / weren't
-- سؤال: Was/Were + subject?
-
-أخطاء شائعة:
-- ❌ He were → ✅ He was
-- ❌ They was → ✅ They were
-- ❌ She weren't → ✅ She wasn't
-- ❌ We was → ✅ We were
-- ❌ Was you → ✅ Were you (You دائماً مع were)
-
-مفردات التاريخ (Vocabulary 1) — 8 كلمات بتعريف كامل:
-1. History = The story of past events and people. قصة الأحداث الماضية. "We study history at school."
-2. Discovery = Finding something new or unknown. اكتشاف شيء جديد. "The discovery of electricity changed the world."
-3. Journey = Traveling from one place to another. السفر من مكان لآخر. "The journey was long and difficult."
-4. Tomb = A special place where someone is buried. ضريح. "The king's tomb was full of gold."
-5. Invention = A new thing that someone creates. اختراع. "The invention of the telephone changed communication."
-6. Explorer = A person who travels to learn about new places. مستكشف. "Ibn Battuta was a famous explorer."
-7. Ancient = Very old, from a long time ago. قديم جداً. "We visited ancient ruins in Egypt."
-8. Event = Something important that happens. حدث مهم. "The World Cup is a big event."
-
-مفردات الدبلوم (Vocabulary 2) — 4 كلمات بتعريف كامل:
-1. Audience = The group of people who watch, listen, or read. الجمهور. "The teacher spoke to the audience of students."
-2. Investigation = The process of finding out the facts about something. تحقيق. "The police started an investigation after the accident."
-3. Training = The process of learning the skills you need for a job. تدريب. "New employees get training before they start work."
-4. Policy = A set of rules or ideas that guide decisions. سياسة. "The company has a policy about safety at work."
-
-نصوص القراءة:
-Reading 1 "Life in the Past": Discovery of fire, invention of wheel, explorers (Columbus, Ibn Battuta), ancient buildings and tombs (pyramids in Egypt).
-Reading 2 "Company Policy and Training": There was an investigation about safety. Managers made a policy. HR prepared a training program. Audience was active.
-محادثة: Omar وSara يتحدثان عن تدريب الشركة وسياسة السلامة.
-إجابات Listening: 1-b, 2-b, 3-a, 4-c, 5-b.
-
-=== MODULE 11: Past Simple (Regular Verbs) ===
-القاعدة:
-- مثبت: Subject + verb+ed (worked, visited, played)
-- نفي: Subject + didn't + base verb ❌ didn't worked → ✅ didn't work
-- سؤال: Did + Subject + base verb? ❌ Did she visited? → ✅ Did she visit?
-
-أمثلة: I worked. / She visited. / They played. / Omar prepared an invoice. / Sara organized documents.
-
-شهور السنة (Vocabulary 1):
-January(1), February(2), March(3), April(4), May(5), June(6)
-July(7), August(8), September(9), October(10), November(11), December(12)
-
-مفردات العمل (Vocabulary 2) — بتعريف كامل:
-1. Equipment = Tools or machines for work. أدوات أو آلات للعمل. "The officer checked the equipment."
-2. Invoice = A paper that shows payment details. فاتورة. "Omar prepared an invoice for the client."
-3. Inspection = Checking carefully for safety. تفتيش/فحص للسلامة. "They did an inspection yesterday."
-4. Event = A planned activity. نشاط مخطط. "They arranged an event for students."
-
-نص القراءة "Busy Months at the Company":
-- April: Omar prepared an invoice. Sara organized documents and sent emails.
-- May: Manager asked to check equipment. Inspection was important (old machines). Company arranged a big event.
-- June: Omar and Sara prepared a financial report. Attended special meeting with director.
-إجابات: 1-b, 2-b, 3-a, 4-b.
-إجابات Practice 1: 1-worked, 2-didn't visit, 3-prepare, 4-did you travel.
-إجابات Practice 2: 1-January, 2-May, 3-inspection, 4-event.
-
-=== MODULE 12: Past Simple (Irregular Verbs) ===
-القاعدة:
-- مثبت: Subject + Past form (went/saw/ate...)
-- نفي: Subject + didn't + base form ❌ didn't went → ✅ didn't go
-- سؤال: Did + Subject + base form? ❌ Did she ate? → ✅ Did she eat?
-
-10 أفعال شاذة أساسية (بأمثلة المنهج الرسمي):
-go → went: "Yesterday the manager went to an important meeting."
-see → saw: "The officer saw a problem during the inspection."
-eat → ate: "The staff ate lunch together in the cafeteria."
-drink → drank: "The team drank coffee before the conference."
-run → ran: "The trainer ran a workshop for new employees."
-have → had: "The accountant had a meeting about the budget."
-take → took: "The supervisor took action after the accident."
-buy → bought: "The company bought new computers for the office."
-meet → met: "The director met journalists last week."
-make → made: "The students made a business plan in class."
-
-أخطاء فادحة: goed❌ eated❌ runned❌ buyed❌ maked❌
-
-محادثة Ali وSara (من المنهج):
-Ali: I met my old school friends. I bought a new bag. We took many pictures. We had coffee.
-Sara: I went to the park. We ran in the park. We ate pizza. I drank orange juice. My brother saw us.
-They both made special memories.
-
-نص الاستماع (Mike وJerry camping):
-They went camping. Drank juice after unloading car. Jerry lost his keys (couldn't find them in pocket). Everyone helped look. Finally found keys in the ignition.
-إجابات Listening: 1-b (juice), 2-b (lost keys), 3-c (everyone), 4-c (ignition).
-
-نصوص القراءة:
-Reading 1 "A Fun Day" (Amal): went, took, met, drank, ate, went shopping, bought, saw, had pizza, went to cinema, saw movie, ran, took photos, met classmate, made memories.
-Reading 2 "Safety Officer's Busy Day": went to construction site, saw workers without helmets, took notes, met manager, made meeting, showed pictures, gave examples. Company bought helmets and shoes.
-إجابات Reading1: 1-b (cake), 2-a (dress and shoes), 3-a (cinema), 4-b (old classmate).
-
-=== MODULE 06: Sequencing & Passive Voice ===
-أهداف الوحدة: إعطاء تعليمات واضحة، وصف العمليات التقنية، استخدام كلمات التسلسل والأوامر والمبني للمجهول.
-
-كلمات التسلسل (Sequencing Language):
-- first = أولاً (بداية الخطوات)
-- next = بعد ذلك
-- then = ثم
-- after that = بعدها
-- finally = أخيراً (نهاية الخطوات)
-
-لغة العمليات (Process Language):
-- process = عملية (A series of actions to achieve a result)
-- step = خطوة (One action in a process)
-- instruction = تعليمة (Something that tells you what to do)
-- procedure = إجراء رسمي (An official way of doing something) — "The password reset procedure includes three stages."
-- method = أسلوب/طريقة (A way of doing something)
-
-أفعال الإجراء (Action Verbs):
-- install = يُثبّت/يُنصّب
-- activate = يُفعّل (Make something start working)
-- connect = يوصّل/يربط
-- submit = يُرسل/يُقدّم
-- complete = يُكمل/ينهي
-
-المبني للمجهول (Passive Voice):
-البنية: Object + is/are + past participle
-- Updates are installed automatically.
-- Data is stored in the cloud.
-- Errors are detected by the system.
-- Settings are managed by the OS.
-- The issue is fixed by the technician.
-
-نص القراءة 1 "Following Instructions": First users download app. Next open installation file. After installation, activate software. Finally system checks configuration.
-إجابات: 1-B (Downloading), 2-B (reduce errors), 3-B (software is activated).
-
-نص القراءة 2 "Describing a Process" (submitting assignment):
-First log in. Next select course. After that upload file. Finally submit and wait for confirmation.
-
-Quiz 1 إجابات: 1-B (First), 2-C (Next), 3-A (step), 4-B (procedure), 5-B (A way of doing something), 6-B (Make something start working)
-Quiz 2 إجابات: 1-B (install), 2-C (connect), 3-B (beginning), 4-B (series of actions), 5-B (tells you what to do)
-
-=== MODULE 04: Comparisons & Data ===
-أهداف: مقارنة الأجهزة، استخدام المقارنة والتفضيل، وصف البيانات الرقمية.
-
-Grammar — Comparatives & Superlatives:
-- Comparative (بين اثنين): صفة قصيرة + er than / more + صفة طويلة + than
-  faster than / higher than / lighter than / more expensive than / more powerful than
-- Superlative (بين مجموعة): the + صفة قصيرة + est / the most + صفة طويلة
-  the fastest / the highest / the lightest / the most expensive / the most powerful
-
-أمثلة من المنهج:
-App A is faster than App B. (faster ✅ NOT more fast ❌)
-Laptop X is more expensive than Laptop Y.
-Device A is higher than Device B in performance.
-This tablet is lighter than that tablet.
-Model A is slower than Model B.
-
-Comparison Language:
-similar = مشابه | different = مختلف | higher = أعلى | lower = أقل | faster = أسرع | slower = أبطأ
-
-Data Language:
-number = عدد | percentage = نسبة مئوية | increase = زيادة | decrease = انخفاض | average = متوسط
-
-Evaluation Language (تعريفات من المنهج):
-advantage = A benefit (ميزة/فائدة). "One advantage is lower cost."
-disadvantage = عيب/سلبية. "A disadvantage is short battery life."
-benefit = فائدة/منفعة.
-limitation = A restriction or weakness (قيد/ضعف). "A main limitation is short battery life."
-difference = فرق/اختلاف. "There is a clear difference in performance."
-
-نص القراءة "Comparing Two Devices":
-Device A: lighter, faster, suitable for mobile, 8 hours battery, charges quickly, cheaper.
-Device B: larger, heavier, stronger performance, 12 hours battery, more expensive, better for advanced use.
-إجابات: 1-B (faster charging), 2-B (Device B), 3-B (performance and cost).
-
-نص البيانات "Describing Simple Data":
-Average daily usage: 3 hours. Exam weeks: 5 hours (increase). Weekdays higher than weekends. 60% used platform daily, 40% occasionally.
-إجابات: 1-C (increased), 2-B (weekdays), 3-C (60%).
-
-Listening 1: Device A lighter/cheaper. Device B longer battery/more powerful. إجابات: 1-B, 2-B.
-Listening 2: Usage increases during exam weeks, decreases after exams. Weekday > weekend. إجابات: 1-B, 2-C.
-`;
 // =============================================================
 // SEU Study Hub AI Tutor - Cloudflare Worker (v2)
 // =============================================================
@@ -548,6 +263,69 @@ with open("file.txt", "r") as f:
 - random: randint, choice, shuffle
 - datetime: للتواريخ
 - os: للنظام`;
+
+const ELG_CONTENT = `
+## مقرر اللغة الإنجليزية التطبيقية (ELG 201 Applied English):
+
+Module 07: Can / Can't
+- Can = modal verb للقدرة والإمكانية، لا يتغير مع الضمائر.
+- Affirmative: Subject + can + base verb (I can swim. He can drive.)
+- Negative: cannot / can't + base verb (She cannot speak French.)
+- Question: Can + Subject + base verb? (Can you help me?)
+- خطأ شائع: He cans swim (خطأ) - الصحيح: He can swim
+
+Module 08: Adjectives
+- تصف الاسم، لا تتغير للجمع (happys خطأ، happy صحيح)
+- الترتيب: Opinion, Size, Age, Color, Noun
+- Appearance: tall/short, young/old.
+- Personality: happy, angry, lazy, shy, kind.
+- Professional = behaving in a serious and correct way at work
+- Confident = sure about yourself and your abilities
+- Responsible = able to take care of things and people
+- Creative = having new ideas; good at making something original
+
+Module 09: Like / Likes
+- I/You/We/They: like -- He/She/It: likes
+- Negative: don't like / doesn't like (بعد doesn't base form دائماً)
+- Question: Do...like? / Does...like?
+- Food: Delicious soup, Healthy salad, Tasty pasta, Sweet fruit, Spicy chicken.
+- Drinks: Cold juice, Hot tea, Warm water, Iced coffee.
+- Workplace: Team dinner, Menu options, Online orders, Budget for meals, Cafeteria.
+
+Module 10: Past Simple was/were
+- I/He/She/It: was -- You/We/They: were
+- Negative: wasn't / weren't -- Question: Was/Were + subject?
+- History vocabulary: History, Discovery, Journey, Tomb.
+- Diploma vocabulary: Audience, Investigation, Training, Policy.
+
+Module 11: Past Simple Regular Verbs
+- Affirmative: verb+ed (worked, visited, played)
+- Negative: didn't + base verb (didn't work correct -- didn't worked wrong)
+- Question: Did + base verb? (Did you study?)
+- Months: January(1), February(2), March(3), April(4), May(5), June(6), July(7), August(8), September(9), October(10), November(11), December(12)
+- Vocabulary: Equipment (tools for work), Invoice (payment document), Inspection (safety check), Event (planned activity).
+
+Module 12: Past Simple Irregular Verbs
+- go to went, see to saw, eat to ate, drink to drank, run to ran, have to had, take to took, buy to bought, meet to met, make to made
+- في النفي والسؤال: did + base form (didn't go correct -- didn't went wrong)
+
+Module 06: Sequencing and Passive Voice
+- Sequencing words: First, Next/Then, After that, Finally
+- Process vocabulary: process, step, instruction, procedure, method
+- Action verbs: install, activate, connect, submit, complete
+- Passive Voice: Object + is/are + past participle
+  Examples: Updates are installed. Data is stored. Errors are detected.
+
+Modules 02, 04, 05: Reading, Descriptions, Comparisons
+- Skimming = reading for general idea -- Scanning = looking for specific info
+- Technical vocabulary: device, system, feature, storage, update, configure, interface, version, performance
+- Descriptive phrases: designed for, suitable for, equipped with, available in, compatible with
+- Technical adjectives: compact, durable, efficient, portable, reliable
+- Comparatives short: faster than -- long: more efficient than
+- Superlatives short: the fastest -- long: the most efficient
+- Irregular: good to better to best -- bad to worse to worst
+- Comparison vocabulary: advantage, disadvantage, benefit, limitation, similar, different, increase, decrease, percentage, average
+`;
 
 const SUBJECT_MAP = {
   stats: { name: 'الإحصاء وتحليل البيانات (STA104)', content: STATS_CONTENT },
