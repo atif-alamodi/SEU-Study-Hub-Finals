@@ -1,3 +1,65 @@
+const ELG_CONTENT = `
+## مقرر اللغة الإنجليزية التطبيقية (ELG 201 Applied English):
+
+Module 07: Can / Can't
+- Can = modal verb للقدرة والإمكانية، لا يتغير مع الضمائر.
+- Affirmative: Subject + can + base verb (I can swim. He can drive.)
+- Negative: cannot / can't + base verb (She cannot speak French.)
+- Question: Can + Subject + base verb? (Can you help me?)
+- خطأ شائع: He cans swim (خطأ) - الصحيح: He can swim
+
+Module 08: Adjectives
+- تصف الاسم، لا تتغير للجمع (happys خطأ، happy صحيح)
+- الترتيب: Opinion, Size, Age, Color, Noun
+- Appearance: tall/short, young/old.
+- Personality: happy, angry, lazy, shy, kind.
+- Professional = behaving in a serious and correct way at work
+- Confident = sure about yourself and your abilities
+- Responsible = able to take care of things and people
+- Creative = having new ideas; good at making something original
+
+Module 09: Like / Likes
+- I/You/We/They: like -- He/She/It: likes
+- Negative: don't like / doesn't like (بعد doesn't base form دائماً)
+- Question: Do...like? / Does...like?
+- Food: Delicious soup, Healthy salad, Tasty pasta, Sweet fruit, Spicy chicken.
+- Drinks: Cold juice, Hot tea, Warm water, Iced coffee.
+- Workplace: Team dinner, Menu options, Online orders, Budget for meals, Cafeteria.
+
+Module 10: Past Simple was/were
+- I/He/She/It: was -- You/We/They: were
+- Negative: wasn't / weren't -- Question: Was/Were + subject?
+- History vocabulary: History, Discovery, Journey, Tomb.
+- Diploma vocabulary: Audience, Investigation, Training, Policy.
+
+Module 11: Past Simple Regular Verbs
+- Affirmative: verb+ed (worked, visited, played)
+- Negative: didn't + base verb (didn't work correct -- didn't worked wrong)
+- Question: Did + base verb? (Did you study?)
+- Months: January(1), February(2), March(3), April(4), May(5), June(6), July(7), August(8), September(9), October(10), November(11), December(12)
+- Vocabulary: Equipment (tools for work), Invoice (payment document), Inspection (safety check), Event (planned activity).
+
+Module 12: Past Simple Irregular Verbs
+- go to went, see to saw, eat to ate, drink to drank, run to ran, have to had, take to took, buy to bought, meet to met, make to made
+- في النفي والسؤال: did + base form (didn't go correct -- didn't went wrong)
+
+Module 06: Sequencing and Passive Voice
+- Sequencing words: First, Next/Then, After that, Finally
+- Process vocabulary: process, step, instruction, procedure, method
+- Action verbs: install, activate, connect, submit, complete
+- Passive Voice: Object + is/are + past participle
+  Examples: Updates are installed. Data is stored. Errors are detected.
+
+Modules 02, 04, 05: Reading, Descriptions, Comparisons
+- Skimming = reading for general idea -- Scanning = looking for specific info
+- Technical vocabulary: device, system, feature, storage, update, configure, interface, version, performance
+- Descriptive phrases: designed for, suitable for, equipped with, available in, compatible with
+- Technical adjectives: compact, durable, efficient, portable, reliable
+- Comparatives short: faster than -- long: more efficient than
+- Superlatives short: the fastest -- long: the most efficient
+- Irregular: good to better to best -- bad to worse to worst
+- Comparison vocabulary: advantage, disadvantage, benefit, limitation, similar, different, increase, decrease, percentage, average
+`;
 // =============================================================
 // SEU Study Hub AI Tutor - Cloudflare Worker (v2)
 // =============================================================
@@ -268,7 +330,8 @@ const SUBJECT_MAP = {
   stats: { name: 'الإحصاء وتحليل البيانات (STA104)', content: STATS_CONTENT },
   osc: { name: 'نظم التشغيل (OSC)', content: OSC_CONTENT },
   python: { name: 'البايثون (PYT103)', content: PYTHON_CONTENT },
-  general: { name: 'عام', content: STATS_CONTENT + '\n\n' + OSC_CONTENT + '\n\n' + PYTHON_CONTENT }
+  elg: { name: 'اللغة الإنجليزية (ELG201)', content: ELG_CONTENT },
+  general: { name: 'عام', content: STATS_CONTENT + '\n\n' + OSC_CONTENT + '\n\n' + PYTHON_CONTENT + '\n\n' + ELG_CONTENT }
 };
 
 // =============================================================
