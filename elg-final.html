@@ -1,507 +1,1091 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🇬🇧 ELG 201 — Applied English (Full Study Guide)</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>🇬🇧 ELG201 — اللغة الإنجليزية التطبيقية (المنهج الكامل)</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/mathjs@12/lib/browser/math.js"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
-  --bg: #f8fafc; --panel: #ffffff; --border: #e2e8f0;
-  --text: #0f172a; --muted: #475569; --light: #94a3b8;
-  --blue: #1d4ed8; --blue-light: #dbeafe;
-  --cyan: #0891b2; --cyan-light: #cffafe;
-  --green: #16a34a; --green-light: #dcfce7;
-  --orange: #f97316; --orange-light: #ffedd5;
-  --yellow: #ca8a04; --yellow-light: #fef9c3;
-  --red: #dc2626; --red-light: #fee2e2;
+  --bg: #f8fafc; --panel: #ffffff; --border: #e2e8f0; --border-strong: #cbd5e1;
+  --text: #0f172a; --text-muted: #475569; --text-light: #64748b;
+  --primary: #1d4ed8; --primary-dark: #1e40af; --primary-light: #dbeafe;
+  --accent: #f59e0b; --accent-light: #fef3c7;
+  --success: #16a34a; --success-light: #dcfce7;
+  --danger: #dc2626; --danger-light: #fee2e2;
+  --info: #2563eb; --info-light: #dbeafe;
   --purple: #7c3aed; --purple-light: #ede9fe;
-  --teal: #0f766e; --teal-light: #ccfbf1;
-  --shadow: 0 2px 8px rgba(15,23,42,0.06);
-  --shadow-lg: 0 8px 24px rgba(15,23,42,0.1);
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0 12px 24px -8px rgba(15, 23, 42, 0.12);
 }
-body { font-family: 'Inter', 'Noto Sans Arabic', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; }
+html, body { font-family: 'Noto Sans Arabic', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7;  overscroll-behavior-y: auto; -webkit-overflow-scrolling: touch; }
+body { display: flex; min-height: 100vh; }
 
-/* ── Sidebar ── */
+/* Sidebar */
 .sidebar {
-  width: 270px; background: white; border-right: 1px solid var(--border);
-  position: fixed; top: 0; left: 0; bottom: 0; overflow-y: auto;
-  padding: 0 0 20px; z-index: 50; flex-shrink: 0;
+  width: 290px; background: white; border-left: 1px solid var(--border);
+  position: fixed; top: 0; right: 0; bottom: 0; overflow-y: auto;
+  padding: 16px 0; z-index: 50;
 }
-.sidebar-header { padding: 16px; border-bottom: 1px solid var(--border); background: linear-gradient(135deg, #1d4ed8, #0891b2); }
-.sidebar-header h2 { color: white; font-size: 16px; font-weight: 800; }
-.sidebar-header p { color: rgba(255,255,255,0.75); font-size: 12px; margin-top: 3px; }
-.module-section { padding: 10px 12px 2px; font-size: 10px; font-weight: 800; letter-spacing: 1px; color: var(--light); text-transform: uppercase; }
+.sidebar-header { padding: 0 16px 14px; border-bottom: 1px solid var(--border); margin-bottom: 10px; }
+.sidebar-title { display: flex; align-items: center; gap: 10px; }
+.sidebar-logo {
+  width: 38px; height: 38px; background: linear-gradient(135deg, #0891b2, #16a34a);
+  border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 18px; flex-shrink: 0;
+}
+.sidebar-title h2 { font-size: 14px; font-weight: 800; color: var(--text); line-height: 1.4; }
+.sidebar-title p { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+.progress-summary { background: var(--primary-light); border-radius: 8px; padding: 8px 12px; margin: 0 16px 12px; font-size: 12px; color: var(--primary-dark); font-weight: 600; text-align: center; }
+.topic-list { list-style: none; padding: 0 8px; }
 .topic-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 14px; cursor: pointer; border-radius: 8px;
-  margin: 2px 8px; transition: all 0.2s; font-size: 13px; font-weight: 500;
+  display: flex; align-items: center; gap: 10px; padding: 9px 10px;
+  border-radius: 8px; cursor: pointer; transition: all 0.15s;
+  font-size: 13px; color: var(--text-muted); font-weight: 600;
+  border: 1px solid transparent; margin-bottom: 2px;
 }
-.topic-item:hover { background: var(--blue-light); }
-.topic-item.active { background: var(--blue); color: white; font-weight: 700; }
-.topic-num { width: 28px; height: 28px; border-radius: 7px; background: #e2e8f0; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; font-weight: 700; }
-.topic-item.active .topic-num { background: rgba(255,255,255,0.2); }
-.sidebar-progress { padding: 12px 14px; margin: 8px; background: var(--bg); border-radius: 10px; border: 1px solid var(--border); }
-.progress-bar { height: 6px; background: #e2e8f0; border-radius: 4px; margin-top: 6px; }
-.progress-fill { height: 100%; background: linear-gradient(90deg, var(--blue), var(--cyan)); border-radius: 4px; transition: width 0.4s; }
+.topic-item:hover { background: var(--bg); color: var(--text); }
+.topic-item.active { background: var(--primary); color: white; }
+.topic-item.visited:not(.active) { background: var(--success-light); color: #14532d; }
+.topic-num {
+  width: 26px; height: 26px; background: var(--bg); border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono'; font-weight: 700; font-size: 12px;
+  flex-shrink: 0;
+}
+.topic-item.active .topic-num { background: rgba(255,255,255,0.25); color: white; }
+.topic-item.visited:not(.active) .topic-num { background: var(--success); color: white; }
+.sidebar-footer { padding: 12px 16px; border-top: 1px solid var(--border); margin-top: 12px; }
+.sidebar-footer button {
+  width: 100%; padding: 8px 12px; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; font-family: inherit; font-size: 12px; font-weight: 600;
+  color: var(--text-muted); cursor: pointer;
+}
+.sidebar-footer button:hover { background: var(--primary); color: white; border-color: var(--primary); }
 
-/* ── Main ── */
-.main { margin-left: 270px; flex: 1; }
+/* Main */
+.main { margin-right: 290px; flex: 1; padding: 28px 36px 60px; max-width: 1100px; }
+.topic-section { display: none; }
+.topic-section.active { display: block; animation: fadeIn 0.3s; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-/* ── Topic ── */
-.topic-panel { display: none; }
-.topic-panel.active { display: block; }
-
-/* ── Topic Header ── */
 .topic-header {
-  padding: 28px 36px; color: white;
-  background: linear-gradient(135deg, #1d4ed8, #0891b2);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--success) 100%);
+  border-radius: 16px; padding: 22px 26px; color: white; margin-bottom: 22px;
+  box-shadow: var(--shadow-lg);
 }
-.topic-label { font-size: 12px; font-weight: 600; opacity: 0.8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-.topic-title { font-size: 28px; font-weight: 800; line-height: 1.2; margin-bottom: 6px; }
-.topic-subtitle { font-size: 15px; opacity: 0.85; font-weight: 400; }
+.topic-header .label { font-size: 12px; opacity: 0.85; font-weight: 600; }
+.topic-header h1 { font-size: 26px; font-weight: 800; margin-top: 4px; }
+.topic-header p { font-size: 14px; opacity: 0.95; margin-top: 8px; }
 
-/* ── Content ── */
-.section { padding: 28px 36px; border-bottom: 1px solid var(--border); }
-.section:last-child { border-bottom: none; }
-h2 { font-size: 18px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
-h2 .icon { width: 32px; height: 32px; border-radius: 8px; background: var(--blue); display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
-h3 { font-size: 15px; font-weight: 700; color: var(--blue); margin: 18px 0 10px; }
-p { font-size: 14px; line-height: 1.7; color: var(--muted); margin-bottom: 12px; }
-ul, ol { padding-right: 0; padding-left: 20px; margin-bottom: 14px; }
-li { font-size: 14px; line-height: 1.7; color: var(--muted); margin-bottom: 4px; }
-strong { color: var(--text); }
-code { font-family: monospace; background: #f1f5f9; padding: 2px 7px; border-radius: 5px; font-size: 13px; color: var(--blue); }
+.section { background: white; border-radius: 14px; padding: 22px 24px; margin-bottom: 18px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+.section h2 { font-size: 18px; color: var(--primary-dark); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+.section h2 .icon { width: 32px; height: 32px; background: var(--primary-light); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.section h3 { font-size: 15px; color: var(--text); margin: 14px 0 8px; font-weight: 700; }
+.section p { color: var(--text-muted); font-size: 14px; margin-bottom: 8px; line-height: 1.8; }
+.section ul { list-style: none; padding: 0; margin-bottom: 8px; }
+.section ul li {
+  position: relative; padding-right: 22px; margin-bottom: 6px; font-size: 13.5px;
+  color: var(--text-muted); line-height: 1.8;
+}
+.section ul li::before {
+  content: ''; position: absolute; right: 6px; top: 11px;
+  width: 6px; height: 6px; background: var(--primary); border-radius: 50%;
+}
+.section ul li strong { color: var(--text); font-weight: 700; }
+.eng { font-family: 'JetBrains Mono'; font-size: 12px; color: var(--info); background: var(--info-light); padding: 1px 6px; border-radius: 4px; direction: ltr; display: inline-block; }
 
-/* ── Table ── */
-.compare-table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin-bottom: 16px; }
-.compare-table th { background: var(--blue); color: white; padding: 10px 14px; text-align: left; font-weight: 700; font-size: 13px; }
-.compare-table td { padding: 9px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
-.compare-table tr:nth-child(even) td { background: #f8fafc; }
-.compare-table tr:hover td { background: var(--blue-light); }
+.tip-box { background: var(--info-light); border-right: 4px solid var(--info); padding: 12px 16px; border-radius: 8px; margin: 12px 0; font-size: 13.5px; color: #0c4a6e; line-height: 1.8; }
+.tip-box strong { color: var(--info); }
+.tip-box::before { content: '💡 '; }
+.warn-box { background: var(--danger-light); border-right: 4px solid var(--danger); padding: 12px 16px; border-radius: 8px; margin: 12px 0; font-size: 13.5px; color: #7f1d1d; line-height: 1.8; }
+.warn-box::before { content: '⚠️ '; }
+.example-box { background: var(--success-light); border-right: 4px solid var(--success); padding: 14px 18px; border-radius: 8px; margin: 14px 0; font-size: 13.5px; color: #14532d; line-height: 1.8; }
+.example-box strong { color: var(--success); }
+.example-box::before { content: '📝 مثال: '; font-weight: 700; }
+.story-box { background: #fffbeb; border-right: 4px solid var(--accent); padding: 14px 18px; border-radius: 8px; margin: 14px 0; font-size: 13.5px; color: #78350f; line-height: 1.9; }
+.story-box::before { content: '🎬 تشبيه: '; font-weight: 700; color: var(--accent); }
 
-/* ── Definition Box ── */
 .definition-box {
-  background: var(--blue-light); border-right: 4px solid var(--blue); border-left: 4px solid var(--blue);
-  padding: 14px 18px; border-radius: 10px; margin-bottom: 16px;
-  font-size: 14px; color: #1e3a8a; line-height: 1.7;
+  background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+  border: 2px solid #7c3aed; border-right: 6px solid #7c3aed;
+  padding: 16px 20px; border-radius: 12px; margin: 18px 0;
+  font-size: 14px; color: #4c1d95; line-height: 1.9;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.08);
 }
-.definition-box .term { font-weight: 800; font-size: 15px; display: block; margin-bottom: 4px; }
+.definition-box::before {
+  content: '📖 التعريف الرسمي من المنهج';
+  display: block; font-weight: 800; color: #7c3aed;
+  margin-bottom: 10px; padding-bottom: 8px;
+  border-bottom: 2px dashed #c4b5fd; font-size: 13px;
+}
+.definition-box .term {
+  font-weight: 800; color: #5b21b6; background: white;
+  padding: 2px 8px; border-radius: 4px; display: inline-block;
+}
+.definition-box .logic {
+  margin-top: 12px; padding: 10px 14px;
+  background: rgba(255,255,255,0.6); border-radius: 8px;
+  border-right: 3px solid #a78bfa;
+}
+.definition-box .logic::before {
+  content: '⚙️ المنطق وراء العمل: ';
+  font-weight: 800; color: #6d28d9;
+}
 
-/* ── Formula Box ── */
+
 .formula-box {
-  background: var(--yellow-light); border: 2px solid #fbbf24;
-  border-radius: 10px; padding: 14px 20px; margin: 12px 0;
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  border: 2px solid var(--primary);
+  border-radius: 12px; padding: 18px 22px; margin: 16px 0;
   text-align: center;
 }
-.formula { font-size: 16px; font-weight: 700; color: var(--text); font-family: monospace; }
-.formula-name { font-size: 12px; color: var(--yellow); font-weight: 700; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+.formula-box .formula-name { font-size: 12px; color: var(--primary); font-weight: 700; margin-bottom: 8px; }
+.formula-box .formula { font-family: 'JetBrains Mono', monospace; font-size: 18px; color: var(--primary-dark); font-weight: 600; direction: ltr; }
+.formula-box .legend { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.8; }
 
-/* ── Tip / Warn Box ── */
-.tip-box { background: var(--cyan-light); border-right: 4px solid var(--cyan); padding: 12px 16px; border-radius: 8px; margin: 12px 0; font-size: 13.5px; color: #164e63; line-height: 1.6; }
-.warn-box { background: var(--red-light); border-right: 4px solid var(--red); padding: 12px 16px; border-radius: 8px; margin: 12px 0; font-size: 13.5px; color: #7f1d1d; line-height: 1.6; }
+.compare-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px; }
+.compare-table th, .compare-table td { border: 1px solid var(--border); padding: 10px 12px; text-align: right; }
+.compare-table th { background: var(--primary-light); color: var(--primary-dark); font-weight: 700; }
+.compare-table tr:nth-child(even) td { background: var(--bg); }
 
-/* ── Badge ── */
-.badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; }
-.badge-blue { background: var(--blue-light); color: var(--blue); }
-.badge-green { background: var(--green-light); color: var(--green); }
-.badge-red { background: var(--red-light); color: var(--red); }
-
-/* ── Mobile ── */
-@media (max-width: 768px) {
-  .sidebar { width: 240px; transform: translateX(-100%); transition: transform 0.3s; }
-  .sidebar.open { transform: translateX(0); }
-  .main { margin-left: 0; }
-  .topic-header { padding: 20px 20px; }
-  .topic-title { font-size: 22px; }
-  .section { padding: 20px 20px; }
-  .menu-btn { display: flex; }
+/* === INTERACTIVE STEP-BY-STEP SOLUTION (NEW FEATURE) === */
+.step-solver {
+  background: linear-gradient(180deg, #fafbfc 0%, #f1f5f9 100%);
+  border: 2px solid var(--purple);
+  border-radius: 14px;
+  padding: 0;
+  margin: 18px 0;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.1);
 }
-.menu-btn {
-  display: none; position: fixed; top: 14px; left: 14px; z-index: 100;
-  background: var(--blue); color: white; border: none; border-radius: 10px;
-  width: 42px; height: 42px; font-size: 20px; cursor: pointer; align-items: center; justify-content: center;
+.step-solver-header {
+  background: linear-gradient(135deg, var(--purple), #ec4899);
+  color: white;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
 }
+.step-solver-title {
+  font-weight: 800;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.step-progress {
+  background: rgba(255,255,255,0.2);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'JetBrains Mono';
+}
+.step-solver-body { padding: 18px 22px 22px; }
+.step-question {
+  background: var(--info-light);
+  border-right: 3px solid var(--info);
+  padding: 14px 16px;
+  border-radius: 8px;
+  margin-bottom: 14px;
+  font-size: 14px;
+  color: #1e3a8a;
+  line-height: 1.9;
+  font-weight: 500;
+  display: none;
+}
+.step-question.shown { display: block; animation: slideIn 0.4s; }
+.step-question::before { content: '📋 السؤال: '; font-weight: 700; color: var(--info); }
+@keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+.step-item {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-right-width: 4px;
+  border-right-color: var(--purple);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  display: none;
+  animation: slideIn 0.4s;
+}
+.step-item.shown { display: block; }
+.step-item.shown:last-of-type {
+  border-right-color: var(--success);
+  background: linear-gradient(90deg, var(--success-light), white);
+}
+.step-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--purple);
+  background: var(--purple-light);
+  padding: 3px 10px;
+  border-radius: 12px;
+  display: inline-block;
+  margin-bottom: 8px;
+  font-family: 'JetBrains Mono';
+}
+.step-item:last-of-type.shown .step-label { color: var(--success); background: var(--success-light); }
+.step-content { font-size: 14px; color: var(--text); line-height: 1.9; }
+.step-content .calc {
+  background: #1e293b; color: #fde68a;
+  font-family: 'JetBrains Mono'; font-size: 13px;
+  padding: 8px 12px; border-radius: 6px;
+  margin: 8px 0; direction: ltr; text-align: left;
+  display: inline-block; min-width: 60%;
+}
+.step-content .highlight {
+  background: var(--accent-light); color: #78350f;
+  padding: 2px 8px; border-radius: 4px; font-weight: 700;
+}
+.step-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+.step-btn {
+  padding: 10px 18px;
+  background: var(--purple);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s;
+}
+.step-btn:hover { background: var(--primary-dark); transform: translateY(-1px); }
+.step-btn:active { transform: translateY(0); }
+.step-btn:disabled {
+  background: var(--border-strong); cursor: not-allowed;
+  transform: none;
+}
+.step-btn.reset { background: var(--text-muted); }
+.step-btn.reset:hover { background: var(--text); }
+.step-btn .arrow { font-size: 16px; }
+
+/* App buttons (Excel/Python) */
+.app-link-row {
+  display: flex; gap: 10px; margin: 12px 0; flex-wrap: wrap;
+}
+.app-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 16px; background: white; border: 1.5px solid var(--border-strong);
+  border-radius: 10px; cursor: pointer; font-family: inherit;
+  font-size: 13px; font-weight: 600; color: var(--text);
+  text-decoration: none; transition: all 0.15s;
+}
+.app-link:hover { border-color: var(--primary); background: var(--primary-light); color: var(--primary-dark); }
+.app-link .ico { font-size: 18px; }
+.app-link.excel:hover { border-color: var(--success); background: var(--success-light); color: #14532d; }
+.app-link.python:hover { border-color: #3776ab; background: #e0f2fe; color: #1e3a8a; }
+
+/* Quiz */
+.quiz-section { background: white; border-radius: 14px; padding: 20px 22px; margin-top: 14px; box-shadow: var(--shadow); border: 2px solid var(--accent); }
+.quiz-section h2 { color: #b45309; }
+.quiz-section h2 .icon { background: var(--accent-light); color: var(--accent); }
+.quiz-q { background: var(--bg); padding: 14px 16px; border-radius: 10px; margin-bottom: 12px; }
+.quiz-q .q-text { font-weight: 600; margin-bottom: 10px; line-height: 1.7; font-size: 14px; }
+.quiz-options { display: flex; flex-direction: column; gap: 6px; }
+.quiz-option { background: white; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; cursor: pointer; font-family: inherit; font-size: 13px; text-align: right; display: flex; align-items: center; gap: 8px; }
+.quiz-option:hover { border-color: var(--primary); background: var(--primary-light); }
+.quiz-option.correct { background: var(--success-light); border-color: var(--success); color: #14532d; }
+.quiz-option.wrong { background: var(--danger-light); border-color: var(--danger); color: #7f1d1d; }
+.quiz-option .letter { width: 22px; height: 22px; background: var(--bg); border-radius: 5px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 11px; font-family: 'JetBrains Mono'; flex-shrink: 0; }
+.quiz-option.correct .letter { background: var(--success); color: white; }
+.quiz-option.wrong .letter { background: var(--danger); color: white; }
+.quiz-explain { font-size: 12.5px; color: var(--text-muted); margin-top: 8px; padding: 8px 12px; background: white; border-radius: 6px; line-height: 1.7; display: none; }
+.quiz-q.answered .quiz-explain { display: block; }
+
+.objectives { background: var(--bg); border-radius: 10px; padding: 14px 18px; margin-bottom: 16px; }
+.objectives h3 { color: var(--primary-dark); margin-bottom: 8px; font-size: 14px; }
+.objectives ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 4px 14px; }
+.objectives ul li { font-size: 13px; padding-right: 18px; }
+
+.diagram-wrap { background: white; border-radius: 10px; padding: 16px; margin: 14px 0; border: 1px solid var(--border); text-align: center; }
+.diagram-wrap svg { max-width: 100%; height: auto; }
+
+.code-block {
+  background: #1e293b; color: #e2e8f0;
+  font-family: 'JetBrains Mono'; font-size: 13px;
+  padding: 14px 18px; border-radius: 8px;
+  margin: 12px 0; direction: ltr; text-align: left;
+  overflow-x: auto; line-height: 1.8;
+}
+.code-block .keyword { color: #c084fc; }
+.code-block .string { color: #fde68a; }
+.code-block .comment { color: #94a3b8; font-style: italic; }
+.code-block .number { color: #86efac; }
+.code-block .func { color: #93c5fd; }
+
+@media (max-width: 900px) {
+  body { display: block; }
+  .sidebar { position: fixed; right: -290px; transition: right 0.3s; z-index: 100; }
+  .sidebar.open { right: 0; box-shadow: -4px 0 20px rgba(0,0,0,0.15); }
+  .main { margin-right: 0; padding: 16px; }
+  .menu-toggle { display: flex !important; position: fixed; top: 14px; left: 14px; z-index: 60; width: 42px; height: 42px; background: var(--primary); color: white; border: none; border-radius: 10px; cursor: pointer; align-items: center; justify-content: center; font-size: 18px; box-shadow: var(--shadow); }
+  .topic-header h1 { font-size: 20px; }
+}
+.menu-toggle { display: none; }
 </style>
 </head>
 <body>
 
-<button class="menu-btn" id="menuBtn" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+<button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
 
-<!-- ═══ SIDEBAR ═══ -->
 <aside class="sidebar">
   <div class="sidebar-header">
-    <h2>🇬🇧 ELG 201</h2>
-    <p>Applied English — Full Study Guide</p>
+    <div class="sidebar-title">
+      <div class="sidebar-logo" style="background: linear-gradient(135deg, #1d4ed8, #0891b2);">🇬🇧</div>
+      <div>
+        <h2>الإنجليزي — النهائي</h2>
+        <p>ELG201 · Applied English</p>
+      </div>
+    </div>
   </div>
-
-  <div class="sidebar-progress">
-    <div style="font-size:12px;font-weight:600;color:var(--muted);">Progress</div>
-    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-    <div style="font-size:11px;color:var(--light);margin-top:4px;" id="progressText">0 / 10 topics</div>
-  </div>
-
-  <div class="module-section">Course Overview</div>
-  <div class="topic-item active" data-topic="intro" onclick="showTopic('intro')">
-    <span class="topic-num" style="background:#1d4ed8;color:white;">📋</span>
-    <span>Course Intro & Assessment</span>
-  </div>
-
-  <div class="module-section">Grammar Modules</div>
-  <div class="topic-item" data-topic="m07" onclick="showTopic('m07')">
-    <span class="topic-num" style="background:#0891b2;color:white;">07</span>
-    <span>Can / Can't — Ability</span>
-  </div>
-  <div class="topic-item" data-topic="m08" onclick="showTopic('m08')">
-    <span class="topic-num" style="background:#7c3aed;color:white;">08</span>
-    <span>Adjectives</span>
-  </div>
-  <div class="topic-item" data-topic="m09" onclick="showTopic('m09')">
-    <span class="topic-num" style="background:#f97316;color:white;">09</span>
-    <span>Like / Don't Like</span>
-  </div>
-  <div class="topic-item" data-topic="m10" onclick="showTopic('m10')">
-    <span class="topic-num" style="background:#16a34a;color:white;">10</span>
-    <span>Past Simple: was / were</span>
-  </div>
-  <div class="topic-item" data-topic="m11" onclick="showTopic('m11')">
-    <span class="topic-num" style="background:#ca8a04;color:white;">11</span>
-    <span>Past Simple: Regular (+ed)</span>
-  </div>
-  <div class="topic-item" data-topic="m12" onclick="showTopic('m12')">
-    <span class="topic-num" style="background:#dc2626;color:white;">12</span>
-    <span>Past Simple: Irregular</span>
-  </div>
-
-  <div class="module-section">Skills & Vocabulary</div>
-  <div class="topic-item" data-topic="m06" onclick="showTopic('m06')">
-    <span class="topic-num" style="background:#0891b2;color:white;">06</span>
-    <span>Sequencing & Processes</span>
-  </div>
-  <div class="topic-item" data-topic="m02-04" onclick="showTopic('m02-04')">
-    <span class="topic-num" style="background:#1d4ed8;color:white;">📖</span>
-    <span>Reading & Comparisons</span>
-  </div>
-
-  <div class="module-section">Quick Reference</div>
-  <div class="topic-item" data-topic="summary" onclick="showTopic('summary')">
-    <span class="topic-num" style="background:#0f172a;color:white;">⭐</span>
-    <span>Grammar Summary (All)</span>
+  <div class="progress-summary" id="progressSummary">📈 تقدمك: 0 / 10</div>
+  <ul class="topic-list" id="topicList">
+    <li class="topic-item" data-topic="1"><span class="topic-num">1</span><span>📋 مقدمة المقرر والتقييم</span></li>
+    <li class="topic-item" data-topic="m07" style="background: linear-gradient(135deg, #cffafe, #a5f3fc); border: 1px solid #0891b2;"><span class="topic-num" style="background: #0891b2; color: white;">07</span><span style="font-weight: 700;">🎯 Can / Can't</span></li>
+    <li class="topic-item" data-topic="m08" style="background: linear-gradient(135deg, #ede9fe, #ddd6fe); border: 1px solid #7c3aed;"><span class="topic-num" style="background: #7c3aed; color: white;">08</span><span style="font-weight: 700;">✨ الصفات Adjectives</span></li>
+    <li class="topic-item" data-topic="m09" style="background: linear-gradient(135deg, #ffedd5, #fed7aa); border: 1px solid #f97316;"><span class="topic-num" style="background: #f97316; color: white;">09</span><span style="font-weight: 700;">🍕 Like / Don't Like</span></li>
+    <li class="topic-item" data-topic="m10" style="background: linear-gradient(135deg, #dcfce7, #bbf7d0); border: 1px solid #16a34a;"><span class="topic-num" style="background: #16a34a; color: white;">10</span><span style="font-weight: 700;">⏪ Past: was/were</span></li>
+    <li class="topic-item" data-topic="m11" style="background: linear-gradient(135deg, #fef9c3, #fde68a); border: 1px solid #ca8a04;"><span class="topic-num" style="background: #ca8a04; color: white;">11</span><span style="font-weight: 700;">📅 Past Regular: +ed</span></li>
+    <li class="topic-item" data-topic="m12" style="background: linear-gradient(135deg, #fee2e2, #fecaca); border: 1px solid #dc2626;"><span class="topic-num" style="background: #dc2626; color: white;">12</span><span style="font-weight: 700;">⚡ Past Irregular Verbs</span></li>
+    <li class="topic-item" data-topic="m06" style="background: linear-gradient(135deg, #cffafe, #a5f3fc); border: 1px solid #0891b2;"><span class="topic-num" style="background: #0891b2; color: white;">06</span><span style="font-weight: 700;">🔧 Sequencing & Passive</span></li>
+    <li class="topic-item" data-topic="m02-04" style="background: linear-gradient(135deg, #dbeafe, #bfdbfe); border: 1px solid #1d4ed8;"><span class="topic-num" style="background: #1d4ed8; color: white;">📖</span><span style="font-weight: 700;">Reading & Comparisons</span></li>
+    <li class="topic-item" data-topic="summary" style="background: linear-gradient(135deg, #f1f5f9, #e2e8f0); border: 2px solid #0f172a; margin-top: 12px;"><span class="topic-num" style="background: #0f172a; color: white;">⭐</span><span style="font-weight: 800;">Grammar Summary</span></li>
+    </ul>
+  <div class="sidebar-footer">
+    <button onclick="resetProgress()">🔄 إعادة تعيين التقدم</button>
   </div>
 </aside>
 
-<!-- ═══ MAIN ═══ -->
 <main class="main">
 
-<!-- ─── INTRO ─── -->
-<div class="topic-panel active" id="panel-intro">
-  <div class="topic-header" style="background:linear-gradient(135deg,#1d4ed8,#0891b2);">
-    <div class="topic-label">ELG 201 · Module 01</div>
-    <h1 class="topic-title">📘 Course Introduction & Overview</h1>
-    <p class="topic-subtitle">Course structure, goals, assessment distribution</p>
-  </div>
   <div class="section">
-    <h2><span class="icon" style="background:#1d4ed8;">🎯</span> Course Description</h2>
-    <p>This course develops students' foundational English language skills with a focus on <strong>grammar, reading, vocabulary, conversation, and writing</strong>. Designed for Generative AI Diploma students to use English in academic and professional settings.</p>
-    <div class="definition-box">
-      <span class="term">ELG 201 — Applied English</span>
-      Course Code: ELG 201 | Credit Hours: 3 | Type: Required | Mode: Online
-    </div>
-    <h2><span class="icon" style="background:#0891b2;">📅</span> Weekly Topics</h2>
-    <table class="compare-table">
-      <tr><th>Week</th><th>Topics Covered</th></tr>
-      <tr><td>01</td><td>Course introduction, assessment, expectations</td></tr>
-      <tr><td>02</td><td>Sequencing words (first, next, then, finally) · Imperatives · Present Simple</td></tr>
-      <tr><td>03</td><td>Skimming & scanning · Passive voice intro (is used, is built)</td></tr>
-      <tr><td>04</td><td>Email structure · Modals (could, would, can) · Linking words</td></tr>
-      <tr><td>05</td><td>Charts & graphs · Comparatives · Superlatives · There is/are</td></tr>
-      <tr><td>06</td><td>Past Simple (describing events) · Modals for advice (should, could)</td></tr>
-      <tr><td>07</td><td>Imperatives (review) · Time order phrases (before, after, when)</td></tr>
-      <tr><td>08</td><td style="color:#dc2626;font-weight:700;">⚠️ Midterm Exam</td></tr>
-      <tr><td>09</td><td>Opinions (I think, I believe) · Wh-questions · Modal verbs</td></tr>
-      <tr><td>10</td><td>Summarizing · Reporting verbs (says, explains, describes)</td></tr>
-      <tr><td>11</td><td>Presentations · Future (going to) · Linkers (first, next, finally)</td></tr>
-      <tr><td>12</td><td>Ethical AI · Modals for obligation (must, must not) · Passive voice</td></tr>
-      <tr><td>13</td><td>Simple reports · Past Simple · Passive voice · Percentages</td></tr>
-      <tr><td>14</td><td>Trends · Future with will & going to · Would like to</td></tr>
-    </table>
-    <h2><span class="icon" style="background:#16a34a;">📊</span> Assessment Distribution</h2>
-    <table class="compare-table">
-      <tr><th>Activity</th><th>Timing</th><th>Weight</th></tr>
-      <tr><td>Assignment</td><td>Week 6</td><td><strong style="color:#dc2626;">8%</strong></td></tr>
-      <tr><td>Quiz 1 & 2</td><td>Weeks 4–11</td><td><strong style="color:#dc2626;">14%</strong></td></tr>
-      <tr><td>Project</td><td>Weeks 3–13</td><td><strong style="color:#dc2626;">13%</strong></td></tr>
-      <tr><td>Attendance & Participation</td><td>Weeks 1–13</td><td><strong style="color:#dc2626;">5%</strong></td></tr>
-      <tr><td>Midterm Exam</td><td>Week 7–8</td><td><strong style="color:#dc2626;">20%</strong></td></tr>
-      <tr><td>Final Exam</td><td>Week 14–16</td><td><strong style="color:#dc2626;">40%</strong></td></tr>
-    </table>
-    <div class="tip-box"><strong>Weekly Structure:</strong> Grammar Lesson → Vocabulary & Speaking → Listening or Reading Task → Writing Practice → Online Activities or Quiz</div>
-  </div>
-</div>
+    <h2><span class="icon">📋</span> مقدمة المقرر — ELG 201 Applied English</h2>
+    <p><strong>ELG 201 — Applied English</strong> مقرر مصمم لتطوير مهارات اللغة الإنجليزية الأساسية لطلاب دبلوم الذكاء الاصطناعي التوليدي، مع التركيز على القواعد، القراءة، المفردات، المحادثة، والكتابة. المواد الأساسية مستمدة من كتاب <em>Life Beginner</em>.</p>
 
-<!-- ─── MODULE 07: CAN ─── -->
-<div class="topic-panel" id="panel-m07">
-  <div class="topic-header" style="background:linear-gradient(135deg,#0891b2,#0e7490);">
-    <div class="topic-label">ELG 201 · Module 07</div>
-    <h1 class="topic-title">🎯 Can / Can't — Ability & Possibility</h1>
-    <p class="topic-subtitle">Modal verb Can | Vocabulary: Hobbies & Skills</p>
+    <div class="story-box">
+      المقرر يطبّق English في سياقات أكاديمية ومهنية حقيقية. كل أسبوع: درس Grammar → Vocabulary & Speaking → Listening or Reading → Writing → Quiz. الهدف: تكون قادراً على التواصل بثقة في بيئة العمل التقنية والاجتماعية.
+    </div>
+
+    <h3>تفاصيل المقرر</h3>
+    <ul>
+      <li><strong>رمز المقرر <span class="eng">Course Code</span>:</strong> ELG 201</li>
+      <li><strong>عدد الساعات <span class="eng">Credit Hours</span>:</strong> 3 ساعات</li>
+      <li><strong>نوع المقرر <span class="eng">Type</span>:</strong> برنامج (إلزامي)</li>
+      <li><strong>الفصل الدراسي <span class="eng">Semester</span>:</strong> الثاني</li>
+      <li><strong>طريقة التدريس <span class="eng">Teaching Mode</span>:</strong> أونلاين</li>
+    </ul>
   </div>
+
   <div class="section">
-    <h2><span class="icon" style="background:#0891b2;">📐</span> Grammar: Can / Can't</h2>
-    <div class="definition-box"><span class="term">Can</span> A <strong>modal verb</strong> expressing ability or possibility. Same for ALL subjects — never add "s" in third person.</div>
-    <h3>✅ Affirmative: Subject + can + base verb</h3>
+    <h2><span class="icon" style="background:#dc2626;">📊</span> توزيع الدرجات (Assessment)</h2>
+    <p>إجمالي الدرجات يُقسّم إلى 6 عناصر — تأكد أن تعرف وزن كل عنصر:</p>
+
     <table class="compare-table">
-      <tr><th>Subject</th><th>Example</th><th>Note</th></tr>
-      <tr><td>I</td><td>I <strong>can</strong> speak Spanish.</td><td>✓</td></tr>
-      <tr><td>He / She / It</td><td>He <strong>can</strong> swim well.</td><td>✓ NOT "cans"</td></tr>
-      <tr><td>We / They</td><td>They <strong>can</strong> play guitar.</td><td>✓</td></tr>
+      <tr><th>#</th><th>النشاط <span class="eng">Activity</span></th><th>التوقيت</th><th>الوزن</th></tr>
+      <tr><td>1</td><td>الواجب <span class="eng">Assignment</span></td><td>الأسبوع 6</td><td><strong style="color:#dc2626;">8%</strong></td></tr>
+      <tr><td>2</td><td>الكويزات <span class="eng">Quiz 1 & 2</span></td><td>الأسابيع 4–11</td><td><strong style="color:#dc2626;">14%</strong></td></tr>
+      <tr><td>3</td><td>المشروع <span class="eng">Project</span></td><td>الأسابيع 3–13</td><td><strong style="color:#dc2626;">13%</strong></td></tr>
+      <tr><td>4</td><td>الحضور والمشاركة</td><td>الأسابيع 1–13</td><td><strong style="color:#dc2626;">5%</strong></td></tr>
+      <tr><td>5</td><td>اختبار منتصف الفصل <span class="eng">Midterm</span></td><td>الأسبوع 7–8</td><td><strong style="color:#dc2626;">20%</strong></td></tr>
+      <tr><td>6</td><td>الاختبار النهائي <span class="eng">Final Exam</span></td><td>الأسابيع 14–16</td><td><strong style="color:#dc2626;">40%</strong></td></tr>
     </table>
-    <h3>❌ Negative: cannot / can't</h3>
+
+    <div class="tip-box">
+      <strong>ملاحظة مهمة:</strong> الاختبار النهائي يمثّل <strong>40%</strong> من المجموع — أعلى وزن منفرد في المقرر. التركيز على القواعد (Past Simple، Adjectives، Can/Can't) ضروري للحصول على درجة عالية.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#0891b2;">📅</span> المنهج الأسبوعي الكامل (14 أسبوعاً)</h2>
     <table class="compare-table">
-      <tr><th>Form</th><th>Example</th></tr>
-      <tr><td>cannot (formal)</td><td>I <strong>cannot</strong> play football.</td></tr>
-      <tr><td>can't (informal)</td><td>She <strong>can't</strong> speak French.</td></tr>
+      <tr><th>الأسبوع</th><th>المحتوى</th></tr>
+      <tr><td><strong>01</strong></td><td>مقدمة المقرر، التقييم، التوقعات</td></tr>
+      <tr><td><strong>02</strong></td><td>كلمات التسلسل <span class="eng">Sequencing</span> (first, next, then, finally) + الأوامر <span class="eng">Imperatives</span> + المضارع البسيط</td></tr>
+      <tr><td><strong>03</strong></td><td>القراءة السريعة <span class="eng">Skimming</span> والمسح <span class="eng">Scanning</span> + مقدمة المبني للمجهول (is used, is built)</td></tr>
+      <tr><td><strong>04</strong></td><td>بنية البريد الإلكتروني + الأفعال المساعدة <span class="eng">Modals</span> (could, would, can) + روابط الجمل</td></tr>
+      <tr><td><strong>05</strong></td><td>الرسوم البيانية والجداول + المقارنة <span class="eng">Comparatives</span> + التفضيل <span class="eng">Superlatives</span></td></tr>
+      <tr><td><strong>06</strong></td><td>الماضي البسيط لوصف الأحداث + Modals للنصيحة (should, could)</td></tr>
+      <tr><td><strong>07</strong></td><td>الأوامر (مراجعة) + روابط الزمن (before, after, when)</td></tr>
+      <tr><td style="background:#fee2e2; color:#dc2626;"><strong>08</strong></td><td style="color:#dc2626;font-weight:700;">⚠️ اختبار منتصف الفصل <span class="eng">Midterm Exam</span></td></tr>
+      <tr><td><strong>09</strong></td><td>إبداء الرأي (I think, I believe) + Wh-questions + Modal verbs</td></tr>
+      <tr><td><strong>10</strong></td><td>التلخيص + أفعال النقل (says, explains, describes)</td></tr>
+      <tr><td><strong>11</strong></td><td>تنظيم العروض التقديمية + المستقبل (going to) + Linkers</td></tr>
+      <tr><td><strong>12</strong></td><td>الذكاء الاصطناعي الأخلاقي + Modals للإلزام (must, have to) + المبني للمجهول</td></tr>
+      <tr><td><strong>13</strong></td><td>كتابة التقارير + الماضي البسيط + النسب المئوية</td></tr>
+      <tr><td><strong>14</strong></td><td>توجهات التقنية + المستقبل (will، going to) + Would like to</td></tr>
     </table>
-    <h3>❓ Questions: Can + Subject + base verb?</h3>
+
+    <div class="definition-box">
+      <strong class="term">الهيكل الأسبوعي</strong>
+      <div class="logic">كل أسبوع يتكرر بنفس النمط: Grammar Lesson ← Vocabulary & Speaking ← Listening or Reading Task ← Writing Practice ← Online Activities or Quiz</div>
+    </div>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> كويز سريع — مقدمة المقرر</h2>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س1:</strong> كم وزن الاختبار النهائي في ELG201؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">أ</span><span>20%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">ب</span><span>30%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">ج</span><span>40%</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 2)"><span class="letter">د</span><span>50%</span></button>
+      </div>
+      <div class="quiz-explain">الاختبار النهائي = 40% — أعلى وزن منفرد، يأتي في الأسابيع 14–16.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س2:</strong> متى يكون اختبار منتصف الفصل؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>الأسبوع 5</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>الأسبوع 7–8</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>الأسبوع 10</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>الأسبوع 14</span></button>
+      </div>
+      <div class="quiz-explain">Midterm يأتي في الأسبوع 7–8 ووزنه 20%.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>س3:</strong> كم عدد الكويزات في المقرر؟</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">أ</span><span>1 (وزنه 14%)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">ب</span><span>2 (مجموعهم 14%)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">ج</span><span>3 (مجموعهم 14%)</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 1)"><span class="letter">د</span><span>4 (مجموعهم 14%)</span></button>
+      </div>
+      <div class="quiz-explain">يوجد Quiz 1 و Quiz 2، يأتيان بين الأسبوعين 4–11، ومجموع وزنهما 14%.</div>
+    </div>
+  </div>
+
+<script>
+// ============================================================
+// ELG201 — Applied English | All Topics in JavaScript
+// ============================================================
+const TOPICS = {};
+
+
+// ============================================================
+// TOPIC m07 - Can / Can't
+// ============================================================
+TOPICS['m07'] = `
+<section class="topic-section" id="topic-m07">
+  <div class="topic-header" style="background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);">
+    <div class="label">Module 07 · Grammar</div>
+    <h1>🎯 Can / Can't — التعبير عن القدرة</h1>
+    <p>Modal verb للقدرة والإمكانية + مفردات الهوايات والمهارات</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📐</span> ما هو فعل <span class="eng">Can</span>؟</h2>
+    <div class="definition-box">
+      <span class="term">Can</span> هو <strong>modal verb</strong> (فعل ناقص) يُستخدم للتعبير عن <strong>القدرة <span class="eng">ability</span></strong> أو <strong>الإمكانية <span class="eng">possibility</span></strong>.
+      <div class="logic">القاعدة الذهبية: Can هو نفسه مع كل الضمائر — لا نضيف "s" في الضمير الغائب المفرد (he/she/it)، ولا نضيف "ed" للماضي، ولا نُعرّبه. الفعل الذي يلي can دائماً في صيغة المصدر (base form) بدون "to".</div>
+    </div>
+
+    <h3>1. الجملة المثبتة <span class="eng">Affirmative</span></h3>
+    <div class="formula-box">
+      <div class="formula-name">الصيغة</div>
+      <div class="formula">Subject + can + base verb + ...</div>
+      <div class="legend">مثال: I <strong>can</strong> speak Spanish.</div>
+    </div>
+
     <table class="compare-table">
-      <tr><th>Question</th><th>Short Answer</th></tr>
+      <tr><th>الضمير</th><th>المثال</th><th>الترجمة</th></tr>
+      <tr><td>I</td><td>I can speak Spanish.</td><td>أستطيع التحدث بالإسبانية</td></tr>
+      <tr><td>He / She / It</td><td>He can swim well.</td><td>يستطيع السباحة جيداً</td></tr>
+      <tr><td>We / They</td><td>They can play the guitar.</td><td>يستطيعون عزف الجيتار</td></tr>
+    </table>
+
+    <div class="warn-box">
+      <strong>أخطاء شائعة:</strong> لا تقل أبداً ❌ "He cans swim" أو ❌ "She can drives". الصحيح: ✅ He can swim. ✅ She can drive (بدون s).
+    </div>
+
+    <h3>2. الجملة المنفية <span class="eng">Negative</span></h3>
+    <div class="formula-box">
+      <div class="formula">Subject + cannot / can't + base verb</div>
+      <div class="legend">cannot = can't (مختصرة)</div>
+    </div>
+
+    <ul>
+      <li>I <strong>cannot</strong> play football.</li>
+      <li>We <strong>can't</strong> go to the cinema tonight.</li>
+      <li>She <strong>cannot</strong> speak French very well.</li>
+      <li>He <strong>can't</strong> drive a car.</li>
+    </ul>
+
+    <h3>3. السؤال <span class="eng">Question</span></h3>
+    <div class="formula-box">
+      <div class="formula">Can + Subject + base verb + ... ?</div>
+      <div class="legend">يبدأ الفعل المساعد can ثم الفاعل ثم الفعل الأساسي</div>
+    </div>
+
+    <table class="compare-table">
+      <tr><th>السؤال</th><th>إجابة قصيرة</th></tr>
       <tr><td>Can you speak Japanese?</td><td>Yes, I can. / No, I can't.</td></tr>
       <tr><td>Can I sit here please?</td><td>Yes, you can.</td></tr>
+      <tr><td>Where can I buy an ice-cream?</td><td>You can buy it at the shop.</td></tr>
       <tr><td>What can we do on Saturday?</td><td>We can go to the park.</td></tr>
     </table>
-    <h2><span class="icon" style="background:#16a34a;">📚</span> Vocabulary: Hobbies & Skills</h2>
-    <table class="compare-table">
-      <tr><th>Hobby / Skill</th><th>Can sentence</th></tr>
-      <tr><td>Climbing</td><td>I can go climbing on weekends.</td></tr>
-      <tr><td>Painting</td><td>She can paint beautiful pictures.</td></tr>
-      <tr><td>Cooking</td><td>He can cook Italian food.</td></tr>
-      <tr><td>Reading</td><td>They can read technical manuals easily.</td></tr>
-      <tr><td>Walking / Hiking</td><td>We can walk for hours.</td></tr>
-      <tr><td>Shopping</td><td>I can't go shopping today.</td></tr>
-    </table>
-    <h2><span class="icon" style="background:#7c3aed;">📝</span> Practice (from curriculum)</h2>
-    <table class="compare-table">
-      <tr><th>#</th><th>Sentence</th><th>✓ Answer</th></tr>
-      <tr><td>1</td><td>Ali can _____ the car. (driving / drives / drive)</td><td><strong>drive</strong></td></tr>
-      <tr><td>2</td><td>They _____ go to the mall — it is raining.</td><td><strong>can't</strong></td></tr>
-      <tr><td>3</td><td>I _____ speak French. (don't can / not can / can't)</td><td><strong>can't</strong></td></tr>
-      <tr><td>4</td><td>Sara can _____ spicy food. (ate / eats / eat)</td><td><strong>eat</strong></td></tr>
-    </table>
-    <div class="warn-box">⚠️ <strong>Common Errors:</strong> NEVER say "He <s>cans</s> swim" or "She <s>don't can</s> drive". Correct: He <strong>can</strong> swim. She <strong>can't</strong> drive.</div>
   </div>
-</div>
 
-<!-- ─── MODULE 08: ADJECTIVES ─── -->
-<div class="topic-panel" id="panel-m08">
-  <div class="topic-header" style="background:linear-gradient(135deg,#7c3aed,#6d28d9);">
-    <div class="topic-label">ELG 201 · Module 08</div>
-    <h1 class="topic-title">✨ Adjectives — Describing People & Things</h1>
-    <p class="topic-subtitle">Adjective order | Appearance | Personality | Technical</p>
-  </div>
   <div class="section">
-    <h2><span class="icon" style="background:#7c3aed;">📐</span> What is an Adjective?</h2>
-    <div class="definition-box"><span class="term">Adjective</span> A word that <strong>describes a noun</strong>. Comes before a noun <em>(a kind man)</em> or after "to be" <em>(She is smart)</em>. Same form for singular and plural.</div>
-    <h3>Adjective Order: Opinion → Size → Age → Color → Noun</h3>
+    <h2><span class="icon" style="background:#16a34a;">📚</span> المفردات: Hobbies & Skills</h2>
+    <table class="compare-table">
+      <tr><th>المفردة <span class="eng">Word</span></th><th>المعنى</th><th>مثال بـ Can</th></tr>
+      <tr><td>Climbing</td><td>تسلق</td><td>I can go climbing on weekends.</td></tr>
+      <tr><td>Painting</td><td>رسم</td><td>She can paint beautiful pictures.</td></tr>
+      <tr><td>Cooking</td><td>طبخ</td><td>He can cook Italian food.</td></tr>
+      <tr><td>Reading</td><td>قراءة</td><td>They can read technical manuals.</td></tr>
+      <tr><td>Walking</td><td>مشي</td><td>We can walk for hours.</td></tr>
+      <tr><td>Shopping</td><td>تسوق</td><td>I can't go shopping today.</td></tr>
+    </table>
+  </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> Practice (من المنهج part 7)</h2>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q1:</strong> Ali can _______ the car.</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">A</span><span>driving</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">B</span><span>drives</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">C</span><span>drive</span></button>
+      </div>
+      <div class="quiz-explain">بعد can يأتي base form فقط — drive (بدون s ولا ing).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q2:</strong> They ________ go to the mall because it is raining.</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">A</span><span>can</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">B</span><span>can't</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">C</span><span>not</span></button>
+      </div>
+      <div class="quiz-explain">because + raining = سبب لعدم الذهاب → can't.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q3:</strong> I ______ speak French.</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">A</span><span>don't can</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">B</span><span>not can</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">C</span><span>can't</span></button>
+      </div>
+      <div class="quiz-explain">نفي can = cannot أو can't. لا نستخدم don't مع can.</div>
+    </div>
+  </div>
+</section>
+`;
+console.log("ELG m07 done");
+
+// ============================================================
+// TOPIC m08 - Adjectives
+// ============================================================
+TOPICS['m08'] = `
+<section class="topic-section" id="topic-m08">
+  <div class="topic-header" style="background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);">
+    <div class="label">Module 08 · Grammar</div>
+    <h1>✨ Adjectives — وصف الأشخاص والأشياء</h1>
+    <p>الصفات: التعريف، الترتيب، ومفردات المظهر والشخصية</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#7c3aed;">📐</span> ما هي الصفة <span class="eng">Adjective</span>؟</h2>
+    <div class="definition-box">
+      <span class="term">Adjective</span> كلمة <strong>تصف الاسم</strong>. تأتي قبل الاسم <em>(a kind man)</em> أو بعد فعل to be <em>(She is smart)</em>.
+      <div class="logic">قاعدة جوهرية: الصفة في الإنجليزية <strong>لا تتغير</strong> في الجمع. ✅ "They are happy" — وليس "happys". ✅ "She has black eyes" — وليس "blacks eyes". هذه قاعدة تجعل الصفات أسهل من العربية بكثير.</div>
+    </div>
+
+    <ul>
+      <li>She is <strong>beautiful</strong>. ('beautiful' تصف she)</li>
+      <li>My father bought a <strong>big</strong> car.</li>
+      <li>Nora is <strong>tall</strong>.</li>
+      <li>He has <strong>green</strong> eyes.</li>
+      <li>The machine is <strong>fast</strong>.</li>
+    </ul>
+
+    <h3>ترتيب الصفات <span class="eng">Adjective Order</span></h3>
+    <div class="formula-box">
+      <div class="formula-name">القاعدة الذهبية للترتيب</div>
+      <div class="formula">Opinion + Size + Age + Color + Noun</div>
+      <div class="legend">رأي ← حجم ← عمر ← لون ← اسم</div>
+    </div>
+
     <table class="compare-table">
       <tr><th>Opinion</th><th>Size</th><th>Age</th><th>Color</th><th>Noun</th></tr>
       <tr><td>beautiful</td><td>big</td><td>new</td><td>red</td><td>car ✓</td></tr>
       <tr><td>nice</td><td>small</td><td>—</td><td>—</td><td>bag ✓</td></tr>
+      <tr><td>—</td><td>—</td><td>long</td><td>old</td><td>story ✓</td></tr>
     </table>
-    <h2><span class="icon" style="background:#16a34a;">👤</span> Vocabulary: Appearance</h2>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#16a34a;">👤</span> مفردات المظهر <span class="eng">Appearance</span></h2>
     <table class="compare-table">
-      <tr><th>Adjective</th><th>Example</th></tr>
-      <tr><td>Tall / Short</td><td>She is tall. He is short.</td></tr>
-      <tr><td>Young / Old</td><td>The young student passed the exam.</td></tr>
-      <tr><td>New / Old</td><td>She wears new clothes.</td></tr>
+      <tr><th>الصفة</th><th>المعنى</th><th>المثال</th></tr>
+      <tr><td>Tall / Short</td><td>طويل / قصير</td><td>She is tall. He is short.</td></tr>
+      <tr><td>Young / Old</td><td>شاب / كبير السن</td><td>The young student passed the exam.</td></tr>
+      <tr><td>New / Old</td><td>جديد / قديم</td><td>She wears new clothes.</td></tr>
     </table>
-    <h2><span class="icon" style="background:#dc2626;">💬</span> Vocabulary: Personality</h2>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#dc2626;">💬</span> مفردات الشخصية <span class="eng">Personality</span></h2>
     <table class="compare-table">
-      <tr><th>Adjective</th><th>Meaning (Arabic)</th><th>Example</th></tr>
-      <tr><td>Happy / Angry</td><td>سعيد / غاضب</td><td>The team was happy after the project.</td></tr>
-      <tr><td>Lazy / Hardworking</td><td>كسول / مجتهد</td><td>Ali is lazy. He never does homework.</td></tr>
+      <tr><th>الصفة</th><th>المعنى</th><th>المثال</th></tr>
+      <tr><td>Happy</td><td>سعيد</td><td>The team was happy after the project.</td></tr>
+      <tr><td>Angry</td><td>غاضب</td><td>He felt angry about the decision.</td></tr>
+      <tr><td>Lazy</td><td>كسول</td><td>Ali is lazy. He never does homework.</td></tr>
+      <tr><td>Hardworking</td><td>مجتهد</td><td>The hardworking student passed easily.</td></tr>
       <tr><td>Shy / Confident</td><td>خجول / واثق</td><td>She is confident in presentations.</td></tr>
-      <tr><td>Kind / Professional</td><td>لطيف / محترف</td><td>My teacher is very kind.</td></tr>
-      <tr><td>Creative / Responsible</td><td>مبدع / مسؤول</td><td>She is responsible and creative.</td></tr>
+      <tr><td>Kind</td><td>لطيف</td><td>My teacher is very kind. She always helps.</td></tr>
+      <tr><td>Professional</td><td>محترف</td><td>The manager is professional. He speaks well.</td></tr>
+      <tr><td>Responsible</td><td>مسؤول</td><td>She is responsible for the project.</td></tr>
+      <tr><td>Creative</td><td>مبدع</td><td>Creative people make new ideas.</td></tr>
     </table>
-    <h2><span class="icon" style="background:#0891b2;">💻</span> Technical Adjectives (Diploma Context)</h2>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#0891b2;">💻</span> الصفات التقنية (سياق الدبلوم)</h2>
     <table class="compare-table">
-      <tr><th>Adjective</th><th>Meaning</th><th>Example</th></tr>
+      <tr><th>الصفة</th><th>المعنى</th><th>المثال</th></tr>
       <tr><td>intelligent / smart</td><td>ذكي</td><td>The machine is intelligent.</td></tr>
       <tr><td>fast / slow</td><td>سريع / بطيء</td><td>The processor is fast.</td></tr>
       <tr><td>powerful</td><td>قوي</td><td>The system is powerful.</td></tr>
       <tr><td>user-friendly</td><td>سهل الاستخدام</td><td>The interface is user-friendly.</td></tr>
       <tr><td>complex / simple</td><td>معقد / بسيط</td><td>The process is complex.</td></tr>
     </table>
-    <h2><span class="icon" style="background:#7c3aed;">📝</span> Practice</h2>
-    <table class="compare-table">
-      <tr><th>Sentence</th><th>Answer</th></tr>
-      <tr><td>They are _____. (happy / happys / a happy)</td><td><strong>happy</strong></td></tr>
-      <tr><td>Nora has _____ eyes. (black / tall / short)</td><td><strong>black</strong></td></tr>
-      <tr><td>My teacher is very _____. She always helps. (kind / lazy)</td><td><strong>kind</strong></td></tr>
-    </table>
-    <div class="warn-box">⚠️ Adjectives NEVER change for plural: "They are <strong>happy</strong>" (NOT "happys")</div>
   </div>
-</div>
 
-<!-- ─── MODULE 09: LIKE ─── -->
-<div class="topic-panel" id="panel-m09">
-  <div class="topic-header" style="background:linear-gradient(135deg,#f97316,#c2410c);">
-    <div class="topic-label">ELG 201 · Module 09</div>
-    <h1 class="topic-title">🍕 Like / Don't Like — Preferences</h1>
-    <p class="topic-subtitle">Like vs Likes | Do vs Does | Food & Drinks vocabulary</p>
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> Practice (من المنهج part 8)</h2>
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q1:</strong> They are _____.</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">A</span><span>happy</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">B</span><span>happys</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">C</span><span>a happy</span></button>
+      </div>
+      <div class="quiz-explain">الصفات لا تتغير في الجمع — happy ثابتة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q2:</strong> My teacher is very _____ . She always helps us.</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">A</span><span>kind</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">B</span><span>lazy</span></button>
+      </div>
+      <div class="quiz-explain">"helps us" تدل على المساعدة → kind (لطيفة).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q3:</strong> Ali is _______. He never does his homework.</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">A</span><span>hardworking</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">B</span><span>lazy</span></button>
+      </div>
+      <div class="quiz-explain">"never does homework" تدل على الكسل → lazy.</div>
+    </div>
   </div>
+</section>
+`;
+console.log("ELG m08 done");
+
+// ============================================================
+// TOPIC m09 - Like / Don't Like
+// ============================================================
+TOPICS['m09'] = `
+<section class="topic-section" id="topic-m09">
+  <div class="topic-header" style="background: linear-gradient(135deg, #f97316 0%, #c2410c 100%);">
+    <div class="label">Module 09 · Grammar</div>
+    <h1>🍕 Like / Don't Like — التعبير عن التفضيلات</h1>
+    <p>Like vs Likes + Do vs Does + مفردات الطعام والمشروبات</p>
+  </div>
+
   <div class="section">
-    <h2><span class="icon" style="background:#f97316;">📐</span> Grammar: Like / Likes</h2>
+    <h2><span class="icon" style="background:#f97316;">📐</span> القاعدة: Like / Likes</h2>
+    <div class="definition-box">
+      <span class="term">Like</span> فعل يُستخدم للتعبير عن <strong>الإعجاب أو التفضيل</strong>. التغيير الوحيد: مع He/She/It نضيف <strong>"s"</strong> فتصبح <em>likes</em>.
+      <div class="logic">قاعدة عامة في Present Simple: كل الأفعال تأخذ "s" مع الضمير الغائب المفرد (he/she/it). هذه القاعدة تنطبق على like, eat, drink, work, study وغيرها. الاستثناء الوحيد: modal verbs مثل can التي لا تتغير أبداً.</div>
+    </div>
+
+    <h3>1. الجملة المثبتة</h3>
     <table class="compare-table">
-      <tr><th>Form</th><th>Subject</th><th>Structure</th><th>Example</th></tr>
-      <tr><td>✅ Affirmative</td><td>I / You / We / They</td><td>Subject + <strong>like</strong></td><td>I like pizza.</td></tr>
-      <tr><td>✅ Affirmative</td><td>He / She / It</td><td>Subject + <strong>likes</strong></td><td>She likes tea.</td></tr>
-      <tr><td>❌ Negative</td><td>I / You / We / They</td><td>Subject + <strong>don't like</strong></td><td>I don't like coffee.</td></tr>
-      <tr><td>❌ Negative</td><td>He / She / It</td><td>Subject + <strong>doesn't like</strong></td><td>He doesn't like milk.</td></tr>
-      <tr><td>❓ Question</td><td>I / You / We / They</td><td><strong>Do</strong> + subject + like?</td><td>Do you like juice?</td></tr>
-      <tr><td>❓ Question</td><td>He / She / It</td><td><strong>Does</strong> + subject + like?</td><td>Does she like pizza?</td></tr>
+      <tr><th>الضمير</th><th>الفعل</th><th>المثال</th></tr>
+      <tr><td>I / You / We / They</td><td><strong>like</strong></td><td>I like pizza. They like rice.</td></tr>
+      <tr><td>He / She / It</td><td><strong>likes</strong></td><td>She likes tea. He likes coffee.</td></tr>
     </table>
-    <h2><span class="icon" style="background:#16a34a;">🥗</span> Vocabulary: Food & Drinks</h2>
+
+    <h3>2. الجملة المنفية</h3>
     <table class="compare-table">
-      <tr><th>Expression</th><th>Arabic</th></tr>
+      <tr><th>الضمير</th><th>الصيغة</th><th>المثال</th></tr>
+      <tr><td>I / You / We / They</td><td><strong>don't like</strong></td><td>I don't like coffee.</td></tr>
+      <tr><td>He / She / It</td><td><strong>doesn't like</strong></td><td>He doesn't like milk.</td></tr>
+    </table>
+
+    <h3>3. السؤال</h3>
+    <table class="compare-table">
+      <tr><th>الضمير</th><th>الصيغة</th><th>المثال</th></tr>
+      <tr><td>I / You / We / They</td><td><strong>Do</strong> + subject + like ?</td><td>Do you like juice?</td></tr>
+      <tr><td>He / She / It</td><td><strong>Does</strong> + subject + like ?</td><td>Does she like pizza?</td></tr>
+    </table>
+
+    <div class="warn-box">
+      مع <span class="eng">doesn't</span> لا نُضيف "s" للفعل! ✅ "He doesn't like" — ❌ "He doesn't likes". السبب: الـ s انتقل إلى does بالفعل.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#16a34a;">🥗</span> مفردات الطعام والمشروبات</h2>
+    <table class="compare-table">
+      <tr><th>الكلمة الإنجليزية</th><th>المعنى العربي</th></tr>
       <tr><td>Delicious soup</td><td>حساء لذيذ</td></tr>
       <tr><td>Healthy salad</td><td>سلطة صحية</td></tr>
       <tr><td>Tasty pasta</td><td>مكرونة شهية</td></tr>
       <tr><td>Sweet fruit</td><td>فاكهة حلوة</td></tr>
       <tr><td>Spicy chicken</td><td>دجاج حار</td></tr>
-      <tr><td>Cold juice / Hot tea</td><td>عصير بارد / شاي ساخن</td></tr>
-      <tr><td>Warm water / Iced coffee</td><td>ماء دافئ / قهوة مثلجة</td></tr>
+      <tr><td>Cold juice</td><td>عصير بارد</td></tr>
+      <tr><td>Hot tea</td><td>شاي ساخن</td></tr>
+      <tr><td>Warm water</td><td>ماء دافئ</td></tr>
+      <tr><td>Iced coffee</td><td>قهوة مثلجة</td></tr>
     </table>
-    <h2><span class="icon" style="background:#0891b2;">💼</span> Workplace Vocabulary</h2>
-    <table class="compare-table">
-      <tr><th>Word</th><th>Meaning</th><th>Example</th></tr>
-      <tr><td>Team dinner</td><td>وجبة جماعية</td><td>We had a team dinner after the project.</td></tr>
-      <tr><td>Menu options</td><td>خيارات القائمة</td><td>The menu options include salads and pasta.</td></tr>
-      <tr><td>Online orders</td><td>طلبات إنترنت</td><td>I prefer online orders for lunch.</td></tr>
-    </table>
-    <h2><span class="icon" style="background:#7c3aed;">📝</span> Practice</h2>
-    <table class="compare-table">
-      <tr><th>Sentence</th><th>Answer</th></tr>
-      <tr><td>I _____ salad. (like / likes)</td><td><strong>like</strong></td></tr>
-      <tr><td>She _____ coffee. (doesn't like / don't like)</td><td><strong>doesn't like</strong></td></tr>
-      <tr><td>Ahmad _____ pizza. (like / likes)</td><td><strong>likes</strong></td></tr>
-      <tr><td>_____ you like juice? (Do / Does)</td><td><strong>Do</strong></td></tr>
-      <tr><td>_____ she like pasta? (Do / Does)</td><td><strong>Does</strong></td></tr>
-    </table>
-  </div>
-</div>
 
-<!-- ─── MODULE 10: WAS/WERE ─── -->
-<div class="topic-panel" id="panel-m10">
-  <div class="topic-header" style="background:linear-gradient(135deg,#16a34a,#15803d);">
-    <div class="topic-label">ELG 201 · Module 10</div>
-    <h1 class="topic-title">⏪ Past Simple — Was / Were</h1>
-    <p class="topic-subtitle">was / weren't | Affirmative, Negative, Questions | History vocabulary</p>
+    <h3>مفردات بيئة العمل</h3>
+    <ul>
+      <li><strong>Team dinner:</strong> وجبة جماعية مع الزملاء. <em>We had a team dinner after the project.</em></li>
+      <li><strong>Menu options:</strong> خيارات قائمة الطعام. <em>The menu options include salads and pasta.</em></li>
+      <li><strong>Online orders:</strong> طلبات عبر الإنترنت. <em>I prefer online orders for lunch.</em></li>
+    </ul>
   </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> Practice (من المنهج part 9)</h2>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q1:</strong> I _____ salad.</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">A</span><span>like</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">B</span><span>likes</span></button>
+      </div>
+      <div class="quiz-explain">مع I → like (بدون s).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q2:</strong> She _____ coffee.</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">A</span><span>doesn't like</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">B</span><span>don't like</span></button>
+      </div>
+      <div class="quiz-explain">مع She → doesn't like.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q3:</strong> Ahmad _____ pizza.</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">A</span><span>like</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">B</span><span>likes</span></button>
+      </div>
+      <div class="quiz-explain">Ahmad = He → likes.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q4:</strong> _____ she like pasta?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">A</span><span>Do</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">B</span><span>Does</span></button>
+      </div>
+      <div class="quiz-explain">مع she → Does.</div>
+    </div>
+  </div>
+</section>
+`;
+console.log("ELG m09 done");
+
+// ============================================================
+// TOPIC m10 - Past Simple was/were
+// ============================================================
+TOPICS['m10'] = `
+<section class="topic-section" id="topic-m10">
+  <div class="topic-header" style="background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);">
+    <div class="label">Module 10 · Grammar</div>
+    <h1>⏪ Past Simple — was / were</h1>
+    <p>الماضي البسيط للفعل to be + مفردات التاريخ والاكتشافات</p>
+  </div>
+
   <div class="section">
-    <h2><span class="icon" style="background:#16a34a;">📐</span> Grammar: was / were</h2>
+    <h2><span class="icon" style="background:#16a34a;">📐</span> القاعدة: was / were</h2>
+    <div class="definition-box">
+      <span class="term">was / were</span> هما الصيغة الماضية لفعل to be. نستخدمها للحديث عن أحداث ماضية وأحوال وأماكن.
+      <div class="logic">القاعدة سهلة: لها صيغتان فقط. <strong>was</strong> مع المفرد (I, He, She, It) — و<strong>were</strong> مع الجمع (You, We, They). لاحظ أن "You" دائماً مع were حتى لو كانت مفردة، مثل عربية "أنتم".</div>
+    </div>
+
+    <div class="formula-box">
+      <div class="formula">I / He / She / It → was &nbsp;&nbsp;|&nbsp;&nbsp; You / We / They → were</div>
+    </div>
+
+    <h3>1. الجملة المثبتة</h3>
+    <ul>
+      <li>I <strong>was</strong> at the park yesterday.</li>
+      <li>She <strong>was</strong> happy last night.</li>
+      <li>They <strong>were</strong> at the museum last week.</li>
+      <li>We <strong>were</strong> in Jeddah.</li>
+    </ul>
+
+    <h3>2. الجملة المنفية</h3>
     <table class="compare-table">
-      <tr><th>Subject</th><th>Affirmative ✅</th><th>Negative ❌</th></tr>
-      <tr><td>I / He / She / It</td><td><strong>was</strong></td><td><strong>wasn't</strong> (was not)</td></tr>
-      <tr><td>You / We / They</td><td><strong>were</strong></td><td><strong>weren't</strong> (were not)</td></tr>
+      <tr><th>الضمير</th><th>الصيغة</th><th>المثال</th></tr>
+      <tr><td>I / He / She / It</td><td><strong>wasn't</strong> (was not)</td><td>I wasn't at school yesterday.</td></tr>
+      <tr><td>You / We / They</td><td><strong>weren't</strong> (were not)</td><td>They weren't late for the meeting.</td></tr>
     </table>
-    <h3>Examples</h3>
+
+    <h3>3. السؤال</h3>
+    <div class="formula-box">
+      <div class="formula">Yes/No: Was/Were + subject + ... ?</div>
+      <div class="formula">Wh-: Wh- + was/were + subject + ... ?</div>
+    </div>
+
     <table class="compare-table">
-      <tr><th>Affirmative</th><th>Negative</th></tr>
-      <tr><td>I <strong>was</strong> at the park yesterday.</td><td>I <strong>wasn't</strong> at school yesterday.</td></tr>
-      <tr><td>She <strong>was</strong> happy last night.</td><td>He <strong>wasn't</strong> tired.</td></tr>
-      <tr><td>They <strong>were</strong> at the museum.</td><td>They <strong>weren't</strong> late.</td></tr>
-    </table>
-    <h3>❓ Questions: Was/Were + Subject + …?</h3>
-    <table class="compare-table">
-      <tr><th>Question</th><th>Short Answer</th></tr>
+      <tr><th>السؤال</th><th>الإجابة القصيرة</th></tr>
       <tr><td>Was she at the library?</td><td>Yes, she was. / No, she wasn't.</td></tr>
       <tr><td>Were they in Jeddah last week?</td><td>Yes, they were. / No, they weren't.</td></tr>
       <tr><td>Where were you yesterday?</td><td>I was at home.</td></tr>
+      <tr><td>Who was your teacher last year?</td><td>My teacher was Mr. Ali.</td></tr>
     </table>
-    <h2><span class="icon" style="background:#0891b2;">📚</span> Vocabulary: Places & History</h2>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#0891b2;">📚</span> مفردات: Past & History</h2>
     <table class="compare-table">
-      <tr><th>Word</th><th>Arabic</th><th>Example</th></tr>
+      <tr><th>الكلمة</th><th>المعنى</th><th>المثال</th></tr>
       <tr><td>History</td><td>التاريخ</td><td>We study history at school.</td></tr>
       <tr><td>Discovery</td><td>اكتشاف</td><td>The discovery of electricity changed the world.</td></tr>
       <tr><td>Journey</td><td>رحلة</td><td>The journey was long and difficult.</td></tr>
       <tr><td>Tomb</td><td>ضريح / مقبرة</td><td>The king's tomb was full of treasures.</td></tr>
     </table>
-    <h2><span class="icon" style="background:#7c3aed;">📝</span> Practice</h2>
-    <table class="compare-table">
-      <tr><th>Sentence</th><th>Answer</th></tr>
-      <tr><td>I ____ at home yesterday. (was / were)</td><td><strong>was</strong></td></tr>
-      <tr><td>They ____ in the classroom. (was / were)</td><td><strong>were</strong></td></tr>
-      <tr><td>She ____ not happy. (was / were)</td><td><strong>was</strong></td></tr>
-      <tr><td>____ you at the hospital last night? (Was / Were)</td><td><strong>Were</strong></td></tr>
-    </table>
-    <div class="tip-box">🔑 <strong>Key Rule:</strong> <strong>was</strong> → I/He/She/It &nbsp;|&nbsp; <strong>were</strong> → You/We/They</div>
   </div>
-</div>
 
-<!-- ─── MODULE 11: REGULAR ─── -->
-<div class="topic-panel" id="panel-m11">
-  <div class="topic-header" style="background:linear-gradient(135deg,#ca8a04,#a16207);">
-    <div class="topic-label">ELG 201 · Module 11</div>
-    <h1 class="topic-title">📅 Past Simple — Regular Verbs (+ed)</h1>
-    <p class="topic-subtitle">verb+ed | didn't + base verb | Months of the Year</p>
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> Practice (من المنهج part 10)</h2>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q1:</strong> I ____ at home yesterday.</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">A</span><span>was</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">B</span><span>were</span></button>
+      </div>
+      <div class="quiz-explain">مع I → was.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q2:</strong> They ____ in the classroom.</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">A</span><span>was</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">B</span><span>were</span></button>
+      </div>
+      <div class="quiz-explain">مع They → were.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q3:</strong> She ____ not happy.</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">A</span><span>was</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">B</span><span>were</span></button>
+      </div>
+      <div class="quiz-explain">مع She → was. الجملة: She wasn't happy.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q4:</strong> ____ you at the hospital last night?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">A</span><span>Was</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">B</span><span>Were</span></button>
+      </div>
+      <div class="quiz-explain">مع You دائماً → Were.</div>
+    </div>
   </div>
+</section>
+`;
+console.log("ELG m10 done");
+
+// ============================================================
+// TOPIC m11 - Past Simple Regular (+ed)
+// ============================================================
+TOPICS['m11'] = `
+<section class="topic-section" id="topic-m11">
+  <div class="topic-header" style="background: linear-gradient(135deg, #ca8a04 0%, #a16207 100%);">
+    <div class="label">Module 11 · Grammar</div>
+    <h1>📅 Past Simple — Regular Verbs (+ed)</h1>
+    <p>الأفعال المنتظمة في الماضي + الشهور + مفردات الدبلوم</p>
+  </div>
+
   <div class="section">
-    <h2><span class="icon" style="background:#ca8a04;">📐</span> Grammar: Regular Verbs</h2>
-    <div class="definition-box"><span class="term">Regular Verbs in Past Simple</span> Add <strong>-ed</strong> to the base verb: work → worked, visit → visited, play → played.</div>
+    <h2><span class="icon" style="background:#ca8a04;">📐</span> القاعدة: Regular Verbs</h2>
+    <div class="definition-box">
+      <span class="term">Regular Verbs (الأفعال المنتظمة)</span> تأخذ <strong>-ed</strong> في الماضي البسيط. مثل: work → work<strong>ed</strong>, visit → visit<strong>ed</strong>, play → play<strong>ed</strong>.
+      <div class="logic">القاعدة الأهم في كل المنهج: في النفي والسؤال، نستخدم did + الفعل في صيغة المصدر (base form) — وليس الماضي. فالـ "did" يحمل الزمن الماضي بنفسه، لذا الفعل بعده يعود لصيغته الأصلية. ❌ "didn't went" — ✅ "didn't go".</div>
+    </div>
+
+    <h3>1. الجملة المثبتة</h3>
+    <div class="formula-box">
+      <div class="formula">Subject + verb + <strong>ed</strong></div>
+    </div>
+    <ul>
+      <li>I <strong>worked</strong> yesterday.</li>
+      <li>She <strong>visited</strong> her friend last night.</li>
+      <li>They <strong>played</strong> football last week.</li>
+    </ul>
+
+    <h3>2. الجملة المنفية</h3>
+    <div class="formula-box">
+      <div class="formula">Subject + <strong>didn't</strong> + base verb</div>
+      <div class="legend">⚠️ الفعل بعد didn't = base form (بدون ed)</div>
+    </div>
+    <ul>
+      <li>I <strong>didn't work</strong> yesterday.</li>
+      <li>He <strong>didn't visit</strong> his grandparents.</li>
+      <li>They <strong>didn't play</strong> football on Friday.</li>
+    </ul>
+
+    <h3>3. السؤال</h3>
+    <div class="formula-box">
+      <div class="formula">Yes/No: <strong>Did</strong> + subject + base verb ?</div>
+      <div class="formula">Wh-: Wh- + <strong>did</strong> + subject + base verb ?</div>
+    </div>
+    <ul>
+      <li><strong>Did</strong> you study English last night?</li>
+      <li><strong>Did</strong> she attend the meeting yesterday?</li>
+      <li>What <strong>did</strong> you prepare for the class?</li>
+      <li>Where <strong>did</strong> they travel last summer?</li>
+    </ul>
+
+    <div class="warn-box">
+      <strong>أخطاء شائعة:</strong>
+      <ul>
+        <li>❌ "She didn't <s>worked</s>" — ✅ "She didn't work"</li>
+        <li>❌ "Did he <s>visited</s>?" — ✅ "Did he visit?"</li>
+        <li>❌ "Where did they <s>traveled</s>?" — ✅ "Where did they travel?"</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#0891b2;">📅</span> شهور السنة <span class="eng">Months of the Year</span></h2>
     <table class="compare-table">
-      <tr><th>Form</th><th>Structure</th><th>Example</th></tr>
-      <tr><td>✅ Affirmative</td><td>Subject + verb<strong>+ed</strong></td><td>I <strong>worked</strong> yesterday. She <strong>visited</strong>.</td></tr>
-      <tr><td>❌ Negative</td><td>Subject + <strong>didn't</strong> + base verb</td><td>I <strong>didn't work</strong>. He <strong>didn't visit</strong>.</td></tr>
-      <tr><td>❓ Yes/No Q</td><td><strong>Did</strong> + subject + base verb?</td><td><strong>Did</strong> you study last night?</td></tr>
-      <tr><td>❓ Wh- Q</td><td>Wh- + <strong>did</strong> + subject + base verb?</td><td><strong>Where did</strong> they travel?</td></tr>
+      <tr><th>#</th><th>الشهر</th><th>#</th><th>الشهر</th><th>#</th><th>الشهر</th></tr>
+      <tr><td>1</td><td><strong>January</strong></td><td>5</td><td><strong>May</strong></td><td>9</td><td><strong>September</strong></td></tr>
+      <tr><td>2</td><td><strong>February</strong></td><td>6</td><td><strong>June</strong></td><td>10</td><td><strong>October</strong></td></tr>
+      <tr><td>3</td><td><strong>March</strong></td><td>7</td><td><strong>July</strong></td><td>11</td><td><strong>November</strong></td></tr>
+      <tr><td>4</td><td><strong>April</strong></td><td>8</td><td><strong>August</strong></td><td>12</td><td><strong>December</strong></td></tr>
     </table>
-    <div class="warn-box">⚠️ In <strong>negative</strong> and <strong>questions</strong>, use the BASE verb (NOT +ed): "She <strong>didn't go</strong>" NOT "didn't <s>went</s>". "Did he <strong>prepare</strong>?" NOT "did he <s>prepared</s>?"</div>
-    <h2><span class="icon" style="background:#0891b2;">📅</span> Months of the Year</h2>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#7c3aed;">💼</span> مفردات الدبلوم</h2>
     <table class="compare-table">
-      <tr><th>#</th><th>Month</th><th>#</th><th>Month</th><th>#</th><th>Month</th></tr>
-      <tr><td>1</td><td>January</td><td>5</td><td>May</td><td>9</td><td>September</td></tr>
-      <tr><td>2</td><td>February</td><td>6</td><td>June</td><td>10</td><td>October</td></tr>
-      <tr><td>3</td><td>March</td><td>7</td><td>July</td><td>11</td><td>November</td></tr>
-      <tr><td>4</td><td>April</td><td>8</td><td>August</td><td>12</td><td>December</td></tr>
-    </table>
-    <h2><span class="icon" style="background:#7c3aed;">💼</span> Diploma Vocabulary</h2>
-    <table class="compare-table">
-      <tr><th>Word</th><th>Arabic</th><th>Example</th></tr>
-      <tr><td>Equipment</td><td>معدات العمل</td><td>The officer checked the equipment.</td></tr>
+      <tr><th>الكلمة</th><th>المعنى</th><th>المثال</th></tr>
+      <tr><td>Equipment</td><td>معدات</td><td>The officer checked the equipment.</td></tr>
       <tr><td>Invoice</td><td>فاتورة</td><td>Omar prepared an invoice for the client.</td></tr>
-      <tr><td>Inspection</td><td>تفتيش دقيق</td><td>They did an inspection yesterday.</td></tr>
+      <tr><td>Inspection</td><td>تفتيش</td><td>They did an inspection yesterday.</td></tr>
       <tr><td>Event</td><td>نشاط مخطط</td><td>They arranged an event for students.</td></tr>
     </table>
-    <h2><span class="icon" style="background:#ca8a04;">📝</span> Practice</h2>
-    <table class="compare-table">
-      <tr><th>Sentence</th><th>Answer</th></tr>
-      <tr><td>Ali _____ (work) at the office yesterday.</td><td><strong>worked</strong></td></tr>
-      <tr><td>They _____ (not visit) their grandparents.</td><td><strong>didn't visit</strong></td></tr>
-      <tr><td>Did Omar _____ (prepare) a report?</td><td><strong>prepare</strong></td></tr>
-      <tr><td>Where _____ you _____ (travel)?</td><td><strong>did … travel</strong></td></tr>
-    </table>
   </div>
-</div>
 
-<!-- ─── MODULE 12: IRREGULAR ─── -->
-<div class="topic-panel" id="panel-m12">
-  <div class="topic-header" style="background:linear-gradient(135deg,#dc2626,#991b1b);">
-    <div class="topic-label">ELG 201 · Module 12</div>
-    <h1 class="topic-title">⚡ Past Simple — Irregular Verbs</h1>
-    <p class="topic-subtitle">10 essential irregular verbs | Workplace context sentences</p>
-  </div>
-  <div class="section">
-    <h2><span class="icon" style="background:#dc2626;">📐</span> Grammar: Irregular Verbs</h2>
-    <div class="definition-box"><span class="term">Irregular Verbs</span> Do NOT add -ed. Each verb has its own special past form — <strong>must be memorized</strong>.</div>
-    <div class="formula-box">
-      <div class="formula-name">Structure</div>
-      <div class="formula">✅ Subject + Past verb &nbsp;|&nbsp; ❌ Subject + did not + base verb &nbsp;|&nbsp; ❓ Did + Subject + base verb?</div>
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> Practice (من المنهج part 11)</h2>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q1:</strong> Ali ______ (work) at the office yesterday.</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">A</span><span>work</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">B</span><span>worked</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">C</span><span>working</span></button>
+      </div>
+      <div class="quiz-explain">جملة مثبتة في الماضي → worked.</div>
     </div>
-    <h2><span class="icon" style="background:#16a34a;">📚</span> 10 Key Irregular Verbs</h2>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q2:</strong> They ______ (not visit) their grandparents last week.</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">A</span><span>didn't visit</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">B</span><span>didn't visited</span></button>
+      </div>
+      <div class="quiz-explain">بعد didn't نستخدم base form → visit (بدون ed).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q3:</strong> Did Omar ______ (prepare) a report yesterday?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">A</span><span>prepare</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">B</span><span>prepared</span></button>
+      </div>
+      <div class="quiz-explain">بعد Did نستخدم base form → prepare.</div>
+    </div>
+  </div>
+</section>
+`;
+console.log("ELG m11 done");
+
+// ============================================================
+// TOPIC m12 - Past Simple Irregular
+// ============================================================
+TOPICS['m12'] = `
+<section class="topic-section" id="topic-m12">
+  <div class="topic-header" style="background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);">
+    <div class="label">Module 12 · Grammar</div>
+    <h1>⚡ Past Simple — Irregular Verbs</h1>
+    <p>الأفعال الشاذة في الماضي + 10 أفعال أساسية من المنهج</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#dc2626;">📐</span> القاعدة: Irregular Verbs</h2>
+    <div class="definition-box">
+      <span class="term">Irregular Verbs (الأفعال الشاذة)</span> <strong>لا تتبع</strong> قاعدة +ed. كل فعل له صيغته الماضية الخاصة، ويجب <strong>حفظها</strong>.
+      <div class="logic">على عكس Regular Verbs، الأفعال الشاذة تغير شكلها بطرق غير منتظمة: go → went, see → saw, eat → ate. هذه الأفعال الشاذة من أكثر الأفعال استخداماً في الإنجليزية — يجب حفظها جميعاً. لكن في النفي والسؤال، نعود لقاعدة "did + base form" كما في Regular.</div>
+    </div>
+
+    <div class="formula-box">
+      <div class="formula-name">الصيغ الثلاث</div>
+      <div class="formula">✅ Subject + Past verb &nbsp;|&nbsp; ❌ Subject + didn't + base &nbsp;|&nbsp; ❓ Did + Subject + base ?</div>
+    </div>
+
+    <h3>أمثلة على الصيغ الثلاث (مع فعل go)</h3>
+    <ul>
+      <li>✅ <strong>Affirmative:</strong> "I <strong>went</strong> to the park."</li>
+      <li>❌ <strong>Negative:</strong> "I <strong>did not go</strong> to the park."</li>
+      <li>❓ <strong>Question:</strong> "<strong>Did</strong> you <strong>go</strong> to the park?"</li>
+    </ul>
+
+    <div class="warn-box">
+      <strong>أخطاء شائعة:</strong> لا تختلق صيغ منتظمة لأفعال شاذة!
+      <ul>
+        <li>❌ <s>goed</s> → ✅ <strong>went</strong></li>
+        <li>❌ <s>eated</s> → ✅ <strong>ate</strong></li>
+        <li>❌ <s>runned</s> → ✅ <strong>ran</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#16a34a;">📚</span> 10 أفعال شاذة جوهرية (من المنهج part 12)</h2>
     <table class="compare-table">
-      <tr><th>Base Form</th><th>Past Simple</th><th>Workplace Example</th></tr>
+      <tr><th>المصدر <span class="eng">Base</span></th><th>الماضي <span class="eng">Past</span></th><th>مثال من بيئة العمل</th></tr>
       <tr><td>go</td><td style="color:#dc2626;font-weight:700;">went</td><td>The manager <strong>went</strong> to an important meeting.</td></tr>
       <tr><td>see</td><td style="color:#dc2626;font-weight:700;">saw</td><td>The officer <strong>saw</strong> a problem during the inspection.</td></tr>
       <tr><td>eat</td><td style="color:#dc2626;font-weight:700;">ate</td><td>The staff <strong>ate</strong> lunch together in the cafeteria.</td></tr>
@@ -509,174 +1093,428 @@ code { font-family: monospace; background: #f1f5f9; padding: 2px 7px; border-rad
       <tr><td>run</td><td style="color:#dc2626;font-weight:700;">ran</td><td>The trainer <strong>ran</strong> a workshop for new employees.</td></tr>
       <tr><td>have</td><td style="color:#dc2626;font-weight:700;">had</td><td>The accountant <strong>had</strong> a meeting about the budget.</td></tr>
       <tr><td>take</td><td style="color:#dc2626;font-weight:700;">took</td><td>The supervisor <strong>took</strong> action after the accident.</td></tr>
-      <tr><td>buy</td><td style="color:#dc2626;font-weight:700;">bought</td><td>The company <strong>bought</strong> new computers.</td></tr>
+      <tr><td>buy</td><td style="color:#dc2626;font-weight:700;">bought</td><td>The company <strong>bought</strong> new computers for the office.</td></tr>
       <tr><td>meet</td><td style="color:#dc2626;font-weight:700;">met</td><td>The director <strong>met</strong> journalists last week.</td></tr>
       <tr><td>make</td><td style="color:#dc2626;font-weight:700;">made</td><td>The students <strong>made</strong> a business plan in class.</td></tr>
     </table>
-    <h2><span class="icon" style="background:#7c3aed;">📝</span> Practice</h2>
-    <table class="compare-table">
-      <tr><th>Sentence</th><th>Answer</th></tr>
-      <tr><td>Yesterday I _____ (go) to school.</td><td><strong>went</strong></td></tr>
-      <tr><td>She _____ (eat) pizza last night.</td><td><strong>ate</strong></td></tr>
-      <tr><td>They _____ (see) a movie on Friday.</td><td><strong>saw</strong></td></tr>
-      <tr><td>Omar _____ (run) in the park yesterday.</td><td><strong>ran</strong></td></tr>
-      <tr><td>I ____ to the park. (did not went / did not go)</td><td><strong>did not go</strong></td></tr>
-      <tr><td>_____ she see her friend? (Did / Do)</td><td><strong>Did</strong></td></tr>
-    </table>
-    <div class="warn-box">⚠️ NEVER say "<s>goed</s>", "<s>eated</s>", "<s>runned</s>". In negatives/questions: always BASE form → "She <strong>didn't eat</strong>" NOT "didn't <s>ate</s>".</div>
-  </div>
-</div>
 
-<!-- ─── MODULE 06: SEQUENCING ─── -->
-<div class="topic-panel" id="panel-m06">
-  <div class="topic-header" style="background:linear-gradient(135deg,#0891b2,#164e63);">
-    <div class="topic-label">ELG 201 · Module 06</div>
-    <h1 class="topic-title">🔧 Sequencing & Technical Processes</h1>
-    <p class="topic-subtitle">Sequencing words · Imperatives · Passive Voice intro</p>
+    <div class="tip-box">
+      هذه الأفعال العشرة هي <strong>القلب</strong> لمحتوى Module 12 في الاختبار النهائي. حفظها بهذه الجمل من بيئة العمل يساعد على تذكرها لاحقاً.
+    </div>
   </div>
+
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> Practice (من المنهج part 12)</h2>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q1:</strong> Yesterday I ____ (go) to school.</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">A</span><span>goed</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">B</span><span>went</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">C</span><span>going</span></button>
+      </div>
+      <div class="quiz-explain">go فعل شاذ → went.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q2:</strong> She ____ (eat) pizza last night.</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">A</span><span>eated</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">B</span><span>ate</span></button>
+      </div>
+      <div class="quiz-explain">eat فعل شاذ → ate.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q3:</strong> I ____ to the park.</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">A</span><span>did not went</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">B</span><span>did not go</span></button>
+      </div>
+      <div class="quiz-explain">بعد did not نستخدم base form → go (وليس went).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q4:</strong> The manager ____ to an important meeting yesterday.</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 3)"><span class="letter">A</span><span>goes</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 3)"><span class="letter">B</span><span>going</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 3)"><span class="letter">C</span><span>goed</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 3, 3)"><span class="letter">D</span><span>went</span></button>
+      </div>
+      <div class="quiz-explain">"yesterday" = ماضي + go فعل شاذ → went.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q5:</strong> The company ____ new computers for the office last week.</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">A</span><span>buy</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">B</span><span>bought</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">C</span><span>buyed</span></button>
+      </div>
+      <div class="quiz-explain">buy → bought (شاذ). "last week" = ماضي.</div>
+    </div>
+  </div>
+</section>
+`;
+console.log("ELG m12 done");
+
+// ============================================================
+// TOPIC m06 - Sequencing & Passive Voice
+// ============================================================
+TOPICS['m06'] = `
+<section class="topic-section" id="topic-m06">
+  <div class="topic-header" style="background: linear-gradient(135deg, #0891b2 0%, #164e63 100%);">
+    <div class="label">Module 06 · Skills</div>
+    <h1>🔧 Sequencing & Technical Processes</h1>
+    <p>كلمات التسلسل + الأوامر + مقدمة المبني للمجهول</p>
+  </div>
+
   <div class="section">
-    <h2><span class="icon" style="background:#0891b2;">📐</span> Sequencing Words</h2>
+    <h2><span class="icon">📐</span> كلمات التسلسل <span class="eng">Sequencing Words</span></h2>
+    <p>تُستخدم لشرح الخطوات بترتيب واضح في التعليمات التقنية والإجراءات:</p>
+
     <table class="compare-table">
-      <tr><th>Word</th><th>Arabic</th><th>Example</th></tr>
-      <tr><td><strong>First</strong></td><td>في البداية</td><td>First, install the application.</td></tr>
-      <tr><td><strong>Next / Then</strong></td><td>بعد ذلك</td><td>Next, activate the system.</td></tr>
+      <tr><th>الكلمة</th><th>المعنى</th><th>المثال</th></tr>
+      <tr><td><strong>First</strong></td><td>أولاً / في البداية</td><td>First, install the application.</td></tr>
+      <tr><td><strong>Next</strong></td><td>بعد ذلك</td><td>Next, activate the system.</td></tr>
+      <tr><td><strong>Then</strong></td><td>ثم</td><td>Then, click the login button.</td></tr>
       <tr><td><strong>After that</strong></td><td>بعدها</td><td>After that, connect the device.</td></tr>
-      <tr><td><strong>Finally</strong></td><td>في النهاية</td><td>Finally, submit the form.</td></tr>
+      <tr><td><strong>Finally</strong></td><td>أخيراً / في النهاية</td><td>Finally, submit the form.</td></tr>
     </table>
-    <h2><span class="icon" style="background:#16a34a;">💬</span> Process Vocabulary</h2>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#16a34a;">💬</span> مفردات العمليات والأفعال</h2>
+    <h3>Process Language (مفردات الإجراءات)</h3>
+    <ul>
+      <li><strong>process:</strong> عملية / إجراء متكامل</li>
+      <li><strong>step:</strong> خطوة منفردة</li>
+      <li><strong>instruction:</strong> تعليمة محددة</li>
+      <li><strong>procedure:</strong> طريقة عمل رسمية</li>
+      <li><strong>method:</strong> أسلوب أو طريقة</li>
+    </ul>
+
+    <h3>Action Verbs (أفعال الإجراء)</h3>
+    <ul>
+      <li><strong>install:</strong> تثبيت — Please install the software before using it.</li>
+      <li><strong>activate:</strong> تفعيل — Activate the system after installation.</li>
+      <li><strong>connect:</strong> توصيل — Connect the device to the network.</li>
+      <li><strong>submit:</strong> إرسال / تقديم — Submit the form when done.</li>
+      <li><strong>complete:</strong> إكمال — Each step must be completed correctly.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#7c3aed;">🔤</span> الأوامر <span class="eng">Imperatives</span></h2>
+    <div class="definition-box">
+      <span class="term">Imperatives</span> أوامر تبدأ مباشرة بفعل في صيغة المصدر، تُستخدم في التعليمات التقنية والكتيبات وأدلة الاستخدام.
+      <div class="logic">الأوامر لا تحتاج فاعلاً (subject) لأن الفاعل ضمني = "أنت". مثل العربية "افتح الباب" — نقول "Open the door" بدون "You". تبدأ الجملة مباشرة بالفعل.</div>
+    </div>
+
     <table class="compare-table">
-      <tr><th>Category</th><th>Words</th></tr>
-      <tr><td>Process Language</td><td>process, step, instruction, procedure, method</td></tr>
-      <tr><td>Action Verbs</td><td>install, activate, connect, submit, complete</td></tr>
+      <tr><th>الأمر</th><th>المعنى</th><th>المثال</th></tr>
+      <tr><td>Open</td><td>افتح</td><td>Open the settings menu.</td></tr>
+      <tr><td>Click</td><td>انقر</td><td>Click the login button.</td></tr>
+      <tr><td>Go to</td><td>اذهب إلى</td><td>Go to the dashboard.</td></tr>
+      <tr><td>Select</td><td>اختر</td><td>Select your language.</td></tr>
+      <tr><td>Install</td><td>ثبّت</td><td>Install the application first.</td></tr>
     </table>
-    <h2><span class="icon" style="background:#7c3aed;">🔤</span> Imperatives for Instructions</h2>
-    <div class="definition-box"><span class="term">Imperatives</span> Commands that start with a verb. Used in technical instructions, manuals, and step-by-step guides.</div>
-    <table class="compare-table">
-      <tr><th>Imperative</th><th>Example</th></tr>
-      <tr><td>Open</td><td>Open the settings menu.</td></tr>
-      <tr><td>Click</td><td>Click the login button.</td></tr>
-      <tr><td>Go to</td><td>Go to the dashboard.</td></tr>
-      <tr><td>Select</td><td>Select your language.</td></tr>
-      <tr><td>Install</td><td>Install the application first.</td></tr>
-    </table>
-    <h2><span class="icon" style="background:#dc2626;">🔄</span> Passive Voice — Introduction</h2>
-    <div class="definition-box"><span class="term">Passive Voice</span> Focus on what IS DONE, not who does it. Common in technical & scientific writing.</div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#dc2626;">🔄</span> المبني للمجهول <span class="eng">Passive Voice</span> — مقدمة</h2>
+    <div class="definition-box">
+      <span class="term">Passive Voice</span> صيغة نُركّز فيها على <strong>ما يُنجَز</strong> (الفعل) وليس على <strong>من ينجزه</strong> (الفاعل). شائع في الكتابة التقنية والعلمية.
+      <div class="logic">في الجملة العادية (Active): "The system installs the update" — التركيز على system (الفاعل). في المبني للمجهول (Passive): "The update is installed" — التركيز على update (المفعول الذي صار فاعلاً ظاهرياً). نستخدمها عندما لا يهمنا من فعل، بل نريد توضيح أن الفعل تم.</div>
+    </div>
+
     <div class="formula-box">
       <div class="formula">Object + <strong>is / are</strong> + past participle</div>
     </div>
+
     <table class="compare-table">
-      <tr><th>Active</th><th>Passive</th></tr>
-      <tr><td>The system installs the update.</td><td>The update <strong>is installed</strong> automatically.</td></tr>
+      <tr><th>Active (مبني للمعلوم)</th><th>Passive (مبني للمجهول)</th></tr>
+      <tr><td>The system installs the update.</td><td>Updates <strong>are installed</strong> automatically.</td></tr>
       <tr><td>The cloud stores data.</td><td>Data <strong>is stored</strong> in the cloud.</td></tr>
       <tr><td>The system detects errors.</td><td>Errors <strong>are detected</strong> by the system.</td></tr>
-    </table>
-    <h2><span class="icon" style="background:#ca8a04;">📝</span> Vocabulary Quiz Practice</h2>
-    <table class="compare-table">
-      <tr><th>Question</th><th>Answer</th></tr>
-      <tr><td>______, install before restarting. (Finally / First / Then)</td><td><strong>First</strong></td></tr>
-      <tr><td>Enter password. ______, click login. (First / Next / Finally)</td><td><strong>Next</strong></td></tr>
-      <tr><td>What does "Method" mean?</td><td><strong>A way of doing something</strong></td></tr>
-      <tr><td>What does "Activate" mean?</td><td><strong>Make something start working</strong></td></tr>
+      <tr><td>The technician fixes the issue.</td><td>The issue <strong>is fixed</strong> by the technician.</td></tr>
     </table>
   </div>
-</div>
 
-<!-- ─── READING & COMPARISONS ─── -->
-<div class="topic-panel" id="panel-m02-04">
-  <div class="topic-header" style="background:linear-gradient(135deg,#1d4ed8,#7c3aed);">
-    <div class="topic-label">ELG 201 · Modules 02, 04, 05</div>
-    <h1 class="topic-title">📖 Reading, Technical Descriptions & Comparisons</h1>
-    <p class="topic-subtitle">Skimming & Scanning · Technical vocab · Comparatives & Superlatives</p>
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> Vocabulary Quiz (من المنهج part 6)</h2>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q1:</strong> ______, install the application before restarting the system.</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">A</span><span>Finally</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">B</span><span>First</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">C</span><span>After that</span></button>
+      </div>
+      <div class="quiz-explain">"before restarting" تدل على البداية → First.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q2:</strong> Enter your password. ______, click the login button.</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">A</span><span>Finally</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">B</span><span>First</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">C</span><span>Next</span></button>
+      </div>
+      <div class="quiz-explain">بعد إدخال كلمة المرور (خطوة سابقة) → Next.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q3:</strong> What does "Method" mean?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">A</span><span>A result</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">B</span><span>A way of doing something</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">C</span><span>A problem</span></button>
+      </div>
+      <div class="quiz-explain">Method = أسلوب أو طريقة.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q4:</strong> What does "Activate" mean?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">A</span><span>Stop something</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">B</span><span>Make something start working</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">C</span><span>Delete something</span></button>
+      </div>
+      <div class="quiz-explain">Activate = تفعيل، أي جعل الشيء يبدأ بالعمل.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q5:</strong> Change to passive: "The system processes the data."</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">A</span><span>The data is process by the system</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">B</span><span>The data is processed by the system</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">C</span><span>The data are processed</span></button>
+      </div>
+      <div class="quiz-explain">data (مفرد في السياق التقني) + is + past participle (processed).</div>
+    </div>
   </div>
+</section>
+`;
+console.log("ELG m06 done");
+
+// ============================================================
+// TOPIC m02-04 - Reading, Descriptions, Comparisons
+// ============================================================
+TOPICS['m02-04'] = `
+<section class="topic-section" id="topic-m02-04">
+  <div class="topic-header" style="background: linear-gradient(135deg, #1d4ed8 0%, #7c3aed 100%);">
+    <div class="label">Modules 02, 04, 05 · Skills</div>
+    <h1>📖 Reading, Descriptions & Comparisons</h1>
+    <p>القراءة السريعة + المفردات التقنية + المقارنة والتفضيل</p>
+  </div>
+
   <div class="section">
-    <h2><span class="icon" style="background:#1d4ed8;">🔍</span> Reading Strategies</h2>
+    <h2><span class="icon">🔍</span> استراتيجيات القراءة <span class="eng">Reading Strategies</span></h2>
     <table class="compare-table">
-      <tr><th>Strategy</th><th>Definition</th><th>When to Use</th></tr>
-      <tr><td><strong>Skimming</strong></td><td>Read quickly for the general idea</td><td>Understanding the main topic</td></tr>
-      <tr><td><strong>Scanning</strong></td><td>Search for a specific word/fact</td><td>Finding a date, number, or name</td></tr>
+      <tr><th>الاستراتيجية</th><th>التعريف</th><th>متى تستخدمها</th></tr>
+      <tr><td><strong>Skimming</strong> (قراءة سريعة)</td><td>قراءة سريعة لاستخراج الفكرة العامة</td><td>فهم موضوع النص قبل القراءة المتعمقة</td></tr>
+      <tr><td><strong>Scanning</strong> (مسح)</td><td>البحث عن معلومة محددة</td><td>إيجاد تاريخ، رقم، أو اسم بسرعة</td></tr>
     </table>
-    <h2><span class="icon" style="background:#0891b2;">💻</span> Technical Vocabulary (Module 02)</h2>
+
+    <div class="tip-box">
+      Skimming = اقرأ الأسطر الأولى من كل فقرة + الكلمات المظللة. Scanning = حرّك عينك بحثاً عن كلمة محددة فقط.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#0891b2;">💻</span> المفردات التقنية (Module 02)</h2>
     <table class="compare-table">
-      <tr><th>Word</th><th>Arabic</th><th>Example</th></tr>
-      <tr><td>device</td><td>جهاز</td><td>This device connects via Wi-Fi.</td></tr>
+      <tr><th>الكلمة</th><th>المعنى</th><th>المثال</th></tr>
+      <tr><td>device</td><td>جهاز</td><td>This device connects to the system via Wi-Fi.</td></tr>
       <tr><td>system</td><td>نظام</td><td>The OS manages the system.</td></tr>
-      <tr><td>feature</td><td>ميزة</td><td>The new feature improves performance.</td></tr>
+      <tr><td>feature</td><td>ميزة / خاصية</td><td>The new feature improves storage performance.</td></tr>
       <tr><td>storage</td><td>تخزين</td><td>Storage is managed by the OS.</td></tr>
       <tr><td>update</td><td>تحديث</td><td>Check the version after the update.</td></tr>
-      <tr><td>configure</td><td>ضبط/إعداد</td><td>Please configure your device first.</td></tr>
-      <tr><td>interface</td><td>واجهة المستخدم</td><td>The interface is user-friendly.</td></tr>
-      <tr><td>performance</td><td>الأداء</td><td>Performance improved after the update.</td></tr>
+      <tr><td>configure</td><td>ضبط / إعداد</td><td>Please configure your device before installation.</td></tr>
+      <tr><td>interface</td><td>واجهة المستخدم</td><td>The system interface is user-friendly.</td></tr>
+      <tr><td>function</td><td>وظيفة</td><td>This function helps with security.</td></tr>
+      <tr><td>version</td><td>إصدار</td><td>Check the version after the update.</td></tr>
+      <tr><td>performance</td><td>الأداء</td><td>The new feature improves performance.</td></tr>
     </table>
-    <h2><span class="icon" style="background:#7c3aed;">📝</span> Technical Descriptions — Present Simple (Module 04)</h2>
-    <div class="definition-box"><span class="term">Present Simple for Descriptions</span> Used to describe what a product does, how a system works, what a device includes.</div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#7c3aed;">📝</span> الأوصاف التقنية — Present Simple (Module 04)</h2>
+    <div class="definition-box">
+      <span class="term">Present Simple for Descriptions</span> يُستخدم لوصف:
+      <ul style="margin-top:8px;">
+        <li>ما يفعله المنتج (what a product does)</li>
+        <li>كيف يعمل النظام (how a system works)</li>
+        <li>ما يحتويه الجهاز (what a device includes)</li>
+      </ul>
+      <div class="logic">في الأوصاف التقنية، نستخدم Present Simple وليس Present Continuous. السبب: نتحدث عن خصائص ثابتة (حقائق دائمة)، وليس عن أحداث تجري الآن. مثلاً: "The device <strong>includes</strong> sensors" — لأن السنسرات جزء دائم من الجهاز.</div>
+    </div>
+
+    <h3>أنواع المفردات للأوصاف التقنية</h3>
     <table class="compare-table">
-      <tr><th>Vocabulary Type</th><th>Words</th></tr>
-      <tr><td>Descriptive Nouns</td><td>model, type, size, weight, material</td></tr>
-      <tr><td>Functional Verbs</td><td>include, allow, support, provide, operate</td></tr>
-      <tr><td>Descriptive Phrases</td><td>designed for, suitable for, equipped with, available in, compatible with</td></tr>
-      <tr><td>Technical Adjectives</td><td>compact, durable, efficient, portable, reliable</td></tr>
+      <tr><th>الفئة</th><th>الكلمات</th></tr>
+      <tr><td>أسماء وصفية</td><td>model, type, size, weight, material</td></tr>
+      <tr><td>أفعال وظيفية</td><td>include, allow, support, provide, operate</td></tr>
+      <tr><td>عبارات وصفية</td><td>designed for, suitable for, equipped with, available in, compatible with</td></tr>
+      <tr><td>صفات تقنية</td><td>compact, durable, efficient, portable, reliable</td></tr>
     </table>
-    <p><em>Example: "This model is <strong>designed for</strong> professional use. The device <strong>includes</strong> a compact processor. It is <strong>portable and reliable</strong>."</em></p>
-    <h2><span class="icon" style="background:#16a34a;">📊</span> Comparatives & Superlatives (Module 05)</h2>
-    <div class="formula-box"><div class="formula">Comparative: adj + -er + than &nbsp;|&nbsp; more + adj + than</div></div>
-    <div class="formula-box"><div class="formula">Superlative: the + adj + -est &nbsp;|&nbsp; the most + adj</div></div>
+
+    <h3>مثال من المنهج (Reading Passage)</h3>
+    <div class="story-box">
+      <strong>Smart Wearable Device:</strong> This smart wearable device is a <em>compact and portable</em> model <em>designed for</em> daily personal use. It is lightweight and made of <em>durable</em> materials. The wearable <em>includes</em> multiple built-in sensors that monitor physical activity. It <em>supports</em> step tracking, heart rate monitoring, and sleep analysis. It is <em>compatible with</em> most modern smartphones.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#16a34a;">📊</span> المقارنة والتفضيل <span class="eng">Comparatives & Superlatives</span> (Module 05)</h2>
+
+    <div class="formula-box">
+      <div class="formula-name">المقارنة (بين شيئين)</div>
+      <div class="formula">adj + <strong>er</strong> + than &nbsp;|&nbsp; <strong>more</strong> + adj + than</div>
+    </div>
+
+    <div class="formula-box">
+      <div class="formula-name">التفضيل (الأفضل بين الكل)</div>
+      <div class="formula"><strong>the</strong> + adj + <strong>est</strong> &nbsp;|&nbsp; <strong>the most</strong> + adj</div>
+    </div>
+
     <table class="compare-table">
-      <tr><th>Adjective</th><th>Comparative</th><th>Superlative</th></tr>
+      <tr><th>الصفة</th><th>Comparative</th><th>Superlative</th></tr>
       <tr><td>fast</td><td>faster than</td><td>the fastest</td></tr>
       <tr><td>big</td><td>bigger than</td><td>the biggest</td></tr>
       <tr><td>expensive</td><td>more expensive than</td><td>the most expensive</td></tr>
       <tr><td>efficient</td><td>more efficient than</td><td>the most efficient</td></tr>
+      <tr><td>good</td><td>better than</td><td>the best</td></tr>
+      <tr><td>bad</td><td>worse than</td><td>the worst</td></tr>
     </table>
-    <h2><span class="icon" style="background:#ca8a04;">💡</span> Comparison Vocabulary</h2>
+
+    <div class="tip-box">
+      <strong>القاعدة:</strong> الصفات القصيرة (1-2 syllable) تأخذ -er/-est. الصفات الطويلة (3+ syllable) تأخذ more/most. هناك استثناءات شاذة: good→better→best و bad→worse→worst.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#ca8a04;">💡</span> مفردات المقارنة (Module 04 — Comparing Two Devices)</h2>
     <table class="compare-table">
-      <tr><th>Word</th><th>Arabic</th><th>Example</th></tr>
+      <tr><th>الكلمة</th><th>المعنى</th><th>المثال</th></tr>
       <tr><td>advantage / benefit</td><td>ميزة / فائدة</td><td>One advantage is lower cost.</td></tr>
       <tr><td>disadvantage / limitation</td><td>عيب / قيد</td><td>A main limitation is short battery life.</td></tr>
       <tr><td>similar / different</td><td>متشابه / مختلف</td><td>There is a clear difference in performance.</td></tr>
       <tr><td>increase / decrease</td><td>يزيد / ينقص</td><td>The average response time increased.</td></tr>
       <tr><td>percentage</td><td>نسبة مئوية</td><td>The battery lasted 80% of the day.</td></tr>
+      <tr><td>average</td><td>متوسط</td><td>The average response time is 2 seconds.</td></tr>
     </table>
   </div>
-</div>
 
-<!-- ─── SUMMARY ─── -->
-<div class="topic-panel" id="panel-summary">
-  <div class="topic-header" style="background:linear-gradient(135deg,#0f172a,#1e3a5f);">
-    <div class="topic-label">ELG 201 · Quick Reference</div>
-    <h1 class="topic-title">📋 Grammar Summary — All Modules</h1>
-    <p class="topic-subtitle">Everything in one page — perfect for final exam revision</p>
+  <div class="section quiz-section">
+    <h2><span class="icon">📝</span> Practice من المنهج (Module 04)</h2>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q1:</strong> The word "advantage" means:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">A</span><span>A problem</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">B</span><span>A benefit</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">C</span><span>A limitation</span></button>
+      </div>
+      <div class="quiz-explain">advantage = ميزة = benefit.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q2:</strong> The opposite of "increase" is:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 2)"><span class="letter">A</span><span>Average</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 2)"><span class="letter">B</span><span>Percentage</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 2)"><span class="letter">C</span><span>Decrease</span></button>
+      </div>
+      <div class="quiz-explain">increase (يزيد) ↔ decrease (ينقص).</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q3:</strong> "Portable" means:</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 0)"><span class="letter">A</span><span>Easy to carry</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 0)"><span class="letter">B</span><span>Very large</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 0)"><span class="letter">C</span><span>Difficult to move</span></button>
+      </div>
+      <div class="quiz-explain">Portable = محمول، سهل الحمل والنقل.</div>
+    </div>
+
+    <div class="quiz-q">
+      <div class="q-text"><strong>Q4:</strong> Choose the correct verb: "The device ______ multiple features."</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 0, 1)"><span class="letter">A</span><span>include</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 1, 1)"><span class="letter">B</span><span>includes</span></button>
+        <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement, 2, 1)"><span class="letter">C</span><span>including</span></button>
+      </div>
+      <div class="quiz-explain">The device = مفرد (it) → includes.</div>
+    </div>
   </div>
+</section>
+`;
+console.log("ELG m02-04 done");
+
+// ============================================================
+// TOPIC summary - Grammar Summary
+// ============================================================
+TOPICS['summary'] = `
+<section class="topic-section" id="topic-summary">
+  <div class="topic-header" style="background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);">
+    <div class="label">⭐ ورقة المراجعة الشاملة</div>
+    <h1>📋 Grammar Summary — كل قواعد المنهج</h1>
+    <p>كل القواعد في صفحة واحدة — مثالية للمراجعة قبل الاختبار النهائي</p>
+  </div>
+
   <div class="section">
     <h2><span class="icon" style="background:#0891b2;">🎯</span> 1. Can / Can't (Module 07)</h2>
     <table class="compare-table">
-      <tr><th>Form</th><th>Example</th></tr>
-      <tr><td>✅ Affirmative</td><td>I can swim. He can speak Arabic. (NO "cans")</td></tr>
-      <tr><td>❌ Negative</td><td>He can't drive. They cannot attend.</td></tr>
-      <tr><td>❓ Question</td><td>Can you help me? Can she swim?</td></tr>
+      <tr><th>الصيغة</th><th>المثال</th></tr>
+      <tr><td>✅ Affirmative</td><td>I <strong>can</strong> swim. She <strong>can</strong> speak Arabic. (NO "s")</td></tr>
+      <tr><td>❌ Negative</td><td>He <strong>can't</strong> drive. They <strong>cannot</strong> attend.</td></tr>
+      <tr><td>❓ Question</td><td><strong>Can</strong> you help me? <strong>Can</strong> she swim?</td></tr>
     </table>
+    <div class="tip-box">Can نفسه مع كل الضمائر. لا نضيف s/ed أبداً.</div>
+  </div>
+
+  <div class="section">
     <h2><span class="icon" style="background:#7c3aed;">✨</span> 2. Adjectives (Module 08)</h2>
-    <p><strong>Order:</strong> Opinion → Size → Age → Color → Noun. Example: "A beautiful big new red car." Adjectives NEVER change for plural.</p>
+    <p><strong>الترتيب:</strong> Opinion → Size → Age → Color → Noun</p>
+    <p><strong>مثال:</strong> "A beautiful big new red car."</p>
+    <p><strong>قاعدة جوهرية:</strong> الصفات لا تتغير في الجمع (✅ "They are happy" — ❌ "happys")</p>
+  </div>
+
+  <div class="section">
     <h2><span class="icon" style="background:#f97316;">🍕</span> 3. Like / Likes (Module 09)</h2>
     <table class="compare-table">
-      <tr><th></th><th>I/You/We/They</th><th>He/She/It</th></tr>
+      <tr><th></th><th>I / You / We / They</th><th>He / She / It</th></tr>
       <tr><td>✅</td><td>like</td><td><strong>likes</strong></td></tr>
       <tr><td>❌</td><td>don't like</td><td><strong>doesn't like</strong></td></tr>
-      <tr><td>❓</td><td>Do … like?</td><td>Does … like?</td></tr>
+      <tr><td>❓</td><td>Do … like ?</td><td><strong>Does</strong> … like ?</td></tr>
     </table>
+  </div>
+
+  <div class="section">
     <h2><span class="icon" style="background:#16a34a;">⏪</span> 4. Past Simple — was/were (Module 10)</h2>
     <table class="compare-table">
-      <tr><th>Subject</th><th>✅</th><th>❌</th></tr>
-      <tr><td>I/He/She/It</td><td><strong>was</strong></td><td>wasn't</td></tr>
-      <tr><td>You/We/They</td><td><strong>were</strong></td><td>weren't</td></tr>
+      <tr><th>الضمير</th><th>✅ مثبت</th><th>❌ منفي</th></tr>
+      <tr><td>I / He / She / It</td><td><strong>was</strong></td><td>wasn't</td></tr>
+      <tr><td>You / We / They</td><td><strong>were</strong></td><td>weren't</td></tr>
     </table>
-    <h2><span class="icon" style="background:#ca8a04;">📅</span> 5. Past Simple — Regular (Module 11)</h2>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#ca8a04;">📅</span> 5. Past Simple — Regular Verbs (Module 11)</h2>
     <table class="compare-table">
-      <tr><th>Form</th><th>Example</th></tr>
-      <tr><td>✅ +ed</td><td>I worked. She visited.</td></tr>
-      <tr><td>❌ didn't + base</td><td>I didn't work. He didn't visit.</td></tr>
-      <tr><td>❓ Did + base</td><td>Did you work? Where did she go?</td></tr>
+      <tr><th>الصيغة</th><th>المثال</th></tr>
+      <tr><td>✅ verb+ed</td><td>I worked. She visited.</td></tr>
+      <tr><td>❌ didn't + base</td><td>I <strong>didn't work</strong>. He <strong>didn't visit</strong>.</td></tr>
+      <tr><td>❓ Did + base</td><td><strong>Did</strong> you work? Where <strong>did</strong> she go?</td></tr>
     </table>
-    <h2><span class="icon" style="background:#dc2626;">⚡</span> 6. Past Simple — Irregular (Module 12)</h2>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#dc2626;">⚡</span> 6. Past Simple — Irregular Verbs (Module 12)</h2>
     <table class="compare-table">
       <tr><th>Base</th><th>Past</th><th>Base</th><th>Past</th><th>Base</th><th>Past</th></tr>
       <tr><td>go</td><td style="color:#dc2626;font-weight:700;">went</td><td>see</td><td style="color:#dc2626;font-weight:700;">saw</td><td>eat</td><td style="color:#dc2626;font-weight:700;">ate</td></tr>
@@ -684,58 +1522,155 @@ code { font-family: monospace; background: #f1f5f9; padding: 2px 7px; border-rad
       <tr><td>take</td><td style="color:#dc2626;font-weight:700;">took</td><td>buy</td><td style="color:#dc2626;font-weight:700;">bought</td><td>meet</td><td style="color:#dc2626;font-weight:700;">met</td></tr>
       <tr><td>make</td><td style="color:#dc2626;font-weight:700;">made</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
     </table>
+  </div>
+
+  <div class="section">
     <h2><span class="icon" style="background:#0891b2;">🔧</span> 7. Passive Voice (Modules 02, 06)</h2>
-    <div class="formula-box"><div class="formula">Object + <strong>is/are</strong> + past participle</div></div>
-    <p>Examples: Data <strong>is stored</strong> in the cloud. Updates <strong>are installed</strong> automatically.</p>
+    <div class="formula-box">
+      <div class="formula">Object + <strong>is / are</strong> + past participle</div>
+    </div>
+    <ul>
+      <li>Data <strong>is stored</strong> in the cloud.</li>
+      <li>Updates <strong>are installed</strong> automatically.</li>
+      <li>Errors <strong>are detected</strong> by the system.</li>
+    </ul>
+  </div>
+
+  <div class="section">
     <h2><span class="icon" style="background:#1d4ed8;">📊</span> 8. Comparatives & Superlatives (Module 05)</h2>
     <table class="compare-table">
-      <tr><th>Type</th><th>Short adj.</th><th>Long adj.</th></tr>
-      <tr><td>Comparative</td><td>faster <strong>than</strong></td><td>more efficient <strong>than</strong></td></tr>
+      <tr><th>النوع</th><th>صفة قصيرة</th><th>صفة طويلة</th></tr>
+      <tr><td>Comparative</td><td>faster <strong>than</strong></td><td><strong>more</strong> efficient than</td></tr>
       <tr><td>Superlative</td><td><strong>the</strong> fastest</td><td><strong>the most</strong> efficient</td></tr>
     </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#16a34a;">🎯</span> نصائح للاختبار النهائي</h2>
     <div class="tip-box">
-      <strong>🎯 Exam Tips:</strong>
+      <strong>📌 خلاصة:</strong>
       <ul style="margin-top:8px;">
-        <li>Regular past: verb+ed | Negative/Question: always BASE form</li>
-        <li>Irregular: go→went, see→saw, eat→ate, drink→drank, run→ran</li>
-        <li>Can: same for ALL subjects, never add -s</li>
-        <li>Adjectives: NEVER add -s for plural</li>
-        <li>Like/Likes: add -s ONLY for He/She/It</li>
-        <li>Passive: is/are + past participle (3rd column of verb table)</li>
+        <li><strong>Past Simple:</strong> Regular = verb+ed / Negative & Question = always BASE form (didn't go, did go?)</li>
+        <li><strong>Irregular:</strong> احفظ go→went, see→saw, eat→ate, drink→drank, run→ran, have→had, take→took, buy→bought, meet→met, make→made</li>
+        <li><strong>Can:</strong> نفسه مع كل الضمائر — لا تضيف s أبداً</li>
+        <li><strong>Adjectives:</strong> لا تأخذ s في الجمع — تأتي قبل الاسم أو بعد to be</li>
+        <li><strong>Like/Likes:</strong> أضف s فقط مع He/She/It</li>
+        <li><strong>Passive:</strong> is/are + past participle (العمود الثالث لجدول الأفعال الشاذة)</li>
+        <li><strong>was/were:</strong> was مع المفرد، were مع الجمع وyou</li>
       </ul>
     </div>
   </div>
-</div>
+</section>
+`;
+console.log("ELG summary done");
 
-</main>
-
-<script>
+// ============================================================
+// CORE FUNCTIONS
+// ============================================================
 const visited = new Set();
-const totalTopics = 10;
+let currentTopic = '1';
 
 function showTopic(id) {
-  document.querySelectorAll('.topic-panel').forEach(p => p.classList.remove('active'));
+  // إخفاء كل المواضيع
+  document.querySelectorAll('.topic-section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.topic-item').forEach(i => i.classList.remove('active'));
-  const panel = document.getElementById('panel-' + id);
-  if (panel) { panel.classList.add('active'); panel.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+
+  // إظهار الموضوع المختار
+  const section = document.getElementById('topic-' + id);
+  if (section) {
+    section.classList.add('active');
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  // إظهار المؤشر في sidebar
   const item = document.querySelector(`.topic-item[data-topic="${id}"]`);
-  if (item) { item.classList.add('active'); item.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+  if (item) {
+    item.classList.add('active');
+    item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  // تسجيل التقدم
   visited.add(id);
+  currentTopic = id;
   updateProgress();
+
+  // التمرير للأعلى
   window.scrollTo(0, 0);
   document.querySelector('.sidebar')?.classList.remove('open');
 }
 
 function updateProgress() {
-  const pct = Math.round((visited.size / totalTopics) * 100);
-  document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progressText').textContent = visited.size + ' / ' + totalTopics + ' topics';
+  const total = 10;
+  document.getElementById('progressSummary').textContent = `📈 تقدمك: ${visited.size} / ${total}`;
+  // تلوين الـ visited
+  visited.forEach(id => {
+    const item = document.querySelector(`.topic-item[data-topic="${id}"]`);
+    if (item && !item.classList.contains('active')) {
+      item.classList.add('visited');
+    }
+  });
 }
 
-// handle hash on load
-const hash = location.hash.replace('#', '');
-if (hash) showTopic(hash); else visited.add('intro');
-updateProgress();
+function answerQuiz(qDiv, selectedIdx, correctIdx) {
+  if (qDiv.classList.contains('answered')) return;
+  const options = qDiv.querySelectorAll('.quiz-option');
+  options.forEach((opt, i) => {
+    if (i === correctIdx) opt.classList.add('correct');
+    if (i === selectedIdx && i !== correctIdx) opt.classList.add('wrong');
+  });
+  qDiv.classList.add('answered');
+}
+
+function resetProgress() {
+  visited.clear();
+  document.querySelectorAll('.topic-item').forEach(i => i.classList.remove('visited'));
+  updateProgress();
+}
+
+// ============================================================
+// INITIALIZATION
+// ============================================================
+const TOPIC_ORDER = ['1','m07','m08','m09','m10','m11','m12','m06','m02-04','summary'];
+
+// إنشاء حاوي للمواضيع وإلحاق كل TOPICS HTML
+// ملاحظة: الموضوع 1 موجود بالفعل في HTML خام
+const container = document.querySelector('.main') || document.body;
+
+TOPIC_ORDER.forEach(id => {
+  if (id === '1') return; // الموضوع الأول HTML خام بالفعل
+  if (TOPICS[id]) {
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = TOPICS[id];
+    while (wrapper.firstChild) container.appendChild(wrapper.firstChild);
+  }
+});
+
+// نُضيف class "topic-section" و id لـ Topic 1 المكتوب يدوياً
+// لكنه ليس داخل <section> — نلفّه
+const firstSections = document.querySelectorAll('.section');
+const firstTopicSections = [];
+firstSections.forEach(s => {
+  // المقاطع قبل المواضيع الأخرى - هذه topic 1
+  if (!s.closest('.topic-section')) firstTopicSections.push(s);
+});
+if (firstTopicSections.length > 0) {
+  const wrapper = document.createElement('section');
+  wrapper.className = 'topic-section active';
+  wrapper.id = 'topic-1';
+  firstTopicSections[0].parentNode.insertBefore(wrapper, firstTopicSections[0]);
+  firstTopicSections.forEach(s => wrapper.appendChild(s));
+}
+
+// إضافة click handlers
+document.querySelectorAll('.topic-item').forEach(item => {
+  item.addEventListener('click', () => showTopic(item.dataset.topic));
+});
+
+// زر إعادة التعيين
+const resetBtn = document.querySelector('.sidebar-footer button');
+if (resetBtn) resetBtn.addEventListener('click', resetProgress);
+
+// عرض الموضوع الأول افتراضياً
+showTopic('1');
 </script>
+</main>
 </body>
 </html>
