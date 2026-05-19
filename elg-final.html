@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🇬🇧 ELG 201 — Applied English (Full Study Guide)</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #f8fafc; --panel: #ffffff; --border: #e2e8f0;
+  --text: #0f172a; --muted: #475569; --light: #94a3b8;
+  --blue: #1d4ed8; --blue-light: #dbeafe;
+  --cyan: #0891b2; --cyan-light: #cffafe;
+  --green: #16a34a; --green-light: #dcfce7;
+  --orange: #f97316; --orange-light: #ffedd5;
+  --yellow: #ca8a04; --yellow-light: #fef9c3;
+  --red: #dc2626; --red-light: #fee2e2;
+  --purple: #7c3aed; --purple-light: #ede9fe;
+  --teal: #0f766e; --teal-light: #ccfbf1;
+  --shadow: 0 2px 8px rgba(15,23,42,0.06);
+  --shadow-lg: 0 8px 24px rgba(15,23,42,0.1);
+}
+body { font-family: 'Inter', 'Noto Sans Arabic', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; }
+
+/* ── Sidebar ── */
+.sidebar {
+  width: 270px; background: white; border-right: 1px solid var(--border);
+  position: fixed; top: 0; left: 0; bottom: 0; overflow-y: auto;
+  padding: 0 0 20px; z-index: 50; flex-shrink: 0;
+}
+.sidebar-header { padding: 16px; border-bottom: 1px solid var(--border); background: linear-gradient(135deg, #1d4ed8, #0891b2); }
+.sidebar-header h2 { color: white; font-size: 16px; font-weight: 800; }
+.sidebar-header p { color: rgba(255,255,255,0.75); font-size: 12px; margin-top: 3px; }
+.module-section { padding: 10px 12px 2px; font-size: 10px; font-weight: 800; letter-spacing: 1px; color: var(--light); text-transform: uppercase; }
+.topic-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; cursor: pointer; border-radius: 8px;
+  margin: 2px 8px; transition: all 0.2s; font-size: 13px; font-weight: 500;
+}
+.topic-item:hover { background: var(--blue-light); }
+.topic-item.active { background: var(--blue); color: white; font-weight: 700; }
+.topic-num { width: 28px; height: 28px; border-radius: 7px; background: #e2e8f0; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; font-weight: 700; }
+.topic-item.active .topic-num { background: rgba(255,255,255,0.2); }
+.sidebar-progress { padding: 12px 14px; margin: 8px; background: var(--bg); border-radius: 10px; border: 1px solid var(--border); }
+.progress-bar { height: 6px; background: #e2e8f0; border-radius: 4px; margin-top: 6px; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--blue), var(--cyan)); border-radius: 4px; transition: width 0.4s; }
+
+/* ── Main ── */
+.main { margin-left: 270px; flex: 1; }
+
+/* ── Topic ── */
+.topic-panel { display: none; }
+.topic-panel.active { display: block; }
+
+/* ── Topic Header ── */
+.topic-header {
+  padding: 28px 36px; color: white;
+  background: linear-gradient(135deg, #1d4ed8, #0891b2);
+}
+.topic-label { font-size: 12px; font-weight: 600; opacity: 0.8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.topic-title { font-size: 28px; font-weight: 800; line-height: 1.2; margin-bottom: 6px; }
+.topic-subtitle { font-size: 15px; opacity: 0.85; font-weight: 400; }
+
+/* ── Content ── */
+.section { padding: 28px 36px; border-bottom: 1px solid var(--border); }
+.section:last-child { border-bottom: none; }
+h2 { font-size: 18px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+h2 .icon { width: 32px; height: 32px; border-radius: 8px; background: var(--blue); display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+h3 { font-size: 15px; font-weight: 700; color: var(--blue); margin: 18px 0 10px; }
+p { font-size: 14px; line-height: 1.7; color: var(--muted); margin-bottom: 12px; }
+ul, ol { padding-right: 0; padding-left: 20px; margin-bottom: 14px; }
+li { font-size: 14px; line-height: 1.7; color: var(--muted); margin-bottom: 4px; }
+strong { color: var(--text); }
+code { font-family: monospace; background: #f1f5f9; padding: 2px 7px; border-radius: 5px; font-size: 13px; color: var(--blue); }
+
+/* ── Table ── */
+.compare-table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin-bottom: 16px; }
+.compare-table th { background: var(--blue); color: white; padding: 10px 14px; text-align: left; font-weight: 700; font-size: 13px; }
+.compare-table td { padding: 9px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.compare-table tr:nth-child(even) td { background: #f8fafc; }
+.compare-table tr:hover td { background: var(--blue-light); }
+
+/* ── Definition Box ── */
+.definition-box {
+  background: var(--blue-light); border-right: 4px solid var(--blue); border-left: 4px solid var(--blue);
+  padding: 14px 18px; border-radius: 10px; margin-bottom: 16px;
+  font-size: 14px; color: #1e3a8a; line-height: 1.7;
+}
+.definition-box .term { font-weight: 800; font-size: 15px; display: block; margin-bottom: 4px; }
+
+/* ── Formula Box ── */
+.formula-box {
+  background: var(--yellow-light); border: 2px solid #fbbf24;
+  border-radius: 10px; padding: 14px 20px; margin: 12px 0;
+  text-align: center;
+}
+.formula { font-size: 16px; font-weight: 700; color: var(--text); font-family: monospace; }
+.formula-name { font-size: 12px; color: var(--yellow); font-weight: 700; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* ── Tip / Warn Box ── */
+.tip-box { background: var(--cyan-light); border-right: 4px solid var(--cyan); padding: 12px 16px; border-radius: 8px; margin: 12px 0; font-size: 13.5px; color: #164e63; line-height: 1.6; }
+.warn-box { background: var(--red-light); border-right: 4px solid var(--red); padding: 12px 16px; border-radius: 8px; margin: 12px 0; font-size: 13.5px; color: #7f1d1d; line-height: 1.6; }
+
+/* ── Badge ── */
+.badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+.badge-blue { background: var(--blue-light); color: var(--blue); }
+.badge-green { background: var(--green-light); color: var(--green); }
+.badge-red { background: var(--red-light); color: var(--red); }
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .sidebar { width: 240px; transform: translateX(-100%); transition: transform 0.3s; }
+  .sidebar.open { transform: translateX(0); }
+  .main { margin-left: 0; }
+  .topic-header { padding: 20px 20px; }
+  .topic-title { font-size: 22px; }
+  .section { padding: 20px 20px; }
+  .menu-btn { display: flex; }
+}
+.menu-btn {
+  display: none; position: fixed; top: 14px; left: 14px; z-index: 100;
+  background: var(--blue); color: white; border: none; border-radius: 10px;
+  width: 42px; height: 42px; font-size: 20px; cursor: pointer; align-items: center; justify-content: center;
+}
+</style>
+</head>
+<body>
+
+<button class="menu-btn" id="menuBtn" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+
+<!-- ═══ SIDEBAR ═══ -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h2>🇬🇧 ELG 201</h2>
+    <p>Applied English — Full Study Guide</p>
+  </div>
+
+  <div class="sidebar-progress">
+    <div style="font-size:12px;font-weight:600;color:var(--muted);">Progress</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <div style="font-size:11px;color:var(--light);margin-top:4px;" id="progressText">0 / 10 topics</div>
+  </div>
+
+  <div class="module-section">Course Overview</div>
+  <div class="topic-item active" data-topic="intro" onclick="showTopic('intro')">
+    <span class="topic-num" style="background:#1d4ed8;color:white;">📋</span>
+    <span>Course Intro & Assessment</span>
+  </div>
+
+  <div class="module-section">Grammar Modules</div>
+  <div class="topic-item" data-topic="m07" onclick="showTopic('m07')">
+    <span class="topic-num" style="background:#0891b2;color:white;">07</span>
+    <span>Can / Can't — Ability</span>
+  </div>
+  <div class="topic-item" data-topic="m08" onclick="showTopic('m08')">
+    <span class="topic-num" style="background:#7c3aed;color:white;">08</span>
+    <span>Adjectives</span>
+  </div>
+  <div class="topic-item" data-topic="m09" onclick="showTopic('m09')">
+    <span class="topic-num" style="background:#f97316;color:white;">09</span>
+    <span>Like / Don't Like</span>
+  </div>
+  <div class="topic-item" data-topic="m10" onclick="showTopic('m10')">
+    <span class="topic-num" style="background:#16a34a;color:white;">10</span>
+    <span>Past Simple: was / were</span>
+  </div>
+  <div class="topic-item" data-topic="m11" onclick="showTopic('m11')">
+    <span class="topic-num" style="background:#ca8a04;color:white;">11</span>
+    <span>Past Simple: Regular (+ed)</span>
+  </div>
+  <div class="topic-item" data-topic="m12" onclick="showTopic('m12')">
+    <span class="topic-num" style="background:#dc2626;color:white;">12</span>
+    <span>Past Simple: Irregular</span>
+  </div>
+
+  <div class="module-section">Skills & Vocabulary</div>
+  <div class="topic-item" data-topic="m06" onclick="showTopic('m06')">
+    <span class="topic-num" style="background:#0891b2;color:white;">06</span>
+    <span>Sequencing & Processes</span>
+  </div>
+  <div class="topic-item" data-topic="m02-04" onclick="showTopic('m02-04')">
+    <span class="topic-num" style="background:#1d4ed8;color:white;">📖</span>
+    <span>Reading & Comparisons</span>
+  </div>
+
+  <div class="module-section">Quick Reference</div>
+  <div class="topic-item" data-topic="summary" onclick="showTopic('summary')">
+    <span class="topic-num" style="background:#0f172a;color:white;">⭐</span>
+    <span>Grammar Summary (All)</span>
+  </div>
+</aside>
+
+<!-- ═══ MAIN ═══ -->
+<main class="main">
+
+<!-- ─── INTRO ─── -->
+<div class="topic-panel active" id="panel-intro">
+  <div class="topic-header" style="background:linear-gradient(135deg,#1d4ed8,#0891b2);">
+    <div class="topic-label">ELG 201 · Module 01</div>
+    <h1 class="topic-title">📘 Course Introduction & Overview</h1>
+    <p class="topic-subtitle">Course structure, goals, assessment distribution</p>
+  </div>
+  <div class="section">
+    <h2><span class="icon" style="background:#1d4ed8;">🎯</span> Course Description</h2>
+    <p>This course develops students' foundational English language skills with a focus on <strong>grammar, reading, vocabulary, conversation, and writing</strong>. Designed for Generative AI Diploma students to use English in academic and professional settings.</p>
+    <div class="definition-box">
+      <span class="term">ELG 201 — Applied English</span>
+      Course Code: ELG 201 | Credit Hours: 3 | Type: Required | Mode: Online
+    </div>
+    <h2><span class="icon" style="background:#0891b2;">📅</span> Weekly Topics</h2>
+    <table class="compare-table">
+      <tr><th>Week</th><th>Topics Covered</th></tr>
+      <tr><td>01</td><td>Course introduction, assessment, expectations</td></tr>
+      <tr><td>02</td><td>Sequencing words (first, next, then, finally) · Imperatives · Present Simple</td></tr>
+      <tr><td>03</td><td>Skimming & scanning · Passive voice intro (is used, is built)</td></tr>
+      <tr><td>04</td><td>Email structure · Modals (could, would, can) · Linking words</td></tr>
+      <tr><td>05</td><td>Charts & graphs · Comparatives · Superlatives · There is/are</td></tr>
+      <tr><td>06</td><td>Past Simple (describing events) · Modals for advice (should, could)</td></tr>
+      <tr><td>07</td><td>Imperatives (review) · Time order phrases (before, after, when)</td></tr>
+      <tr><td>08</td><td style="color:#dc2626;font-weight:700;">⚠️ Midterm Exam</td></tr>
+      <tr><td>09</td><td>Opinions (I think, I believe) · Wh-questions · Modal verbs</td></tr>
+      <tr><td>10</td><td>Summarizing · Reporting verbs (says, explains, describes)</td></tr>
+      <tr><td>11</td><td>Presentations · Future (going to) · Linkers (first, next, finally)</td></tr>
+      <tr><td>12</td><td>Ethical AI · Modals for obligation (must, must not) · Passive voice</td></tr>
+      <tr><td>13</td><td>Simple reports · Past Simple · Passive voice · Percentages</td></tr>
+      <tr><td>14</td><td>Trends · Future with will & going to · Would like to</td></tr>
+    </table>
+    <h2><span class="icon" style="background:#16a34a;">📊</span> Assessment Distribution</h2>
+    <table class="compare-table">
+      <tr><th>Activity</th><th>Timing</th><th>Weight</th></tr>
+      <tr><td>Assignment</td><td>Week 6</td><td><strong style="color:#dc2626;">8%</strong></td></tr>
+      <tr><td>Quiz 1 & 2</td><td>Weeks 4–11</td><td><strong style="color:#dc2626;">14%</strong></td></tr>
+      <tr><td>Project</td><td>Weeks 3–13</td><td><strong style="color:#dc2626;">13%</strong></td></tr>
+      <tr><td>Attendance & Participation</td><td>Weeks 1–13</td><td><strong style="color:#dc2626;">5%</strong></td></tr>
+      <tr><td>Midterm Exam</td><td>Week 7–8</td><td><strong style="color:#dc2626;">20%</strong></td></tr>
+      <tr><td>Final Exam</td><td>Week 14–16</td><td><strong style="color:#dc2626;">40%</strong></td></tr>
+    </table>
+    <div class="tip-box"><strong>Weekly Structure:</strong> Grammar Lesson → Vocabulary & Speaking → Listening or Reading Task → Writing Practice → Online Activities or Quiz</div>
+  </div>
+</div>
+
+<!-- ─── MODULE 07: CAN ─── -->
+<div class="topic-panel" id="panel-m07">
+  <div class="topic-header" style="background:linear-gradient(135deg,#0891b2,#0e7490);">
+    <div class="topic-label">ELG 201 · Module 07</div>
+    <h1 class="topic-title">🎯 Can / Can't — Ability & Possibility</h1>
+    <p class="topic-subtitle">Modal verb Can | Vocabulary: Hobbies & Skills</p>
+  </div>
+  <div class="section">
+    <h2><span class="icon" style="background:#0891b2;">📐</span> Grammar: Can / Can't</h2>
+    <div class="definition-box"><span class="term">Can</span> A <strong>modal verb</strong> expressing ability or possibility. Same for ALL subjects — never add "s" in third person.</div>
+    <h3>✅ Affirmative: Subject + can + base verb</h3>
+    <table class="compare-table">
+      <tr><th>Subject</th><th>Example</th><th>Note</th></tr>
+      <tr><td>I</td><td>I <strong>can</strong> speak Spanish.</td><td>✓</td></tr>
+      <tr><td>He / She / It</td><td>He <strong>can</strong> swim well.</td><td>✓ NOT "cans"</td></tr>
+      <tr><td>We / They</td><td>They <strong>can</strong> play guitar.</td><td>✓</td></tr>
+    </table>
+    <h3>❌ Negative: cannot / can't</h3>
+    <table class="compare-table">
+      <tr><th>Form</th><th>Example</th></tr>
+      <tr><td>cannot (formal)</td><td>I <strong>cannot</strong> play football.</td></tr>
+      <tr><td>can't (informal)</td><td>She <strong>can't</strong> speak French.</td></tr>
+    </table>
+    <h3>❓ Questions: Can + Subject + base verb?</h3>
+    <table class="compare-table">
+      <tr><th>Question</th><th>Short Answer</th></tr>
+      <tr><td>Can you speak Japanese?</td><td>Yes, I can. / No, I can't.</td></tr>
+      <tr><td>Can I sit here please?</td><td>Yes, you can.</td></tr>
+      <tr><td>What can we do on Saturday?</td><td>We can go to the park.</td></tr>
+    </table>
+    <h2><span class="icon" style="background:#16a34a;">📚</span> Vocabulary: Hobbies & Skills</h2>
+    <table class="compare-table">
+      <tr><th>Hobby / Skill</th><th>Can sentence</th></tr>
+      <tr><td>Climbing</td><td>I can go climbing on weekends.</td></tr>
+      <tr><td>Painting</td><td>She can paint beautiful pictures.</td></tr>
+      <tr><td>Cooking</td><td>He can cook Italian food.</td></tr>
+      <tr><td>Reading</td><td>They can read technical manuals easily.</td></tr>
+      <tr><td>Walking / Hiking</td><td>We can walk for hours.</td></tr>
+      <tr><td>Shopping</td><td>I can't go shopping today.</td></tr>
+    </table>
+    <h2><span class="icon" style="background:#7c3aed;">📝</span> Practice (from curriculum)</h2>
+    <table class="compare-table">
+      <tr><th>#</th><th>Sentence</th><th>✓ Answer</th></tr>
+      <tr><td>1</td><td>Ali can _____ the car. (driving / drives / drive)</td><td><strong>drive</strong></td></tr>
+      <tr><td>2</td><td>They _____ go to the mall — it is raining.</td><td><strong>can't</strong></td></tr>
+      <tr><td>3</td><td>I _____ speak French. (don't can / not can / can't)</td><td><strong>can't</strong></td></tr>
+      <tr><td>4</td><td>Sara can _____ spicy food. (ate / eats / eat)</td><td><strong>eat</strong></td></tr>
+    </table>
+    <div class="warn-box">⚠️ <strong>Common Errors:</strong> NEVER say "He <s>cans</s> swim" or "She <s>don't can</s> drive". Correct: He <strong>can</strong> swim. She <strong>can't</strong> drive.</div>
+  </div>
+</div>
+
+<!-- ─── MODULE 08: ADJECTIVES ─── -->
+<div class="topic-panel" id="panel-m08">
+  <div class="topic-header" style="background:linear-gradient(135deg,#7c3aed,#6d28d9);">
+    <div class="topic-label">ELG 201 · Module 08</div>
+    <h1 class="topic-title">✨ Adjectives — Describing People & Things</h1>
+    <p class="topic-subtitle">Adjective order | Appearance | Personality | Technical</p>
+  </div>
+  <div class="section">
+    <h2><span class="icon" style="background:#7c3aed;">📐</span> What is an Adjective?</h2>
+    <div class="definition-box"><span class="term">Adjective</span> A word that <strong>describes a noun</strong>. Comes before a noun <em>(a kind man)</em> or after "to be" <em>(She is smart)</em>. Same form for singular and plural.</div>
+    <h3>Adjective Order: Opinion → Size → Age → Color → Noun</h3>
+    <table class="compare-table">
+      <tr><th>Opinion</th><th>Size</th><th>Age</th><th>Color</th><th>Noun</th></tr>
+      <tr><td>beautiful</td><td>big</td><td>new</td><td>red</td><td>car ✓</td></tr>
+      <tr><td>nice</td><td>small</td><td>—</td><td>—</td><td>bag ✓</td></tr>
+    </table>
+    <h2><span class="icon" style="background:#16a34a;">👤</span> Vocabulary: Appearance</h2>
+    <table class="compare-table">
+      <tr><th>Adjective</th><th>Example</th></tr>
+      <tr><td>Tall / Short</td><td>She is tall. He is short.</td></tr>
+      <tr><td>Young / Old</td><td>The young student passed the exam.</td></tr>
+      <tr><td>New / Old</td><td>She wears new clothes.</td></tr>
+    </table>
+    <h2><span class="icon" style="background:#dc2626;">💬</span> Vocabulary: Personality</h2>
+    <table class="compare-table">
+      <tr><th>Adjective</th><th>Meaning (Arabic)</th><th>Example</th></tr>
+      <tr><td>Happy / Angry</td><td>سعيد / غاضب</td><td>The team was happy after the project.</td></tr>
+      <tr><td>Lazy / Hardworking</td><td>كسول / مجتهد</td><td>Ali is lazy. He never does homework.</td></tr>
+      <tr><td>Shy / Confident</td><td>خجول / واثق</td><td>She is confident in presentations.</td></tr>
+      <tr><td>Kind / Professional</td><td>لطيف / محترف</td><td>My teacher is very kind.</td></tr>
+      <tr><td>Creative / Responsible</td><td>مبدع / مسؤول</td><td>She is responsible and creative.</td></tr>
+    </table>
+    <h2><span class="icon" style="background:#0891b2;">💻</span> Technical Adjectives (Diploma Context)</h2>
+    <table class="compare-table">
+      <tr><th>Adjective</th><th>Meaning</th><th>Example</th></tr>
+      <tr><td>intelligent / smart</td><td>ذكي</td><td>The machine is intelligent.</td></tr>
+      <tr><td>fast / slow</td><td>سريع / بطيء</td><td>The processor is fast.</td></tr>
+      <tr><td>powerful</td><td>قوي</td><td>The system is powerful.</td></tr>
+      <tr><td>user-friendly</td><td>سهل الاستخدام</td><td>The interface is user-friendly.</td></tr>
+      <tr><td>complex / simple</td><td>معقد / بسيط</td><td>The process is complex.</td></tr>
+    </table>
+    <h2><span class="icon" style="background:#7c3aed;">📝</span> Practice</h2>
+    <table class="compare-table">
+      <tr><th>Sentence</th><th>Answer</th></tr>
+      <tr><td>They are _____. (happy / happys / a happy)</td><td><strong>happy</strong></td></tr>
+      <tr><td>Nora has _____ eyes. (black / tall / short)</td><td><strong>black</strong></td></tr>
+      <tr><td>My teacher is very _____. She always helps. (kind / lazy)</td><td><strong>kind</strong></td></tr>
+    </table>
+    <div class="warn-box">⚠️ Adjectives NEVER change for plural: "They are <strong>happy</strong>" (NOT "happys")</div>
+  </div>
+</div>
+
+<!-- ─── MODULE 09: LIKE ─── -->
+<div class="topic-panel" id="panel-m09">
+  <div class="topic-header" style="background:linear-gradient(135deg,#f97316,#c2410c);">
+    <div class="topic-label">ELG 201 · Module 09</div>
+    <h1 class="topic-title">🍕 Like / Don't Like — Preferences</h1>
+    <p class="topic-subtitle">Like vs Likes | Do vs Does | Food & Drinks vocabulary</p>
+  </div>
+  <div class="section">
+    <h2><span class="icon" style="background:#f97316;">📐</span> Grammar: Like / Likes</h2>
+    <table class="compare-table">
+      <tr><th>Form</th><th>Subject</th><th>Structure</th><th>Example</th></tr>
+      <tr><td>✅ Affirmative</td><td>I / You / We / They</td><td>Subject + <strong>like</strong></td><td>I like pizza.</td></tr>
+      <tr><td>✅ Affirmative</td><td>He / She / It</td><td>Subject + <strong>likes</strong></td><td>She likes tea.</td></tr>
+      <tr><td>❌ Negative</td><td>I / You / We / They</td><td>Subject + <strong>don't like</strong></td><td>I don't like coffee.</td></tr>
+      <tr><td>❌ Negative</td><td>He / She / It</td><td>Subject + <strong>doesn't like</strong></td><td>He doesn't like milk.</td></tr>
+      <tr><td>❓ Question</td><td>I / You / We / They</td><td><strong>Do</strong> + subject + like?</td><td>Do you like juice?</td></tr>
+      <tr><td>❓ Question</td><td>He / She / It</td><td><strong>Does</strong> + subject + like?</td><td>Does she like pizza?</td></tr>
+    </table>
+    <h2><span class="icon" style="background:#16a34a;">🥗</span> Vocabulary: Food & Drinks</h2>
+    <table class="compare-table">
+      <tr><th>Expression</th><th>Arabic</th></tr>
+      <tr><td>Delicious soup</td><td>حساء لذيذ</td></tr>
+      <tr><td>Healthy salad</td><td>سلطة صحية</td></tr>
+      <tr><td>Tasty pasta</td><td>مكرونة شهية</td></tr>
+      <tr><td>Sweet fruit</td><td>فاكهة حلوة</td></tr>
+      <tr><td>Spicy chicken</td><td>دجاج حار</td></tr>
+      <tr><td>Cold juice / Hot tea</td><td>عصير بارد / شاي ساخن</td></tr>
+      <tr><td>Warm water / Iced coffee</td><td>ماء دافئ / قهوة مثلجة</td></tr>
+    </table>
+    <h2><span class="icon" style="background:#0891b2;">💼</span> Workplace Vocabulary</h2>
+    <table class="compare-table">
+      <tr><th>Word</th><th>Meaning</th><th>Example</th></tr>
+      <tr><td>Team dinner</td><td>وجبة جماعية</td><td>We had a team dinner after the project.</td></tr>
+      <tr><td>Menu options</td><td>خيارات القائمة</td><td>The menu options include salads and pasta.</td></tr>
+      <tr><td>Online orders</td><td>طلبات إنترنت</td><td>I prefer online orders for lunch.</td></tr>
+    </table>
+    <h2><span class="icon" style="background:#7c3aed;">📝</span> Practice</h2>
+    <table class="compare-table">
+      <tr><th>Sentence</th><th>Answer</th></tr>
+      <tr><td>I _____ salad. (like / likes)</td><td><strong>like</strong></td></tr>
+      <tr><td>She _____ coffee. (doesn't like / don't like)</td><td><strong>doesn't like</strong></td></tr>
+      <tr><td>Ahmad _____ pizza. (like / likes)</td><td><strong>likes</strong></td></tr>
+      <tr><td>_____ you like juice? (Do / Does)</td><td><strong>Do</strong></td></tr>
+      <tr><td>_____ she like pasta? (Do / Does)</td><td><strong>Does</strong></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ─── MODULE 10: WAS/WERE ─── -->
+<div class="topic-panel" id="panel-m10">
+  <div class="topic-header" style="background:linear-gradient(135deg,#16a34a,#15803d);">
+    <div class="topic-label">ELG 201 · Module 10</div>
+    <h1 class="topic-title">⏪ Past Simple — Was / Were</h1>
+    <p class="topic-subtitle">was / weren't | Affirmative, Negative, Questions | History vocabulary</p>
+  </div>
+  <div class="section">
+    <h2><span class="icon" style="background:#16a34a;">📐</span> Grammar: was / were</h2>
+    <table class="compare-table">
+      <tr><th>Subject</th><th>Affirmative ✅</th><th>Negative ❌</th></tr>
+      <tr><td>I / He / She / It</td><td><strong>was</strong></td><td><strong>wasn't</strong> (was not)</td></tr>
+      <tr><td>You / We / They</td><td><strong>were</strong></td><td><strong>weren't</strong> (were not)</td></tr>
+    </table>
+    <h3>Examples</h3>
+    <table class="compare-table">
+      <tr><th>Affirmative</th><th>Negative</th></tr>
+      <tr><td>I <strong>was</strong> at the park yesterday.</td><td>I <strong>wasn't</strong> at school yesterday.</td></tr>
+      <tr><td>She <strong>was</strong> happy last night.</td><td>He <strong>wasn't</strong> tired.</td></tr>
+      <tr><td>They <strong>were</strong> at the museum.</td><td>They <strong>weren't</strong> late.</td></tr>
+    </table>
+    <h3>❓ Questions: Was/Were + Subject + …?</h3>
+    <table class="compare-table">
+      <tr><th>Question</th><th>Short Answer</th></tr>
+      <tr><td>Was she at the library?</td><td>Yes, she was. / No, she wasn't.</td></tr>
+      <tr><td>Were they in Jeddah last week?</td><td>Yes, they were. / No, they weren't.</td></tr>
+      <tr><td>Where were you yesterday?</td><td>I was at home.</td></tr>
+    </table>
+    <h2><span class="icon" style="background:#0891b2;">📚</span> Vocabulary: Places & History</h2>
+    <table class="compare-table">
+      <tr><th>Word</th><th>Arabic</th><th>Example</th></tr>
+      <tr><td>History</td><td>التاريخ</td><td>We study history at school.</td></tr>
+      <tr><td>Discovery</td><td>اكتشاف</td><td>The discovery of electricity changed the world.</td></tr>
+      <tr><td>Journey</td><td>رحلة</td><td>The journey was long and difficult.</td></tr>
+      <tr><td>Tomb</td><td>ضريح / مقبرة</td><td>The king's tomb was full of treasures.</td></tr>
+    </table>
+    <h2><span class="icon" style="background:#7c3aed;">📝</span> Practice</h2>
+    <table class="compare-table">
+      <tr><th>Sentence</th><th>Answer</th></tr>
+      <tr><td>I ____ at home yesterday. (was / were)</td><td><strong>was</strong></td></tr>
+      <tr><td>They ____ in the classroom. (was / were)</td><td><strong>were</strong></td></tr>
+      <tr><td>She ____ not happy. (was / were)</td><td><strong>was</strong></td></tr>
+      <tr><td>____ you at the hospital last night? (Was / Were)</td><td><strong>Were</strong></td></tr>
+    </table>
+    <div class="tip-box">🔑 <strong>Key Rule:</strong> <strong>was</strong> → I/He/She/It &nbsp;|&nbsp; <strong>were</strong> → You/We/They</div>
+  </div>
+</div>
+
+<!-- ─── MODULE 11: REGULAR ─── -->
+<div class="topic-panel" id="panel-m11">
+  <div class="topic-header" style="background:linear-gradient(135deg,#ca8a04,#a16207);">
+    <div class="topic-label">ELG 201 · Module 11</div>
+    <h1 class="topic-title">📅 Past Simple — Regular Verbs (+ed)</h1>
+    <p class="topic-subtitle">verb+ed | didn't + base verb | Months of the Year</p>
+  </div>
+  <div class="section">
+    <h2><span class="icon" style="background:#ca8a04;">📐</span> Grammar: Regular Verbs</h2>
+    <div class="definition-box"><span class="term">Regular Verbs in Past Simple</span> Add <strong>-ed</strong> to the base verb: work → worked, visit → visited, play → played.</div>
+    <table class="compare-table">
+      <tr><th>Form</th><th>Structure</th><th>Example</th></tr>
+      <tr><td>✅ Affirmative</td><td>Subject + verb<strong>+ed</strong></td><td>I <strong>worked</strong> yesterday. She <strong>visited</strong>.</td></tr>
+      <tr><td>❌ Negative</td><td>Subject + <strong>didn't</strong> + base verb</td><td>I <strong>didn't work</strong>. He <strong>didn't visit</strong>.</td></tr>
+      <tr><td>❓ Yes/No Q</td><td><strong>Did</strong> + subject + base verb?</td><td><strong>Did</strong> you study last night?</td></tr>
+      <tr><td>❓ Wh- Q</td><td>Wh- + <strong>did</strong> + subject + base verb?</td><td><strong>Where did</strong> they travel?</td></tr>
+    </table>
+    <div class="warn-box">⚠️ In <strong>negative</strong> and <strong>questions</strong>, use the BASE verb (NOT +ed): "She <strong>didn't go</strong>" NOT "didn't <s>went</s>". "Did he <strong>prepare</strong>?" NOT "did he <s>prepared</s>?"</div>
+    <h2><span class="icon" style="background:#0891b2;">📅</span> Months of the Year</h2>
+    <table class="compare-table">
+      <tr><th>#</th><th>Month</th><th>#</th><th>Month</th><th>#</th><th>Month</th></tr>
+      <tr><td>1</td><td>January</td><td>5</td><td>May</td><td>9</td><td>September</td></tr>
+      <tr><td>2</td><td>February</td><td>6</td><td>June</td><td>10</td><td>October</td></tr>
+      <tr><td>3</td><td>March</td><td>7</td><td>July</td><td>11</td><td>November</td></tr>
+      <tr><td>4</td><td>April</td><td>8</td><td>August</td><td>12</td><td>December</td></tr>
+    </table>
+    <h2><span class="icon" style="background:#7c3aed;">💼</span> Diploma Vocabulary</h2>
+    <table class="compare-table">
+      <tr><th>Word</th><th>Arabic</th><th>Example</th></tr>
+      <tr><td>Equipment</td><td>معدات العمل</td><td>The officer checked the equipment.</td></tr>
+      <tr><td>Invoice</td><td>فاتورة</td><td>Omar prepared an invoice for the client.</td></tr>
+      <tr><td>Inspection</td><td>تفتيش دقيق</td><td>They did an inspection yesterday.</td></tr>
+      <tr><td>Event</td><td>نشاط مخطط</td><td>They arranged an event for students.</td></tr>
+    </table>
+    <h2><span class="icon" style="background:#ca8a04;">📝</span> Practice</h2>
+    <table class="compare-table">
+      <tr><th>Sentence</th><th>Answer</th></tr>
+      <tr><td>Ali _____ (work) at the office yesterday.</td><td><strong>worked</strong></td></tr>
+      <tr><td>They _____ (not visit) their grandparents.</td><td><strong>didn't visit</strong></td></tr>
+      <tr><td>Did Omar _____ (prepare) a report?</td><td><strong>prepare</strong></td></tr>
+      <tr><td>Where _____ you _____ (travel)?</td><td><strong>did … travel</strong></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ─── MODULE 12: IRREGULAR ─── -->
+<div class="topic-panel" id="panel-m12">
+  <div class="topic-header" style="background:linear-gradient(135deg,#dc2626,#991b1b);">
+    <div class="topic-label">ELG 201 · Module 12</div>
+    <h1 class="topic-title">⚡ Past Simple — Irregular Verbs</h1>
+    <p class="topic-subtitle">10 essential irregular verbs | Workplace context sentences</p>
+  </div>
+  <div class="section">
+    <h2><span class="icon" style="background:#dc2626;">📐</span> Grammar: Irregular Verbs</h2>
+    <div class="definition-box"><span class="term">Irregular Verbs</span> Do NOT add -ed. Each verb has its own special past form — <strong>must be memorized</strong>.</div>
+    <div class="formula-box">
+      <div class="formula-name">Structure</div>
+      <div class="formula">✅ Subject + Past verb &nbsp;|&nbsp; ❌ Subject + did not + base verb &nbsp;|&nbsp; ❓ Did + Subject + base verb?</div>
+    </div>
+    <h2><span class="icon" style="background:#16a34a;">📚</span> 10 Key Irregular Verbs</h2>
+    <table class="compare-table">
+      <tr><th>Base Form</th><th>Past Simple</th><th>Workplace Example</th></tr>
+      <tr><td>go</td><td style="color:#dc2626;font-weight:700;">went</td><td>The manager <strong>went</strong> to an important meeting.</td></tr>
+      <tr><td>see</td><td style="color:#dc2626;font-weight:700;">saw</td><td>The officer <strong>saw</strong> a problem during the inspection.</td></tr>
+      <tr><td>eat</td><td style="color:#dc2626;font-weight:700;">ate</td><td>The staff <strong>ate</strong> lunch together in the cafeteria.</td></tr>
+      <tr><td>drink</td><td style="color:#dc2626;font-weight:700;">drank</td><td>The team <strong>drank</strong> coffee before the conference.</td></tr>
+      <tr><td>run</td><td style="color:#dc2626;font-weight:700;">ran</td><td>The trainer <strong>ran</strong> a workshop for new employees.</td></tr>
+      <tr><td>have</td><td style="color:#dc2626;font-weight:700;">had</td><td>The accountant <strong>had</strong> a meeting about the budget.</td></tr>
+      <tr><td>take</td><td style="color:#dc2626;font-weight:700;">took</td><td>The supervisor <strong>took</strong> action after the accident.</td></tr>
+      <tr><td>buy</td><td style="color:#dc2626;font-weight:700;">bought</td><td>The company <strong>bought</strong> new computers.</td></tr>
+      <tr><td>meet</td><td style="color:#dc2626;font-weight:700;">met</td><td>The director <strong>met</strong> journalists last week.</td></tr>
+      <tr><td>make</td><td style="color:#dc2626;font-weight:700;">made</td><td>The students <strong>made</strong> a business plan in class.</td></tr>
+    </table>
+    <h2><span class="icon" style="background:#7c3aed;">📝</span> Practice</h2>
+    <table class="compare-table">
+      <tr><th>Sentence</th><th>Answer</th></tr>
+      <tr><td>Yesterday I _____ (go) to school.</td><td><strong>went</strong></td></tr>
+      <tr><td>She _____ (eat) pizza last night.</td><td><strong>ate</strong></td></tr>
+      <tr><td>They _____ (see) a movie on Friday.</td><td><strong>saw</strong></td></tr>
+      <tr><td>Omar _____ (run) in the park yesterday.</td><td><strong>ran</strong></td></tr>
+      <tr><td>I ____ to the park. (did not went / did not go)</td><td><strong>did not go</strong></td></tr>
+      <tr><td>_____ she see her friend? (Did / Do)</td><td><strong>Did</strong></td></tr>
+    </table>
+    <div class="warn-box">⚠️ NEVER say "<s>goed</s>", "<s>eated</s>", "<s>runned</s>". In negatives/questions: always BASE form → "She <strong>didn't eat</strong>" NOT "didn't <s>ate</s>".</div>
+  </div>
+</div>
+
+<!-- ─── MODULE 06: SEQUENCING ─── -->
+<div class="topic-panel" id="panel-m06">
+  <div class="topic-header" style="background:linear-gradient(135deg,#0891b2,#164e63);">
+    <div class="topic-label">ELG 201 · Module 06</div>
+    <h1 class="topic-title">🔧 Sequencing & Technical Processes</h1>
+    <p class="topic-subtitle">Sequencing words · Imperatives · Passive Voice intro</p>
+  </div>
+  <div class="section">
+    <h2><span class="icon" style="background:#0891b2;">📐</span> Sequencing Words</h2>
+    <table class="compare-table">
+      <tr><th>Word</th><th>Arabic</th><th>Example</th></tr>
+      <tr><td><strong>First</strong></td><td>في البداية</td><td>First, install the application.</td></tr>
+      <tr><td><strong>Next / Then</strong></td><td>بعد ذلك</td><td>Next, activate the system.</td></tr>
+      <tr><td><strong>After that</strong></td><td>بعدها</td><td>After that, connect the device.</td></tr>
+      <tr><td><strong>Finally</strong></td><td>في النهاية</td><td>Finally, submit the form.</td></tr>
+    </table>
+    <h2><span class="icon" style="background:#16a34a;">💬</span> Process Vocabulary</h2>
+    <table class="compare-table">
+      <tr><th>Category</th><th>Words</th></tr>
+      <tr><td>Process Language</td><td>process, step, instruction, procedure, method</td></tr>
+      <tr><td>Action Verbs</td><td>install, activate, connect, submit, complete</td></tr>
+    </table>
+    <h2><span class="icon" style="background:#7c3aed;">🔤</span> Imperatives for Instructions</h2>
+    <div class="definition-box"><span class="term">Imperatives</span> Commands that start with a verb. Used in technical instructions, manuals, and step-by-step guides.</div>
+    <table class="compare-table">
+      <tr><th>Imperative</th><th>Example</th></tr>
+      <tr><td>Open</td><td>Open the settings menu.</td></tr>
+      <tr><td>Click</td><td>Click the login button.</td></tr>
+      <tr><td>Go to</td><td>Go to the dashboard.</td></tr>
+      <tr><td>Select</td><td>Select your language.</td></tr>
+      <tr><td>Install</td><td>Install the application first.</td></tr>
+    </table>
+    <h2><span class="icon" style="background:#dc2626;">🔄</span> Passive Voice — Introduction</h2>
+    <div class="definition-box"><span class="term">Passive Voice</span> Focus on what IS DONE, not who does it. Common in technical & scientific writing.</div>
+    <div class="formula-box">
+      <div class="formula">Object + <strong>is / are</strong> + past participle</div>
+    </div>
+    <table class="compare-table">
+      <tr><th>Active</th><th>Passive</th></tr>
+      <tr><td>The system installs the update.</td><td>The update <strong>is installed</strong> automatically.</td></tr>
+      <tr><td>The cloud stores data.</td><td>Data <strong>is stored</strong> in the cloud.</td></tr>
+      <tr><td>The system detects errors.</td><td>Errors <strong>are detected</strong> by the system.</td></tr>
+    </table>
+    <h2><span class="icon" style="background:#ca8a04;">📝</span> Vocabulary Quiz Practice</h2>
+    <table class="compare-table">
+      <tr><th>Question</th><th>Answer</th></tr>
+      <tr><td>______, install before restarting. (Finally / First / Then)</td><td><strong>First</strong></td></tr>
+      <tr><td>Enter password. ______, click login. (First / Next / Finally)</td><td><strong>Next</strong></td></tr>
+      <tr><td>What does "Method" mean?</td><td><strong>A way of doing something</strong></td></tr>
+      <tr><td>What does "Activate" mean?</td><td><strong>Make something start working</strong></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ─── READING & COMPARISONS ─── -->
+<div class="topic-panel" id="panel-m02-04">
+  <div class="topic-header" style="background:linear-gradient(135deg,#1d4ed8,#7c3aed);">
+    <div class="topic-label">ELG 201 · Modules 02, 04, 05</div>
+    <h1 class="topic-title">📖 Reading, Technical Descriptions & Comparisons</h1>
+    <p class="topic-subtitle">Skimming & Scanning · Technical vocab · Comparatives & Superlatives</p>
+  </div>
+  <div class="section">
+    <h2><span class="icon" style="background:#1d4ed8;">🔍</span> Reading Strategies</h2>
+    <table class="compare-table">
+      <tr><th>Strategy</th><th>Definition</th><th>When to Use</th></tr>
+      <tr><td><strong>Skimming</strong></td><td>Read quickly for the general idea</td><td>Understanding the main topic</td></tr>
+      <tr><td><strong>Scanning</strong></td><td>Search for a specific word/fact</td><td>Finding a date, number, or name</td></tr>
+    </table>
+    <h2><span class="icon" style="background:#0891b2;">💻</span> Technical Vocabulary (Module 02)</h2>
+    <table class="compare-table">
+      <tr><th>Word</th><th>Arabic</th><th>Example</th></tr>
+      <tr><td>device</td><td>جهاز</td><td>This device connects via Wi-Fi.</td></tr>
+      <tr><td>system</td><td>نظام</td><td>The OS manages the system.</td></tr>
+      <tr><td>feature</td><td>ميزة</td><td>The new feature improves performance.</td></tr>
+      <tr><td>storage</td><td>تخزين</td><td>Storage is managed by the OS.</td></tr>
+      <tr><td>update</td><td>تحديث</td><td>Check the version after the update.</td></tr>
+      <tr><td>configure</td><td>ضبط/إعداد</td><td>Please configure your device first.</td></tr>
+      <tr><td>interface</td><td>واجهة المستخدم</td><td>The interface is user-friendly.</td></tr>
+      <tr><td>performance</td><td>الأداء</td><td>Performance improved after the update.</td></tr>
+    </table>
+    <h2><span class="icon" style="background:#7c3aed;">📝</span> Technical Descriptions — Present Simple (Module 04)</h2>
+    <div class="definition-box"><span class="term">Present Simple for Descriptions</span> Used to describe what a product does, how a system works, what a device includes.</div>
+    <table class="compare-table">
+      <tr><th>Vocabulary Type</th><th>Words</th></tr>
+      <tr><td>Descriptive Nouns</td><td>model, type, size, weight, material</td></tr>
+      <tr><td>Functional Verbs</td><td>include, allow, support, provide, operate</td></tr>
+      <tr><td>Descriptive Phrases</td><td>designed for, suitable for, equipped with, available in, compatible with</td></tr>
+      <tr><td>Technical Adjectives</td><td>compact, durable, efficient, portable, reliable</td></tr>
+    </table>
+    <p><em>Example: "This model is <strong>designed for</strong> professional use. The device <strong>includes</strong> a compact processor. It is <strong>portable and reliable</strong>."</em></p>
+    <h2><span class="icon" style="background:#16a34a;">📊</span> Comparatives & Superlatives (Module 05)</h2>
+    <div class="formula-box"><div class="formula">Comparative: adj + -er + than &nbsp;|&nbsp; more + adj + than</div></div>
+    <div class="formula-box"><div class="formula">Superlative: the + adj + -est &nbsp;|&nbsp; the most + adj</div></div>
+    <table class="compare-table">
+      <tr><th>Adjective</th><th>Comparative</th><th>Superlative</th></tr>
+      <tr><td>fast</td><td>faster than</td><td>the fastest</td></tr>
+      <tr><td>big</td><td>bigger than</td><td>the biggest</td></tr>
+      <tr><td>expensive</td><td>more expensive than</td><td>the most expensive</td></tr>
+      <tr><td>efficient</td><td>more efficient than</td><td>the most efficient</td></tr>
+    </table>
+    <h2><span class="icon" style="background:#ca8a04;">💡</span> Comparison Vocabulary</h2>
+    <table class="compare-table">
+      <tr><th>Word</th><th>Arabic</th><th>Example</th></tr>
+      <tr><td>advantage / benefit</td><td>ميزة / فائدة</td><td>One advantage is lower cost.</td></tr>
+      <tr><td>disadvantage / limitation</td><td>عيب / قيد</td><td>A main limitation is short battery life.</td></tr>
+      <tr><td>similar / different</td><td>متشابه / مختلف</td><td>There is a clear difference in performance.</td></tr>
+      <tr><td>increase / decrease</td><td>يزيد / ينقص</td><td>The average response time increased.</td></tr>
+      <tr><td>percentage</td><td>نسبة مئوية</td><td>The battery lasted 80% of the day.</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ─── SUMMARY ─── -->
+<div class="topic-panel" id="panel-summary">
+  <div class="topic-header" style="background:linear-gradient(135deg,#0f172a,#1e3a5f);">
+    <div class="topic-label">ELG 201 · Quick Reference</div>
+    <h1 class="topic-title">📋 Grammar Summary — All Modules</h1>
+    <p class="topic-subtitle">Everything in one page — perfect for final exam revision</p>
+  </div>
+  <div class="section">
+    <h2><span class="icon" style="background:#0891b2;">🎯</span> 1. Can / Can't (Module 07)</h2>
+    <table class="compare-table">
+      <tr><th>Form</th><th>Example</th></tr>
+      <tr><td>✅ Affirmative</td><td>I can swim. He can speak Arabic. (NO "cans")</td></tr>
+      <tr><td>❌ Negative</td><td>He can't drive. They cannot attend.</td></tr>
+      <tr><td>❓ Question</td><td>Can you help me? Can she swim?</td></tr>
+    </table>
+    <h2><span class="icon" style="background:#7c3aed;">✨</span> 2. Adjectives (Module 08)</h2>
+    <p><strong>Order:</strong> Opinion → Size → Age → Color → Noun. Example: "A beautiful big new red car." Adjectives NEVER change for plural.</p>
+    <h2><span class="icon" style="background:#f97316;">🍕</span> 3. Like / Likes (Module 09)</h2>
+    <table class="compare-table">
+      <tr><th></th><th>I/You/We/They</th><th>He/She/It</th></tr>
+      <tr><td>✅</td><td>like</td><td><strong>likes</strong></td></tr>
+      <tr><td>❌</td><td>don't like</td><td><strong>doesn't like</strong></td></tr>
+      <tr><td>❓</td><td>Do … like?</td><td>Does … like?</td></tr>
+    </table>
+    <h2><span class="icon" style="background:#16a34a;">⏪</span> 4. Past Simple — was/were (Module 10)</h2>
+    <table class="compare-table">
+      <tr><th>Subject</th><th>✅</th><th>❌</th></tr>
+      <tr><td>I/He/She/It</td><td><strong>was</strong></td><td>wasn't</td></tr>
+      <tr><td>You/We/They</td><td><strong>were</strong></td><td>weren't</td></tr>
+    </table>
+    <h2><span class="icon" style="background:#ca8a04;">📅</span> 5. Past Simple — Regular (Module 11)</h2>
+    <table class="compare-table">
+      <tr><th>Form</th><th>Example</th></tr>
+      <tr><td>✅ +ed</td><td>I worked. She visited.</td></tr>
+      <tr><td>❌ didn't + base</td><td>I didn't work. He didn't visit.</td></tr>
+      <tr><td>❓ Did + base</td><td>Did you work? Where did she go?</td></tr>
+    </table>
+    <h2><span class="icon" style="background:#dc2626;">⚡</span> 6. Past Simple — Irregular (Module 12)</h2>
+    <table class="compare-table">
+      <tr><th>Base</th><th>Past</th><th>Base</th><th>Past</th><th>Base</th><th>Past</th></tr>
+      <tr><td>go</td><td style="color:#dc2626;font-weight:700;">went</td><td>see</td><td style="color:#dc2626;font-weight:700;">saw</td><td>eat</td><td style="color:#dc2626;font-weight:700;">ate</td></tr>
+      <tr><td>drink</td><td style="color:#dc2626;font-weight:700;">drank</td><td>run</td><td style="color:#dc2626;font-weight:700;">ran</td><td>have</td><td style="color:#dc2626;font-weight:700;">had</td></tr>
+      <tr><td>take</td><td style="color:#dc2626;font-weight:700;">took</td><td>buy</td><td style="color:#dc2626;font-weight:700;">bought</td><td>meet</td><td style="color:#dc2626;font-weight:700;">met</td></tr>
+      <tr><td>make</td><td style="color:#dc2626;font-weight:700;">made</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+    </table>
+    <h2><span class="icon" style="background:#0891b2;">🔧</span> 7. Passive Voice (Modules 02, 06)</h2>
+    <div class="formula-box"><div class="formula">Object + <strong>is/are</strong> + past participle</div></div>
+    <p>Examples: Data <strong>is stored</strong> in the cloud. Updates <strong>are installed</strong> automatically.</p>
+    <h2><span class="icon" style="background:#1d4ed8;">📊</span> 8. Comparatives & Superlatives (Module 05)</h2>
+    <table class="compare-table">
+      <tr><th>Type</th><th>Short adj.</th><th>Long adj.</th></tr>
+      <tr><td>Comparative</td><td>faster <strong>than</strong></td><td>more efficient <strong>than</strong></td></tr>
+      <tr><td>Superlative</td><td><strong>the</strong> fastest</td><td><strong>the most</strong> efficient</td></tr>
+    </table>
+    <div class="tip-box">
+      <strong>🎯 Exam Tips:</strong>
+      <ul style="margin-top:8px;">
+        <li>Regular past: verb+ed | Negative/Question: always BASE form</li>
+        <li>Irregular: go→went, see→saw, eat→ate, drink→drank, run→ran</li>
+        <li>Can: same for ALL subjects, never add -s</li>
+        <li>Adjectives: NEVER add -s for plural</li>
+        <li>Like/Likes: add -s ONLY for He/She/It</li>
+        <li>Passive: is/are + past participle (3rd column of verb table)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script>
+const visited = new Set();
+const totalTopics = 10;
+
+function showTopic(id) {
+  document.querySelectorAll('.topic-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.topic-item').forEach(i => i.classList.remove('active'));
+  const panel = document.getElementById('panel-' + id);
+  if (panel) { panel.classList.add('active'); panel.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  const item = document.querySelector(`.topic-item[data-topic="${id}"]`);
+  if (item) { item.classList.add('active'); item.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+  visited.add(id);
+  updateProgress();
+  window.scrollTo(0, 0);
+  document.querySelector('.sidebar')?.classList.remove('open');
+}
+
+function updateProgress() {
+  const pct = Math.round((visited.size / totalTopics) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = visited.size + ' / ' + totalTopics + ' topics';
+}
+
+// handle hash on load
+const hash = location.hash.replace('#', '');
+if (hash) showTopic(hash); else visited.add('intro');
+updateProgress();
+</script>
+</body>
+</html>
