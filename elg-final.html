@@ -328,6 +328,13 @@ body { display: flex; min-height: 100vh; }
 .code-block .number { color: #86efac; }
 .code-block .func { color: #93c5fd; }
 
+/* Overlay for mobile sidebar */
+.sidebar-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5); z-index: 90;
+}
+.sidebar-overlay.active { display: block; }
+
 @media (max-width: 900px) {
   body { display: block; }
   .sidebar { position: fixed; right: -290px; transition: right 0.3s; z-index: 100; }
@@ -340,7 +347,8 @@ body { display: flex; min-height: 100vh; }
 </style>
 </head><body>
 
-<button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+<button class="menu-toggle" onclick="toggleSidebar()">☰</button>
 
 <aside class="sidebar">
   <div class="sidebar-header">
@@ -3230,6 +3238,601 @@ function resetProgress() {
 // ====================================================================
 const TOPIC_ORDER = ['m07','m08','m09','m10','m11','m12','m06','m04','summary'];
 const mainEl = document.getElementById('topicsContainer');
+
+TOPIC_ORDER.forEach(id => {
+  if (TOPICS[id]) {
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = TOPICS[id];
+    while (wrapper.firstChild) mainEl.appendChild(wrapper.firstChild);
+  }
+});
+
+document.querySelectorAll('.topic-item').forEach(item => {
+  item.addEventListener('click', () => showTopic(item.dataset.topic));
+});
+
+const initial = (location.hash && location.hash.startsWith('#topic-'))
+  ? location.hash.replace('#topic-', '') : 'm07';
+showTopic(initial);
+
+</script>
+</main>
+</body>
+</html>
+
+
+// =====================================================================
+// MODULE 06 — Sequencing & Passive Voice
+// =====================================================================
+TOPICS['m06'] = `
+<section class="topic-section" id="topic-m06">
+  <div class="topic-header" style="background:linear-gradient(135deg,#0891b2,#164e63);">
+    <div class="label">Module 06 · Vocabulary — Grammar — Reading — Listening</div>
+    <h1>🔧 Sequencing &amp; Technical Processes</h1>
+    <p>Sequencing Language | Process Language | Imperatives | Passive Voice</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📚</span> Vocabulary 1 — Sequencing Language (من المنهج)</h2>
+    <table class="compare-table">
+      <tr><th>الكلمة</th><th>المعنى</th><th>المثال من المنهج</th></tr>
+      <tr><td><strong>First</strong></td><td>أولاً / في البداية</td><td>"First, install the application."</td></tr>
+      <tr><td><strong>Next</strong></td><td>بعد ذلك</td><td>"Next, activate the system."</td></tr>
+      <tr><td><strong>Then</strong></td><td>ثم</td><td>"Then, click the login button."</td></tr>
+      <tr><td><strong>After that</strong></td><td>بعدها</td><td>"After that, connect the device to the network."</td></tr>
+      <tr><td><strong>Finally</strong></td><td>أخيراً</td><td>"Finally, the task is completed successfully."</td></tr>
+    </table>
+
+    <h2><span class="icon" style="background:#0891b2;">🔧</span> Vocabulary 2 — Process Language (من المنهج)</h2>
+    <table class="compare-table">
+      <tr><th>الكلمة</th><th>المعنى</th><th>المثال</th></tr>
+      <tr><td><strong>Process</strong></td><td>عملية — A series of actions to achieve a result</td><td>"The process is completed successfully."</td></tr>
+      <tr><td><strong>Step</strong></td><td>خطوة — One action in a process</td><td>"Each step must be completed correctly."</td></tr>
+      <tr><td><strong>Instruction</strong></td><td>تعليمة — Something that tells you what to do</td><td>"Follow the instructions carefully."</td></tr>
+      <tr><td><strong>Procedure</strong></td><td>إجراء — An official way of doing something</td><td>"The password reset procedure includes three stages."</td></tr>
+      <tr><td><strong>Method</strong></td><td>طريقة — A way of doing something</td><td>"This method is faster and more efficient."</td></tr>
+    </table>
+
+    <h2><span class="icon" style="background:#16a34a;">⚡</span> Vocabulary 3 — Action Verbs (من المنهج)</h2>
+    <table class="compare-table">
+      <tr><th>الفعل</th><th>المعنى</th><th>المثال</th></tr>
+      <tr><td><strong>Install</strong></td><td>يُثبّت / يُنصّب</td><td>"First, install the application before restarting."</td></tr>
+      <tr><td><strong>Activate</strong></td><td>يُفعّل — Make something start working</td><td>"Next, activate the system."</td></tr>
+      <tr><td><strong>Connect</strong></td><td>يوصّل / يربط</td><td>"Connect the device to the network using a cable."</td></tr>
+      <tr><td><strong>Submit</strong></td><td>يُرسل / يُقدّم</td><td>"Finally, submit the assignment."</td></tr>
+      <tr><td><strong>Complete</strong></td><td>يُكمل / ينهي</td><td>"Each step must be completed correctly."</td></tr>
+    </table>
+
+    <h3>📝 Vocabulary Quiz 1 (من المنهج — الأسئلة والإجابات)</h3>
+    <div class="quiz-section" style="border:none;padding:0;box-shadow:none;">
+      <div class="quiz-q">
+        <div class="q-text">______, install the application before restarting the system.</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,0,1)"><span class="letter">A</span><span>Finally</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,1,1)"><span class="letter">B</span><span>First ✅</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,2,1)"><span class="letter">C</span><span>After that</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,3,1)"><span class="letter">D</span><span>Then</span></button>
+        </div>
+        <div class="quiz-explain">البداية دائماً = First ✅ (من إجابات المنهج: B)</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text">Enter your password. ______, click the login button.</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,0,2)"><span class="letter">A</span><span>Finally</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,1,2)"><span class="letter">B</span><span>First</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,2,2)"><span class="letter">C</span><span>Next ✅</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,3,2)"><span class="letter">D</span><span>Method</span></button>
+        </div>
+        <div class="quiz-explain">بعد خطوة سابقة (Enter password) → Next ✅ (من إجابات المنهج: C)</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text">What does "Method" mean?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,0,1)"><span class="letter">A</span><span>A result</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,1,1)"><span class="letter">B</span><span>A way of doing something ✅</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,2,1)"><span class="letter">C</span><span>A problem</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,3,1)"><span class="letter">D</span><span>A beginning</span></button>
+        </div>
+        <div class="quiz-explain">Method = طريقة / أسلوب ✅ (من إجابات المنهج: B)</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text">What does "Activate" mean?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,0,1)"><span class="letter">A</span><span>Stop something</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,1,1)"><span class="letter">B</span><span>Make something start working ✅</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,2,1)"><span class="letter">C</span><span>Delete something</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,3,1)"><span class="letter">D</span><span>Hide something</span></button>
+        </div>
+        <div class="quiz-explain">Activate = تفعيل = Make something start working ✅ (من إجابات المنهج: B)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#7c3aed;">📐</span> Grammar: Imperatives &amp; Passive Voice</h2>
+
+    <h3>Imperatives — صيغة الأمر (من المنهج)</h3>
+    <div class="definition-box">
+      <span class="term">Imperatives — for instructions</span>
+      جملة تبدأ بالفعل مباشرة بدون فاعل ظاهر. تُستخدم في التعليمات التقنية وأدلة الاستخدام.
+      <div class="logic">Download the file. | Open the application. | Follow the instructions. | Connect the device.</div>
+    </div>
+    <table class="compare-table">
+      <tr><th>Imperative (أمر)</th><th>NOT (خطأ شائع)</th></tr>
+      <tr><td><strong>Download</strong> the file. ✅</td><td>You download the file. ❌ (for instructions)</td></tr>
+      <tr><td><strong>Open</strong> the application. ✅</td><td>Downloading the file. ❌</td></tr>
+      <tr><td><strong>First, activate</strong> the system. ✅</td><td>First, the system activate. ❌</td></tr>
+    </table>
+
+    <h3>Passive Voice — المبني للمجهول (من المنهج)</h3>
+    <div class="definition-box">
+      <span class="term">Passive Voice — for processes</span>
+      نُركّز على ما يُنجَز (المفعول) بدلاً من من يُنجزه (الفاعل). شائع في الكتابة التقنية.
+      <div class="logic">Object + <strong>is/are</strong> + past participle<br>
+      The file <strong>is uploaded</strong>. | The system <strong>is activated</strong>. | The task <strong>is completed</strong>.</div>
+    </div>
+    <table class="compare-table">
+      <tr><th>Active (مبني للمعلوم)</th><th>Passive (مبني للمجهول)</th></tr>
+      <tr><td>The user uploads the file.</td><td>The file <strong>is uploaded</strong>. ✅</td></tr>
+      <tr><td>The system activates.</td><td>The system <strong>is activated</strong>. ✅</td></tr>
+      <tr><td>The user completes the task.</td><td>The task <strong>is completed</strong>. ✅</td></tr>
+    </table>
+
+    <h3>📝 Grammar MCQs (من المنهج)</h3>
+    <div class="quiz-section" style="border:none;padding:0;box-shadow:none;">
+      <div class="quiz-q">
+        <div class="q-text">Choose the correct instruction:</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,0,1)"><span class="letter">A</span><span>You download the file.</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,1,1)"><span class="letter">B</span><span>Download the file. ✅</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,2,1)"><span class="letter">C</span><span>Downloading the file.</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,3,1)"><span class="letter">D</span><span>The file downloads.</span></button>
+        </div>
+        <div class="quiz-explain">Imperative: verb at start, no subject ✅ (من إجابات المنهج: B)</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text">Choose the correct passive sentence:</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,0,1)"><span class="letter">A</span><span>The user uploads the file.</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,1,1)"><span class="letter">B</span><span>The file is uploaded. ✅</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,2,1)"><span class="letter">C</span><span>The file upload.</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,3,1)"><span class="letter">D</span><span>Upload the file.</span></button>
+        </div>
+        <div class="quiz-explain">Passive: object + is + past participle ✅ (من إجابات المنهج: B)</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text">Choose the correct sentence:</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,0,1)"><span class="letter">A</span><span>First, the system activate.</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,1,1)"><span class="letter">B</span><span>First, activate the system. ✅</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,2,1)"><span class="letter">C</span><span>First, system is activate.</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,3,1)"><span class="letter">D</span><span>First, activating the system.</span></button>
+        </div>
+        <div class="quiz-explain">Imperative: First + verb + object ✅ (من إجابات المنهج: B)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#f59e0b;">📖</span> Reading Passage 1 — Following Instructions (من المنهج)</h2>
+    <div class="story-box">
+      Installing a software application usually involves several clear steps. <strong>First</strong>, users download the application from an official website. <strong>Next</strong>, they open the installation file and follow the on-screen instructions. During this step, users may need to accept terms and choose installation settings.<br><br>
+      After the installation is complete, users <strong>activate</strong> the software using an account or license key. <strong>Finally</strong>, the system checks the configuration to make sure the application works correctly. If users follow each step carefully, the <strong>process</strong> is usually fast and successful.<br><br>
+      Clear instructions help reduce errors and save time.
+    </div>
+    <h3>Reading Comprehension 1 (إجابات من المنهج)</h3>
+    <div class="quiz-section" style="border:none;padding:0;box-shadow:none;">
+      <div class="quiz-q">
+        <div class="q-text">What is the first step in the installation process?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,0,1)"><span class="letter">A</span><span>Activating the software</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,1,1)"><span class="letter">B</span><span>Downloading the application ✅</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,2,1)"><span class="letter">C</span><span>Checking the configuration</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,3,1)"><span class="letter">D</span><span>Contacting support</span></button>
+        </div>
+        <div class="quiz-explain">النص: "First, users download the application" ✅ (من إجابات المنهج: B)</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text">Why are clear instructions important?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,0,1)"><span class="letter">A</span><span>They increase system cost</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,1,1)"><span class="letter">B</span><span>They reduce errors ✅</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,2,1)"><span class="letter">C</span><span>They remove steps</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,3,1)"><span class="letter">D</span><span>They slow the process</span></button>
+        </div>
+        <div class="quiz-explain">النص: "Clear instructions help reduce errors and save time" ✅ (من إجابات المنهج: B)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#dc2626;">📖</span> Reading Passage 2 — Describing a Process (من المنهج)</h2>
+    <div class="story-box">
+      Submitting an online assignment requires following a simple <strong>procedure</strong>. <strong>First</strong>, students log into the learning platform using their username and password. <strong>Next</strong>, they select the correct course and open the assignment page.<br><br>
+      <strong>After that</strong>, students upload the required file and check that it is complete. <strong>Finally</strong>, they submit the assignment and wait for confirmation. If any step is skipped, the submission may fail.<br><br>
+      Understanding the <strong>process</strong> helps students avoid mistakes and submit work successfully.
+    </div>
+    <h3>Reading Comprehension 2 (إجابات من المنهج)</h3>
+    <div class="quiz-section" style="border:none;padding:0;box-shadow:none;">
+      <div class="quiz-q">
+        <div class="q-text">What must students do first?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,0,1)"><span class="letter">A</span><span>Upload the file</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,1,1)"><span class="letter">B</span><span>Log into the platform ✅</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,2,1)"><span class="letter">C</span><span>Submit the assignment</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,3,1)"><span class="letter">D</span><span>Check confirmation</span></button>
+        </div>
+        <div class="quiz-explain">النص: "First, students log into the learning platform" ✅ (من إجابات المنهج: B)</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text">What is the final step?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,0,2)"><span class="letter">A</span><span>Uploading the file</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,1,2)"><span class="letter">B</span><span>Selecting the course</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,2,2)"><span class="letter">C</span><span>Submitting the assignment ✅</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,3,2)"><span class="letter">D</span><span>Opening the page</span></button>
+        </div>
+        <div class="quiz-explain">النص: "Finally, they submit the assignment" ✅ (من إجابات المنهج: C)</div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+console.log("ELG Module 06 ✅");
+
+// =====================================================================
+// MODULE 04 — Comparisons & Data
+// =====================================================================
+TOPICS['m04'] = `
+<section class="topic-section" id="topic-m04">
+  <div class="topic-header" style="background:linear-gradient(135deg,#1d4ed8,#7c3aed);">
+    <div class="label">Module 04 · Vocabulary — Grammar — Reading — Listening</div>
+    <h1>📊 Comparisons &amp; Data — المقارنة والبيانات</h1>
+    <p>Comparative &amp; Superlative | Comparison Language | Data Language | Reading Devices</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon">📚</span> Vocabulary 1 — Comparison Language (من المنهج)</h2>
+    <table class="compare-table">
+      <tr><th>الكلمة</th><th>المعنى</th><th>المثال من المنهج</th></tr>
+      <tr><td><strong>similar</strong></td><td>مشابه / يشبه تقريباً</td><td>"Both devices are similar in size."</td></tr>
+      <tr><td><strong>different</strong></td><td>مختلف</td><td>"There is a clear difference in performance."</td></tr>
+      <tr><td><strong>higher</strong></td><td>أعلى / أكبر</td><td>"Device B has a higher performance."</td></tr>
+      <tr><td><strong>lower</strong></td><td>أقل / أدنى</td><td>"Device A has a lower cost."</td></tr>
+      <tr><td><strong>faster</strong></td><td>أسرع</td><td>"Device A is lighter and faster."</td></tr>
+      <tr><td><strong>slower</strong></td><td>أبطأ</td><td>"Device B operates slower in basic tasks."</td></tr>
+    </table>
+
+    <h2><span class="icon" style="background:#0891b2;">📊</span> Vocabulary 2 — Data Language (من المنهج)</h2>
+    <table class="compare-table">
+      <tr><th>الكلمة</th><th>المعنى</th><th>المثال</th></tr>
+      <tr><td><strong>number</strong></td><td>رقم / عدد</td><td>"The number increased during exam weeks."</td></tr>
+      <tr><td><strong>percentage</strong></td><td>نسبة مئوية</td><td>"60% of students used the platform daily."</td></tr>
+      <tr><td><strong>increase</strong></td><td>زيادة / ارتفاع</td><td>"The average response time increased."</td></tr>
+      <tr><td><strong>decrease</strong></td><td>انخفاض / نقص</td><td>"Usage decreased after exams."</td></tr>
+      <tr><td><strong>average</strong></td><td>متوسط</td><td>"The average daily usage was three hours."</td></tr>
+    </table>
+
+    <h2><span class="icon" style="background:#dc2626;">⚖️</span> Vocabulary 3 — Evaluation Language (من المنهج)</h2>
+    <table class="compare-table">
+      <tr><th>الكلمة</th><th>التعريف من المنهج</th><th>المثال</th></tr>
+      <tr><td><strong>advantage</strong></td><td>= A benefit / a positive point. (ميزة / نقطة إيجابية)</td><td>"One advantage is lower cost."</td></tr>
+      <tr><td><strong>disadvantage</strong></td><td>= A negative point / weakness. (نقطة سلبية)</td><td>"A disadvantage is heavier weight."</td></tr>
+      <tr><td><strong>benefit</strong></td><td>= A positive result or advantage. (فائدة / ميزة)</td><td>"The main benefit is portability."</td></tr>
+      <tr><td><strong>limitation</strong></td><td>= A restriction or weakness. (قيد / ضعف)</td><td>"A main limitation is short battery life."</td></tr>
+      <tr><td><strong>difference</strong></td><td>= A way things are not the same. (فرق)</td><td>"Cost is another important difference."</td></tr>
+    </table>
+
+    <h3>📝 Vocabulary Quiz 1 (من المنهج — الإجابات الصحيحة)</h3>
+    <div class="quiz-section" style="border:none;padding:0;box-shadow:none;">
+      <div class="quiz-q">
+        <div class="q-text">The word "advantage" means:</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,0,1)"><span class="letter">A</span><span>A problem</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,1,1)"><span class="letter">B</span><span>A benefit ✅</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,2,1)"><span class="letter">C</span><span>A mistake</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,3,1)"><span class="letter">D</span><span>A limitation</span></button>
+        </div>
+        <div class="quiz-explain">advantage = ميزة = A benefit ✅ (من إجابات المنهج: B)</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text">The opposite of "increase" is:</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,0,2)"><span class="letter">A</span><span>Average</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,1,2)"><span class="letter">B</span><span>Percentage</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,2,2)"><span class="letter">C</span><span>Decrease ✅</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,3,2)"><span class="letter">D</span><span>Difference</span></button>
+        </div>
+        <div class="quiz-explain">increase ↔ decrease ✅ (من إجابات المنهج: C)</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text">A "limitation" is:</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,0,2)"><span class="letter">A</span><span>An advantage</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,1,2)"><span class="letter">B</span><span>A benefit</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,2,2)"><span class="letter">C</span><span>A restriction or weakness ✅</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,3,2)"><span class="letter">D</span><span>A feature</span></button>
+        </div>
+        <div class="quiz-explain">limitation = قيد / ضعف ✅ (من إجابات المنهج: C)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#16a34a;">📐</span> Grammar: Comparatives &amp; Superlatives</h2>
+    <div class="definition-box">
+      <span class="term">Comparatives — المقارنة (بين شيئين)</span>
+      Short adjectives: adj + <strong>er + than</strong> | Long adjectives: <strong>more</strong> + adj + <strong>than</strong>
+      <div class="logic">
+        <strong>Superlatives (التفضيل — بين أكثر من اثنين):</strong><br>
+        Short adjectives: <strong>the</strong> + adj + <strong>est</strong> | Long adjectives: <strong>the most</strong> + adj<br>
+        شاذة: good → better → the best | bad → worse → the worst
+      </div>
+    </div>
+    <table class="compare-table">
+      <tr><th>الصفة</th><th>Comparative</th><th>Superlative</th></tr>
+      <tr><td>fast</td><td>faster than</td><td>the fastest</td></tr>
+      <tr><td>light</td><td>lighter than</td><td>the lightest</td></tr>
+      <tr><td>high</td><td>higher than</td><td>the highest</td></tr>
+      <tr><td>slow</td><td>slower than</td><td>the slowest</td></tr>
+      <tr><td>expensive</td><td>more expensive than</td><td>the most expensive</td></tr>
+      <tr><td>powerful</td><td>more powerful than</td><td>the most powerful</td></tr>
+      <tr><td>good</td><td>better than</td><td>the best</td></tr>
+    </table>
+
+    <h3>📝 Grammar MCQs (من المنهج — الإجابات: a, a, a, a, a)</h3>
+    <div class="quiz-section" style="border:none;padding:0;box-shadow:none;">
+      <div class="quiz-q">
+        <div class="q-text">App A is ______ App B.</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,0,0)"><span class="letter">a</span><span>faster than ✅</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,1,0)"><span class="letter">b</span><span>fastest</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,2,0)"><span class="letter">c</span><span>more fast</span></button>
+        </div>
+        <div class="quiz-explain">fast قصيرة → faster than ✅ (من إجابات المنهج: a)</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text">Laptop X is ______ Laptop Y.</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,0,0)"><span class="letter">a</span><span>more expensive than ✅</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,1,0)"><span class="letter">b</span><span>most expensive</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,2,0)"><span class="letter">c</span><span>expensive</span></button>
+        </div>
+        <div class="quiz-explain">expensive طويلة → more expensive than ✅ (من إجابات المنهج: a)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#1d4ed8;">📖</span> Reading Passage — Comparing Two Devices (من المنهج)</h2>
+    <div class="story-box">
+      Two smart devices are commonly used for study and daily tasks: <strong>Device A</strong> and <strong>Device B</strong>. Both devices are designed for students, but they <strong>differ</strong> in performance and cost. Device A is <strong>lighter</strong> and <strong>faster</strong>, which makes it <strong>suitable</strong> for mobile use. Device B is larger and heavier, but it provides <strong>stronger</strong> performance for long study sessions.<br><br>
+      In terms of battery life, Device A operates for eight hours, while Device B operates for twelve hours. This means Device B has a <strong>longer</strong> battery life. However, Device A charges more quickly, which is an <strong>advantage</strong> for students who travel frequently.<br><br>
+      Cost is another important <strong>difference</strong>. Device A is <strong>cheaper</strong>, while Device B is <strong>more expensive</strong> due to its higher performance. Overall, Device A is suitable for basic tasks, while Device B is <strong>better</strong> for advanced academic use.
+    </div>
+    <h3>Reading Comprehension (إجابات من المنهج)</h3>
+    <div class="quiz-section" style="border:none;padding:0;box-shadow:none;">
+      <div class="quiz-q">
+        <div class="q-text">1. What is one advantage of Device A?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,0,1)"><span class="letter">A</span><span>Longer battery life</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,1,1)"><span class="letter">B</span><span>Faster charging ✅</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,2,1)"><span class="letter">C</span><span>Higher price</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,3,1)"><span class="letter">D</span><span>Larger size</span></button>
+        </div>
+        <div class="quiz-explain">النص: "Device A charges more quickly, which is an advantage" ✅ (من إجابات المنهج: B)</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text">2. Which device is better for advanced use?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,0,1)"><span class="letter">A</span><span>Device A</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,1,1)"><span class="letter">B</span><span>Device B ✅</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,2,1)"><span class="letter">C</span><span>Both devices</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,3,1)"><span class="letter">D</span><span>Neither device</span></button>
+        </div>
+        <div class="quiz-explain">النص: "Device B is better for advanced academic use" ✅ (من إجابات المنهج: B)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#f59e0b;">🎧</span> Listening — Device Comparison (من المنهج)</h2>
+    <div class="story-box">
+      Many students ask which device is better for study. Device A is <strong>lighter</strong> and <strong>easier</strong> to carry, but Device B has a <strong>longer</strong> battery life. Device B is also <strong>more powerful</strong>, which makes it better for long study sessions. However, Device A is <strong>cheaper</strong>, so it may be a <strong>better</strong> choice for students with a limited budget.
+    </div>
+    <h3>Listening Comprehension (إجابات من المنهج)</h3>
+    <div class="quiz-section" style="border:none;padding:0;box-shadow:none;">
+      <div class="quiz-q">
+        <div class="q-text">Which device has a longer battery life?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,0,1)"><span class="letter">A</span><span>Device A</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,1,1)"><span class="letter">B</span><span>Device B ✅</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,2,1)"><span class="letter">C</span><span>Both</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,3,1)"><span class="letter">D</span><span>Neither</span></button>
+        </div>
+        <div class="quiz-explain">النص: "Device B has a longer battery life" ✅</div>
+      </div>
+      <div class="quiz-q">
+        <div class="q-text">Why might students choose Device A?</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,0,1)"><span class="letter">A</span><span>It is heavier</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,1,1)"><span class="letter">B</span><span>It is cheaper ✅</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,2,1)"><span class="letter">C</span><span>It is more powerful</span></button>
+          <button class="quiz-option" onclick="answerQuiz(this.parentElement.parentElement,3,1)"><span class="letter">D</span><span>It has a longer battery life</span></button>
+        </div>
+        <div class="quiz-explain">النص: "Device A is cheaper, so it may be a better choice for students with a limited budget" ✅</div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+console.log("ELG Module 04 ✅");
+
+// =====================================================================
+// GRAMMAR SUMMARY
+// =====================================================================
+TOPICS['summary'] = `
+<section class="topic-section" id="topic-summary">
+  <div class="topic-header" style="background:linear-gradient(135deg,#0f172a,#1e3a5f);">
+    <div class="label">⭐ مرجع سريع شامل — Quick Reference</div>
+    <h1>📋 Grammar Summary — كل قواعد المنهج</h1>
+    <p>كل شيء في صفحة واحدة — مثالية للمراجعة قبل الاختبار النهائي</p>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#0891b2;">1</span> Can / Can't (Module 07)</h2>
+    <table class="compare-table">
+      <tr><th>الصيغة</th><th>البنية</th><th>مثال</th></tr>
+      <tr><td>✅ Affirmative</td><td>S + <strong>can</strong> + base verb</td><td>I can swim. She can speak. He can drive.</td></tr>
+      <tr><td>❌ Negative</td><td>S + <strong>cannot/can't</strong> + base verb</td><td>He can't drive. They cannot attend.</td></tr>
+      <tr><td>❓ Question</td><td><strong>Can</strong> + S + base verb?</td><td>Can you help me? Can she swim?</td></tr>
+    </table>
+    <div class="warn-box">Can نفسه مع كل الضمائر — ❌ "He cans swim" ✅ "He can swim" | لا to بعد can | بعد can = base form</div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#7c3aed;">2</span> Adjectives (Module 08)</h2>
+    <ul>
+      <li><strong>الترتيب:</strong> Opinion → Size → Age → Color → Noun | مثال: "a beautiful big new red car" ✅</li>
+      <li><strong>قاعدة جوهرية:</strong> الصفات لا تتغير للجمع — ❌ "happys" ✅ "happy"</li>
+      <li><strong>Professional</strong> = behaving in a serious and correct way at work</li>
+      <li><strong>Confident</strong> = sure about yourself and your abilities</li>
+      <li><strong>Responsible</strong> = able to take care of things and people</li>
+      <li><strong>Creative</strong> = having new ideas; good at making something original</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#f97316;">3</span> Like / Likes (Module 09)</h2>
+    <table class="compare-table">
+      <tr><th></th><th>I / You / We / They</th><th>He / She / It</th></tr>
+      <tr><td>✅</td><td><strong>like</strong></td><td><strong>likes</strong></td></tr>
+      <tr><td>❌</td><td><strong>don't like</strong></td><td><strong>doesn't like</strong></td></tr>
+      <tr><td>❓</td><td><strong>Do</strong> ... like?</td><td><strong>Does</strong> ... like?</td></tr>
+    </table>
+    <div class="warn-box">بعد doesn't → base form دائماً: ❌ "doesn't likes" ✅ "doesn't like"</div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#16a34a;">4</span> Past Simple — was/were (Module 10)</h2>
+    <table class="compare-table">
+      <tr><th>الضمير</th><th>✅ مثبت</th><th>❌ منفي</th></tr>
+      <tr><td>I / He / She / It</td><td><strong>was</strong></td><td><strong>wasn't</strong></td></tr>
+      <tr><td>You / We / They</td><td><strong>were</strong></td><td><strong>weren't</strong></td></tr>
+    </table>
+    <div class="tip-box">You → were دائماً (حتى للمفرد) | سؤال: Was/Were + subject?</div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#ca8a04;">5</span> Past Simple — Regular (+ed) (Module 11)</h2>
+    <table class="compare-table">
+      <tr><th>الصيغة</th><th>البنية</th><th>مثال</th></tr>
+      <tr><td>✅ Affirmative</td><td>S + <strong>verb+ed</strong></td><td>I worked. She visited. They played.</td></tr>
+      <tr><td>❌ Negative</td><td>S + <strong>didn't</strong> + <strong>base verb</strong></td><td>I <strong>didn't work</strong>. ❌ didn't worked</td></tr>
+      <tr><td>❓ Question</td><td><strong>Did</strong> + S + <strong>base verb</strong>?</td><td>Did you <strong>work</strong>? Where did she <strong>go</strong>?</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#dc2626;">6</span> Past Simple — Irregular (Module 12)</h2>
+    <table class="compare-table">
+      <tr><th>Base</th><th style="color:#dc2626;">Past ✅</th><th>Base</th><th style="color:#dc2626;">Past ✅</th><th>Base</th><th style="color:#dc2626;">Past ✅</th></tr>
+      <tr><td>go</td><td style="color:#dc2626;font-weight:800;">went</td><td>see</td><td style="color:#dc2626;font-weight:800;">saw</td><td>eat</td><td style="color:#dc2626;font-weight:800;">ate</td></tr>
+      <tr><td>drink</td><td style="color:#dc2626;font-weight:800;">drank</td><td>run</td><td style="color:#dc2626;font-weight:800;">ran</td><td>have</td><td style="color:#dc2626;font-weight:800;">had</td></tr>
+      <tr><td>take</td><td style="color:#dc2626;font-weight:800;">took</td><td>buy</td><td style="color:#dc2626;font-weight:800;">bought</td><td>meet</td><td style="color:#dc2626;font-weight:800;">met</td></tr>
+      <tr><td>make</td><td style="color:#dc2626;font-weight:800;">made</td><td colspan="4">في النفي/السؤال: did + base form دائماً</td></tr>
+    </table>
+    <div class="warn-box">❌ goed | ❌ eated | ❌ runned | ❌ buyed | ❌ maked — كلها خاطئة | ❌ didn't went → ✅ didn't go</div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#0891b2;">7</span> Sequencing &amp; Passive (Module 06)</h2>
+    <table class="compare-table">
+      <tr><th>Sequencing Words</th><th>Passive Voice</th></tr>
+      <tr><td>First → Next/Then → After that → Finally</td><td>Object + <strong>is/are</strong> + past participle</td></tr>
+    </table>
+    <div class="example-box">The file <strong>is uploaded</strong>. | The system <strong>is activated</strong>. | The task <strong>is completed</strong>.</div>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#1d4ed8;">8</span> Comparatives &amp; Superlatives (Module 04)</h2>
+    <table class="compare-table">
+      <tr><th>النوع</th><th>صفة قصيرة</th><th>صفة طويلة</th><th>شاذة</th></tr>
+      <tr><td>Comparative</td><td>fast<strong>er than</strong></td><td><strong>more</strong> powerful than</td><td>good → <strong>better than</strong></td></tr>
+      <tr><td>Superlative</td><td><strong>the</strong> fast<strong>est</strong></td><td><strong>the most</strong> powerful</td><td>good → <strong>the best</strong></td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2><span class="icon" style="background:#16a34a;">🎯</span> نصائح الاختبار النهائي</h2>
+    <div class="tip-box">
+      <strong>📌 القواعد الذهبية:</strong>
+      <ul style="margin-top:8px; list-style:none; padding:0;">
+        <li>1️⃣ <strong>Can:</strong> نفسه مع كل الضمائر — لا s، لا ed، الفعل بعده base form دائماً</li>
+        <li>2️⃣ <strong>Adjectives:</strong> لا تتغير للجمع | ترتيب: Opinion→Size→Age→Color | Professional/Confident/Responsible/Creative</li>
+        <li>3️⃣ <strong>Like/Likes:</strong> +s فقط مع He/She/It | بعد doesn't → base form</li>
+        <li>4️⃣ <strong>was/were:</strong> was = I/He/She/It | were = You/We/They</li>
+        <li>5️⃣ <strong>Regular:</strong> +ed في المثبت | base form بعد didn't/Did</li>
+        <li>6️⃣ <strong>Irregular:</strong> go→went, see→saw, eat→ate, drink→drank, run→ran, have→had, take→took, buy→bought, meet→met, make→made</li>
+        <li>7️⃣ <strong>Passive:</strong> is/are + past participle</li>
+        <li>8️⃣ <strong>Sequencing:</strong> First → Next/Then → After that → Finally</li>
+        <li>9️⃣ <strong>Comparatives:</strong> short adj + er than | more + long adj + than</li>
+        <li>🔟 <strong>Superlatives:</strong> the + short adj + est | the most + long adj | good→best</li>
+      </ul>
+    </div>
+  </div>
+</section>
+`;
+console.log("ELG Summary ✅");
+
+// =====================================================================
+// CORE FUNCTIONS
+// =====================================================================
+const visited = new Set();
+let currentTopic = 'm07';
+
+function showTopic(id) {
+  document.querySelectorAll('.topic-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.topic-item').forEach(i => i.classList.remove('active'));
+  const section = document.getElementById('topic-' + id);
+  if (section) { section.classList.add('active'); }
+  const item = document.querySelector('.topic-item[data-topic="' + id + '"]');
+  if (item) { item.classList.add('active'); item.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+  visited.add(id);
+  currentTopic = id;
+  updateProgress();
+  window.scrollTo(0, 0);
+  document.querySelector('.sidebar')?.classList.remove('open');
+}
+
+function updateProgress() {
+  const total = 9;
+  document.getElementById('progressSummary').textContent = '📈 تقدمك: ' + visited.size + ' / ' + total;
+  visited.forEach(id => {
+    const item = document.querySelector('.topic-item[data-topic="' + id + '"]');
+    if (item && !item.classList.contains('active')) item.classList.add('visited');
+  });
+}
+
+function answerQuiz(qDiv, selectedIdx, correctIdx) {
+  if (qDiv.classList.contains('answered')) return;
+  const options = qDiv.querySelectorAll('.quiz-option');
+  options.forEach((opt, i) => {
+    if (i === correctIdx) opt.classList.add('correct');
+    if (i === selectedIdx && i !== correctIdx) opt.classList.add('wrong');
+  });
+  qDiv.classList.add('answered');
+}
+
+function resetProgress() {
+  visited.clear();
+  document.querySelectorAll('.topic-item').forEach(i => i.classList.remove('visited'));
+  updateProgress();
+}
+
+// === INITIALIZATION ===
+const TOPIC_ORDER = ['m07','m08','m09','m10','m11','m12','m06','m04','summary'];
+const mainEl = document.querySelector('.main');
 
 TOPIC_ORDER.forEach(id => {
   if (TOPICS[id]) {
