@@ -6,6 +6,9 @@
 <title>🇬🇧 ELG201 — Applied English (المنهج الكامل للنهائي)</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+/* ============================================
+   RESET + ROOT
+============================================ */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
   --bg: #f8fafc; --panel: #ffffff; --border: #e2e8f0; --border-strong: #cbd5e1;
@@ -20,25 +23,51 @@
   --shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
   --shadow-lg: 0 12px 24px -8px rgba(15, 23, 42, 0.12);
 }
-html, body { font-family: 'Noto Sans Arabic', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; overscroll-behavior-y: auto; -webkit-overflow-scrolling: touch; overflow-x: hidden; max-width: 100vw; }
-body { display: flex; min-height: 100vh; overflow-x: hidden; }
 
-/* Sidebar */
+/* ============================================
+   HTML / BODY — الحل الجذري للـ overflow
+============================================ */
+html {
+  overflow-x: hidden;
+  width: 100%;
+}
+body {
+  font-family: 'Noto Sans Arabic', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  width: 100%;
+  overflow-x: hidden;
+  /* لا display: flex — هذا كان سبب المشكلة */
+}
+
+/* ============================================
+   SIDEBAR — ثابتة على اليمين
+============================================ */
 .sidebar {
-  width: 290px; background: white; border-left: 1px solid var(--border);
-  position: fixed; top: 0; right: 0; bottom: 0; overflow-y: auto;
-  padding: 16px 0; z-index: 50;
+  width: 290px;
+  background: white;
+  border-left: 1px solid var(--border);
+  position: fixed;
+  top: 0; right: 0; bottom: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 16px 0;
+  z-index: 50;
 }
 .sidebar-header { padding: 0 16px 14px; border-bottom: 1px solid var(--border); margin-bottom: 10px; }
 .sidebar-title { display: flex; align-items: center; gap: 10px; }
 .sidebar-logo {
-  width: 38px; height: 38px; background: linear-gradient(135deg, #0891b2, #16a34a);
+  width: 38px; height: 38px; background: linear-gradient(135deg, #1d4ed8, #7c3aed);
   border-radius: 10px; display: flex; align-items: center; justify-content: center;
   color: white; font-size: 18px; flex-shrink: 0;
 }
 .sidebar-title h2 { font-size: 14px; font-weight: 800; color: var(--text); line-height: 1.4; }
 .sidebar-title p { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-.progress-summary { background: var(--primary-light); border-radius: 8px; padding: 8px 12px; margin: 0 16px 12px; font-size: 12px; color: var(--primary-dark); font-weight: 600; text-align: center; }
+.progress-summary {
+  background: var(--primary-light); border-radius: 8px; padding: 8px 12px;
+  margin: 0 16px 12px; font-size: 12px; color: var(--primary-dark); font-weight: 600; text-align: center;
+}
 .topic-list { list-style: none; padding: 0 8px; }
 .topic-item {
   display: flex; align-items: center; gap: 10px; padding: 9px 10px;
@@ -52,8 +81,7 @@ body { display: flex; min-height: 100vh; overflow-x: hidden; }
 .topic-num {
   width: 26px; height: 26px; background: var(--bg); border-radius: 6px;
   display: flex; align-items: center; justify-content: center;
-  font-family: 'JetBrains Mono'; font-weight: 700; font-size: 12px;
-  flex-shrink: 0;
+  font-family: 'JetBrains Mono'; font-weight: 700; font-size: 12px; flex-shrink: 0;
 }
 .topic-item.active .topic-num { background: rgba(255,255,255,0.25); color: white; }
 .topic-item.visited:not(.active) .topic-num { background: var(--success); color: white; }
@@ -65,12 +93,44 @@ body { display: flex; min-height: 100vh; overflow-x: hidden; }
 }
 .sidebar-footer button:hover { background: var(--primary); color: white; border-color: var(--primary); }
 
-/* Main */
-.main { margin-right: 290px; flex: 1; padding: 28px 36px 60px; min-width: 0; overflow-x: hidden; }
+/* ============================================
+   MAIN — الحل الصحيح بدون flex overflow
+============================================ */
+.main {
+  margin-right: 290px;       /* فضاء للـ sidebar الثابتة */
+  padding: 28px 36px 60px;
+  width: calc(100% - 290px); /* عرض صريح = لا overflow */
+  max-width: calc(100% - 290px);
+  overflow-x: hidden;
+  overflow-y: visible;
+  box-sizing: border-box;
+}
+
+/* ============================================
+   OVERLAY للموبايل
+============================================ */
+.sidebar-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5); z-index: 40;
+}
+.sidebar-overlay.active { display: block; }
+
+/* ============================================
+   TOPIC SECTIONS
+============================================ */
 .topic-section { display: none; }
 .topic-section.active { display: block; animation: fadeIn 0.3s; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
+
+/* جداول responsive */
+.compare-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px; }
+.compare-table th, .compare-table td {
+  border: 1px solid var(--border); padding: 9px 11px; text-align: right;
+  word-break: break-word; overflow-wrap: break-word;
+}
+.compare-table th { background: var(--primary-light); color: var(--primary-dark); font-weight: 700; }
+.compare-table tr:nth-child(even) td { background: var(--bg); }
 .topic-header {
   background: linear-gradient(135deg, var(--primary) 0%, var(--success) 100%);
   border-radius: 16px; padding: 22px 26px; color: white; margin-bottom: 22px;
@@ -146,10 +206,10 @@ body { display: flex; min-height: 100vh; overflow-x: hidden; }
 .formula-box .formula { font-family: 'JetBrains Mono', monospace; font-size: 18px; color: var(--primary-dark); font-weight: 600; direction: ltr; }
 .formula-box .legend { font-size: 12px; color: var(--text-muted); margin-top: 10px; line-height: 1.8; }
 
-.compare-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px; table-layout: fixed; word-wrap: break-word; }
-.compare-table th, .compare-table td { border: 1px solid var(--border); padding: 10px 12px; text-align: right; }
-.compare-table th { background: var(--primary-light); color: var(--primary-dark); font-weight: 700; }
-.compare-table tr:nth-child(even) td { background: var(--bg); }
+
+
+
+
 
 /* === INTERACTIVE STEP-BY-STEP SOLUTION (NEW FEATURE) === */
 .step-solver {
@@ -336,31 +396,66 @@ body { display: flex; min-height: 100vh; overflow-x: hidden; }
 .sidebar-overlay.active { display: block; }
 
 
-/* إصلاح الـ overflow الأفقي */
-.compare-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 14px 0; }
-.compare-table-wrap .compare-table { margin: 0; }
-.story-box, .example-box, .tip-box, .warn-box, .formula-box, .definition-box { overflow-x: hidden; word-wrap: break-word; overflow-wrap: break-word; }
-.formula { overflow-x: auto; white-space: nowrap; }
-pre, code { overflow-x: auto; max-width: 100%; }
 
 
-/* إصلاح شامل للـ overflow الأفقي على Desktop */
-html { overflow-x: hidden; }
-.main * { max-width: 100%; }
-.main img { max-width: 100%; height: auto; }
-.compare-table th, .compare-table td { word-break: break-word; overflow-wrap: break-word; }
-.topic-header h1 { word-break: break-word; }
-.section { overflow: hidden; }
+
+
+
+/* ============================================
+   RESPONSIVE — الموبايل
+============================================ */
+.menu-toggle { display: none; }
+
+
+/* جداول overflow wrapper */
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 14px 0;
+}
+.table-responsive .compare-table {
+  margin: 0;
+  min-width: 400px;
+}
+
+/* منع overflow في كل العناصر */
+.section, .topic-section, .topic-header {
+  max-width: 100%;
+  overflow-x: hidden;
+}
 
 @media (max-width: 900px) {
-  body { display: block; }
-  .sidebar { position: fixed; right: -290px; transition: right 0.3s; z-index: 100; }
-  .sidebar.open { right: 0; box-shadow: -4px 0 20px rgba(0,0,0,0.15); }
-  .main { margin-right: 0; padding: 16px; }
-  .menu-toggle { display: flex !important; position: fixed; top: 14px; left: 14px; z-index: 60; width: 42px; height: 42px; background: var(--primary); color: white; border: none; border-radius: 10px; cursor: pointer; align-items: center; justify-content: center; font-size: 18px; box-shadow: var(--shadow); }
+  .sidebar {
+    position: fixed;
+    right: -300px;
+    transition: right 0.3s ease;
+    z-index: 50;
+  }
+  .sidebar.open {
+    right: 0;
+    box-shadow: -4px 0 20px rgba(0,0,0,0.15);
+  }
+  .main {
+    margin-right: 0;
+    width: 100%;
+    max-width: 100%;
+    padding: 16px 14px 60px;
+  }
+  .menu-toggle {
+    display: flex !important;
+    position: fixed; top: 14px; left: 14px; z-index: 60;
+    width: 42px; height: 42px;
+    background: var(--primary); color: white;
+    border: none; border-radius: 10px;
+    cursor: pointer; align-items: center; justify-content: center;
+    font-size: 18px; box-shadow: var(--shadow);
+  }
   .topic-header h1 { font-size: 20px; }
+  .topic-header { padding: 16px 18px; }
+  .section { padding: 16px 14px; }
+  .compare-table { font-size: 12px; }
+  .compare-table th, .compare-table td { padding: 7px 8px; }
 }
-.menu-toggle { display: none; }
 </style>
 </head><body>
 
@@ -436,12 +531,12 @@ TOPICS['m08'] = `
       <div class="formula">Opinion + Size + Age + Color + Noun</div>
       <div class="legend">رأي / تقييم → الحجم → العمر → اللون → الاسم</div>
     </div>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>Opinion</th><th>Size</th><th>Age</th><th>Color</th><th>Noun</th><th>الجملة</th></tr>
       <tr><td>beautiful</td><td>big</td><td>new</td><td>red</td><td>car</td><td>A beautiful big new red car ✅</td></tr>
       <tr><td>nice</td><td>small</td><td>—</td><td>—</td><td>bag</td><td>A nice small bag ✅</td></tr>
       <tr><td>—</td><td>—</td><td>long</td><td>—</td><td>story</td><td>A long old story ✅</td></tr>
-    </table>
+    </table></div>
 
     <h3>📝 Practice 1A — Choose the correct form (من المنهج)</h3>
     <div class="quiz-section" style="border:none;padding:0;box-shadow:none;">
@@ -474,26 +569,26 @@ TOPICS['m08'] = `
 
   <div class="section">
     <h2><span class="icon" style="background:#0891b2;">👤</span> Vocabulary 1 — Appearance (المظهر)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الصفة</th><th>المعنى</th><th>الضد</th></tr>
       <tr><td><strong>Tall</strong></td><td>طويل القامة</td><td>Short (قصير)</td></tr>
       <tr><td><strong>Short</strong></td><td>قصير القامة</td><td>Tall</td></tr>
       <tr><td><strong>Young</strong></td><td>شاب / صغير السن</td><td>Old</td></tr>
       <tr><td><strong>Old</strong></td><td>كبير السن / قديم</td><td>Young / New</td></tr>
       <tr><td><strong>New</strong></td><td>جديد</td><td>Old</td></tr>
-    </table>
+    </table></div>
 
     <h2><span class="icon" style="background:#dc2626;">💬</span> Vocabulary 1 — Personality (الشخصية)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الصفة</th><th>المعنى</th></tr>
       <tr><td><strong>Happy</strong></td><td>سعيد / مسرور</td></tr>
       <tr><td><strong>Angry</strong></td><td>غاضب / منزعج</td></tr>
       <tr><td><strong>Lazy</strong></td><td>كسول / غير مجتهد</td></tr>
       <tr><td><strong>Shy</strong></td><td>خجول / متحفظ</td></tr>
-    </table>
+    </table></div>
 
     <h2><span class="icon" style="background:#0891b2;">💻</span> Vocabulary (Technical — AI Diploma)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الصفة</th><th>المعنى</th></tr>
       <tr><td><strong>Intelligent</strong></td><td>ذكي</td></tr>
       <tr><td><strong>Smart</strong></td><td>ذكي / حاد الذكاء</td></tr>
@@ -502,16 +597,16 @@ TOPICS['m08'] = `
       <tr><td><strong>User-friendly</strong></td><td>سهل الاستخدام</td></tr>
       <tr><td><strong>Complex</strong></td><td>معقد</td></tr>
       <tr><td><strong>Simple</strong></td><td>بسيط</td></tr>
-    </table>
+    </table></div>
 
     <h2><span class="icon" style="background:#7c3aed;">🏢</span> Vocabulary 2 — Professional Personality (من المنهج بالضبط)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الصفة</th><th>التعريف الكامل من المنهج</th><th>المثال</th></tr>
       <tr><td><strong>Professional</strong></td><td>= behaving in a serious and correct way at work.<br>(يتصرف بجدية وصحة في مكان العمل)</td><td>Fahad is always <strong>professional</strong> and confident in meetings.</td></tr>
       <tr><td><strong>Confident</strong></td><td>= sure about yourself and your abilities.<br>(واثق من نفسه وقدراته)</td><td>She is very <strong>confident</strong>. She speaks well in meetings.</td></tr>
       <tr><td><strong>Responsible</strong></td><td>= able to take care of things and people; doing what is correct.<br>(قادر على تحمل الرعاية والمسؤولية)</td><td>Mona is <strong>responsible</strong> and organized — everyone respects her.</td></tr>
       <tr><td><strong>Creative</strong></td><td>= having new ideas; good at making something original.<br>(لديه أفكار جديدة ومبتكر)</td><td>He gives new <strong>creative</strong> ideas for projects.</td></tr>
-    </table>
+    </table></div>
 
     <h3>📝 Practice 2 — Choose the correct sentence (من المنهج)</h3>
     <div class="quiz-section" style="border:none;padding:0;box-shadow:none;">
@@ -711,13 +806,13 @@ TOPICS['m07'] = `
       <div class="formula-name">البنية</div>
       <div class="formula">Subject + <strong>can</strong> + base verb + ...</div>
     </div>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الضمير</th><th>المثال من المنهج</th><th>الترجمة</th></tr>
       <tr><td>I</td><td>I <strong>can</strong> speak Spanish.</td><td>أستطيع التحدث بالإسبانية</td></tr>
       <tr><td>He / She / It</td><td>He <strong>can</strong> swim well.</td><td>✅ NOT: He <del>cans</del> swim</td></tr>
       <tr><td>We</td><td>We <strong>can</strong> see our neighbour.</td><td>نستطيع رؤية جارنا</td></tr>
       <tr><td>They</td><td>They <strong>can</strong> play the guitar.</td><td>يستطيعون العزف</td></tr>
-    </table>
+    </table></div>
 
     <h3>❌ المنفي — Negative (cannot / can't)</h3>
     <div class="formula-box">
@@ -736,7 +831,7 @@ TOPICS['m07'] = `
       <div class="formula">Yes/No: <strong>Can</strong> + Subject + base verb + ... ?</div>
       <div class="legend">نقلب can والفاعل — الفعل يبقى base form</div>
     </div>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>السؤال من المنهج</th><th>الإجابة القصيرة</th></tr>
       <tr><td>Where can I buy an ice-cream?</td><td>You can buy it at the shop.</td></tr>
       <tr><td>Can I go to the party, please?</td><td>Yes, you can.</td></tr>
@@ -744,7 +839,7 @@ TOPICS['m07'] = `
       <tr><td>What can we do on Saturday?</td><td>We can go to the park.</td></tr>
       <tr><td>Can I sit here please?</td><td>Yes, you can.</td></tr>
       <tr><td>Can you speak Chinese?</td><td>No, I can't.</td></tr>
-    </table>
+    </table></div>
 
     <div class="warn-box">
       <strong>❌ أخطاء شائعة يجب تجنبها تماماً:</strong><br>
@@ -757,7 +852,7 @@ TOPICS['m07'] = `
 
   <div class="section">
     <h2><span class="icon" style="background:#16a34a;">📚</span> Vocabulary 1 — الهوايات (Hobbies)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الهواية</th><th>المعنى</th><th>جملة من المنهج</th></tr>
       <tr><td><strong>Climbing</strong></td><td>تسلق الجبال</td><td>Climbing is exciting and gives a chance to enjoy nature.</td></tr>
       <tr><td><strong>Painting</strong></td><td>الرسم / الدهان</td><td>Painting helps people to be creative and express feelings.</td></tr>
@@ -765,15 +860,15 @@ TOPICS['m07'] = `
       <tr><td><strong>Reading</strong></td><td>القراءة</td><td>Reading books can be both relaxing and educational.</td></tr>
       <tr><td><strong>Walking</strong></td><td>المشي</td><td>Walking is simple, healthy, and good for the mind.</td></tr>
       <tr><td><strong>Shopping</strong></td><td>التسوق</td><td>People visit stores to buy clothes, gifts, or food.</td></tr>
-    </table>
+    </table></div>
 
     <h2><span class="icon" style="background:#7c3aed;">💻</span> Vocabulary 2 — مفردات الدبلوم (AI Context)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الكلمة</th><th>التعريف الكامل من المنهج</th><th>المثال</th></tr>
       <tr><td><strong>Data</strong></td><td>Information that a computer uses to learn. (بيانات: المعلومات التي يستخدمها الكمبيوتر للتعلم)</td><td>"AI needs <strong>data</strong> to work."</td></tr>
       <tr><td><strong>Training</strong></td><td>The process of teaching an AI using data. (التدريب: عملية تعليم نموذج AI باستخدام البيانات)</td><td>"The model is <strong>training</strong> on thousands of examples."</td></tr>
       <tr><td><strong>Model</strong></td><td>A system or program that learns from data and makes decisions. (النموذج: برنامج يتعلم ويتخذ قرارات)</td><td>"The AI <strong>model</strong> can recognize images."</td></tr>
-    </table>
+    </table></div>
   </div>
 
   <div class="section">
@@ -883,30 +978,30 @@ TOPICS['m09'] = `
     </div>
 
     <h3>✅ Affirmative (المثبت)</h3>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>Structure</th><th>Example</th><th>الترجمة</th></tr>
       <tr><td>I + like</td><td>I <strong>like</strong> pizza.</td><td>أنا أحب البيتزا</td></tr>
       <tr><td>You + like</td><td>You <strong>like</strong> tea.</td><td>أنت تحب الشاي</td></tr>
       <tr><td>He/She/It + <strong>likes</strong></td><td>She <strong>likes</strong> tea.</td><td>هي تحب الشاي</td></tr>
       <tr><td>We/They + like</td><td>They <strong>like</strong> salad.</td><td>هم يحبون السلطة</td></tr>
-    </table>
+    </table></div>
 
     <h3>❌ Negative (المنفي)</h3>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الضمير</th><th>الصيغة</th><th>المثال</th></tr>
       <tr><td>I / You / We / They</td><td><strong>don\'t like</strong></td><td>I don\'t like coffee. / They don\'t like spicy food.</td></tr>
       <tr><td>He / She / It</td><td><strong>doesn\'t like</strong></td><td>He doesn\'t like milk. / She doesn\'t like fish.</td></tr>
-    </table>
+    </table></div>
     <div class="warn-box">
       ❌ "He <del>doesn\'t likes</del> milk" → ✅ He <strong>doesn\'t like</strong> milk (بعد doesn\'t = base form)
     </div>
 
     <h3>❓ Questions — Do / Does</h3>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الضمير</th><th>الصيغة</th><th>المثال</th></tr>
       <tr><td>I / You / We / They</td><td><strong>Do</strong> + subject + like?</td><td>Do you like juice? / Do they like rice?</td></tr>
       <tr><td>He / She / It</td><td><strong>Does</strong> + subject + like?</td><td>Does she like pizza? / Does he like tea?</td></tr>
-    </table>
+    </table></div>
 
     <h3>📝 Practice 1A — Fill in the blanks (من المنهج)</h3>
     <div class="quiz-section" style="border:none;padding:0;box-shadow:none;">
@@ -957,7 +1052,7 @@ TOPICS['m09'] = `
 
   <div class="section">
     <h2><span class="icon" style="background:#16a34a;">🥗</span> Vocabulary 1 — Personal Preferences (Food and Drinks)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>التعبير</th><th>المعنى</th></tr>
       <tr><td><strong>Delicious soup</strong></td><td>حساء لذيذ</td></tr>
       <tr><td><strong>Healthy salad</strong></td><td>سلطة صحية</td></tr>
@@ -968,10 +1063,10 @@ TOPICS['m09'] = `
       <tr><td><strong>Hot tea</strong></td><td>شاي ساخن</td></tr>
       <tr><td><strong>Warm water</strong></td><td>ماء دافئ</td></tr>
       <tr><td><strong>Iced coffee</strong></td><td>قهوة مثلجة</td></tr>
-    </table>
+    </table></div>
 
     <h2><span class="icon" style="background:#0891b2;">💼</span> Vocabulary 2 — Workplace Preferences (من المنهج بالضبط)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الكلمة</th><th>التعريف الكامل من المنهج</th><th>المثال</th></tr>
       <tr><td><strong>Team dinner</strong></td><td>A meal where colleagues eat together as a group.</td><td>"The company organized a team dinner at the cafeteria."</td></tr>
       <tr><td><strong>Menu options</strong></td><td>Different kinds of food and drinks you can choose from in a restaurant or cafeteria.</td><td>"The manager showed the employees different menu options."</td></tr>
@@ -979,7 +1074,7 @@ TOPICS['m09'] = `
       <tr><td><strong>Cost of drinks</strong></td><td>The amount of money you pay for drinks.</td><td>"The accountant checked the cost of drinks."</td></tr>
       <tr><td><strong>Budget for meals</strong></td><td>The money planned to spend on food.</td><td>"They calculated the budget for meals."</td></tr>
       <tr><td><strong>Cafeteria</strong></td><td>A place in a school, college, or company where people can buy and eat food.</td><td>"Students usually eat lunch in the cafeteria."</td></tr>
-    </table>
+    </table></div>
 
     <h3>📝 Practice 2 — Fill in the blanks (من المنهج)</h3>
     <div class="quiz-section" style="border:none;padding:0;box-shadow:none;">
@@ -1178,12 +1273,12 @@ TOPICS['m08'] = `
       <div class="formula">Opinion + Size + Age + Color + Noun</div>
       <div class="legend">رأي / تقييم → الحجم → العمر → اللون → الاسم</div>
     </div>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>Opinion (رأي)</th><th>Size (حجم)</th><th>Age (عمر)</th><th>Color (لون)</th><th>Noun</th></tr>
       <tr><td>beautiful</td><td>big</td><td>new</td><td>red</td><td><strong>car</strong> ✅</td></tr>
       <tr><td>nice</td><td>small</td><td>—</td><td>—</td><td><strong>bag</strong> ✅</td></tr>
       <tr><td>—</td><td>—</td><td>long</td><td>old</td><td><strong>story</strong> ✅</td></tr>
-    </table>
+    </table></div>
     <div class="tip-box">
       من المنهج: "A beautiful big new red car" ✅ &nbsp;&nbsp;|&nbsp;&nbsp; "A nice small bag" ✅ &nbsp;&nbsp;|&nbsp;&nbsp; "An long old story" (من المنهج — لاحظ أن المنهج كتب "An" لكن الصحيح "A")
     </div>
@@ -1191,7 +1286,7 @@ TOPICS['m08'] = `
 
   <div class="section">
     <h2><span class="icon" style="background:#16a34a;">👤</span> Vocabulary 1 — المظهر (Appearance) والشخصية (Personality)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الصفة</th><th>المعنى</th><th>الفئة</th></tr>
       <tr><td><strong>Tall</strong></td><td>طويل القامة</td><td>Appearance</td></tr>
       <tr><td><strong>Short</strong></td><td>قصير القامة</td><td>Appearance</td></tr>
@@ -1202,10 +1297,10 @@ TOPICS['m08'] = `
       <tr><td><strong>Angry</strong></td><td>غاضب / منزعج</td><td>Personality</td></tr>
       <tr><td><strong>Lazy</strong></td><td>كسول / غير مجتهد</td><td>Personality</td></tr>
       <tr><td><strong>Shy</strong></td><td>خجول / متحفظ</td><td>Personality</td></tr>
-    </table>
+    </table></div>
 
     <h2><span class="icon" style="background:#0891b2;">💻</span> Vocabulary (Tech Adjectives) — من المنهج</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الصفة</th><th>المعنى</th></tr>
       <tr><td><strong>Intelligent / Smart</strong></td><td>ذكي</td></tr>
       <tr><td><strong>Fast</strong></td><td>سريع</td></tr>
@@ -1213,16 +1308,16 @@ TOPICS['m08'] = `
       <tr><td><strong>User-friendly</strong></td><td>سهل الاستخدام</td></tr>
       <tr><td><strong>Complex</strong></td><td>معقد</td></tr>
       <tr><td><strong>Simple</strong></td><td>بسيط</td></tr>
-    </table>
+    </table></div>
 
     <h2><span class="icon" style="background:#dc2626;">💼</span> Vocabulary 2 — صفات شخصية مهنية (من المنهج بالتعريف الكامل)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الصفة</th><th>التعريف الرسمي من المنهج</th><th>مثال من المنهج</th></tr>
       <tr><td><strong>Professional</strong></td><td>= <em>behaving in a serious and correct way at work.</em><br>يتصرف بجدية وصحة في بيئة العمل</td><td>"Fahad is always <strong>professional</strong> and confident."</td></tr>
       <tr><td><strong>Confident</strong></td><td>= <em>sure about yourself and your abilities.</em><br>واثق من نفسه وقدراته</td><td>"She is very <strong>confident</strong> when she speaks in meetings."</td></tr>
       <tr><td><strong>Responsible</strong></td><td>= <em>able to take care of things and people; doing what is correct.</em><br>قادر على تحمل المسؤولية والرعاية</td><td>"Fahad is very <strong>responsible</strong> because he always finishes reports on time."</td></tr>
       <tr><td><strong>Creative</strong></td><td>= <em>having new ideas; good at making something original.</em><br>لديه أفكار جديدة ومبتكر</td><td>"He gives new <strong>creative</strong> ideas for projects."</td></tr>
-    </table>
+    </table></div>
   </div>
 
   <div class="section">
@@ -1339,7 +1434,7 @@ TOPICS['m09'] = `
     </div>
 
     <h3>✅ المثبت</h3>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الضمير</th><th>الفعل</th><th>المثال من المنهج</th></tr>
       <tr><td>I</td><td rowspan="4" style="text-align:center;font-weight:700;color:#f97316;">like</td><td>I like pizza.</td></tr>
       <tr><td>You</td><td>You like salad.</td></tr>
@@ -1348,14 +1443,14 @@ TOPICS['m09'] = `
       <tr><td>He</td><td rowspan="3" style="text-align:center;font-weight:700;color:#dc2626;">likes</td><td>He doesn't like milk. → (She likes tea)</td></tr>
       <tr><td>She</td><td>She likes tea.</td></tr>
       <tr><td>It</td><td>It likes fish.</td></tr>
-    </table>
+    </table></div>
 
     <h3>❌ المنفي</h3>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الضمير</th><th>الصيغة</th><th>المثال من المنهج</th></tr>
       <tr><td>I / You / We / They</td><td><strong>don't like</strong></td><td>I don't like coffee. / They don't like spicy food.</td></tr>
       <tr><td>He / She / It</td><td><strong>doesn't like</strong></td><td>He doesn't like milk. / She doesn't like fish.</td></tr>
-    </table>
+    </table></div>
 
     <div class="warn-box">
       <strong>❌ خطأ شائع جداً:</strong><br>
@@ -1365,11 +1460,11 @@ TOPICS['m09'] = `
     </div>
 
     <h3>❓ السؤال</h3>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الضمير</th><th>الصيغة</th><th>المثال من المنهج</th></tr>
       <tr><td>I / You / We / They</td><td><strong>Do</strong> + subject + like?</td><td>Do you like juice? / Do they like rice?</td></tr>
       <tr><td>He / She / It</td><td><strong>Does</strong> + subject + like?</td><td>Does she like pizza? / Does he like tea?</td></tr>
-    </table>
+    </table></div>
     <div class="example-box">
       <strong>Short Answers:</strong><br>
       Do you like juice? → Yes, I do. / No, I don't.<br>
@@ -1379,7 +1474,7 @@ TOPICS['m09'] = `
 
   <div class="section">
     <h2><span class="icon" style="background:#16a34a;">🥗</span> Vocabulary 1 — الطعام والمشروبات (من المنهج)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>المفردة</th><th>المعنى العربي</th></tr>
       <tr><td><strong>Delicious soup</strong></td><td>حساء لذيذ</td></tr>
       <tr><td><strong>Healthy salad</strong></td><td>سلطة صحية</td></tr>
@@ -1390,10 +1485,10 @@ TOPICS['m09'] = `
       <tr><td><strong>Hot tea</strong></td><td>شاي ساخن</td></tr>
       <tr><td><strong>Warm water</strong></td><td>ماء دافئ</td></tr>
       <tr><td><strong>Iced coffee</strong></td><td>قهوة مثلجة</td></tr>
-    </table>
+    </table></div>
 
     <h2><span class="icon" style="background:#0891b2;">💼</span> Vocabulary 2 — بيئة العمل (من المنهج بالتعريف الكامل)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الكلمة</th><th>التعريف الكامل من المنهج</th><th>مثال</th></tr>
       <tr><td><strong>Team dinner</strong></td><td>A meal where colleagues eat together as a group. (وجبة يأكلها الزملاء معاً كمجموعة)</td><td>"The company organized a <strong>team dinner</strong> at the cafeteria."</td></tr>
       <tr><td><strong>Menu options</strong></td><td>Different kinds of food and drinks you can choose from. (أنواع الطعام المتاحة للاختيار)</td><td>"The manager showed the employees different <strong>menu options</strong>."</td></tr>
@@ -1401,7 +1496,7 @@ TOPICS['m09'] = `
       <tr><td><strong>Cost of drinks</strong></td><td>The amount of money you pay for drinks. (مقدار المال المدفوع للمشروبات)</td><td>"The accountant checked the <strong>cost of drinks</strong>."</td></tr>
       <tr><td><strong>Budget for meals</strong></td><td>The money planned to spend on food. (الميزانية المخصصة للطعام)</td><td>"The accountant calculated the <strong>budget for meals</strong>."</td></tr>
       <tr><td><strong>Cafeteria</strong></td><td>A place in a school, college, or company where people can buy and eat food. (مطعم داخل مؤسسة)</td><td>"Students usually eat lunch in the <strong>cafeteria</strong>."</td></tr>
-    </table>
+    </table></div>
   </div>
 
   <div class="section">
@@ -1534,32 +1629,32 @@ TOPICS['m10'] = `
     </div>
 
     <h3>✅ Affirmative (المثبت)</h3>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>Pronoun</th><th>Form</th><th>Example</th><th>الترجمة</th></tr>
       <tr><td>I</td><td><strong>was</strong></td><td>I was at the park yesterday.</td><td>كنت في الحديقة أمس</td></tr>
       <tr><td>He / She / It</td><td><strong>was</strong></td><td>She was happy last night.</td><td>كانت سعيدة البارحة</td></tr>
       <tr><td>You / We / They</td><td><strong>were</strong></td><td>They were at the museum last week.</td><td>كانوا في المتحف</td></tr>
-    </table>
+    </table></div>
 
     <h3>❌ Negative (المنفي)</h3>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>Pronoun</th><th>Full form</th><th>Contraction</th><th>Example</th></tr>
       <tr><td>I / He / She / It</td><td>was not</td><td><strong>wasn't</strong></td><td>I wasn't at school yesterday.</td></tr>
       <tr><td>You / We / They</td><td>were not</td><td><strong>weren't</strong></td><td>They weren't late for the meeting.</td></tr>
-    </table>
+    </table></div>
 
     <h3>❓ Questions (الأسئلة)</h3>
     <div class="formula-box">
       <div class="formula">Yes/No: <strong>Was/Were</strong> + Subject + ... ?</div>
       <div class="formula">Wh-: Wh- word + <strong>was/were</strong> + Subject + ... ?</div>
     </div>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>السؤال</th><th>Short Answer</th></tr>
       <tr><td>Was she at the library?</td><td>Yes, she was. / No, she wasn't.</td></tr>
       <tr><td>Were they in Jeddah last week?</td><td>Yes, they were. / No, they weren't.</td></tr>
       <tr><td>Where were you yesterday?</td><td>I was at home.</td></tr>
       <tr><td>Who was your teacher last year?</td><td>My teacher was Mr. Ali.</td></tr>
-    </table>
+    </table></div>
 
     <h3>📝 Practice 1A — Fill in the blanks (من المنهج)</h3>
     <div class="quiz-section" style="border:none;padding:0;box-shadow:none;">
@@ -1608,7 +1703,7 @@ TOPICS['m10'] = `
 
   <div class="section">
     <h2><span class="icon" style="background:#0891b2;">📚</span> Vocabulary 1 — Past and History (من المنهج)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الكلمة</th><th>التعريف الكامل من المنهج</th><th>المثال</th></tr>
       <tr><td><strong>History</strong></td><td>The story of past events and people.</td><td>"We study history at school."</td></tr>
       <tr><td><strong>Discovery</strong></td><td>Finding something new or unknown.</td><td>"The discovery of electricity changed the world."</td></tr>
@@ -1618,16 +1713,16 @@ TOPICS['m10'] = `
       <tr><td><strong>Explorer</strong></td><td>A person who travels to learn about new places.</td><td>"Ibn Battuta was a famous explorer."</td></tr>
       <tr><td><strong>Ancient</strong></td><td>Very old, from a long time ago.</td><td>"We visited ancient ruins in Egypt."</td></tr>
       <tr><td><strong>Event</strong></td><td>Something important that happens.</td><td>"The World Cup is a big event."</td></tr>
-    </table>
+    </table></div>
 
     <h2><span class="icon" style="background:#7c3aed;">💼</span> Vocabulary 2 — Diploma Vocabulary (من المنهج)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الكلمة</th><th>التعريف الكامل من المنهج</th><th>المثال</th></tr>
       <tr><td><strong>Audience</strong></td><td>The group of people who watch, listen, or read a message or performance.</td><td>"The teacher spoke to the audience of students."</td></tr>
       <tr><td><strong>Investigation</strong></td><td>The process of finding out the facts about something, usually a problem or accident.</td><td>"The police started an investigation after the accident."</td></tr>
       <tr><td><strong>Training</strong></td><td>The process of learning the skills you need for a job or activity.</td><td>"New employees get training before they start work."</td></tr>
       <tr><td><strong>Policy</strong></td><td>A set of rules or ideas that guide decisions in a company or organization.</td><td>"The company has a policy about safety at work."</td></tr>
-    </table>
+    </table></div>
 
     <h3>📝 Practice 2 — Fill in the blanks (من المنهج)</h3>
     <div class="quiz-section" style="border:none;padding:0;box-shadow:none;">
@@ -1837,24 +1932,24 @@ TOPICS['m10'] = `
     </ul>
 
     <h3>❌ المنفي</h3>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الصيغة الكاملة</th><th>المختصرة</th><th>المثال من المنهج</th></tr>
       <tr><td>was not</td><td><strong>wasn't</strong></td><td>I wasn't at school yesterday. / He wasn't tired.</td></tr>
       <tr><td>were not</td><td><strong>weren't</strong></td><td>They weren't late for the meeting.</td></tr>
-    </table>
+    </table></div>
 
     <h3>❓ السؤال</h3>
     <div class="formula-box">
       <div class="formula">Yes/No: Was/Were + Subject + ... ?</div>
       <div class="formula">Wh-: Wh- word + was/were + Subject + ... ?</div>
     </div>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>السؤال من المنهج</th><th>الإجابة الصحيحة</th></tr>
       <tr><td>Was she at the library?</td><td>Yes, she was. / No, she wasn't.</td></tr>
       <tr><td>Were they in Jeddah last week?</td><td>Yes, they were. / No, they weren't.</td></tr>
       <tr><td>Where were you yesterday?</td><td>I was at the company training.</td></tr>
       <tr><td>Who was your teacher last year?</td><td>My teacher was Mr. Ali.</td></tr>
-    </table>
+    </table></div>
 
     <div class="warn-box">
       <strong>الأخطاء الشائعة الأربعة (من Practice 1B في المنهج):</strong><br>
@@ -1867,7 +1962,7 @@ TOPICS['m10'] = `
 
   <div class="section">
     <h2><span class="icon" style="background:#0891b2;">📚</span> Vocabulary 1 — الماضي والتاريخ (من المنهج)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>#</th><th>الكلمة</th><th>التعريف الكامل</th><th>المثال</th></tr>
       <tr><td>1</td><td><strong>History</strong></td><td>The story of past events and people.</td><td>We study history at school.</td></tr>
       <tr><td>2</td><td><strong>Discovery</strong></td><td>Finding something new or unknown.</td><td>The discovery of electricity changed the world.</td></tr>
@@ -1877,16 +1972,16 @@ TOPICS['m10'] = `
       <tr><td>6</td><td><strong>Explorer</strong></td><td>A person who travels to learn about new places.</td><td>Ibn Battuta was a famous explorer.</td></tr>
       <tr><td>7</td><td><strong>Ancient</strong></td><td>Very old, from a long time ago.</td><td>We visited ancient ruins in Egypt.</td></tr>
       <tr><td>8</td><td><strong>Event</strong></td><td>Something important that happens.</td><td>The World Cup is a big event.</td></tr>
-    </table>
+    </table></div>
 
     <h2><span class="icon" style="background:#7c3aed;">💼</span> Vocabulary 2 — مفردات الدبلوم</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>#</th><th>الكلمة</th><th>التعريف الكامل من المنهج</th><th>المثال</th></tr>
       <tr><td>1</td><td><strong>Audience</strong></td><td>The group of people who watch, listen, or read a message or performance.</td><td>The teacher spoke to the <strong>audience</strong> of students.</td></tr>
       <tr><td>2</td><td><strong>Investigation</strong></td><td>The process of finding out the facts about something, usually a problem or accident.</td><td>The police started an <strong>investigation</strong> after the accident.</td></tr>
       <tr><td>3</td><td><strong>Training</strong></td><td>The process of learning the skills you need for a job or activity.</td><td>New employees get <strong>training</strong> before they start work.</td></tr>
       <tr><td>4</td><td><strong>Policy</strong></td><td>A set of rules or ideas that guide decisions in a company or organization.</td><td>The company has a <strong>policy</strong> about safety at work.</td></tr>
-    </table>
+    </table></div>
   </div>
 
   <div class="section">
@@ -2003,7 +2098,7 @@ TOPICS['m11'] = `
     </div>
 
     <h3>✅ المثبت — Subject + verb+ed</h3>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الفعل الأصلي</th><th>الماضي</th><th>المثال من المنهج</th></tr>
       <tr><td>work</td><td><strong>worked</strong></td><td>I <strong>worked</strong> yesterday.</td></tr>
       <tr><td>visit</td><td><strong>visited</strong></td><td>She <strong>visited</strong> her friend last night.</td></tr>
@@ -2011,7 +2106,7 @@ TOPICS['m11'] = `
       <tr><td>prepare</td><td><strong>prepared</strong></td><td>Omar <strong>prepared</strong> an invoice for the client.</td></tr>
       <tr><td>arrange</td><td><strong>arranged</strong></td><td>They <strong>arranged</strong> an event for students.</td></tr>
       <tr><td>organize</td><td><strong>organized</strong></td><td>Sara <strong>organized</strong> company documents.</td></tr>
-    </table>
+    </table></div>
 
     <h3>❌ المنفي — Subject + didn't + base verb</h3>
     <div class="formula-box">
@@ -2029,13 +2124,13 @@ TOPICS['m11'] = `
       <div class="formula">Yes/No: <strong>Did</strong> + Subject + base verb + ... ?</div>
       <div class="formula">Wh-: Wh- word + <strong>did</strong> + Subject + base verb + ... ?</div>
     </div>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>السؤال من المنهج</th><th>ملاحظة</th></tr>
       <tr><td>Did you study English last night?</td><td>base form: study ✅ (studied ❌)</td></tr>
       <tr><td>Did she attend the meeting yesterday?</td><td>base form: attend ✅</td></tr>
       <tr><td>What did you prepare for the class?</td><td>base form: prepare ✅</td></tr>
       <tr><td>Where did they travel last summer?</td><td>base form: travel ✅</td></tr>
-    </table>
+    </table></div>
 
     <div class="warn-box">
       <strong>❌ الأخطاء الأكثر شيوعاً:</strong><br>
@@ -2047,22 +2142,22 @@ TOPICS['m11'] = `
 
   <div class="section">
     <h2><span class="icon" style="background:#0891b2;">📅</span> Vocabulary 1 — شهور السنة (Months of the Year)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>#</th><th>الشهر</th><th>#</th><th>الشهر</th><th>#</th><th>الشهر</th></tr>
       <tr><td>1</td><td><strong>January</strong> يناير</td><td>5</td><td><strong>May</strong> مايو</td><td>9</td><td><strong>September</strong> سبتمبر</td></tr>
       <tr><td>2</td><td><strong>February</strong> فبراير</td><td>6</td><td><strong>June</strong> يونيو</td><td>10</td><td><strong>October</strong> أكتوبر</td></tr>
       <tr><td>3</td><td><strong>March</strong> مارس</td><td>7</td><td><strong>July</strong> يوليو</td><td>11</td><td><strong>November</strong> نوفمبر</td></tr>
       <tr><td>4</td><td><strong>April</strong> أبريل</td><td>8</td><td><strong>August</strong> أغسطس</td><td>12</td><td><strong>December</strong> ديسمبر</td></tr>
-    </table>
+    </table></div>
 
     <h2><span class="icon" style="background:#7c3aed;">💼</span> Vocabulary 2 — مفردات العمل (من المنهج بالتعريف الكامل)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>#</th><th>الكلمة</th><th>التعريف الكامل من المنهج</th><th>المثال</th></tr>
       <tr><td>1</td><td><strong>Equipment</strong></td><td>Tools or machines for work. (أدوات أو آلات للعمل)</td><td>"The officer checked the <strong>equipment</strong>."</td></tr>
       <tr><td>2</td><td><strong>Invoice</strong></td><td>A paper that shows payment details. (ورقة تُظهر تفاصيل الدفع — فاتورة)</td><td>"Omar prepared an <strong>invoice</strong> for the client."</td></tr>
       <tr><td>3</td><td><strong>Inspection</strong></td><td>Checking carefully for safety. (الفحص الدقيق للسلامة)</td><td>"They did an <strong>inspection</strong> yesterday."</td></tr>
       <tr><td>4</td><td><strong>Event</strong></td><td>A planned activity. (نشاط مخطط مسبقاً)</td><td>"They arranged an important <strong>event</strong> for students."</td></tr>
-    </table>
+    </table></div>
   </div>
 
   <div class="section">
@@ -2154,12 +2249,12 @@ TOPICS['m11'] = `
     </div>
 
     <h3>✅ Affirmative: Subject + verb+ed</h3>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>Base Verb</th><th>Past (+ed)</th><th>Example</th></tr>
       <tr><td>work</td><td>worked</td><td>I <strong>worked</strong> yesterday.</td></tr>
       <tr><td>visit</td><td>visited</td><td>She <strong>visited</strong> her friend last night.</td></tr>
       <tr><td>play</td><td>played</td><td>They <strong>played</strong> football last week.</td></tr>
-    </table>
+    </table></div>
 
     <h3>❌ Negative: Subject + didn't + base verb</h3>
     <div class="formula-box">
@@ -2223,13 +2318,13 @@ TOPICS['m11'] = `
 
   <div class="section">
     <h2><span class="icon" style="background:#0891b2;">📅</span> Vocabulary 1 — Months of the Year (من المنهج)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>#</th><th>الشهر</th><th>#</th><th>الشهر</th><th>#</th><th>الشهر</th></tr>
       <tr><td>1</td><td><strong>January</strong> — يناير</td><td>5</td><td><strong>May</strong> — مايو</td><td>9</td><td><strong>September</strong> — سبتمبر</td></tr>
       <tr><td>2</td><td><strong>February</strong> — فبراير</td><td>6</td><td><strong>June</strong> — يونيو</td><td>10</td><td><strong>October</strong> — أكتوبر</td></tr>
       <tr><td>3</td><td><strong>March</strong> — مارس</td><td>7</td><td><strong>July</strong> — يوليو</td><td>11</td><td><strong>November</strong> — نوفمبر</td></tr>
       <tr><td>4</td><td><strong>April</strong> — أبريل</td><td>8</td><td><strong>August</strong> — أغسطس</td><td>12</td><td><strong>December</strong> — ديسمبر</td></tr>
-    </table>
+    </table></div>
 
     <h3>📝 Practice 2A — Months (من المنهج)</h3>
     <div class="quiz-section" style="border:none;padding:0;box-shadow:none;">
@@ -2252,13 +2347,13 @@ TOPICS['m11'] = `
     </div>
 
     <h2><span class="icon" style="background:#7c3aed;">💼</span> Vocabulary 2 — Diploma Vocabulary (من المنهج)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الكلمة</th><th>التعريف الكامل من المنهج</th><th>المثال</th></tr>
       <tr><td><strong>Equipment</strong></td><td>Tools or machines for work.</td><td>"The officer checked the equipment."</td></tr>
       <tr><td><strong>Invoice</strong></td><td>A paper that shows payment details.</td><td>"Omar prepared an invoice for the client."</td></tr>
       <tr><td><strong>Inspection</strong></td><td>Checking carefully for safety.</td><td>"They did an inspection yesterday."</td></tr>
       <tr><td><strong>Event</strong></td><td>A planned activity.</td><td>"They arranged an event for students."</td></tr>
-    </table>
+    </table></div>
 
     <h3>📝 Practice 2B — Vocabulary (من المنهج)</h3>
     <div class="quiz-section" style="border:none;padding:0;box-shadow:none;">
@@ -2361,7 +2456,7 @@ TOPICS['m12'] = `
 
   <div class="section">
     <h2><span class="icon" style="background:#16a34a;">📚</span> New Vocabulary — 10 Irregular Action Verbs (من المنهج بالضبط)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>Base Form</th><th style="color:#dc2626;">Past Simple ← احفظ</th><th>المعنى</th><th>مثال من المنهج</th></tr>
       <tr><td><strong>Go</strong></td><td style="color:#dc2626;font-weight:800;font-size:15px;">Went</td><td>ذهب</td><td>Yesterday the manager <strong>went</strong> to an important meeting.</td></tr>
       <tr><td><strong>See</strong></td><td style="color:#dc2626;font-weight:800;font-size:15px;">Saw</td><td>رأى</td><td>The officer <strong>saw</strong> a problem during the inspection.</td></tr>
@@ -2373,7 +2468,7 @@ TOPICS['m12'] = `
       <tr><td><strong>Buy</strong></td><td style="color:#dc2626;font-weight:800;font-size:15px;">Bought</td><td>اشترى</td><td>The company <strong>bought</strong> new computers for the office.</td></tr>
       <tr><td><strong>Meet</strong></td><td style="color:#dc2626;font-weight:800;font-size:15px;">Met</td><td>التقى / قابل</td><td>The director <strong>met</strong> journalists last week.</td></tr>
       <tr><td><strong>Make</strong></td><td style="color:#dc2626;font-weight:800;font-size:15px;">Made</td><td>صنع / أعدّ</td><td>The students <strong>made</strong> a business plan in class.</td></tr>
-    </table>
+    </table></div>
 
     <div class="warn-box">
       <strong>أخطاء يجب تجنبها تماماً:</strong><br>
@@ -2632,7 +2727,7 @@ TOPICS['m12'] = `
 
   <div class="section">
     <h2><span class="icon" style="background:#16a34a;">📚</span> 10 أفعال شاذة أساسية من المنهج — New Vocabulary</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>Base Form</th><th style="color:#dc2626;">Past Simple</th><th>المعنى</th><th>مثال من المنهج الرسمي</th></tr>
       <tr><td><strong>go</strong></td><td style="color:#dc2626;font-size:16px;font-weight:800;">went</td><td>ذهب</td><td>Yesterday the manager <strong>went</strong> to an important meeting.</td></tr>
       <tr><td><strong>see</strong></td><td style="color:#dc2626;font-size:16px;font-weight:800;">saw</td><td>رأى</td><td>The officer <strong>saw</strong> a problem during the inspection.</td></tr>
@@ -2644,7 +2739,7 @@ TOPICS['m12'] = `
       <tr><td><strong>buy</strong></td><td style="color:#dc2626;font-size:16px;font-weight:800;">bought</td><td>اشترى</td><td>The company <strong>bought</strong> new computers for the office.</td></tr>
       <tr><td><strong>meet</strong></td><td style="color:#dc2626;font-size:16px;font-weight:800;">met</td><td>قابل / التقى</td><td>The director <strong>met</strong> journalists last week.</td></tr>
       <tr><td><strong>make</strong></td><td style="color:#dc2626;font-size:16px;font-weight:800;">made</td><td>صنع / أعدّ</td><td>The students <strong>made</strong> a business plan in class.</td></tr>
-    </table>
+    </table></div>
     <div class="tip-box">هذه الأمثلة العشرة مأخوذة حرفياً من المنهج الرسمي. احفظها جميعاً لأنها قلب الوحدة 12.</div>
   </div>
 
@@ -2781,34 +2876,34 @@ TOPICS['m06'] = `
 
   <div class="section">
     <h2><span class="icon" style="background:#15803d;">📐</span> Vocabulary 1 — Sequencing Language</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الكلمة</th><th>المعنى</th><th>مثال من المنهج</th></tr>
       <tr><td><strong>first</strong></td><td>أولاً / في البداية</td><td>First, install the application.</td></tr>
       <tr><td><strong>next</strong></td><td>بعد ذلك</td><td>Next, activate the system.</td></tr>
       <tr><td><strong>then</strong></td><td>ثم</td><td>Then, connect the device.</td></tr>
       <tr><td><strong>after that</strong></td><td>بعدها</td><td>After that, submit the form.</td></tr>
       <tr><td><strong>finally</strong></td><td>أخيراً / في النهاية</td><td>Finally, the system checks the configuration.</td></tr>
-    </table>
+    </table></div>
 
     <h2><span class="icon" style="background:#0891b2;">🔤</span> Vocabulary 1 — Process Language</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الكلمة</th><th>المعنى</th><th>مثال من المنهج</th></tr>
       <tr><td><strong>process</strong></td><td>عملية — A series of actions.</td><td>"The process is completed successfully."</td></tr>
       <tr><td><strong>step</strong></td><td>خطوة — One action in a process.</td><td>"Follow each step carefully to avoid errors."</td></tr>
       <tr><td><strong>instruction</strong></td><td>تعليمة — Something that tells you what to do.</td><td>"Follow the instructions carefully."</td></tr>
       <tr><td><strong>procedure</strong></td><td>إجراء رسمي — An official way of doing something.</td><td>"The password reset procedure includes three stages."</td></tr>
       <tr><td><strong>method</strong></td><td>أسلوب / طريقة — A way of doing something.</td><td>"What does Method mean? A way of doing something."</td></tr>
-    </table>
+    </table></div>
 
     <h2><span class="icon" style="background:#7c3aed;">⚡</span> Vocabulary 1 — Action Verbs</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الفعل</th><th>المعنى</th><th>مثال من المنهج</th></tr>
       <tr><td><strong>install</strong></td><td>يُثبّت / يُنصّب</td><td>"First, install the application."</td></tr>
       <tr><td><strong>activate</strong></td><td>يُفعّل — Make something start working.</td><td>"Next, activate the system."</td></tr>
       <tr><td><strong>connect</strong></td><td>يوصّل / يربط</td><td>"Connect the device to the network using a cable."</td></tr>
       <tr><td><strong>submit</strong></td><td>يُرسل / يُقدّم</td><td>"Finally, students submit the assignment."</td></tr>
       <tr><td><strong>complete</strong></td><td>يُكمل / ينهي</td><td>"Each step must be completed correctly."</td></tr>
-    </table>
+    </table></div>
   </div>
 
   <div class="section">
@@ -2821,13 +2916,13 @@ TOPICS['m06'] = `
     <div class="formula-box">
       <div class="formula">Object + <strong>is</strong> (مفرد) / <strong>are</strong> (جمع) + past participle</div>
     </div>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>Active (فاعل مذكور)</th><th>Passive (مبني للمجهول)</th></tr>
       <tr><td>The system installs updates.</td><td>Updates <strong>are installed</strong> automatically.</td></tr>
       <tr><td>The cloud stores data.</td><td>Data <strong>is stored</strong> in the cloud.</td></tr>
       <tr><td>The system detects errors.</td><td>Errors <strong>are detected</strong> by the system.</td></tr>
       <tr><td>The OS manages settings.</td><td>Settings <strong>are managed</strong> by the OS.</td></tr>
-    </table>
+    </table></div>
   </div>
 
   <div class="section">
@@ -2944,7 +3039,7 @@ TOPICS['m04'] = `
       <div class="formula-name">Superlative — الأفضل من بين كل المجموعة</div>
       <div class="formula">Short adj: <strong>the</strong> + adj + <strong>est</strong> &nbsp;|&nbsp; Long adj: <strong>the most</strong> + adj</div>
     </div>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الصفة</th><th>Comparative</th><th>Superlative</th><th>قاعدة</th></tr>
       <tr><td>fast</td><td>fast<strong>er</strong> than</td><td>the fast<strong>est</strong></td><td>قصيرة → er/est</td></tr>
       <tr><td>high</td><td>high<strong>er</strong> than</td><td>the high<strong>est</strong></td><td>قصيرة → er/est</td></tr>
@@ -2952,7 +3047,7 @@ TOPICS['m04'] = `
       <tr><td>light</td><td>light<strong>er</strong> than</td><td>the light<strong>est</strong></td><td>قصيرة → er/est</td></tr>
       <tr><td>expensive</td><td><strong>more</strong> expensive than</td><td>the <strong>most</strong> expensive</td><td>طويلة → more/most</td></tr>
       <tr><td>powerful</td><td><strong>more</strong> powerful than</td><td>the <strong>most</strong> powerful</td><td>طويلة → more/most</td></tr>
-    </table>
+    </table></div>
     <div class="tip-box">
       من المنهج: "App A is ______ App B" → <strong>faster than</strong> ✅ (NOT "more fast" ❌ NOT "fastest" ❌)
     </div>
@@ -2969,7 +3064,7 @@ TOPICS['m04'] = `
 
   <div class="section">
     <h2><span class="icon" style="background:#16a34a;">📚</span> Vocabulary 1 — Comparison Language (من المنهج)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الكلمة</th><th>المعنى</th><th>مثال من المنهج</th></tr>
       <tr><td><strong>similar</strong></td><td>مشابه / متشابه</td><td>Both devices are similar in design.</td></tr>
       <tr><td><strong>different</strong></td><td>مختلف</td><td>There is a clear difference in performance.</td></tr>
@@ -2977,27 +3072,27 @@ TOPICS['m04'] = `
       <tr><td><strong>lower</strong></td><td>أقل / أدنى</td><td>Device B has a lower cost.</td></tr>
       <tr><td><strong>faster</strong></td><td>أسرع</td><td>Device A is lighter and faster.</td></tr>
       <tr><td><strong>slower</strong></td><td>أبطأ</td><td>Model A is slower than Model B.</td></tr>
-    </table>
+    </table></div>
 
     <h2><span class="icon" style="background:#f97316;">📊</span> Vocabulary 1 — Data Language (من المنهج)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الكلمة</th><th>المعنى</th><th>مثال من المنهج</th></tr>
       <tr><td><strong>number</strong></td><td>عدد / رقم</td><td>The number increased to five hours per day.</td></tr>
       <tr><td><strong>percentage</strong></td><td>نسبة مئوية</td><td>Approximately sixty percent of students used the platform daily.</td></tr>
       <tr><td><strong>increase</strong></td><td>زيادة / ارتفاع</td><td>Usage increases during exam weeks.</td></tr>
       <tr><td><strong>decrease</strong></td><td>انخفاض / نقص</td><td>Usage decreases after exams.</td></tr>
       <tr><td><strong>average</strong></td><td>متوسط</td><td>The average daily usage was three hours.</td></tr>
-    </table>
+    </table></div>
 
     <h2><span class="icon" style="background:#7c3aed;">⚖️</span> Vocabulary 1 — Evaluation Language (من المنهج)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الكلمة</th><th>المعنى</th><th>مثال من المنهج</th></tr>
       <tr><td><strong>advantage</strong></td><td>ميزة / فائدة = a benefit</td><td>"One <strong>advantage</strong> is lower cost."</td></tr>
       <tr><td><strong>disadvantage</strong></td><td>عيب / سلبية</td><td>"A <strong>disadvantage</strong> is short battery life."</td></tr>
       <tr><td><strong>benefit</strong></td><td>فائدة / منفعة</td><td>"The main <strong>benefit</strong> is portability."</td></tr>
       <tr><td><strong>limitation</strong></td><td>قيد / حد / ضعف = a restriction or weakness</td><td>"A main <strong>limitation</strong> is short battery life."</td></tr>
       <tr><td><strong>difference</strong></td><td>فرق / اختلاف</td><td>"There is a clear <strong>difference</strong> in performance."</td></tr>
-    </table>
+    </table></div>
   </div>
 
   <div class="section">
@@ -3097,12 +3192,12 @@ TOPICS['summary'] = `
 
   <div class="section">
     <h2><span class="icon" style="background:#0891b2;">1</span> Can / Can't (Module 07)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الصيغة</th><th>البنية</th><th>مثال</th></tr>
       <tr><td>✅ Affirmative</td><td>S + <strong>can</strong> + base verb</td><td>I can swim. She can drive. He can cook. (NO s with can!)</td></tr>
       <tr><td>❌ Negative</td><td>S + <strong>cannot/can't</strong> + base verb</td><td>He can't drive. They cannot attend. We can't go.</td></tr>
       <tr><td>❓ Question</td><td><strong>Can</strong> + S + base verb?</td><td>Can you help? Can she speak? What can we do?</td></tr>
-    </table>
+    </table></div>
     <div class="warn-box">❌ "He <del>cans</del>" ❌ "She <del>don't can</del>" ❌ "I can <del>to go</del>"</div>
   </div>
 
@@ -3121,44 +3216,44 @@ TOPICS['summary'] = `
 
   <div class="section">
     <h2><span class="icon" style="background:#f97316;">3</span> Like / Likes (Module 09)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th></th><th>I / You / We / They</th><th>He / She / It</th></tr>
       <tr><td>✅ Affirmative</td><td><strong>like</strong></td><td><strong>likes</strong> (+s)</td></tr>
       <tr><td>❌ Negative</td><td><strong>don't like</strong></td><td><strong>doesn't like</strong> (base form!)</td></tr>
       <tr><td>❓ Question</td><td><strong>Do</strong> ... like?</td><td><strong>Does</strong> ... like?</td></tr>
-    </table>
+    </table></div>
     <div class="warn-box">❌ "He <del>doesn't likes</del>" → ✅ He <strong>doesn't like</strong> (بعد doesn't = base form)</div>
   </div>
 
   <div class="section">
     <h2><span class="icon" style="background:#16a34a;">4</span> Past Simple — was/were (Module 10)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الضمير</th><th>✅ مثبت</th><th>❌ منفي</th></tr>
       <tr><td>I / He / She / It</td><td><strong>was</strong></td><td><strong>wasn't</strong></td></tr>
       <tr><td>You / We / They</td><td><strong>were</strong></td><td><strong>weren't</strong></td></tr>
-    </table>
+    </table></div>
     <div class="tip-box">You → were دائماً (حتى للمفرد) | السؤال: Was/Were + subject?</div>
   </div>
 
   <div class="section">
     <h2><span class="icon" style="background:#ca8a04;">5</span> Past Simple — Regular Verbs +ed (Module 11)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الصيغة</th><th>البنية</th><th>مثال</th></tr>
       <tr><td>✅ Affirmative</td><td>S + verb<strong>+ed</strong></td><td>I worked. She visited. They played.</td></tr>
       <tr><td>❌ Negative</td><td>S + <strong>didn't</strong> + base verb</td><td>I didn't <strong>work</strong>. ❌ didn't worked</td></tr>
       <tr><td>❓ Question</td><td><strong>Did</strong> + S + base verb?</td><td>Did she <strong>visit</strong>? ❌ Did she visited?</td></tr>
-    </table>
+    </table></div>
   </div>
 
   <div class="section">
     <h2><span class="icon" style="background:#dc2626;">6</span> Past Simple — Irregular Verbs (Module 12)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>Base</th><th style="color:#dc2626;font-weight:700;">Past</th><th>Base</th><th style="color:#dc2626;font-weight:700;">Past</th><th>Base</th><th style="color:#dc2626;font-weight:700;">Past</th></tr>
       <tr><td>go</td><td style="color:#dc2626;font-weight:800;">went</td><td>see</td><td style="color:#dc2626;font-weight:800;">saw</td><td>eat</td><td style="color:#dc2626;font-weight:800;">ate</td></tr>
       <tr><td>drink</td><td style="color:#dc2626;font-weight:800;">drank</td><td>run</td><td style="color:#dc2626;font-weight:800;">ran</td><td>have</td><td style="color:#dc2626;font-weight:800;">had</td></tr>
       <tr><td>take</td><td style="color:#dc2626;font-weight:800;">took</td><td>buy</td><td style="color:#dc2626;font-weight:800;">bought</td><td>meet</td><td style="color:#dc2626;font-weight:800;">met</td></tr>
       <tr><td>make</td><td style="color:#dc2626;font-weight:800;">made</td><td colspan="2">—</td><td colspan="2">—</td></tr>
-    </table>
+    </table></div>
     <div class="warn-box">❌ goed ❌ eated ❌ runned ❌ buyed ❌ maked — في النفي/السؤال: did + base form دائماً</div>
   </div>
 
@@ -3173,11 +3268,11 @@ TOPICS['summary'] = `
 
   <div class="section">
     <h2><span class="icon" style="background:#1d4ed8;">8</span> Comparatives &amp; Superlatives (Module 04)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>النوع</th><th>صفة قصيرة</th><th>صفة طويلة</th></tr>
       <tr><td>Comparative</td><td>fast<strong>er than</strong></td><td><strong>more</strong> expensive than</td></tr>
       <tr><td>Superlative</td><td><strong>the</strong> fast<strong>est</strong></td><td><strong>the most</strong> expensive</td></tr>
-    </table>
+    </table></div>
     <div class="tip-box">
       Vocabulary: advantage (ميزة) | disadvantage (عيب) | limitation (قيد=weakness) | increase ↔ decrease | average (متوسط) | percentage (نسبة مئوية)
     </div>
@@ -3291,34 +3386,34 @@ TOPICS['m06'] = `
 
   <div class="section">
     <h2><span class="icon">📚</span> Vocabulary 1 — Sequencing Language (من المنهج)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الكلمة</th><th>المعنى</th><th>المثال من المنهج</th></tr>
       <tr><td><strong>First</strong></td><td>أولاً / في البداية</td><td>"First, install the application."</td></tr>
       <tr><td><strong>Next</strong></td><td>بعد ذلك</td><td>"Next, activate the system."</td></tr>
       <tr><td><strong>Then</strong></td><td>ثم</td><td>"Then, click the login button."</td></tr>
       <tr><td><strong>After that</strong></td><td>بعدها</td><td>"After that, connect the device to the network."</td></tr>
       <tr><td><strong>Finally</strong></td><td>أخيراً</td><td>"Finally, the task is completed successfully."</td></tr>
-    </table>
+    </table></div>
 
     <h2><span class="icon" style="background:#0891b2;">🔧</span> Vocabulary 2 — Process Language (من المنهج)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الكلمة</th><th>المعنى</th><th>المثال</th></tr>
       <tr><td><strong>Process</strong></td><td>عملية — A series of actions to achieve a result</td><td>"The process is completed successfully."</td></tr>
       <tr><td><strong>Step</strong></td><td>خطوة — One action in a process</td><td>"Each step must be completed correctly."</td></tr>
       <tr><td><strong>Instruction</strong></td><td>تعليمة — Something that tells you what to do</td><td>"Follow the instructions carefully."</td></tr>
       <tr><td><strong>Procedure</strong></td><td>إجراء — An official way of doing something</td><td>"The password reset procedure includes three stages."</td></tr>
       <tr><td><strong>Method</strong></td><td>طريقة — A way of doing something</td><td>"This method is faster and more efficient."</td></tr>
-    </table>
+    </table></div>
 
     <h2><span class="icon" style="background:#16a34a;">⚡</span> Vocabulary 3 — Action Verbs (من المنهج)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الفعل</th><th>المعنى</th><th>المثال</th></tr>
       <tr><td><strong>Install</strong></td><td>يُثبّت / يُنصّب</td><td>"First, install the application before restarting."</td></tr>
       <tr><td><strong>Activate</strong></td><td>يُفعّل — Make something start working</td><td>"Next, activate the system."</td></tr>
       <tr><td><strong>Connect</strong></td><td>يوصّل / يربط</td><td>"Connect the device to the network using a cable."</td></tr>
       <tr><td><strong>Submit</strong></td><td>يُرسل / يُقدّم</td><td>"Finally, submit the assignment."</td></tr>
       <tr><td><strong>Complete</strong></td><td>يُكمل / ينهي</td><td>"Each step must be completed correctly."</td></tr>
-    </table>
+    </table></div>
 
     <h3>📝 Vocabulary Quiz 1 (من المنهج — الأسئلة والإجابات)</h3>
     <div class="quiz-section" style="border:none;padding:0;box-shadow:none;">
@@ -3374,12 +3469,12 @@ TOPICS['m06'] = `
       جملة تبدأ بالفعل مباشرة بدون فاعل ظاهر. تُستخدم في التعليمات التقنية وأدلة الاستخدام.
       <div class="logic">Download the file. | Open the application. | Follow the instructions. | Connect the device.</div>
     </div>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>Imperative (أمر)</th><th>NOT (خطأ شائع)</th></tr>
       <tr><td><strong>Download</strong> the file. ✅</td><td>You download the file. ❌ (for instructions)</td></tr>
       <tr><td><strong>Open</strong> the application. ✅</td><td>Downloading the file. ❌</td></tr>
       <tr><td><strong>First, activate</strong> the system. ✅</td><td>First, the system activate. ❌</td></tr>
-    </table>
+    </table></div>
 
     <h3>Passive Voice — المبني للمجهول (من المنهج)</h3>
     <div class="definition-box">
@@ -3388,12 +3483,12 @@ TOPICS['m06'] = `
       <div class="logic">Object + <strong>is/are</strong> + past participle<br>
       The file <strong>is uploaded</strong>. | The system <strong>is activated</strong>. | The task <strong>is completed</strong>.</div>
     </div>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>Active (مبني للمعلوم)</th><th>Passive (مبني للمجهول)</th></tr>
       <tr><td>The user uploads the file.</td><td>The file <strong>is uploaded</strong>. ✅</td></tr>
       <tr><td>The system activates.</td><td>The system <strong>is activated</strong>. ✅</td></tr>
       <tr><td>The user completes the task.</td><td>The task <strong>is completed</strong>. ✅</td></tr>
-    </table>
+    </table></div>
 
     <h3>📝 Grammar MCQs (من المنهج)</h3>
     <div class="quiz-section" style="border:none;padding:0;box-shadow:none;">
@@ -3510,7 +3605,7 @@ TOPICS['m04'] = `
 
   <div class="section">
     <h2><span class="icon">📚</span> Vocabulary 1 — Comparison Language (من المنهج)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الكلمة</th><th>المعنى</th><th>المثال من المنهج</th></tr>
       <tr><td><strong>similar</strong></td><td>مشابه / يشبه تقريباً</td><td>"Both devices are similar in size."</td></tr>
       <tr><td><strong>different</strong></td><td>مختلف</td><td>"There is a clear difference in performance."</td></tr>
@@ -3518,27 +3613,27 @@ TOPICS['m04'] = `
       <tr><td><strong>lower</strong></td><td>أقل / أدنى</td><td>"Device A has a lower cost."</td></tr>
       <tr><td><strong>faster</strong></td><td>أسرع</td><td>"Device A is lighter and faster."</td></tr>
       <tr><td><strong>slower</strong></td><td>أبطأ</td><td>"Device B operates slower in basic tasks."</td></tr>
-    </table>
+    </table></div>
 
     <h2><span class="icon" style="background:#0891b2;">📊</span> Vocabulary 2 — Data Language (من المنهج)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الكلمة</th><th>المعنى</th><th>المثال</th></tr>
       <tr><td><strong>number</strong></td><td>رقم / عدد</td><td>"The number increased during exam weeks."</td></tr>
       <tr><td><strong>percentage</strong></td><td>نسبة مئوية</td><td>"60% of students used the platform daily."</td></tr>
       <tr><td><strong>increase</strong></td><td>زيادة / ارتفاع</td><td>"The average response time increased."</td></tr>
       <tr><td><strong>decrease</strong></td><td>انخفاض / نقص</td><td>"Usage decreased after exams."</td></tr>
       <tr><td><strong>average</strong></td><td>متوسط</td><td>"The average daily usage was three hours."</td></tr>
-    </table>
+    </table></div>
 
     <h2><span class="icon" style="background:#dc2626;">⚖️</span> Vocabulary 3 — Evaluation Language (من المنهج)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الكلمة</th><th>التعريف من المنهج</th><th>المثال</th></tr>
       <tr><td><strong>advantage</strong></td><td>= A benefit / a positive point. (ميزة / نقطة إيجابية)</td><td>"One advantage is lower cost."</td></tr>
       <tr><td><strong>disadvantage</strong></td><td>= A negative point / weakness. (نقطة سلبية)</td><td>"A disadvantage is heavier weight."</td></tr>
       <tr><td><strong>benefit</strong></td><td>= A positive result or advantage. (فائدة / ميزة)</td><td>"The main benefit is portability."</td></tr>
       <tr><td><strong>limitation</strong></td><td>= A restriction or weakness. (قيد / ضعف)</td><td>"A main limitation is short battery life."</td></tr>
       <tr><td><strong>difference</strong></td><td>= A way things are not the same. (فرق)</td><td>"Cost is another important difference."</td></tr>
-    </table>
+    </table></div>
 
     <h3>📝 Vocabulary Quiz 1 (من المنهج — الإجابات الصحيحة)</h3>
     <div class="quiz-section" style="border:none;padding:0;box-shadow:none;">
@@ -3586,7 +3681,7 @@ TOPICS['m04'] = `
         شاذة: good → better → the best | bad → worse → the worst
       </div>
     </div>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الصفة</th><th>Comparative</th><th>Superlative</th></tr>
       <tr><td>fast</td><td>faster than</td><td>the fastest</td></tr>
       <tr><td>light</td><td>lighter than</td><td>the lightest</td></tr>
@@ -3595,7 +3690,7 @@ TOPICS['m04'] = `
       <tr><td>expensive</td><td>more expensive than</td><td>the most expensive</td></tr>
       <tr><td>powerful</td><td>more powerful than</td><td>the most powerful</td></tr>
       <tr><td>good</td><td>better than</td><td>the best</td></tr>
-    </table>
+    </table></div>
 
     <h3>📝 Grammar MCQs (من المنهج — الإجابات: a, a, a, a, a)</h3>
     <div class="quiz-section" style="border:none;padding:0;box-shadow:none;">
@@ -3698,12 +3793,12 @@ TOPICS['summary'] = `
 
   <div class="section">
     <h2><span class="icon" style="background:#0891b2;">1</span> Can / Can't (Module 07)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الصيغة</th><th>البنية</th><th>مثال</th></tr>
       <tr><td>✅ Affirmative</td><td>S + <strong>can</strong> + base verb</td><td>I can swim. She can speak. He can drive.</td></tr>
       <tr><td>❌ Negative</td><td>S + <strong>cannot/can't</strong> + base verb</td><td>He can't drive. They cannot attend.</td></tr>
       <tr><td>❓ Question</td><td><strong>Can</strong> + S + base verb?</td><td>Can you help me? Can she swim?</td></tr>
-    </table>
+    </table></div>
     <div class="warn-box">Can نفسه مع كل الضمائر — ❌ "He cans swim" ✅ "He can swim" | لا to بعد can | بعد can = base form</div>
   </div>
 
@@ -3721,63 +3816,63 @@ TOPICS['summary'] = `
 
   <div class="section">
     <h2><span class="icon" style="background:#f97316;">3</span> Like / Likes (Module 09)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th></th><th>I / You / We / They</th><th>He / She / It</th></tr>
       <tr><td>✅</td><td><strong>like</strong></td><td><strong>likes</strong></td></tr>
       <tr><td>❌</td><td><strong>don't like</strong></td><td><strong>doesn't like</strong></td></tr>
       <tr><td>❓</td><td><strong>Do</strong> ... like?</td><td><strong>Does</strong> ... like?</td></tr>
-    </table>
+    </table></div>
     <div class="warn-box">بعد doesn't → base form دائماً: ❌ "doesn't likes" ✅ "doesn't like"</div>
   </div>
 
   <div class="section">
     <h2><span class="icon" style="background:#16a34a;">4</span> Past Simple — was/were (Module 10)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الضمير</th><th>✅ مثبت</th><th>❌ منفي</th></tr>
       <tr><td>I / He / She / It</td><td><strong>was</strong></td><td><strong>wasn't</strong></td></tr>
       <tr><td>You / We / They</td><td><strong>were</strong></td><td><strong>weren't</strong></td></tr>
-    </table>
+    </table></div>
     <div class="tip-box">You → were دائماً (حتى للمفرد) | سؤال: Was/Were + subject?</div>
   </div>
 
   <div class="section">
     <h2><span class="icon" style="background:#ca8a04;">5</span> Past Simple — Regular (+ed) (Module 11)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>الصيغة</th><th>البنية</th><th>مثال</th></tr>
       <tr><td>✅ Affirmative</td><td>S + <strong>verb+ed</strong></td><td>I worked. She visited. They played.</td></tr>
       <tr><td>❌ Negative</td><td>S + <strong>didn't</strong> + <strong>base verb</strong></td><td>I <strong>didn't work</strong>. ❌ didn't worked</td></tr>
       <tr><td>❓ Question</td><td><strong>Did</strong> + S + <strong>base verb</strong>?</td><td>Did you <strong>work</strong>? Where did she <strong>go</strong>?</td></tr>
-    </table>
+    </table></div>
   </div>
 
   <div class="section">
     <h2><span class="icon" style="background:#dc2626;">6</span> Past Simple — Irregular (Module 12)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>Base</th><th style="color:#dc2626;">Past ✅</th><th>Base</th><th style="color:#dc2626;">Past ✅</th><th>Base</th><th style="color:#dc2626;">Past ✅</th></tr>
       <tr><td>go</td><td style="color:#dc2626;font-weight:800;">went</td><td>see</td><td style="color:#dc2626;font-weight:800;">saw</td><td>eat</td><td style="color:#dc2626;font-weight:800;">ate</td></tr>
       <tr><td>drink</td><td style="color:#dc2626;font-weight:800;">drank</td><td>run</td><td style="color:#dc2626;font-weight:800;">ran</td><td>have</td><td style="color:#dc2626;font-weight:800;">had</td></tr>
       <tr><td>take</td><td style="color:#dc2626;font-weight:800;">took</td><td>buy</td><td style="color:#dc2626;font-weight:800;">bought</td><td>meet</td><td style="color:#dc2626;font-weight:800;">met</td></tr>
       <tr><td>make</td><td style="color:#dc2626;font-weight:800;">made</td><td colspan="4">في النفي/السؤال: did + base form دائماً</td></tr>
-    </table>
+    </table></div>
     <div class="warn-box">❌ goed | ❌ eated | ❌ runned | ❌ buyed | ❌ maked — كلها خاطئة | ❌ didn't went → ✅ didn't go</div>
   </div>
 
   <div class="section">
     <h2><span class="icon" style="background:#0891b2;">7</span> Sequencing &amp; Passive (Module 06)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>Sequencing Words</th><th>Passive Voice</th></tr>
       <tr><td>First → Next/Then → After that → Finally</td><td>Object + <strong>is/are</strong> + past participle</td></tr>
-    </table>
+    </table></div>
     <div class="example-box">The file <strong>is uploaded</strong>. | The system <strong>is activated</strong>. | The task <strong>is completed</strong>.</div>
   </div>
 
   <div class="section">
     <h2><span class="icon" style="background:#1d4ed8;">8</span> Comparatives &amp; Superlatives (Module 04)</h2>
-    <table class="compare-table">
+    <div class="table-responsive"><table class="compare-table">
       <tr><th>النوع</th><th>صفة قصيرة</th><th>صفة طويلة</th><th>شاذة</th></tr>
       <tr><td>Comparative</td><td>fast<strong>er than</strong></td><td><strong>more</strong> powerful than</td><td>good → <strong>better than</strong></td></tr>
       <tr><td>Superlative</td><td><strong>the</strong> fast<strong>est</strong></td><td><strong>the most</strong> powerful</td><td>good → <strong>the best</strong></td></tr>
-    </table>
+    </table></div>
   </div>
 
   <div class="section">
